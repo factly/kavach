@@ -1,0 +1,17 @@
+version: '3'
+
+volumes:
+    postgres_data:
+        driver: local
+
+services:
+    postgres:
+        image: postgres:11.4
+        volumes:
+        - ~/volumes/data-portal/postgresql/:/var/lib/postgresql/data/
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        ports:
+        - "5432:5432"
