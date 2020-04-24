@@ -12,7 +12,6 @@ import (
 
 // GetOrganizations return all organizations
 func GetOrganizations(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	var organizations []models.Organization
 
 	//fmt.Println(middleware.GetReqID(r.Context()))
@@ -23,7 +22,6 @@ func GetOrganizations(w http.ResponseWriter, r *http.Request) {
 
 // CreateOrganization create organization
 func CreateOrganization(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	req := &models.Organization{}
 
 	json.NewDecoder(r.Body).Decode(&req)
@@ -42,7 +40,6 @@ func CreateOrganization(w http.ResponseWriter, r *http.Request) {
 
 // DeleteOrganization delete organization
 func DeleteOrganization(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	organizationID := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(organizationID)
 
