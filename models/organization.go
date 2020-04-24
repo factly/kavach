@@ -10,7 +10,7 @@ import (
 type Organization struct {
 	gorm.Model
 	Title string `gorm:"column:title" json:"title"`
-	Slug  string `gorm:"column:slug" json:"slug"`
+	Slug  string `gorm:"column:slug;unique_index" json:"slug"`
 }
 
 // Validate the Organization schema

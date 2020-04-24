@@ -8,9 +8,9 @@ services:
     postgres:
         image: postgres:11.4
         volumes:
-        - ~/volumes/data-portal/postgresql/:/var/lib/postgresql/data/
+        - ~/volumes/identity/postgresql/:/var/lib/postgresql/data/
         environment:
-            POSTGRES_DB: postgres
+            POSTGRES_DB: identity
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: postgres
         ports:
