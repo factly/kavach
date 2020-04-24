@@ -10,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// DB connecter
 var DB *gorm.DB
 
 // SetupDB is database setuo
