@@ -4,12 +4,18 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
 )
 
 // RegisterRoutes - CRUD servies
 func RegisterRoutes() http.Handler {
 	r := chi.NewRouter()
+
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
 
 	r.Use(cors.Handler(cors.Options{
 		// AllowedOrigins: []string{"https://foo.com"}, // Use this to allow specific origin hosts
@@ -30,5 +36,7 @@ func RegisterRoutes() http.Handler {
 		})
 	})
 
+	r.Middlewares()
 	return r
+
 }

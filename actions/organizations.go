@@ -10,15 +10,18 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// GetOrganizations return all organizations
 func GetOrganizations(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var organizations []models.Organization
 
+	//fmt.Println(middleware.GetReqID(r.Context()))
 	models.DB.Model(&models.Organization{}).Find(&organizations)
 
 	json.NewEncoder(w).Encode(organizations)
 }
 
+// CreateOrganization create organization
 func CreateOrganization(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	req := &models.Organization{}
@@ -37,6 +40,7 @@ func CreateOrganization(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(req)
 }
 
+// DeleteOrganization delete organization
 func DeleteOrganization(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	organizationID := chi.URLParam(r, "id")
