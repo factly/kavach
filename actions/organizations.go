@@ -26,7 +26,7 @@ func CreateOrganization(w http.ResponseWriter, r *http.Request) {
 
 	json.NewDecoder(r.Body).Decode(&req)
 
-	req.Slug = SlugCreater(req.Title)
+	req.Slug = CreateSlug(req.Title)
 
 	err := models.DB.Model(&models.Organization{}).Create(&req).Error
 

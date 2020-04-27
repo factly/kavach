@@ -16,6 +16,7 @@ func RegisterRoutes() http.Handler {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.Heartbeat("/ping"))
 	r.Use(middleware.SetHeader("Content-Type", "application/json"))
 
 	r.Use(cors.Handler(cors.Options{
@@ -37,7 +38,5 @@ func RegisterRoutes() http.Handler {
 		})
 	})
 
-	r.Middlewares()
 	return r
-
 }
