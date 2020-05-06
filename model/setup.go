@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"fmt"
@@ -26,7 +26,6 @@ func SetupDB() {
 	dbHost := os.Getenv("DB_HOST")
 
 	connStr := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbUser, dbName, dbPassword) //Build connection string
-	//connStr := "user=postgres dbname=data_portal host=localhost sslmode=disable password=postgres"
 
 	DB, err = gorm.Open("postgres", connStr)
 
@@ -38,11 +37,10 @@ func SetupDB() {
 		&Organization{},
 		&Service{},
 		&User{},
-		&Permission{},
+		&OrganizationUser{},
 	)
 
 	// Adding foreignKey
-	DB.Model(&Permission{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
-	DB.Model(&Permission{}).AddForeignKey("organization_id", "organizations(id)", "RESTRICT", "RESTRICT")
-	DB.Model(&Permission{}).AddForeignKey("service_id", "services(id)", "RESTRICT", "RESTRICT")
+	DB.Model(&OrganizationUser{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
+	DB.Model(&OrganizationUser{}).AddForeignKey("organization_id", "organizations(id)", "RESTRICT", "RESTRICT")
 }

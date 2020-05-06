@@ -1,8 +1,9 @@
-package actions
+package action
 
 import (
 	"net/http"
 
+	"github.com/factly/identity/action/organization"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
@@ -30,13 +31,7 @@ func RegisterRoutes() http.Handler {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
-	r.Route("/organizations", func(r chi.Router) {
-		r.Post("/", CreateOrganization)
-		r.Get("/", GetOrganizations)
-		r.Route("/{id}", func(r chi.Router) {
-			r.Delete("/", DeleteOrganization)
-		})
-	})
+	r.Mount("/organizations", organization.Router())
 
 	return r
 }

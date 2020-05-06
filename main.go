@@ -3,15 +3,15 @@ package main
 import (
 	"net/http"
 
-	"github.com/factly/identity/models"
+	"github.com/factly/identity/model"
 
-	"github.com/factly/identity/actions"
+	"github.com/factly/identity/action"
 )
 
 func main() {
 	// db setup
-	models.SetupDB()
+	model.SetupDB()
 
-	r := actions.RegisterRoutes()
+	r := action.RegisterRoutes()
 	http.ListenAndServe(":3000", r)
 }

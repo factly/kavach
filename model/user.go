@@ -1,8 +1,6 @@
-package models
+package model
 
 import (
-	"net/url"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -13,13 +11,4 @@ type User struct {
 	KID       string `gorm:"column:kid;unique_index" json:"kid"`
 	FirstName string `gorm:"column:first_name" json:"first_name"`
 	LastName  string `gorm:"column:last_name" json:"last_name"`
-}
-
-// Validate the User schema
-func (u *User) Validate() url.Values {
-	errs := url.Values{}
-	if u.Email == "" {
-		errs.Add("email", "Email is required")
-	}
-	return errs
 }
