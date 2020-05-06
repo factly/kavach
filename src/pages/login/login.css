@@ -1,22 +1,11 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  overflow: auto;
-}
-
-.content {
+.login {
   flex: 1;
-  padding: 32px 32px;
+  width: 300px;
+  margin: 200px auto;
 }
 
 .top {
   text-align: center;
-}
-
-.login-form {
-  width: 300px;
-  margin: auto auto;
 }
 
 .login-form-title {

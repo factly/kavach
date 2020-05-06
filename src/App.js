@@ -12,10 +12,10 @@ import Dashboard from "./pages/dashboard";
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Route path={process.env.PUBLIC_URL + "/auth/login"} component={Login} />
-        <Route path={process.env.PUBLIC_URL + "/auth/registration"} component={Registration} />
-        <Route path={process.env.PUBLIC_URL + "/"} component={Dashboard} />
+      <Router basename={process.env.PUBLIC_URL}>
+        <Route path="/auth/login" component={Login} />
+        <Route path="/auth/registration" component={Registration} />
+        <Route path="/dashboard" component={Dashboard} />
       </Router>
     </div>
   );
