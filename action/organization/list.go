@@ -7,7 +7,7 @@ import (
 	"github.com/factly/identity/model"
 )
 
-// GetOrganizations return all organizations
+// list return all organizations
 func list(w http.ResponseWriter, r *http.Request) {
 	var organizations []model.Organization
 

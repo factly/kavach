@@ -9,9 +9,9 @@ import (
 func Router() chi.Router {
 	r := chi.NewRouter()
 
-	r.Route("/organizations", func(r chi.Router) {
-		r.Post("/", create)
+	r.Route("/", func(r chi.Router) {
 		r.Get("/", list)
+		r.Post("/", create)
 		r.Route("/{organization_id}", func(r chi.Router) {
 			r.Delete("/", delete)
 			r.Get("/", details)
