@@ -28,7 +28,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{json,js,css,scss}": [
+    "*.{js,jsx,html,css}": [
       "prettier --write"
     ]
   },
@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.0"
+    "lint-staged": "^10.2.0",
+    "prettier": "^2.0.5"
   }
 }
