@@ -1,48 +1,19 @@
 .registration {
-  flex: 1;
-  width: 300px;
+  width: 400px;
   margin: 200px auto;
 }
 
-.top {
-  text-align: center;
-}
-
-.registration-form-title {
-  text-align: center;
-  padding-bottom: 16px;
-}
-
 .header {
-  height: 44px;
-  line-height: 44px;
-}
-.header a {
-  text-decoration: none;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
 .logo {
   height: 44px;
-  margin-right: 16px;
-  vertical-align: top;
 }
 
 .title {
-  position: relative;
-  top: 2px;
   font-weight: 600;
   font-size: 33px;
   font-family: Avenir, "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.desc {
-  margin-top: 12px;
-  margin-bottom: 40px;
-}
-
-.registration-form-forgot {
-  float: right;
-}
-.registration-form-button {
-  width: 100%;
 }
