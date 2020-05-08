@@ -75,6 +75,7 @@ function Registration() {
 
   return (
     <div className="registration">
+      <div className="content">
       <Row className="header">
         <Col span={6}>
           <img alt="logo" className="logo" src={logo} />
@@ -109,11 +110,12 @@ function Registration() {
           </Form.Item>
           <Form.Item>
             <Button form="registration" type="primary" htmlType="submit" block>
-              Log in
+              Register
             </Button>
           </Form.Item>
         </Form>
       </Card>
+      </div>
     </div>
   );
 }
