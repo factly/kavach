@@ -20,7 +20,7 @@ func main() {
 
 	port, ok := os.LookupEnv("PORT")
 	if !ok {
-		port = "3000"
+		port = "6620"
 	}
 	port = ":" + port
 
