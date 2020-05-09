@@ -7,6 +7,6 @@ COPY . .
 RUN go mod download
 RUN go get -u github.com/cosmtrek/air
 RUN go get github.com/smartystreets/goconvey
-RUN chmod a+rx /usr/src/app/local_dev.sh
-RUN ls -lart /usr/src/app/local_dev.sh
-ENTRYPOINT ["sh", "/usr/src/app/local_dev.sh"]
+RUN chmod a+rx /app/local_dev.sh
+RUN ls -lart /app/local_dev.sh
+ENTRYPOINT ["sh", "/app/local_dev.sh"]

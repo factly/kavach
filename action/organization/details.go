@@ -1,11 +1,11 @@
 package organization
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/identity/model"
+	"github.com/factly/identity/util/render"
 	"github.com/go-chi/chi"
 )
 
@@ -27,5 +27,5 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(organization)
+	render.JSON(w, http.StatusOK, organization)
 }

@@ -27,7 +27,6 @@ func SetupDB() {
 
 	DB.AutoMigrate(
 		&Organization{},
-		&Service{},
 		&User{},
 		&OrganizationUser{},
 	)

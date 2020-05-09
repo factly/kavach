@@ -1,11 +1,11 @@
 package user
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/identity/model"
+	"github.com/factly/identity/util/render"
 	"github.com/go-chi/chi"
 )
 
@@ -24,5 +24,5 @@ func list(w http.ResponseWriter, r *http.Request) {
 		OrganizationID: uint(id),
 	}).Preload("User").Find(&users)
 
-	json.NewEncoder(w).Encode(users)
+	render.JSON(w, http.StatusOK, users)
 }

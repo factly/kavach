@@ -7,6 +7,7 @@ import (
 
 	"github.com/factly/identity/model"
 	"github.com/factly/identity/util"
+	"github.com/factly/identity/util/render"
 )
 
 // create create organization
@@ -24,5 +25,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(req)
+	render.JSON(w, http.StatusCreated, req)
 }
