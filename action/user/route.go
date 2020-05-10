@@ -9,8 +9,8 @@ func Router() chi.Router {
 	r := chi.NewRouter()
 
 	r.Route("/", func(r chi.Router) {
-		r.Post("/checker", checker)
 		r.Get("/", list)
+		r.Post("/checker", checker)
 	})
 
 	return r

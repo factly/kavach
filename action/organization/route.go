@@ -14,7 +14,7 @@ func Router() chi.Router {
 		r.Post("/", create)
 		r.Route("/{organization_id}", func(r chi.Router) {
 			r.Delete("/", delete)
-			r.Get("/", details)
+			//r.Get("/", details)
 			r.Mount("/users", user.Router())
 		})
 	})

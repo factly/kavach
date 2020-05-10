@@ -1,6 +1,7 @@
 package organization
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -11,11 +12,10 @@ import (
 
 func delete(w http.ResponseWriter, r *http.Request) {
 	organizationID := chi.URLParam(r, "organization_id")
-	id, err := strconv.Atoi(organizationID)
+	orgID, err := strconv.Atoi(organizationID)
 
 	organization := &model.Organization{}
-
-	organization.ID = uint(id)
+	organization.ID = uint(orgID)
 
 	// check record exists or not
 	err = model.DB.First(&organization).Error
@@ -23,6 +23,22 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check the permission of host
+	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
+	host := &model.OrganizationUser{}
+
+	err = model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
+		OrganizationID: uint(orgID),
+		UserID:         uint(hostID),
+		Role:           "owner",
+	}).First(host).Error
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	// delete
 	model.DB.Delete(&organization)
 
 	render.JSON(w, http.StatusOK, nil)

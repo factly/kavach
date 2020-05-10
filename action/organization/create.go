@@ -2,28 +2,32 @@ package organization
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/factly/identity/model"
-	"github.com/factly/identity/util"
 	"github.com/factly/identity/util/render"
 )
 
 // create create organization
 func create(w http.ResponseWriter, r *http.Request) {
-	req := &model.Organization{}
+	organization := &model.Organization{}
 
-	json.NewDecoder(r.Body).Decode(&req)
+	json.NewDecoder(r.Body).Decode(&organization)
 
-	req.Slug = util.CreateSlug(req.Title)
-
-	err := model.DB.Model(&model.Organization{}).Create(&req).Error
+	err := model.DB.Model(&model.Organization{}).Create(&organization).Error
 
 	if err != nil {
-		fmt.Print(err)
 		return
 	}
 
-	render.JSON(w, http.StatusCreated, req)
+	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
+
+	err = model.DB.Model(&model.OrganizationUser{}).Create(&model.OrganizationUser{
+		OrganizationID: organization.ID,
+		UserID:         uint(userID),
+		Role:           "owner",
+	}).Error
+
+	render.JSON(w, http.StatusCreated, organization)
 }
