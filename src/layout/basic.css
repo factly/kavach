@@ -1,0 +1,21 @@
+
+.menu-logo {
+  height: 36px;
+  width: 36px;
+}
+
+.menu-company {
+  color: #ffffff;
+  font-size: 24px;
+  padding-left: 16px;
+}
+
+.layout-content {
+  height: 100vh;
+  padding: 16px;
+}
+
+.layout-header {
+  background-color: #ffffff;
+  padding-left: 16px;
+}

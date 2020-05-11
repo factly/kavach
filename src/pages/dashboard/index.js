@@ -1,16 +1,51 @@
 import React from "react";
-import { Typography } from "antd";
-
+import OrganizationCard from "../../components/organizationCard"
+import { List } from 'antd';
 function Dashboard() {
-  const { Title } = Typography;
+
+  const [organizations, setOrganizations] = React.useState([])
+  const [user, setUser] = React.useState(null)
+
+  React.useEffect(() => {
+    fetch(process.env.REACT_APP_API_URL+"/users/me")
+    .then((res) => {
+      if (res.status === 200){
+        return res.json()
+      } else {
+        throw new Error(res.status)
+      }
+    })
+    .then((res) => setUser(res))
+    .catch((err) => {
+      console.log(err)
+    });
+
+
+    fetch(process.env.REACT_APP_API_URL+"/organizations")
+    .then((res) => {
+      if (res.status === 200){
+        return res.json()
+      } else {
+        throw new Error(res.status)
+      }
+    })
+    .then((res) => setOrganizations(res))
+    .catch((err) => {
+      console.log(err)
+    });
+  }, [])
 
   return (
     <div className="content">
-      <div>
-        <Title level={3} className="login-form-title">
-          Dashboard
-        </Title>
-      </div>
+       <List
+        grid={{ gutter: 16, column: 3 }}
+        dataSource={organizations}
+        renderItem={item => (
+          <List.Item>
+            <OrganizationCard organization={item} me={user} />
+          </List.Item>
+        )}
+      />
     </div>
   );
 }

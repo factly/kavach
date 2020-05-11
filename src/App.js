@@ -1,10 +1,13 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  Route
+  Route,
+  Switch
 } from "react-router-dom";
 
 import "antd/dist/antd.css";
+import BasicLayout from "./layout/basic";
+
 import Login from "./pages/login";
 import Registration from "./pages/registration";
 import Dashboard from "./pages/dashboard";
@@ -13,9 +16,13 @@ function App() {
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
-        <Route path="/auth/login" component={Login} />
-        <Route path="/auth/registration" component={Registration} />
-        <Route path="/dashboard" component={Dashboard} />
+        <Switch>
+          <Route path="/auth/login" component={Login} />
+          <Route path="/auth/registration" component={Registration} />
+          <BasicLayout>
+            <Route path="/dashboard" component={Dashboard} />
+          </BasicLayout>
+        </Switch>
       </Router>
     </div>
   );
