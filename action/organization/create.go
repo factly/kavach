@@ -23,11 +23,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
-	err = model.DB.Model(&model.OrganizationUser{}).Create(&model.OrganizationUser{
-		OrganizationID: organization.ID,
-		UserID:         uint(userID),
-		Role:           "owner",
-	}).Error
+	permission := &model.OrganizationUser{}
+	permission.OrganizationID = organization.ID
+	permission.UserID = uint(userID)
+	permission.Role = "owner"
 
-	render.JSON(w, http.StatusCreated, organization)
+	err = model.DB.Model(&model.OrganizationUser{}).Create(permission).Error
+
+	result := orgWithRole{}
+	result.ID = organization.ID
+	result.Title = organization.Title
+	result.Slug = organization.Slug
+	result.CreatedAt = organization.CreatedAt
+	result.UpdatedAt = organization.UpdatedAt
+	result.DeletedAt = organization.DeletedAt
+	result.Permission = *permission
+
+	render.JSON(w, http.StatusCreated, result)
 }

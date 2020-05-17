@@ -1,7 +1,6 @@
 package organization
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -23,11 +22,27 @@ func list(w http.ResponseWriter, r *http.Request) {
 		UserID: uint(userID),
 	}).Find(&organizationUser)
 
+	mapOrgIDWithRole := make(map[uint]model.OrganizationUser)
 	for _, s := range organizationUser {
 		ids = append(ids, int64(s.OrganizationID))
+		mapOrgIDWithRole[s.OrganizationID] = s
 	}
-	fmt.Println(ids)
+
 	model.DB.Model(&model.Organization{}).Where(ids).Find(&organizations)
 
-	render.JSON(w, http.StatusOK, organizations)
+	result := []orgWithRole{}
+
+	for _, each := range organizations {
+		temp := orgWithRole{}
+		temp.ID = each.ID
+		temp.Title = each.Title
+		temp.Slug = each.Slug
+		temp.CreatedAt = each.CreatedAt
+		temp.UpdatedAt = each.UpdatedAt
+		temp.DeletedAt = each.DeletedAt
+		temp.Permission = mapOrgIDWithRole[each.ID]
+		result = append(result, temp)
+	}
+
+	render.JSON(w, http.StatusOK, result)
 }

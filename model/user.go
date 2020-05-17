@@ -1,12 +1,8 @@
 package model
 
-import (
-	"github.com/jinzhu/gorm"
-)
-
 // User model definition
 type User struct {
-	gorm.Model
+	Base
 	Email     string `gorm:"column:email;unique_index" json:"email"`
 	KID       string `gorm:"column:kid;" json:"kid"`
 	FirstName string `gorm:"column:first_name" json:"first_name"`

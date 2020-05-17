@@ -10,6 +10,9 @@ func Router() chi.Router {
 
 	r.Get("/", list)
 	r.Post("/", create)
+	r.Route("/{permission_id}", func(r chi.Router) {
+		r.Delete("/", delete)
+	})
 
 	return r
 }

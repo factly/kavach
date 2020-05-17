@@ -37,7 +37,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		Email: traits["email"].(string),
 	})
 
-	payload.Extra["X-User"] = fmt.Sprint(user.ID)
+	payload.Header.Add("X-User", fmt.Sprint(user.ID))
 	render.JSON(w, http.StatusOK, payload)
 }
 

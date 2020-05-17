@@ -1,7 +1,6 @@
 package organization
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -34,7 +33,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).First(host).Error
 
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 
