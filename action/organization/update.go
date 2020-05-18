@@ -46,13 +46,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 		Title: req.Title,
 	}).First(&organization)
 
-	result := orgWithRole{}
-	result.ID = organization.ID
-	result.Title = organization.Title
-	result.Slug = organization.Slug
-	result.CreatedAt = organization.CreatedAt
-	result.UpdatedAt = organization.UpdatedAt
-	result.DeletedAt = organization.DeletedAt
+	result := &orgWithRole{}
+	result.Organization = *organization
 	result.Permission = *permission
 
 	render.JSON(w, http.StatusOK, result)
