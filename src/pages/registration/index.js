@@ -6,7 +6,7 @@ import { Input, Form, Button, Card, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 function Registration() {
-  const [config, setConfig] = React.useState({});
+  const [method, setMethod] = React.useState({});
 
   React.useEffect(() => {
     var obj = {};
@@ -36,7 +36,7 @@ function Registration() {
           throw new Error(res.status);
         }
       })
-      .then((res) => setConfig(res.methods.password.config))
+      .then((res) => setMethod(res.methods))
       .catch((err) => {
         console.log(err);
         window.location.href =
@@ -44,12 +44,10 @@ function Registration() {
       });
   }, []);
 
-  if (!config.action) return null;
-
-  const onFinish = (values) => {
+  const passwordMethod = (values) => {
     var loginForm = document.createElement('form');
-    loginForm.action = config.action;
-    loginForm.method = config.method;
+    loginForm.action = method.password.config.action;
+    loginForm.method = method.password.config.method;
     loginForm.style.display = 'none';
 
     var identifierInput = document.createElement('input');
@@ -62,7 +60,7 @@ function Registration() {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = config.fields.find((value) => value.name === 'csrf_token').value;
+    csrfInput.value = method.password.config.fields.find((value) => value.name === 'csrf_token').value;
 
     loginForm.appendChild(identifierInput);
     loginForm.appendChild(passwordInput);
@@ -71,6 +69,28 @@ function Registration() {
     document.body.appendChild(loginForm);
 
     loginForm.submit();
+  };
+
+  const githubMethod = (values) => {
+    var githubForm = document.createElement('form');
+    githubForm.action = method.oidc.config.action;
+    githubForm.method = method.oidc.config.method;
+    githubForm.style.display = 'none';
+
+    var csrfInput = document.createElement('input');
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = method.oidc.config.fields.find((value) => value.name === 'csrf_token').value;
+
+    var providerInput = document.createElement('input');
+    providerInput.name = 'provider';
+    providerInput.value = 'github';
+
+    githubForm.appendChild(providerInput);
+    githubForm.appendChild(csrfInput);
+
+    document.body.appendChild(githubForm);
+
+    githubForm.submit();
   };
 
   return (
@@ -89,7 +109,7 @@ function Registration() {
         title="Registration"
         style={{ width: 400 }}
       >
-        <Form name="registration" onFinish={onFinish}>
+        <Form name="registration" onFinish={passwordMethod}>
           <Form.Item
             name="email"
             rules={[
@@ -111,6 +131,13 @@ function Registration() {
           <Form.Item>
             <Button form="registration" type="primary" htmlType="submit" block>
               Register
+            </Button>
+          </Form.Item>
+        </Form>
+        <Form name="github" onFinish={githubMethod}>
+          <Form.Item>
+            <Button form="github" type="primary" htmlType="submit" block>
+              github
             </Button>
           </Form.Item>
         </Form>

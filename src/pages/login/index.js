@@ -6,7 +6,7 @@ import { Input, Form, Button, Card, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 function Login() {
-  const [config, setConfig] = React.useState({});
+  const [method, setMethod] = React.useState({});
 
   React.useEffect(() => {
     var obj = {};
@@ -36,7 +36,7 @@ function Login() {
           throw new Error(res.status)
         }
       })
-      .then((res) => setConfig(res.methods.password.config))
+      .then((res) => setMethod(res.methods))
       .catch((err) => {
         console.log(err)
         window.location.href =
@@ -44,12 +44,10 @@ function Login() {
       });
   }, []);
 
-  if (!config.action) return null;
-
   const onFinish = (values) => {
     var loginForm = document.createElement('form');
-    loginForm.action = config.action;
-    loginForm.method = config.method;
+    loginForm.action = method.password.config.action;
+    loginForm.method = method.password.config.method;
     loginForm.style.display = 'none';
 
     var identifierInput = document.createElement('input');
@@ -62,7 +60,7 @@ function Login() {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = config.fields[2].value;
+    csrfInput.value = method.oidc.config.fields.find((value) => value.name === 'csrf_token').value;
 
     loginForm.appendChild(identifierInput);
     loginForm.appendChild(passwordInput);
@@ -71,6 +69,28 @@ function Login() {
     document.body.appendChild(loginForm);
 
     loginForm.submit();
+  };
+
+  const githubMethod = (values) => {
+    var githubForm = document.createElement('form');
+    githubForm.action = method.oidc.config.action;
+    githubForm.method = method.oidc.config.method;
+    githubForm.style.display = 'none';
+
+    var csrfInput = document.createElement('input');
+    csrfInput.name = 'csrf_token';
+    csrfInput.value = method.oidc.config.fields.find((value) => value.name === 'csrf_token').value;
+
+    var providerInput = document.createElement('input');
+    providerInput.name = 'provider';
+    providerInput.value = 'github';
+
+    githubForm.appendChild(providerInput);
+    githubForm.appendChild(csrfInput);
+
+    document.body.appendChild(githubForm);
+
+    githubForm.submit();
   };
 
   return (
@@ -111,6 +131,13 @@ function Login() {
           <Form.Item>
             <Button form="login" type="primary" htmlType="submit" block>
               Log in
+            </Button>
+          </Form.Item>
+        </Form>
+        <Form name="github" onFinish={githubMethod}>
+          <Form.Item>
+            <Button form="github" type="primary" htmlType="submit" block>
+              github
             </Button>
           </Form.Item>
         </Form>
