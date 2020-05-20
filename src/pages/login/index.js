@@ -2,8 +2,9 @@ import React from 'react';
 import './login.css';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import { Input, Form, Button, Card, Row, Col } from 'antd';
+import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import OIDC from '../../components/oidc'
 
 function Login() {
   const [method, setMethod] = React.useState({});
@@ -44,7 +45,7 @@ function Login() {
       });
   }, []);
 
-  const onFinish = (values) => {
+  const withPassword = (values) => {
     var loginForm = document.createElement('form');
     loginForm.action = method.password.config.action;
     loginForm.method = method.password.config.method;
@@ -71,28 +72,6 @@ function Login() {
     loginForm.submit();
   };
 
-  const githubMethod = (values) => {
-    var githubForm = document.createElement('form');
-    githubForm.action = method.oidc.config.action;
-    githubForm.method = method.oidc.config.method;
-    githubForm.style.display = 'none';
-
-    var csrfInput = document.createElement('input');
-    csrfInput.name = 'csrf_token';
-    csrfInput.value = method.oidc.config.fields.find((value) => value.name === 'csrf_token').value;
-
-    var providerInput = document.createElement('input');
-    providerInput.name = 'provider';
-    providerInput.value = 'github';
-
-    githubForm.appendChild(providerInput);
-    githubForm.appendChild(csrfInput);
-
-    document.body.appendChild(githubForm);
-
-    githubForm.submit();
-  };
-
   return (
     <div className="login">
       <Row className="header">
@@ -104,11 +83,16 @@ function Login() {
         </Col>
       </Row>
       <Card
-        actions={[<Link to={'/auth/registration'}>Register now!</Link>]}
+        actions={[<OIDC config={method.oidc} />]}
         title="Login"
         style={{ width: 400 }}
       >
-        <Form name="login" onFinish={onFinish}>
+        <Form name="login" onFinish={withPassword}>
+          {
+            method.password && method.password.config.errors
+            ? <Form.Item>{ method.password.config.errors.map((item) => <Alert message={item.message} type="error" />) } </Form.Item>
+            : null
+          }
           <Form.Item
             name="email"
             rules={[
@@ -133,12 +117,8 @@ function Login() {
               Log in
             </Button>
           </Form.Item>
-        </Form>
-        <Form name="github" onFinish={githubMethod}>
           <Form.Item>
-            <Button form="github" type="primary" htmlType="submit" block>
-              github
-            </Button>
+            <Link to={'/auth/registration'}>Register now!</Link>
           </Form.Item>
         </Form>
       </Card>
