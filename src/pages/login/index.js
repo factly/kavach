@@ -2,11 +2,12 @@ import React from 'react';
 import './login.css';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import { Input, Form, Button, Card, Row, Col } from 'antd';
+import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import OIDC from '../../components/oidc'
 
 function Login() {
-  const [config, setConfig] = React.useState({});
+  const [method, setMethod] = React.useState({});
 
   React.useEffect(() => {
     var obj = {};
@@ -36,7 +37,7 @@ function Login() {
           throw new Error(res.status)
         }
       })
-      .then((res) => setConfig(res.methods.password.config))
+      .then((res) => setMethod(res.methods))
       .catch((err) => {
         console.log(err)
         window.location.href =
@@ -44,12 +45,10 @@ function Login() {
       });
   }, []);
 
-  if (!config.action) return null;
-
-  const onFinish = (values) => {
+  const withPassword = (values) => {
     var loginForm = document.createElement('form');
-    loginForm.action = config.action;
-    loginForm.method = config.method;
+    loginForm.action = method.password.config.action;
+    loginForm.method = method.password.config.method;
     loginForm.style.display = 'none';
 
     var identifierInput = document.createElement('input');
@@ -62,7 +61,7 @@ function Login() {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = config.fields[2].value;
+    csrfInput.value = method.oidc.config.fields.find((value) => value.name === 'csrf_token').value;
 
     loginForm.appendChild(identifierInput);
     loginForm.appendChild(passwordInput);
@@ -84,11 +83,16 @@ function Login() {
         </Col>
       </Row>
       <Card
-        actions={[<Link to={'/auth/registration'}>Register now!</Link>]}
+        actions={[<OIDC config={method.oidc} />]}
         title="Login"
         style={{ width: 400 }}
       >
-        <Form name="login" onFinish={onFinish}>
+        <Form name="login" onFinish={withPassword}>
+          {
+            method.password && method.password.config.errors
+            ? <Form.Item>{ method.password.config.errors.map((item) => <Alert message={item.message} type="error" />) } </Form.Item>
+            : null
+          }
           <Form.Item
             name="email"
             rules={[
@@ -112,6 +116,9 @@ function Login() {
             <Button form="login" type="primary" htmlType="submit" block>
               Log in
             </Button>
+          </Form.Item>
+          <Form.Item>
+            <Link to={'/auth/registration'}>Register now!</Link>
           </Form.Item>
         </Form>
       </Card>
