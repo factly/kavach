@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 
@@ -12,11 +11,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatal("error loding .env file")
-	}
+	godotenv.Load()
 
 	port, ok := os.LookupEnv("PORT")
 	if !ok {

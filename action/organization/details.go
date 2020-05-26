@@ -1,7 +1,6 @@
 package organization
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -21,7 +20,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	var permission model.OrganizationUser
 
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
-	fmt.Println(userID)
+
 	model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
 		UserID:         uint(userID),
 		OrganizationID: uint(id),
