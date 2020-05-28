@@ -85,7 +85,7 @@ function Registration() {
             <span className="title">Identity</span>
           </Col>
         </Row>
-        <Card actions={[<OIDC config={method.oidc} />]} title="Registration" style={{ width: 400 }}>
+        <Card actions={method.oidc ? [<OIDC config={method.oidc.config} />] : []} title="Registration" style={{ width: 400 }}>
           
           {
             method.password && method.password.config.errors

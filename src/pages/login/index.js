@@ -83,7 +83,7 @@ function Login() {
         </Col>
       </Row>
       <Card
-        actions={[<OIDC config={method.oidc} />]}
+        actions={method.oidc ? [<OIDC config={method.oidc.config} />] : []}
         title="Login"
         style={{ width: 400 }}
       >
