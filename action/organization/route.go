@@ -1,8 +1,8 @@
 package organization
 
 import (
-	"github.com/factly/identity/action/organization/user"
-	"github.com/factly/identity/model"
+	"github.com/factly/kavach-server/action/organization/user"
+	"github.com/factly/kavach-server/model"
 	"github.com/go-chi/chi"
 )
 

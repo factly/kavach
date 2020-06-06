@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/factly/identity/model"
+	"github.com/factly/kavach-server/model"
 	"github.com/joho/godotenv"
 
-	"github.com/factly/identity/action"
+	"github.com/factly/kavach-server/action"
 )
 
 func main() {

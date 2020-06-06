@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/factly/identity/model"
-	"github.com/factly/identity/util/render"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/render"
 )
 
 type authenticationSession struct {

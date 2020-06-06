@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/factly/identity/model"
-	"github.com/factly/identity/util/render"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/render"
 )
 
 // list return all organizations
