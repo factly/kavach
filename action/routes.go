@@ -3,8 +3,8 @@ package action
 import (
 	"net/http"
 
-	"github.com/factly/identity/action/organization"
-	"github.com/factly/identity/action/user"
+	"github.com/factly/kavach-server/action/organization"
+	"github.com/factly/kavach-server/action/user"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"

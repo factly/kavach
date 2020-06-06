@@ -1,4 +1,4 @@
-module github.com/factly/identity
+module github.com/factly/kavach-server
 
 go 1.13
 

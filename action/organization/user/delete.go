@@ -1,16 +1,19 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 
-	"github.com/factly/identity/model"
-	"github.com/factly/identity/util/render"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/render"
 	"github.com/go-chi/chi"
 )
 
 // create return all user in organization
 func delete(w http.ResponseWriter, r *http.Request) {
+	/* Check if record exist */
 	organizationID := chi.URLParam(r, "organization_id")
 	orgID, err := strconv.Atoi(organizationID)
 
@@ -18,32 +21,39 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check the permission of host
-	host := &model.OrganizationUser{}
-	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
-
-	err = model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
-		OrganizationID: uint(orgID),
-		UserID:         uint(hostID),
-		Role:           "owner",
-	}).First(host).Error
+	permissionID := chi.URLParam(r, "permission_id")
+	pID, err := strconv.Atoi(permissionID)
 
 	if err != nil {
 		return
 	}
 
-	permissionID := chi.URLParam(r, "permission_id")
-	pID, errPermission := strconv.Atoi(permissionID)
+	result := &model.OrganizationUser{}
+	result.ID = uint(pID)
 
-	if errPermission != nil {
+	err = model.DB.First(&result).Error
+	if err != nil {
 		return
 	}
 
-	result := &model.OrganizationUser{}
-	result.ID = uint(pID)
-	result.OrganizationID = uint(orgID)
+	/* delete policy for admins */
+	if result.Role == "owner" {
+		req, err := http.NewRequest("DELETE", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID), nil)
 
-	model.DB.Model(&model.OrganizationUser{}).Delete(result)
+		if err != nil {
+			return
+		}
+
+		client := &http.Client{}
+		_, err = client.Do(req)
+
+		if err != nil {
+			return
+		}
+	}
+
+	/* DELETE */
+	model.DB.Delete(&result)
 
 	render.JSON(w, http.StatusOK, nil)
 }

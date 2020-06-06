@@ -1,22 +1,17 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 
-	"github.com/factly/identity/model"
+	"github.com/factly/kavach-server/model"
 	"github.com/joho/godotenv"
 
-	"github.com/factly/identity/action"
+	"github.com/factly/kavach-server/action"
 )
 
 func main() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatal("error loding .env file")
-	}
+	godotenv.Load()
 
 	port, ok := os.LookupEnv("PORT")
 	if !ok {
