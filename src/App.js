@@ -11,6 +11,7 @@ import BasicLayout from "./layout/basic";
 import Login from "./pages/login";
 import Registration from "./pages/registration";
 import Dashboard from "./pages/dashboard";
+import Password from "./pages/password";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/auth/registration" component={Registration} />
           <BasicLayout>
             <Route path="/dashboard" component={Dashboard} />
+            <Route path="/password" component={Password} />
           </BasicLayout>
         </Switch>
       </Router>
