@@ -1,9 +1,9 @@
 import React from 'react';
-import OrganizationUsers from '../../components/organizationUsers';
+import OrganizationUsers from './components/users';
 import { Card, List, Button, Form, Input, Popconfirm, Divider, Modal } from 'antd';
 import { DeleteOutlined, EditOutlined, CloseOutlined } from '@ant-design/icons';
 
-function Dashboard() {
+function Organizations() {
   const [organizations, setOrganizations] = React.useState([]);
   const [edit, setEdit] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
@@ -188,4 +188,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Organizations;

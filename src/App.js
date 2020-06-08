@@ -1,17 +1,14 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import "antd/dist/antd.css";
-import BasicLayout from "./layout/basic";
+import 'antd/dist/antd.css';
+import BasicLayout from './layout/basic';
 
-import Login from "./pages/login";
-import Registration from "./pages/registration";
-import Dashboard from "./pages/dashboard";
-import Password from "./pages/password";
+import Login from './pages/login';
+import Registration from './pages/registration';
+
+//Routes
+import routes from './config/routes';
 
 function App() {
   return (
@@ -21,8 +18,11 @@ function App() {
           <Route path="/auth/login" component={Login} />
           <Route path="/auth/registration" component={Registration} />
           <BasicLayout>
-            <Route path="/dashboard" component={Dashboard} />
-            <Route path="/password" component={Password} />
+            <Switch>
+              {routes.map((route) => (
+                <Route exact path={route.path} component={route.Component} />
+              ))}
+            </Switch>
           </BasicLayout>
         </Switch>
       </Router>

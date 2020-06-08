@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import OIDC from '../../components/oidc'
+import OIDC from '../../components/OIDC'
 
 function Login() {
   const [method, setMethod] = React.useState({});

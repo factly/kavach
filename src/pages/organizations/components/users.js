@@ -38,7 +38,6 @@ function OrganizationUsers(props) {
         }
       })
       .then((res) => {
-        console.log(res);
         var newData = users;
         newData.splice(0, 0, res);
         setUsers(newData);
