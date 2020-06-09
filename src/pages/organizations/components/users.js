@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Button, Select, Form, Input, Popconfirm } from 'antd';
+import { Button, Select, Form, Input, Popconfirm, Table } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 function OrganizationUsers(props) {
@@ -77,68 +77,68 @@ function OrganizationUsers(props) {
       });
   };
 
+  const columns = [
+    {
+      title: 'Name',
+      key: 'name',
+      render: (text, record) => record.user.first_name + ' ' + record.user.last_name,
+    },
+    {
+      title: 'Email',
+      key: 'email',
+      render: (text, record) => record.user.email,
+    },
+    {
+      title: 'Role',
+      key: 'role',
+      dataIndex: 'role',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Popconfirm title="Sure to delete?" onConfirm={() => removeUser(record.id)}>
+          <Button icon={<DeleteOutlined />} />
+        </Popconfirm>
+      ),
+    },
+  ];
+
   return (
     <div>
-      <List
-        loading={loading}
-        dataSource={users}
-        header={
-          props.organization.permission.role === 'owner' ? (
-            <Form
-              name="add_user"
-              layout="inline"
-              initialValues={{
-                role: 'member',
-              }}
-              onFinish={(values) => addUser(values)}
-            >
-              <Form.Item
-                name="email"
-                placeholder="email"
-                rules={[
-                  { required: true, message: 'Please input your title!' },
-                  { type: 'email', message: 'Please input valid Email!' },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item name="role">
-                <Select placeholder="role">
-                  <Select.Option value="owner">Owner</Select.Option>
-                  <Select.Option value="member">Member</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button form="add_user" type="primary" htmlType="submit" block>
-                  Add User
-                </Button>
-              </Form.Item>
-            </Form>
-          ) : null
-        }
-        renderItem={(item) => (
-          <List.Item
-            actions={
-              props.organization.permission.role === 'owner'
-                ? [
-                    <Select value={item.role} defaultValue="member">
-                      <Select.Option value="owner">Owner</Select.Option>
-                      <Select.Option value="member">Member</Select.Option>
-                    </Select>,
-                    <Popconfirm title="Sure to delete?" onConfirm={() => removeUser(item.id)}>
-                      <Button icon={<DeleteOutlined />} />
-                    </Popconfirm>,
-                  ]
-                : []
-            }
+      {props.organization.permission.role === 'owner' ? (
+        <Form
+          name="add_user"
+          layout="inline"
+          initialValues={{
+            role: 'member',
+          }}
+          onFinish={(values) => addUser(values)}
+        >
+          <Form.Item
+            name="email"
+            placeholder="email"
+            rules={[
+              { required: true, message: 'Please input your title!' },
+              { type: 'email', message: 'Please input valid Email!' },
+            ]}
           >
-            <List.Item.Meta
-              title={item.user.first_name + ' ABC ' + item.user.last_name}
-              description={item.user.email}
-            />
-          </List.Item>
-        )}
-      />
+            <Input />
+          </Form.Item>
+          <Form.Item name="role">
+            <Select placeholder="role">
+              <Select.Option value="owner">Owner</Select.Option>
+              <Select.Option value="member">Member</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <Button form="add_user" type="primary" htmlType="submit" block>
+              Add User
+            </Button>
+          </Form.Item>
+        </Form>
+      ) : null}
+      <Table loading={loading} pagination={false} columns={columns} dataSource={users} />
     </div>
   );
 }

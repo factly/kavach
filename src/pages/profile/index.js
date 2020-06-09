@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, Form, Input, Button } from 'antd';
+import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
+import moment from 'moment';
 
 function Profile() {
   const [profile, setProfile] = React.useState({});
@@ -15,8 +16,8 @@ function Profile() {
         }
       })
       .then((res) => {
-          setProfile(res)
-          setLoading(false)
+        setProfile(res);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -42,14 +43,14 @@ function Profile() {
         console.log(err);
       });
   };
-  
+
   return (
     <div className="content">
       <Card title="Update Profile" style={{ width: 400 }} loading={loading}>
-        <Form 
-            name="update_profile" 
-            onFinish={updateProfile} 
-            initialValues={profile}
+        <Form
+          name="update_profile"
+          onFinish={updateProfile}
+          initialValues={{ ...profile, birth_date: moment(profile.birth_date) }}
         >
           <Form.Item
             name="first_name"
@@ -62,6 +63,19 @@ function Profile() {
             rules={[{ required: true, message: 'Please input your last name!' }]}
           >
             <Input placeholder="Last name" />
+          </Form.Item>
+          <Form.Item
+            name="birth_date"
+            rules={[{ type: 'object', required: true, message: 'Please select time!' }]}
+          >
+            <DatePicker />
+          </Form.Item>
+          <Form.Item name="gender">
+            <Radio.Group>
+              <Radio.Button value="male">Male</Radio.Button>
+              <Radio.Button value="female">Female</Radio.Button>
+              <Radio.Button value="other">Other</Radio.Button>
+            </Radio.Group>
           </Form.Item>
           <Form.Item>
             <Button form="update_profile" type="primary" htmlType="submit" block>

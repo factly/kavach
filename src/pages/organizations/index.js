@@ -125,16 +125,13 @@ function Organizations() {
             <Form.Item name="title" label="Title">
               <Input placeholder="title" />
             </Form.Item>
-            <Form.Item name="slug" label="Slug">
-              <Input placeholder="slug" />
-            </Form.Item>
           </Form>
         </Modal>
       </div>
       <div id="organization-list">
         <List
           loading={loading}
-          grid={{ gutter: 16, column: 3 }}
+          grid={{ gutter: 16, column: 2 }}
           dataSource={organizations}
           itemLayout="vertical"
           renderItem={(item) => (
