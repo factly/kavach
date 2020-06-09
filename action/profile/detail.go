@@ -1,4 +1,4 @@
-package user
+package profile
 
 import (
 	"net/http"
@@ -8,8 +8,8 @@ import (
 	"github.com/factly/kavach-server/util/render"
 )
 
-// create create organization
-func me(w http.ResponseWriter, r *http.Request) {
+// detail of user
+func detail(w http.ResponseWriter, r *http.Request) {
 
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
