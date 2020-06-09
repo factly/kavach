@@ -15,7 +15,6 @@ import (
 
 type organization struct {
 	Title string `json:"title" validate:"required"`
-	Slug  string `json:"slug" validate:"required"`
 }
 
 // create create organization
@@ -32,7 +31,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	organization := &model.Organization{
 		Title: org.Title,
-		Slug:  org.Slug,
 	}
 
 	err := model.DB.Model(&model.Organization{}).Create(&organization).Error

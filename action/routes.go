@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/factly/kavach-server/action/organization"
+	"github.com/factly/kavach-server/action/profile"
 	"github.com/factly/kavach-server/action/user"
 	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
@@ -41,6 +42,7 @@ func RegisterRoutes() http.Handler {
 
 	r.Mount("/organizations", organization.Router())
 	r.Mount("/users", user.Router())
+	r.Mount("/profile", profile.Router())
 
 	return r
 }
