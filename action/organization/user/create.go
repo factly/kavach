@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
@@ -77,5 +77,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	model.DB.Model(&model.OrganizationUser{}).Preload("User").First(&result)
 
-	render.JSON(w, http.StatusCreated, result)
+	renderx.JSON(w, http.StatusCreated, result)
 }
