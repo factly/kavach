@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 )
 
 // list return all organizations
@@ -40,5 +40,5 @@ func list(w http.ResponseWriter, r *http.Request) {
 		result = append(result, temp)
 	}
 
-	render.JSON(w, http.StatusOK, result)
+	renderx.JSON(w, http.StatusOK, result)
 }

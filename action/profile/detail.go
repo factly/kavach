@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 )
 
 // detail of user
@@ -22,5 +22,5 @@ func detail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.JSON(w, http.StatusOK, me)
+	renderx.JSON(w, http.StatusOK, me)
 }

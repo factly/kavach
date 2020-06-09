@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 )
 
 type user struct {
@@ -38,5 +38,5 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	render.JSON(w, http.StatusOK, me)
+	renderx.JSON(w, http.StatusOK, me)
 }

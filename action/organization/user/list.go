@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
@@ -37,5 +37,5 @@ func list(w http.ResponseWriter, r *http.Request) {
 		OrganizationID: uint(orgID),
 	}).Preload("User").Find(&users)
 
-	render.JSON(w, http.StatusOK, users)
+	renderx.JSON(w, http.StatusOK, users)
 }

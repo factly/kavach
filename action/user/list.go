@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 )
 
 // list return all organizations
@@ -13,5 +13,5 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	model.DB.Model(&model.User{}).Find(&users)
 
-	render.JSON(w, http.StatusOK, users)
+	renderx.JSON(w, http.StatusOK, users)
 }

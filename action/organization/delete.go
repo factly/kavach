@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
@@ -39,5 +39,5 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// delete
 	model.DB.Delete(&organization)
 
-	render.JSON(w, http.StatusOK, nil)
+	renderx.JSON(w, http.StatusOK, nil)
 }

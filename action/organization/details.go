@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
@@ -40,5 +40,5 @@ func details(w http.ResponseWriter, r *http.Request) {
 	result.Organization = *organization
 	result.Permission = permission
 
-	render.JSON(w, http.StatusOK, result)
+	renderx.JSON(w, http.StatusOK, result)
 }

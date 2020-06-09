@@ -7,7 +7,7 @@ import (
 	"net/url"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/render"
+	"github.com/factly/x/renderx"
 )
 
 type authenticationSession struct {
@@ -38,7 +38,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	})
 
 	payload.Header.Add("X-User", fmt.Sprint(user.ID))
-	render.JSON(w, http.StatusOK, payload)
+	renderx.JSON(w, http.StatusOK, payload)
 }
 
 /*
