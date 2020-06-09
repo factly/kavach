@@ -2,9 +2,11 @@ package action
 
 import (
 	"net/http"
+	"os"
 
 	"github.com/factly/kavach-server/action/organization"
 	"github.com/factly/kavach-server/action/user"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
@@ -12,11 +14,17 @@ import (
 
 // RegisterRoutes - CRUD servies
 func RegisterRoutes() http.Handler {
+
+	// open log file
+	file, err := os.OpenFile("logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
+	if err == nil {
+		r.Use(loggerx.NewLogger(file))
+	}
 	r.Use(middleware.RealIP)
-	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/ping"))
 

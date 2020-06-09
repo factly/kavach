@@ -135,3 +135,6 @@ n
 .env
 /tmp
 main
+
+# logs
+*.log
