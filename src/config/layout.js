@@ -9,7 +9,7 @@ const proSettings = {
   menu: {
     locale: true,
   },
-  title: 'Dega Admin',
+  title: 'Kavach',
   pwa: false,
   iconfontUrl: '',
 };
