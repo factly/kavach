@@ -4,7 +4,6 @@ package model
 type Organization struct {
 	Base
 	Title string `gorm:"column:title" json:"title"`
-	Slug  string `gorm:"column:slug;unique_index" json:"slug"`
 }
 
 // OrganizationUser model definition
