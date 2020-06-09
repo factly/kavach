@@ -10,12 +10,13 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
 )
 
 type invite struct {
-	Email string `json:"email"`
-	Role  string `json:"role"`
+	Email string `json:"email" validate:"required"`
+	Role  string `json:"role" validate:"required"`
 }
 
 type role struct {
@@ -34,6 +35,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// FindOrCreate invitee
 	req := invite{}
 	json.NewDecoder(r.Body).Decode(&req)
+
+	validationError := validationx.Check(req)
+	if validationError != nil {
+		renderx.JSON(w, http.StatusBadRequest, validationError)
+		return
+	}
 
 	invitee := model.User{}
 

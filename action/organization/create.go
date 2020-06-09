@@ -10,13 +10,30 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/validationx"
 )
+
+type organization struct {
+	Title string `json:"title" validate:"required"`
+	Slug  string `json:"slug" validate:"required"`
+}
 
 // create create organization
 func create(w http.ResponseWriter, r *http.Request) {
-	organization := &model.Organization{}
+	org := &organization{}
 
-	json.NewDecoder(r.Body).Decode(&organization)
+	json.NewDecoder(r.Body).Decode(&org)
+
+	validationError := validationx.Check(org)
+	if validationError != nil {
+		renderx.JSON(w, http.StatusBadRequest, validationError)
+		return
+	}
+
+	organization := &model.Organization{
+		Title: org.Title,
+		Slug:  org.Slug,
+	}
 
 	err := model.DB.Model(&model.Organization{}).Create(&organization).Error
 
