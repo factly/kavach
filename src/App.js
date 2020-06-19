@@ -1,26 +1,30 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import "antd/dist/antd.css";
-import BasicLayout from "./layout/basic";
+import 'antd/dist/antd.css';
+import BasicLayout from './layout/basic';
 
-import Login from "./pages/login";
-import Registration from "./pages/registration";
-import Dashboard from "./pages/dashboard";
+import Auth from './components/Auth';
+
+//Routes
+import routes from './config/routes';
 
 function App() {
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
-          <Route path="/auth/login" component={Login} />
-          <Route path="/auth/registration" component={Registration} />
+          <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
+          <Route
+            path="/auth/registration"
+            component={(props) => <Auth {...props} flow={'registration'} />}
+          />
           <BasicLayout>
-            <Route path="/dashboard" component={Dashboard} />
+            <Switch>
+              {routes.map((route) => (
+                <Route key={route.path} exact path={route.path} component={route.Component} />
+              ))}
+            </Switch>
           </BasicLayout>
         </Switch>
       </Router>

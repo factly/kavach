@@ -1,9 +1,9 @@
 import React from 'react';
-import OrganizationUsers from '../../components/organizationUsers';
+import OrganizationUsers from './components/users';
 import { Card, List, Button, Form, Input, Popconfirm, Divider, Modal } from 'antd';
 import { DeleteOutlined, EditOutlined, CloseOutlined } from '@ant-design/icons';
 
-function Dashboard() {
+function Organizations() {
   const [organizations, setOrganizations] = React.useState([]);
   const [edit, setEdit] = React.useState(null);
   const [showModal, setShowModal] = React.useState(false);
@@ -125,16 +125,13 @@ function Dashboard() {
             <Form.Item name="title" label="Title">
               <Input placeholder="title" />
             </Form.Item>
-            <Form.Item name="slug" label="Slug">
-              <Input placeholder="slug" />
-            </Form.Item>
           </Form>
         </Modal>
       </div>
       <div id="organization-list">
         <List
           loading={loading}
-          grid={{ gutter: 16, column: 3 }}
+          grid={{ gutter: 16, column: 2 }}
           dataSource={organizations}
           itemLayout="vertical"
           renderItem={(item) => (
@@ -188,4 +185,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Organizations;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Button } from 'antd';
+import { Button } from 'antd';
 import { GithubOutlined, GoogleOutlined } from '@ant-design/icons';
 
 function OIDC(props) {
@@ -27,10 +27,10 @@ function OIDC(props) {
 
   return (
     <Button.Group className="oidc">
-      <Button icon={<GithubOutlined />} onClick={() => withOIDC("github")}>
+      <Button icon={<GithubOutlined />} onClick={() => withOIDC('github')}>
         Github
       </Button>
-      <Button icon={<GoogleOutlined />} onClick={() => withOIDC("google")}>
+      <Button icon={<GoogleOutlined />} onClick={() => withOIDC('google')}>
         Google
       </Button>
     </Button.Group>

@@ -1,31 +1,31 @@
 import React from 'react';
-import { Layout, Button, Divider } from 'antd';
+import { Layout, Card } from 'antd';
+import { withRouter } from 'react-router-dom';
+import Sidebar from '../components/GlobalNav/Sidebar';
+import Header from '../components/GlobalNav/Header';
 import './basic.css';
-import logo from '../assets/logo.svg';
-import { LogoutOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import PageHeader from '../components/PageHeader';
 
 function BasicLayout(props) {
-  const { Header, Footer, Content } = Layout;
+  const { location } = props;
+  const { Footer, Content } = Layout;
   const { children } = props;
+  const { navTheme } = useSelector((state) => state.settings);
 
   return (
-    <Layout>
-      <Header className="layout-header">
-        <div>
-          <img alt="logo" className="menu-logo" src={logo} />
-          <Divider type="vertical" />
-          <a href={process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/logout'}>
-            <Button>
-              <LogoutOutlined />
-              Logout
-            </Button>
-          </a>
-        </div>
-      </Header>
-      <Content className="layout-content">{children}</Content>
-      <Footer>Footer</Footer>
+    <Layout hasSider={true}>
+      <Sidebar navTheme={navTheme} />
+      <Layout>
+        <Header />
+        <Content className="layout-content">
+          <PageHeader location={location} />
+          <Card className="wrap-children-content">{children}</Card>
+        </Content>
+        <Footer>Footer</Footer>
+      </Layout>
     </Layout>
   );
 }
 
-export default BasicLayout;
+export default withRouter(BasicLayout);
