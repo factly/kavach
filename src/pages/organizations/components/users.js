@@ -81,17 +81,17 @@ function OrganizationUsers(props) {
     {
       title: 'Name',
       key: 'name',
-      render: (text, record) => record.user.first_name + ' ' + record.user.last_name,
+      render: (text, record) => record.first_name + ' ' + record.last_name,
     },
     {
       title: 'Email',
       key: 'email',
-      render: (text, record) => record.user.email,
+      render: (text, record) => record.email,
     },
     {
       title: 'Role',
       key: 'role',
-      dataIndex: 'role',
+      dataIndex: ['permission', 'role'],
     },
     {
       title: 'Action',
@@ -138,7 +138,13 @@ function OrganizationUsers(props) {
           </Form.Item>
         </Form>
       ) : null}
-      <Table loading={loading} pagination={false} columns={columns} dataSource={users} />
+      <Table
+        rowKey={'id'}
+        loading={loading}
+        pagination={false}
+        columns={columns}
+        dataSource={users}
+      />
     </div>
   );
 }
