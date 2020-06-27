@@ -37,5 +37,16 @@ func list(w http.ResponseWriter, r *http.Request) {
 		OrganizationID: uint(orgID),
 	}).Preload("User").Find(&users)
 
-	renderx.JSON(w, http.StatusOK, users)
+	result := []userWithPermission{}
+
+	for _, each := range users {
+		eachUser := userWithPermission{}
+		eachUser.User = *each.User
+		eachUser.Permission = each
+		eachUser.Permission.User = nil
+
+		result = append(result, eachUser)
+	}
+
+	renderx.JSON(w, http.StatusOK, result)
 }

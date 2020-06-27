@@ -70,19 +70,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Add user into organization
-	result := &model.OrganizationUser{}
+	permission := &model.OrganizationUser{}
 
-	result.OrganizationID = uint(orgID)
-	result.UserID = invitee.ID
-	result.Role = req.Role
+	permission.OrganizationID = uint(orgID)
+	permission.UserID = invitee.ID
+	permission.Role = req.Role
 
-	err = model.DB.Model(&model.OrganizationUser{}).Create(&result).Error
+	err = model.DB.Model(&model.OrganizationUser{}).Create(&permission).Error
 
 	if err != nil {
 		return
 	}
 
-	model.DB.Model(&model.OrganizationUser{}).Preload("User").First(&result)
+	result := &userWithPermission{}
+
+	result.User = invitee
+	result.Permission = *permission
 
 	renderx.JSON(w, http.StatusCreated, result)
 }
