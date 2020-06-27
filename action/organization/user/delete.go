@@ -21,17 +21,20 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	permissionID := chi.URLParam(r, "permission_id")
-	pID, err := strconv.Atoi(permissionID)
+	userID := chi.URLParam(r, "user_id")
+	uID, err := strconv.Atoi(userID)
 
 	if err != nil {
 		return
 	}
 
 	result := &model.OrganizationUser{}
-	result.ID = uint(pID)
 
-	err = model.DB.First(&result).Error
+	err = model.DB.Where(&model.OrganizationUser{
+		OrganizationID: uint(orgID),
+		UserID:         uint(uID),
+	}).First(&result).Error
+
 	if err != nil {
 		return
 	}
@@ -52,8 +55,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	deletePermission := &model.OrganizationUser{}
+	deletePermission.ID = result.ID
+
 	/* DELETE */
-	model.DB.Delete(&result)
+	model.DB.Delete(&deletePermission)
 
 	renderx.JSON(w, http.StatusOK, nil)
 }
