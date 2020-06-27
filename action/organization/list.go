@@ -10,7 +10,7 @@ import (
 
 // list return all organizations
 func list(w http.ResponseWriter, r *http.Request) {
-	var organizationUser []model.OrganizationUser
+	organizationUser := make([]model.OrganizationUser, 0)
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 
@@ -23,16 +23,19 @@ func list(w http.ResponseWriter, r *http.Request) {
 		UserID: uint(userID),
 	}).Preload("Organization").Find(&organizationUser)
 
-	result := []orgWithRole{}
+	result := make([]orgWithRole, 0)
 
 	for _, each := range organizationUser {
-		eachOrg := orgWithRole{}
-		eachOrg.Organization = *each.Organization
-		eachOrg.Permission = each
+		if each.Organization != nil {
+			eachOrg := orgWithRole{}
+			eachOrg.Organization = *each.Organization
+			eachOrg.Permission = each
 
-		eachOrg.Permission.Organization = nil
+			eachOrg.Permission.Organization = nil
 
-		result = append(result, eachOrg)
+			result = append(result, eachOrg)
+		}
+
 	}
 
 	renderx.JSON(w, http.StatusOK, result)

@@ -29,10 +29,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := &model.OrganizationUser{}
-	result.OrganizationID = uint(orgID)
-	result.UserID = uint(uID)
 
-	err = model.DB.First(&result).Error
+	err = model.DB.Where(&model.OrganizationUser{
+		OrganizationID: uint(orgID),
+		UserID:         uint(uID),
+	}).First(&result).Error
 
 	if err != nil {
 		return
