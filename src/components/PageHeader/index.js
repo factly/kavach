@@ -19,7 +19,7 @@ function PageHeader() {
           breadcrumbName: route.title,
         };
       } else {
-        return null
+        return null;
       }
     });
     return [
@@ -46,10 +46,10 @@ function PageHeader() {
     }
     return <Link to={route.path}>{route.breadcrumbName}</Link>;
   };
-  
+
   return (
     <AntPageHeader
-      className="site-page-header"
+      ghost={false}
       title={lastItem.title}
       breadcrumb={{ itemRender, routes: breadcrumbItems }}
     />

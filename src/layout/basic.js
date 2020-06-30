@@ -11,7 +11,7 @@ import PageHeader from '../components/PageHeader';
 function BasicLayout(props) {
   const { location } = props;
   const { children } = props;
-  const { navTheme } = useSelector((state) => state.settings);
+  const selected = useSelector((state) => state.organizations.selected);
 
   const dispatch = useDispatch();
 
@@ -21,12 +21,16 @@ function BasicLayout(props) {
 
   return (
     <Layout hasSider={true}>
-      <Sidebar navTheme={navTheme} />
+      <Sidebar />
       <Layout>
         <Header />
         <Layout.Content className="layout-content">
           <PageHeader location={location} />
-          <Card className="wrap-children-content">{children}</Card>
+          {selected > 0 ? (
+            <Card key={selected.toString()} className="wrap-children-content">
+              {children}
+            </Card>
+          ) : null}
         </Layout.Content>
         <Layout.Footer>Footer</Layout.Footer>
       </Layout>
