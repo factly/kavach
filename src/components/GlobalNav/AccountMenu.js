@@ -1,12 +1,23 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { LogoutOutlined, UserOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
+import {
+  LogoutOutlined,
+  UserOutlined,
+  SafetyCertificateOutlined,
+  EditOutlined,
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 const AccountMenu = () => {
   return (
-    <Menu>
-      <Menu.SubMenu title="SubMenu">
+    <Menu mode="horizontal">
+      <Menu.SubMenu
+        title={
+          <>
+            <UserOutlined /> <span>User</span>
+          </>
+        }
+      >
         <Menu.Item>
           <Link to="/password">
             <SafetyCertificateOutlined /> Security
@@ -14,7 +25,7 @@ const AccountMenu = () => {
         </Menu.Item>
         <Menu.Item>
           <Link to="/profile">
-            <UserOutlined /> Profile
+            <EditOutlined /> Profile
           </Link>
         </Menu.Item>
         <Menu.Item>

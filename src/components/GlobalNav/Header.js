@@ -25,7 +25,7 @@ function Header() {
         <Divider type="vertical" />
         <Search />
         <Divider type="vertical" />
-        <AccountMenu />
+        <AccountMenu style={{ float: 'right' }} />
       </Space>
     </Layout.Header>
   );

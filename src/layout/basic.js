@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout, Card } from 'antd';
-import { withRouter } from 'react-router-dom';
-import Sidebar from '../components/GlobalNav/Sidebar';
-import Header from '../components/GlobalNav/Header';
-import './basic.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrganizations } from '../actions/organizations';
+import { withRouter } from 'react-router-dom';
+import Header from '../components/GlobalNav/Header';
+import Sidebar from '../components/GlobalNav/Sidebar';
 import PageHeader from '../components/PageHeader';
+import { getOrganizations } from '../actions/organizations';
+import './basic.css';
 
 function BasicLayout(props) {
   const { location } = props;
