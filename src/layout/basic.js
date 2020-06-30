@@ -4,25 +4,31 @@ import { withRouter } from 'react-router-dom';
 import Sidebar from '../components/GlobalNav/Sidebar';
 import Header from '../components/GlobalNav/Header';
 import './basic.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getOrganizations } from '../actions/organizations';
 import PageHeader from '../components/PageHeader';
 
 function BasicLayout(props) {
   const { location } = props;
-  const { Footer, Content } = Layout;
   const { children } = props;
   const { navTheme } = useSelector((state) => state.settings);
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getOrganizations());
+  }, [dispatch]);
 
   return (
     <Layout hasSider={true}>
       <Sidebar navTheme={navTheme} />
       <Layout>
         <Header />
-        <Content className="layout-content">
+        <Layout.Content className="layout-content">
           <PageHeader location={location} />
           <Card className="wrap-children-content">{children}</Card>
-        </Content>
-        <Footer>Footer</Footer>
+        </Layout.Content>
+        <Layout.Footer>Footer</Layout.Footer>
       </Layout>
     </Layout>
   );
