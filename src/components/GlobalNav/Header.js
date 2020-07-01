@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Divider, Space } from 'antd';
+import { Layout, Divider, Space, Button } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { toggleSider } from '../../actions/settings';
 import Search from './Search';
 import AccountMenu from './AccountMenu';
 import OrganizationSelector from './OrganizationSelector';
+import { Link } from 'react-router-dom';
 
 function Header() {
   const collapsed = useSelector((state) => state.settings.sider.collapsed);
@@ -21,6 +22,9 @@ function Header() {
           onClick={() => dispatch(toggleSider())}
         />
         <Divider type="vertical" />
+        <Link to="/organization">
+          <Button>New</Button>
+        </Link>
         <OrganizationSelector />
         <Divider type="vertical" />
         <Search />

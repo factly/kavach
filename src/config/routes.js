@@ -1,19 +1,28 @@
 import { PieChartOutlined } from '@ant-design/icons';
 
 //Pages
-import Organization from '../pages/organization';
+import Settings from '../pages/settings';
 import Users from '../pages/users';
 import Profile from '../pages/profile';
 import Password from '../pages/password';
+import OrganizationCreate from '../pages/organization';
 
 export default [
   {
     path: '/settings',
-    Component: Organization,
+    Component: Settings,
     enableNavigation: true,
     enableBreadcrumb: true,
     Icon: PieChartOutlined,
     title: 'Settings',
+  },
+  {
+    path: '/organization',
+    Component: OrganizationCreate,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    Icon: PieChartOutlined,
+    title: 'Organization',
   },
   {
     path: '/users',

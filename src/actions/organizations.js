@@ -42,8 +42,10 @@ export const addOrganization = (data) => {
     dispatch(loadingOrganizations());
     return axios
       .post(ORGANIZATIONS_API, data)
-      .then(() => {
-        dispatch(resetOrganizations());
+      .then((response) => {
+        dispatch(getOrganizationByID(response.data));
+        dispatch(setSelectedOrganization(response.data.id));
+        dispatch(stopOrganizationsLoading());
       })
       .catch((error) => {
         console.log(error.message);

@@ -30,16 +30,31 @@ function OrganizationUsers() {
       title: 'Name',
       key: 'name',
       render: (text, record) => record.first_name + ' ' + record.last_name,
+      width: '30%',
     },
     {
       title: 'Email',
       key: 'email',
       dataIndex: 'email',
+      width: '30%',
     },
     {
       title: 'Role',
       key: 'role',
       dataIndex: ['permission', 'role'],
+      filters: [
+        {
+          text: 'Owner',
+          value: 'owner',
+        },
+        {
+          text: 'Member',
+          value: 'member',
+        },
+      ],
+      filterMultiple: false,
+      onFilter: (value, record) => record.permission.role === value,
+      width: '25%',
     },
     {
       title: 'Action',
@@ -52,6 +67,7 @@ function OrganizationUsers() {
           <Button icon={<DeleteOutlined />} />
         </Popconfirm>
       ),
+      width: '15%',
     },
   ];
 

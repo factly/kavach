@@ -1,28 +1,17 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { getOrganization } from './../../actions/organizations';
+import { useDispatch } from 'react-redux';
+import { addOrganization, getOrganizations } from './../../actions/organizations';
+import { useHistory } from 'react-router-dom';
 
-function Organizations() {
+function OrganizationCreate() {
   const dispatch = useDispatch();
-
-  const { organization, selected } = useSelector((state) => {
-    return {
-      organization: state.organizations.details[state.organizations.selected],
-      selected: state.organizations.selected,
-    };
-  });
-
-  React.useEffect(() => {
-    dispatch(getOrganization(selected));
-  }, [dispatch, selected]);
-
+  const history = useHistory();
   return (
     <Form
-      name="organization_edit"
+      name="organization_create"
       layout="vertical"
-      onFinish={(values) => console.log(values)}
-      initialValues={organization}
+      onFinish={(values) => dispatch(addOrganization(values)).then(history.push('/settings'))}
       style={{
         width: '400px',
       }}
@@ -34,7 +23,7 @@ function Organizations() {
         <Input.TextArea placeholder="Description" />
       </Form.Item>
       <Form.Item>
-        <Button form="organization_edit" type="primary" htmlType="submit" block>
+        <Button form="organization_create" type="primary" htmlType="submit" block>
           Save
         </Button>
       </Form.Item>
@@ -42,4 +31,4 @@ function Organizations() {
   );
 }
 
-export default Organizations;
+export default OrganizationCreate;

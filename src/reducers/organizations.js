@@ -5,6 +5,7 @@ import {
   RESET_ORGANIZATIONS,
   SET_SELECTED_ORGANIZATION,
 } from '../constants/organizations';
+import { act } from 'react-dom/test-utils';
 
 const initialState = {
   ids: [],
@@ -37,6 +38,9 @@ export default function tagsReducer(state = initialState, action = {}) {
     case ADD_ORGANIZATION:
       return {
         ...state,
+        ids: state.ids.includes(action.payload.id)
+          ? state.ids
+          : state.ids.concat([action.payload.id]),
         details: {
           ...state.details,
           [action.payload.id]: action.payload,
