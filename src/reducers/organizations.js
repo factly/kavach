@@ -5,7 +5,6 @@ import {
   RESET_ORGANIZATIONS,
   SET_SELECTED_ORGANIZATION,
 } from '../constants/organizations';
-import { act } from 'react-dom/test-utils';
 
 const initialState = {
   ids: [],

@@ -26,7 +26,7 @@ function BasicLayout(props) {
         <Header />
         <Layout.Content className="layout-content">
           <PageHeader location={location} />
-          {selected > 0 ? (
+          {selected > 0 || location.pathname === '/organization' ? (
             <Card key={selected.toString()} className="wrap-children-content">
               {children}
             </Card>
