@@ -1,28 +1,38 @@
 import React from 'react';
 import { Layout, Card } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../components/GlobalNav/Sidebar';
 import Header from '../components/GlobalNav/Header';
-import './basic.css';
-import { useSelector } from 'react-redux';
+import Sidebar from '../components/GlobalNav/Sidebar';
 import PageHeader from '../components/PageHeader';
+import { getOrganizations } from '../actions/organizations';
+import './basic.css';
 
 function BasicLayout(props) {
   const { location } = props;
-  const { Footer, Content } = Layout;
   const { children } = props;
-  const { navTheme } = useSelector((state) => state.settings);
+  const selected = useSelector((state) => state.organizations.selected);
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getOrganizations());
+  }, [dispatch]);
 
   return (
     <Layout hasSider={true}>
-      <Sidebar navTheme={navTheme} />
+      <Sidebar />
       <Layout>
         <Header />
-        <Content className="layout-content">
+        <Layout.Content className="layout-content">
           <PageHeader location={location} />
-          <Card className="wrap-children-content">{children}</Card>
-        </Content>
-        <Footer>Footer</Footer>
+          {selected > 0 ? (
+            <Card key={selected.toString()} className="wrap-children-content">
+              {children}
+            </Card>
+          ) : null}
+        </Layout.Content>
+        <Layout.Footer>Footer</Layout.Footer>
       </Layout>
     </Layout>
   );

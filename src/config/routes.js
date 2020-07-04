@@ -1,23 +1,41 @@
 import { PieChartOutlined } from '@ant-design/icons';
 
 //Pages
-import Organizations from '../pages/organizations';
+import Settings from '../pages/settings';
+import Users from '../pages/users';
 import Profile from '../pages/profile';
 import Password from '../pages/password';
+import OrganizationCreate from '../pages/organization';
 
 export default [
   {
-    path: '/organizations',
-    Component: Organizations,
+    path: '/settings',
+    Component: Settings,
     enableNavigation: true,
     enableBreadcrumb: true,
     Icon: PieChartOutlined,
-    title: 'Organizations',
+    title: 'Settings',
+  },
+  {
+    path: '/organization',
+    Component: OrganizationCreate,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    Icon: PieChartOutlined,
+    title: 'Organization',
+  },
+  {
+    path: '/users',
+    Component: Users,
+    enableNavigation: true,
+    enableBreadcrumb: true,
+    Icon: PieChartOutlined,
+    title: 'Users',
   },
   {
     path: '/password',
     Component: Password,
-    enableNavigation: true,
+    enableNavigation: false,
     enableBreadcrumb: true,
     Icon: PieChartOutlined,
     title: 'Password',
@@ -25,9 +43,9 @@ export default [
   {
     path: '/profile',
     Component: Profile,
-    enableNavigation: true,
+    enableNavigation: false,
     enableBreadcrumb: true,
     Icon: PieChartOutlined,
     title: 'Profile',
-  }
+  },
 ];
