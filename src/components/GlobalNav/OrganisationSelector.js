@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Select } from '../../pages/organisation/node_modules/antd';
+import { Select } from 'antd';
 import { setSelectedOrganisation } from './../../actions/organisations';
 
 function OrganisationSelector() {

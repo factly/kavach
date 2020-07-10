@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Card } from '../pages/organisation/node_modules/antd';
+import { Layout, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Header from '../components/GlobalNav/Header';

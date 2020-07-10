@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Popconfirm, Table, Form, Input, Select, Space } from '../organisation/node_modules/antd';
+import { Button, Popconfirm, Table, Form, Input, Select, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { DeleteOutlined } from '@ant-design/icons';
 import { getUsers, deleteUser, addUser } from '../../actions/users';

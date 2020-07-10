@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { PageHeader as AntPageHeader } from '../../pages/organisation/node_modules/antd';
+import { PageHeader as AntPageHeader } from 'antd';
 import routes from '../../config/routes';
 import _ from 'lodash';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Space, Divider } from '../organisation/node_modules/antd';
+import { Button, Form, Input, Space, Divider } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getOrganisation,

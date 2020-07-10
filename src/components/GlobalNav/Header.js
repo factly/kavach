@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Divider, Space, Button } from '../../pages/organisation/node_modules/antd';
+import { Layout, Divider, Space, Button } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { toggleSider } from '../../actions/settings';
 import Search from './Search';
