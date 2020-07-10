@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu } from '../../pages/organisation/node_modules/antd';
 import {
   LogoutOutlined,
   UserOutlined,

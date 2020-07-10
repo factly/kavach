@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, notification } from "antd";
+import { Card, Form, Input, Button, notification } from "../organisation/node_modules/antd";
 import { LockOutlined } from '@ant-design/icons';
 
 function Password() {

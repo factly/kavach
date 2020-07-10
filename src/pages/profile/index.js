@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
+import { Card, Form, Input, Button, DatePicker, Radio } from '../organisation/node_modules/antd';
 import moment from 'moment';
 
 function Profile() {

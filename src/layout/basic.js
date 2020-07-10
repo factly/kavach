@@ -1,22 +1,22 @@
 import React from 'react';
-import { Layout, Card } from 'antd';
+import { Layout, Card } from '../pages/organisation/node_modules/antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Header from '../components/GlobalNav/Header';
 import Sidebar from '../components/GlobalNav/Sidebar';
 import PageHeader from '../components/PageHeader';
-import { getOrganizations } from '../actions/organizations';
+import { getOrganisations } from '../actions/organisations';
 import './basic.css';
 
 function BasicLayout(props) {
   const { location } = props;
   const { children } = props;
-  const selected = useSelector((state) => state.organizations.selected);
+  const selected = useSelector((state) => state.organisations.selected);
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getOrganizations());
+    dispatch(getOrganisations());
   }, [dispatch]);
 
   return (
@@ -26,7 +26,7 @@ function BasicLayout(props) {
         <Header />
         <Layout.Content className="layout-content">
           <PageHeader location={location} />
-          {selected > 0 || location.pathname === '/organization' ? (
+          {selected > 0 || location.pathname === '/organisation' ? (
             <Card key={selected.toString()} className="wrap-children-content">
               {children}
             </Card>

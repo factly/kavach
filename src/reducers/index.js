@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import settings from './settings';
-import organizations from './organizations';
+import organisations from './organisations';
 import users from './users';
 
 export default combineReducers({
   settings,
-  organizations,
+  organisations,
   users,
 });

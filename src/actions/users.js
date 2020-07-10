@@ -5,7 +5,7 @@ export const getUsers = () => {
   return (dispatch, getState) => {
     dispatch(loadingUsers());
     return axios
-      .get(USERS_API + '/' + getState().organizations.selected + '/users')
+      .get(USERS_API + '/' + getState().organisations.selected + '/users')
       .then((response) => {
         dispatch(addUsersList(response.data));
         dispatch(stopUsersLoading());
@@ -20,7 +20,7 @@ export const addUser = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingUsers());
     return axios
-      .post(USERS_API + '/' + getState().organizations.selected + '/users', data)
+      .post(USERS_API + '/' + getState().organisations.selected + '/users', data)
       .then(() => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());
@@ -35,7 +35,7 @@ export const deleteUser = (id) => {
   return (dispatch, getState) => {
     dispatch(loadingUsers());
     return axios
-      .delete(USERS_API + '/' + getState().organizations.selected + '/users/' + id)
+      .delete(USERS_API + '/' + getState().organisations.selected + '/users/' + id)
       .then(() => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());

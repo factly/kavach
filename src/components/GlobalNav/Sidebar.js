@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu } from '../../pages/organisation/node_modules/antd';
 import logo from '../../assets/logo.svg';
 import { toggleSider } from '../../actions/settings';
 import routes from '../../config/routes';
