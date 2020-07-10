@@ -28,12 +28,12 @@ func SetupDB() {
 	DB.LogMode(true)
 
 	DB.AutoMigrate(
-		&Organization{},
+		&Organisation{},
 		&User{},
-		&OrganizationUser{},
+		&OrganisationUser{},
 	)
 
 	// Adding foreignKey
-	DB.Model(&OrganizationUser{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
-	DB.Model(&OrganizationUser{}).AddForeignKey("organization_id", "organizations(id)", "RESTRICT", "RESTRICT")
+	DB.Model(&OrganisationUser{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
+	DB.Model(&OrganisationUser{}).AddForeignKey("organisation_id", "organisations(id)", "RESTRICT", "RESTRICT")
 }

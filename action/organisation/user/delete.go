@@ -11,11 +11,11 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// create return all user in organization
+// create return all user in organisation
 func delete(w http.ResponseWriter, r *http.Request) {
 	/* Check if record exist */
-	organizationID := chi.URLParam(r, "organization_id")
-	orgID, err := strconv.Atoi(organizationID)
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
 		return
@@ -28,10 +28,10 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := &model.OrganizationUser{}
+	result := &model.OrganisationUser{}
 
-	err = model.DB.Where(&model.OrganizationUser{
-		OrganizationID: uint(orgID),
+	err = model.DB.Where(&model.OrganisationUser{
+		OrganisationID: uint(orgID),
 		UserID:         uint(uID),
 	}).First(&result).Error
 
@@ -55,7 +55,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	deletePermission := &model.OrganizationUser{}
+	deletePermission := &model.OrganisationUser{}
 	deletePermission.ID = result.ID
 
 	/* DELETE */

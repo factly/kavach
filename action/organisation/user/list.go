@@ -9,21 +9,21 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// list return all user in organization
+// list return all user in organisation
 func list(w http.ResponseWriter, r *http.Request) {
-	organizationID := chi.URLParam(r, "organization_id")
-	orgID, err := strconv.Atoi(organizationID)
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
 		return
 	}
 
 	// check the permission of host
-	host := &model.OrganizationUser{}
+	host := &model.OrganisationUser{}
 	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
-	err = model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
-		OrganizationID: uint(orgID),
+	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+		OrganisationID: uint(orgID),
 		UserID:         uint(hostID),
 	}).First(&host).Error
 
@@ -31,10 +31,10 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	users := make([]model.OrganizationUser, 0)
+	users := make([]model.OrganisationUser, 0)
 
-	model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
-		OrganizationID: uint(orgID),
+	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+		OrganisationID: uint(orgID),
 	}).Preload("User").Find(&users)
 
 	result := make([]userWithPermission, 0)

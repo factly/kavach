@@ -7,7 +7,7 @@ import (
 	"github.com/factly/x/renderx"
 )
 
-// list return all organizations
+// list return all organisations
 func list(w http.ResponseWriter, r *http.Request) {
 	var users []model.User
 

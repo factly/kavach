@@ -4,7 +4,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// Router organization
+// Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
 

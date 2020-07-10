@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/factly/kavach-server/action/organization"
+	"github.com/factly/kavach-server/action/organisation"
 	"github.com/factly/kavach-server/action/profile"
 	"github.com/factly/kavach-server/action/user"
 	"github.com/factly/x/loggerx"
@@ -40,7 +40,7 @@ func RegisterRoutes() http.Handler {
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
 
-	r.Mount("/organizations", organization.Router())
+	r.Mount("/organisations", organisation.Router())
 	r.Mount("/users", user.Router())
 	r.Mount("/profile", profile.Router())
 

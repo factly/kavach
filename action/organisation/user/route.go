@@ -7,10 +7,10 @@ import (
 
 type userWithPermission struct {
 	model.User
-	Permission model.OrganizationUser `json:"permission"`
+	Permission model.OrganisationUser `json:"permission"`
 }
 
-// Router organization
+// Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
 
