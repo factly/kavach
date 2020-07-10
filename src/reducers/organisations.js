@@ -1,10 +1,10 @@
 import {
-  ADD_ORGANIZATION,
-  ADD_ORGANIZATIONS,
-  SET_ORGANIZATIONS_LOADING,
-  RESET_ORGANIZATIONS,
-  SET_SELECTED_ORGANIZATION,
-} from '../constants/organizations';
+  ADD_ORGANISATION,
+  ADD_ORGANISATIONS,
+  SET_ORGANISATIONS_LOADING,
+  RESET_ORGANISATIONS,
+  SET_SELECTED_ORGANISATION,
+} from '../constants/organisations';
 
 const initialState = {
   ids: [],
@@ -15,26 +15,26 @@ const initialState = {
 
 export default function tagsReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case RESET_ORGANIZATIONS:
+    case RESET_ORGANISATIONS:
       return {
         ...state,
         ids: [],
         details: {},
         loading: true,
       };
-    case SET_ORGANIZATIONS_LOADING:
+    case SET_ORGANISATIONS_LOADING:
       return {
         ...state,
         loading: action.payload,
       };
-    case ADD_ORGANIZATIONS:
+    case ADD_ORGANISATIONS:
       return {
         ...state,
         ids: action.payload.map((item) => item.id),
         details: action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
         selected: action.payload[0].id,
       };
-    case ADD_ORGANIZATION:
+    case ADD_ORGANISATION:
       return {
         ...state,
         ids: state.ids.includes(action.payload.id)
@@ -45,7 +45,7 @@ export default function tagsReducer(state = initialState, action = {}) {
           [action.payload.id]: action.payload,
         },
       };
-    case SET_SELECTED_ORGANIZATION:
+    case SET_SELECTED_ORGANISATION:
       return {
         ...state,
         selected: action.payload,

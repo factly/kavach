@@ -5,7 +5,7 @@ import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { toggleSider } from '../../actions/settings';
 import Search from './Search';
 import AccountMenu from './AccountMenu';
-import OrganizationSelector from './OrganizationSelector';
+import OrganisationSelector from './OrganisationSelector';
 import { Link } from 'react-router-dom';
 
 function Header() {
@@ -22,10 +22,10 @@ function Header() {
           onClick={() => dispatch(toggleSider())}
         />
         <Divider type="vertical" />
-        <Link to="/organization">
+        <Link to="/organisation">
           <Button>New</Button>
         </Link>
-        <OrganizationSelector />
+        <OrganisationSelector />
         <Divider type="vertical" />
         <Search />
         <Divider type="vertical" />

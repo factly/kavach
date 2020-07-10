@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addOrganization, getOrganizations } from './../../actions/organizations';
+import { addOrganisation, getOrganisations } from './../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 
-function OrganizationCreate() {
+function OrganisationCreate() {
   const dispatch = useDispatch();
   const history = useHistory();
   return (
     <Form
-      name="organization_create"
+      name="organisation_create"
       layout="vertical"
-      onFinish={(values) => dispatch(addOrganization(values)).then(history.push('/settings'))}
+      onFinish={(values) => dispatch(addOrganisation(values)).then(history.push('/settings'))}
       style={{
         width: '400px',
       }}
@@ -23,7 +23,7 @@ function OrganizationCreate() {
         <Input.TextArea placeholder="Description" />
       </Form.Item>
       <Form.Item>
-        <Button form="organization_create" type="primary" htmlType="submit" block>
+        <Button form="organisation_create" type="primary" htmlType="submit" block>
           Save
         </Button>
       </Form.Item>
@@ -31,4 +31,4 @@ function OrganizationCreate() {
   );
 }
 
-export default OrganizationCreate;
+export default OrganisationCreate;

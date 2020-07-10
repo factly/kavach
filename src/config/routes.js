@@ -5,7 +5,7 @@ import Settings from '../pages/settings';
 import Users from '../pages/users';
 import Profile from '../pages/profile';
 import Password from '../pages/password';
-import OrganizationCreate from '../pages/organization';
+import OrganisationCreate from '../pages/organisation';
 
 export default [
   {
@@ -17,12 +17,12 @@ export default [
     title: 'Settings',
   },
   {
-    path: '/organization',
-    Component: OrganizationCreate,
+    path: '/organisation',
+    Component: OrganisationCreate,
     enableNavigation: false,
     enableBreadcrumb: true,
     Icon: PieChartOutlined,
-    title: 'Organization',
+    title: 'Organisation',
   },
   {
     path: '/users',

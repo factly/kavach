@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, notification } from "antd";
+import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 
 function Password() {
@@ -27,24 +27,23 @@ function Password() {
         obj['request'],
     )
       .then((res) => {
-        if (res.status === 200){
-          return res.json()
+        if (res.status === 200) {
+          return res.json();
         } else {
-          throw new Error(res.status)
+          throw new Error(res.status);
         }
       })
       .then((res) => {
-        setPassword(res.methods.password)
-        if(res.update_successful){
+        setPassword(res.methods.password);
+        if (res.update_successful) {
           notification.success({
             message: 'Success',
-            description:
-              'Password has been successful updated',
+            description: 'Password has been successful updated',
           });
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         window.location.href =
           process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
       });
@@ -70,14 +69,11 @@ function Password() {
     document.body.appendChild(updatePasswordForm);
 
     updatePasswordForm.submit();
-  }
+  };
 
   return (
     <div className="content">
-      <Card
-        title="Update Password"
-        style={{ width: 400 }}
-      >
+      <Card title="Update Password" style={{ width: 400 }}>
         <Form name="update_password" onFinish={changePassword}>
           <Form.Item
             name="password"
