@@ -1,4 +1,4 @@
-package organization
+package organisation
 
 import (
 	"encoding/json"
@@ -12,27 +12,27 @@ import (
 
 func update(w http.ResponseWriter, r *http.Request) {
 
-	req := &model.Organization{}
+	req := &model.Organisation{}
 	json.NewDecoder(r.Body).Decode(&req)
 
-	organizationID := chi.URLParam(r, "organization_id")
-	orgID, err := strconv.Atoi(organizationID)
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
 
-	organization := &model.Organization{}
-	organization.ID = uint(orgID)
+	organisation := &model.Organisation{}
+	organisation.ID = uint(orgID)
 
 	// check record exists or not
-	err = model.DB.First(&organization).Error
+	err = model.DB.First(&organisation).Error
 	if err != nil {
 		return
 	}
 
 	// check the permission of host
 	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
-	permission := &model.OrganizationUser{}
+	permission := &model.OrganisationUser{}
 
-	err = model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
-		OrganizationID: uint(orgID),
+	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+		OrganisationID: uint(orgID),
 		UserID:         uint(hostID),
 		Role:           "owner",
 	}).First(permission).Error
@@ -42,12 +42,12 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// delete
-	model.DB.Model(&organization).Updates(model.Organization{
+	model.DB.Model(&organisation).Updates(model.Organisation{
 		Title: req.Title,
-	}).First(&organization)
+	}).First(&organisation)
 
 	result := &orgWithRole{}
-	result.Organization = *organization
+	result.Organisation = *organisation
 	result.Permission = *permission
 
 	renderx.JSON(w, http.StatusOK, result)

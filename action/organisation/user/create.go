@@ -23,10 +23,10 @@ type role struct {
 	Members []string `json:"members"`
 }
 
-// create return all user in organization
+// create return all user in organisation
 func create(w http.ResponseWriter, r *http.Request) {
-	organizationID := chi.URLParam(r, "organization_id")
-	orgID, err := strconv.Atoi(organizationID)
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
 		return
@@ -69,14 +69,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Add user into organization
-	permission := &model.OrganizationUser{}
+	// Add user into organisation
+	permission := &model.OrganisationUser{}
 
-	permission.OrganizationID = uint(orgID)
+	permission.OrganisationID = uint(orgID)
 	permission.UserID = invitee.ID
 	permission.Role = req.Role
 
-	err = model.DB.Model(&model.OrganizationUser{}).Create(&permission).Error
+	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
 		return

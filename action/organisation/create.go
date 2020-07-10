@@ -1,4 +1,4 @@
-package organization
+package organisation
 
 import (
 	"bytes"
@@ -13,13 +13,13 @@ import (
 	"github.com/factly/x/validationx"
 )
 
-type organization struct {
+type organisation struct {
 	Title string `json:"title" validate:"required"`
 }
 
-// create create organization
+// create create organisation
 func create(w http.ResponseWriter, r *http.Request) {
-	org := &organization{}
+	org := &organisation{}
 
 	json.NewDecoder(r.Body).Decode(&org)
 
@@ -29,11 +29,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	organization := &model.Organization{
+	organisation := &model.Organisation{
 		Title: org.Title,
 	}
 
-	err := model.DB.Model(&model.Organization{}).Create(&organization).Error
+	err := model.DB.Model(&model.Organisation{}).Create(&organisation).Error
 
 	if err != nil {
 		return
@@ -41,24 +41,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
-	permission := model.OrganizationUser{}
-	permission.OrganizationID = organization.ID
+	permission := model.OrganisationUser{}
+	permission.OrganisationID = organisation.ID
 	permission.UserID = uint(userID)
 	permission.Role = "owner"
 
-	err = model.DB.Model(&model.OrganizationUser{}).Create(&permission).Error
+	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
 		return
 	}
 
 	result := orgWithRole{}
-	result.Organization = *organization
+	result.Organisation = *organisation
 	result.Permission = permission
 
 	/* creating role of admins */
 	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(organization.ID) + ":admin"
+	reqRole.ID = "roles:org:" + fmt.Sprint(organisation.ID) + ":admin"
 	reqRole.Members = []string{fmt.Sprint(userID)}
 
 	buf := new(bytes.Buffer)
@@ -78,10 +78,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	/* creating policy for admins */
 	reqPolicy := &model.Policy{}
-	reqPolicy.ID = "org:" + fmt.Sprint(organization.ID) + ":admins"
+	reqPolicy.ID = "org:" + fmt.Sprint(organisation.ID) + ":admins"
 	reqPolicy.Subjects = []string{reqRole.ID}
-	reqPolicy.Resources = []string{"resources:org:" + fmt.Sprint(organization.ID) + ":<.*>"}
-	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organization.ID) + ":<.*>"}
+	reqPolicy.Resources = []string{"resources:org:" + fmt.Sprint(organisation.ID) + ":<.*>"}
+	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organisation.ID) + ":<.*>"}
 	reqPolicy.Effect = "allow"
 
 	buf = new(bytes.Buffer)

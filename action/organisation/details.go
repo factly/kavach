@@ -1,4 +1,4 @@
-package organization
+package organisation
 
 import (
 	"net/http"
@@ -11,25 +11,25 @@ import (
 
 func details(w http.ResponseWriter, r *http.Request) {
 
-	organizationID := chi.URLParam(r, "organization_id")
-	id, err := strconv.Atoi(organizationID)
+	organisationID := chi.URLParam(r, "organisation_id")
+	id, err := strconv.Atoi(organisationID)
 
 	if err != nil {
 		return
 	}
-	var permission model.OrganizationUser
+	var permission model.OrganisationUser
 
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
-	model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
+	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		UserID:         uint(userID),
-		OrganizationID: uint(id),
+		OrganisationID: uint(id),
 	}).First(&permission)
 
-	organization := &model.Organization{}
-	organization.ID = uint(id)
+	organisation := &model.Organisation{}
+	organisation.ID = uint(id)
 
-	err = model.DB.Model(&model.Organization{}).First(&organization).Error
+	err = model.DB.Model(&model.Organisation{}).First(&organisation).Error
 
 	if err != nil {
 		return
@@ -37,7 +37,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	result := orgWithRole{}
 
-	result.Organization = *organization
+	result.Organisation = *organisation
 	result.Permission = permission
 
 	renderx.JSON(w, http.StatusOK, result)

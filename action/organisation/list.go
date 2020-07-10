@@ -1,4 +1,4 @@
-package organization
+package organisation
 
 import (
 	"net/http"
@@ -8,9 +8,9 @@ import (
 	"github.com/factly/x/renderx"
 )
 
-// list return all organizations
+// list return all organisations
 func list(w http.ResponseWriter, r *http.Request) {
-	organizationUser := make([]model.OrganizationUser, 0)
+	organisationUser := make([]model.OrganisationUser, 0)
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 
@@ -19,19 +19,19 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model.DB.Model(&model.OrganizationUser{}).Where(&model.OrganizationUser{
+	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		UserID: uint(userID),
-	}).Preload("Organization").Find(&organizationUser)
+	}).Preload("Organisation").Find(&organisationUser)
 
 	result := make([]orgWithRole, 0)
 
-	for _, each := range organizationUser {
-		if each.Organization != nil {
+	for _, each := range organisationUser {
+		if each.Organisation != nil {
 			eachOrg := orgWithRole{}
-			eachOrg.Organization = *each.Organization
+			eachOrg.Organisation = *each.Organisation
 			eachOrg.Permission = each
 
-			eachOrg.Permission.Organization = nil
+			eachOrg.Permission.Organisation = nil
 
 			result = append(result, eachOrg)
 		}

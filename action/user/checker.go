@@ -22,7 +22,7 @@ type matchContext struct {
 	URL                 *url.URL `json:"url"`
 }
 
-// create create organization
+// create create organisation
 func checker(w http.ResponseWriter, r *http.Request) {
 	payload := &authenticationSession{}
 
