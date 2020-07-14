@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
@@ -13,12 +14,18 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
 
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	organisation := &model.Organisation{}
 	organisation.ID = uint(orgID)
 
 	// check record exists or not
 	err = model.DB.First(&organisation).Error
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
@@ -33,6 +40,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).First(host).Error
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 

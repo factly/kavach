@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
 )
@@ -25,7 +26,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(org)
 	if validationError != nil {
-		renderx.JSON(w, http.StatusBadRequest, validationError)
+		errorx.Render(w, validationError)
 		return
 	}
 
@@ -36,6 +37,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err := model.DB.Model(&model.Organisation{}).Create(&organisation).Error
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
@@ -49,6 +51,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
@@ -66,6 +69,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles", buf)
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
 
@@ -73,6 +77,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	_, err = client.Do(req)
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
 
@@ -89,6 +94,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	req, err = http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/policies", buf)
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
 
@@ -96,6 +102,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	_, err = client.Do(req)
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
 

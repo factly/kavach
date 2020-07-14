@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
 )
 
@@ -19,6 +20,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 	err := model.DB.Model(&model.User{}).First(&me).Error
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 

@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
@@ -18,6 +19,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
 
@@ -36,6 +38,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).First(&result).Error
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
@@ -44,6 +47,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		req, err := http.NewRequest("DELETE", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID), nil)
 
 		if err != nil {
+			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}
 
@@ -51,6 +55,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		_, err = client.Do(req)
 
 		if err != nil {
+			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}
 	}
