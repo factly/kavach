@@ -17,13 +17,13 @@ function OrganisationUsers() {
     };
   });
 
+  const fetchUsers = React.useCallback(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
   React.useEffect(() => {
     fetchUsers();
-  }, []);
-
-  const fetchUsers = () => {
-    dispatch(getUsers());
-  };
+  }, [fetchUsers]);
 
   const columns = [
     {

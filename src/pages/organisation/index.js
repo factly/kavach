@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 import { useDispatch } from 'react-redux';
-import { addOrganisation, getOrganisations } from './../../actions/organisations';
+import { addOrganisation } from './../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 
 function OrganisationCreate() {
