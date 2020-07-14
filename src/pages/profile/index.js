@@ -25,6 +25,9 @@ function Profile() {
   }, []);
 
   const updateProfile = (values) => {
+    values.birth_date = values.birth_date
+      ? moment(values.birth_date).format('YYYY-MM-DDTHH:mm:ssZ')
+      : null;
     fetch(process.env.REACT_APP_API_URL + '/profile', {
       method: 'PUT',
       body: JSON.stringify(values),
@@ -50,7 +53,10 @@ function Profile() {
         <Form
           name="update_profile"
           onFinish={updateProfile}
-          initialValues={{ ...profile, birth_date: moment(profile.birth_date) }}
+          initialValues={{
+            ...profile,
+            birth_date: profile.birth_date ? moment(profile.birth_date) : null,
+          }}
         >
           <Form.Item
             name="first_name"

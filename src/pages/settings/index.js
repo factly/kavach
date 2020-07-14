@@ -53,7 +53,7 @@ function OrganisationEdit() {
           dispatch(deleteOrganisation(organisation.id)).then(window.location.reload(false))
         }
       >
-        Default
+        Delete
       </Button>
     </Space>
   );
