@@ -28,7 +28,7 @@ func SetupDB() {
 		log.Fatal(err)
 	}
 
-	DB.LogMode(true)
+	//DB.LogMode(true)
 
 	DB.AutoMigrate(
 		&Organisation{},

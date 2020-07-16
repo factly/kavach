@@ -12,12 +12,17 @@ import (
 // detail of user
 func detail(w http.ResponseWriter, r *http.Request) {
 
-	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
 
 	me := &model.User{}
 	me.ID = uint(userID)
 
-	err := model.DB.Model(&model.User{}).First(&me).Error
+	err = model.DB.Model(&model.User{}).First(&me).Error
 
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))

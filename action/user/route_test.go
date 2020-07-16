@@ -5,8 +5,8 @@ import (
 )
 
 func TestRouter(t *testing.T) {
-	a := Router()
-	got := a.Routes()[0].Pattern
+	userRouter := Router()
+	got := userRouter.Routes()[0].Pattern
 	expected := "/checker"
 
 	if got != "/checker" {
