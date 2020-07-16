@@ -18,6 +18,9 @@ func SetupDB() {
 	fmt.Println("connecting to database ...")
 
 	DSN := os.Getenv("DSN")
+	if DSN == "" {
+		DSN = "postgres://postgres:postgres@localhost:5432/kavach?sslmode=disable"
+	}
 	var err error
 	DB, err = gorm.Open("postgres", DSN)
 
