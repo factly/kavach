@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/test"
 	"github.com/go-chi/chi"
 )
 
@@ -68,16 +69,17 @@ func TestUser(t *testing.T) {
 	model.SetupDB()
 	r := chi.NewRouter()
 	r.Post("/users/checker", checker)
-	req, err := http.NewRequest("POST", "/users/checker", bytes.NewBuffer(jsonStr))
-	if err != nil {
-		t.Fatal(err)
-	}
-	rr := httptest.NewRecorder()
 
-	r.ServeHTTP(rr, req)
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
+	ts := httptest.NewServer(r)
+	defer ts.Close()
+
+	t.Run("create user", func(t *testing.T) {
+		_, _, statusCode := test.Request(t, ts, "POST", "/users/checker", bytes.NewBuffer(jsonStr), "1")
+
+		if statusCode != http.StatusOK {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
+		}
+
+	})
 
 }

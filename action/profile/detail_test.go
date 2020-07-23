@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/test"
 	"github.com/go-chi/chi"
 )
 
@@ -15,61 +16,36 @@ func TestProfieDetail(t *testing.T) {
 	r := chi.NewRouter()
 	r.Get("/profile", detail)
 
+	ts := httptest.NewServer(r)
+	defer ts.Close()
+
+	t.Run("Invalid header", func(t *testing.T) {
+		_, _, statusCode := test.Request(t, ts, "GET", "/profile", nil, "abc")
+
+		if statusCode != http.StatusNotFound {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
+		}
+	})
+
+	t.Run("profile not found", func(t *testing.T) {
+		_, _, statusCode := test.Request(t, ts, "GET", "/profile", nil, "100")
+
+		if statusCode != http.StatusNotFound {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
+		}
+	})
+
 	t.Run("get profile by id", func(t *testing.T) {
-		req, err := http.NewRequest("GET", "/profile", nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		rr := httptest.NewRecorder()
+		_, res, statusCode := test.Request(t, ts, "GET", "/profile", nil, "5")
 
-		req.Header = map[string][]string{
-			"X-User": {"1"},
+		if statusCode != http.StatusOK {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
 		}
 
-		r.ServeHTTP(rr, req)
-
-		if status := rr.Code; status != http.StatusOK {
-			t.Errorf("handler returned wrong status code: got %v want %v",
-				status, http.StatusOK)
-		}
-	})
-
-	t.Run("record not found", func(t *testing.T) {
-		req, err := http.NewRequest("GET", "/profile", nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		rr := httptest.NewRecorder()
-
-		req.Header = map[string][]string{
-			"X-User": {"8"},
+		if res["email"] != "abc@factly.in" {
+			t.Errorf("handler returned wrong title: got %v want %v", res["email"], "abc@factly.in")
 		}
 
-		r.ServeHTTP(rr, req)
-
-		if status := rr.Code; status != http.StatusNotFound {
-			t.Errorf("handler returned wrong status code: got %v want %v",
-				status, http.StatusNotFound)
-		}
-	})
-
-	t.Run("Invalid id", func(t *testing.T) {
-		req, err := http.NewRequest("GET", "/profile", nil)
-		if err != nil {
-			t.Fatal(err)
-		}
-		rr := httptest.NewRecorder()
-
-		req.Header = map[string][]string{
-			"X-User": {"abc"},
-		}
-
-		r.ServeHTTP(rr, req)
-
-		if status := rr.Code; status != http.StatusNotFound {
-			t.Errorf("handler returned wrong status code: got %v want %v",
-				status, http.StatusNotFound)
-		}
 	})
 
 }
