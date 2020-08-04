@@ -8,6 +8,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/factly/kavach-server/util"
+
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
@@ -64,22 +66,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	reqRole.ID = "roles:org:" + fmt.Sprint(organisation.ID) + ":admin"
 	reqRole.Members = []string{fmt.Sprint(userID)}
 
-	buf := new(bytes.Buffer)
-	json.NewEncoder(buf).Encode(&reqRole)
-	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles", buf)
-
-	if err != nil {
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
-	}
-
-	client := &http.Client{}
-	_, err = client.Do(req)
-
-	if err != nil {
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
-	}
+	util.UpdateKetoRole(w, "/engines/acp/ory/regex/roles", reqRole)
 
 	/* creating policy for admins */
 	reqPolicy := &model.Policy{}
@@ -89,16 +76,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organisation.ID) + ":<.*>"}
 	reqPolicy.Effect = "allow"
 
-	buf = new(bytes.Buffer)
+	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(&reqPolicy)
-	req, err = http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/policies", buf)
+	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/policies", buf)
 
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
 
-	client = &http.Client{}
+	client := &http.Client{}
 	_, err = client.Do(req)
 
 	if err != nil {

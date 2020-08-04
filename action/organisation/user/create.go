@@ -1,12 +1,12 @@
 package user
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"strconv"
+
+	"github.com/factly/kavach-server/util"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -55,22 +55,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		reqRole := &model.Role{}
 		reqRole.Members = []string{fmt.Sprint(invitee.ID)}
 
-		buf := new(bytes.Buffer)
-		json.NewEncoder(buf).Encode(&reqRole)
-		req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", buf)
-
-		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
-
-		client := &http.Client{}
-		_, err = client.Do(req)
-
-		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
+		util.UpdateKetoRole(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
 	}
 
 	// Add user into organisation
