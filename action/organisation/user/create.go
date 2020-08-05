@@ -1,12 +1,12 @@
 package user
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"strconv"
+
+	"github.com/factly/kavach-server/util"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -34,6 +34,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var currentUID int
+	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	// Check if logged in user is owner
+	err = util.CheckOwner(uint(currentUID), uint(orgID))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
+
 	// FindOrCreate invitee
 	req := invite{}
 	json.NewDecoder(r.Body).Decode(&req)
@@ -50,32 +66,28 @@ func create(w http.ResponseWriter, r *http.Request) {
 		Email: req.Email,
 	})
 
+	// Check if invitee already exist in organisation
+	var totPermissions int
+	permission := &model.OrganisationUser{}
+	permission.OrganisationID = uint(orgID)
+	permission.UserID = invitee.ID
+
+	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
+
+	if totPermissions != 0 {
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
+
 	if req.Role == "owner" {
 		/* creating policy for admins */
 		reqRole := &model.Role{}
 		reqRole.Members = []string{fmt.Sprint(invitee.ID)}
 
-		buf := new(bytes.Buffer)
-		json.NewEncoder(buf).Encode(&reqRole)
-		req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", buf)
-
-		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
-
-		client := &http.Client{}
-		_, err = client.Do(req)
-
-		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
+		util.UpdateKetoRole(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
 	}
 
 	// Add user into organisation
-	permission := &model.OrganisationUser{}
-
 	permission.OrganisationID = uint(orgID)
 	permission.UserID = invitee.ID
 	permission.Role = req.Role
