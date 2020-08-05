@@ -61,14 +61,14 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Count no of owners and if result.Role == "owner" && cnt == 1 then cannot delete
-	var totOwners int
+	// Check if the user to delete is not last owner of organisation
+	var totalOwners int
 	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		Role:           "owner",
 		OrganisationID: uint(orgID),
-	}).Count(&totOwners)
+	}).Count(&totalOwners)
 
-	if result.Role == "owner" && totOwners < 2 {
+	if result.Role == "owner" && totalOwners < 2 {
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
