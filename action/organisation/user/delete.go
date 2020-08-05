@@ -61,6 +61,18 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Count no of owners and if result.Role == "owner" && cnt == 1 then cannot delete
+	var totOwners int
+	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+		Role:           "owner",
+		OrganisationID: uint(orgID),
+	}).Count(&totOwners)
+
+	if result.Role == "owner" && totOwners < 2 {
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
+
 	/* delete policy for admins */
 	if result.Role == "owner" {
 		req, err := http.NewRequest("DELETE", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID), nil)
