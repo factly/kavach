@@ -1,4 +1,4 @@
-package util
+package keto
 
 import (
 	"bytes"
@@ -11,8 +11,8 @@ import (
 	"github.com/factly/x/errorx"
 )
 
-//UpdateKetoRole: PUT Request to the keto server for policy
-func UpdateKetoRole(w http.ResponseWriter, uri string, body *model.Role) {
+// UpdateRole PUT Request to the keto server for policy
+func UpdateRole(w http.ResponseWriter, uri string, body *model.Role) {
 	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(&body)
 	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+uri, buf)
