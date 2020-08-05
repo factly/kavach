@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/factly/kavach-server/util"
+
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
@@ -30,19 +32,26 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check the permission of host
-	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
-	host := &model.OrganisationUser{}
-
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(hostID),
-		Role:           "owner",
-	}).First(host).Error
+	hostID, err := strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+
+	err = util.CheckOwner(uint(hostID), uint(orgID))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
+
+	// Delete all organisation_users associations
+	orgUsers := model.OrganisationUser{
+		OrganisationID: uint(orgID),
+	}
+
+	model.DB.Where(&orgUsers).Delete(&orgUsers)
 
 	// delete
 	model.DB.Delete(&organisation)
