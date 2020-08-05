@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/util"
+	"github.com/factly/kavach-server/util/keto"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -84,7 +85,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		reqRole := &model.Role{}
 		reqRole.Members = []string{fmt.Sprint(invitee.ID)}
 
-		util.UpdateKetoRole(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
+		keto.UpdateRole(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
 	}
 
 	// Add user into organisation

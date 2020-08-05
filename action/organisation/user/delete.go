@@ -3,8 +3,9 @@ package user
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"strconv"
+
+	"github.com/factly/kavach-server/util/keto"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
@@ -75,20 +76,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	/* delete policy for admins */
 	if result.Role == "owner" {
-		req, err := http.NewRequest("DELETE", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID), nil)
-
-		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
-
-		client := &http.Client{}
-		_, err = client.Do(req)
-
-		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
+		keto.DeletePolicy(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID))
 	}
 
 	deletePermission := &model.OrganisationUser{}
