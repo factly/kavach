@@ -34,6 +34,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var currentUID int
+	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	// Check if logged in user is owner
+	err = util.CheckOwner(uint(currentUID), uint(orgID))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
+
 	// FindOrCreate invitee
 	req := invite{}
 	json.NewDecoder(r.Body).Decode(&req)
@@ -50,6 +66,19 @@ func create(w http.ResponseWriter, r *http.Request) {
 		Email: req.Email,
 	})
 
+	// Check if invitee already exist in organisation
+	var totPermissions int
+	permission := &model.OrganisationUser{}
+	permission.OrganisationID = uint(orgID)
+	permission.UserID = invitee.ID
+
+	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
+
+	if totPermissions != 0 {
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
+
 	if req.Role == "owner" {
 		/* creating policy for admins */
 		reqRole := &model.Role{}
@@ -59,8 +88,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Add user into organisation
-	permission := &model.OrganisationUser{}
-
 	permission.OrganisationID = uint(orgID)
 	permission.UserID = invitee.ID
 	permission.Role = req.Role
