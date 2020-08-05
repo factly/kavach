@@ -17,6 +17,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -27,6 +28,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// check record exists or not
 	err = model.DB.First(&organisation).Error
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
@@ -35,6 +37,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	hostID, err := strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
@@ -42,6 +45,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	err = util.CheckOwner(uint(hostID), uint(orgID))
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
