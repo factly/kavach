@@ -80,16 +80,27 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	/* delete policy for admins */
-	if result.Role == "owner" {
-		keto.DeletePolicy(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID))
-	}
+	tx := model.DB.Begin()
 
 	deletePermission := &model.OrganisationUser{}
 	deletePermission.ID = result.ID
 
 	/* DELETE */
-	model.DB.Delete(&deletePermission)
+	tx.Delete(&deletePermission)
+
+	/* delete policy for admins */
+	if result.Role == "owner" {
+		err = keto.DeletePolicy("/engines/acp/ory/regex/roles/roles:org:" + fmt.Sprint(orgID) + ":admin/members/" + fmt.Sprint(result.UserID))
+
+		if err != nil {
+			tx.Rollback()
+			util.Log.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+			return
+		}
+	}
+
+	tx.Commit()
 
 	renderx.JSON(w, http.StatusOK, nil)
 }

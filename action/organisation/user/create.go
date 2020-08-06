@@ -65,9 +65,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tx := model.DB.Begin()
+
 	invitee := model.User{}
 
-	model.DB.FirstOrCreate(&invitee, &model.User{
+	tx.FirstOrCreate(&invitee, &model.User{
 		Email: req.Email,
 	})
 
@@ -90,7 +92,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		reqRole := &model.Role{}
 		reqRole.Members = []string{fmt.Sprint(invitee.ID)}
 
-		keto.UpdateRole(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
+		err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
+
+		if err != nil {
+			tx.Rollback()
+			util.Log.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+			return
+		}
 	}
 
 	// Add user into organisation
@@ -98,13 +107,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 	permission.UserID = invitee.ID
 	permission.Role = req.Role
 
-	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
+	err = tx.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
+		tx.Rollback()
 		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+
+	tx.Commit()
 
 	result := &userWithPermission{}
 
