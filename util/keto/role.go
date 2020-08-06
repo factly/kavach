@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 
 	"github.com/factly/x/errorx"
 )
@@ -18,6 +19,7 @@ func UpdateRole(w http.ResponseWriter, uri string, body *model.Role) {
 	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+uri, buf)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -26,6 +28,7 @@ func UpdateRole(w http.ResponseWriter, uri string, body *model.Role) {
 	_, err = client.Do(req)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}

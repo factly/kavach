@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/factly/kavach-server/util"
+
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
@@ -25,6 +27,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(org)
 	if validationError != nil {
+		util.Log.Error(validationError)
 		errorx.Render(w, validationError)
 		return
 	}
@@ -36,6 +39,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err := model.DB.Model(&model.Organisation{}).Create(&organisation).Error
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -50,6 +54,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}

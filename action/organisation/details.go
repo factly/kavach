@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
@@ -16,6 +17,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(organisationID)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -34,6 +36,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.Organisation{}).First(&organisation).Error
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}

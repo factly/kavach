@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 )
 
@@ -17,6 +18,7 @@ func UpdatePolicy(w http.ResponseWriter, uri string, body *model.Policy) {
 	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+uri, buf)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -25,6 +27,7 @@ func UpdatePolicy(w http.ResponseWriter, uri string, body *model.Policy) {
 	_, err = client.Do(req)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -35,6 +38,7 @@ func DeletePolicy(w http.ResponseWriter, uri string) {
 	req, err := http.NewRequest("DELETE", os.Getenv("KETO_API")+uri, nil)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -43,6 +47,7 @@ func DeletePolicy(w http.ResponseWriter, uri string) {
 	_, err = client.Do(req)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}

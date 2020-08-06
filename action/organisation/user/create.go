@@ -31,6 +31,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -39,6 +40,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
@@ -47,6 +49,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -56,7 +59,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&req)
 
 	validationError := validationx.Check(req)
-	if err != nil {
+	if validationError != nil {
+		util.Log.Error(validationError)
 		errorx.Render(w, validationError)
 		return
 	}
@@ -76,6 +80,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
 
 	if totPermissions != 0 {
+		util.Log.Error("User already exist in organisation")
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -96,6 +101,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
