@@ -1,13 +1,17 @@
 package util
 
-import "github.com/sirupsen/logrus"
+import (
+	"os"
+
+	"github.com/sirupsen/logrus"
+)
 
 var Log *logrus.Logger
 
-func InitLogging() {
-	var log = new(logrus.Logger)
-	log.Formatter = new(logrus.JSONFormatter)
+func InitLogging(file *os.File) {
+	var log = logrus.New()
+	log.SetFormatter(&logrus.JSONFormatter{})
 	log.Level = logrus.TraceLevel
-
+	log.SetOutput(file)
 	Log = log
 }
