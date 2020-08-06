@@ -1,10 +1,12 @@
 package organisation
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/go-chi/chi"
 )
@@ -16,8 +18,16 @@ func TestOrganisationDetail(t *testing.T) {
 	ts := httptest.NewServer(r)
 	defer ts.Close()
 
+	t.Run("invalid organisation id", func(t *testing.T) {
+		_, statusCode := test.Request(t, ts, "GET", "/organisations/test", nil, "1")
+
+		if statusCode != http.StatusNotFound {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
+		}
+	})
+
 	t.Run("record not found", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "GET", "/organisations/100", nil, "1")
+		_, statusCode := test.Request(t, ts, "GET", "/organisations/100", nil, "1")
 
 		if statusCode != http.StatusNotFound {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
@@ -25,14 +35,20 @@ func TestOrganisationDetail(t *testing.T) {
 	})
 
 	t.Run("get organisation by id", func(t *testing.T) {
-		_, res, statusCode := test.Request(t, ts, "GET", "/organisations/11", nil, "1")
+		org := &model.Organisation{
+			Title: "TOI",
+		}
+
+		model.DB.Model(&model.Organisation{}).Create(&org)
+		resp, statusCode := test.Request(t, ts, "GET", fmt.Sprint("/organisations/", org.Base.ID), nil, "1")
+		respBody := (resp).(map[string]interface{})
 
 		if statusCode != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
 		}
 
-		if res["title"] != "Times of India" {
-			t.Errorf("handler returned wrong title: got %v want %v", res["title"], "Times of India")
+		if respBody["title"] != "TOI" {
+			t.Errorf("handler returned wrong title: got %v want %v", respBody["title"], "TOI")
 		}
 
 	})

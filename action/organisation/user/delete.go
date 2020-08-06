@@ -27,6 +27,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	uID, err := strconv.Atoi(userID)
 
 	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
 

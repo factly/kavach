@@ -2,24 +2,31 @@ package organisation
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/go-chi/chi"
 )
 
 func TestCreateOrganisation(t *testing.T) {
-	test.Init()
 	r := chi.NewRouter()
 	r.Post("/organisations", create)
 
 	ts := httptest.NewServer(r)
 	defer ts.Close()
 
+	user := model.User{
+		Email: "joe@bbc.in",
+	}
+
+	model.DB.Create(&user)
+
 	t.Run("organisation title required", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "POST", "/organisations", nil, "1")
+		_, statusCode := test.Request(t, ts, "POST", "/organisations", nil, "1")
 
 		if statusCode != http.StatusUnprocessableEntity {
 			t.Errorf("handler returned wrong status code: got %v want %v",
@@ -28,19 +35,21 @@ func TestCreateOrganisation(t *testing.T) {
 	})
 
 	t.Run("create organisation", func(t *testing.T) {
-		_, res, statusCode := test.Request(t, ts, "POST", "/organisations", bytes.NewBuffer([]byte(`
+		resp, statusCode := test.Request(t, ts, "POST", "/organisations", bytes.NewBuffer([]byte(`
 		{
-			"title": "ABN"
+			"title": "BBC"
 		}
-		`)), "1")
+		`)), fmt.Sprint(user.Base.ID))
+
+		respBody := (resp).(map[string]interface{})
 
 		if statusCode != http.StatusCreated {
 			t.Errorf("handler returned wrong status code: got %v want %v",
 				statusCode, http.StatusCreated)
 		}
 
-		if res["title"] != "ABN" {
-			t.Errorf("handler returned wrong title: got %v want %v", res["title"], "ABN")
+		if respBody["title"] != "BBC" {
+			t.Errorf("handler returned wrong title: got %v want %v", respBody["title"], "BBC")
 		}
 
 	})
