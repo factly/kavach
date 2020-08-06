@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/factly/kavach-server/util"
+
 	"github.com/factly/kavach-server/action/organisation"
 	"github.com/factly/kavach-server/action/profile"
 	"github.com/factly/kavach-server/action/user"
@@ -18,6 +20,8 @@ func RegisterRoutes() http.Handler {
 
 	// open log file
 	file, err := os.OpenFile("logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+
+	util.InitLogging(file)
 
 	r := chi.NewRouter()
 
