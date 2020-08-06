@@ -29,26 +29,52 @@ func TestCreateOrganisationUser(t *testing.T) {
 		Email: "Joey@test.in",
 	}
 
+	testUser := model.User{
+		Email: "Biden@test.in",
+	}
+
 	organisation := model.Organisation{
 		Title: "Tester",
 	}
 
 	model.DB.Create(&user)
+	model.DB.Create(&testUser)
 	model.DB.Create(&organisation)
-
-	t.Log(user)
-	t.Log(organisation)
 
 	orgUser := model.OrganisationUser{
 		OrganisationID: organisation.Base.ID,
 		UserID:         user.Base.ID,
 		Role:           "owner",
 	}
+	orgTestUser := model.OrganisationUser{
+		OrganisationID: organisation.Base.ID,
+		UserID:         user.Base.ID,
+		Role:           "editor",
+	}
 
 	model.DB.Create(&orgUser)
+	model.DB.Create(&orgTestUser)
+
+	t.Run("invalid user id", func(t *testing.T) {
+		_, statusCode := test.Request(t, ts, "POST", "/organisations/100/users", bytes.NewBuffer([]byte{}), "invalid_id")
+
+		if statusCode != http.StatusInternalServerError {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)
+		}
+
+	})
+
+	t.Run("user is not an owner", func(t *testing.T) {
+		_, statusCode := test.Request(t, ts, "POST", fmt.Sprint("/organisations/", organisation.Base.ID, "/users"), bytes.NewBuffer([]byte{}), fmt.Sprint(testUser.Base.ID))
+
+		if statusCode != http.StatusInternalServerError {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)
+		}
+
+	})
 
 	t.Run("organisation user validation", func(t *testing.T) {
-		_, statusCode := test.Request(t, ts, "POST", "/organisations/10/users", bytes.NewBuffer([]byte{}), "1")
+		_, statusCode := test.Request(t, ts, "POST", fmt.Sprint("/organisations/", organisation.Base.ID, "/users"), bytes.NewBuffer([]byte{}), fmt.Sprint(user.Base.ID))
 
 		if statusCode != http.StatusUnprocessableEntity {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusUnprocessableEntity)

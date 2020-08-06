@@ -81,7 +81,7 @@ func TestOrganisationUserList(t *testing.T) {
 		if statusCode != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
 		}
-		t.Log(resp)
+
 		respBody := (resp).([]interface{})
 
 		if len(respBody) != len(organisationUsers) {

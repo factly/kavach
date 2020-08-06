@@ -1,12 +1,13 @@
 package user
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	"strconv"
+
+	"github.com/factly/kavach-server/util"
+	"github.com/factly/kavach-server/util/keto"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -30,7 +31,26 @@ func create(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	var currentUID int
+	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		util.Log.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	// Check if logged in user is owner
+	err = util.CheckOwner(uint(currentUID), uint(orgID))
+
+	if err != nil {
+		util.Log.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
 
@@ -40,52 +60,63 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(req)
 	if validationError != nil {
+		util.Log.Error(validationError)
 		errorx.Render(w, validationError)
 		return
 	}
 
+	tx := model.DB.Begin()
+
 	invitee := model.User{}
 
-	model.DB.FirstOrCreate(&invitee, &model.User{
+	tx.FirstOrCreate(&invitee, &model.User{
 		Email: req.Email,
 	})
+
+	// Check if invitee already exist in organisation
+	var totPermissions int
+	permission := &model.OrganisationUser{}
+	permission.OrganisationID = uint(orgID)
+	permission.UserID = invitee.ID
+
+	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
+
+	if totPermissions != 0 {
+		util.Log.Error("User already exist in organisation")
+		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
+	}
 
 	if req.Role == "owner" {
 		/* creating policy for admins */
 		reqRole := &model.Role{}
 		reqRole.Members = []string{fmt.Sprint(invitee.ID)}
 
-		buf := new(bytes.Buffer)
-		json.NewEncoder(buf).Encode(&reqRole)
-		req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+"/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", buf)
+		err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
 
 		if err != nil {
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
-
-		client := &http.Client{}
-		_, err = client.Do(req)
-
-		if err != nil {
+			tx.Rollback()
+			util.Log.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}
 	}
 
 	// Add user into organisation
-	permission := &model.OrganisationUser{}
-
 	permission.OrganisationID = uint(orgID)
 	permission.UserID = invitee.ID
 	permission.Role = req.Role
 
-	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
+	err = tx.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
+		tx.Rollback()
+		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+
+	tx.Commit()
 
 	result := &userWithPermission{}
 
