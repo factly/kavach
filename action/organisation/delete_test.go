@@ -22,20 +22,30 @@ func TestDeleteOrganisation(t *testing.T) {
 		Email: "joe@cnn.in",
 	}
 
+	testUser := model.User{
+		Email: "editor@bbc.in",
+	}
+
 	org := &model.Organisation{
 		Title: "CNN",
 	}
 
 	model.DB.Create(&user)
+	model.DB.Create(&testUser)
 	model.DB.Model(&model.Organisation{}).Create(&org)
 	model.DB.Create(&model.OrganisationUser{
 		OrganisationID: org.ID,
 		Role:           "owner",
 		UserID:         user.Base.ID,
 	})
+	model.DB.Create(&model.OrganisationUser{
+		OrganisationID: org.ID,
+		Role:           "editor",
+		UserID:         testUser.Base.ID,
+	})
 
 	t.Run("invalid organisation id", func(t *testing.T) {
-		_, statusCode := test.Request(t, ts, "DELETE", "/organisations/test", nil, "1")
+		_, statusCode := test.Request(t, ts, "DELETE", "/organisations/invalid_id", nil, "1")
 
 		if statusCode != http.StatusNotFound {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
@@ -50,8 +60,17 @@ func TestDeleteOrganisation(t *testing.T) {
 		}
 	})
 
-	t.Run("invalid x-user ", func(t *testing.T) {
-		_, statusCode := test.Request(t, ts, "DELETE", fmt.Sprint("/organisations/", org.Base.ID), nil, "3")
+	t.Run("invalid user ", func(t *testing.T) {
+		_, statusCode := test.Request(t, ts, "DELETE", fmt.Sprint("/organisations/", org.Base.ID), nil, "invalid_id")
+
+		if statusCode != http.StatusInternalServerError {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)
+		}
+	})
+
+	t.Run("user without role owner", func(t *testing.T) {
+
+		_, statusCode := test.Request(t, ts, "DELETE", fmt.Sprint("/organisations/", org.Base.ID), nil, fmt.Sprint(testUser.Base.ID))
 
 		if statusCode != http.StatusInternalServerError {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)

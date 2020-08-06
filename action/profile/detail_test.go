@@ -1,6 +1,7 @@
 package profile
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -11,7 +12,6 @@ import (
 )
 
 func TestProfieDetail(t *testing.T) {
-	model.SetupDB()
 
 	r := chi.NewRouter()
 	r.Get("/profile", detail)
@@ -19,8 +19,14 @@ func TestProfieDetail(t *testing.T) {
 	ts := httptest.NewServer(r)
 	defer ts.Close()
 
+	user := &model.User{
+		Email: "abc@factly.in",
+	}
+
+	model.DB.Create(&user)
+
 	t.Run("Invalid header", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "GET", "/profile", nil, "abc")
+		_, statusCode := test.Request(t, ts, "GET", "/profile", nil, "invalid")
 
 		if statusCode != http.StatusNotFound {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
@@ -28,7 +34,7 @@ func TestProfieDetail(t *testing.T) {
 	})
 
 	t.Run("profile not found", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "GET", "/profile", nil, "100")
+		_, statusCode := test.Request(t, ts, "GET", "/profile", nil, "100")
 
 		if statusCode != http.StatusNotFound {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
@@ -36,14 +42,16 @@ func TestProfieDetail(t *testing.T) {
 	})
 
 	t.Run("get profile by id", func(t *testing.T) {
-		_, res, statusCode := test.Request(t, ts, "GET", "/profile", nil, "5")
+		resp, statusCode := test.Request(t, ts, "GET", "/profile", nil, fmt.Sprint(user.Base.ID))
+
+		respBody := (resp).(map[string]interface{})
 
 		if statusCode != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
 		}
 
-		if res["email"] != "abc@factly.in" {
-			t.Errorf("handler returned wrong title: got %v want %v", res["email"], "abc@factly.in")
+		if respBody["email"] != "abc@factly.in" {
+			t.Errorf("handler returned wrong title: got %v want %v", respBody["email"], "abc@factly.in")
 		}
 
 	})

@@ -5,11 +5,11 @@ import (
 	"testing"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/joho/godotenv"
 )
 
 func TestMain(m *testing.M) {
+	os.Setenv("DSN", "postgres://postgres:postgres@localhost:5432/kavach-test?sslmode=disable")
 	model.SetupDB()
-	godotenv.Load()
-	os.Exit(m.Run())
+	exitVal := m.Run()
+	os.Exit(exitVal)
 }

@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/go-chi/chi"
 )
@@ -30,7 +29,7 @@ var jsonStr = []byte(`
             ],
             "id": "cc2ab548-a743-4c25-a83a-34d19723df2d",
             "traits": {
-                "email": "monark@factly.in"
+                "email": "test@factly.in"
             },
             "traits_schema_id": "default",
             "traits_schema_url": "http://127.0.0.1:4455/.ory/kratos/public/schemas/default"
@@ -66,7 +65,6 @@ var jsonStr = []byte(`
 `)
 
 func TestUser(t *testing.T) {
-	model.SetupDB()
 	r := chi.NewRouter()
 	r.Post("/users/checker", checker)
 
@@ -74,10 +72,21 @@ func TestUser(t *testing.T) {
 	defer ts.Close()
 
 	t.Run("create user", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "POST", "/users/checker", bytes.NewBuffer(jsonStr), "1")
+		resp, statusCode := test.Request(t, ts, "POST", "/users/checker", bytes.NewBuffer(jsonStr), "1")
+
+		respBody := (resp).(map[string]interface{})
+
+		extra := respBody["extra"].(map[string]interface{})
+		identity := extra["identity"].(map[string]interface{})
+		traits := identity["traits"].(map[string]interface{})
+		email := traits["email"].(string)
 
 		if statusCode != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
+		}
+
+		if email != "test@factly.in" {
+			t.Errorf("handler returned wrong title: got %v want %v", email, "test@factly.in")
 		}
 
 	})

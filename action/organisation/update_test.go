@@ -23,11 +23,16 @@ func TestOrganisationUpdate(t *testing.T) {
 		Email: "tester@check.in",
 	}
 
+	testUser := model.User{
+		Email: "editor@check.in",
+	}
+
 	organisation := model.Organisation{
 		Title: "The Hindu",
 	}
 
 	model.DB.Create(&user)
+	model.DB.Create(&testUser)
 	model.DB.Create(&organisation)
 
 	userOrg := model.OrganisationUser{
@@ -35,11 +40,25 @@ func TestOrganisationUpdate(t *testing.T) {
 		OrganisationID: organisation.Base.ID,
 		Role:           "owner",
 	}
+	testUserOrg := model.OrganisationUser{
+		UserID:         user.Base.ID,
+		OrganisationID: organisation.Base.ID,
+		Role:           "user",
+	}
 
 	model.DB.Create(&userOrg)
+	model.DB.Create(&testUserOrg)
 
 	t.Run("invalid organisation id", func(t *testing.T) {
-		_, statusCode := test.Request(t, ts, "PUT", "/organisations/test", nil, "1")
+		_, statusCode := test.Request(t, ts, "PUT", "/organisations/invalid_id", nil, "1")
+
+		if statusCode != http.StatusNotFound {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
+		}
+	})
+
+	t.Run("user without role owner", func(t *testing.T) {
+		_, statusCode := test.Request(t, ts, "PUT", fmt.Sprint("/organisations/", organisation.Base.ID), nil, fmt.Sprint(testUser.Base.ID))
 
 		if statusCode != http.StatusNotFound {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)

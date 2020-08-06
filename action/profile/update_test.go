@@ -2,6 +2,7 @@ package profile
 
 import (
 	"bytes"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,22 +14,27 @@ import (
 
 var jsonStr = []byte(`
 {
-	"first_name": "shashi",
-	"last_name": "deshetti",
+	"first_name": "Joe",
+	"last_name": "Doe",
 	"birth_date": "1984-5-13T14:00:12-00:00",
 	"gender" : "male"
 }`)
 
 func TestProfieUpdate(t *testing.T) {
-	model.SetupDB()
 
 	r := chi.NewRouter()
 	r.Put("/profile", update)
 	ts := httptest.NewServer(r)
 	defer ts.Close()
 
+	user := &model.User{
+		Email: "check@check.in",
+	}
+
+	model.DB.Create(&user)
+
 	t.Run("Invalid header", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "PUT", "/profile", nil, "abc")
+		_, statusCode := test.Request(t, ts, "PUT", "/profile", nil, "abc")
 
 		if statusCode != http.StatusNotFound {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusNotFound)
@@ -36,7 +42,7 @@ func TestProfieUpdate(t *testing.T) {
 	})
 
 	t.Run("profile not found", func(t *testing.T) {
-		_, _, statusCode := test.Request(t, ts, "PUT", "/profile", nil, "100")
+		_, statusCode := test.Request(t, ts, "PUT", "/profile", nil, "100")
 
 		if statusCode != http.StatusInternalServerError {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)
@@ -44,14 +50,16 @@ func TestProfieUpdate(t *testing.T) {
 	})
 
 	t.Run("update profile by id", func(t *testing.T) {
-		_, res, statusCode := test.Request(t, ts, "PUT", "/profile", bytes.NewBuffer(jsonStr), "5")
+		resp, statusCode := test.Request(t, ts, "PUT", "/profile", bytes.NewBuffer(jsonStr), fmt.Sprint(user.Base.ID))
+
+		respBody := (resp).(map[string]interface{})
 
 		if statusCode != http.StatusOK {
 			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
 		}
 
-		if res["first_name"] != "shashi" {
-			t.Errorf("handler returned wrong title: got %v want %v", res["first_name"], "shashi")
+		if respBody["first_name"] != "Joe" {
+			t.Errorf("handler returned wrong title: got %v want %v", respBody["first_name"], "Joe")
 		}
 
 	})
