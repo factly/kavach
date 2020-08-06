@@ -7,29 +7,23 @@ import (
 	"os"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util"
-
-	"github.com/factly/x/errorx"
 )
 
 // UpdateRole PUT Request to the keto server for policy
-func UpdateRole(w http.ResponseWriter, uri string, body *model.Role) {
+func UpdateRole(uri string, body *model.Role) error {
 	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(&body)
 	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+uri, buf)
 
 	if err != nil {
-		util.Log.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
+		return err
 	}
 
 	client := &http.Client{}
 	_, err = client.Do(req)
 
 	if err != nil {
-		util.Log.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
+		return err
 	}
+	return nil
 }

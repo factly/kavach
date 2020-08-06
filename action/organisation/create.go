@@ -36,9 +36,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 		Title: org.Title,
 	}
 
-	err := model.DB.Model(&model.Organisation{}).Create(&organisation).Error
+	tx := model.DB.Begin()
+
+	err := tx.Model(&model.Organisation{}).Create(&organisation).Error
 
 	if err != nil {
+		tx.Rollback()
 		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -51,9 +54,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 	permission.UserID = uint(userID)
 	permission.Role = "owner"
 
-	err = model.DB.Model(&model.OrganisationUser{}).Create(&permission).Error
+	err = tx.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 	if err != nil {
+		tx.Rollback()
 		util.Log.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -68,7 +72,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 	reqRole.ID = "roles:org:" + fmt.Sprint(organisation.ID) + ":admin"
 	reqRole.Members = []string{fmt.Sprint(userID)}
 
-	keto.UpdateRole(w, "/engines/acp/ory/regex/roles", reqRole)
+	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
+
+	if err != nil {
+		tx.Rollback()
+		util.Log.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		return
+	}
 
 	/* creating policy for admins */
 	reqPolicy := &model.Policy{}
@@ -78,7 +89,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organisation.ID) + ":<.*>"}
 	reqPolicy.Effect = "allow"
 
-	keto.UpdatePolicy(w, "/engines/acp/ory/regex/policies", reqPolicy)
+	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", reqPolicy)
+
+	if err != nil {
+		tx.Rollback()
+		util.Log.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		return
+	}
+
+	tx.Commit()
 
 	renderx.JSON(w, http.StatusCreated, result)
 }

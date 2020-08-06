@@ -82,7 +82,13 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	/* delete policy for admins */
 	if result.Role == "owner" {
-		keto.DeletePolicy(w, "/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members/"+fmt.Sprint(result.UserID))
+		err = keto.DeletePolicy("/engines/acp/ory/regex/roles/roles:org:" + fmt.Sprint(orgID) + ":admin/members/" + fmt.Sprint(result.UserID))
+
+		if err != nil {
+			util.Log.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+			return
+		}
 	}
 
 	deletePermission := &model.OrganisationUser{}
