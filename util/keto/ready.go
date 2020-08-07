@@ -1,12 +1,9 @@
 package keto
 
 import (
-	"errors"
 	"log"
 	"net/http"
 	"os"
-
-	"github.com/factly/x/loggerx"
 )
 
 // IsReady checks the readiness of keto server
@@ -17,7 +14,6 @@ func IsReady() {
 	_, err := client.Do(req)
 
 	if err != nil {
-		loggerx.Error(errors.New("Cannot connect to Keto Server"))
 		log.Fatal(err)
 		return
 	}
