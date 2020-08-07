@@ -32,7 +32,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -41,7 +41,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
@@ -50,7 +50,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -61,7 +61,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(req)
 	if validationError != nil {
-		util.LogError(r, errors.New("validation error"))
+		util.LogError(errors.New("validation error"))
 		errorx.Render(w, validationError)
 		return
 	}
@@ -83,7 +83,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
 
 	if totPermissions != 0 {
-		util.LogError(r, errors.New("User already exist in organisation"))
+		util.LogError(errors.New("User already exist in organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -97,7 +97,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			tx.Rollback()
-			util.LogError(r, err)
+			util.LogError(err)
 			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}
@@ -112,7 +112,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}

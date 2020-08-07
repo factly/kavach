@@ -21,7 +21,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 	err := model.DB.Model(&model.User{}).First(&me).Error
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}

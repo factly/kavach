@@ -17,7 +17,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -32,7 +32,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}).First(&host).Error
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}

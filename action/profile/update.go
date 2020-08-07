@@ -37,7 +37,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}).First(&me).Error
 
 	if err != nil {
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}

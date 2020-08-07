@@ -17,7 +17,7 @@ func IsReady() {
 	_, err := client.Do(req)
 
 	if err != nil {
-		util.LogError(req, errors.New("Cannot connect to Keto Server"))
+		util.LogError(errors.New("Cannot connect to Keto Server"))
 		log.Fatal(err)
 		return
 	}

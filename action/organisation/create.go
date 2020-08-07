@@ -28,7 +28,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(org)
 	if validationError != nil {
-		util.LogError(r, errors.New("validation error"))
+		util.LogError(errors.New("validation error"))
 		errorx.Render(w, validationError)
 		return
 	}
@@ -43,7 +43,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -59,7 +59,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -77,7 +77,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -94,7 +94,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(r, err)
+		util.LogError(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}

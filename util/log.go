@@ -15,34 +15,44 @@ import (
 
 var log *logrus.Logger
 
-func InitLogging(file *os.File) {
+var req *http.Request
+
+// ErrorLogger middleware to log errors
+func ErrorLogger(file *os.File) func(next http.Handler) http.Handler {
 	log = logrus.New()
 	log.SetFormatter(&logrus.TextFormatter{})
 	log.Level = logrus.TraceLevel
 	log.SetOutput(file)
+
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			req = r
+			next.ServeHTTP(w, r)
+		})
+	}
 }
 
-func LogError(r *http.Request, err error) {
+func LogError(err error) {
 	logFields := logrus.Fields{}
 
 	logFields["ts"] = time.Now().UTC().Format(time.RFC1123)
 
-	if reqID := middleware.GetReqID(r.Context()); reqID != "" {
+	if reqID := middleware.GetReqID(req.Context()); reqID != "" {
 		logFields["req_id"] = reqID
 	}
 
 	scheme := "http"
-	if r.TLS != nil {
+	if req.TLS != nil {
 		scheme = "https"
 	}
 	logFields["http_scheme"] = scheme
-	logFields["http_proto"] = r.Proto
-	logFields["http_method"] = r.Method
+	logFields["http_proto"] = req.Proto
+	logFields["http_method"] = req.Method
 
-	logFields["remote_addr"] = r.RemoteAddr
-	logFields["user_agent"] = r.UserAgent()
+	logFields["remote_addr"] = req.RemoteAddr
+	logFields["user_agent"] = req.UserAgent()
 
-	logFields["uri"] = fmt.Sprintf("%s://%s%s", scheme, r.Host, r.RequestURI)
+	logFields["uri"] = fmt.Sprintf("%s://%s%s", scheme, req.Host, req.RequestURI)
 
 	if pc, file, line, ok := runtime.Caller(1); ok {
 		funcName := runtime.FuncForPC(pc).Name()

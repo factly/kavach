@@ -21,11 +21,11 @@ func RegisterRoutes() http.Handler {
 	// open log file
 	file, err := os.OpenFile("logrus.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
-	util.InitLogging(file)
-
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
+
+	r.Use(util.ErrorLogger(file))
 	if err == nil {
 		r.Use(loggerx.NewLogger(file))
 	}
