@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 )
 
@@ -37,7 +37,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}).First(&me).Error
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}

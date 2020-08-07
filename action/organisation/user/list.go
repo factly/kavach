@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
@@ -17,7 +17,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -32,7 +32,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}).First(&host).Error
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}

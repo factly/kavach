@@ -11,6 +11,7 @@ import (
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
@@ -22,7 +23,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -31,7 +32,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
@@ -40,7 +41,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -49,7 +50,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	uID, err := strconv.Atoi(userID)
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -63,7 +64,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).First(&result).Error
 
 	if err != nil {
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
@@ -76,7 +77,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).Count(&totalOwners)
 
 	if result.Role == "owner" && totalOwners < 2 {
-		util.LogError(errors.New("Cannot delete last user of organisation"))
+		loggerx.Error(errors.New("Cannot delete last user of organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -95,7 +96,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			tx.Rollback()
-			util.LogError(err)
+			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}

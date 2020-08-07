@@ -7,11 +7,10 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/factly/kavach-server/util"
-
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
 )
@@ -28,7 +27,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(org)
 	if validationError != nil {
-		util.LogError(errors.New("validation error"))
+		loggerx.Error(errors.New("validation error"))
 		errorx.Render(w, validationError)
 		return
 	}
@@ -43,7 +42,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -59,7 +58,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -77,7 +76,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -94,7 +93,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.LogError(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
