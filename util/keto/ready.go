@@ -1,6 +1,7 @@
 package keto
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"os"
@@ -16,7 +17,7 @@ func IsReady() {
 	_, err := client.Do(req)
 
 	if err != nil {
-		util.Log.Error("Cannot connect to Keto Server")
+		util.LogError(req, errors.New("Cannot connect to Keto Server"))
 		log.Fatal(err)
 		return
 	}

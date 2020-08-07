@@ -2,6 +2,7 @@ package organisation
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -27,7 +28,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(org)
 	if validationError != nil {
-		util.Log.Error(validationError)
+		util.LogError(r, errors.New("validation error"))
 		errorx.Render(w, validationError)
 		return
 	}
@@ -42,7 +43,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -58,7 +59,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
@@ -76,7 +77,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
@@ -93,7 +94,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}

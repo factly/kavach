@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -21,7 +22,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -30,7 +31,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
@@ -39,7 +40,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
 
 	if err != nil {
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -48,7 +49,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	uID, err := strconv.Atoi(userID)
 
 	if err != nil {
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -62,7 +63,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).First(&result).Error
 
 	if err != nil {
-		util.Log.Error(err)
+		util.LogError(r, err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
@@ -75,7 +76,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).Count(&totalOwners)
 
 	if result.Role == "owner" && totalOwners < 2 {
-		util.Log.Error("Cannot delete last user of organisation")
+		util.LogError(r, errors.New("Cannot delete last user of organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -94,7 +95,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			tx.Rollback()
-			util.Log.Error(err)
+			util.LogError(r, err)
 			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}
