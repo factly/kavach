@@ -1,0 +1,19 @@
+FROM node:13.12.0-alpine
+WORKDIR /app
+
+# install node modules
+COPY ./package.json ./
+RUN npm install
+
+# env
+ENV REACT_APP_KRATOS_PUBLIC_URL http://kratos.factly.org
+ENV REACT_APP_API_URL http://api.kavach.factly.org
+
+# copy source files to image and build
+COPY . .
+
+RUN npm run build
+RUN npm install -g serve
+
+# Primary command to run when the container starts
+CMD ["serve", "-s", "build"]

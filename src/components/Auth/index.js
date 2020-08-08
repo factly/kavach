@@ -34,6 +34,9 @@ function Auth(props) {
         props.flow +
         '?request=' +
         obj['request'],
+      {
+        credentials: 'include',
+      },
     )
       .then((res) => {
         if (res.status === 200) {
