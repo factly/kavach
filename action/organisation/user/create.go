@@ -2,6 +2,7 @@ package user
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
@@ -31,7 +33,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	orgID, err := strconv.Atoi(organisationID)
 
 	if err != nil {
-		util.Log.Error(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -40,7 +42,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
 	if err != nil {
-		util.Log.Error(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
@@ -49,7 +51,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
 
 	if err != nil {
-		util.Log.Error(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -60,7 +62,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	validationError := validationx.Check(req)
 	if validationError != nil {
-		util.Log.Error(validationError)
+		loggerx.Error(errors.New("validation error"))
 		errorx.Render(w, validationError)
 		return
 	}
@@ -82,7 +84,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
 
 	if totPermissions != 0 {
-		util.Log.Error("User already exist in organisation")
+		loggerx.Error(errors.New("User already exist in organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -96,7 +98,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			tx.Rollback()
-			util.Log.Error(err)
+			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 			return
 		}
@@ -111,7 +113,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		tx.Rollback()
-		util.Log.Error(err)
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}

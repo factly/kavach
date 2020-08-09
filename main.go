@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"os"
 
 	"github.com/factly/kavach-server/util/keto"
 
@@ -15,12 +14,6 @@ import (
 func main() {
 	godotenv.Load()
 
-	port, ok := os.LookupEnv("PORT")
-	if !ok {
-		port = "6620"
-	}
-	port = ":" + port
-
 	// db setup
 	model.SetupDB()
 
@@ -28,5 +21,5 @@ func main() {
 
 	keto.IsReady()
 
-	http.ListenAndServe(port, r)
+	http.ListenAndServe(":8000", r)
 }
