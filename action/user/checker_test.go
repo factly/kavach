@@ -1,47 +1,16 @@
 package user
 
 import (
-	"encoding/json"
-	"fmt"
+	"bytes"
 	"net/http"
-	"net/url"
+	"net/http/httptest"
+	"testing"
 
-	"github.com/factly/kavach-server/model"
-	"github.com/factly/x/renderx"
+	"github.com/factly/kavach-server/util/test"
+	"github.com/go-chi/chi"
 )
 
-type authenticationSession struct {
-	Subject      string                 `json:"subject"`
-	Extra        map[string]interface{} `json:"extra"`
-	Header       http.Header            `json:"header"`
-	MatchContext matchContext           `json:"match_context"`
-}
-
-type matchContext struct {
-	RegexpCaptureGroups []string `json:"regexp_capture_groups"`
-	URL                 *url.URL `json:"url"`
-}
-
-// create organisation
-func checker(w http.ResponseWriter, r *http.Request) {
-	payload := &authenticationSession{}
-
-	json.NewDecoder(r.Body).Decode(&payload)
-
-	user := &model.User{}
-
-	identity := payload.Extra["identity"].(map[string]interface{})
-	traits := identity["traits"].(map[string]interface{})
-
-	model.DB.FirstOrCreate(user, &model.User{
-		Email: traits["email"].(string),
-	})
-
-	payload.Header.Add("X-User", fmt.Sprint(user.ID))
-	renderx.JSON(w, http.StatusOK, payload)
-}
-
-/*
+var jsonStr = []byte(`
 {
     "subject": "cc2ab548-a743-4c25-a83a-34d19723df2d",
     "extra": {
@@ -60,7 +29,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
             ],
             "id": "cc2ab548-a743-4c25-a83a-34d19723df2d",
             "traits": {
-                "email": "monark2@factly.in"
+                "email": "test@factly.in"
             },
             "traits_schema_id": "default",
             "traits_schema_url": "http://127.0.0.1:4455/.ory/kratos/public/schemas/default"
@@ -93,4 +62,33 @@ func checker(w http.ResponseWriter, r *http.Request) {
         }
     }
 }
-*/
+`)
+
+func TestUser(t *testing.T) {
+	r := chi.NewRouter()
+	r.Post("/users/checker", checker)
+
+	ts := httptest.NewServer(r)
+	defer ts.Close()
+
+	t.Run("create user", func(t *testing.T) {
+		resp, statusCode := test.Request(t, ts, "POST", "/users/checker", bytes.NewBuffer(jsonStr), "1")
+
+		respBody := (resp).(map[string]interface{})
+
+		extra := respBody["extra"].(map[string]interface{})
+		identity := extra["identity"].(map[string]interface{})
+		traits := identity["traits"].(map[string]interface{})
+		email := traits["email"].(string)
+
+		if statusCode != http.StatusOK {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusOK)
+		}
+
+		if email != "test@factly.in" {
+			t.Errorf("handler returned wrong title: got %v want %v", email, "test@factly.in")
+		}
+
+	})
+
+}

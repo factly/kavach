@@ -21,15 +21,20 @@ type user struct {
 // update of user
 func update(w http.ResponseWriter, r *http.Request) {
 
-	req := &user{}
+	req := user{}
 	json.NewDecoder(r.Body).Decode(&req)
 
-	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
 
 	me := &model.User{}
 	me.ID = uint(userID)
 
-	err := model.DB.Model(&me).Updates(&model.User{
+	err = model.DB.Model(&me).Updates(&model.User{
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
 		BirthDate: req.BirthDate,

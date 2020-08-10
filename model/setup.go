@@ -18,6 +18,7 @@ func SetupDB() {
 	fmt.Println("connecting to database ...")
 
 	DSN := os.Getenv("DSN")
+
 	var err error
 	DB, err = gorm.Open("postgres", DSN)
 

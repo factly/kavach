@@ -10,5 +10,6 @@ func Router() chi.Router {
 
 	r.Get("/", detail)
 	r.Put("/", update)
+
 	return r
 }
