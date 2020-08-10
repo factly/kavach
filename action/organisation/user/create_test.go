@@ -9,6 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 )
 
@@ -20,6 +21,7 @@ var jsonStr = []byte(`
 
 func TestCreateOrganisationUser(t *testing.T) {
 	r := chi.NewRouter()
+	r.Use(loggerx.Init())
 	r.Post("/organisations/{organisation_id}/users", create)
 
 	ts := httptest.NewServer(r)
@@ -67,8 +69,8 @@ func TestCreateOrganisationUser(t *testing.T) {
 	t.Run("user is not an owner", func(t *testing.T) {
 		_, statusCode := test.Request(t, ts, "POST", fmt.Sprint("/organisations/", organisation.Base.ID, "/users"), bytes.NewBuffer([]byte{}), fmt.Sprint(testUser.Base.ID))
 
-		if statusCode != http.StatusInternalServerError {
-			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)
+		if statusCode != http.StatusUnprocessableEntity {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusUnprocessableEntity)
 		}
 
 	})

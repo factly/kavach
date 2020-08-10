@@ -8,11 +8,13 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 )
 
 func TestListOrganisation(t *testing.T) {
 	r := chi.NewRouter()
+	r.Use(loggerx.Init())
 	r.Get("/organisations/my", list)
 
 	ts := httptest.NewServer(r)

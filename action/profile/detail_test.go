@@ -8,12 +8,14 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 )
 
 func TestProfieDetail(t *testing.T) {
 
 	r := chi.NewRouter()
+	r.Use(loggerx.Init())
 	r.Get("/profile", detail)
 
 	ts := httptest.NewServer(r)

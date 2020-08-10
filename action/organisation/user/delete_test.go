@@ -9,12 +9,14 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 )
 
 func TestDeleteOrganisationUser(t *testing.T) {
 
 	r := chi.NewRouter()
+	r.Use(loggerx.Init())
 	r.Delete("/organisations/{organisation_id}/users/{user_id}", delete)
 
 	ts := httptest.NewServer(r)
@@ -68,11 +70,11 @@ func TestDeleteOrganisationUser(t *testing.T) {
 
 	})
 
-	t.Run("check user is an owner or not", func(t *testing.T) {
+	t.Run("check user is owner or not", func(t *testing.T) {
 		_, statusCode := test.Request(t, ts, "DELETE", fmt.Sprint("/organisations/", organisation.Base.ID, "/users/", fmt.Sprint(testUser.Base.ID)), bytes.NewBuffer([]byte{}), fmt.Sprint(testUser.Base.ID))
 
-		if statusCode != http.StatusInternalServerError {
-			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusInternalServerError)
+		if statusCode != http.StatusUnprocessableEntity {
+			t.Errorf("handler returned wrong status code: got %v want %v", statusCode, http.StatusUnprocessableEntity)
 		}
 
 	})

@@ -9,6 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/test"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 )
 
@@ -23,6 +24,7 @@ var jsonStr = []byte(`
 func TestProfieUpdate(t *testing.T) {
 
 	r := chi.NewRouter()
+	r.Use(loggerx.Init())
 	r.Put("/profile", update)
 	ts := httptest.NewServer(r)
 	defer ts.Close()
