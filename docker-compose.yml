@@ -1,9 +1,9 @@
-version: "3.2"
+version: '3.2'
 services:
   kavach-web:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
-      - "REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public"
-      - "REACT_APP_API_URL=http://127.0.0.1:4455/.factly/identity/server"
+      - 'REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public'
+      - 'REACT_APP_API_URL=http://127.0.0.1:4455/.factly/identity/server'
