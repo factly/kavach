@@ -12,7 +12,7 @@ import (
 func UpdateRole(uri string, body *model.Role) error {
 	buf := new(bytes.Buffer)
 	json.NewEncoder(buf).Encode(&body)
-	req, err := http.NewRequest("PUT", ketoURL+uri, buf)
+	req, err := http.NewRequest("PUT", keto+uri, buf)
 
 	if err != nil {
 		return err
