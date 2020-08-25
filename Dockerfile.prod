@@ -1,5 +1,29 @@
-FROM golang:1.14.2-alpine3.11
-WORKDIR /app
-COPY . .
+FROM golang:1.12-alpine AS build_base
+
+RUN apk add --no-cache git
+
+# Set the Current Working Directory inside the container
+WORKDIR /tmp/kavach-server
+
+# We want to populate the module cache based on the go.{mod,sum} files.
+COPY go.mod .
+COPY go.sum .
+
 RUN go mod download
-CMD ["go", "run", "main.go"]
+
+COPY . .
+
+# Unit tests
+# RUN CGO_ENABLED=0 go test -v
+
+# Build the Go app
+RUN go build -o ./out/kavach-server .
+
+# Start fresh from a smaller image
+FROM alpine:3.9 
+RUN apk add ca-certificates
+
+COPY --from=build_base /tmp/kavach-server/out/kavach-server /app/kavach-server
+
+# Run the binary program produced by `go install`
+ENTRYPOINT ["/app/kavach-server"]

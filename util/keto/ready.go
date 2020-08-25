@@ -3,12 +3,14 @@ package keto
 import (
 	"log"
 	"net/http"
-	"os"
 )
 
+var keto string
+
 // IsReady checks the readiness of keto server
-func IsReady() {
-	req, _ := http.NewRequest("GET", os.Getenv("KETO_API")+"/health/ready", nil)
+func IsReady(ketoURL string) {
+	keto = ketoURL
+	req, _ := http.NewRequest("GET", keto+"/health/ready", nil)
 
 	client := &http.Client{}
 	_, err := client.Do(req)
