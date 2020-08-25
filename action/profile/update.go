@@ -34,6 +34,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 	me := &model.User{}
 	me.ID = uint(userID)
 
+	err = model.DB.First(&me).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
 	err = model.DB.Model(&me).Updates(&model.User{
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
