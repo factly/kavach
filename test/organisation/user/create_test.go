@@ -1,6 +1,7 @@
 package user
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -9,7 +10,6 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
-	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/test/profile"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
@@ -20,12 +20,20 @@ func TestCreateOrganisationUser(t *testing.T) {
 	// Setup DB
 	mock := test.SetupMockDB()
 
+	defer gock.Disable()
+	err := test.MockServer()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer gock.DisableNetworking()
+
 	// Setup HttpExpect
 	router := action.RegisterRoutes()
 	server := httptest.NewServer(router)
 	defer server.Close()
 
-	defer gock.Off()
+	gock.New(server.URL).EnableNetworking().Persist()
+	defer gock.DisableNetworking()
 
 	e := httpexpect.New(t, server.URL)
 
@@ -150,10 +158,4 @@ func TestCreateOrganisationUser(t *testing.T) {
 			Expect().
 			Status(http.StatusInternalServerError)
 	})
-
-	gock.New(config.KetoURL).
-		Put("/engines/acp/ory/regex/roles/roles:org:1:admin/members").
-		MatchType("json").
-		JSON(map[string]interface{}{"members": []string{"1"}}).
-		Reply(http.StatusOK)
 }

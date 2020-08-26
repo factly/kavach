@@ -1,13 +1,13 @@
 package organisation
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
-	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/test/organisation/user"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
@@ -19,12 +19,20 @@ func TestCreateOrganisation(t *testing.T) {
 	// Setup DB
 	mock := test.SetupMockDB()
 
+	defer gock.Disable()
+	err := test.MockServer()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer gock.DisableNetworking()
+
 	// Setup HttpExpect
 	router := action.RegisterRoutes()
 	server := httptest.NewServer(router)
 	defer server.Close()
 
-	defer gock.Off()
+	gock.New(server.URL).EnableNetworking().Persist()
+	defer gock.DisableNetworking()
 
 	e := httpexpect.New(t, server.URL)
 
@@ -47,6 +55,8 @@ func TestCreateOrganisation(t *testing.T) {
 			JSON().
 			Object().
 			ContainsMap(Organisation)
+
+		test.ExpectationsMet(t, mock)
 	})
 
 	t.Run("organisation title required", func(t *testing.T) {
@@ -57,21 +67,4 @@ func TestCreateOrganisation(t *testing.T) {
 			Status(http.StatusUnprocessableEntity)
 	})
 
-	gock.New(config.KetoURL).
-		Put("/engines/acp/ory/regex/roles").
-		MatchType("json").
-		JSON(map[string]interface{}{"id": "roles:org:1:admin", "members": []string{"1"}}).
-		Reply(http.StatusOK)
-
-	gock.New(config.KetoURL).
-		Put("/engines/acp/ory/regex/policies").
-		MatchType("json").
-		JSON(map[string]interface{}{
-			"id":        "org:1:admins",
-			"subjects":  []string{"roles:org:1:admin"},
-			"resources": []string{"resources:org:1:<.*>"},
-			"actions":   []string{"actions:org:1:<.*>"},
-			"effect":    "allow",
-		}).
-		Reply(http.StatusOK)
 }
