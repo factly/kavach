@@ -20,7 +20,7 @@ func SetupVars() {
 	flag.Parse()
 
 	if dsn == "" {
-		log.Fatal("Please pass DSN flag")
+		log.Fatal("Please pass dsn flag")
 	}
 
 	if ketoURL == "" {
