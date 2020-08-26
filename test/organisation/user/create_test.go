@@ -1,6 +1,7 @@
 package user
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -20,7 +21,10 @@ func TestCreateOrganisationUser(t *testing.T) {
 	mock := test.SetupMockDB()
 
 	defer gock.Disable()
-	test.MockServer()
+	err := test.MockServer()
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer gock.DisableNetworking()
 
 	// Setup HttpExpect

@@ -10,14 +10,18 @@ import (
 	"gopkg.in/h2non/gock.v1"
 )
 
-func MockServer() {
+// MockServer mocks the calls to keto server for testing
+func MockServer() error {
 
 	reqRole := &model.Role{}
 	reqRole.ID = "roles:org:1:admin"
 	reqRole.Members = []string{"1"}
 
 	buf := new(bytes.Buffer)
-	json.NewEncoder(buf).Encode(reqRole)
+	err := json.NewEncoder(buf).Encode(reqRole)
+	if err != nil {
+		return err
+	}
 
 	gock.New(config.KetoURL).
 		Put("/engines/acp/ory/regex/roles").
@@ -32,7 +36,10 @@ func MockServer() {
 	reqPolicy.Actions = []string{"actions:org:1:<.*>"}
 	reqPolicy.Effect = "allow"
 
-	json.NewEncoder(buf).Encode(reqPolicy)
+	err = json.NewEncoder(buf).Encode(reqPolicy)
+	if err != nil {
+		return err
+	}
 
 	gock.New(config.KetoURL).
 		Put("/engines/acp/ory/regex/policies").
@@ -41,7 +48,10 @@ func MockServer() {
 
 	reqRole = &model.Role{}
 	reqRole.Members = []string{"1"}
-	json.NewEncoder(buf).Encode(reqRole)
+	err = json.NewEncoder(buf).Encode(reqRole)
+	if err != nil {
+		return err
+	}
 
 	gock.New(config.KetoURL).
 		Put("/engines/acp/ory/regex/roles/roles:org:1:admin/members").
@@ -51,4 +61,6 @@ func MockServer() {
 	gock.New(config.KetoURL).
 		Delete("/engines/acp/ory/regex/roles/roles:org:1:admin/members/1").
 		Reply(http.StatusOK)
+
+	return nil
 }

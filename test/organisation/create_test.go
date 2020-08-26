@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -19,7 +20,10 @@ func TestCreateOrganisation(t *testing.T) {
 	mock := test.SetupMockDB()
 
 	defer gock.Disable()
-	test.MockServer()
+	err := test.MockServer()
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer gock.DisableNetworking()
 
 	// Setup HttpExpect
