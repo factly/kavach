@@ -6,8 +6,6 @@ import (
 	"testing"
 	"time"
 
-	"github.com/factly/kavach-server/config"
-
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/model"
 	"github.com/jinzhu/gorm"
@@ -35,8 +33,6 @@ func SetupMockDB() sqlmock.Sqlmock {
 	}
 
 	model.DB.LogMode(true)
-
-	config.KetoURL = "http://keto.com"
 
 	return mock
 }
