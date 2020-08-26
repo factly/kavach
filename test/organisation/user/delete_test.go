@@ -9,6 +9,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 	"gopkg.in/h2non/gock.v1"
@@ -172,7 +173,7 @@ func TestDeleteOrganisationUser(t *testing.T) {
 			Status(http.StatusInternalServerError)
 	})
 
-	gock.New("http://keto.com").
+	gock.New(config.KetoURL).
 		Delete("/engines/acp/ory/regex/roles/roles:org:1:admin/members/1").
 		MatchType("json").
 		Reply(http.StatusOK)

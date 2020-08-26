@@ -9,6 +9,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/test/profile"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
@@ -135,7 +136,7 @@ func TestCreateOrganisationUser(t *testing.T) {
 			Status(http.StatusInternalServerError)
 	})
 
-	gock.New("http://keto.com").
+	gock.New(config.KetoURL).
 		Put("/engines/acp/ory/regex/roles/roles:org:1:admin/members").
 		MatchType("json").
 		JSON(map[string]interface{}{"members": []string{"1"}}).

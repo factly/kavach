@@ -3,14 +3,13 @@ package keto
 import (
 	"log"
 	"net/http"
+
+	"github.com/factly/kavach-server/config"
 )
 
-var keto string
-
 // IsReady checks the readiness of keto server
-func IsReady(ketoURL string) {
-	keto = ketoURL
-	req, _ := http.NewRequest("GET", keto+"/health/ready", nil)
+func IsReady() {
+	req, _ := http.NewRequest("GET", config.KetoURL+"/health/ready", nil)
 
 	client := &http.Client{}
 	_, err := client.Do(req)

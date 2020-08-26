@@ -1,33 +1,26 @@
 package main
 
 import (
-	"net/http"
-	"flag"
 	"fmt"
+	"net/http"
 
-	"github.com/factly/kavach-server/util/keto"
-	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/config"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/keto"
 )
 
 func main() {
-	// db setup
+	config.SetupVars()
 
-	var dsn string
-	var ketoURL string
-	flag.StringVar(&dsn, "dsn", "", "Databse connection string")
-	flag.StringVar(&ketoURL, "keto", "", "Keto connection string")
-	
-	flag.Parse()
+	fmt.Println(config.DSN)
+	fmt.Println(config.KetoURL)
 
-	fmt.Println(dsn)
-	fmt.Println(ketoURL)
+	model.SetupDB()
 
-	model.SetupDB(dsn)
-	
 	r := action.RegisterRoutes()
 
-	keto.IsReady(ketoURL)
+	keto.IsReady()
 
 	http.ListenAndServe(":8000", r)
 }

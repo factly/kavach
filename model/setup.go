@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/factly/kavach-server/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -12,11 +13,11 @@ import (
 var DB *gorm.DB
 
 // SetupDB is database setuo
-func SetupDB(dsn string) {
+func SetupDB() {
 
 	fmt.Println("connecting to database ...")
 	var err error
-	DB, err = gorm.Open("postgres", dsn)
+	DB, err = gorm.Open("postgres", config.DSN)
 
 	if err != nil {
 		log.Fatal(err)

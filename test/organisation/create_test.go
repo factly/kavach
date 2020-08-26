@@ -7,6 +7,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/test/organisation/user"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
@@ -56,13 +57,13 @@ func TestCreateOrganisation(t *testing.T) {
 			Status(http.StatusUnprocessableEntity)
 	})
 
-	gock.New("http://keto.com").
+	gock.New(config.KetoURL).
 		Put("/engines/acp/ory/regex/roles").
 		MatchType("json").
 		JSON(map[string]interface{}{"id": "roles:org:1:admin", "members": []string{"1"}}).
 		Reply(http.StatusOK)
 
-	gock.New("http://keto.com").
+	gock.New(config.KetoURL).
 		Put("/engines/acp/ory/regex/policies").
 		MatchType("json").
 		JSON(map[string]interface{}{
