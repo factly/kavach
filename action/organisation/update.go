@@ -26,6 +26,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	hostID, err := strconv.Atoi(r.Header.Get("X-User"))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	organisation := &model.Organisation{}
 	organisation.ID = uint(orgID)
 
@@ -38,7 +45,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check the permission of host
-	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
 	permission := &model.OrganisationUser{}
 
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{

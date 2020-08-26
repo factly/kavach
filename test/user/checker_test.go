@@ -35,7 +35,7 @@ func TestCheckerUser(t *testing.T) {
 			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 		mock.ExpectCommit()
 
-		e.POST("/users/checker").
+		e.POST(path).
 			WithHeader("X-User", "1").
 			WithBytes(jsonStr).
 			Expect().

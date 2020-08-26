@@ -84,6 +84,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
 
 	if totPermissions != 0 {
+		tx.Rollback()
 		loggerx.Error(errors.New("User already exist in organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return

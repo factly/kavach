@@ -1,5 +1,7 @@
 package user
 
+const path string = "/users/checker"
+
 var jsonStr = []byte(`
 {
     "subject": "cc2ab548-a743-4c25-a83a-34d19723df2d",

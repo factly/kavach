@@ -27,7 +27,7 @@ func TestDetailProfile(t *testing.T) {
 	t.Run("get my profile details", func(t *testing.T) {
 		UserSelectMock(mock)
 
-		e.GET("/profile").
+		e.GET(path).
 			WithHeader("X-User", "1").
 			Expect().
 			Status(http.StatusOK).
@@ -42,7 +42,7 @@ func TestDetailProfile(t *testing.T) {
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users"`)).
 			WillReturnRows(sqlmock.NewRows(UserCols))
 
-		e.GET("/profile").
+		e.GET(path).
 			WithHeader("X-User", "1").
 			Expect().
 			Status(http.StatusNotFound)
@@ -51,7 +51,7 @@ func TestDetailProfile(t *testing.T) {
 	})
 
 	t.Run("Invalid header", func(t *testing.T) {
-		e.GET("/profile").
+		e.GET(path).
 			WithHeader("X-User", "abc").
 			Expect().
 			Status(http.StatusNotFound)

@@ -39,7 +39,7 @@ func TestUpdateProfile(t *testing.T) {
 
 		UserSelectMock(mock)
 
-		e.PUT("/profile").
+		e.PUT(path).
 			WithHeader("X-User", "1").
 			WithJSON(User).
 			Expect().
@@ -55,7 +55,7 @@ func TestUpdateProfile(t *testing.T) {
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users"`)).
 			WillReturnRows(sqlmock.NewRows(UserCols))
 
-		e.PUT("/profile").
+		e.PUT(path).
 			WithHeader("X-User", "1").
 			WithJSON(User).
 			Expect().
@@ -65,7 +65,7 @@ func TestUpdateProfile(t *testing.T) {
 	})
 
 	t.Run("invalid header", func(t *testing.T) {
-		e.PUT("/profile").
+		e.PUT(path).
 			WithHeader("X-User", "abc").
 			WithJSON(User).
 			Expect().
