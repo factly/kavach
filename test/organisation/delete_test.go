@@ -57,7 +57,7 @@ func TestDeleteOrganisation(t *testing.T) {
 	})
 
 	t.Run("record not found", func(t *testing.T) {
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisations"`)).
+		mock.ExpectQuery(selectQuery).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(OrganisationCols))
 

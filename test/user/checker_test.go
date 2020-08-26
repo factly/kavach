@@ -52,4 +52,12 @@ func TestCheckerUser(t *testing.T) {
 			String().
 			Equal("test@factly.in")
 	})
+
+	t.Run("invalid payload", func(t *testing.T) {
+		e.POST(path).
+			WithHeader("X-User", "1").
+			WithBytes(invalidjsonStr).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+	})
 }

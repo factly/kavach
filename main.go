@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/factly/kavach-server/action"
@@ -13,14 +13,14 @@ import (
 func main() {
 	config.SetupVars()
 
-	fmt.Println(config.DSN)
-	fmt.Println(config.KetoURL)
-
 	model.SetupDB()
 
 	r := action.RegisterRoutes()
 
 	keto.IsReady()
 
-	http.ListenAndServe(":8000", r)
+	err := http.ListenAndServe(":8000", r)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

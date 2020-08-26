@@ -22,7 +22,12 @@ type user struct {
 func update(w http.ResponseWriter, r *http.Request) {
 
 	req := user{}
-	json.NewDecoder(r.Body).Decode(&req)
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 

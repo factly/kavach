@@ -52,7 +52,7 @@ func TestDetailOrganisation(t *testing.T) {
 			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "user_id", "organisation_id", "role"}).
 				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "owner"))
 
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisations"`)).
+		mock.ExpectQuery(selectQuery).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(OrganisationCols))
 

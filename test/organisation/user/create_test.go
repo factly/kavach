@@ -118,6 +118,21 @@ func TestCreateOrganisationUser(t *testing.T) {
 		test.ExpectationsMet(t, mock)
 	})
 
+	t.Run("unprocessable invite body", func(t *testing.T) {
+		mock.ExpectQuery(selectQuery).
+			WithArgs(1, 1, "owner").
+			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
+				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+
+		e.POST(basePath).
+			WithPath("organisation_id", "1").
+			WithHeader("X-User", "1").
+			WithJSON(invalidInvite).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+		test.ExpectationsMet(t, mock)
+	})
+
 	t.Run("invalid organisation id", func(t *testing.T) {
 		e.POST(basePath).
 			WithPath("organisation_id", "abc").

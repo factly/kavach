@@ -31,6 +31,11 @@ var Invite map[string]interface{} = map[string]interface{}{
 	"role":  "owner",
 }
 
+var invalidInvite map[string]interface{} = map[string]interface{}{
+	"emal": "test@email.com",
+	"rol":  "owner",
+}
+
 var OrganisationUserCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "user_id", "organisation_id", "role"}
 
 var selectQuery string = regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)

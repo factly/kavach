@@ -23,7 +23,12 @@ type organisation struct {
 func create(w http.ResponseWriter, r *http.Request) {
 	org := &organisation{}
 
-	json.NewDecoder(r.Body).Decode(&org)
+	err := json.NewDecoder(r.Body).Decode(&org)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
 
 	validationError := validationx.Check(org)
 	if validationError != nil {
@@ -38,7 +43,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	tx := model.DB.Begin()
 
-	err := tx.Model(&model.Organisation{}).Create(&organisation).Error
+	err = tx.Model(&model.Organisation{}).Create(&organisation).Error
 
 	if err != nil {
 		tx.Rollback()

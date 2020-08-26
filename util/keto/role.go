@@ -12,7 +12,11 @@ import (
 // UpdateRole PUT Request to the keto server for policy
 func UpdateRole(uri string, body *model.Role) error {
 	buf := new(bytes.Buffer)
-	json.NewEncoder(buf).Encode(&body)
+	err := json.NewEncoder(buf).Encode(&body)
+	if err != nil {
+		return err
+	}
+
 	req, err := http.NewRequest("PUT", config.KetoURL+uri, buf)
 
 	if err != nil {
