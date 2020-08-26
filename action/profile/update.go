@@ -22,7 +22,12 @@ type user struct {
 func update(w http.ResponseWriter, r *http.Request) {
 
 	req := user{}
-	json.NewDecoder(r.Body).Decode(&req)
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 
@@ -33,6 +38,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	me := &model.User{}
 	me.ID = uint(userID)
+
+	err = model.DB.First(&me).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
 
 	err = model.DB.Model(&me).Updates(&model.User{
 		FirstName: req.FirstName,

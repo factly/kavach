@@ -7,6 +7,8 @@ import (
 	"net/url"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 )
 
@@ -26,7 +28,12 @@ type matchContext struct {
 func checker(w http.ResponseWriter, r *http.Request) {
 	payload := &authenticationSession{}
 
-	json.NewDecoder(r.Body).Decode(&payload)
+	err := json.NewDecoder(r.Body).Decode(&payload)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
 
 	user := &model.User{}
 

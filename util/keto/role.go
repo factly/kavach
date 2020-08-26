@@ -4,16 +4,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-	"os"
 
+	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/model"
 )
 
 // UpdateRole PUT Request to the keto server for policy
 func UpdateRole(uri string, body *model.Role) error {
 	buf := new(bytes.Buffer)
-	json.NewEncoder(buf).Encode(&body)
-	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+uri, buf)
+	err := json.NewEncoder(buf).Encode(&body)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("PUT", config.KetoURL+uri, buf)
 
 	if err != nil {
 		return err

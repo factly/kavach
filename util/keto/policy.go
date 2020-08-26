@@ -4,16 +4,20 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
-	"os"
 
+	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/model"
 )
 
 // UpdatePolicy PUT request to keto server to update the policy
 func UpdatePolicy(uri string, body *model.Policy) error {
 	buf := new(bytes.Buffer)
-	json.NewEncoder(buf).Encode(&body)
-	req, err := http.NewRequest("PUT", os.Getenv("KETO_API")+uri, buf)
+	err := json.NewEncoder(buf).Encode(&body)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("PUT", config.KetoURL+uri, buf)
 
 	if err != nil {
 		return err
@@ -30,7 +34,7 @@ func UpdatePolicy(uri string, body *model.Policy) error {
 
 // DeletePolicy DELETE request to keto server to delete policy
 func DeletePolicy(uri string) error {
-	req, err := http.NewRequest("DELETE", os.Getenv("KETO_API")+uri, nil)
+	req, err := http.NewRequest("DELETE", config.KetoURL+uri, nil)
 
 	if err != nil {
 		return err

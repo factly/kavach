@@ -23,10 +23,6 @@ type invite struct {
 	Role  string `json:"role" validate:"required"`
 }
 
-type role struct {
-	Members []string `json:"members"`
-}
-
 // create return all user in organisation
 func create(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
@@ -58,7 +54,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// FindOrCreate invitee
 	req := invite{}
-	json.NewDecoder(r.Body).Decode(&req)
+	err = json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
 
 	validationError := validationx.Check(req)
 	if validationError != nil {
@@ -84,6 +85,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
 
 	if totPermissions != 0 {
+		tx.Rollback()
 		loggerx.Error(errors.New("User already exist in organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return

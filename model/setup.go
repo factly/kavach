@@ -3,8 +3,8 @@ package model
 import (
 	"fmt"
 	"log"
-	"os"
 
+	"github.com/factly/kavach-server/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -16,11 +16,8 @@ var DB *gorm.DB
 func SetupDB() {
 
 	fmt.Println("connecting to database ...")
-
-	DSN := os.Getenv("DSN")
-
 	var err error
-	DB, err = gorm.Open("postgres", DSN)
+	DB, err = gorm.Open("postgres", config.DSN)
 
 	if err != nil {
 		log.Fatal(err)

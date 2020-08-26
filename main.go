@@ -1,25 +1,26 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
-	"github.com/factly/kavach-server/util/keto"
-
-	"github.com/factly/kavach-server/model"
-	"github.com/joho/godotenv"
-
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/config"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/keto"
 )
 
 func main() {
-	godotenv.Load()
+	config.SetupVars()
 
-	// db setup
 	model.SetupDB()
 
 	r := action.RegisterRoutes()
 
 	keto.IsReady()
 
-	http.ListenAndServe(":8000", r)
+	err := http.ListenAndServe(":8000", r)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

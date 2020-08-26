@@ -15,11 +15,23 @@ import (
 func update(w http.ResponseWriter, r *http.Request) {
 
 	req := &model.Organisation{}
-	json.NewDecoder(r.Body).Decode(&req)
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
 
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
 
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	hostID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
@@ -38,7 +50,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check the permission of host
-	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
 	permission := &model.OrganisationUser{}
 
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{

@@ -57,10 +57,14 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		OrganisationID: uint(orgID),
 	}
 
-	model.DB.Where(&orgUsers).Delete(&orgUsers)
+	tx := model.DB.Begin()
+
+	tx.Where(&orgUsers).Delete(&orgUsers)
 
 	// delete
-	model.DB.Delete(&organisation)
+	tx.Delete(&organisation)
+
+	tx.Commit()
 
 	renderx.JSON(w, http.StatusOK, nil)
 }
