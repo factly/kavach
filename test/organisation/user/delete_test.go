@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
-	"regexp"
 	"testing"
 	"time"
 
@@ -37,24 +36,10 @@ func TestDeleteOrganisationUser(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	t.Run("delete organisation member user", func(t *testing.T) {
-		mock.ExpectQuery(selectQuery).
-			WithArgs(2, 1, "owner").
-			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
-
-		mock.ExpectQuery(selectQuery).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], "member"))
-
-		mock.ExpectQuery(countQuery).
-			WithArgs(1, "owner").
-			WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(1))
+		orgUserDeleteSelectMock(mock, "member", 1)
 
 		mock.ExpectBegin()
-		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "organisation_users" SET "deleted_at"=`)).
-			WithArgs(test.AnyTime{}, 1).
-			WillReturnResult(sqlmock.NewResult(1, 1))
+		deleteMock(mock)
 		mock.ExpectCommit()
 
 		e.DELETE(path).
@@ -70,24 +55,10 @@ func TestDeleteOrganisationUser(t *testing.T) {
 	})
 
 	t.Run("delete organisation owner user", func(t *testing.T) {
-		mock.ExpectQuery(selectQuery).
-			WithArgs(2, 1, "owner").
-			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
-
-		mock.ExpectQuery(selectQuery).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], "owner"))
-
-		mock.ExpectQuery(countQuery).
-			WithArgs(1, "owner").
-			WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(2))
+		orgUserDeleteSelectMock(mock, "owner", 2)
 
 		mock.ExpectBegin()
-		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "organisation_users" SET "deleted_at"=`)).
-			WithArgs(test.AnyTime{}, 1).
-			WillReturnResult(sqlmock.NewResult(1, 1))
+		deleteMock(mock)
 		mock.ExpectCommit()
 
 		e.DELETE(path).
@@ -98,6 +69,41 @@ func TestDeleteOrganisationUser(t *testing.T) {
 			WithHeader("X-User", "2").
 			Expect().
 			Status(http.StatusOK)
+
+		test.ExpectationsMet(t, mock)
+	})
+
+	t.Run("keto is down", func(t *testing.T) {
+		gock.Off()
+		orgUserDeleteSelectMock(mock, "owner", 2)
+
+		mock.ExpectBegin()
+		deleteMock(mock)
+		mock.ExpectRollback()
+
+		e.DELETE(path).
+			WithPathObject(map[string]interface{}{
+				"organisation_id": "1",
+				"user_id":         "1",
+			}).
+			WithHeader("X-User", "2").
+			Expect().
+			Status(http.StatusServiceUnavailable)
+
+		test.ExpectationsMet(t, mock)
+	})
+
+	t.Run("delete last owner of organisation", func(t *testing.T) {
+		orgUserDeleteSelectMock(mock, "owner", 1)
+
+		e.DELETE(path).
+			WithPathObject(map[string]interface{}{
+				"organisation_id": "1",
+				"user_id":         "1",
+			}).
+			WithHeader("X-User", "2").
+			Expect().
+			Status(http.StatusUnprocessableEntity)
 
 		test.ExpectationsMet(t, mock)
 	})

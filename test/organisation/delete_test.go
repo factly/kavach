@@ -5,7 +5,6 @@ import (
 	"net/http/httptest"
 	"regexp"
 	"testing"
-	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
@@ -32,10 +31,7 @@ func TestDeleteOrganisation(t *testing.T) {
 	t.Run("delete organisation by id", func(t *testing.T) {
 		OrganisationSelectMock(mock)
 
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
-			WithArgs(1, 1, "owner").
-			WillReturnRows(sqlmock.NewRows(user.OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, user.OrganisationUser["user_id"], user.OrganisationUser["organisation_id"], user.OrganisationUser["role"]))
+		user.OrganisationUserOwnerSelectMock(mock)
 
 		mock.ExpectBegin()
 		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "organisation_users" SET "deleted_at"=`)).

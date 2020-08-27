@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/factly/kavach-server/test/profile"
+	"github.com/factly/kavach-server/util/test"
 )
 
 var OrganisationUser map[string]interface{} = map[string]interface{}{
@@ -31,6 +33,11 @@ var Invite map[string]interface{} = map[string]interface{}{
 	"role":  "owner",
 }
 
+var undecodableInvite map[string]interface{} = map[string]interface{}{
+	"email": 1,
+	"role":  10,
+}
+
 var invalidInvite map[string]interface{} = map[string]interface{}{
 	"emal": "test@email.com",
 	"rol":  "owner",
@@ -46,7 +53,45 @@ const path string = "/organisations/{organisation_id}/users/{user_id}"
 
 func OrganisationUserSelectMock(mock sqlmock.Sqlmock) {
 	mock.ExpectQuery(selectQuery).
-		WithArgs(1).
+		WithArgs(1, 1).
 		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
 			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+}
+
+func OrganisationUserOwnerSelectMock(mock sqlmock.Sqlmock) {
+	mock.ExpectQuery(selectQuery).
+		WithArgs(1, 1, "owner").
+		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
+			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+}
+
+func orgUserDeleteSelectMock(mock sqlmock.Sqlmock, role string, ownCnt int) {
+	mock.ExpectQuery(selectQuery).
+		WithArgs(2, 1, "owner").
+		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
+			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+
+	mock.ExpectQuery(selectQuery).
+		WithArgs(1, 1).
+		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
+			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], role))
+
+	mock.ExpectQuery(countQuery).
+		WithArgs(1, "owner").
+		WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(ownCnt))
+}
+
+func deleteMock(mock sqlmock.Sqlmock) {
+	mock.ExpectExec(regexp.QuoteMeta(`UPDATE "organisation_users" SET "deleted_at"=`)).
+		WithArgs(test.AnyTime{}, 1).
+		WillReturnResult(sqlmock.NewResult(1, 1))
+}
+
+func selectOrInsertMock(mock sqlmock.Sqlmock) {
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users"`)).
+		WillReturnRows(sqlmock.NewRows(profile.UserCols))
+
+	mock.ExpectQuery(`INSERT INTO "users"`).
+		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Invite["email"], "", "", "", "", "").
+		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 }

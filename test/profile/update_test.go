@@ -71,4 +71,12 @@ func TestUpdateProfile(t *testing.T) {
 			Expect().
 			Status(http.StatusNotFound)
 	})
+
+	t.Run("undecodable user body", func(t *testing.T) {
+		e.PUT(path).
+			WithHeader("X-User", "1").
+			WithJSON(undecodableUser).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+	})
 }

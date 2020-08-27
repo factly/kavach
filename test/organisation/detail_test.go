@@ -3,9 +3,7 @@ package organisation
 import (
 	"net/http"
 	"net/http/httptest"
-	"regexp"
 	"testing"
-	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
@@ -27,10 +25,7 @@ func TestDetailOrganisation(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	t.Run("get organisation by id", func(t *testing.T) {
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows(user.OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "owner"))
+		user.OrganisationUserSelectMock(mock)
 
 		OrganisationSelectMock(mock)
 
@@ -47,10 +42,7 @@ func TestDetailOrganisation(t *testing.T) {
 	})
 
 	t.Run("organisation record not found", func(t *testing.T) {
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows([]string{"id", "created_at", "updated_at", "deleted_at", "user_id", "organisation_id", "role"}).
-				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "owner"))
+		user.OrganisationUserSelectMock(mock)
 
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1).

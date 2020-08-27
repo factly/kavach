@@ -31,10 +31,7 @@ func TestUpdateOrganisation(t *testing.T) {
 			WillReturnRows(sqlmock.NewRows(OrganisationCols).
 				AddRow(1, time.Now(), time.Now(), nil, "title"))
 
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
-			WithArgs(1, 1, "owner").
-			WillReturnRows(sqlmock.NewRows(user.OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, user.OrganisationUser["user_id"], user.OrganisationUser["organisation_id"], user.OrganisationUser["role"]))
+		user.OrganisationUserOwnerSelectMock(mock)
 
 		mock.ExpectBegin()
 		mock.ExpectExec(`UPDATE \"organisations\" SET (.+)  WHERE (.+) \"organisations\".\"id\" = `).
@@ -79,6 +76,15 @@ func TestUpdateOrganisation(t *testing.T) {
 			WithJSON(Organisation).
 			Expect().
 			Status(http.StatusNotFound)
+	})
+
+	t.Run("invalid organisation body", func(t *testing.T) {
+		e.PUT(path).
+			WithPath("organisation_id", "1").
+			WithHeader("X-User", "1").
+			WithJSON(invalidOrganisation).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
 	})
 
 	t.Run("invalid user id header", func(t *testing.T) {
