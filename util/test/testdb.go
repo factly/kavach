@@ -8,7 +8,6 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/model"
-	"github.com/jinzhu/gorm"
 )
 
 // AnyTime To match time for test sqlmock queries
@@ -26,13 +25,7 @@ func SetupMockDB() sqlmock.Sqlmock {
 	if err != nil {
 		fmt.Println(err)
 	}
-	model.DB, err = gorm.Open("postgres", db)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	model.DB.LogMode(true)
+	model.SetupDB(db)
 
 	return mock
 }

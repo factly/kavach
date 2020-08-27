@@ -13,7 +13,9 @@ import (
 func main() {
 	config.SetupVars()
 
-	model.SetupDB()
+	model.SetupDB(config.DSN)
+
+	model.Migration()
 
 	r := action.RegisterRoutes()
 
