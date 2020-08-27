@@ -6,9 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
-	"github.com/factly/kavach-server/test/organisation/user"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 	"gopkg.in/h2non/gock.v1"
@@ -38,13 +36,7 @@ func TestCreateOrganisation(t *testing.T) {
 
 	t.Run("create organisation", func(t *testing.T) {
 		mock.ExpectBegin()
-		mock.ExpectQuery(`INSERT INTO "organisations"`).
-			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Organisation["title"]).
-			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
-
-		mock.ExpectQuery(`INSERT INTO "organisation_users"`).
-			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, user.OrganisationUser["user_id"], user.OrganisationUser["organisation_id"], user.OrganisationUser["role"]).
-			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		insertMock(mock)
 		mock.ExpectCommit()
 
 		e.POST(basePath).
@@ -78,13 +70,7 @@ func TestCreateOrganisation(t *testing.T) {
 	t.Run("when keto is down", func(t *testing.T) {
 		gock.Off()
 		mock.ExpectBegin()
-		mock.ExpectQuery(`INSERT INTO "organisations"`).
-			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Organisation["title"]).
-			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
-
-		mock.ExpectQuery(`INSERT INTO "organisation_users"`).
-			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, user.OrganisationUser["user_id"], user.OrganisationUser["organisation_id"], user.OrganisationUser["role"]).
-			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		insertMock(mock)
 		mock.ExpectRollback()
 
 		e.POST(basePath).

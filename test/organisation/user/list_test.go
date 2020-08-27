@@ -26,10 +26,7 @@ func TestListOrganisationUsers(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	t.Run("get organisation users list", func(t *testing.T) {
-		mock.ExpectQuery(selectQuery).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+		OrganisationUserSelectMock(mock)
 
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1).

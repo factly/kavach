@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/factly/kavach-server/test/organisation/user"
+	"github.com/factly/kavach-server/util/test"
 )
 
 var Organisation map[string]interface{} = map[string]interface{}{
@@ -32,4 +34,14 @@ func OrganisationSelectMock(mock sqlmock.Sqlmock) {
 		WillReturnRows(sqlmock.NewRows(OrganisationCols).
 			AddRow(1, time.Now(), time.Now(), nil, Organisation["title"]))
 
+}
+
+func insertMock(mock sqlmock.Sqlmock) {
+	mock.ExpectQuery(`INSERT INTO "organisations"`).
+		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Organisation["title"]).
+		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+
+	mock.ExpectQuery(`INSERT INTO "organisation_users"`).
+		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, user.OrganisationUser["user_id"], user.OrganisationUser["organisation_id"], user.OrganisationUser["role"]).
+		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 }
