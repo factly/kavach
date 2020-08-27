@@ -3,11 +3,8 @@ WORKDIR /app
 
 # install node modules
 COPY ./package.json ./
-RUN npm install
-
-# env
-ENV REACT_APP_KRATOS_PUBLIC_URL http://kratos.factly.org
-ENV REACT_APP_API_URL http://api.kavach.factly.org
+COPY ./package-lock.json ./
+RUN npm ci
 
 # copy source files to image and build
 COPY . .

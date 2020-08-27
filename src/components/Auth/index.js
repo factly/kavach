@@ -25,11 +25,11 @@ function Auth(props) {
 
     if (!obj['request']) {
       window.location.href =
-        process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
     }
 
     fetch(
-      process.env.REACT_APP_KRATOS_PUBLIC_URL +
+      window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/browser/flows/requests/' +
         props.flow +
         '?request=' +
@@ -49,7 +49,7 @@ function Auth(props) {
       .catch((err) => {
         console.log(err);
         window.location.href =
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
       });
   }, [props.flow]);
 

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 function createAxiosAuthMiddleware() {
   return () => (next) => (action) => {
-    axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+    axios.defaults.baseURL = window.REACT_APP_API_URL;
     return next(action);
   };
 }

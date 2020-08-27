@@ -7,7 +7,7 @@ function Profile() {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch(process.env.REACT_APP_API_URL + '/profile')
+    fetch(window.REACT_APP_API_URL + '/profile')
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -28,7 +28,7 @@ function Profile() {
     values.birth_date = values.birth_date
       ? moment(values.birth_date).format('YYYY-MM-DDTHH:mm:ssZ')
       : null;
-    fetch(process.env.REACT_APP_API_URL + '/profile', {
+    fetch(window.REACT_APP_API_URL + '/profile', {
       method: 'PUT',
       body: JSON.stringify(values),
     })

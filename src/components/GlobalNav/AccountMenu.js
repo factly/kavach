@@ -29,7 +29,7 @@ const AccountMenu = () => {
           </Link>
         </Menu.Item>
         <Menu.Item>
-          <a href={process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/logout'}>
+          <a href={window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/logout'}>
             <LogoutOutlined />
             Logout
           </a>
