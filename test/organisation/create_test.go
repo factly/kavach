@@ -59,7 +59,7 @@ func TestCreateOrganisation(t *testing.T) {
 		test.ExpectationsMet(t, mock)
 	})
 
-	t.Run("organisation title required", func(t *testing.T) {
+	t.Run("undecodable organisation body", func(t *testing.T) {
 		e.POST(basePath).
 			WithHeader("X-User", "1").
 			WithJSON(invalidOrganisation).
@@ -67,4 +67,32 @@ func TestCreateOrganisation(t *testing.T) {
 			Status(http.StatusUnprocessableEntity)
 	})
 
+	t.Run("organisation title required", func(t *testing.T) {
+		e.POST(basePath).
+			WithHeader("X-User", "1").
+			WithJSON(orgWithoutTitle).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+	})
+
+	t.Run("when keto is down", func(t *testing.T) {
+		gock.Off()
+		mock.ExpectBegin()
+		mock.ExpectQuery(`INSERT INTO "organisations"`).
+			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Organisation["title"]).
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+
+		mock.ExpectQuery(`INSERT INTO "organisation_users"`).
+			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, user.OrganisationUser["user_id"], user.OrganisationUser["organisation_id"], user.OrganisationUser["role"]).
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		mock.ExpectRollback()
+
+		e.POST(basePath).
+			WithHeader("X-User", "1").
+			WithJSON(Organisation).
+			Expect().
+			Status(http.StatusServiceUnavailable)
+
+		test.ExpectationsMet(t, mock)
+	})
 }

@@ -141,6 +141,21 @@ func TestCreateOrganisationUser(t *testing.T) {
 		test.ExpectationsMet(t, mock)
 	})
 
+	t.Run("undecodable invite body", func(t *testing.T) {
+		mock.ExpectQuery(selectQuery).
+			WithArgs(1, 1, "owner").
+			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
+				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+
+		e.POST(basePath).
+			WithPath("organisation_id", "1").
+			WithHeader("X-User", "1").
+			WithJSON(undecodableInvite).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+		test.ExpectationsMet(t, mock)
+	})
+
 	t.Run("invalid organisation id", func(t *testing.T) {
 		e.POST(basePath).
 			WithPath("organisation_id", "abc").
@@ -157,5 +172,34 @@ func TestCreateOrganisationUser(t *testing.T) {
 			WithJSON(Invite).
 			Expect().
 			Status(http.StatusInternalServerError)
+	})
+
+	t.Run("when keto is down", func(t *testing.T) {
+		gock.Off()
+		mock.ExpectQuery(selectQuery).
+			WithArgs(1, 1, "owner").
+			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
+				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+
+		mock.ExpectBegin()
+
+		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users"`)).
+			WillReturnRows(sqlmock.NewRows(profile.UserCols))
+
+		mock.ExpectQuery(`INSERT INTO "users"`).
+			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Invite["email"], "", "", "", "", "").
+			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+
+		mock.ExpectQuery(countQuery).
+			WithArgs(1, 1).
+			WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(0))
+		mock.ExpectRollback()
+
+		e.POST(basePath).
+			WithPath("organisation_id", "1").
+			WithHeader("X-User", "1").
+			WithJSON(Invite).
+			Expect().
+			Status(http.StatusServiceUnavailable)
 	})
 }

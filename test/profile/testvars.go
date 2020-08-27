@@ -16,6 +16,13 @@ var User map[string]interface{} = map[string]interface{}{
 	"gender":     "testgender",
 }
 
+var undecodableUser map[string]interface{} = map[string]interface{}{
+	"email":      1,
+	"kid":        1,
+	"birth_date": time.Now(),
+	"gender":     5,
+}
+
 var UserCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "email", "kid", "first_name", "last_name", "birth_date", "gender"}
 
 const path string = "/profile"

@@ -81,6 +81,15 @@ func TestUpdateOrganisation(t *testing.T) {
 			Status(http.StatusNotFound)
 	})
 
+	t.Run("invalid organisation body", func(t *testing.T) {
+		e.PUT(path).
+			WithPath("organisation_id", "1").
+			WithHeader("X-User", "1").
+			WithJSON(invalidOrganisation).
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+	})
+
 	t.Run("invalid user id header", func(t *testing.T) {
 		e.PUT(path).
 			WithPath("organisation_id", "1").

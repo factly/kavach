@@ -31,6 +31,11 @@ var Invite map[string]interface{} = map[string]interface{}{
 	"role":  "owner",
 }
 
+var undecodableInvite map[string]interface{} = map[string]interface{}{
+	"email": 1,
+	"role":  10,
+}
+
 var invalidInvite map[string]interface{} = map[string]interface{}{
 	"emal": "test@email.com",
 	"rol":  "owner",

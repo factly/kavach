@@ -12,7 +12,11 @@ var Organisation map[string]interface{} = map[string]interface{}{
 }
 
 var invalidOrganisation map[string]interface{} = map[string]interface{}{
-	"tit": "Test Organisation",
+	"title": 20,
+}
+
+var orgWithoutTitle map[string]interface{} = map[string]interface{}{
+	"tit": "Test",
 }
 
 var OrganisationCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "title"}
