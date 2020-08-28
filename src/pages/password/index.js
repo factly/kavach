@@ -18,11 +18,11 @@ function Password() {
 
     if (!obj['request']) {
       window.location.href =
-        process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
     }
 
     fetch(
-      process.env.REACT_APP_KRATOS_PUBLIC_URL +
+      window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/browser/flows/requests/settings?request=' +
         obj['request'],
     )
@@ -45,7 +45,7 @@ function Password() {
       .catch((err) => {
         console.log(err);
         window.location.href =
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
       });
   }, []);
 
