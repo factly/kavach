@@ -7,11 +7,12 @@ import { useHistory } from 'react-router-dom';
 function OrganizationCreate() {
   const dispatch = useDispatch();
   const history = useHistory();
+
   return (
     <Form
       name="organization_create"
       layout="vertical"
-      onFinish={(values) => dispatch(addOrganization(values)).then(history.push('/settings'))}
+      onFinish={(values) => dispatch(addOrganization(values)).then(() => history.push('/settings'))}
       style={{
         width: '400px',
       }}

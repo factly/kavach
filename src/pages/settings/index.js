@@ -50,7 +50,7 @@ function OrganizationEdit() {
       <Button
         danger
         onClick={() =>
-          dispatch(deleteOrganization(organization.id)).then(window.location.reload(false))
+          dispatch(deleteOrganization(organization.id)).then(() => window.location.reload(false))
         }
       >
         Default
