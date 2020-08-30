@@ -46,21 +46,21 @@ export const deleteUser = (id) => {
   };
 };
 
-const loadingUsers = () => ({
+export const loadingUsers = () => ({
   type: SET_USERS_LOADING,
   payload: true,
 });
 
-const stopUsersLoading = () => ({
+export const stopUsersLoading = () => ({
   type: SET_USERS_LOADING,
   payload: false,
 });
 
-const addUsersList = (data) => ({
+export const addUsersList = (data) => ({
   type: ADD_USERS,
   payload: data,
 });
 
-const resetUsers = () => ({
+export const resetUsers = () => ({
   type: RESET_USERS,
 });

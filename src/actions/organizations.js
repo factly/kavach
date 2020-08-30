@@ -87,26 +87,26 @@ export const setSelectedOrganization = (id) => ({
   payload: id,
 });
 
-const loadingOrganizations = () => ({
+export const loadingOrganizations = () => ({
   type: SET_ORGANIZATIONS_LOADING,
   payload: true,
 });
 
-const stopOrganizationsLoading = () => ({
+export const stopOrganizationsLoading = () => ({
   type: SET_ORGANIZATIONS_LOADING,
   payload: false,
 });
 
-const getOrganizationByID = (data) => ({
+export const getOrganizationByID = (data) => ({
   type: ADD_ORGANIZATION,
   payload: data,
 });
 
-const addOrganizationsList = (data) => ({
+export const addOrganizationsList = (data) => ({
   type: ADD_ORGANIZATIONS,
   payload: data,
 });
 
-const resetOrganizations = () => ({
+export const resetOrganizations = () => ({
   type: RESET_ORGANIZATIONS,
 });
