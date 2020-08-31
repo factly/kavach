@@ -5,7 +5,9 @@ WORKDIR /app
 COPY . .
 
 RUN go mod download
+ENV DSN $DSN
+ENV KETO $KETO
 
 RUN go get github.com/githubnemo/CompileDaemon
 
-ENTRYPOINT CompileDaemon -exclude-dir=.git -exclude-dir=docs --build="go build main.go" --command="./main -dsn=postgres://postgres:postgres@postgres:5432/kavach?sslmode=disable -keto=http://keto:4466"
+ENTRYPOINT CompileDaemon -exclude-dir=.git -exclude-dir=docs --build="go build main.go" --command="./main -dsn=${DSN} -keto=${KETO}"
