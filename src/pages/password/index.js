@@ -43,7 +43,6 @@ function Password() {
         }
       })
       .catch((err) => {
-        console.log(err);
         window.location.href =
           window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
       });

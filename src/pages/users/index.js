@@ -62,7 +62,9 @@ function OrganisationUsers() {
       render: (text, record) => (
         <Popconfirm
           title="Sure to delete?"
-          onConfirm={() => dispatch(deleteUser(record.id)).then(fetchUsers())}
+          onConfirm={() => {
+            dispatch(deleteUser(record.id)).then(() => fetchUsers());
+          }}
         >
           <Button icon={<DeleteOutlined />} />
         </Popconfirm>
@@ -81,12 +83,12 @@ function OrganisationUsers() {
           initialValues={{
             role: 'member',
           }}
-          onFinish={(values) =>
+          onFinish={(values) => {
             dispatch(addUser(values)).then(() => {
               fetchUsers();
               form.resetFields();
-            })
-          }
+            });
+          }}
         >
           <Form.Item
             name="email"

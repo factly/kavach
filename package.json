@@ -45,7 +45,7 @@
     }
   },
   "lint-staged": {
-    "*": [
+    "**/*.{js,jsx,yml,yaml,json,css,scss,md}": [
       "npm run format",
       "git add"
     ]
@@ -63,12 +63,15 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
-    "cz-conventional-changelog": "^3.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.3",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "redux-mock-store": "^1.5.4",
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "cz-conventional-changelog": "^3.2.0"
   },
   "config": {
     "commitizen": {
