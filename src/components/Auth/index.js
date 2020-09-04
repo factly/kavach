@@ -25,15 +25,18 @@ function Auth(props) {
 
     if (!obj['request']) {
       window.location.href =
-        process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
     }
 
     fetch(
-      process.env.REACT_APP_KRATOS_PUBLIC_URL +
+      window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/browser/flows/requests/' +
         props.flow +
         '?request=' +
         obj['request'],
+      {
+        credentials: 'include',
+      },
     )
       .then((res) => {
         if (res.status === 200) {
@@ -44,9 +47,8 @@ function Auth(props) {
       })
       .then((res) => setMethod(res.methods))
       .catch((err) => {
-        console.log(err);
         window.location.href =
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/' + props.flow;
       });
   }, [props.flow]);
 

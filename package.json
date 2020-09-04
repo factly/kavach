@@ -28,19 +28,26 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "eject": "react-scripts eject",
+    "format:check": "prettier --check \"**/*.{js,jsx,yml,yaml,json,css,scss,md}\"",
+    "format": "prettier --write \"**/*.{js,jsx,yml,yaml,json,css,scss,md}\""
   },
   "engines": {
     "node": ">=8.9.0"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
     }
   },
   "lint-staged": {
-    "*.{js,jsx,html,css}": [
-      "prettier --write"
+    "**/*.{js,jsx,yml,yaml,json,css,scss,md}": [
+      "npm run format",
+      "git add"
     ]
   },
   "browserslist": {
@@ -61,6 +68,14 @@
     "husky": "^4.2.5",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
-    "redux-mock-store": "^1.5.4"
+    "redux-mock-store": "^1.5.4",
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "cz-conventional-changelog": "^3.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

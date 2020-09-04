@@ -12,7 +12,7 @@ function Sidebar() {
   const {
     sider: { collapsed },
     navTheme,
-    title
+    title,
   } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   return (
@@ -30,21 +30,23 @@ function Sidebar() {
       <div className="menu-header">
         <img alt="logo" className="menu-logo" src={logo} />
         <span hidden={collapsed} className="menu-company">
-        {title}
+          {title}
         </span>
       </div>
       <Menu theme={navTheme} mode="inline" className="slider-menu">
-        {routes.filter((each) => each.enableNavigation=== true ).map((route, index) => {
-          const { Icon } = route;
-          return (
-            <Menu.Item key={index}>
-              <Link to={route.path}>
-                <Icon></Icon>
-                <span>{route.title}</span>
-              </Link>
-            </Menu.Item>
-          );
-        })}
+        {routes
+          .filter((each) => each.enableNavigation === true)
+          .map((route, index) => {
+            const { Icon } = route;
+            return (
+              <Menu.Item key={index}>
+                <Link to={route.path}>
+                  <Icon></Icon>
+                  <span>{route.title}</span>
+                </Link>
+              </Menu.Item>
+            );
+          })}
       </Menu>
     </Sider>
   );

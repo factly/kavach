@@ -9,6 +9,9 @@ import Profile from './index';
 
 global.fetch = jest.fn();
 
+let m = moment('12 Dec 2020 00:00:00 IST', 'DD MMM YYYY HH:mm:ss'); // Parse string in local time
+const birthDate = m.format();
+
 describe('Profiles index component', () => {
   describe('snapshot testing', () => {
     it('should render the component', async () => {
@@ -37,7 +40,7 @@ describe('Profiles index component', () => {
             Promise.resolve({
               first_name: 'first_name',
               last_name: 'last_name',
-              birth_date: '2020-12-12',
+              birth_date: birthDate,
               gender: 'other',
             }),
         }),
@@ -55,15 +58,15 @@ describe('Profiles index component', () => {
 
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
-          [process.env.REACT_APP_API_URL + '/profile'],
+          [window.REACT_APP_API_URL + '/profile'],
           [
-            process.env.REACT_APP_API_URL + '/profile',
+            window.REACT_APP_API_URL + '/profile',
             {
               method: 'PUT',
               body: JSON.stringify({
                 first_name: 'first_name',
                 last_name: 'last_name',
-                birth_date: moment('2020-12-12'),
+                birth_date: birthDate,
                 gender: 'other',
               }),
             },
@@ -80,7 +83,7 @@ describe('Profiles index component', () => {
             Promise.resolve({
               first_name: 'first_name',
               last_name: 'last_name',
-              birth_date: '2020-12-12',
+              birth_date: birthDate,
               gender: 'other',
             }),
         }),
@@ -109,7 +112,7 @@ describe('Profiles index component', () => {
           .find(DatePicker)
           .at(0)
           .props()
-          .onChange({ target: { value: moment('2020-10-10') } });
+          .onChange({ target: { value: moment('2020-12-12') } });
         wrapper
           .find('FormItem')
           .at(3)
@@ -124,15 +127,15 @@ describe('Profiles index component', () => {
 
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
-          [process.env.REACT_APP_API_URL + '/profile'],
+          [window.REACT_APP_API_URL + '/profile'],
           [
-            process.env.REACT_APP_API_URL + '/profile',
+            window.REACT_APP_API_URL + '/profile',
             {
               method: 'PUT',
               body: JSON.stringify({
                 first_name: 'new first_name',
                 last_name: 'new last_name',
-                birth_date: moment('2020-10-10'),
+                birth_date: birthDate,
                 gender: 'male',
               }),
             },

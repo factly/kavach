@@ -20,9 +20,9 @@ describe('users actions', () => {
   beforeEach(() => {
     store = mockStore({
       users: initialState,
-      organizations: {
+      organisations: {
         ids: [1],
-        details: { 1: { id: 1, name: 'organization' } },
+        details: { 1: { id: 1, name: 'organisation' } },
         loading: false,
         selected: 1,
       },

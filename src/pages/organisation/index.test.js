@@ -5,11 +5,11 @@ import { act } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
 
 import '../../matchMedia.mock';
-import OrganizationCreate from './index';
-import { addOrganization } from '../../actions/organizations';
+import OrganisationCreate from './index';
+import { addOrganisation } from '../../actions/organisations';
 
-jest.mock('../../actions/organizations', () => ({
-  addOrganization: jest.fn(),
+jest.mock('../../actions/organisations', () => ({
+  addOrganisation: jest.fn(),
 }));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -20,7 +20,7 @@ jest.mock('react-router-dom', () => ({
   useHistory: jest.fn(),
 }));
 
-describe('Organizations index component', () => {
+describe('Organisations index component', () => {
   const mockedDispatch = jest.fn();
   mockedDispatch.mockReturnValue(Promise.resolve());
   useDispatch.mockReturnValue(mockedDispatch);
@@ -31,7 +31,7 @@ describe('Organizations index component', () => {
     it('should render the component', () => {
       let component;
       act(() => {
-        component = shallow(<OrganizationCreate />);
+        component = shallow(<OrganisationCreate />);
       });
       expect(component).toMatchSnapshot();
     });
@@ -40,7 +40,7 @@ describe('Organizations index component', () => {
     let wrapper;
     beforeEach(() => {
       act(() => {
-        wrapper = mount(<OrganizationCreate />);
+        wrapper = mount(<OrganisationCreate />);
       });
     });
     afterEach(() => {
@@ -66,8 +66,8 @@ describe('Organizations index component', () => {
       wrapper.update();
 
       setTimeout(() => {
-        expect(addOrganization).toHaveBeenCalledTimes(1);
-        expect(addOrganization).toHaveBeenCalledWith({
+        expect(addOrganisation).toHaveBeenCalledTimes(1);
+        expect(addOrganisation).toHaveBeenCalledWith({
           title: 'title',
           description: 'description',
         });

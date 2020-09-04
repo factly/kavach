@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { Popconfirm } from 'antd';
 
 import '../../matchMedia.mock';
-import OrganizationUsers from './index';
+import OrganisationUsers from './index';
 import { getUsers, deleteUser, addUser } from '../../actions/users';
 
 jest.mock('../../actions/users', () => ({
@@ -29,7 +29,7 @@ const mockStore = configureMockStore(middlewares);
 
 describe('Users index component', () => {
   const memberStore = mockStore({
-    organizations: {
+    organisations: {
       ids: [1],
       details: {
         1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' } },
@@ -44,7 +44,7 @@ describe('Users index component', () => {
     },
   });
   const ownerStore = mockStore({
-    organizations: {
+    organisations: {
       ids: [1],
       details: {
         1: { id: 1, title: 'title', description: 'description', permission: { role: 'owner' } },
@@ -78,7 +78,7 @@ describe('Users index component', () => {
       act(() => {
         component = shallow(
           <Provider store={ownerStore}>
-            <OrganizationUsers />
+            <OrganisationUsers />
           </Provider>,
         );
       });
@@ -91,7 +91,7 @@ describe('Users index component', () => {
       act(() => {
         component = shallow(
           <Provider store={memberStore}>
-            <OrganizationUsers />
+            <OrganisationUsers />
           </Provider>,
         );
       });
@@ -105,7 +105,7 @@ describe('Users index component', () => {
       await act(async () => {
         wrapper = mount(
           <Provider store={ownerStore}>
-            <OrganizationUsers />
+            <OrganisationUsers />
           </Provider>,
         );
       });

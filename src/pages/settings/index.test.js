@@ -6,17 +6,17 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
 import '../../matchMedia.mock';
-import OrganizationCreate from './index';
+import OrganisationCreate from './index';
 import {
-  getOrganization,
-  updateOrganization,
-  deleteOrganization,
-} from '../../actions/organizations';
+  getOrganisation,
+  updateOrganisation,
+  deleteOrganisation,
+} from '../../actions/organisations';
 
-jest.mock('../../actions/organizations', () => ({
-  getOrganization: jest.fn(),
-  updateOrganization: jest.fn(),
-  deleteOrganization: jest.fn(),
+jest.mock('../../actions/organisations', () => ({
+  getOrganisation: jest.fn(),
+  updateOrganisation: jest.fn(),
+  deleteOrganisation: jest.fn(),
 }));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -33,11 +33,11 @@ window.location = { reload: jest.fn() };
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Organizations index component', () => {
+describe('Organisations index component', () => {
   let store;
   beforeEach(() => {
     store = mockStore({
-      organizations: {
+      organisations: {
         ids: [1],
         details: { 1: { id: 1, title: 'title', description: 'description' } },
         loading: false,
@@ -54,7 +54,7 @@ describe('Organizations index component', () => {
       act(() => {
         component = shallow(
           <Provider store={store}>
-            <OrganizationCreate />
+            <OrganisationCreate />
           </Provider>,
         );
       });
@@ -68,7 +68,7 @@ describe('Organizations index component', () => {
       act(() => {
         wrapper = mount(
           <Provider store={store}>
-            <OrganizationCreate />
+            <OrganisationCreate />
           </Provider>,
         );
       });
@@ -77,14 +77,14 @@ describe('Organizations index component', () => {
       wrapper.unmount();
     });
     it('should submit form with data', (done) => {
-      expect(getOrganization).toHaveBeenCalledWith(1);
+      expect(getOrganisation).toHaveBeenCalledWith(1);
 
       const submitButtom = wrapper.find('Button').at(0);
       submitButtom.simulate('submit');
 
       setTimeout(() => {
-        expect(updateOrganization).toHaveBeenCalledTimes(1);
-        expect(updateOrganization).toHaveBeenCalledWith({
+        expect(updateOrganisation).toHaveBeenCalledTimes(1);
+        expect(updateOrganisation).toHaveBeenCalledWith({
           id: 1,
           title: 'title',
           description: 'description',
@@ -93,7 +93,7 @@ describe('Organizations index component', () => {
       });
     });
     it('should submit form with updated data', (done) => {
-      updateOrganization.mockClear();
+      updateOrganisation.mockClear();
       act(() => {
         wrapper
           .find('FormItem')
@@ -113,8 +113,8 @@ describe('Organizations index component', () => {
       wrapper.update();
 
       setTimeout(() => {
-        expect(updateOrganization).toHaveBeenCalledTimes(1);
-        expect(updateOrganization).toHaveBeenCalledWith({
+        expect(updateOrganisation).toHaveBeenCalledTimes(1);
+        expect(updateOrganisation).toHaveBeenCalledWith({
           id: 1,
           title: 'new title',
           description: 'new description',
@@ -122,14 +122,14 @@ describe('Organizations index component', () => {
         done();
       });
     });
-    it('should call deleteOrganization', (done) => {
+    it('should call deleteOrganisation', (done) => {
       const deleteButtom = wrapper.find('Button').at(1);
       deleteButtom.simulate('click');
       wrapper.update();
 
       setTimeout(() => {
-        expect(deleteOrganization).toHaveBeenCalledTimes(1);
-        expect(deleteOrganization).toHaveBeenCalledWith(1);
+        expect(deleteOrganisation).toHaveBeenCalledTimes(1);
+        expect(deleteOrganisation).toHaveBeenCalledWith(1);
         expect(window.location.reload).toHaveBeenCalledWith(false);
         done();
       });

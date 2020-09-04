@@ -4,26 +4,26 @@ import { useSelector, useDispatch } from 'react-redux';
 import { DeleteOutlined } from '@ant-design/icons';
 import { getUsers, deleteUser, addUser } from '../../actions/users';
 
-function OrganizationUsers() {
+function OrganisationUsers() {
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
 
-  const { organization, users, loading } = useSelector((state) => {
+  const { organisation, users, loading } = useSelector((state) => {
     return {
-      organization: state.organizations.details[state.organizations.selected],
+      organisation: state.organisations.details[state.organisations.selected],
       users: state.users.ids.map((id) => state.users.details[id]),
       loading: state.users.loading,
     };
   });
 
+  const fetchUsers = React.useCallback(() => {
+    dispatch(getUsers());
+  }, [dispatch]);
+
   React.useEffect(() => {
     fetchUsers();
-  }, []);
-
-  const fetchUsers = () => {
-    dispatch(getUsers());
-  };
+  }, [fetchUsers]);
 
   const columns = [
     {
@@ -63,7 +63,6 @@ function OrganizationUsers() {
         <Popconfirm
           title="Sure to delete?"
           onConfirm={() => {
-            console.log('delete');
             dispatch(deleteUser(record.id)).then(() => fetchUsers());
           }}
         >
@@ -76,7 +75,7 @@ function OrganizationUsers() {
 
   return (
     <Space direction="vertical">
-      {organization.permission.role === 'owner' ? (
+      {organisation.permission.role === 'owner' ? (
         <Form
           form={form}
           name="add_user"
@@ -125,4 +124,4 @@ function OrganizationUsers() {
   );
 }
 
-export default OrganizationUsers;
+export default OrganisationUsers;

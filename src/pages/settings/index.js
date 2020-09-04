@@ -2,32 +2,32 @@ import React from 'react';
 import { Button, Form, Input, Space, Divider } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  getOrganization,
-  updateOrganization,
-  deleteOrganization,
-} from './../../actions/organizations';
+  getOrganisation,
+  updateOrganisation,
+  deleteOrganisation,
+} from './../../actions/organisations';
 
-function OrganizationEdit() {
+function OrganisationEdit() {
   const dispatch = useDispatch();
 
-  const { organization, selected } = useSelector((state) => {
+  const { organisation, selected } = useSelector((state) => {
     return {
-      organization: state.organizations.details[state.organizations.selected],
-      selected: state.organizations.selected,
+      organisation: state.organisations.details[state.organisations.selected],
+      selected: state.organisations.selected,
     };
   });
 
   React.useEffect(() => {
-    dispatch(getOrganization(selected));
+    dispatch(getOrganisation(selected));
   }, [dispatch, selected]);
 
   return (
     <Space direction="vertical">
       <Form
-        name="organization_edit"
+        name="organisation_edit"
         layout="vertical"
-        onFinish={(values) => dispatch(updateOrganization({ ...organization, ...values }))}
-        initialValues={organization}
+        onFinish={(values) => dispatch(updateOrganisation({ ...organisation, ...values }))}
+        initialValues={organisation}
         style={{
           width: '400px',
         }}
@@ -39,7 +39,7 @@ function OrganizationEdit() {
           <Input.TextArea placeholder="Description" />
         </Form.Item>
         <Form.Item>
-          <Button form="organization_edit" type="primary" htmlType="submit" block>
+          <Button form="organisation_edit" type="primary" htmlType="submit" block>
             Save
           </Button>
         </Form.Item>
@@ -50,13 +50,13 @@ function OrganizationEdit() {
       <Button
         danger
         onClick={() =>
-          dispatch(deleteOrganization(organization.id)).then(() => window.location.reload(false))
+          dispatch(deleteOrganisation(organisation.id)).then(window.location.reload(false))
         }
       >
-        Default
+        Delete
       </Button>
     </Space>
   );
 }
 
-export default OrganizationEdit;
+export default OrganisationEdit;

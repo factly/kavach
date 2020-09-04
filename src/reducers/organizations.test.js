@@ -1,5 +1,5 @@
-import reducer from './organizations';
-import * as types from '../constants/organizations';
+import reducer from './organisations';
+import * as types from '../constants/organisations';
 
 const initialState = {
   ids: [],
@@ -8,7 +8,7 @@ const initialState = {
   selected: 0,
 };
 
-describe('organizations reducer', () => {
+describe('organisations reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
@@ -16,37 +16,37 @@ describe('organizations reducer', () => {
     expect(
       reducer({
         ids: [1],
-        details: { 1: { id: 1, name: 'organization' } },
+        details: { 1: { id: 1, name: 'organisation' } },
         loading: false,
         selected: 1,
       }),
     ).toEqual({
       ids: [1],
-      details: { 1: { id: 1, name: 'organization' } },
+      details: { 1: { id: 1, name: 'organisation' } },
       loading: false,
       selected: 1,
     });
   });
-  it('should handle RESET_ORGANIZATIONS', () => {
+  it('should handle RESET_ORGANISATIONS', () => {
     expect(
       reducer(
         {
           ids: [1],
-          details: [{ id: 1, name: 'organization' }],
+          details: [{ id: 1, name: 'organisation' }],
           loading: false,
           selected: 1,
         },
         {
-          type: types.RESET_ORGANIZATIONS,
+          type: types.RESET_ORGANISATIONS,
           payload: {},
         },
       ),
     ).toEqual(initialState);
   });
-  it('should handle SET_ORGANIZATIONS_LOADING', () => {
+  it('should handle SET_ORGANISATIONS_LOADING', () => {
     expect(
       reducer(initialState, {
-        type: types.SET_ORGANIZATIONS_LOADING,
+        type: types.SET_ORGANISATIONS_LOADING,
         payload: true,
       }),
     ).toEqual({
@@ -57,7 +57,7 @@ describe('organizations reducer', () => {
     });
     expect(
       reducer(initialState, {
-        type: types.SET_ORGANIZATIONS_LOADING,
+        type: types.SET_ORGANISATIONS_LOADING,
         payload: false,
       }),
     ).toEqual({
@@ -67,81 +67,81 @@ describe('organizations reducer', () => {
       selected: 0,
     });
   });
-  it('should handle ADD_ORGANIZATIONS', () => {
+  it('should handle ADD_ORGANISATIONS', () => {
     expect(
       reducer(initialState, {
-        type: types.ADD_ORGANIZATIONS,
+        type: types.ADD_ORGANISATIONS,
         payload: [
-          { id: 1, name: 'organization 1' },
-          { id: 2, name: 'organization 2' },
+          { id: 1, name: 'organisation 1' },
+          { id: 2, name: 'organisation 2' },
         ],
       }),
     ).toEqual({
       ids: [1, 2],
-      details: { 1: { id: 1, name: 'organization 1' }, 2: { id: 2, name: 'organization 2' } },
+      details: { 1: { id: 1, name: 'organisation 1' }, 2: { id: 2, name: 'organisation 2' } },
       loading: true,
       selected: 1,
     });
   });
-  it('should handle ADD_ORGANIZATION', () => {
+  it('should handle ADD_ORGANISATION', () => {
     expect(
       reducer(initialState, {
-        type: types.ADD_ORGANIZATION,
-        payload: { id: 1, name: 'organization 1' },
+        type: types.ADD_ORGANISATION,
+        payload: { id: 1, name: 'organisation 1' },
       }),
     ).toEqual({
       ids: [1],
-      details: { 1: { id: 1, name: 'organization 1' } },
+      details: { 1: { id: 1, name: 'organisation 1' } },
       loading: true,
       selected: 0,
     });
   });
-  it('should handle ADD_ORGANIZATION when details is non-empty', () => {
+  it('should handle ADD_ORGANISATION when details is non-empty', () => {
     expect(
       reducer(
         {
           ids: [1],
-          details: { 1: { id: 1, name: 'existing organization' } },
+          details: { 1: { id: 1, name: 'existing organisation' } },
           loading: false,
           selected: 1,
         },
         {
-          type: types.ADD_ORGANIZATION,
-          payload: { id: 2, name: 'new organization' },
+          type: types.ADD_ORGANISATION,
+          payload: { id: 2, name: 'new organisation' },
         },
       ),
     ).toEqual({
       ids: [1, 2],
       details: {
-        1: { id: 1, name: 'existing organization' },
-        2: { id: 2, name: 'new organization' },
+        1: { id: 1, name: 'existing organisation' },
+        2: { id: 2, name: 'new organisation' },
       },
       loading: false,
       selected: 1,
     });
   });
-  it('should handle ADD_ORGANIZATION when already exists', () => {
+  it('should handle ADD_ORGANISATION when already exists', () => {
     expect(
       reducer(
         {
           ids: [1, 2],
           details: {
-            1: { id: 1, name: 'existing organization' },
-            2: { id: 2, name: 'new organization' },
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
           },
           loading: false,
           selected: 1,
         },
         {
-          type: types.ADD_ORGANIZATION,
-          payload: { id: 2, name: 'updated organization' },
+          type: types.ADD_ORGANISATION,
+          payload: { id: 2, name: 'updated organisation' },
         },
       ),
     ).toEqual({
       ids: [1, 2],
       details: {
-        1: { id: 1, name: 'existing organization' },
-        2: { id: 2, name: 'updated organization' },
+        1: { id: 1, name: 'existing organisation' },
+        2: { id: 2, name: 'updated organisation' },
       },
       loading: false,
       selected: 1,
