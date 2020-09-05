@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Users index component snapshot testing should render the component for member user 1`] = `ShallowWrapper {}`;
+
+exports[`Users index component snapshot testing should render the component for owner user 1`] = `ShallowWrapper {}`;

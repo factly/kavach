@@ -21,6 +21,7 @@ export default function tagsReducer(state = initialState, action = {}) {
         ids: [],
         details: {},
         loading: true,
+        selected: 0,
       };
     case SET_ORGANISATIONS_LOADING:
       return {
