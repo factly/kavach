@@ -1,11 +1,20 @@
+# Kavach Web
+
+**Releasability:** [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=alert_status)](https://sonarcloud.io/dashboard?id=factly_kavach-web)  
+**Reliability:** [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=bugs)](https://sonarcloud.io/dashboard?id=factly_kavach-web)  
+**Security:** [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=security_rating)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=factly_kavach-web)  
+**Maintainability:** [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=sqale_index)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=code_smells)](https://sonarcloud.io/dashboard?id=factly_kavach-web)  
+**Other:** [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=ncloc)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=coverage)](https://sonarcloud.io/dashboard?id=factly_kavach-web)
+
 ## Setting up Development environment for Dega
 
-###Pre-requisites
+### Pre-requisites
 
 - Currently we are only supporting development on Mac OS and Linux
 - Install and run Docker
 
-###Clone the required repositories
+### Clone the required repositories
+
 Create a new directory called dega and clone the following repositories into the directory:
 
 - [dega-gateway](https://github.com/factly/dega-gateway)
