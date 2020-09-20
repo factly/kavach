@@ -21,6 +21,6 @@ func SetupDB(DSN interface{}) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println("connected to database ...")
 	DB.LogMode(true)
 }
