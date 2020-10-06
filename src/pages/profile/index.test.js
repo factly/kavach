@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker } from 'antd';
+import { DatePicker, Radio } from 'antd';
 import { act } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
 import moment from 'moment';
@@ -116,7 +116,7 @@ describe('Profiles index component', () => {
         wrapper
           .find('FormItem')
           .at(3)
-          .find('RadioGroup')
+          .find(Radio.Group)
           .at(0)
           .props()
           .onChange({ target: { value: 'male' } });
