@@ -16,6 +16,7 @@ exports[`OrganisationSelector component snapshot testing should render the compo
 >
   <div
     className="ant-select-selector"
+    onClick={[Function]}
     onMouseDown={[Function]}
   >
     <span
@@ -43,6 +44,7 @@ exports[`OrganisationSelector component snapshot testing should render the compo
             "opacity": 0,
           }
         }
+        type="search"
         unselectable="on"
         value=""
       />
@@ -106,6 +108,7 @@ exports[`OrganisationSelector component snapshot testing should render the compo
 >
   <div
     className="ant-select-selector"
+    onClick={[Function]}
     onMouseDown={[Function]}
   >
     <span
@@ -133,6 +136,7 @@ exports[`OrganisationSelector component snapshot testing should render the compo
             "opacity": 0,
           }
         }
+        type="search"
         unselectable="on"
         value=""
       />
