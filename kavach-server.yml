@@ -1,4 +1,0 @@
-postgres:
-    dsn: postgres://postgres:postgres@postgres:5432/kavach?sslmode=disable
-keto:
-    url: http://keto:4466
