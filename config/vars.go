@@ -3,30 +3,29 @@ package config
 import (
 	"flag"
 	"log"
+
+	"github.com/spf13/viper"
 )
-
-// DSN dsn
-var DSN string
-
-// KetoURL keto server url
-var KetoURL string
 
 // SetupVars setups all the config variables to run application
 func SetupVars() {
-	var dsn string
-	var ketoURL string
-	flag.StringVar(&dsn, "dsn", "", "Database connection string")
-	flag.StringVar(&ketoURL, "keto", "", "Keto connection string")
+	var configPath string
+
+	flag.StringVar(&configPath, "config", "./config.yaml", "Config file path")
 	flag.Parse()
 
-	if dsn == "" {
-		log.Fatal("Please pass dsn flag")
+	viper.SetConfigFile(configPath)
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatal("config file not found...")
 	}
 
-	if ketoURL == "" {
-		log.Fatal("Please pass keto flag")
+	if !viper.IsSet("postgres.dsn") {
+		log.Fatal("please provide postgres.dsn in config file")
 	}
 
-	DSN = dsn
-	KetoURL = ketoURL
+	if !viper.IsSet("keto.url") {
+		log.Fatal("please provide keto.url in config file")
+	}
 }

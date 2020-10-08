@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/model"
+	"github.com/spf13/viper"
 	"gopkg.in/h2non/gock.v1"
 )
 
@@ -23,7 +23,7 @@ func MockServer() error {
 		return err
 	}
 
-	gock.New(config.KetoURL).
+	gock.New(viper.GetString("keto.url")).
 		Put("/engines/acp/ory/regex/roles").
 		Persist().
 		Body(buf).
@@ -41,7 +41,7 @@ func MockServer() error {
 		return err
 	}
 
-	gock.New(config.KetoURL).
+	gock.New(viper.GetString("keto.url")).
 		Put("/engines/acp/ory/regex/policies").
 		Body(buf).
 		Reply(http.StatusOK)
@@ -53,12 +53,12 @@ func MockServer() error {
 		return err
 	}
 
-	gock.New(config.KetoURL).
+	gock.New(viper.GetString("keto.url")).
 		Put("/engines/acp/ory/regex/roles/roles:org:1:admin/members").
 		Body(buf).
 		Reply(http.StatusOK)
 
-	gock.New(config.KetoURL).
+	gock.New(viper.GetString("keto.url")).
 		Delete("/engines/acp/ory/regex/roles/roles:org:1:admin/members/1").
 		Reply(http.StatusOK)
 

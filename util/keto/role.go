@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/factly/kavach-server/config"
 	"github.com/factly/kavach-server/model"
+	"github.com/spf13/viper"
 )
 
 // UpdateRole PUT Request to the keto server for policy
@@ -17,7 +17,7 @@ func UpdateRole(uri string, body *model.Role) error {
 		return err
 	}
 
-	req, err := http.NewRequest("PUT", config.KetoURL+uri, buf)
+	req, err := http.NewRequest("PUT", viper.GetString("keto.url")+uri, buf)
 
 	if err != nil {
 		return err
