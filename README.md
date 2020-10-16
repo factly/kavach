@@ -14,5 +14,8 @@ keto:
     url: http://keto:4466
 mode: development
 ```
+* config file should be stored in project root folder (eg. kavach-server.yml)
+* If running in docker pass config file path in `CONFIG_FILE` env parameter at runtime.
+* If running main.go then pass config file path as `-config` flag.
 
 > If running in docker, docs can be accessed at `http://localhost:5000/swagger/index.html` 
