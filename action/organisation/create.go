@@ -19,7 +19,18 @@ type organisation struct {
 	Title string `json:"title" validate:"required"`
 }
 
-// create create organisation
+// create - Create organisation
+// @Summary Create organisation
+// @Description Create organisation
+// @Tags Organisation
+// @ID add-organisation
+// @Consume json
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Param Organisation body organisation true "Organisation Object"
+// @Success 201 {object} orgWithRole
+// @Failure 400 {array} string
+// @Router /organisations [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	org := &organisation{}
 

@@ -18,7 +18,17 @@ type user struct {
 	Gender    string `json:"gender"`
 }
 
-// update of user
+// update - Update user info
+// @Summary Update user info
+// @Description Update user info
+// @Tags Profile
+// @ID update-logged-in-user
+// @Produce json
+// @Consume json
+// @Param X-User header string true "User ID"
+// @Param User body user false "User"
+// @Success 200 {object} model.User
+// @Router /profile [put]
 func update(w http.ResponseWriter, r *http.Request) {
 
 	req := user{}

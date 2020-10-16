@@ -1,0 +1,408 @@
+basePath: /
+definitions:
+  model.Organisation:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  model.OrganisationUser:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      organisation:
+        $ref: '#/definitions/model.Organisation'
+        type: object
+      organisation_id:
+        type: integer
+      role:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/model.User'
+        type: object
+      user_id:
+        type: integer
+    type: object
+  model.User:
+    properties:
+      birth_date:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      kid:
+        type: string
+      last_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  organisation.orgWithRole:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      id:
+        type: integer
+      permission:
+        $ref: '#/definitions/model.OrganisationUser'
+        type: object
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  organisation.organisation:
+    properties:
+      title:
+        type: string
+    required:
+    - title
+    type: object
+  profile.user:
+    properties:
+      birth_date:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+    type: object
+  user.invite:
+    properties:
+      email:
+        type: string
+      role:
+        type: string
+    required:
+    - email
+    - role
+    type: object
+  user.userWithPermission:
+    properties:
+      birth_date:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      kid:
+        type: string
+      last_name:
+        type: string
+      permission:
+        $ref: '#/definitions/model.OrganisationUser'
+        type: object
+      updated_at:
+        type: string
+    type: object
+host: localhost:5000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: Kavach Server API
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Kavach Server API
+  version: "1.0"
+paths:
+  /organisaion/{organisation_id}:
+    get:
+      description: Get organisation by ID
+      operationId: get-organisation-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organisation.orgWithRole'
+      summary: Show a organisation by id
+      tags:
+      - Organisation
+  /organisations:
+    get:
+      description: Get all organisations
+      operationId: get-all-organisations
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/organisation.orgWithRole'
+              type: array
+            type: array
+      summary: Show all organisations
+      tags:
+      - Organisation
+    post:
+      description: Create organisation
+      operationId: add-organisation
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation Object
+        in: body
+        name: Organisation
+        required: true
+        schema:
+          $ref: '#/definitions/organisation.organisation'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/organisation.orgWithRole'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Create organisation
+      tags:
+      - Organisation
+  /organisations/{organisation_id}:
+    delete:
+      description: Delete organisation by ID
+      operationId: delete-organisation-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      responses:
+        "200": {}
+      summary: Delete a organisation
+      tags:
+      - Organisation
+    put:
+      description: Update organisation by ID
+      operationId: update-organisation-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Organisation Object
+        in: body
+        name: Organisation
+        schema:
+          $ref: '#/definitions/model.Organisation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organisation.orgWithRole'
+      summary: Update a organisation by id
+      tags:
+      - Organisation
+  /organisations/{organisation_id}/users:
+    get:
+      description: Get all organisations users
+      operationId: get-all-organisations-users
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/user.userWithPermission'
+              type: array
+            type: array
+      summary: Show all organisations users
+      tags:
+      - OrganisationUser
+    post:
+      description: Create organisation user
+      operationId: add-organisation-user
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Invite Object
+        in: body
+        name: Invite
+        required: true
+        schema:
+          $ref: '#/definitions/user.invite'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.userWithPermission'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Create organisation user
+      tags:
+      - OrganisationUser
+  /organisations/{organisation_id}/users/{user_id}:
+    delete:
+      description: Delete organisation user by ID
+      operationId: delete-organisation-user-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      responses:
+        "200": {}
+      summary: Delete a organisation user
+      tags:
+      - OrganisationUser
+  /profile:
+    get:
+      description: Get logged in user details
+      operationId: get-logged-in-user
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: Get logged in user details
+      tags:
+      - Profile
+    put:
+      description: Update user info
+      operationId: update-logged-in-user
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: User
+        in: body
+        name: User
+        schema:
+          $ref: '#/definitions/profile.user'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+      summary: Update user info
+      tags:
+      - Profile
+swagger: "2.0"

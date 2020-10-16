@@ -10,7 +10,15 @@ import (
 	"github.com/factly/x/renderx"
 )
 
-// detail of user
+// detail - Get logged in user details
+// @Summary Get logged in user details
+// @Description Get logged in user details
+// @Tags Profile
+// @ID get-logged-in-user
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Success 200 {object} model.User
+// @Router /profile [get]
 func detail(w http.ResponseWriter, r *http.Request) {
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
