@@ -11,7 +11,16 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// list return all user in organisation
+// list - Get all organisations users
+// @Summary Show all organisations users
+// @Description Get all organisations users
+// @Tags OrganisationUser
+// @ID get-all-organisations-users
+// @Produce  json
+// @Param X-User header string true "User ID"
+// @Param organisation_id path string true "Organisation ID"
+// @Success 200 {array} []userWithPermission
+// @Router /organisations/{organisation_id}/users [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)

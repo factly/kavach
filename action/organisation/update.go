@@ -12,6 +12,18 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// update - Update organisation by id
+// @Summary Update a organisation by id
+// @Description Update organisation by ID
+// @Tags Organisation
+// @ID update-organisation-by-id
+// @Produce json
+// @Consume json
+// @Param X-User header string true "User ID"
+// @Param organisation_id path string true "Organisation ID"
+// @Param Organisation body model.Organisation false "Organisation Object"
+// @Success 200 {object} orgWithRole
+// @Router /organisations/{organisation_id} [put]
 func update(w http.ResponseWriter, r *http.Request) {
 
 	req := &model.Organisation{}

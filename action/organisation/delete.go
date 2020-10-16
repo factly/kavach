@@ -13,6 +13,15 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// delete - Delete organisation by id
+// @Summary Delete a organisation
+// @Description Delete organisation by ID
+// @Tags Organisation
+// @ID delete-organisation-by-id
+// @Param X-User header string true "User ID"
+// @Param organisation_id path string true "Organisation ID"
+// @Success 200
+// @Router /organisations/{organisation_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)

@@ -8,7 +8,15 @@ import (
 	"github.com/factly/x/renderx"
 )
 
-// list return all organisations
+// list - Get all organisations
+// @Summary Show all organisations
+// @Description Get all organisations
+// @Tags Organisation
+// @ID get-all-organisations
+// @Produce  json
+// @Param X-User header string true "User ID"
+// @Success 200 {array} []orgWithRole
+// @Router /organisations [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	organisationUser := make([]model.OrganisationUser, 0)
 

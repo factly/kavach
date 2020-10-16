@@ -23,7 +23,19 @@ type invite struct {
 	Role  string `json:"role" validate:"required"`
 }
 
-// create return all user in organisation
+// create - Create organisation user
+// @Summary Create organisation user
+// @Description Create organisation user
+// @Tags OrganisationUser
+// @ID add-organisation-user
+// @Consume json
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Param organisation_id path string true "Organisation ID"
+// @Param Invite body invite true "Invite Object"
+// @Success 201 {object} userWithPermission
+// @Failure 400 {array} string
+// @Router /organisations/{organisation_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
