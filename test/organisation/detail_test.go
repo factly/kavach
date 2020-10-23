@@ -27,7 +27,7 @@ func TestDetailOrganisation(t *testing.T) {
 	t.Run("get organisation by id", func(t *testing.T) {
 		user.OrganisationUserSelectMock(mock)
 
-		OrganisationSelectMock(mock)
+		OrganisationSelectMock(mock,1)
 
 		e.GET(path).
 			WithPath("organisation_id", "1").

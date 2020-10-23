@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"database/sql/driver"
 	"regexp"
 	"time"
 
@@ -28,9 +29,9 @@ var selectQuery string = regexp.QuoteMeta(`SELECT * FROM "organisations"`)
 const basePath string = "/organisations"
 const path string = "/organisations/{organisation_id}"
 
-func OrganisationSelectMock(mock sqlmock.Sqlmock) {
+func OrganisationSelectMock(mock sqlmock.Sqlmock, args ...driver.Value) {
 	mock.ExpectQuery(selectQuery).
-		WithArgs(1).
+		WithArgs(args...).
 		WillReturnRows(sqlmock.NewRows(OrganisationCols).
 			AddRow(1, time.Now(), time.Now(), nil, Organisation["title"]))
 

@@ -34,7 +34,7 @@ func TestListOrganisation(t *testing.T) {
 				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "owner").
 				AddRow(2, time.Now(), time.Now(), nil, 1, 1, "owner"))
 
-		OrganisationSelectMock(mock)
+		OrganisationSelectMock(mock,1)
 
 		e.GET(fmt.Sprint(basePath, "/my")).
 			WithHeader("X-User", "1").

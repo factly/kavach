@@ -29,7 +29,7 @@ func TestDeleteOrganisation(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	t.Run("delete organisation by id", func(t *testing.T) {
-		OrganisationSelectMock(mock)
+		OrganisationSelectMock(mock, 1)
 
 		user.OrganisationUserOwnerSelectMock(mock)
 
@@ -67,7 +67,7 @@ func TestDeleteOrganisation(t *testing.T) {
 	})
 
 	t.Run("user without role owner", func(t *testing.T) {
-		OrganisationSelectMock(mock)
+		OrganisationSelectMock(mock, 1)
 
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
 			WithArgs(1, 1, "owner").
@@ -91,7 +91,7 @@ func TestDeleteOrganisation(t *testing.T) {
 	})
 
 	t.Run("invalid user id", func(t *testing.T) {
-		OrganisationSelectMock(mock)
+		OrganisationSelectMock(mock, 1)
 
 		e.DELETE(path).
 			WithPath("organisation_id", "1").
