@@ -16,7 +16,7 @@ import (
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Success 200 {array} []orgWithRole
-// @Router /organisations [get]
+// @Router /organisations/my [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	organisationUser := make([]model.OrganisationUser, 0)
 

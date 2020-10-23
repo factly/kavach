@@ -20,7 +20,7 @@ import (
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Success 200 {object} orgWithRole
-// @Router /organisaion/{organisation_id} [get]
+// @Router /organisations/{organisation_id} [get]
 func details(w http.ResponseWriter, r *http.Request) {
 
 	organisationID := chi.URLParam(r, "organisation_id")

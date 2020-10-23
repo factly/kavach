@@ -89,7 +89,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	})
 
 	// Check if invitee already exist in organisation
-	var totPermissions int
+	var totPermissions int64
 	permission := &model.OrganisationUser{}
 	permission.OrganisationID = uint(orgID)
 	permission.UserID = invitee.ID
