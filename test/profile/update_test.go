@@ -32,8 +32,8 @@ func TestUpdateProfile(t *testing.T) {
 				AddRow(1, time.Now(), time.Now(), nil, "email", "kid", "first_name", "last_name", "birth_date", "gender"))
 
 		mock.ExpectBegin()
-		mock.ExpectExec(`UPDATE \"users\" SET (.+)  WHERE (.+) \"users\".\"id\" = `).
-			WithArgs(User["birth_date"], User["first_name"], User["gender"], User["last_name"], test.AnyTime{}, 1).
+		mock.ExpectExec(`UPDATE \"users\" SET`).
+			WithArgs(test.AnyTime{}, User["first_name"], User["last_name"], User["birth_date"], User["gender"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		mock.ExpectCommit()
 

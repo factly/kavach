@@ -35,14 +35,23 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := &model.User{}
-
 	identity := payload.Extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
 
-	model.DB.FirstOrCreate(user, &model.User{
+	user := model.User{
 		Email: traits["email"].(string),
-	})
+	}
+
+	err = model.DB.Where(&user).First(&user).Error
+
+	if err != nil {
+		model.DB.Create(&user)
+	}
+
+	// * FirstOrCreate method giving error right now
+	// model.DB.FirstOrCreate(user, &model.User{
+	// 	Email: traits["email"].(string),
+	// })
 
 	payload.Header.Add("X-User", fmt.Sprint(user.ID))
 	renderx.JSON(w, http.StatusOK, payload)

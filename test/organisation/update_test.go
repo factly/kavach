@@ -34,12 +34,12 @@ func TestUpdateOrganisation(t *testing.T) {
 		user.OrganisationUserOwnerSelectMock(mock)
 
 		mock.ExpectBegin()
-		mock.ExpectExec(`UPDATE \"organisations\" SET (.+)  WHERE (.+) \"organisations\".\"id\" = `).
-			WithArgs(Organisation["title"], test.AnyTime{}, 1).
+		mock.ExpectExec(`UPDATE \"organisations\" SET`).
+			WithArgs(test.AnyTime{}, Organisation["title"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		mock.ExpectCommit()
 
-		OrganisationSelectMock(mock)
+		OrganisationSelectMock(mock,1,1)
 
 		e.PUT(path).
 			WithPath("organisation_id", "1").
