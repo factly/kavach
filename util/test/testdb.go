@@ -2,7 +2,7 @@ package test
 
 import (
 	"database/sql/driver"
-	"fmt"
+	"log"
 	"testing"
 	"time"
 
@@ -26,7 +26,7 @@ func (a AnyTime) Match(v driver.Value) bool {
 func SetupMockDB() sqlmock.Sqlmock {
 	db, mock, err := sqlmock.New()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	dialector := postgres.New(postgres.Config{
@@ -39,6 +39,10 @@ func SetupMockDB() sqlmock.Sqlmock {
 	model.DB, err = gorm.Open(dialector, &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	return mock
 }
