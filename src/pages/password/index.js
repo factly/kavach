@@ -16,16 +16,11 @@ function Password() {
         obj[temp[0]] = temp[1];
       });
 
-    if (!obj['request']) {
-      window.location.href =
-        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
+    if (!obj['flow']) {
+      window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
     }
 
-    fetch(
-      window.REACT_APP_KRATOS_PUBLIC_URL +
-        '/self-service/browser/flows/requests/settings?request=' +
-        obj['request'],
-    )
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'])
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -44,7 +39,7 @@ function Password() {
       })
       .catch((err) => {
         window.location.href =
-          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/settings';
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
       });
   }, []);
 
@@ -72,6 +67,7 @@ function Password() {
 
   return (
     <div className="content">
+      <p>Hiii</p>
       <Card title="Update Password" style={{ width: 400 }}>
         <Form name="update_password" onFinish={changePassword}>
           <Form.Item
