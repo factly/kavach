@@ -14,7 +14,7 @@ const AccountMenu = () => {
       <Menu.SubMenu
         title={
           <>
-            <UserOutlined /> <span>User</span>
+            <UserOutlined />
           </>
         }
       >
