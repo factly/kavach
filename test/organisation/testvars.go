@@ -11,7 +11,9 @@ import (
 )
 
 var Organisation map[string]interface{} = map[string]interface{}{
-	"title": "Test Organisation",
+	"title":       "Test Organisation",
+	"slug":        "test-organisation",
+	"description": "Test Organisation",
 }
 
 var invalidOrganisation map[string]interface{} = map[string]interface{}{
@@ -22,7 +24,7 @@ var orgWithoutTitle map[string]interface{} = map[string]interface{}{
 	"tit": "Test",
 }
 
-var OrganisationCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "title"}
+var OrganisationCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "title", "slug", "description"}
 
 var selectQuery string = regexp.QuoteMeta(`SELECT * FROM "organisations"`)
 
@@ -33,13 +35,13 @@ func OrganisationSelectMock(mock sqlmock.Sqlmock, args ...driver.Value) {
 	mock.ExpectQuery(selectQuery).
 		WithArgs(args...).
 		WillReturnRows(sqlmock.NewRows(OrganisationCols).
-			AddRow(1, time.Now(), time.Now(), nil, Organisation["title"]))
+			AddRow(1, time.Now(), time.Now(), nil, Organisation["title"], Organisation["slug"], Organisation["description"]))
 
 }
 
 func insertMock(mock sqlmock.Sqlmock) {
 	mock.ExpectQuery(`INSERT INTO "organisations"`).
-		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Organisation["title"]).
+		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Organisation["title"], Organisation["slug"], Organisation["description"]).
 		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 
 	mock.ExpectQuery(`INSERT INTO "organisation_users"`).
