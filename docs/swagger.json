@@ -417,8 +417,14 @@
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -441,7 +447,6 @@
                     "type": "integer"
                 },
                 "organisation": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -454,7 +459,6 @@
                     "type": "string"
                 },
                 "user": {
-                    "type": "object",
                     "$ref": "#/definitions/model.User"
                 },
                 "user_id": {
@@ -506,12 +510,17 @@
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -527,6 +536,12 @@
                 "title"
             ],
             "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 }
@@ -595,7 +610,6 @@
                     "type": "string"
                 },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
                 },
                 "updated_at": {

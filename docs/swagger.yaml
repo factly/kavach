@@ -6,8 +6,12 @@ definitions:
         type: string
       deleted_at:
         type: string
+      description:
+        type: string
       id:
         type: integer
+      slug:
+        type: string
       title:
         type: string
       updated_at:
@@ -23,7 +27,6 @@ definitions:
         type: integer
       organisation:
         $ref: '#/definitions/model.Organisation'
-        type: object
       organisation_id:
         type: integer
       role:
@@ -32,7 +35,6 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/model.User'
-        type: object
       user_id:
         type: integer
     type: object
@@ -65,11 +67,14 @@ definitions:
         type: string
       deleted_at:
         type: string
+      description:
+        type: string
       id:
         type: integer
       permission:
         $ref: '#/definitions/model.OrganisationUser'
-        type: object
+      slug:
+        type: string
       title:
         type: string
       updated_at:
@@ -77,6 +82,10 @@ definitions:
     type: object
   organisation.organisation:
     properties:
+      description:
+        type: string
+      slug:
+        type: string
       title:
         type: string
     required:
@@ -125,7 +134,6 @@ definitions:
         type: string
       permission:
         $ref: '#/definitions/model.OrganisationUser'
-        type: object
       updated_at:
         type: string
     type: object
