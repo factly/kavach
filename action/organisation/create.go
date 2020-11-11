@@ -16,7 +16,9 @@ import (
 )
 
 type organisation struct {
-	Title string `json:"title" validate:"required"`
+	Title       string `json:"title" validate:"required"`
+	Slug        string `json:"slug"`
+	Description string `json:"description"`
 }
 
 // create - Create organisation
@@ -49,7 +51,9 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	organisation := &model.Organisation{
-		Title: org.Title,
+		Title:       org.Title,
+		Slug:        org.Slug,
+		Description: org.Description,
 	}
 
 	tx := model.DB.Begin()

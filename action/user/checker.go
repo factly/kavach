@@ -53,6 +53,8 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	// 	Email: traits["email"].(string),
 	// })
 
+	payload.Header = make(http.Header)
+
 	payload.Header.Add("X-User", fmt.Sprint(user.ID))
 	renderx.JSON(w, http.StatusOK, payload)
 }

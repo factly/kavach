@@ -78,7 +78,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	// update
 	model.DB.Model(&organisation).Updates(model.Organisation{
-		Title: req.Title,
+		Title:       req.Title,
+		Slug:        req.Slug,
+		Description: req.Description,
 	}).First(&organisation)
 
 	result := &orgWithRole{}

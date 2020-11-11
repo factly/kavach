@@ -3,7 +3,9 @@ package model
 // Organisation model definition
 type Organisation struct {
 	Base
-	Title string `gorm:"column:title" json:"title"`
+	Title       string `gorm:"column:title" json:"title"`
+	Slug        string `gorm:"column:slug" json:"slug"`
+	Description string `gorm:"column:description" json:"description"`
 }
 
 // OrganisationUser model definition

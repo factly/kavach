@@ -432,8 +432,14 @@ var doc = `{
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -456,7 +462,6 @@ var doc = `{
                     "type": "integer"
                 },
                 "organisation": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -469,7 +474,6 @@ var doc = `{
                     "type": "string"
                 },
                 "user": {
-                    "type": "object",
                     "$ref": "#/definitions/model.User"
                 },
                 "user_id": {
@@ -521,12 +525,17 @@ var doc = `{
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -542,6 +551,12 @@ var doc = `{
                 "title"
             ],
             "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 }
@@ -610,7 +625,6 @@ var doc = `{
                     "type": "string"
                 },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
                 },
                 "updated_at": {
