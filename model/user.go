@@ -1,5 +1,11 @@
 package model
 
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
+
 // User model definition
 type User struct {
 	Base
@@ -11,4 +17,22 @@ type User struct {
 	Gender           string  `gorm:"column:gender" json:"gender"`
 	FeaturedMediumID *uint   `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
 	Medium           *Medium `gorm:"foreignKey:featured_medium_id" json:"medium"`
+}
+
+// BeforeUpdate - validation for medium
+func (user *User) BeforeUpdate(tx *gorm.DB) (e error) {
+	if user.FeaturedMediumID != nil && *user.FeaturedMediumID > 0 {
+		medium := Medium{}
+		medium.ID = *user.FeaturedMediumID
+
+		err := tx.Model(&medium).Where(&Medium{
+			UserID: user.ID,
+		}).First(&medium).Error
+
+		if err != nil {
+			return errors.New("medium do not belong to same user")
+		}
+	}
+
+	return nil
 }

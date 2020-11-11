@@ -1,5 +1,11 @@
 package model
 
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
+
 // Organisation model definition
 type Organisation struct {
 	Base
@@ -18,4 +24,20 @@ type OrganisationUser struct {
 	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `json:"organisation"`
 	Role           string        `gorm:"column:role" json:"role"`
+}
+
+// BeforeSave - validation for medium
+func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
+	if org.FeaturedMediumID != nil && *org.FeaturedMediumID > 0 {
+		medium := Medium{}
+		medium.ID = *org.FeaturedMediumID
+
+		err := tx.Model(&medium).First(&medium).Error
+
+		if err != nil {
+			return errors.New("medium do not belong to same user")
+		}
+	}
+
+	return nil
 }

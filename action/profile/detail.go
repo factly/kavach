@@ -31,7 +31,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 	me := &model.User{}
 	me.ID = uint(userID)
 
-	err = model.DB.Model(&model.User{}).First(&me).Error
+	err = model.DB.Model(&model.User{}).Preload("Medium").First(&me).Error
 
 	if err != nil {
 		loggerx.Error(err)

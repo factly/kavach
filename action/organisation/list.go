@@ -29,7 +29,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		UserID: uint(userID),
-	}).Preload("Organisation").Find(&organisationUser)
+	}).Preload("Organisation").Preload("Organisation.Medium").Find(&organisationUser)
 
 	result := make([]orgWithRole, 0)
 
