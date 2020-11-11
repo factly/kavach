@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/factly/kavach-server/action/medium"
 	"github.com/factly/kavach-server/action/organisation"
 	"github.com/factly/kavach-server/action/profile"
 	"github.com/factly/kavach-server/action/user"
@@ -45,6 +46,7 @@ func RegisterRoutes() http.Handler {
 	r.Mount("/organisations", organisation.Router())
 	r.Mount("/users", user.Router())
 	r.Mount("/profile", profile.Router())
+	r.Mount("/media", medium.Router())
 
 	return r
 }
