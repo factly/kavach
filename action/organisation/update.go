@@ -77,7 +77,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.WithContext(context.WithValue(r.Context(), "user", hostID)).Begin()
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userkey, hostID)).Begin()
 
 	mediumID := &req.FeaturedMediumID
 	organisation.FeaturedMediumID = &req.FeaturedMediumID

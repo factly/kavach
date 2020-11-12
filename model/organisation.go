@@ -33,7 +33,8 @@ func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 		medium.ID = *org.FeaturedMediumID
 
 		ctx := tx.Statement.Context
-		userID := ctx.Value("user").(int)
+		var userkey ContextKey = "user"
+		userID := ctx.Value(userkey).(int)
 
 		err := tx.Model(&medium).Where(&Medium{
 			UserID: uint(userID),
