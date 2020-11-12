@@ -39,10 +39,17 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	result := &model.Medium{}
 	result.ID = uint(id)
+
 	// check record exists or not
 	err = model.DB.Where(&model.Medium{
 		UserID: uint(userID),
 	}).First(&result).Error
+
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
 
 	uintID := uint(id)
 
@@ -64,7 +71,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).Count(&totAssociated)
 
 	if totAssociated != 0 {
-		loggerx.Error(errors.New("medium is associated with user"))
+		loggerx.Error(errors.New("medium is associated with organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}

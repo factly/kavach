@@ -93,5 +93,5 @@ func selectOrInsertMock(mock sqlmock.Sqlmock) {
 
 	mock.ExpectQuery(`INSERT INTO "users"`).
 		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Invite["email"], "", "", "", "", "").
-		WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
+		WillReturnRows(sqlmock.NewRows([]string{"featured_medium_id", "id"}).AddRow(1, 1))
 }

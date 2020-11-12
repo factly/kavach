@@ -35,7 +35,7 @@ func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 		err := tx.Model(&medium).First(&medium).Error
 
 		if err != nil {
-			return errors.New("medium do not belong to same user")
+			return errors.New("medium does not exist")
 		}
 	}
 

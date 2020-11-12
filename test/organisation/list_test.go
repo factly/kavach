@@ -10,6 +10,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/test/medium"
 	"github.com/factly/kavach-server/test/organisation/user"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
@@ -34,7 +35,8 @@ func TestListOrganisation(t *testing.T) {
 				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "owner").
 				AddRow(2, time.Now(), time.Now(), nil, 1, 1, "owner"))
 
-		OrganisationSelectMock(mock,1)
+		OrganisationSelectMock(mock, 1)
+		medium.SelectQuery(mock)
 
 		e.GET(fmt.Sprint(basePath, "/my")).
 			WithHeader("X-User", "1").
