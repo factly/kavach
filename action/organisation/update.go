@@ -93,12 +93,19 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// update
-	tx.Model(&organisation).Updates(model.Organisation{
+	err = tx.Model(&organisation).Updates(model.Organisation{
 		Title:            req.Title,
 		Slug:             req.Slug,
 		Description:      req.Description,
 		FeaturedMediumID: mediumID,
-	}).Preload("Medium").First(&organisation)
+	}).Preload("Medium").First(&organisation).Error
+
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 
 	result := &orgWithRole{}
 	result.Organisation = *organisation
