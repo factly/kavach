@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/test/medium"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 	"gopkg.in/h2non/gock.v1"
@@ -36,6 +37,7 @@ func TestCreateOrganisation(t *testing.T) {
 
 	t.Run("create organisation", func(t *testing.T) {
 		mock.ExpectBegin()
+		medium.SelectQuery(mock)
 		insertMock(mock)
 		mock.ExpectCommit()
 
@@ -70,6 +72,7 @@ func TestCreateOrganisation(t *testing.T) {
 	t.Run("when keto is down", func(t *testing.T) {
 		gock.Off()
 		mock.ExpectBegin()
+		medium.SelectQuery(mock)
 		insertMock(mock)
 		mock.ExpectRollback()
 

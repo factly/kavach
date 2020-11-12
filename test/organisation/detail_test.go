@@ -5,6 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/factly/kavach-server/test/medium"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
 	"github.com/factly/kavach-server/test/organisation/user"
@@ -27,7 +29,8 @@ func TestDetailOrganisation(t *testing.T) {
 	t.Run("get organisation by id", func(t *testing.T) {
 		user.OrganisationUserSelectMock(mock)
 
-		OrganisationSelectMock(mock,1)
+		OrganisationSelectMock(mock, 1)
+		medium.SelectQuery(mock)
 
 		e.GET(path).
 			WithPath("organisation_id", "1").

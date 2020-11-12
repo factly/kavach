@@ -13,3 +13,6 @@ type Base struct {
 	UpdatedAt time.Time       `json:"updated_at"`
 	DeletedAt *gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 }
+
+// ContextKey
+type ContextKey string

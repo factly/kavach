@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/factly/kavach-server/test/medium"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
 	"github.com/factly/kavach-server/util/test"
@@ -26,18 +28,18 @@ func TestUpdateProfile(t *testing.T) {
 	e := httpexpect.New(t, server.URL)
 
 	t.Run("update profile", func(t *testing.T) {
-
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users"`)).
 			WillReturnRows(sqlmock.NewRows(UserCols).
-				AddRow(1, time.Now(), time.Now(), nil, "email", "kid", "first_name", "last_name", "birth_date", "gender"))
+				AddRow(1, time.Now(), time.Now(), nil, "email", "kid", "first_name", "last_name", "birth_date", "gender", 1))
 
 		mock.ExpectBegin()
+		medium.SelectQuery(mock)
 		mock.ExpectExec(`UPDATE \"users\" SET`).
-			WithArgs(test.AnyTime{}, User["first_name"], User["last_name"], User["birth_date"], User["gender"], 1).
+			WithArgs(1, test.AnyTime{}, User["first_name"], User["last_name"], User["birth_date"], User["gender"], User["featured_medium_id"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
-		mock.ExpectCommit()
-
 		UserSelectMock(mock)
+		medium.SelectQuery(mock)
+		mock.ExpectCommit()
 
 		e.PUT(path).
 			WithHeader("X-User", "1").
@@ -48,6 +50,36 @@ func TestUpdateProfile(t *testing.T) {
 			Object().
 			ContainsMap(User)
 
+		test.ExpectationsMet(t, mock)
+	})
+
+	t.Run("update profile when featured_medium_id = 0", func(t *testing.T) {
+		User["featured_medium_id"] = nil
+
+		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "users"`)).
+			WillReturnRows(sqlmock.NewRows(UserCols).
+				AddRow(1, time.Now(), time.Now(), nil, "email", "kid", "first_name", "last_name", "birth_date", "gender", 1))
+
+		mock.ExpectBegin()
+		mock.ExpectExec(`UPDATE \"users\" SET`).
+			WithArgs(nil, test.AnyTime{}, 1).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		UserSelectMock(mock)
+		mock.ExpectExec(`UPDATE \"users\" SET`).
+			WithArgs(1, test.AnyTime{}, User["first_name"], User["last_name"], User["birth_date"], User["gender"], 1).
+			WillReturnResult(sqlmock.NewResult(1, 1))
+		UserSelectMock(mock)
+		mock.ExpectCommit()
+
+		e.PUT(path).
+			WithHeader("X-User", "1").
+			WithJSON(User).
+			Expect().
+			Status(http.StatusOK).
+			JSON().
+			Object().
+			ContainsMap(User)
+		User["featured_medium_id"] = 1
 		test.ExpectationsMet(t, mock)
 	})
 

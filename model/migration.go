@@ -6,6 +6,7 @@ func Migration() {
 		&Organisation{},
 		&User{},
 		&OrganisationUser{},
+		&Medium{},
 	)
 
 }

@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -26,7 +27,7 @@ import (
 // @Router /organisations/{organisation_id} [put]
 func update(w http.ResponseWriter, r *http.Request) {
 
-	req := &model.Organisation{}
+	req := organisation{}
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		loggerx.Error(err)
@@ -76,16 +77,41 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userkey, hostID)).Begin()
+
+	mediumID := &req.FeaturedMediumID
+	organisation.FeaturedMediumID = &req.FeaturedMediumID
+	if req.FeaturedMediumID == 0 {
+		err = tx.Model(&organisation).Updates(map[string]interface{}{"featured_medium_id": nil}).First(&organisation).Error
+		mediumID = nil
+		if err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+	}
+
 	// update
-	model.DB.Model(&organisation).Updates(model.Organisation{
-		Title:       req.Title,
-		Slug:        req.Slug,
-		Description: req.Description,
-	}).First(&organisation)
+	err = tx.Model(&organisation).Updates(model.Organisation{
+		Title:            req.Title,
+		Slug:             req.Slug,
+		Description:      req.Description,
+		FeaturedMediumID: mediumID,
+	}).Preload("Medium").First(&organisation).Error
+
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 
 	result := &orgWithRole{}
 	result.Organisation = *organisation
 	result.Permission = *permission
+
+	tx.Commit()
 
 	renderx.JSON(w, http.StatusOK, result)
 }

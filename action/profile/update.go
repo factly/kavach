@@ -12,10 +12,11 @@ import (
 )
 
 type user struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	BirthDate string `json:"birth_date"`
-	Gender    string `json:"gender"`
+	FirstName        string `json:"first_name"`
+	LastName         string `json:"last_name"`
+	BirthDate        string `json:"birth_date"`
+	Gender           string `json:"gender"`
+	FeaturedMediumID uint   `json:"featured_medium_id"`
 }
 
 // update - Update user info
@@ -40,7 +41,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
-
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
@@ -55,19 +55,39 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
+	tx := model.DB.Begin()
 
-	err = model.DB.Model(&me).Updates(&model.User{
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-		BirthDate: req.BirthDate,
-		Gender:    req.Gender,
-	}).First(&me).Error
+	mediumID := &req.FeaturedMediumID
+	me.FeaturedMediumID = &req.FeaturedMediumID
+	if req.FeaturedMediumID == 0 {
+		err = tx.Model(&me).Updates(map[string]interface{}{"featured_medium_id": nil}).First(&me).Error
+		mediumID = nil
+		if err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+	}
+
+	updateUser := model.User{
+		FirstName:        req.FirstName,
+		LastName:         req.LastName,
+		BirthDate:        req.BirthDate,
+		Gender:           req.Gender,
+		FeaturedMediumID: mediumID,
+	}
+	updateUser.ID = me.ID
+
+	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&me).Error
 
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, me)
 }
