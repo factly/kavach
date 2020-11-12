@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -76,7 +77,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.Begin()
+	tx := model.DB.WithContext(context.WithValue(r.Context(), "user", hostID)).Begin()
 
 	mediumID := &req.FeaturedMediumID
 	organisation.FeaturedMediumID = &req.FeaturedMediumID

@@ -32,10 +32,15 @@ func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 		medium := Medium{}
 		medium.ID = *org.FeaturedMediumID
 
-		err := tx.Model(&medium).First(&medium).Error
+		ctx := tx.Statement.Context
+		userID := ctx.Value("user").(int)
+
+		err := tx.Model(&medium).Where(&Medium{
+			UserID: uint(userID),
+		}).First(&medium).Error
 
 		if err != nil {
-			return errors.New("medium does not exist")
+			return errors.New("medium does not belong to same user")
 		}
 	}
 

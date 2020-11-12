@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -69,7 +70,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		FeaturedMediumID: mediumID,
 	}
 
-	tx := model.DB.Begin()
+	tx := model.DB.WithContext(context.WithValue(r.Context(), "user", userID)).Begin()
 
 	err = tx.Model(&model.Organisation{}).Create(&organisation).Error
 
