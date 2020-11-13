@@ -1,7 +1,6 @@
 package config
 
 import (
-	"flag"
 	"log"
 
 	"github.com/spf13/viper"
@@ -9,23 +8,20 @@ import (
 
 // SetupVars setups all the config variables to run application
 func SetupVars() {
-	var configPath string
-
-	flag.StringVar(&configPath, "config", "./config.yaml", "Config file path")
-	flag.Parse()
-
-	viper.SetConfigFile(configPath)
+	viper.AddConfigPath(".")
+	viper.SetConfigName("config")
+	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal("config file not found...")
+		log.Println("config file not found...")
 	}
 
-	if !viper.IsSet("postgres.dsn") {
-		log.Fatal("please provide postgres.dsn in config file")
+	if !viper.IsSet("dsn") {
+		log.Fatal("please provide dsn in config")
 	}
 
-	if !viper.IsSet("keto.url") {
-		log.Fatal("please provide keto.url in config file")
+	if !viper.IsSet("keto_url") {
+		log.Fatal("please provide keto_url in config")
 	}
 }

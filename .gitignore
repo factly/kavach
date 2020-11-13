@@ -139,4 +139,4 @@ main
 # logs
 *.log
 
-kavach-server.yml
+config.*

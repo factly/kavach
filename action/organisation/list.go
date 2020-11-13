@@ -12,7 +12,7 @@ import (
 // @Summary Show all organisations
 // @Description Get all organisations
 // @Tags Organisation
-// @ID get-all-organisations
+// @ID get-all-my-organisations
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Success 200 {array} []orgWithRole

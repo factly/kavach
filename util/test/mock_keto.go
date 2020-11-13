@@ -12,7 +12,7 @@ import (
 
 // MockServer mocks the calls to keto server for testing
 func MockServer() error {
-
+	viper.Set("keto_url", "http://keto:4466")
 	reqRole := &model.Role{}
 	reqRole.ID = "roles:org:1:admin"
 	reqRole.Members = []string{"1"}
@@ -23,7 +23,7 @@ func MockServer() error {
 		return err
 	}
 
-	gock.New(viper.GetString("keto.url")).
+	gock.New(viper.GetString("keto_url")).
 		Put("/engines/acp/ory/regex/roles").
 		Persist().
 		Body(buf).
@@ -41,7 +41,7 @@ func MockServer() error {
 		return err
 	}
 
-	gock.New(viper.GetString("keto.url")).
+	gock.New(viper.GetString("keto_url")).
 		Put("/engines/acp/ory/regex/policies").
 		Body(buf).
 		Reply(http.StatusOK)
@@ -53,12 +53,12 @@ func MockServer() error {
 		return err
 	}
 
-	gock.New(viper.GetString("keto.url")).
+	gock.New(viper.GetString("keto_url")).
 		Put("/engines/acp/ory/regex/roles/roles:org:1:admin/members").
 		Body(buf).
 		Reply(http.StatusOK)
 
-	gock.New(viper.GetString("keto.url")).
+	gock.New(viper.GetString("keto_url")).
 		Delete("/engines/acp/ory/regex/roles/roles:org:1:admin/members/1").
 		Reply(http.StatusOK)
 
