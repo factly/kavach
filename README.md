@@ -20,7 +20,7 @@ KETO_URL=http://keto:4466
 MODE=development
 IMAGEPROXY_URL=http://127.0.0.1:7001
 ```
-* config file should be stored in project root folder with name config (ext can be yml, json, env)
-* Environement variables can also be set for configuration.
+* Config file should be stored in project root folder with name config (ext can be yml, json, env)
+* Environment variables can also be set for configuration.
 
 > If running in docker, swagger docs can be accessed at `http://localhost:5000/swagger/index.html` 
