@@ -12,11 +12,11 @@ import (
 // @Summary Show all organisations
 // @Description Get all organisations
 // @Tags Organisation
-// @ID get-all-organisations
+// @ID get-all-my-organisations
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Success 200 {array} []orgWithRole
-// @Router /organisations [get]
+// @Router /organisations/my [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	organisationUser := make([]model.OrganisationUser, 0)
 
@@ -29,7 +29,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		UserID: uint(userID),
-	}).Preload("Organisation").Find(&organisationUser)
+	}).Preload("Organisation").Preload("Organisation.Medium").Find(&organisationUser)
 
 	result := make([]orgWithRole, 0)
 

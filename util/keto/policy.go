@@ -17,7 +17,7 @@ func UpdatePolicy(uri string, body *model.Policy) error {
 		return err
 	}
 
-	req, err := http.NewRequest("PUT", viper.GetString("keto.url")+uri, buf)
+	req, err := http.NewRequest("PUT", viper.GetString("keto_url")+uri, buf)
 
 	if err != nil {
 		return err
@@ -34,7 +34,7 @@ func UpdatePolicy(uri string, body *model.Policy) error {
 
 // DeletePolicy DELETE request to keto server to delete policy
 func DeletePolicy(uri string) error {
-	req, err := http.NewRequest("DELETE", viper.GetString("keto.url")+uri, nil)
+	req, err := http.NewRequest("DELETE", viper.GetString("keto_url")+uri, nil)
 
 	if err != nil {
 		return err

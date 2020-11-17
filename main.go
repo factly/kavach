@@ -9,7 +9,6 @@ import (
 	_ "github.com/factly/kavach-server/docs"
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/keto"
-	"github.com/spf13/viper"
 )
 
 // @title Kavach Server API
@@ -28,7 +27,7 @@ import (
 func main() {
 	config.SetupVars()
 
-	model.SetupDB(viper.GetString("postgres.dsn"))
+	model.SetupDB()
 
 	model.Migration()
 

@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/factly/kavach-server/test/medium"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
 	"github.com/factly/kavach-server/util/test"
@@ -26,6 +28,8 @@ func TestDetailProfile(t *testing.T) {
 
 	t.Run("get my profile details", func(t *testing.T) {
 		UserSelectMock(mock)
+
+		medium.SelectQuery(mock, 1)
 
 		e.GET(path).
 			WithHeader("X-User", "1").

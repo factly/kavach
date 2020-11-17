@@ -6,8 +6,12 @@ definitions:
         type: string
       deleted_at:
         type: string
+      description:
+        type: string
       id:
         type: integer
+      slug:
+        type: string
       title:
         type: string
       updated_at:
@@ -23,7 +27,6 @@ definitions:
         type: integer
       organisation:
         $ref: '#/definitions/model.Organisation'
-        type: object
       organisation_id:
         type: integer
       role:
@@ -32,7 +35,6 @@ definitions:
         type: string
       user:
         $ref: '#/definitions/model.User'
-        type: object
       user_id:
         type: integer
     type: object
@@ -65,11 +67,14 @@ definitions:
         type: string
       deleted_at:
         type: string
+      description:
+        type: string
       id:
         type: integer
       permission:
         $ref: '#/definitions/model.OrganisationUser'
-        type: object
+      slug:
+        type: string
       title:
         type: string
       updated_at:
@@ -77,6 +82,10 @@ definitions:
     type: object
   organisation.organisation:
     properties:
+      description:
+        type: string
+      slug:
+        type: string
       title:
         type: string
     required:
@@ -125,7 +134,6 @@ definitions:
         type: string
       permission:
         $ref: '#/definitions/model.OrganisationUser'
-        type: object
       updated_at:
         type: string
     type: object
@@ -142,55 +150,7 @@ info:
   title: Kavach Server API
   version: "1.0"
 paths:
-  /organisaion/{organisation_id}:
-    get:
-      description: Get organisation by ID
-      operationId: get-organisation-by-id
-      parameters:
-      - description: User ID
-        in: header
-        name: X-User
-        required: true
-        type: string
-      - description: Organisation ID
-        in: path
-        name: organisation_id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/organisation.orgWithRole'
-      summary: Show a organisation by id
-      tags:
-      - Organisation
   /organisations:
-    get:
-      description: Get all organisations
-      operationId: get-all-organisations
-      parameters:
-      - description: User ID
-        in: header
-        name: X-User
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              items:
-                $ref: '#/definitions/organisation.orgWithRole'
-              type: array
-            type: array
-      summary: Show all organisations
-      tags:
-      - Organisation
     post:
       description: Create organisation
       operationId: add-organisation
@@ -240,6 +200,30 @@ paths:
       responses:
         "200": {}
       summary: Delete a organisation
+      tags:
+      - Organisation
+    get:
+      description: Get organisation by ID
+      operationId: get-organisation-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/organisation.orgWithRole'
+      summary: Show a organisation by id
       tags:
       - Organisation
     put:
@@ -361,6 +345,30 @@ paths:
       summary: Delete a organisation user
       tags:
       - OrganisationUser
+  /organisations/my:
+    get:
+      description: Get all organisations
+      operationId: get-all-organisations
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/organisation.orgWithRole'
+              type: array
+            type: array
+      summary: Show all organisations
+      tags:
+      - Organisation
   /profile:
     get:
       description: Get logged in user details

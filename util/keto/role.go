@@ -17,7 +17,7 @@ func UpdateRole(uri string, body *model.Role) error {
 		return err
 	}
 
-	req, err := http.NewRequest("PUT", viper.GetString("keto.url")+uri, buf)
+	req, err := http.NewRequest("PUT", viper.GetString("keto_url")+uri, buf)
 
 	if err != nil {
 		return err

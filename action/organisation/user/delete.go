@@ -79,7 +79,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if the user to delete is not last owner of organisation
-	var totalOwners int
+	var totalOwners int64
 	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		Role:           "owner",
 		OrganisationID: uint(orgID),

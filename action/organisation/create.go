@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -16,7 +17,10 @@ import (
 )
 
 type organisation struct {
-	Title string `json:"title" validate:"required"`
+	Title            string `json:"title" validate:"required"`
+	Slug             string `json:"slug"`
+	Description      string `json:"description"`
+	FeaturedMediumID uint   `json:"featured_medium_id"`
 }
 
 // create - Create organisation
@@ -32,9 +36,15 @@ type organisation struct {
 // @Failure 400 {array} string
 // @Router /organisations [post]
 func create(w http.ResponseWriter, r *http.Request) {
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	org := &organisation{}
 
-	err := json.NewDecoder(r.Body).Decode(&org)
+	err = json.NewDecoder(r.Body).Decode(&org)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
@@ -48,11 +58,19 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	organisation := &model.Organisation{
-		Title: org.Title,
+	mediumID := &org.FeaturedMediumID
+	if org.FeaturedMediumID == 0 {
+		mediumID = nil
 	}
 
-	tx := model.DB.Begin()
+	organisation := &model.Organisation{
+		Title:            org.Title,
+		Slug:             org.Slug,
+		Description:      org.Description,
+		FeaturedMediumID: mediumID,
+	}
+
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userkey, userID)).Begin()
 
 	err = tx.Model(&model.Organisation{}).Create(&organisation).Error
 
@@ -63,7 +81,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
+	tx.Model(&model.Organisation{}).Preload("Medium").First(&organisation)
 
 	permission := model.OrganisationUser{}
 	permission.OrganisationID = organisation.ID

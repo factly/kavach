@@ -30,4 +30,6 @@ require (
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	gopkg.in/h2non/gock.v1 v1.0.15
+	gorm.io/driver/postgres v1.0.5
+	gorm.io/gorm v1.20.5
 )

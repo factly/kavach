@@ -11,19 +11,20 @@ type orgWithRole struct {
 	Permission model.OrganisationUser `json:"permission"`
 }
 
+var userkey model.ContextKey = "user"
+
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
 
-	r.Route("/", func(r chi.Router) {
-		r.Get("/my", list)
-		r.Post("/", create)
-		r.Route("/{organisation_id}", func(r chi.Router) {
-			r.Get("/", details)
-			r.Put("/", update)
-			r.Delete("/", delete)
-			r.Mount("/users", user.Router())
-		})
+	r.Get("/my", list)
+	r.Post("/", create)
+	r.Get("/", all)
+	r.Route("/{organisation_id}", func(r chi.Router) {
+		r.Get("/", details)
+		r.Put("/", update)
+		r.Delete("/", delete)
+		r.Mount("/users", user.Router())
 	})
 
 	return r

@@ -32,78 +32,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/organisaion/{organisation_id}": {
-            "get": {
-                "description": "Get organisation by ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Organisation"
-                ],
-                "summary": "Show a organisation by id",
-                "operationId": "get-organisation-by-id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Organisation ID",
-                        "name": "organisation_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/organisation.orgWithRole"
-                        }
-                    }
-                }
-            }
-        },
         "/organisations": {
-            "get": {
-                "description": "Get all organisations",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Organisation"
-                ],
-                "summary": "Show all organisations",
-                "operationId": "get-all-organisations",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "X-User",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/organisation.orgWithRole"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "post": {
                 "description": "Create organisation",
                 "produces": [
@@ -151,7 +80,78 @@ var doc = `{
                 }
             }
         },
+        "/organisations/my": {
+            "get": {
+                "description": "Get all organisations",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisation"
+                ],
+                "summary": "Show all organisations",
+                "operationId": "get-all-organisations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/organisation.orgWithRole"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/organisations/{organisation_id}": {
+            "get": {
+                "description": "Get organisation by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisation"
+                ],
+                "summary": "Show a organisation by id",
+                "operationId": "get-organisation-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/organisation.orgWithRole"
+                        }
+                    }
+                }
+            },
             "put": {
                 "description": "Update organisation by ID",
                 "produces": [
@@ -432,8 +432,14 @@ var doc = `{
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -456,7 +462,6 @@ var doc = `{
                     "type": "integer"
                 },
                 "organisation": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -469,7 +474,6 @@ var doc = `{
                     "type": "string"
                 },
                 "user": {
-                    "type": "object",
                     "$ref": "#/definitions/model.User"
                 },
                 "user_id": {
@@ -521,12 +525,17 @@ var doc = `{
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
+                },
+                "slug": {
+                    "type": "string"
                 },
                 "title": {
                     "type": "string"
@@ -542,6 +551,12 @@ var doc = `{
                 "title"
             ],
             "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
                 "title": {
                     "type": "string"
                 }
@@ -610,7 +625,6 @@ var doc = `{
                     "type": "string"
                 },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
                 },
                 "updated_at": {

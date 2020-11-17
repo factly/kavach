@@ -82,14 +82,23 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	tx := model.DB.Begin()
 
-	invitee := model.User{}
-
-	tx.FirstOrCreate(&invitee, &model.User{
+	invitee := model.User{
 		Email: req.Email,
-	})
+	}
+
+	err = tx.Where(&invitee).First(&invitee).Error
+
+	if err != nil {
+		tx.Create(&invitee)
+	}
+
+	// * FirstOrCreate method giving error right now
+	// tx.FirstOrCreate(&invitee, model.User{
+	// 	Email: req.Email,
+	// })
 
 	// Check if invitee already exist in organisation
-	var totPermissions int
+	var totPermissions int64
 	permission := &model.OrganisationUser{}
 	permission.OrganisationID = uint(orgID)
 	permission.UserID = invitee.ID
