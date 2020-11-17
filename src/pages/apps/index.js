@@ -20,7 +20,7 @@ function Apps() {
           <Meta title="Dega" description="Admin Portal for Dega CMS " />
         </Card>
       </a>
-      <a href={process.env.REACT_APP_BINDU_PUBLIC_URL + '/templates'}>
+      <a href={window.REACT_APP_BINDU_PUBLIC_URL + '/templates'}>
         <Card
           style={{ width: 200 }}
           bordered={false}
