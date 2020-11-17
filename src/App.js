@@ -12,7 +12,7 @@ import routes from './config/routes';
 function App() {
   return (
     <div className="App">
-      <Router basename={window.PUBLIC_URL}>
+      <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
           <Route
