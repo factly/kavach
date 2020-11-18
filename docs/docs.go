@@ -32,7 +32,248 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/media": {
+            "get": {
+                "description": "Get all media",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Medium"
+                ],
+                "summary": "Show all media",
+                "operationId": "get-all-media",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Sort",
+                        "name": "sort",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "limit per page",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "page number",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/medium.paging"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create medium",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Medium"
+                ],
+                "summary": "Create medium",
+                "operationId": "add-medium",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Medium Object",
+                        "name": "Medium",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/medium.medium"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Medium"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/media/{medium_id}": {
+            "get": {
+                "description": "Get medium by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Medium"
+                ],
+                "summary": "Show a medium by id",
+                "operationId": "get-medium-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Medium ID",
+                        "name": "medium_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Medium"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update medium by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Medium"
+                ],
+                "summary": "Update a medium by id",
+                "operationId": "update-medium-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Medium ID",
+                        "name": "medium_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Medium",
+                        "name": "Medium",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/medium.medium"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Medium"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete medium by ID",
+                "tags": [
+                    "Medium"
+                ],
+                "summary": "Delete a medium",
+                "operationId": "delete-medium-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Medium ID",
+                        "name": "medium_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        },
         "/organisations": {
+            "get": {
+                "description": "Get all organisations",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisation"
+                ],
+                "summary": "Show all organisations",
+                "operationId": "get-all-organisations",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Query",
+                        "name": "q",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Organisation"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Create organisation",
                 "produces": [
@@ -90,7 +331,7 @@ var doc = `{
                     "Organisation"
                 ],
                 "summary": "Show all organisations",
-                "operationId": "get-all-organisations",
+                "operationId": "get-all-my-organisations",
                 "parameters": [
                     {
                         "type": "string",
@@ -423,6 +664,111 @@ var doc = `{
         }
     },
     "definitions": {
+        "medium.medium": {
+            "type": "object",
+            "required": [
+                "dimensions",
+                "file_size",
+                "name",
+                "type"
+            ],
+            "properties": {
+                "alt_text": {
+                    "type": "string"
+                },
+                "caption": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dimensions": {
+                    "type": "string"
+                },
+                "file_size": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "medium.paging": {
+            "type": "object",
+            "properties": {
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Medium"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Medium": {
+            "type": "object",
+            "properties": {
+                "alt_text": {
+                    "type": "string"
+                },
+                "caption": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dimensions": {
+                    "type": "string"
+                },
+                "file_size": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "model.Organisation": {
             "type": "object",
             "properties": {
@@ -435,8 +781,14 @@ var doc = `{
                 "description": {
                     "type": "string"
                 },
+                "featured_medium_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "medium": {
+                    "$ref": "#/definitions/model.Medium"
                 },
                 "slug": {
                     "type": "string"
@@ -496,6 +848,9 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
+                "featured_medium_id": {
+                    "type": "integer"
+                },
                 "first_name": {
                     "type": "string"
                 },
@@ -510,6 +865,9 @@ var doc = `{
                 },
                 "last_name": {
                     "type": "string"
+                },
+                "medium": {
+                    "$ref": "#/definitions/model.Medium"
                 },
                 "updated_at": {
                     "type": "string"
@@ -528,8 +886,14 @@ var doc = `{
                 "description": {
                     "type": "string"
                 },
+                "featured_medium_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "medium": {
+                    "$ref": "#/definitions/model.Medium"
                 },
                 "permission": {
                     "$ref": "#/definitions/model.OrganisationUser"
@@ -554,6 +918,9 @@ var doc = `{
                 "description": {
                     "type": "string"
                 },
+                "featured_medium_id": {
+                    "type": "integer"
+                },
                 "slug": {
                     "type": "string"
                 },
@@ -567,6 +934,9 @@ var doc = `{
             "properties": {
                 "birth_date": {
                     "type": "string"
+                },
+                "featured_medium_id": {
+                    "type": "integer"
                 },
                 "first_name": {
                     "type": "string"
@@ -609,6 +979,9 @@ var doc = `{
                 "email": {
                     "type": "string"
                 },
+                "featured_medium_id": {
+                    "type": "integer"
+                },
                 "first_name": {
                     "type": "string"
                 },
@@ -623,6 +996,9 @@ var doc = `{
                 },
                 "last_name": {
                     "type": "string"
+                },
+                "medium": {
+                    "$ref": "#/definitions/model.Medium"
                 },
                 "permission": {
                     "$ref": "#/definitions/model.OrganisationUser"
