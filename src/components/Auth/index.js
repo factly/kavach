@@ -40,13 +40,18 @@ function Auth(props) {
       },
     )
       .then((res) => {
+        console.log(res.status);
         if (res.status === 200) {
           return res.json();
         } else {
+          console.log(res.status);
           throw new Error(res.status);
         }
       })
-      .then((res) => setMethod(res.methods))
+      .then((res) => {
+        console.log({ res: res });
+        setMethod(res.methods);
+      })
       .catch((err) => {
         window.location.href =
           window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
