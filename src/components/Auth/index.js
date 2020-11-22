@@ -40,16 +40,13 @@ function Auth(props) {
       },
     )
       .then((res) => {
-        console.log(res.status);
         if (res.status === 200) {
           return res.json();
         } else {
-          console.log(res.status);
           throw new Error(res.status);
         }
       })
       .then((res) => {
-        console.log({ res: res });
         setMethod(res.methods);
       })
       .catch((err) => {
