@@ -46,7 +46,9 @@ function Auth(props) {
           throw new Error(res.status);
         }
       })
-      .then((res) => setMethod(res.methods))
+      .then((res) => {
+        setMethod(res.methods);
+      })
       .catch((err) => {
         window.location.href =
           window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
