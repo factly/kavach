@@ -5,7 +5,7 @@ function Apps() {
   const { Meta } = Card;
   return (
     <Space size={'middle'}>
-      <a href={process.env.REACT_APP_DEGA_PUBLIC_URL + '/posts'}>
+      <a href={window.REACT_APP_DEGA_PUBLIC_URL + '/posts'}>
         <Card
           bordered={false}
           style={{ width: 200 }}
