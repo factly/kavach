@@ -26,6 +26,8 @@ type OrganisationUser struct {
 	Role           string        `gorm:"column:role" json:"role"`
 }
 
+var organisationUserKey ContextKey = "organisation_user"
+
 // BeforeSave - validation for medium
 func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 	if org.FeaturedMediumID != nil && *org.FeaturedMediumID > 0 {
@@ -33,8 +35,7 @@ func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 		medium.ID = *org.FeaturedMediumID
 
 		ctx := tx.Statement.Context
-		var userkey ContextKey = "user"
-		userID := ctx.Value(userkey).(int)
+		userID := ctx.Value(organisationUserKey).(int)
 
 		err := tx.Model(&medium).Where(&Medium{
 			UserID: uint(userID),
@@ -45,5 +46,35 @@ func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 		}
 	}
 
+	return nil
+}
+
+// BeforeCreate hook
+func (org *Organisation) BeforeCreate(tx *gorm.DB) error {
+	ctx := tx.Statement.Context
+	userID := ctx.Value(organisationUserKey)
+
+	if userID == nil {
+		return nil
+	}
+	uID := userID.(int)
+
+	org.CreatedByID = uint(uID)
+	org.UpdatedByID = uint(uID)
+	return nil
+}
+
+// BeforeCreate hook
+func (orgUser *OrganisationUser) BeforeCreate(tx *gorm.DB) error {
+	ctx := tx.Statement.Context
+	userID := ctx.Value(organisationUserKey)
+
+	if userID == nil {
+		return nil
+	}
+	uID := userID.(int)
+
+	orgUser.CreatedByID = uint(uID)
+	orgUser.UpdatedByID = uint(uID)
 	return nil
 }

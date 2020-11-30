@@ -31,8 +31,8 @@ func TestListOrganisationUsers(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, organisationuserlist[0]["user_id"], organisationuserlist[0]["organisation_id"], organisationuserlist[0]["role"]).
-				AddRow(2, time.Now(), time.Now(), nil, organisationuserlist[1]["user_id"], organisationuserlist[1]["organisation_id"], organisationuserlist[1]["role"]))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, organisationuserlist[0]["user_id"], organisationuserlist[0]["organisation_id"], organisationuserlist[0]["role"]).
+				AddRow(2, time.Now(), time.Now(), nil, 1, 1, organisationuserlist[1]["user_id"], organisationuserlist[1]["organisation_id"], organisationuserlist[1]["role"]))
 
 		profile.UserSelectMock(mock)
 

@@ -74,6 +74,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = model.DB.Model(&result).Updates(model.Medium{
+		Base:        model.Base{UpdatedByID: uint(userID)},
 		Name:        medium.Name,
 		Slug:        medium.Slug,
 		Title:       medium.Title,

@@ -47,7 +47,7 @@ func TestCreateOrganisationUser(t *testing.T) {
 			WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(0))
 
 		mock.ExpectQuery(`INSERT INTO "organisation_users"`).
-			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]).
+			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]).
 			WillReturnRows(sqlmock.NewRows([]string{"id"}).AddRow(1))
 		mock.ExpectCommit()
 
@@ -124,7 +124,7 @@ func TestCreateOrganisationUser(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1, 1, "owner").
 			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
 
 		e.POST(basePath).
 			WithPath("organisation_id", "1").

@@ -43,7 +43,7 @@ var invalidInvite map[string]interface{} = map[string]interface{}{
 	"rol":  "owner",
 }
 
-var OrganisationUserCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "user_id", "organisation_id", "role"}
+var OrganisationUserCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "created_by_id", "updated_by_id", "user_id", "organisation_id", "role"}
 
 var selectQuery string = regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)
 var countQuery string = regexp.QuoteMeta(`SELECT count(1) FROM "organisation_users"`)
@@ -55,26 +55,26 @@ func OrganisationUserSelectMock(mock sqlmock.Sqlmock) {
 	mock.ExpectQuery(selectQuery).
 		WithArgs(1, 1).
 		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+			AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
 }
 
 func OrganisationUserOwnerSelectMock(mock sqlmock.Sqlmock) {
 	mock.ExpectQuery(selectQuery).
 		WithArgs(1, 1, "owner").
 		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+			AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
 }
 
 func orgUserDeleteSelectMock(mock sqlmock.Sqlmock, role string, ownCnt int) {
 	mock.ExpectQuery(selectQuery).
 		WithArgs(2, 1, "owner").
 		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+			AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
 
 	mock.ExpectQuery(selectQuery).
 		WithArgs(1, 1).
 		WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-			AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], role))
+			AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], role))
 
 	mock.ExpectQuery(countQuery).
 		WithArgs(1, "owner").
@@ -92,6 +92,6 @@ func selectOrInsertMock(mock sqlmock.Sqlmock) {
 		WillReturnRows(sqlmock.NewRows(profile.UserCols))
 
 	mock.ExpectQuery(`INSERT INTO "users"`).
-		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, Invite["email"], "", "", "", "", "").
+		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 0, 0, Invite["email"], "", "", "", "", "").
 		WillReturnRows(sqlmock.NewRows([]string{"featured_medium_id", "id"}).AddRow(1, 1))
 }

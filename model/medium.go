@@ -1,6 +1,9 @@
 package model
 
-import "github.com/jinzhu/gorm/dialects/postgres"
+import (
+	"github.com/jinzhu/gorm/dialects/postgres"
+	"gorm.io/gorm"
+)
 
 // Medium model
 type Medium struct {
@@ -21,4 +24,21 @@ type Medium struct {
 // TableName medium table name
 func (Medium) TableName() string {
 	return "media"
+}
+
+var mediumUser ContextKey = "medium_user"
+
+// BeforeCreate hook
+func (media *Medium) BeforeCreate(tx *gorm.DB) error {
+	ctx := tx.Statement.Context
+	userID := ctx.Value(mediumUser)
+
+	if userID == nil {
+		return nil
+	}
+	uID := userID.(int)
+
+	media.CreatedByID = uint(uID)
+	media.UpdatedByID = uint(uID)
+	return nil
 }

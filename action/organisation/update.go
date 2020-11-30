@@ -77,7 +77,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userkey, hostID)).Begin()
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, hostID)).Begin()
 
 	mediumID := &req.FeaturedMediumID
 	organisation.FeaturedMediumID = &req.FeaturedMediumID
@@ -94,6 +94,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	// update
 	err = tx.Model(&organisation).Updates(model.Organisation{
+		Base:             model.Base{UpdatedByID: uint(hostID)},
 		Title:            req.Title,
 		Slug:             req.Slug,
 		Description:      req.Description,

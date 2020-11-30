@@ -31,14 +31,14 @@ func TestUpdateOrganisation(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(OrganisationCols).
-				AddRow(1, time.Now(), time.Now(), nil, "title", "slug", "description", 1))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "title", "slug", "description", 1))
 
 		user.OrganisationUserOwnerSelectMock(mock)
 
 		mock.ExpectBegin()
 		medium.SelectQuery(mock)
 		mock.ExpectExec(`UPDATE \"organisations\" SET`).
-			WithArgs(test.AnyTime{}, Organisation["title"], Organisation["slug"], Organisation["description"], Organisation["featured_medium_id"], 1).
+			WithArgs(test.AnyTime{}, 1, Organisation["title"], Organisation["slug"], Organisation["description"], Organisation["featured_medium_id"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		OrganisationSelectMock(mock, 1, 1)
 		medium.SelectQuery(mock)
@@ -62,7 +62,7 @@ func TestUpdateOrganisation(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(OrganisationCols).
-				AddRow(1, time.Now(), time.Now(), nil, "title", "slug", "description", 1))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "title", "slug", "description", 1))
 
 		user.OrganisationUserOwnerSelectMock(mock)
 
@@ -72,7 +72,7 @@ func TestUpdateOrganisation(t *testing.T) {
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		OrganisationSelectMock(mock, 1, 1)
 		mock.ExpectExec(`UPDATE \"organisations\" SET`).
-			WithArgs(test.AnyTime{}, Organisation["title"], Organisation["slug"], Organisation["description"], 1).
+			WithArgs(test.AnyTime{}, 1, Organisation["title"], Organisation["slug"], Organisation["description"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		OrganisationSelectMock(mock, 1, 1)
 		medium.SelectQuery(mock)
@@ -137,7 +137,7 @@ func TestUpdateOrganisation(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(OrganisationCols).
-				AddRow(1, time.Now(), time.Now(), nil, "title", "slug", "description", 1))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "title", "slug", "description", 1))
 
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
 			WithArgs(1, 1, "owner").
