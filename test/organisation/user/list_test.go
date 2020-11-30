@@ -54,7 +54,7 @@ func TestListOrganisationUsers(t *testing.T) {
 			WithHeader("X-User", "1").
 			WithPath("organisation_id", "abc").
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("Invalid user id", func(t *testing.T) {

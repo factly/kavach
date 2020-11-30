@@ -112,7 +112,7 @@ func TestUpdateOrganisation(t *testing.T) {
 			WithHeader("X-User", "1").
 			WithJSON(Organisation).
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("invalid organisation body", func(t *testing.T) {
@@ -130,7 +130,7 @@ func TestUpdateOrganisation(t *testing.T) {
 			WithHeader("X-User", "abc").
 			WithJSON(Organisation).
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("user without role owner", func(t *testing.T) {

@@ -58,6 +58,6 @@ func TestDetailProfile(t *testing.T) {
 		e.GET(path).
 			WithHeader("X-User", "abc").
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 }

@@ -87,7 +87,7 @@ func TestDeleteOrganisation(t *testing.T) {
 			WithPath("organisation_id", "abc").
 			WithHeader("X-User", "1").
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("invalid user id", func(t *testing.T) {

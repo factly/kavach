@@ -8,7 +8,6 @@ import (
 	"github.com/factly/kavach-server/config"
 	_ "github.com/factly/kavach-server/docs"
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/keto"
 )
 
 // @title Kavach Server API
@@ -32,8 +31,6 @@ func main() {
 	model.Migration()
 
 	r := action.RegisterRoutes()
-
-	keto.IsReady()
 
 	err := http.ListenAndServe(":8000", r)
 	if err != nil {

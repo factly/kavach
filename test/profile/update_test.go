@@ -101,7 +101,7 @@ func TestUpdateProfile(t *testing.T) {
 			WithHeader("X-User", "abc").
 			WithJSON(User).
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("undecodable user body", func(t *testing.T) {

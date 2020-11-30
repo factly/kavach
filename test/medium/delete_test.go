@@ -35,7 +35,7 @@ func TestMediumDelete(t *testing.T) {
 			WithPath("medium_id", "invalid").
 			WithHeader("X-User", "1").
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("medium record not found", func(t *testing.T) {

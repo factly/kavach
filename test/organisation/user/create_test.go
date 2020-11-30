@@ -141,7 +141,7 @@ func TestCreateOrganisationUser(t *testing.T) {
 			WithHeader("X-User", "1").
 			WithJSON(Invite).
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("invalid user id", func(t *testing.T) {
