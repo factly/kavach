@@ -24,6 +24,8 @@ type medium struct {
 	Dimensions  string         `json:"dimensions" validate:"required"`
 }
 
+var userContext model.ContextKey = "medium_user"
+
 // Router - Group of medium router
 func Router() chi.Router {
 	r := chi.NewRouter()

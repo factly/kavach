@@ -1,6 +1,7 @@
 package medium
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -61,7 +62,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		UserID:      uint(userID),
 	}
 
-	err = model.DB.Model(&model.Medium{}).Create(&medium).Error
+	err = model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Model(&model.Medium{}).Create(&medium).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

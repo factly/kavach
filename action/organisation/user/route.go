@@ -10,6 +10,8 @@ type userWithPermission struct {
 	Permission model.OrganisationUser `json:"permission"`
 }
 
+var userContext model.ContextKey = "organisation_user"
+
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
