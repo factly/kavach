@@ -155,7 +155,7 @@ func TestDeleteOrganisationUser(t *testing.T) {
 			}).
 			WithHeader("X-User", "2").
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 	})
 
 	t.Run("invalid user id", func(t *testing.T) {
@@ -171,7 +171,7 @@ func TestDeleteOrganisationUser(t *testing.T) {
 			}).
 			WithHeader("X-User", "2").
 			Expect().
-			Status(http.StatusNotFound)
+			Status(http.StatusBadRequest)
 
 		test.ExpectationsMet(t, mock)
 	})
