@@ -129,7 +129,7 @@ func TestDeleteOrganisationUser(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(2, 1, "owner").
 			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
 
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1, 1).
@@ -162,7 +162,7 @@ func TestDeleteOrganisationUser(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(2, 1, "owner").
 			WillReturnRows(sqlmock.NewRows(OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, OrganisationUser["user_id"], OrganisationUser["organisation_id"], OrganisationUser["role"]))
 
 		e.DELETE(path).
 			WithPathObject(map[string]interface{}{

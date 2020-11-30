@@ -50,8 +50,8 @@ func TestMediumList(t *testing.T) {
 
 		mock.ExpectQuery(selectQuery).
 			WillReturnRows(sqlmock.NewRows(columns).
-				AddRow(1, time.Now(), time.Now(), nil, mediumList[0]["name"], mediumList[0]["slug"], mediumList[0]["type"], mediumList[0]["title"], mediumList[0]["description"], mediumList[0]["caption"], mediumList[0]["alt_text"], mediumList[0]["file_size"], mediumList[0]["url"], mediumList[0]["dimensions"], 1).
-				AddRow(2, time.Now(), time.Now(), nil, mediumList[1]["name"], mediumList[1]["slug"], mediumList[1]["type"], mediumList[1]["title"], mediumList[1]["description"], mediumList[1]["caption"], mediumList[1]["alt_text"], mediumList[1]["file_size"], mediumList[1]["url"], mediumList[1]["dimensions"], 1))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, mediumList[0]["name"], mediumList[0]["slug"], mediumList[0]["type"], mediumList[0]["title"], mediumList[0]["description"], mediumList[0]["caption"], mediumList[0]["alt_text"], mediumList[0]["file_size"], mediumList[0]["url"], mediumList[0]["dimensions"], 1).
+				AddRow(2, time.Now(), time.Now(), nil, 1, 1, mediumList[1]["name"], mediumList[1]["slug"], mediumList[1]["type"], mediumList[1]["title"], mediumList[1]["description"], mediumList[1]["caption"], mediumList[1]["alt_text"], mediumList[1]["file_size"], mediumList[1]["url"], mediumList[1]["dimensions"], 1))
 
 		e.GET(basePath).
 			WithHeader("X-User", "1").
@@ -74,7 +74,7 @@ func TestMediumList(t *testing.T) {
 
 		mock.ExpectQuery(selectQuery).
 			WillReturnRows(sqlmock.NewRows(columns).
-				AddRow(2, time.Now(), time.Now(), nil, mediumList[1]["name"], mediumList[1]["slug"], mediumList[1]["type"], mediumList[1]["title"], mediumList[1]["description"], mediumList[1]["caption"], mediumList[1]["alt_text"], mediumList[1]["file_size"], mediumList[1]["url"], mediumList[1]["dimensions"], 1))
+				AddRow(2, time.Now(), time.Now(), nil, 1, 1, mediumList[1]["name"], mediumList[1]["slug"], mediumList[1]["type"], mediumList[1]["title"], mediumList[1]["description"], mediumList[1]["caption"], mediumList[1]["alt_text"], mediumList[1]["file_size"], mediumList[1]["url"], mediumList[1]["dimensions"], 1))
 
 		e.GET(basePath).
 			WithHeader("X-User", "1").

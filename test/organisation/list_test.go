@@ -32,8 +32,8 @@ func TestListOrganisation(t *testing.T) {
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
 			WithArgs(1).
 			WillReturnRows(sqlmock.NewRows(user.OrganisationUserCols).
-				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "owner").
-				AddRow(2, time.Now(), time.Now(), nil, 1, 1, "owner"))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, 1, 1, "owner").
+				AddRow(2, time.Now(), time.Now(), nil, 1, 1, 1, 1, "owner"))
 
 		OrganisationSelectMock(mock, 1)
 		medium.SelectQuery(mock)

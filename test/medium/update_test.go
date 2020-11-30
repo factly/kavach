@@ -77,11 +77,11 @@ func TestMediumUpdate(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1, 1).
 			WillReturnRows(sqlmock.NewRows(columns).
-				AddRow(1, time.Now(), time.Now(), nil, "name", "slug", "type", "title", "description", "caption", "alt_text", 100, postgres.Jsonb{}, "dimensions", 1))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "name", "slug", "type", "title", "description", "caption", "alt_text", 100, postgres.Jsonb{}, "dimensions", 1))
 
 		mock.ExpectBegin()
 		mock.ExpectExec(`UPDATE \"media\"`).
-			WithArgs(test.AnyTime{}, Data["name"], Data["slug"], Data["type"], Data["title"], Data["description"], Data["caption"], Data["alt_text"], Data["file_size"], Data["url"], Data["dimensions"], 1).
+			WithArgs(test.AnyTime{}, 1, Data["name"], Data["slug"], Data["type"], Data["title"], Data["description"], Data["caption"], Data["alt_text"], Data["file_size"], Data["url"], Data["dimensions"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		mock.ExpectCommit()
 
@@ -100,11 +100,11 @@ func TestMediumUpdate(t *testing.T) {
 		mock.ExpectQuery(selectQuery).
 			WithArgs(1, 1).
 			WillReturnRows(sqlmock.NewRows(columns).
-				AddRow(1, time.Now(), time.Now(), nil, "name", "slug", "type", "title", "description", "caption", "alt_text", 100, postgres.Jsonb{}, "dimensions", 1))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, "name", "slug", "type", "title", "description", "caption", "alt_text", 100, postgres.Jsonb{}, "dimensions", 1))
 
 		mock.ExpectBegin()
 		mock.ExpectExec(`UPDATE \"media\"`).
-			WithArgs(test.AnyTime{}, Data["name"], Data["slug"], Data["type"], Data["title"], Data["description"], Data["caption"], Data["alt_text"], Data["file_size"], Data["url"], Data["dimensions"], 1).
+			WithArgs(test.AnyTime{}, 1, Data["name"], Data["slug"], Data["type"], Data["title"], Data["description"], Data["caption"], Data["alt_text"], Data["file_size"], Data["url"], Data["dimensions"], 1).
 			WillReturnError(errors.New("updating medium failed"))
 		mock.ExpectRollback()
 
