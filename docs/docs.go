@@ -464,6 +464,230 @@ var doc = `{
                 }
             }
         },
+        "/organisations/{organisation_id}/applications": {
+            "get": {
+                "description": "Get all organisations applications",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Show all organisations applications",
+                "operationId": "get-all-organisations-applications",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/model.Application"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create organisation application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Create organisation application",
+                "operationId": "add-organisation-application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Application Object",
+                        "name": "Application",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/application.application"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}": {
+            "get": {
+                "description": "Get application by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Show a application by id",
+                "operationId": "get-organisation-application-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update application by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Update a application by id",
+                "operationId": "update-application-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Application Object",
+                        "name": "Application",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/application.application"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete application by ID",
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Delete a application",
+                "operationId": "delete-application-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {}
+                }
+            }
+        },
         "/organisations/{organisation_id}/users": {
             "get": {
                 "description": "Get all organisations users",
@@ -664,6 +888,27 @@ var doc = `{
         }
     },
     "definitions": {
+        "application.application": {
+            "type": "object",
+            "required": [
+                "name",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "medium_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "medium.medium": {
             "type": "object",
             "required": [
@@ -719,6 +964,50 @@ var doc = `{
                 }
             }
         },
+        "model.Application": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "medium": {
+                    "$ref": "#/definitions/model.Medium"
+                },
+                "medium_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organisation": {
+                    "$ref": "#/definitions/model.Organisation"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Medium": {
             "type": "object",
             "properties": {
@@ -730,6 +1019,9 @@ var doc = `{
                 },
                 "created_at": {
                     "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
                 },
                 "deleted_at": {
                     "type": "string"
@@ -761,6 +1053,9 @@ var doc = `{
                 "updated_at": {
                     "type": "string"
                 },
+                "updated_by_id": {
+                    "type": "integer"
+                },
                 "url": {
                     "type": "string"
                 },
@@ -774,6 +1069,9 @@ var doc = `{
             "properties": {
                 "created_at": {
                     "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
                 },
                 "deleted_at": {
                     "type": "string"
@@ -798,6 +1096,9 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -806,6 +1107,9 @@ var doc = `{
             "properties": {
                 "created_at": {
                     "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
                 },
                 "deleted_at": {
                     "type": "string"
@@ -825,6 +1129,9 @@ var doc = `{
                 "updated_at": {
                     "type": "string"
                 },
+                "updated_by_id": {
+                    "type": "integer"
+                },
                 "user": {
                     "$ref": "#/definitions/model.User"
                 },
@@ -841,6 +1148,9 @@ var doc = `{
                 },
                 "created_at": {
                     "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
                 },
                 "deleted_at": {
                     "type": "string"
@@ -871,6 +1181,9 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -879,6 +1192,9 @@ var doc = `{
             "properties": {
                 "created_at": {
                     "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
                 },
                 "deleted_at": {
                     "type": "string"
@@ -906,6 +1222,9 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -973,6 +1292,9 @@ var doc = `{
                 "created_at": {
                     "type": "string"
                 },
+                "created_by_id": {
+                    "type": "integer"
+                },
                 "deleted_at": {
                     "type": "string"
                 },
@@ -1005,6 +1327,9 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
                 }
             }
         }

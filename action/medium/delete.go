@@ -61,7 +61,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	if totAssociated != 0 {
 		loggerx.Error(errors.New("medium is associated with user"))
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		errorx.Render(w, errorx.Parser(errorx.CannotDelete("media", "user")))
 		return
 	}
 
@@ -72,7 +72,18 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	if totAssociated != 0 {
 		loggerx.Error(errors.New("medium is associated with organisation"))
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		errorx.Render(w, errorx.Parser(errorx.CannotDelete("media", "organisation")))
+		return
+	}
+
+	// check if medium is associated with applications
+	model.DB.Model(&model.Application{}).Where(&model.Application{
+		MediumID: &uintID,
+	}).Count(&totAssociated)
+
+	if totAssociated != 0 {
+		loggerx.Error(errors.New("medium is associated with application"))
+		errorx.Render(w, errorx.Parser(errorx.CannotDelete("media", "application")))
 		return
 	}
 

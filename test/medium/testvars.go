@@ -91,3 +91,9 @@ func organisationMediumCount(mock sqlmock.Sqlmock, count int) {
 		WithArgs(1).
 		WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(count))
 }
+
+func applicationMediumCount(mock sqlmock.Sqlmock, count int) {
+	mock.ExpectQuery(regexp.QuoteMeta(`SELECT count(1) FROM "applications"`)).
+		WithArgs(1).
+		WillReturnRows(sqlmock.NewRows([]string{"count"}).AddRow(count))
+}
