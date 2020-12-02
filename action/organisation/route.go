@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"github.com/factly/kavach-server/action/organisation/application"
 	"github.com/factly/kavach-server/action/organisation/user"
 	"github.com/factly/kavach-server/model"
 	"github.com/go-chi/chi"
@@ -25,6 +26,7 @@ func Router() chi.Router {
 		r.Put("/", update)
 		r.Delete("/", delete)
 		r.Mount("/users", user.Router())
+		r.Mount("/applications", application.Router())
 	})
 
 	return r
