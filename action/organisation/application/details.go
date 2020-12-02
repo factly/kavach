@@ -31,7 +31,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	orgnaisationID := chi.URLParam(r, "orgnaisation_id")
+	orgnaisationID := chi.URLParam(r, "organisation_id")
 	oID, err := strconv.Atoi(orgnaisationID)
 	if err != nil {
 		loggerx.Error(err)
@@ -41,6 +41,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}

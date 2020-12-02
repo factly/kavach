@@ -79,12 +79,31 @@ func TestMediumDelete(t *testing.T) {
 		test.ExpectationsMet(t, mock)
 	})
 
+	t.Run("medium associated with application", func(t *testing.T) {
+		SelectQuery(mock, 1, 1)
+
+		userMediumCount(mock, 0)
+
+		organisationMediumCount(mock, 0)
+
+		applicationMediumCount(mock, 1)
+
+		e.DELETE(path).
+			WithPath("medium_id", "1").
+			WithHeader("X-User", "1").
+			Expect().
+			Status(http.StatusUnprocessableEntity)
+		test.ExpectationsMet(t, mock)
+	})
+
 	t.Run("medium record deleted", func(t *testing.T) {
 		SelectQuery(mock, 1, 1)
 
 		userMediumCount(mock, 0)
 
 		organisationMediumCount(mock, 0)
+
+		applicationMediumCount(mock, 0)
 
 		mock.ExpectBegin()
 		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "media" SET "deleted_at"=`)).

@@ -32,6 +32,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}

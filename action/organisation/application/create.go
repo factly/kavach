@@ -31,6 +31,7 @@ import (
 func create(w http.ResponseWriter, r *http.Request) {
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -69,18 +70,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
-	// Check if medium_id is valid
-	medium := model.Medium{}
-	medium.ID = app.MediumID
-	err = model.DB.Where(&model.Medium{
-		UserID: uint(uID),
-	}).First(&medium).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.GetMessage("medium not found for user", http.StatusUnprocessableEntity)))
 		return
 	}
 

@@ -1,6 +1,7 @@
 package application
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -30,6 +31,7 @@ import (
 func update(w http.ResponseWriter, r *http.Request) {
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -92,19 +94,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if medium_id is valid
-	medium := model.Medium{}
-	medium.ID = app.MediumID
-	err = model.DB.Model(&model.Medium{}).Where(&model.Medium{
-		UserID: uint(uID),
-	}).First(&medium).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.GetMessage("medium not found for user", http.StatusUnprocessableEntity)))
-		return
-	}
-
-	tx := model.DB.Begin()
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
 
 	mediumID := &app.MediumID
 	result.MediumID = &app.MediumID
