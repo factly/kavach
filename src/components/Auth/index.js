@@ -126,6 +126,26 @@ function Auth(props) {
               placeholder="Password"
             />
           </Form.Item>
+          { props.flow === 'login' ? '' : <Form.Item
+            name="confirmPassword"
+            dependencies={['password']}
+            rules={[{ required: true, message: 'Please re-enter your Password!' },
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if(getFieldValue('password') !== value) {
+                  return Promise.reject('Password do no match!');
+                }
+                  return Promise.resolve();
+              }
+            })
+          ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Confirm Password"
+            />
+          </Form.Item> }
           <Form.Item>
             <Button form="auth" type="primary" htmlType="submit" block>
               Submit

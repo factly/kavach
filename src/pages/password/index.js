@@ -67,7 +67,6 @@ function Password() {
 
   return (
     <div className="content">
-      <p>Hiii</p>
       <Card title="Update Password" style={{ width: 400 }}>
         <Form name="update_password" onFinish={changePassword}>
           <Form.Item
@@ -78,6 +77,26 @@ function Password() {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item
+            name="confirmPassword"
+            dependencies={['password']}
+            rules={[{ required: true, message: 'Please re-enter your Password!' },
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if(getFieldValue('password') !== value) {
+                  return Promise.reject('Password do no match!');
+                }
+                  return Promise.resolve();
+              }
+            })
+          ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Confirm Password"
             />
           </Form.Item>
           <Form.Item>
