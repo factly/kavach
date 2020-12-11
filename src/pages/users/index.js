@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Popconfirm, Table, Form, Input, Select, Space } from 'antd';
+import { Button, Popconfirm, Table, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { DeleteOutlined } from '@ant-design/icons';
-import { getUsers, deleteUser, addUser } from '../../actions/users';
+import { getUsers, deleteUser } from '../../actions/users';
+import { Link } from 'react-router-dom';
 
 function OrganisationUsers() {
-  const [form] = Form.useForm();
 
   const dispatch = useDispatch();
 
@@ -76,42 +76,11 @@ function OrganisationUsers() {
   return (
     <Space direction="vertical">
       {organisation.permission.role === 'owner' ? (
-        <Form
-          form={form}
-          name="add_user"
-          layout="inline"
-          initialValues={{
-            role: 'member',
-          }}
-          onFinish={(values) => {
-            dispatch(addUser(values)).then(() => {
-              fetchUsers();
-              form.resetFields();
-            });
-          }}
-        >
-          <Form.Item
-            name="email"
-            placeholder="email"
-            rules={[
-              { required: true, message: 'Please input your title!' },
-              { type: 'email', message: 'Please input valid Email!' },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item name="role">
-            <Select placeholder="role">
-              <Select.Option value="owner">Owner</Select.Option>
-              <Select.Option value="member">Member</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item>
-            <Button form="add_user" type="primary" htmlType="submit" block>
-              Add User
-            </Button>
-          </Form.Item>
-        </Form>
+         <Link key="1" to="/users/new">
+         <Button>
+           Add User
+         </Button>
+       </Link>
       ) : null}
       <Table
         rowKey={'id'}

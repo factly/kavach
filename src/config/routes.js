@@ -10,6 +10,7 @@ import App from '../pages/apps';
 import Application from '../pages/application';
 import CreateApplication from '../pages/application/CreateApplication';
 import EditApplication from '../pages/application/EditApplication';
+import NewUser from '../pages/users/NewUser';
 
 export default [
   {
@@ -43,6 +44,13 @@ export default [
     enableBreadcrumb: true,
     Icon: PieChartOutlined,
     title: 'Users',
+  },
+  {
+    path: '/users/new',
+    Component: NewUser,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'New User'
   },
   {
     path: '/password',
