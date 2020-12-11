@@ -10,9 +10,10 @@ import '@uppy/dashboard/dist/style.css';
 import '@uppy/url/dist/style.css';
 import '@uppy/image-editor/dist/style.css';
 import { checker, maker } from '../../utils/sluger';
+import { useSelector } from 'react-redux';
 
 function UppyUploader({ onUpload }) {
-  const space_slug = 'organisation';
+  const space_slug = useSelector((state) => state.organisations.details[state.organisations.selected]?.slug);
   const uppy = Uppy({
     id: 'uppy-media',
     meta: { type: 'avatar' },
