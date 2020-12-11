@@ -7,6 +7,9 @@ import Profile from '../pages/profile';
 import Password from '../pages/password';
 import OrganisationCreate from '../pages/organisation';
 import App from '../pages/apps';
+import Application from '../pages/application';
+import CreateApplication from '../pages/application/CreateApplication';
+import EditApplication from '../pages/application/EditApplication';
 
 export default [
   {
@@ -57,4 +60,26 @@ export default [
     Icon: PieChartOutlined,
     title: 'Profile',
   },
+  {
+    path: '/application',
+    Component: Application,
+    enableNavigation: true,
+    enableBreadcrumb: true,
+    Icon: AppstoreOutlined,
+    title: 'Application',
+  },
+  {
+    path: '/application/create',
+    Component: CreateApplication,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Create Application',
+  },
+  {
+    path: '/application/:id/edit',
+    Component: EditApplication,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Edit Application',
+  }
 ];
