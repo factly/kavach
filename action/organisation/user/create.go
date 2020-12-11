@@ -20,8 +20,10 @@ import (
 )
 
 type invite struct {
-	Email string `json:"email" validate:"required"`
-	Role  string `json:"role" validate:"required"`
+	FirstName string `gorm:"column:first_name" json:"first_name" validate:"required"`
+	LastName  string `gorm:"column:last_name" json:"last_name"`
+	Email     string `json:"email" validate:"required"`
+	Role      string `json:"role" validate:"required"`
 }
 
 // create - Create organisation user
@@ -84,7 +86,9 @@ func create(w http.ResponseWriter, r *http.Request) {
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Begin()
 
 	invitee := model.User{
-		Email: req.Email,
+		Email:     req.Email,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
 	}
 
 	err = tx.Where(&invitee).First(&invitee).Error
