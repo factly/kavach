@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
 import moment from 'moment';
+import MediaSelector from '../../components/MediaSelector';
 
 function Profile() {
   const [profile, setProfile] = React.useState({});
@@ -82,6 +83,9 @@ function Profile() {
               <Radio.Button value="female">Female</Radio.Button>
               <Radio.Button value="other">Other</Radio.Button>
             </Radio.Group>
+          </Form.Item>
+          <Form.Item label="Upload Image" name="featured_medium_id">
+            <MediaSelector />
           </Form.Item>
           <Form.Item>
             <Button form="update_profile" type="primary" htmlType="submit" block>
