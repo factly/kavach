@@ -31,6 +31,23 @@ func list(w http.ResponseWriter, r *http.Request) {
 		UserID: uint(userID),
 	}).Preload("Organisation").Preload("Organisation.Medium").Find(&organisationUser)
 
+	orgIDs := make([]uint, 0)
+	for _, ou := range organisationUser {
+		orgIDs = append(orgIDs, ou.OrganisationID)
+	}
+
+	applicationList := make([]model.Application, 0)
+	model.DB.Model(&model.Application{}).Where("organisation_id IN (?)", orgIDs).Find(&applicationList)
+
+	appMap := make(map[uint][]model.Application, 0)
+
+	for _, app := range applicationList {
+		if _, found := appMap[app.OrganisationID]; !found {
+			appMap[app.OrganisationID] = make([]model.Application, 0)
+		}
+		appMap[app.OrganisationID] = append(appMap[app.OrganisationID], app)
+	}
+
 	result := make([]orgWithRole, 0)
 
 	for _, each := range organisationUser {
@@ -38,6 +55,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			eachOrg := orgWithRole{}
 			eachOrg.Organisation = *each.Organisation
 			eachOrg.Permission = each
+			eachOrg.Applications = appMap[each.OrganisationID]
 
 			eachOrg.Permission.Organisation = nil
 

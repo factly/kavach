@@ -51,10 +51,16 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	applications := make([]model.Application, 0)
+	model.DB.Model(&model.Application{}).Where(&model.Application{
+		OrganisationID: uint(id),
+	}).Find(&applications)
+
 	result := orgWithRole{}
 
 	result.Organisation = *organisation
 	result.Permission = permission
+	result.Applications = applications
 
 	renderx.JSON(w, http.StatusOK, result)
 }
