@@ -19,6 +19,7 @@ require (
 	github.com/mattn/go-colorable v0.1.7 // indirect
 	github.com/moul/http2curl v1.0.0 // indirect
 	github.com/onsi/ginkgo v1.14.0 // indirect
+	github.com/prometheus/client_golang v0.9.3
 	github.com/sergi/go-diff v1.1.0 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/swaggo/http-swagger v0.0.0-20200308142732-58ac5e232fba
