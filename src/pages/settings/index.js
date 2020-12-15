@@ -1,6 +1,7 @@
-import React from 'react';
-import { Button, Form, Input, Space, Divider } from 'antd';
+import React , { useState } from 'react';
+import { Button, Form, Input, Space, Divider, Modal, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   getOrganisation,
   updateOrganisation,
@@ -9,6 +10,32 @@ import {
 
 function OrganisationEdit() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const [form] = Form.useForm();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleOk = () => {
+    if( organisation.title === form.getFieldValue('organisationName')) {
+      onConfirmDeleteOrganisation();
+      setIsModalVisible(false);
+    }
+    else {
+      message.error('Entered wrong organisation name!')
+      setIsModalVisible(true);
+    }
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const onConfirmDeleteOrganisation = () => {
+    dispatch(deleteOrganisation(organisation.id)).then(() => { 
+      history.push('/organisation');
+      window.location.reload();
+    });
+  }
 
   const { organisation, selected } = useSelector((state) => {
     return {
@@ -47,14 +74,20 @@ function OrganisationEdit() {
       <Divider style={{ color: 'red' }} orientation="left">
         Danger zone
       </Divider>
-      <Button
-        danger
-        onClick={() =>
-          dispatch(deleteOrganisation(organisation.id)).then(window.location.reload(false))
-        }
-      >
+      <Button onClick={showModal}>
         Delete
       </Button>
+      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <h3>Delete Organisation</h3>
+        <Form
+          form={form}
+          name="organisation_delete"
+        >
+          <Form.Item name="organisationName" >
+            <Input placeholder="Organisation Name" />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Space>
   );
 }
