@@ -9,7 +9,8 @@ import (
 
 type orgWithRole struct {
 	model.Organisation
-	Permission model.OrganisationUser `json:"permission"`
+	Permission   model.OrganisationUser `json:"permission"`
+	Applications []model.Application    `json:"applications,omitempty"`
 }
 
 var userContext model.ContextKey = "organisation_user"

@@ -255,10 +255,15 @@ definitions:
     properties:
       email:
         type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
       role:
         type: string
     required:
     - email
+    - first_name
     - role
     type: object
   user.userWithPermission:
@@ -726,6 +731,39 @@ paths:
           schema:
             $ref: '#/definitions/model.Application'
       summary: Update a application by id
+      tags:
+      - OrganisationApplications
+  /organisations/{organisation_id}/applications/default:
+    post:
+      description: Create Default applications
+      operationId: add-default-applications
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/model.Application'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Create Default applications
       tags:
       - OrganisationApplications
   /organisations/{organisation_id}/users:
