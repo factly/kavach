@@ -91,7 +91,9 @@ func create(w http.ResponseWriter, r *http.Request) {
 		LastName:  req.LastName,
 	}
 
-	err = tx.Where(&invitee).First(&invitee).Error
+	err = tx.Where(&model.User{
+		Email: invitee.Email,
+	}).First(&invitee).Error
 
 	if err != nil {
 		tx.Create(&invitee)
