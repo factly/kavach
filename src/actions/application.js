@@ -44,6 +44,41 @@ export const getApplications = () => {
   };
 };
 
+export const addDefaultApplications = () => {
+  return (dispatch, getState) => {
+    dispatch(loadingApplications());
+      return axios
+        .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/default')
+        .then((response) => {
+          console.log('get apps' ,response);
+          dispatch(
+            addMediaList(
+              response.data
+                .filter((application) => application.medium)
+                .map((application) => application.medium),
+            ),
+          );
+          dispatch(
+            addApplicationsList(
+              response.data.map((application) => {
+                return { ...application, medium: application.medium?.id };
+              }),
+            ),
+          );
+          dispatch(
+            addApplicationsRequest({
+              data: response.data.map((item) => item.id),
+              total: response.data.total,
+            }),
+          );
+          dispatch(stopApplicationLoading());  
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+};
+
 export const getApplication = (id) => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
