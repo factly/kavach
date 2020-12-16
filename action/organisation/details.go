@@ -1,14 +1,17 @@
 package organisation
 
 import (
+	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
+	"gorm.io/gorm"
 )
 
 // details - Get organisation by id
@@ -35,7 +38,11 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+
+	defer cancel()
+
+	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		UserID:         uint(userID),
 		OrganisationID: uint(id),
 	}).First(&permission)
@@ -43,7 +50,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	organisation := &model.Organisation{}
 	organisation.ID = uint(id)
 
-	err = model.DB.Model(&model.Organisation{}).Preload("Medium").First(&organisation).Error
+	err = model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.Organisation{}).Preload("Medium").First(&organisation).Error
 
 	if err != nil {
 		loggerx.Error(err)
@@ -52,7 +59,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	}
 
 	applications := make([]model.Application, 0)
-	model.DB.Model(&model.Application{}).Where(&model.Application{
+	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(id),
 	}).Find(&applications)
 
