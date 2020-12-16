@@ -2,13 +2,15 @@ import React from 'react';
 import { Card, Form, Input, Select, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../actions/users';
+import { useHistory } from 'react-router-dom';
 
 function NewUser() {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const history = useHistory();
   const addNewUser = (values) => {
     dispatch(addUser(values)).then(() => {
-      form.resetFields();
+      history.push('/users');
     })
   }
   const layout = {
