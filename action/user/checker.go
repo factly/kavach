@@ -42,7 +42,9 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		Email: traits["email"].(string),
 	}
 
-	err = model.DB.Where(&user).First(&user).Error
+	err = model.DB.Where(&model.User{
+		Email: user.Email,
+	}).First(&user).Error
 
 	if err != nil {
 		model.DB.Create(&user)
