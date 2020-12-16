@@ -1,6 +1,6 @@
 import React from 'react';
 import ApplicationList from './components/ApplicationList';
-import {Space, Button, Row, Col } from 'antd';
+import {Space, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addDefaultApplications } from '../../actions/application';
