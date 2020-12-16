@@ -1,11 +1,14 @@
 package organisation
 
 import (
+	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/renderx"
+	"gorm.io/gorm"
 )
 
 // list - Get all organisations
@@ -26,8 +29,11 @@ func list(w http.ResponseWriter, r *http.Request) {
 		renderx.JSON(w, http.StatusBadRequest, nil)
 		return
 	}
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+	defer cancel()
+
+	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		UserID: uint(userID),
 	}).Preload("Organisation").Preload("Organisation.Medium").Find(&organisationUser)
 
@@ -37,7 +43,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}
 
 	applicationList := make([]model.Application, 0)
-	model.DB.Model(&model.Application{}).Where("organisation_id IN (?)", orgIDs).Find(&applicationList)
+	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.Application{}).Where("organisation_id IN (?)", orgIDs).Find(&applicationList)
 
 	appMap := make(map[uint][]model.Application, 0)
 

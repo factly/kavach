@@ -4,8 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/factly/kavach-server/util"
-
 	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/healthx"
 
@@ -31,7 +29,7 @@ func RegisterRoutes() http.Handler {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/ping"))
-	r.Use(util.GormRequestID)
+	//r.Use(util.GormRequestID)
 
 	if viper.IsSet("mode") && viper.GetString("mode") == "development" {
 		r.Get("/swagger/*", httpSwagger.WrapHandler)
