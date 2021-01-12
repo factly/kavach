@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Divider, Button } from 'antd';
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout, Divider, Button, Popover, List } from 'antd';
+import { MenuUnfoldOutlined, MenuFoldOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { toggleSider } from '../../actions/settings';
 import AccountMenu from './AccountMenu';
 import OrganisationSelector from './OrganisationSelector';
@@ -9,6 +9,11 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   const collapsed = useSelector((state) => state.settings.sider.collapsed);
+  const apps = useSelector((state) =>
+    state.organisations.selected > 0
+      ? state.organisations.details[state.organisations.selected].applications
+      : [],
+  );
   const dispatch = useDispatch();
   const MenuFoldComponent = collapsed ? MenuUnfoldOutlined : MenuFoldOutlined;
 
@@ -25,6 +30,43 @@ function Header() {
           <Button>New</Button>
         </Link>
         <OrganisationSelector />
+        <Divider type="vertical" />
+        <Popover
+          placement="bottom"
+          content={
+            <List
+              grid={{
+                gutter: 16,
+                xs: 1,
+                sm: 2,
+                md: 4,
+                lg: 4,
+                xl: 6,
+                xxl: 3,
+              }}
+              dataSource={apps}
+              renderItem={(item) => (
+                <List.Item>
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    <img
+                      alt="logo"
+                      className="menu-logo"
+                      src={require(`../../assets/${item.name.toLowerCase()}_icon.png`)}
+                    />
+                    <p>{item.name}</p>
+                  </a>
+                </List.Item>
+              )}
+            />
+          }
+          trigger="click"
+        >
+          <AppstoreOutlined />
+        </Popover>
         <Divider type="vertical" />
         <AccountMenu style={{ float: 'right' }} />
       </div>

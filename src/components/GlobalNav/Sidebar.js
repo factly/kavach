@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
-import logo from '../../assets/logo.svg';
 import { toggleSider } from '../../actions/settings';
 import routes from '../../config/routes';
 
@@ -12,7 +11,6 @@ function Sidebar() {
   const {
     sider: { collapsed },
     navTheme,
-    title,
   } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   return (
@@ -27,12 +25,22 @@ function Sidebar() {
         dispatch(toggleSider());
       }}
     >
-      <div className="menu-header">
-        <img alt="logo" className="menu-logo" src={logo} />
-        <span hidden={collapsed} className="menu-company">
-          {title}
-        </span>
-      </div>
+      <Link to="/">
+        <div className="menu-header" style={{ backgroundColor: '#1890ff' }}>
+          <img
+            alt="logo"
+            hidden={!collapsed}
+            className="menu-logo"
+            src={require('../../assets/kavach_icon.png')}
+          />
+          <img
+            alt="logo"
+            hidden={collapsed}
+            src={require('../../assets/kavach.png')}
+            style={{ width: '60%' }}
+          />
+        </div>
+      </Link>
       <Menu theme={navTheme} mode="inline" className="slider-menu">
         {routes
           .filter((each) => each.enableNavigation === true)
