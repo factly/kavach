@@ -2,7 +2,6 @@ import React from 'react';
 import './index.css';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.svg';
 import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import OIDC from './oidc';
@@ -11,6 +10,11 @@ function Auth(props) {
   const [method, setMethod] = React.useState({});
 
   const { title } = useSelector((state) => state.settings);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectURL = urlParams.get('return_to');
+
+  if (redirectURL) localStorage.setItem('return_to', redirectURL);
 
   React.useEffect(() => {
     var obj = {};
@@ -23,9 +27,18 @@ function Auth(props) {
         obj[temp[0]] = temp[1];
       });
 
+    const returnTo = localStorage.getItem('return_to');
+
     if (!obj['flow']) {
-      window.location.href =
-        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+      const selfServiceURL = returnTo
+        ? window.REACT_APP_KRATOS_PUBLIC_URL +
+          '/self-service/' +
+          props.flow +
+          '/browser?return_to=' +
+          returnTo
+        : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+
+      window.location.href = selfServiceURL;
     }
 
     fetch(
@@ -88,7 +101,7 @@ function Auth(props) {
     <div className="auth">
       <Row className="header">
         <Col span={6}>
-          <img alt="logo" className="logo" src={logo} />
+          <img alt="logo" className="logo" src={require('../../assets/kavach_icon.png')} />
         </Col>
         <Col span={18}>
           <span className="title">{title}</span>
@@ -126,26 +139,31 @@ function Auth(props) {
               placeholder="Password"
             />
           </Form.Item>
-          { props.flow === 'login' ? '' : <Form.Item
-            name="confirmPassword"
-            dependencies={['password']}
-            rules={[{ required: true, message: 'Please re-enter your Password!' },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if(getFieldValue('password') !== value) {
-                  return Promise.reject('Password do no match!');
-                }
-                  return Promise.resolve();
-              }
-            })
-          ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Confirm Password"
-            />
-          </Form.Item> }
+          {props.flow === 'login' ? (
+            ''
+          ) : (
+            <Form.Item
+              name="confirmPassword"
+              dependencies={['password']}
+              rules={[
+                { required: true, message: 'Please re-enter your Password!' },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (getFieldValue('password') !== value) {
+                      return Promise.reject('Password do no match!');
+                    }
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
+            >
+              <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Confirm Password"
+              />
+            </Form.Item>
+          )}
           <Form.Item>
             <Button form="auth" type="primary" htmlType="submit" block>
               Submit
