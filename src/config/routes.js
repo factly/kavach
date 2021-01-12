@@ -6,21 +6,12 @@ import Users from '../pages/users';
 import Profile from '../pages/profile';
 import Password from '../pages/password';
 import OrganisationCreate from '../pages/organisation';
-import App from '../pages/apps';
 import Application from '../pages/application';
 import CreateApplication from '../pages/application/CreateApplication';
 import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
 
 export default [
-  {
-    path: '/apps',
-    Component: App,
-    enableNavigation: true,
-    enableBreadcrumb: true,
-    Icon: AppstoreOutlined,
-    title: 'Apps',
-  },
   {
     path: '/settings',
     Component: Settings,
@@ -50,7 +41,7 @@ export default [
     Component: NewUser,
     enableNavigation: false,
     enableBreadcrumb: true,
-    title: 'New User'
+    title: 'New User',
   },
   {
     path: '/password',
@@ -89,5 +80,5 @@ export default [
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Edit Application',
-  }
+  },
 ];
