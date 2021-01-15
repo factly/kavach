@@ -49,11 +49,7 @@ function Header() {
                   dataSource={apps}
                   renderItem={(item) => (
                     <List.Item>
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                      >
+                      <a href={item.url} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <img
                           alt="logo"
                           className="menu-logo"
