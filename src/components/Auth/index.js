@@ -11,11 +11,6 @@ function Auth(props) {
 
   const { title } = useSelector((state) => state.settings);
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const redirectURL = urlParams.get('return_to');
-
-  if (redirectURL) localStorage.setItem('return_to', redirectURL);
-
   React.useEffect(() => {
     var obj = {};
 
@@ -27,20 +22,18 @@ function Auth(props) {
         obj[temp[0]] = temp[1];
       });
 
-    const returnTo = localStorage.getItem('return_to');
+    const returnTo = obj['return_to'];
+    const selfServiceURL = returnTo
+      ? window.REACT_APP_KRATOS_PUBLIC_URL +
+        '/self-service/' +
+        props.flow +
+        '/browser?return_to=' +
+        returnTo
+      : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
-      const selfServiceURL = returnTo
-        ? window.REACT_APP_KRATOS_PUBLIC_URL +
-          '/self-service/' +
-          props.flow +
-          '/browser?return_to=' +
-          returnTo
-        : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
-
       window.location.href = selfServiceURL;
     }
-
     fetch(
       window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
@@ -62,9 +55,8 @@ function Auth(props) {
       .then((res) => {
         setMethod(res.methods);
       })
-      .catch((err) => {
-        window.location.href =
-          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+      .catch(() => {
+        window.location.href = selfServiceURL;
       });
   }, [props.flow]);
 
