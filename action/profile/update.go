@@ -78,12 +78,10 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	var userSlug string
 
-	if req.Slug == me.Slug {
-		userSlug = req.Slug
-	} else if me.Slug != "" && slug.Check(me.Slug) {
+	if me.Slug != "" && slug.Check(me.Slug) {
 		userSlug = slug.Approve(me.Slug)
 	} else {
-		userSlug = ""
+		userSlug = req.Slug
 	}
 
 	updateUser := model.User{
