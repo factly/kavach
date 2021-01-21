@@ -71,6 +71,9 @@ function Profile() {
           >
             <Input placeholder="Last name" />
           </Form.Item>
+          <Form.Item name="display_name">
+            <Input placeholder="Display name" />
+          </Form.Item>
           <Form.Item
             name="birth_date"
             rules={[{ type: 'object', required: true, message: 'Please select time!' }]}
@@ -83,6 +86,21 @@ function Profile() {
               <Radio.Button value="female">Female</Radio.Button>
               <Radio.Button value="other">Other</Radio.Button>
             </Radio.Group>
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'facebook']}>
+            <Input placeholder="Facebook url" />
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'twitter']}>
+            <Input placeholder="Twitter url" />
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'pintrest']}>
+            <Input placeholder="Pintrest url" />
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'instagram']}>
+            <Input placeholder="Instagram url" />
+          </Form.Item>
+          <Form.Item name="description">
+            <Input.TextArea placeholder="Description" autoSize={{ minRows: 2, maxRows: 6 }} />
           </Form.Item>
           <Form.Item label="Upload Image" name="featured_medium_id">
             <MediaSelector />
