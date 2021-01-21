@@ -7,6 +7,7 @@ import {
   ORGANISATIONS_API,
   SET_SELECTED_ORGANISATION,
 } from '../constants/organisations';
+import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getOrganisations = () => {
   return (dispatch, getState) => {
@@ -17,7 +18,7 @@ export const getOrganisations = () => {
         dispatch(addOrganisationsList(response.data));
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -32,7 +33,7 @@ export const getOrganisation = (id) => {
         dispatch(stopOrganisationsLoading());
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -46,9 +47,10 @@ export const addOrganisation = (data) => {
         dispatch(getOrganisationByID(response.data));
         dispatch(setSelectedOrganisation(response.data.id));
         dispatch(stopOrganisationsLoading());
+        dispatch(addSuccessNotification('Organisation added'));
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -61,9 +63,10 @@ export const updateOrganisation = (data) => {
       .then((response) => {
         dispatch(getOrganisationByID(response.data));
         dispatch(stopOrganisationsLoading());
+        dispatch(addSuccessNotification('Organisation Updated'));
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -75,9 +78,10 @@ export const deleteOrganisation = (id) => {
       .delete(ORGANISATIONS_API + '/' + id)
       .then(() => {
         dispatch(resetOrganisations());
+        dispatch(addSuccessNotification('Organisation Deleted'));
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };

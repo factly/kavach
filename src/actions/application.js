@@ -8,6 +8,7 @@ import {
   APPLICATIONS_API,
 } from '../constants/application';
 import { addMediaList } from './media';
+import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getApplications = () => {
   return (dispatch, getState) => {
@@ -39,7 +40,7 @@ export const getApplications = () => {
           dispatch(stopApplicationLoading());  
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -50,7 +51,6 @@ export const addDefaultApplications = () => {
       return axios
         .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/default')
         .then((response) => {
-          console.log('get apps' ,response);
           dispatch(
             addMediaList(
               response.data
@@ -71,10 +71,11 @@ export const addDefaultApplications = () => {
               total: response.data.total,
             }),
           );
-          dispatch(stopApplicationLoading());  
+          dispatch(stopApplicationLoading()); 
+          dispatch(addSuccessNotification('Factly Applications Added')) 
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -90,7 +91,7 @@ export const getApplication = (id) => {
           dispatch(stopApplicationLoading());
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -102,10 +103,10 @@ export const addApplication = (data) => {
       .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications', data)
       .then(() => {
         dispatch(resetApplications());
-        console.log("Application added");
+        dispatch(addSuccessNotification('Application Added')) 
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -119,10 +120,10 @@ export const updateApplication = (data) => {
       if (response.data.medium) dispatch(addMediaList([response.data.medium]));
         dispatch(getApplicationByID({ ...response.data, medium: response.data.medium?.id }));
         dispatch(stopApplicationLoading());
-        console.log('Application updated');
+        dispatch(addSuccessNotification('Application Updated')) 
     })
     .catch((error) => {
-      console.log(error);
+      dispatch(addErrorNotification(error.message));
     });
   };
 };
@@ -134,10 +135,10 @@ export const deleteApplication = (id) => {
       .delete(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then(() => {
         dispatch(resetApplications());
-        console.log('Application deleted');
+        dispatch(addSuccessNotification('Application Deleted')) 
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };

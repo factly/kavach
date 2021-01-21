@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
+import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getUsers = () => {
   return (dispatch, getState) => {
@@ -11,7 +12,7 @@ export const getUsers = () => {
         dispatch(stopUsersLoading());
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -24,9 +25,10 @@ export const addUser = (data) => {
       .then(() => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());
+        dispatch(addSuccessNotification('User added'));
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -39,9 +41,10 @@ export const deleteUser = (id) => {
       .then(() => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());
+        dispatch(addSuccessNotification('User deleted'));
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };

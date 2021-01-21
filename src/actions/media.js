@@ -7,6 +7,7 @@ import {
   RESET_MEDIA,
   MEDIA_API,
 } from '../constants/media';
+import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getMedia = (query) => {
   return (dispatch) => {
@@ -27,7 +28,7 @@ export const getMedia = (query) => {
         dispatch(stopMediaLoading());
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -42,7 +43,7 @@ export const getMedium = (id) => {
         dispatch(stopMediaLoading());
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -54,10 +55,10 @@ export const addMedium = (data) => {
       .post(MEDIA_API, data)
       .then(() => {
         dispatch(resetMedia());
-        console.log('Medium added');
+        dispatch(addSuccessNotification('Media Added'));
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -70,10 +71,10 @@ export const updateMedium = (data) => {
       .then((response) => {
         dispatch(getMediumByID(response.data));
         dispatch(stopMediaLoading());
-        console.log('Medium updated');
+        dispatch(addSuccessNotification('Media Updated'));
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
@@ -85,10 +86,10 @@ export const deleteMedium = (id) => {
       .delete(MEDIA_API + '/' + id)
       .then(() => {
         dispatch(resetMedia());
-        console.log('Medium deleted');
+        dispatch(addSuccessNotification('Media Deleted'));
       })
       .catch((error) => {
-       console.log(error);
+        dispatch(addErrorNotification(error.message));
       });
   };
 };
