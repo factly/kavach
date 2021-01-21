@@ -117,8 +117,8 @@ function Profile() {
           <Form.Item name={['social_media_urls', 'twitter']}>
             <Input placeholder="Twitter url" />
           </Form.Item>
-          <Form.Item name={['social_media_urls', 'pintrest']}>
-            <Input placeholder="Pintrest url" />
+          <Form.Item name={['social_media_urls', 'linkedin']}>
+            <Input placeholder="LinkedIn url" />
           </Form.Item>
           <Form.Item name={['social_media_urls', 'instagram']}>
             <Input placeholder="Instagram url" />
