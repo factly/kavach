@@ -6,17 +6,23 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/slug"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/jinzhu/gorm/dialects/postgres"
 )
 
 type user struct {
-	FirstName        string `json:"first_name"`
-	LastName         string `json:"last_name"`
-	BirthDate        string `json:"birth_date"`
-	Gender           string `json:"gender"`
-	FeaturedMediumID uint   `json:"featured_medium_id"`
+	FirstName        string         `json:"first_name"`
+	LastName         string         `json:"last_name"`
+	DisplayName      string         `json:"display_name"`
+	Slug             string         `json:"slug"`
+	BirthDate        string         `json:"birth_date"`
+	Gender           string         `json:"gender"`
+	FeaturedMediumID uint           `json:"featured_medium_id"`
+	Description      string         `json:"description"`
+	SocialMediaURLs  postgres.Jsonb `json:"social_media_urls"`
 }
 
 // update - Update user info
@@ -70,12 +76,24 @@ func update(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	var userSlug string
+
+	if me.Slug != "" && slug.Check(me.Slug) {
+		userSlug = slug.Approve(me.Slug)
+	} else {
+		userSlug = req.Slug
+	}
+
 	updateUser := model.User{
 		FirstName:        req.FirstName,
 		LastName:         req.LastName,
 		BirthDate:        req.BirthDate,
+		Slug:             userSlug,
 		Gender:           req.Gender,
 		FeaturedMediumID: mediumID,
+		Description:      req.Description,
+		SocialMediaURLs:  req.SocialMediaURLs,
+		DisplayName:      req.DisplayName,
 	}
 	updateUser.ID = me.ID
 
