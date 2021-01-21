@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/slug"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -16,6 +17,7 @@ type user struct {
 	FirstName        string         `json:"first_name"`
 	LastName         string         `json:"last_name"`
 	DisplayName      string         `json:"display_name"`
+	Slug             string         `json:"slug"`
 	BirthDate        string         `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
@@ -74,10 +76,21 @@ func update(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	var userSlug string
+
+	if req.Slug == me.Slug {
+		userSlug = req.Slug
+	} else if me.Slug != "" && slug.Check(me.Slug) {
+		userSlug = slug.Approve(me.Slug)
+	} else {
+		userSlug = ""
+	}
+
 	updateUser := model.User{
 		FirstName:        req.FirstName,
 		LastName:         req.LastName,
 		BirthDate:        req.BirthDate,
+		Slug:             userSlug,
 		Gender:           req.Gender,
 		FeaturedMediumID: mediumID,
 		Description:      req.Description,
