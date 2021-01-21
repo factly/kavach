@@ -2,10 +2,12 @@ import React from 'react';
 import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
 import moment from 'moment';
 import MediaSelector from '../../components/MediaSelector';
+import { maker, checker } from '../../utils/sluger';
 
 function Profile() {
   const [profile, setProfile] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+  const [form] = Form.useForm();
 
   React.useEffect(() => {
     fetch(window.REACT_APP_API_URL + '/profile')
@@ -48,10 +50,17 @@ function Profile() {
       });
   };
 
+  const onNameChange = (string) => {
+    form.setFieldsValue({
+      slug: maker(string),
+    });
+  };
+
   return (
     <div className="content">
       <Card title="Update Profile" style={{ width: 400 }} loading={loading}>
         <Form
+          form={form}
           name="update_profile"
           onFinish={updateProfile}
           initialValues={{
@@ -71,6 +80,24 @@ function Profile() {
           >
             <Input placeholder="Last name" />
           </Form.Item>
+          <Form.Item name="display_name">
+            <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
+          </Form.Item>
+          <Form.Item
+            name="slug"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the slug!',
+              },
+              {
+                pattern: checker,
+                message: 'Please enter valid slug!',
+              },
+            ]}
+          >
+            <Input placeholder="slug" />
+          </Form.Item>
           <Form.Item
             name="birth_date"
             rules={[{ type: 'object', required: true, message: 'Please select time!' }]}
@@ -83,6 +110,21 @@ function Profile() {
               <Radio.Button value="female">Female</Radio.Button>
               <Radio.Button value="other">Other</Radio.Button>
             </Radio.Group>
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'facebook']}>
+            <Input placeholder="Facebook url" />
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'twitter']}>
+            <Input placeholder="Twitter url" />
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'linkedin']}>
+            <Input placeholder="LinkedIn url" />
+          </Form.Item>
+          <Form.Item name={['social_media_urls', 'instagram']}>
+            <Input placeholder="Instagram url" />
+          </Form.Item>
+          <Form.Item name="description">
+            <Input.TextArea placeholder="Description" autoSize={{ minRows: 2, maxRows: 6 }} />
           </Form.Item>
           <Form.Item label="Upload Image" name="featured_medium_id">
             <MediaSelector />
