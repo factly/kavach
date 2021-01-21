@@ -9,14 +9,18 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/jinzhu/gorm/dialects/postgres"
 )
 
 type user struct {
-	FirstName        string `json:"first_name"`
-	LastName         string `json:"last_name"`
-	BirthDate        string `json:"birth_date"`
-	Gender           string `json:"gender"`
-	FeaturedMediumID uint   `json:"featured_medium_id"`
+	FirstName        string         `json:"first_name"`
+	LastName         string         `json:"last_name"`
+	DisplayName      string         `json:"display_name"`
+	BirthDate        string         `json:"birth_date"`
+	Gender           string         `json:"gender"`
+	FeaturedMediumID uint           `json:"featured_medium_id"`
+	Description      string         `json:"description"`
+	SocialMediaURLs  postgres.Jsonb `json:"social_media_urls"`
 }
 
 // update - Update user info
@@ -76,6 +80,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 		BirthDate:        req.BirthDate,
 		Gender:           req.Gender,
 		FeaturedMediumID: mediumID,
+		Description:      req.Description,
+		SocialMediaURLs:  req.SocialMediaURLs,
+		DisplayName:      req.DisplayName,
 	}
 	updateUser.ID = me.ID
 
