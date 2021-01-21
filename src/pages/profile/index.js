@@ -2,10 +2,12 @@ import React from 'react';
 import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
 import moment from 'moment';
 import MediaSelector from '../../components/MediaSelector';
+import { maker, checker } from '../../utils/sluger';
 
 function Profile() {
   const [profile, setProfile] = React.useState({});
   const [loading, setLoading] = React.useState(true);
+  const [form] = Form.useForm();
 
   React.useEffect(() => {
     fetch(window.REACT_APP_API_URL + '/profile')
@@ -48,10 +50,17 @@ function Profile() {
       });
   };
 
+  const onNameChange = (string) => {
+    form.setFieldsValue({
+      slug: maker(string),
+    });
+  };
+
   return (
     <div className="content">
       <Card title="Update Profile" style={{ width: 400 }} loading={loading}>
         <Form
+          form={form}
           name="update_profile"
           onFinish={updateProfile}
           initialValues={{
@@ -72,7 +81,22 @@ function Profile() {
             <Input placeholder="Last name" />
           </Form.Item>
           <Form.Item name="display_name">
-            <Input placeholder="Display name" />
+            <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
+          </Form.Item>
+          <Form.Item
+            name="slug"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the slug!',
+              },
+              {
+                pattern: checker,
+                message: 'Please enter valid slug!',
+              },
+            ]}
+          >
+            <Input placeholder="slug" />
           </Form.Item>
           <Form.Item
             name="birth_date"
