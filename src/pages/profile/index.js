@@ -3,51 +3,29 @@ import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
 import moment from 'moment';
 import MediaSelector from '../../components/MediaSelector';
 import { maker, checker } from '../../utils/sluger';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProfile, updateProfile } from '../../actions/profile';
 
 function Profile() {
-  const [profile, setProfile] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  const { profile, loading } = useSelector((state) => {
+    return {
+      profile: state.profile.details ? state.profile.details : null,
+      loading: state.profile.loading,
+    };
+  });
 
   React.useEffect(() => {
-    fetch(window.REACT_APP_API_URL + '/profile')
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          throw new Error(res.status);
-        }
-      })
-      .then((res) => {
-        setProfile(res);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    dispatch(getUserProfile());
+  }, [dispatch]);
 
-  const updateProfile = (values) => {
+  const update = (values) => {
     values.birth_date = values.birth_date
       ? moment(values.birth_date).format('YYYY-MM-DDTHH:mm:ssZ')
       : null;
-    fetch(window.REACT_APP_API_URL + '/profile', {
-      method: 'PUT',
-      body: JSON.stringify(values),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          throw new Error(res.status);
-        }
-      })
-      .then((res) => {
-        setProfile(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    dispatch(updateProfile(values));
   };
 
   const onNameChange = (string) => {
@@ -62,7 +40,7 @@ function Profile() {
         <Form
           form={form}
           name="update_profile"
-          onFinish={updateProfile}
+          onFinish={update}
           initialValues={{
             ...profile,
             birth_date: profile.birth_date ? moment(profile.birth_date) : null,
