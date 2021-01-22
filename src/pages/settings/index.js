@@ -7,6 +7,7 @@ import {
   updateOrganisation,
   deleteOrganisation,
 } from './../../actions/organisations';
+import { maker, checker } from '../../utils/sluger';
 
 function OrganisationEdit() {
   const dispatch = useDispatch();
@@ -44,6 +45,12 @@ function OrganisationEdit() {
     };
   });
 
+  const onTitleChange = (string) => {
+    form.setFieldsValue({
+      slug: maker(string),
+    });
+  };
+
   React.useEffect(() => {
     dispatch(getOrganisation(selected));
   }, [dispatch, selected]);
@@ -51,6 +58,7 @@ function OrganisationEdit() {
   return (
     <Space direction="vertical">
       <Form
+        form={form}
         name="organisation_edit"
         layout="vertical"
         onFinish={(values) => dispatch(updateOrganisation({ ...organisation, ...values }))}
@@ -60,8 +68,24 @@ function OrganisationEdit() {
         }}
       >
         <Form.Item name="title" label="Title">
-          <Input placeholder="Title" />
+          <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)}/>
         </Form.Item>
+        <Form.Item 
+          name="slug" 
+          label="Slug"
+          rules={[
+            {
+              required: true,
+              message: 'Please input the slug!',
+            },
+            {
+              pattern: checker,
+              message: 'Please enter valid slug!',
+            },
+          ]}
+        >
+          <Input placeholder="Slug"></Input>
+      </Form.Item>
         <Form.Item name="description" label="Description">
           <Input.TextArea placeholder="Description" />
         </Form.Item>
