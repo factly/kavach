@@ -5,6 +5,7 @@ import users from './users';
 import media from './media';
 import application from './application';
 import notifications from './notifications';
+import profile from './profile';
 
 export default combineReducers({
   settings,
@@ -12,5 +13,6 @@ export default combineReducers({
   users,
   media,
   application,
-  notifications
+  notifications,
+  profile
 });

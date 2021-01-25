@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Card } from 'antd';
+import { Layout, Card, notification } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Header from '../components/GlobalNav/Header';
@@ -15,9 +15,21 @@ function BasicLayout(props) {
 
   const dispatch = useDispatch();
 
+  const { type, message, description } = useSelector((state) => state.notifications);
+
   React.useEffect(() => {
     dispatch(getOrganisations());
   }, [dispatch]);
+
+  React.useEffect(() => {
+    if (type && message && description && selected !== 0) {
+      notification[type]({
+        message: message,
+        description: description,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [description]);
 
   return (
     <Layout hasSider={true}>
