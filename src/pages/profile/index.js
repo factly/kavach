@@ -9,6 +9,7 @@ import { getUserProfile, updateProfile } from '../../actions/profile';
 function Profile() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const[valueChange, setValueChange] = React.useState(false);
 
   const { profile, loading } = useSelector((state) => {
     return {
@@ -44,6 +45,9 @@ function Profile() {
           initialValues={{
             ...profile,
             birth_date: profile.birth_date ? moment(profile.birth_date) : null,
+          }}
+          onValuesChange={(changedValues, allValues) => {
+            setValueChange(true);
           }}
         >
           <Form.Item
@@ -108,7 +112,7 @@ function Profile() {
             <MediaSelector />
           </Form.Item>
           <Form.Item>
-            <Button form="update_profile" type="primary" htmlType="submit" block>
+            <Button disabled={!valueChange} form="update_profile" type="primary" htmlType="submit" block>
               Update
             </Button>
           </Form.Item>
