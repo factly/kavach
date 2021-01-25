@@ -8,6 +8,7 @@ import {
   deleteOrganisation,
 } from './../../actions/organisations';
 import { maker, checker } from '../../utils/sluger';
+import MediaSelector from '../../components/MediaSelector';
 
 function OrganisationEdit() {
   const dispatch = useDispatch();
@@ -88,6 +89,9 @@ function OrganisationEdit() {
       </Form.Item>
         <Form.Item name="description" label="Description">
           <Input.TextArea placeholder="Description" />
+        </Form.Item>
+        <Form.Item label="Upload Image" name="featured_medium_id">
+          <MediaSelector />
         </Form.Item>
         <Form.Item>
           <Button form="organisation_edit" type="primary" htmlType="submit" block>
