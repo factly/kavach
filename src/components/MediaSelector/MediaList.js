@@ -1,8 +1,9 @@
 import React from 'react';
-import { List, Avatar, Badge, Space, Input } from 'antd';
+import { List, Avatar, Space, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMedia } from '../../actions/media';
 import deepEqual from 'deep-equal';
+import { CheckCircleTwoTone } from '@ant-design/icons';
 
 function MediaList({ onSelect, selected, onUnselect }) {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ function MediaList({ onSelect, selected, onUnselect }) {
         renderItem={(item) => (
           <List.Item>
             {selected && item.id === selected.id ? (
-              <Badge dot>
+              <div style={{ position: 'relative' }}>
                 <Avatar
                   onClick={() => {
                     onSelect(null);
@@ -69,9 +70,14 @@ function MediaList({ onSelect, selected, onUnselect }) {
                   shape="square"
                   size={174}
                   src={item.url?.proxy}
+                  style={{ opacity: '0.7', padding: '0.5rem', border: '2px solid #1890ff' }}
                 />
-              </Badge>
-            ) : (
+                <CheckCircleTwoTone
+                  twoToneColor="#52c41a"
+                  style={{ fontSize: '2.5rem', position: 'absolute', top: 8, right: 8 }}
+                />
+              </div>
+              ) : (
               <Avatar
                 onClick={() => onSelect(item)}
                 shape="square"
@@ -87,3 +93,4 @@ function MediaList({ onSelect, selected, onUnselect }) {
 }
 
 export default MediaList;
+
