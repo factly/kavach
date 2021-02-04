@@ -21,16 +21,18 @@ type applicationUsers struct {
 	UserID int `json:"user_id" validate:"required"`
 }
 
-// create - Create organisation
-// @Summary Create organisation
-// @Description Create organisation
-// @Tags Organisation
-// @ID add-organisation
+// create - Create application user
+// @Summary Create application user
+// @Description Create application user
+// @Tags ApplicationUser
+// @ID add-application-user
 // @Consume json
 // @Produce json
 // @Param X-User header string true "User ID"
-// @Param Organisation body organisation true "Organisation Object"
-// @Success 201 {object} orgWithRole
+// @Param application_id path string true "Application ID"
+// @Param organisation_id path string true "Organisation ID"
+// @Param Application User body applicationUsers true "User ID Object"
+// @Success 201
 // @Failure 400 {array} string
 // @Router /organisations/{organisation_id}/applications/{application_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
@@ -90,12 +92,30 @@ func create(w http.ResponseWriter, r *http.Request) {
 	app := &model.Application{}
 	app.ID = uint(appID)
 
-	model.DB.Model(&model.Application{}).Preload("Users").First(&app)
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
-	tx.Model(&model.OrganisationUser{}).Where("user_id IN (?) AND organisation_id IN (?)", appUsers.UserID, uint(orgID)).Preload("User").First(&user)
+	// Check if application exist
+	err = tx.Model(&model.Application{}).Preload("Users").First(&app).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
+	// Check if user belongs to organisation
+	err = tx.Model(&model.OrganisationUser{}).Where("user_id IN (?) AND organisation_id IN (?)", appUsers.UserID, uint(orgID)).Preload("User").First(&user).Error
+
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("user does not belong to organisation", http.StatusUnprocessableEntity)))
+		return
+	}
+
 	users := make([]model.User, 0)
 
+	// append user to application_user association
 	users = append(app.Users, *user.User)
 	if err = tx.Model(&app).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()
@@ -104,11 +124,17 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	/* add user to application */
-	reqRole := &model.Role{}
-	reqRole.Members = []string{fmt.Sprint(appUsers.UserID)}
+	/* append user to application role */
+	appUserList := make([]string, 0)
+	for _, usr := range users {
+		appUserList = append(appUserList, fmt.Sprint(usr.ID))
+	}
 
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(applicationID)+":users/members", reqRole)
+	reqRole := &model.Role{}
+	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(applicationID) + ":users"
+	reqRole.Members = appUserList
+
+	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
 
 	if err != nil {
 		tx.Rollback()

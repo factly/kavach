@@ -15,16 +15,17 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// delete - Delete organisation user by id
-// @Summary Delete a organisation user
-// @Description Delete organisation user by ID
-// @Tags OrganisationUser
-// @ID delete-organisation-user-by-id
+// delete - Delete application user by id
+// @Summary Delete a application user
+// @Description Delete application user by ID
+// @Tags ApplicationUser
+// @ID delete-application-user-by-id
 // @Param X-User header string true "User ID"
+// @Param application_id path string true "Application ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param user_id path string true "User ID"
 // @Success 200
-// @Router /organisations/{organisation_id}/applications/{application_id}/users/{user_id}} [delete]
+// @Router /organisations/{organisation_id}/applications/{application_id}/users/{user_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
@@ -63,7 +64,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Check if logged in user is owner
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
-
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
@@ -83,27 +83,28 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newUsers := make([]model.User, 0)
+	newUserIDs := make([]string, 0)
 	flag := false
 
 	for _, user := range result.Users {
 		if user.ID == uint(uID) {
 			flag = true
-
 		} else {
 			newUsers = append(newUsers, user)
+			newUserIDs = append(newUserIDs, fmt.Sprint(user.ID))
 		}
 	}
 
-	if flag {
+	// if user not found for application
+	if !flag {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
 	// Check if the user to delete is not last user of application
-
-	if len(newUsers) < 2 {
-		loggerx.Error(errors.New("Cannot delete last user of application"))
+	if len(newUsers) < 1 {
+		loggerx.Error(errors.New("cannot delete last user of application"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
@@ -119,8 +120,12 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = keto.DeletePolicy("/engines/acp/ory/regex/roles/roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(applicationID) + ":users/members" + fmt.Sprint(uID))
+	// remove user if from the keto role
+	ketoRole := model.Role{}
+	ketoRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(applicationID) + ":users"
+	ketoRole.Members = newUserIDs
 
+	err = keto.UpdateRole("/engines/acp/ory/regex/roles", &ketoRole)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)

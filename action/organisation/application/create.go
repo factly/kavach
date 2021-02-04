@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -62,13 +63,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
-
+	err = util.CheckOwner(uint(uID), uint(oID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
@@ -89,6 +84,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		OrganisationID: uint(oID),
 	}
 
+	// Add current user in application_users
 	model.DB.Model(&model.User{}).Where(&model.User{
 		Base: model.Base{
 			ID: uint(uID),
@@ -108,7 +104,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	/* creating user groups of application */
 	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":users"
+	reqRole.ID = "roles:org:" + fmt.Sprint(organisationID) + ":app:" + fmt.Sprint(result.ID) + ":users"
 	reqRole.Members = []string{fmt.Sprint(uID)}
 
 	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
@@ -122,7 +118,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	/* creating policy for application users */
 	reqPolicy := &model.Policy{}
-	reqPolicy.ID = "org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":users"
+	reqPolicy.ID = "id:org:" + fmt.Sprint(organisationID) + ":app:" + fmt.Sprint(result.ID) + ":users"
 	reqPolicy.Subjects = []string{reqRole.ID}
 	reqPolicy.Resources = []string{"resources:org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":<.*>"}
 	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":<.*>"}

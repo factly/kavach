@@ -48,8 +48,8 @@ func UpdatePolicy(uri string, body *model.Policy) error {
 	return nil
 }
 
-// DeletePolicy DELETE request to keto server to delete policy
-func DeletePolicy(uri string) error {
+// Delete DELETE request to keto server to delete resource
+func Delete(uri string) error {
 	req, err := http.NewRequest("DELETE", viper.GetString("keto_url")+uri, nil)
 
 	if err != nil {

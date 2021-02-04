@@ -1,10 +1,12 @@
 package application
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -47,10 +49,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	result := model.Application{}
 	result.ID = uint(appID)
+
 	// Check if record exist or not
 	err = model.DB.Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(oID),
-	}).First(&result).Error
+	}).Preload("Users").First(&result).Error
 
 	if err != nil {
 		loggerx.Error(err)
@@ -72,6 +75,42 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model.DB.Delete(&result)
+	tx := model.DB.Begin()
+
+	// delete application users
+	err = tx.Model(&result).Association("Users").Delete(result.Users)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	policyID := fmt.Sprint("id:org:", organisationID, ":app:", result.ID, ":users")
+	roleID := fmt.Sprint("roles:org:", organisationID, ":app:", result.ID, ":users")
+
+	// delete application users policy
+	err = keto.Delete("/engines/acp/ory/regex/policies/" + policyID)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		return
+	}
+
+	// delete application users role
+	err = keto.Delete("/engines/acp/ory/regex/roles/" + roleID)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		return
+	}
+
+	// delete application
+	tx.Delete(&result)
+
+	tx.Commit()
+
 	renderx.JSON(w, http.StatusOK, nil)
 }

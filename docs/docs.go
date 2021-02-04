@@ -232,7 +232,9 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -460,7 +462,9 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -733,7 +737,161 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/users": {
+            "get": {
+                "description": "Get all applications users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationUser"
+                ],
+                "summary": "Show all applications users",
+                "operationId": "get-all-applications-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/user.appUsers"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create application user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationUser"
+                ],
+                "summary": "Create application user",
+                "operationId": "add-application-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User ID Object",
+                        "name": "User",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.applicationUsers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/users/{user_id}": {
+            "delete": {
+                "description": "Delete application user by ID",
+                "tags": [
+                    "ApplicationUser"
+                ],
+                "summary": "Delete a application user",
+                "operationId": "delete-application-user-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -865,7 +1023,9 @@ var doc = `{
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -941,6 +1101,7 @@ var doc = `{
             "type": "object",
             "required": [
                 "name",
+                "slug",
                 "url"
             ],
             "properties": {
@@ -951,6 +1112,9 @@ var doc = `{
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "slug": {
                     "type": "string"
                 },
                 "url": {
@@ -1046,6 +1210,9 @@ var doc = `{
                 "organisation_id": {
                     "type": "integer"
                 },
+                "slug": {
+                    "type": "string"
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -1054,6 +1221,12 @@ var doc = `{
                 },
                 "url": {
                     "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
                 }
             }
         },
@@ -1204,6 +1377,12 @@ var doc = `{
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -1228,6 +1407,12 @@ var doc = `{
                 "medium": {
                     "$ref": "#/definitions/model.Medium"
                 },
+                "slug": {
+                    "type": "string"
+                },
+                "social_media_urls": {
+                    "type": "string"
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -1239,6 +1424,12 @@ var doc = `{
         "organisation.orgWithRole": {
             "type": "object",
             "properties": {
+                "applications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Application"
+                    }
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -1303,6 +1494,12 @@ var doc = `{
                 "birth_date": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
                 "featured_medium_id": {
                     "type": "integer"
                 },
@@ -1314,6 +1511,37 @@ var doc = `{
                 },
                 "last_name": {
                     "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "social_media_urls": {
+                    "type": "string"
+                }
+            }
+        },
+        "user.appUsers": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "$ref": "#/definitions/model.Application"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
+                }
+            }
+        },
+        "user.applicationUsers": {
+            "type": "object",
+            "required": [
+                "user_id"
+            ],
+            "properties": {
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -1354,6 +1582,12 @@ var doc = `{
                 "deleted_at": {
                     "type": "string"
                 },
+                "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -1380,6 +1614,12 @@ var doc = `{
                 },
                 "permission": {
                     "$ref": "#/definitions/model.OrganisationUser"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "social_media_urls": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
