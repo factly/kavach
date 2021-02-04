@@ -4,10 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -78,20 +80,64 @@ func create(w http.ResponseWriter, r *http.Request) {
 		mediumID = nil
 	}
 
-	result := model.Application{
+	result := &model.Application{
 		Name:           app.Name,
+		Slug:           app.Slug,
 		Description:    app.Description,
 		URL:            app.URL,
 		MediumID:       mediumID,
 		OrganisationID: uint(oID),
 	}
 
-	err = model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Create(&result).Error
+	model.DB.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(uID),
+		},
+	}).Find(&result.Users)
+
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+
+	err = tx.Preload("Users").Create(&result).Error
+
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+
+	/* creating user groups of application */
+	reqRole := &model.Role{}
+	reqRole.ID = "roles:org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":users"
+	reqRole.Members = []string{fmt.Sprint(uID)}
+
+	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
+
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		return
+	}
+
+	/* creating policy for application users */
+	reqPolicy := &model.Policy{}
+	reqPolicy.ID = "org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":users"
+	reqPolicy.Subjects = []string{reqRole.ID}
+	reqPolicy.Resources = []string{"resources:org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":<.*>"}
+	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organisationID) + ":app:" + app.Slug + ":<.*>"}
+	reqPolicy.Effect = "allow"
+
+	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", reqPolicy)
+
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		return
+	}
+
+	tx.Commit()
 
 	renderx.JSON(w, http.StatusCreated, result)
 }

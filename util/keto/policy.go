@@ -9,6 +9,22 @@ import (
 	"github.com/spf13/viper"
 )
 
+// KetoGetRequest does get request to keto with empty body
+func GetPolicy(path string) (*http.Response, error) {
+	req, err := http.NewRequest("GET", viper.GetString("keto_url")+path, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
 // UpdatePolicy PUT request to keto server to update the policy
 func UpdatePolicy(uri string, body *model.Policy) error {
 	buf := new(bytes.Buffer)
