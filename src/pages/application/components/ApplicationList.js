@@ -13,12 +13,11 @@ function ApplicationList() {
   });
 
   const { applications, loading, total } = useSelector((state) => {
-
     const node = state.application.req[0];
-  
-     if (node)
+
+    if (node)
       return {
-        applications : node.data.map((element) => state.application.details[element]),
+        applications: node.data.map((element) => state.application.details[element]),
         loading: state.application.loading,
         total: node.total,
       };
@@ -28,14 +27,14 @@ function ApplicationList() {
   React.useEffect(() => {
     fetchApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[dispatch]);
+  }, [dispatch]);
 
   const fetchApplications = () => {
     dispatch(getApplications());
-  }
+  };
 
   const columns = [
-    { title: 'Name', dataIndex:'name', key: 'name'},
+    { title: 'Name', dataIndex: 'name', key: 'name' },
     {
       title: 'Description',
       dataIndex: 'description',
@@ -54,22 +53,20 @@ function ApplicationList() {
               style={{
                 marginRight: 8,
               }}
-              to={`/application/${record.id}/edit`}
-          >
-            <Button >
-              Edit
-            </Button>
-          </Link>
-          <Popconfirm
-            title="Sure to Delete?"
-            onConfirm={() => dispatch(deleteApplication(record.id)).then(() => fetchApplications())} 
-          >
-            <Link to="" className="ant-dropdown-link">
-              <Button >
-                Delete
-              </Button>
+              to={`/applications/${record.id}/edit`}
+            >
+              <Button>Edit</Button>
             </Link>
-          </Popconfirm>     
+            <Popconfirm
+              title="Sure to Delete?"
+              onConfirm={() =>
+                dispatch(deleteApplication(record.id)).then(() => fetchApplications())
+              }
+            >
+              <Link to="" className="ant-dropdown-link">
+                <Button>Delete</Button>
+              </Link>
+            </Popconfirm>
           </span>
         );
       },
@@ -86,12 +83,12 @@ function ApplicationList() {
         rowKey={'id'}
         pagination={{
           total: total,
-         current: filters.page,
-         pageSize: filters.limit,
-         onChange: (pageNumber, pageSize) =>
-          setFilters({ ...filters, page: pageNumber, limit: pageSize}),
+          current: filters.page,
+          pageSize: filters.limit,
+          onChange: (pageNumber, pageSize) =>
+            setFilters({ ...filters, page: pageNumber, limit: pageSize }),
         }}
-      />  
+      />
     </Space>
   );
 }

@@ -60,7 +60,7 @@ export default [
     title: 'Profile',
   },
   {
-    path: '/application',
+    path: '/applications',
     Component: Application,
     enableNavigation: true,
     enableBreadcrumb: true,
@@ -68,14 +68,14 @@ export default [
     title: 'Application',
   },
   {
-    path: '/application/create',
+    path: '/applications/create',
     Component: CreateApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Create Application',
   },
   {
-    path: '/application/:id/edit',
+    path: '/applications/:id/edit',
     Component: EditApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
