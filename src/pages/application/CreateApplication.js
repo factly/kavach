@@ -5,13 +5,13 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 function CreateApplication() {
-    const history = useHistory();
+  const history = useHistory();
 
-    const dispatch = useDispatch();
-    const onCreate = (values) => {
-        dispatch(addApplication(values)).then(() => history.push('/application'));
-    };
-    return <ApplicationCreateForm onCreate={onCreate} />;
+  const dispatch = useDispatch();
+  const onCreate = (values) => {
+    dispatch(addApplication(values)).then(() => history.push('/applications'));
+  };
+  return <ApplicationCreateForm onCreate={onCreate} />;
 }
 
 export default CreateApplication;

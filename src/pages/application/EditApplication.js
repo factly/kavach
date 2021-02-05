@@ -1,4 +1,4 @@
-import React from'react';
+import React from 'react';
 import ApplicationEditForm from './components/ApplicationForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { Skeleton } from 'antd';
@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 function EditApplication() {
-
   const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -22,10 +21,12 @@ function EditApplication() {
     dispatch(getApplication(id));
   }, [dispatch, id]);
 
-  if(loading && !application) return <Skeleton />;
+  if (loading && !application) return <Skeleton />;
 
   const onUpdate = (values) => {
-    dispatch(updateApplication({...application, ...values})).then(() => history.push('/application'));
+    dispatch(updateApplication({ ...application, ...values })).then(() =>
+      history.push('/applications'),
+    );
   };
   return <ApplicationEditForm data={application} onCreate={onUpdate} />;
 }
