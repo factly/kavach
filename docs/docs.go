@@ -895,6 +895,50 @@ var doc = `{
                 }
             }
         },
+        "/organisations/{organisation_id}/applications/{application_slug}/access": {
+            "get": {
+                "description": "Get access of application based on slug",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Get access of application based on slug",
+                "operationId": "get-access-organisation-application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Slug",
+                        "name": "application_slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/organisations/{organisation_id}/users": {
             "get": {
                 "description": "Get all organisations users",

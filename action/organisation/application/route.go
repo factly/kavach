@@ -23,6 +23,7 @@ func Router() chi.Router {
 	r.Post("/", create)
 	r.Get("/", list)
 	r.Post("/default", defaults)
+	r.Get("/{application_slug}/access", access)
 	r.Route("/{application_id}", func(r chi.Router) {
 		r.Get("/", details)
 		r.Put("/", update)

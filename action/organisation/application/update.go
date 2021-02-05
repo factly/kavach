@@ -112,6 +112,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	err = tx.Model(&result).Updates(model.Application{
 		Base:        model.Base{UpdatedByID: uint(uID)},
 		Name:        app.Name,
+		Slug:        app.Slug,
 		Description: app.Description,
 		URL:         app.URL,
 		MediumID:    mediumID,
