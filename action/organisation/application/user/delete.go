@@ -2,13 +2,11 @@ package user
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -83,7 +81,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newUsers := make([]model.User, 0)
-	newUserIDs := make([]string, 0)
 	flag := false
 
 	for _, user := range result.Users {
@@ -91,7 +88,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 			flag = true
 		} else {
 			newUsers = append(newUsers, user)
-			newUserIDs = append(newUserIDs, fmt.Sprint(user.ID))
 		}
 	}
 
@@ -109,31 +105,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.Begin()
-
-	tx.Model(model.Application{})
-
-	if err = tx.Model(&result).Association("Users").Replace(&newUsers); err != nil {
-		tx.Rollback()
+	if err = model.DB.Model(&result).Association("Users").Replace(&newUsers); err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-
-	// remove user if from the keto role
-	ketoRole := model.Role{}
-	ketoRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(applicationID) + ":users"
-	ketoRole.Members = newUserIDs
-
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles", &ketoRole)
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
-	}
-
-	tx.Commit()
 
 	renderx.JSON(w, http.StatusOK, nil)
 }

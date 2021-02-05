@@ -4,12 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -117,6 +115,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// append user to application_user association
 	users = append(app.Users, *user.User)
+	app.Users = users
 	if err = tx.Model(&app).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -124,26 +123,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	/* append user to application role */
-	appUserList := make([]string, 0)
-	for _, usr := range users {
-		appUserList = append(appUserList, fmt.Sprint(usr.ID))
-	}
-
-	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(applicationID) + ":users"
-	reqRole.Members = appUserList
-
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
-
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
-	}
-
 	tx.Commit()
 
-	renderx.JSON(w, http.StatusCreated, nil)
+	renderx.JSON(w, http.StatusCreated, app)
 }
