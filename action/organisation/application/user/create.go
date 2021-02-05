@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -74,15 +75,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userOrg := &model.OrganisationUser{}
-
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{OrganisationID: uint(orgID), UserID: uint(userID)}).
-		Preload("Organisation").
-		Preload("User").
-		First(&userOrg)
-
-	if userOrg.Role != "owner" {
-		renderx.JSON(w, http.StatusUnauthorized, nil)
+	// Check if user is owner of organisation
+	err = util.CheckOwner(uint(userID), uint(orgID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
