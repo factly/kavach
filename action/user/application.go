@@ -15,6 +15,17 @@ type paging struct {
 	Total int          `json:"total"`
 }
 
+// list - Get list of users for application
+// @Summary Get list of users for application
+// @Description Get list of users for application
+// @Tags User
+// @ID get-user-list
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Param X-Organisation header string true "Organisation ID"
+// @Param application query string true "Application Slug"
+// @Success 200 {object} paging
+// @Router /users/application [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
@@ -29,6 +40,10 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}
 
 	appSlug := r.URL.Query().Get("application")
+	if appSlug == "" {
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid application query param", http.StatusBadRequest)))
+		return
+	}
 
 	// Check if user is part of organisation
 	permission := &model.OrganisationUser{}

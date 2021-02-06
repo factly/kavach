@@ -73,7 +73,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		mediumID = nil
 	}
 
-	result := &model.Application{
+	result := model.Application{
 		Name:           app.Name,
 		Slug:           app.Slug,
 		Description:    app.Description,

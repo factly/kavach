@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"strconv"
@@ -105,7 +106,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err = model.DB.Model(&result).Association("Users").Replace(&newUsers); err != nil {
+	if err = model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Model(&result).Association("Users").Replace(&newUsers); err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return

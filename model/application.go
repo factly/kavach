@@ -46,7 +46,7 @@ func (application *Application) BeforeSave(tx *gorm.DB) (e error) {
 		ctx := tx.Statement.Context
 		userID := ctx.Value(applicationUserKey).(int)
 
-		err := tx.Model(&medium).Where(&Medium{
+		err := tx.Model(&Medium{}).Where(&Medium{
 			UserID: uint(userID),
 		}).First(&medium).Error
 

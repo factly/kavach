@@ -1,6 +1,7 @@
 package application
 
 import (
+	"database/sql/driver"
 	"net/http"
 	"net/http/httptest"
 	"regexp"
@@ -10,6 +11,7 @@ import (
 	"github.com/factly/kavach-server/action"
 	"github.com/factly/kavach-server/test/medium"
 	"github.com/factly/kavach-server/test/organisation/user"
+	"github.com/factly/kavach-server/test/profile"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 )
@@ -89,9 +91,13 @@ func TestCreateApplication(t *testing.T) {
 	t.Run("media does not belong to user", func(t *testing.T) {
 		user.OrganisationUserOwnerSelectMock(mock)
 
+		profile.UserSelectMock(mock)
+
+		mock.ExpectBegin()
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "media"`)).
 			WithArgs(1, 1).
 			WillReturnRows(sqlmock.NewRows(mediumCols))
+		mock.ExpectRollback()
 
 		e.POST(basePath).
 			WithPathObject(map[string]interface{}{
@@ -108,11 +114,20 @@ func TestCreateApplication(t *testing.T) {
 	t.Run("create a application", func(t *testing.T) {
 		user.OrganisationUserOwnerSelectMock(mock)
 
+		profile.UserSelectMock(mock)
 		mock.ExpectBegin()
 		medium.SelectQuery(mock, 1, 1)
 		mock.ExpectQuery(`INSERT INTO "applications"`).
-			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 1, 1, Application["name"], Application["description"], Application["url"], Application["medium_id"], Application["organisation_id"]).
+			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 1, 1, Application["name"], Application["slug"], Application["description"], Application["url"], Application["medium_id"], Application["organisation_id"]).
 			WillReturnRows(sqlmock.NewRows([]string{"id", "medium_id"}).AddRow(1, 1))
+
+		mock.ExpectQuery(`INSERT INTO "users"`).
+			WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 0, 0, profile.User["email"], profile.User["kid"], profile.User["first_name"], profile.User["last_name"], "", "", profile.User["birth_date"], profile.User["gender"], nil, "", 1, 1).
+			WillReturnRows(sqlmock.NewRows([]string{"id", "medium_id"}).AddRow(1, 1))
+
+		mock.ExpectExec(`INSERT INTO "application_users"`).
+			WithArgs(1, 1).
+			WillReturnResult(driver.ResultNoRows)
 		mock.ExpectCommit()
 
 		e.POST(basePath).

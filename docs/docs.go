@@ -1138,6 +1138,50 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/users/application": {
+            "get": {
+                "description": "Get list of users for application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get list of users for application",
+                "operationId": "get-user-list",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "X-Organisation",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Slug",
+                        "name": "application",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.paging"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1608,6 +1652,20 @@ var doc = `{
                 },
                 "role": {
                     "type": "string"
+                }
+            }
+        },
+        "user.paging": {
+            "type": "object",
+            "properties": {
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },

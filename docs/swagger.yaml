@@ -311,6 +311,15 @@ definitions:
     - first_name
     - role
     type: object
+  user.paging:
+    properties:
+      nodes:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+      total:
+        type: integer
+    type: object
   user.userWithPermission:
     properties:
       birth_date:
@@ -1115,4 +1124,34 @@ paths:
       summary: Update user info
       tags:
       - Profile
+  /users/application:
+    get:
+      description: Get list of users for application
+      operationId: get-user-list
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: header
+        name: X-Organisation
+        required: true
+        type: string
+      - description: Application Slug
+        in: query
+        name: application
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.paging'
+      summary: Get list of users for application
+      tags:
+      - User
 swagger: "2.0"
