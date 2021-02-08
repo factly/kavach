@@ -37,7 +37,7 @@ func GetApplicationID(url url.URL, uID uint) (uint, error) {
 		}
 	}
 
-	strToks := make([]string, 0)
+	var strToks []string
 	if viper.IsSet("mode") && viper.GetString("mode") == "development" {
 		path := url.Path
 		strToks = strings.Split(path, "/")

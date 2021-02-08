@@ -45,7 +45,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	applicationList := make([]model.Application, 0)
 	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.Application{}).Where("organisation_id IN (?)", orgIDs).Find(&applicationList)
 
-	appMap := make(map[uint][]model.Application, 0)
+	appMap := make(map[uint][]model.Application)
 
 	for _, app := range applicationList {
 		if _, found := appMap[app.OrganisationID]; !found {

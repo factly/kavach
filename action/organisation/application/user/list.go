@@ -11,11 +11,6 @@ import (
 	"github.com/go-chi/chi"
 )
 
-type appUsers struct {
-	Application model.Application `json:"application"`
-	Users       []model.User      `json:"users"`
-}
-
 // list - Get all applications users
 // @Summary Show all applications users
 // @Description Get all applications users
@@ -25,7 +20,7 @@ type appUsers struct {
 // @Param X-User header string true "User ID"
 // @Param application_id path string true "Application ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Success 200 {array} []appUsers
+// @Success 200 {array} model.Application
 // @Router /organisations/{organisation_id}/applications/{application_id}/users [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
