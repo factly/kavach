@@ -66,7 +66,15 @@ func list(w http.ResponseWriter, r *http.Request) {
 	result := &model.Application{}
 	result.ID = uint(appID)
 
-	model.DB.Model(&model.Application{}).Preload("Users").First(&result)
+	err = model.DB.Model(&model.Application{}).Where(&model.Application{
+		OrganisationID: uint(orgID),
+	}).Preload("Users").First(&result).Error
+
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
 
 	renderx.JSON(w, http.StatusOK, result)
 }

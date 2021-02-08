@@ -62,7 +62,6 @@ func access(w http.ResponseWriter, r *http.Request) {
 
 	for _, usr := range appUsers {
 		if usr.ID == uint(uID) {
-			loggerx.Error(err)
 			renderx.JSON(w, http.StatusOK, nil)
 			return
 		}
