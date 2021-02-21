@@ -57,7 +57,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		OrganisationID: uint(orgID),
-	}).Preload("User").Find(&users)
+	}).Preload("User").Preload("User.Medium").Find(&users)
 
 	result := make([]userWithPermission, 0)
 
