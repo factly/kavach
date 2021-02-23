@@ -27,3 +27,4 @@ COPY --from=build_base /tmp/kavach-server/out/kavach-server /app/kavach-server
 
 # Run the binary program produced by `go install`
 ENTRYPOINT ["/app/kavach-server"]
+CMD ["serve"]
