@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -60,13 +61,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
-
+	err = util.CheckOwner(uint(uID), uint(oID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
@@ -80,18 +75,32 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	result := model.Application{
 		Name:           app.Name,
+		Slug:           app.Slug,
 		Description:    app.Description,
 		URL:            app.URL,
 		MediumID:       mediumID,
 		OrganisationID: uint(oID),
 	}
 
-	err = model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Create(&result).Error
+	// Add current user in application_users
+	model.DB.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(uID),
+		},
+	}).Find(&result.Users)
+
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+
+	err = tx.Preload("Users").Create(&result).Error
+
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+
+	tx.Commit()
 
 	renderx.JSON(w, http.StatusCreated, result)
 }

@@ -67,8 +67,8 @@ func TestListApplications(t *testing.T) {
 
 		mock.ExpectQuery(selectQuery).
 			WillReturnRows(sqlmock.NewRows(ApplicationCols).
-				AddRow(1, time.Now(), time.Now(), nil, 1, 1, applicationList[0]["name"], applicationList[0]["description"], applicationList[0]["url"], applicationList[0]["medium_id"], applicationList[0]["organisation_id"]).
-				AddRow(2, time.Now(), time.Now(), nil, 1, 1, applicationList[1]["name"], applicationList[1]["description"], applicationList[1]["url"], applicationList[1]["medium_id"], applicationList[1]["organisation_id"]))
+				AddRow(1, time.Now(), time.Now(), nil, 1, 1, applicationList[0]["name"], applicationList[0]["slug"], applicationList[0]["description"], applicationList[0]["url"], applicationList[0]["medium_id"], applicationList[0]["organisation_id"]).
+				AddRow(2, time.Now(), time.Now(), nil, 1, 1, applicationList[1]["name"], applicationList[1]["slug"], applicationList[1]["description"], applicationList[1]["url"], applicationList[1]["medium_id"], applicationList[1]["organisation_id"]))
 
 		medium.SelectQuery(mock, 1)
 

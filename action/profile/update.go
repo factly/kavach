@@ -22,7 +22,7 @@ type user struct {
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
-	SocialMediaURLs  postgres.Jsonb `json:"social_media_urls"`
+	SocialMediaURLs  postgres.Jsonb `json:"social_media_urls" swaggertype:"primitive,string"`
 }
 
 // update - Update user info

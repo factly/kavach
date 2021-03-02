@@ -20,7 +20,7 @@ type User struct {
 	Gender           string         `gorm:"column:gender" json:"gender"`
 	FeaturedMediumID *uint          `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
 	Medium           *Medium        `gorm:"foreignKey:featured_medium_id" json:"medium"`
-	SocialMediaURLs  postgres.Jsonb `gorm:"column:social_media_urls" json:"social_media_urls"`
+	SocialMediaURLs  postgres.Jsonb `gorm:"column:social_media_urls" json:"social_media_urls" swaggertype:"primitive,string"`
 	Description      string         `gorm:"column:description" json:"description"`
 }
 

@@ -10,6 +10,7 @@ import (
 
 var Application = map[string]interface{}{
 	"name":            "Test Application",
+	"slug":            "test-application",
 	"description":     "Test Desc",
 	"url":             "testapp.com",
 	"medium_id":       1,
@@ -19,6 +20,7 @@ var Application = map[string]interface{}{
 var applicationList = []map[string]interface{}{
 	map[string]interface{}{
 		"name":            "Test Application 1",
+		"slug":            "test-application-1",
 		"description":     "Test Desc 1",
 		"url":             "testapp1.com",
 		"medium_id":       1,
@@ -26,6 +28,7 @@ var applicationList = []map[string]interface{}{
 	},
 	map[string]interface{}{
 		"name":            "Test Application 2",
+		"slug":            "test-application-2",
 		"description":     "Test Desc 2",
 		"url":             "testapp2.com",
 		"medium_id":       1,
@@ -39,7 +42,7 @@ var invalidApplication = map[string]interface{}{
 	"medium_id":   1,
 }
 
-var ApplicationCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "created_by_id", "updated_by_id", "name", "description", "url", "medium_id", "organisation_id"}
+var ApplicationCols []string = []string{"id", "created_at", "updated_at", "deleted_at", "created_by_id", "updated_by_id", "name", "slug", "description", "url", "medium_id", "organisation_id"}
 
 var mediumCols = []string{"id", "created_at", "updated_at", "deleted_at", "created_by_id", "updated_by_id", "name", "slug", "type", "title", "description", "caption", "alt_text", "file_size", "url", "dimensions", "user_id"}
 
@@ -52,5 +55,5 @@ func ApplicationSelectMock(mock sqlmock.Sqlmock, args ...driver.Value) {
 	mock.ExpectQuery(selectQuery).
 		WithArgs(args...).
 		WillReturnRows(sqlmock.NewRows(ApplicationCols).
-			AddRow(1, time.Now(), time.Now(), nil, 1, 1, Application["name"], Application["description"], Application["url"], Application["medium_id"], Application["organisation_id"]))
+			AddRow(1, time.Now(), time.Now(), nil, 1, 1, Application["name"], Application["slug"], Application["description"], Application["url"], Application["medium_id"], Application["organisation_id"]))
 }

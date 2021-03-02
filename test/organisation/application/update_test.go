@@ -152,7 +152,7 @@ func TestUpdateApplication(t *testing.T) {
 		mock.ExpectBegin()
 		medium.SelectQuery(mock, 1, 1)
 		mock.ExpectExec(`UPDATE \"applications\" SET`).
-			WithArgs(test.AnyTime{}, 1, Application["name"], Application["description"], Application["url"], Application["medium_id"], 1).
+			WithArgs(test.AnyTime{}, 1, Application["name"], Application["slug"], Application["description"], Application["url"], Application["medium_id"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		ApplicationSelectMock(mock, 1, 1)
 		medium.SelectQuery(mock, 1)
@@ -184,7 +184,7 @@ func TestUpdateApplication(t *testing.T) {
 			WithArgs(nil, test.AnyTime{}, 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		mock.ExpectExec(`UPDATE \"applications\" SET`).
-			WithArgs(test.AnyTime{}, 1, Application["name"], Application["description"], Application["url"], 1).
+			WithArgs(test.AnyTime{}, 1, Application["name"], Application["slug"], Application["description"], Application["url"], 1).
 			WillReturnResult(sqlmock.NewResult(1, 1))
 		ApplicationSelectMock(mock, 1, 1)
 		mock.ExpectCommit()

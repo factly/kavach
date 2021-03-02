@@ -10,12 +10,14 @@ import (
 type Application struct {
 	Base
 	Name           string        `gorm:"column:name" json:"name"`
+	Slug           string        `gorm:"column:slug" json:"slug"`
 	Description    string        `gorm:"column:description" json:"description"`
 	URL            string        `gorm:"column:url" json:"url"`
 	MediumID       *uint         `gorm:"column:medium_id;default:NULL" json:"medium_id"`
 	Medium         *Medium       `gorm:"foreignKey:medium_id" json:"medium"`
 	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
+	Users          []User        `gorm:"many2many:application_users;" json:"users"`
 }
 
 var applicationUserKey ContextKey = "application_user"
@@ -44,7 +46,7 @@ func (application *Application) BeforeSave(tx *gorm.DB) (e error) {
 		ctx := tx.Statement.Context
 		userID := ctx.Value(applicationUserKey).(int)
 
-		err := tx.Model(&medium).Where(&Medium{
+		err := tx.Model(&Medium{}).Where(&Medium{
 			UserID: uint(userID),
 		}).First(&medium).Error
 

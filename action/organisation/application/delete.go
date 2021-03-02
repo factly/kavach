@@ -47,10 +47,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	result := model.Application{}
 	result.ID = uint(appID)
+
 	// Check if record exist or not
 	err = model.DB.Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(oID),
-	}).First(&result).Error
+	}).Preload("Users").First(&result).Error
 
 	if err != nil {
 		loggerx.Error(err)
@@ -72,6 +73,21 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model.DB.Delete(&result)
+	tx := model.DB.Begin()
+
+	// delete application users
+	err = tx.Model(&result).Association("Users").Delete(result.Users)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	// delete application
+	tx.Delete(&result)
+
+	tx.Commit()
+
 	renderx.JSON(w, http.StatusOK, nil)
 }

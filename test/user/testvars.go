@@ -99,3 +99,21 @@ var invalidjsonStr = []byte(`
     }
 }
 `)
+
+var headers = map[string]string{
+	"X-User":         "1",
+	"X-Organisation": "1",
+}
+
+var applicationPath = "/users/application"
+
+var applicationCols = []string{"id", "created_at", "updated_at", "deleted_at", "created_by_id", "updated_by_id", "name", "slug", "description", "url", "medium_id", "organisation_id"}
+
+var application = map[string]interface{}{
+	"name":            "dega",
+	"slug":            "dega",
+	"description":     "a cms",
+	"url":             "dega.factly.org",
+	"medium_id":       0,
+	"organisation_id": 1,
+}

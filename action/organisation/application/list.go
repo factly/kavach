@@ -53,7 +53,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	result := make([]model.Application, 0)
 	model.DB.Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(oID),
-	}).Preload("Medium").Find(&result)
+	}).Preload("Users").Preload("Medium").Find(&result)
 
 	renderx.JSON(w, http.StatusOK, result)
 }

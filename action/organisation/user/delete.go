@@ -101,7 +101,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	/* delete policy for admins */
 	if result.Role == "owner" {
-		err = keto.DeletePolicy("/engines/acp/ory/regex/roles/roles:org:" + fmt.Sprint(orgID) + ":admin/members/" + fmt.Sprint(result.UserID))
+		err = keto.Delete("/engines/acp/ory/regex/roles/roles:org:" + fmt.Sprint(orgID) + ":admin/members/" + fmt.Sprint(result.UserID))
 
 		if err != nil {
 			tx.Rollback()

@@ -1,4 +1,4 @@
-package application
+package user
 
 import (
 	"net/http"
@@ -8,13 +8,15 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/test/organisation/application"
 	"github.com/factly/kavach-server/test/organisation/user"
 	"github.com/factly/kavach-server/test/profile"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 )
 
-func TestDeleteApplication(t *testing.T) {
+func TestListApplicationsUser(t *testing.T) {
+
 	// Setup DB
 	mock := test.SetupMockDB()
 
@@ -25,19 +27,8 @@ func TestDeleteApplication(t *testing.T) {
 
 	e := httpexpect.New(t, server.URL)
 
-	t.Run("invalid organisation id", func(t *testing.T) {
-		e.DELETE(path).
-			WithPathObject(map[string]interface{}{
-				"organisation_id": "invalid",
-				"application_id":  "1",
-			}).
-			WithHeader("X-User", "1").
-			Expect().
-			Status(http.StatusBadRequest)
-	})
-
 	t.Run("invalid user id header", func(t *testing.T) {
-		e.DELETE(path).
+		e.GET(basePath).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
 				"application_id":  "1",
@@ -47,8 +38,19 @@ func TestDeleteApplication(t *testing.T) {
 			Status(http.StatusBadRequest)
 	})
 
-	t.Run("invalid application id header", func(t *testing.T) {
-		e.DELETE(path).
+	t.Run("invalid organisation id", func(t *testing.T) {
+		e.GET(basePath).
+			WithPathObject(map[string]interface{}{
+				"organisation_id": "invalid",
+				"application_id":  "1",
+			}).
+			WithHeader("X-User", "1").
+			Expect().
+			Status(http.StatusBadRequest)
+	})
+
+	t.Run("invalid application id", func(t *testing.T) {
+		e.GET(basePath).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
 				"application_id":  "invalid",
@@ -58,37 +60,12 @@ func TestDeleteApplication(t *testing.T) {
 			Status(http.StatusBadRequest)
 	})
 
-	t.Run("application record not found", func(t *testing.T) {
-		mock.ExpectQuery(selectQuery).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows(ApplicationCols))
-
-		e.DELETE(path).
-			WithPathObject(map[string]interface{}{
-				"organisation_id": "1",
-				"application_id":  "1",
-			}).
-			WithHeader("X-User", "1").
-			Expect().
-			Status(http.StatusNotFound)
-
-		test.ExpectationsMet(t, mock)
-	})
-
-	t.Run("user not owner of organisation", func(t *testing.T) {
-		ApplicationSelectMock(mock)
-
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "application_users"`)).
-			WithArgs(1).
-			WillReturnRows(sqlmock.NewRows([]string{"application_id", "user_id"}).AddRow(1, 1))
-
-		profile.UserSelectMock(mock)
-
+	t.Run("user not part of organisation", func(t *testing.T) {
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
-			WithArgs(1, 1, "owner").
+			WithArgs(1, 1).
 			WillReturnRows(sqlmock.NewRows(user.OrganisationUserCols))
 
-		e.DELETE(path).
+		e.GET(basePath).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
 				"application_id":  "1",
@@ -100,8 +77,10 @@ func TestDeleteApplication(t *testing.T) {
 		test.ExpectationsMet(t, mock)
 	})
 
-	t.Run("delete application", func(t *testing.T) {
-		ApplicationSelectMock(mock)
+	t.Run("list application users", func(t *testing.T) {
+		user.OrganisationUserSelectMock(mock)
+
+		application.ApplicationSelectMock(mock)
 
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "application_users"`)).
 			WithArgs(1).
@@ -109,26 +88,17 @@ func TestDeleteApplication(t *testing.T) {
 
 		profile.UserSelectMock(mock)
 
-		user.OrganisationUserOwnerSelectMock(mock)
-
-		mock.ExpectBegin()
-		mock.ExpectExec(regexp.QuoteMeta(`DELETE FROM "application_users"`)).
-			WithArgs(1, 1).
-			WillReturnResult(sqlmock.NewResult(1, 1))
-
-		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "applications" SET "deleted_at"=`)).
-			WithArgs(test.AnyTime{}, 1).
-			WillReturnResult(sqlmock.NewResult(1, 1))
-		mock.ExpectCommit()
-
-		e.DELETE(path).
+		e.GET(basePath).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
 				"application_id":  "1",
 			}).
 			WithHeader("X-User", "1").
 			Expect().
-			Status(http.StatusOK)
+			Status(http.StatusOK).
+			JSON().
+			Object().
+			Value("users").Array().NotEmpty()
 
 		test.ExpectationsMet(t, mock)
 	})

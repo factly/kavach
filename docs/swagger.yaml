@@ -8,10 +8,13 @@ definitions:
         type: integer
       name:
         type: string
+      slug:
+        type: string
       url:
         type: string
     required:
     - name
+    - slug
     - url
     type: object
   medium.medium:
@@ -73,12 +76,18 @@ definitions:
         $ref: '#/definitions/model.Organisation'
       organisation_id:
         type: integer
+      slug:
+        type: string
       updated_at:
         type: string
       updated_by_id:
         type: integer
       url:
         type: string
+      users:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
     type: object
   model.Medium:
     properties:
@@ -177,6 +186,10 @@ definitions:
         type: integer
       deleted_at:
         type: string
+      description:
+        type: string
+      display_name:
+        type: string
       email:
         type: string
       featured_medium_id:
@@ -193,6 +206,10 @@ definitions:
         type: string
       medium:
         $ref: '#/definitions/model.Medium'
+      slug:
+        type: string
+      social_media_urls:
+        type: string
       updated_at:
         type: string
       updated_by_id:
@@ -200,6 +217,10 @@ definitions:
     type: object
   organisation.orgWithRole:
     properties:
+      applications:
+        items:
+          $ref: '#/definitions/model.Application'
+        type: array
       created_at:
         type: string
       created_by_id:
@@ -242,6 +263,10 @@ definitions:
     properties:
       birth_date:
         type: string
+      description:
+        type: string
+      display_name:
+        type: string
       featured_medium_id:
         type: integer
       first_name:
@@ -250,6 +275,26 @@ definitions:
         type: string
       last_name:
         type: string
+      slug:
+        type: string
+      social_media_urls:
+        type: string
+    type: object
+  user.appUsers:
+    properties:
+      application:
+        $ref: '#/definitions/model.Application'
+      users:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+    type: object
+  user.applicationUsers:
+    properties:
+      user_id:
+        type: integer
+    required:
+    - user_id
     type: object
   user.invite:
     properties:
@@ -266,6 +311,15 @@ definitions:
     - first_name
     - role
     type: object
+  user.paging:
+    properties:
+      nodes:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+      total:
+        type: integer
+    type: object
   user.userWithPermission:
     properties:
       birth_date:
@@ -275,6 +329,10 @@ definitions:
       created_by_id:
         type: integer
       deleted_at:
+        type: string
+      description:
+        type: string
+      display_name:
         type: string
       email:
         type: string
@@ -294,6 +352,10 @@ definitions:
         $ref: '#/definitions/model.Medium'
       permission:
         $ref: '#/definitions/model.OrganisationUser'
+      slug:
+        type: string
+      social_media_urls:
+        type: string
       updated_at:
         type: string
       updated_by_id:
@@ -393,7 +455,8 @@ paths:
         required: true
         type: string
       responses:
-        "200": {}
+        "200":
+          description: ""
       summary: Delete a medium
       tags:
       - Medium
@@ -523,7 +586,8 @@ paths:
         required: true
         type: string
       responses:
-        "200": {}
+        "200":
+          description: ""
       summary: Delete a organisation
       tags:
       - Organisation
@@ -666,7 +730,8 @@ paths:
         required: true
         type: string
       responses:
-        "200": {}
+        "200":
+          description: ""
       summary: Delete a application
       tags:
       - OrganisationApplications
@@ -731,6 +796,140 @@ paths:
           schema:
             $ref: '#/definitions/model.Application'
       summary: Update a application by id
+      tags:
+      - OrganisationApplications
+  /organisations/{organisation_id}/applications/{application_id}/users:
+    get:
+      description: Get all applications users
+      operationId: get-all-applications-users
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/user.appUsers'
+              type: array
+            type: array
+      summary: Show all applications users
+      tags:
+      - ApplicationUser
+    post:
+      description: Create application user
+      operationId: add-application-user
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: User ID Object
+        in: body
+        name: User
+        required: true
+        schema:
+          $ref: '#/definitions/user.applicationUsers'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Create application user
+      tags:
+      - ApplicationUser
+  /organisations/{organisation_id}/applications/{application_id}/users/{user_id}:
+    delete:
+      description: Delete application user by ID
+      operationId: delete-application-user-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+      summary: Delete a application user
+      tags:
+      - ApplicationUser
+  /organisations/{organisation_id}/applications/{application_slug}/access:
+    get:
+      description: Get access of application based on slug
+      operationId: get-access-organisation-application
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application Slug
+        in: path
+        name: application_slug
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "401":
+          description: ""
+      summary: Get access of application based on slug
       tags:
       - OrganisationApplications
   /organisations/{organisation_id}/applications/default:
@@ -852,7 +1051,8 @@ paths:
         required: true
         type: string
       responses:
-        "200": {}
+        "200":
+          description: ""
       summary: Delete a organisation user
       tags:
       - OrganisationUser
@@ -924,4 +1124,34 @@ paths:
       summary: Update user info
       tags:
       - Profile
+  /users/application:
+    get:
+      description: Get list of users for application
+      operationId: get-user-list
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: header
+        name: X-Organisation
+        required: true
+        type: string
+      - description: Application Slug
+        in: query
+        name: application
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.paging'
+      summary: Get list of users for application
+      tags:
+      - User
 swagger: "2.0"

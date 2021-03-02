@@ -29,8 +29,10 @@ var organisationuserlist []map[string]interface{} = []map[string]interface{}{
 }
 
 var Invite map[string]interface{} = map[string]interface{}{
-	"email": "test@email.com",
-	"role":  "owner",
+	"first_name": "Test",
+	"last_name":  "User",
+	"email":      "test@email.com",
+	"role":       "owner",
 }
 
 var undecodableInvite map[string]interface{} = map[string]interface{}{
@@ -92,6 +94,6 @@ func selectOrInsertMock(mock sqlmock.Sqlmock) {
 		WillReturnRows(sqlmock.NewRows(profile.UserCols))
 
 	mock.ExpectQuery(`INSERT INTO "users"`).
-		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 0, 0, Invite["email"], "", "", "", "", "").
+		WithArgs(test.AnyTime{}, test.AnyTime{}, nil, 0, 0, Invite["email"], "", Invite["first_name"], Invite["last_name"], "", "", "", "", nil, "").
 		WillReturnRows(sqlmock.NewRows([]string{"featured_medium_id", "id"}).AddRow(1, 1))
 }
