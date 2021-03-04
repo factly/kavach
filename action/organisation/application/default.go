@@ -78,8 +78,13 @@ func defaults(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	user := model.User{}
+	user.ID = uint(uID)
+	model.DB.Model(&model.User{}).First(&user)
+
 	for i := range applications {
 		applications[i].OrganisationID = uint(oID)
+		applications[i].Users = []model.User{user}
 	}
 
 	err = model.DB.Model(&model.Application{}).Create(&applications).Error

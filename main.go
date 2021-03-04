@@ -1,15 +1,8 @@
 package main
 
 import (
-	"log"
-	"net/http"
-
-	"github.com/factly/kavach-server/action"
-	"github.com/factly/kavach-server/config"
+	"github.com/factly/kavach-server/cmd"
 	_ "github.com/factly/kavach-server/docs"
-	"github.com/factly/kavach-server/model"
-	"github.com/go-chi/chi"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // @title Kavach Server API
@@ -26,22 +19,5 @@ import (
 // @host localhost:5000
 // @BasePath /
 func main() {
-	config.SetupVars()
-
-	model.SetupDB()
-
-	model.Migration()
-
-	r := action.RegisterRoutes()
-
-	go func() {
-		promRouter := chi.NewRouter()
-		promRouter.Mount("/metrics", promhttp.Handler())
-		log.Fatal(http.ListenAndServe(":8001", promRouter))
-	}()
-
-	err := http.ListenAndServe(":8000", r)
-	if err != nil {
-		log.Fatal(err)
-	}
+	cmd.Execute()
 }
