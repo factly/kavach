@@ -27,9 +27,8 @@ function Selector({ value, onChange }) {
 
     return { details, loading: users.loading, selected };
   });
-  console.log({ selected });
+
   React.useEffect(() => {
-    console.log('useEffect');
     fetchEntities();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -40,10 +39,9 @@ function Selector({ value, onChange }) {
 
   return (
     <Select
-      allowClear
       bordered
       listHeight={128}
-      style={{ width: 120 }}
+      style={{ width: 200 }}
       loading={loading}
       defaultValue={value}
       placeholder="select user"
@@ -51,13 +49,13 @@ function Selector({ value, onChange }) {
       filterOption={(input, option) =>
         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
-      // onPopupScroll={(e) => {
-      //   if (e.target.scrollTop + e.target.offsetHeight === e.target.scrollHeight) {
-      //     if (details.length < total) {
-      //       setQuery({ ...query, page: query.page + 1 });
-      //     }
-      //   }
-      // }}
+      onPopupScroll={(e) => {
+        if (e.target.scrollTop + e.target.offsetHeight === e.target.scrollHeight) {
+          if (details.length < total) {
+            setQuery({ ...query, page: query.page + 1 });
+          }
+        }
+      }}
     >
       {details.map((item) => (
         <Select.Option value={item.id} key={'users' + item.id}>

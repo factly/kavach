@@ -23,7 +23,7 @@ function Application() {
         onFinish={(values) =>
           dispatch(
             addApplicationUser({ application_id: parseInt(id, 10), user_id: values.user_id }),
-          ).then(() => history.push(`/applications/${id}/users`))
+          ).then(() => history.push(`/applications`))
         }
         style={{ maxWidth: '100%' }}
       >

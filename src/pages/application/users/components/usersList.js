@@ -28,14 +28,14 @@ function UserList({ id }) {
   const columns = [
     { title: 'First Name', dataIndex: 'first_name', key: 'name' },
     { title: 'Last Name', dataIndex: 'last_name', key: 'last_name' },
-    { title: 'E-mail', dataIndex: 'email', key: 'email' },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      width: '20%',
+      title: 'Display Name',
+      dataIndex: 'display_name',
+      key: 'display_name',
       ellipsis: true,
     },
+    { title: 'E-mail', dataIndex: 'email', key: 'email' },
+
     {
       title: 'Action',
       dataIndex: 'operation',
@@ -45,9 +45,9 @@ function UserList({ id }) {
           <span>
             <Popconfirm
               title="Sure to Delete?"
-              onConfirm={() =>
-                dispatch(deleteApplication(record.id)).then(() => fetchApplications())
-              }
+              onConfirm={() => {
+                dispatch(deleteApplication(id, record.id)).then(() => fetchApplications());
+              }}
             >
               <Link to="" className="ant-dropdown-link">
                 <Button>Delete</Button>
