@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 import * as actions from '../actions/users';
 import * as types from '../constants/users';
+import { ADD_NOTIFICATION } from '../constants/notifications';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -94,6 +95,14 @@ describe('users actions', () => {
         type: types.SET_USERS_LOADING,
         payload: true,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
+      },
     ];
 
     store
@@ -118,6 +127,14 @@ describe('users actions', () => {
         type: types.SET_USERS_LOADING,
         payload: false,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'success',
+          title: 'Success',
+          message: 'User added',
+        },
+      },
     ];
 
     store
@@ -127,12 +144,22 @@ describe('users actions', () => {
   });
   it('should create actions to create user failure', () => {
     const user = { name: 'User' };
-    axios.post.mockRejectedValueOnce(new Error('Failed to create user'));
+    const errorMessage = 'Failed to create user';
+
+    axios.post.mockRejectedValueOnce(new Error(errorMessage));
 
     const expectedActions = [
       {
         type: types.SET_USERS_LOADING,
         payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
       },
     ];
 
@@ -156,6 +183,14 @@ describe('users actions', () => {
         type: types.SET_USERS_LOADING,
         payload: false,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'success',
+          title: 'Success',
+          message: 'User deleted',
+        },
+      },
     ];
 
     store
@@ -164,12 +199,21 @@ describe('users actions', () => {
     expect(axios.delete).toHaveBeenCalledWith(`${types.USERS_API}/1/users/1`);
   });
   it('should create actions to delete user failure', () => {
-    axios.delete.mockRejectedValueOnce(new Error('Failed to delete user'));
+    const errorMessage = 'Failed to delete user';
+    axios.delete.mockRejectedValueOnce(new Error(errorMessage));
 
     const expectedActions = [
       {
         type: types.SET_USERS_LOADING,
         payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
       },
     ];
 

@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 
 import * as actions from '../actions/organisations';
 import * as types from '../constants/organisations';
+import { ADD_NOTIFICATION } from '../constants/notifications';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -101,6 +102,14 @@ describe('organisations actions', () => {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: true,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
+      },
     ];
 
     store
@@ -134,12 +143,21 @@ describe('organisations actions', () => {
     expect(axios.get).toHaveBeenCalledWith(`${types.ORGANISATIONS_API}/1`);
   });
   it('should create actions to get organisation by id failure', () => {
-    axios.get.mockRejectedValue(new Error('Failed to get organisation by id'));
+    const errorMessage = 'Failed to get organisation by id';
+    axios.get.mockRejectedValue(new Error(errorMessage));
 
     const expectedActions = [
       {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
       },
     ];
 
@@ -169,6 +187,14 @@ describe('organisations actions', () => {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: false,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'success',
+          title: 'Success',
+          message: 'Organisation added',
+        },
+      },
     ];
 
     store
@@ -177,12 +203,21 @@ describe('organisations actions', () => {
     expect(axios.post).toHaveBeenCalledWith(types.ORGANISATIONS_API, { name: 'Organisation' });
   });
   it('should create actions to create organisation failure', () => {
-    axios.post.mockRejectedValueOnce(new Error('Failed to create organisation'));
+    const errorMessage = 'Failed to create organisation';
+    axios.post.mockRejectedValueOnce(new Error(errorMessage));
 
     const expectedActions = [
       {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
       },
     ];
 
@@ -209,6 +244,14 @@ describe('organisations actions', () => {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: false,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'success',
+          title: 'Success',
+          message: 'Organisation Updated',
+        },
+      },
     ];
 
     store
@@ -218,13 +261,21 @@ describe('organisations actions', () => {
   });
   it('should create actions to update organisation failure', () => {
     const organisation = { id: 1, name: 'Organisation' };
-    const resp = { data: organisation };
-    axios.put.mockRejectedValueOnce(new Error('Failed to update organisation'));
+    const errorMessage = 'Failed to update organisation'
+    axios.put.mockRejectedValueOnce(new Error(errorMessage));
 
     const expectedActions = [
       {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
       },
     ];
 
@@ -244,6 +295,14 @@ describe('organisations actions', () => {
       {
         type: types.RESET_ORGANISATIONS,
       },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'success',
+          title: 'Success',
+          message: 'Organisation Deleted',
+        },
+      },
     ];
 
     store
@@ -252,12 +311,22 @@ describe('organisations actions', () => {
     expect(axios.delete).toHaveBeenCalledWith(`${types.ORGANISATIONS_API}/1`);
   });
   it('should create actions to delete organisation failure', () => {
-    axios.delete.mockRejectedValueOnce(new Error('Failed to delete organisation'));
+    const errorMessage = 'Failed to delete organisation';
+
+    axios.delete.mockRejectedValueOnce(new Error(errorMessage));
 
     const expectedActions = [
       {
         type: types.SET_ORGANISATIONS_LOADING,
         payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
       },
     ];
 
