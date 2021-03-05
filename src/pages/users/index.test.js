@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector, Provider } from 'react-redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { act } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { Popconfirm } from 'antd';
+import { Popconfirm,Table } from 'antd';
 
 import '../../matchMedia.mock';
 import OrganisationUsers from './index';
@@ -53,7 +54,7 @@ describe('Users index component', () => {
       selected: 1,
     },
     users: {
-      ids: [1],
+      ids: [1,2],
       details: {
         1: {
           id: 1,
@@ -61,6 +62,13 @@ describe('Users index component', () => {
           last_name: 'last_name',
           email: 'email',
           permission: { role: 'owner' },
+        },
+        2: {
+          id: 2,
+          first_name: 'name_first',
+          last_name: 'name_last',
+          email: 'email@gmail.com',
+          permission: { role: 'member' },
         },
       },
       loading: false,
@@ -76,36 +84,43 @@ describe('Users index component', () => {
       let component;
 
       act(() => {
-        component = shallow(
+        component = mount(
           <Provider store={ownerStore}>
-            <OrganisationUsers />
+            <Router>
+              <OrganisationUsers />
+            </Router>
           </Provider>,
         );
       });
-      component.dive();
       expect(component).toMatchSnapshot();
+      expect(component.find('Button').at(0).text()).toBe('Add User');
     });
     it('should render the component for member user', () => {
       let component;
 
       act(() => {
-        component = shallow(
+        component = mount(
           <Provider store={memberStore}>
-            <OrganisationUsers />
+            <Router>
+              <OrganisationUsers />
+            </Router>
           </Provider>,
         );
       });
-      component.dive();
       expect(component).toMatchSnapshot();
+      expect(component.find('Button').at(0).text()).not.toBe('Add User');
+
     });
   });
   describe('component testing for owner', () => {
     let wrapper;
-    beforeEach(async () => {
-      await act(async () => {
+    beforeEach(() => {
+      act(() => {
         wrapper = mount(
           <Provider store={ownerStore}>
-            <OrganisationUsers />
+            <Router>
+              <OrganisationUsers />
+            </Router>
           </Provider>,
         );
       });
@@ -113,39 +128,7 @@ describe('Users index component', () => {
     afterEach(() => {
       wrapper.unmount();
     });
-    it('should add user', async (done) => {
-      expect(getUsers).toHaveBeenCalled();
-      await act(async () => {
-        wrapper
-          .find('FormItem')
-          .at(0)
-          .find('Input')
-          .simulate('change', { target: { value: 'email@email.com' } });
-        wrapper
-          .find('FormItem')
-          .at(1)
-          .find('Select')
-          .at(0)
-          .props()
-          .onChange({ target: { value: 'member' } });
-
-        const submitButtom = wrapper.find('Button').at(0);
-        submitButtom.simulate('submit');
-      });
-      await act(async () => {
-        wrapper.update();
-      });
-
-      setTimeout(() => {
-        expect(addUser).toHaveBeenCalledWith({
-          email: 'email@email.com',
-          role: 'member',
-        });
-        expect(getUsers).toHaveBeenCalled();
-        done();
-      });
-    });
-    it('should delete user', async (done) => {
+    it('should delete user', (done) => {
       expect(getUsers).toHaveBeenCalled();
       const deleteButtom = wrapper.find('Button').at(1);
       deleteButtom.simulate('click');
