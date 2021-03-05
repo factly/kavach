@@ -47,23 +47,19 @@ describe('OrganisationSelector component', () => {
   useDispatch.mockReturnValue(mockedDispatch);
   describe('snapshot testing', () => {
     it('should render the component with empty data', () => {
-      const tree = renderer
-        .create(
-          <Provider store={store}>
-            <OrganisationSelector />
-          </Provider>,
-        )
-        .toJSON();
+      const tree = mount(
+        <Provider store={store}>
+          <OrganisationSelector />
+        </Provider>,
+      );
       expect(tree).toMatchSnapshot();
     });
     it('should render the component with data', () => {
-      const tree = renderer
-        .create(
-          <Provider store={store}>
-            <OrganisationSelector />
-          </Provider>,
-        )
-        .toJSON();
+      const tree = mount(
+        <Provider store={store}>
+          <OrganisationSelector />
+        </Provider>,
+      );
       expect(tree).toMatchSnapshot();
     });
   });
