@@ -147,4 +147,31 @@ describe('organisations reducer', () => {
       selected: 1,
     });
   });
+  it('should handle SET_SELECTED_ORGANISATION', () => {
+    expect(
+      reducer(
+        {
+          ids: [1, 2],
+          details: {
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
+          },
+          loading: false,
+          selected: 1,
+        },
+        {
+          type: types.SET_SELECTED_ORGANISATION,
+          payload: 2,
+        },
+      ),
+    ).toEqual({
+      ids: [1, 2],
+      details: {
+        1: { id: 1, name: 'existing organisation' },
+        2: { id: 2, name: 'new organisation' },
+      },
+      loading: false,
+      selected: 2
+    });
+  });
 });
