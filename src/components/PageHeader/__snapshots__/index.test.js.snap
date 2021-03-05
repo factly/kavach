@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Header component snapshot testing should render component 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <PageHeader>
+      <PageHeader
+        breadcrumb={
+          Object {
+            "itemRender": [Function],
+            "routes": Array [
+              Object {
+                "breadcrumbName": "Home",
+                "path": "/",
+              },
+              Object {
+                "breadcrumbName": "Users",
+                "path": "/users",
+              },
+            ],
+          }
+        }
+        ghost={false}
+        title="Users"
+      >
+        <ResizeObserver
+          onResize={[Function]}
+        >
+          <div
+            className="ant-page-header has-breadcrumb"
+          >
+            <Breadcrumb
+              itemRender={[Function]}
+              routes={
+                Array [
+                  Object {
+                    "breadcrumbName": "Home",
+                    "path": "/",
+                  },
+                  Object {
+                    "breadcrumbName": "Users",
+                    "path": "/users",
+                  },
+                ]
+              }
+            >
+              <div
+                className="ant-breadcrumb"
+              >
+                <BreadcrumbItem
+                  key="Home"
+                  separator="/"
+                >
+                  <span>
+                    <span
+                      className="ant-breadcrumb-link"
+                    >
+                      <Link
+                        to="/"
+                      >
+                        <LinkAnchor
+                          href="/"
+                          navigate={[Function]}
+                        >
+                          <a
+                            href="/"
+                            onClick={[Function]}
+                          >
+                            Home
+                          </a>
+                        </LinkAnchor>
+                      </Link>
+                    </span>
+                    <span
+                      className="ant-breadcrumb-separator"
+                    >
+                      /
+                    </span>
+                  </span>
+                </BreadcrumbItem>
+                <BreadcrumbItem
+                  key="users"
+                  separator="/"
+                >
+                  <span>
+                    <span
+                      className="ant-breadcrumb-link"
+                    >
+                      <span>
+                        Users
+                      </span>
+                    </span>
+                    <span
+                      className="ant-breadcrumb-separator"
+                    >
+                      /
+                    </span>
+                  </span>
+                </BreadcrumbItem>
+              </div>
+            </Breadcrumb>
+            <div
+              className="ant-page-header-heading"
+            >
+              <div
+                className="ant-page-header-heading-left"
+              >
+                <span
+                  className="ant-page-header-heading-title"
+                  title="Users"
+                >
+                  Users
+                </span>
+              </div>
+            </div>
+          </div>
+        </ResizeObserver>
+      </PageHeader>
+    </PageHeader>
+  </Router>
+</BrowserRouter>
+`;
+
+exports[`Page Header component snapshot testing should render component with no route found 1`] = `
+<BrowserRouter>
+  <Router
+    history={
+      Object {
+        "action": "POP",
+        "block": [Function],
+        "createHref": [Function],
+        "go": [Function],
+        "goBack": [Function],
+        "goForward": [Function],
+        "length": 1,
+        "listen": [Function],
+        "location": Object {
+          "hash": "",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        "push": [Function],
+        "replace": [Function],
+      }
+    }
+  >
+    <PageHeader>
+      <PageHeader
+        breadcrumb={
+          Object {
+            "itemRender": [Function],
+            "routes": Array [
+              Object {
+                "breadcrumbName": "Home",
+                "path": "/",
+              },
+            ],
+          }
+        }
+        ghost={false}
+      >
+        <ResizeObserver
+          onResize={[Function]}
+        >
+          <div
+            className="ant-page-header has-breadcrumb"
+          >
+            <Breadcrumb
+              itemRender={[Function]}
+              routes={
+                Array [
+                  Object {
+                    "breadcrumbName": "Home",
+                    "path": "/",
+                  },
+                ]
+              }
+            >
+              <div
+                className="ant-breadcrumb"
+              >
+                <BreadcrumbItem
+                  key="Home"
+                  separator="/"
+                >
+                  <span>
+                    <span
+                      className="ant-breadcrumb-link"
+                    >
+                      <span>
+                        Home
+                      </span>
+                    </span>
+                    <span
+                      className="ant-breadcrumb-separator"
+                    >
+                      /
+                    </span>
+                  </span>
+                </BreadcrumbItem>
+              </div>
+            </Breadcrumb>
+          </div>
+        </ResizeObserver>
+      </PageHeader>
+    </PageHeader>
+  </Router>
+</BrowserRouter>
+`;
