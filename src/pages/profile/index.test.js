@@ -1,148 +1,208 @@
 import React from 'react';
 import { DatePicker, Radio } from 'antd';
+import { useDispatch, Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import { act } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 
 import '../../matchMedia.mock';
 import Profile from './index';
+import { getUserProfile, updateProfile } from '../../actions/profile';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 global.fetch = jest.fn();
 
 let m = moment('12 Dec 2020 00:00:00 IST', 'DD MMM YYYY HH:mm:ss'); // Parse string in local time
 const birthDate = m.format();
 
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+}));
+jest.mock('../../actions/profile', () => ({
+  getUserProfile: jest.fn(),
+  updateProfile: jest.fn(),
+}));
+
 describe('Profiles index component', () => {
+  let store;
+  const mockedDispatch = jest.fn();
+  mockedDispatch.mockReturnValue(Promise.resolve());
+  useDispatch.mockReturnValue(mockedDispatch);
+  store = mockStore({});
+  store.dispatch = jest.fn(() => ({}));
+
   describe('snapshot testing', () => {
-    it('should render the component', async () => {
-      let component;
-      await act(async () => {
-        component = shallow(<Profile />);
+    it('should render the component', () => {
+      store=mockStore({
+        profile : {
+          details: {},
+        },
+        media: {
+          req : [],
+          details: {},
+          loading: false,
+        },
       });
-      await act(async () => {
-        component.update();
+      const tree = mount(
+        <Provider store={store}>
+          <Profile />
+        </Provider>
+      );  
+      expect(tree).toMatchSnapshot();
+    });
+    it('should render the component with data', () => {
+      store = mockStore({
+        profile: {
+          details: { 
+            id: '1',
+            first_name: 'abc',
+            last_name: 'xyz',
+            display_name: 'abc',
+            slug: 'abc',
+            email: 'abc@gmail.com',
+            birth_date: birthDate,
+            social_media_urls: {
+              facebook: 'facebook/abc',
+              twitter: 'twitter/abc',
+              linkedin: 'linkedin/abc',
+              instagram: 'instagram/abc',
+            },
+            description: 'Description',
+          },
+          loading: false,
+        },
+        media: {
+          req : [],
+          details: {},
+          loading: false,
+        },
       });
-      expect(component).toMatchSnapshot();
+      const tree = mount(
+          <Provider store={store}>
+            <Profile />
+          </Provider>
+        );  
+      expect(tree).toMatchSnapshot();
+      expect(getUserProfile).toHaveBeenCalled();
     });
   });
   describe('component testing', () => {
+    store = mockStore({
+      profile: {
+        details: { 
+          id: '1',
+          first_name: 'abc',
+          last_name: 'xyz',
+          display_name: 'abc',
+          slug: 'abc',
+          email: 'abc@gmail.com',
+          birth_date: birthDate,
+          social_media_urls: {
+            facebook: 'facebook/abc',
+            twitter: 'twitter/abc',
+            linkedin: 'linkedin/abc',
+            instagram: 'instagram/abc',
+          },
+          description: 'Description',
+        },
+        loading: false,
+      },
+      media: {
+        req : [],
+        details: {},
+        loading: false,
+      },
+    });
     let wrapper;
-    afterEach(() => {
+    beforeEach(() =>  {
       act(() => {
-        wrapper.unmount();
+        wrapper = mount(
+          <Provider store={store}>
+            <Profile />
+          </Provider>,
+        );
       });
     });
-    it('should submit form with data', async (done) => {
-      fetch = jest.fn(() =>
-        Promise.resolve({
-          status: 200,
-          json: () =>
-            Promise.resolve({
-              first_name: 'first_name',
-              last_name: 'last_name',
-              birth_date: birthDate,
-              gender: 'other',
-            }),
-        }),
-      );
-      await act(async () => {
-        wrapper = mount(<Profile />);
-      });
-      await act(async () => {
-        wrapper.update();
-      });
-      await act(async () => {
-        const submitButtom = wrapper.find('Button').at(0);
-        submitButtom.simulate('submit');
-      });
-
-      setTimeout(() => {
-        expect(fetch.mock.calls).toEqual([
-          [window.REACT_APP_API_URL + '/profile'],
-          [
-            window.REACT_APP_API_URL + '/profile',
-            {
-              method: 'PUT',
-              body: JSON.stringify({
-                first_name: 'first_name',
-                last_name: 'last_name',
-                birth_date: birthDate,
-                gender: 'other',
-              }),
-            },
-          ],
-        ]);
-        done();
-      });
+    afterEach(() => {
+      wrapper.unmount();
     });
-    it('should submit form with data', async (done) => {
-      fetch = jest.fn(() =>
-        Promise.resolve({
-          status: 200,
-          json: () =>
-            Promise.resolve({
-              first_name: 'first_name',
-              last_name: 'last_name',
-              birth_date: birthDate,
-              gender: 'other',
-            }),
-        }),
-      );
-      await act(async () => {
-        wrapper = mount(<Profile />);
-      });
-      await act(async () => {
-        wrapper.update();
-      });
-      await act(async () => {
+    it('should submit form with data', (done) => {
+      act(() => {
         wrapper
           .find('FormItem')
           .at(0)
           .find('Input')
-          .simulate('change', { target: { value: 'new first_name' } });
+          .simulate('change', { target: { value: 'firstname'}});
         wrapper
           .find('FormItem')
           .at(1)
           .find('Input')
-          .at(0)
-          .simulate('change', { target: { value: 'new last_name' } });
+          .simulate('change', { target: { value: 'lastname'}});
         wrapper
           .find('FormItem')
           .at(2)
+          .find('Input')
+          .simulate('change', { target: { value: 'new Display Name' }});
+        wrapper
+          .find('FormItem')
+          .at(4)
           .find(DatePicker)
           .at(0)
           .props()
-          .onChange({ target: { value: moment('2020-12-12') } });
+          .onChange({ target: { value: moment('2020-10-10') } });
         wrapper
           .find('FormItem')
-          .at(3)
+          .at(5)
           .find(Radio.Group)
           .at(0)
           .props()
-          .onChange({ target: { value: 'male' } });
+          .onChange({ target: { value: 'male' } });  
 
-        const submitButtom = wrapper.find('Button').at(0);
-        submitButtom.simulate('submit');
+        const updateButtom = wrapper.find('Button').at(1);
+        expect(updateButtom.text()).toBe('Update');
+        updateButtom.simulate('submit');  
       });
-
+      
+      wrapper.update();
+     
       setTimeout(() => {
-        expect(fetch.mock.calls).toEqual([
-          [window.REACT_APP_API_URL + '/profile'],
-          [
-            window.REACT_APP_API_URL + '/profile',
-            {
-              method: 'PUT',
-              body: JSON.stringify({
-                first_name: 'new first_name',
-                last_name: 'new last_name',
-                birth_date: birthDate,
-                gender: 'male',
-              }),
-            },
-          ],
-        ]);
+        expect(getUserProfile).toHaveBeenCalled();
+        expect(updateProfile).toHaveBeenCalledTimes(1);
+        expect(wrapper.find('FormItem').at(12).find('Button').props().disabled).toBe(false);
+        expect(updateProfile).toHaveBeenCalledWith({
+          first_name: 'firstname',
+          last_name: 'lastname',
+          display_name: 'new Display Name',
+          slug: 'new-display-name',
+          birth_date: '2020-10-10T00:00:00+00:00',
+          social_media_urls: {
+            facebook: 'facebook/abc',
+            twitter: 'twitter/abc',
+            linkedin: 'linkedin/abc',
+            instagram: 'instagram/abc',
+          },
+          description: 'Description',
+          featured_medium_id: undefined,
+          gender: 'male',
+
+        });
         done();
       });
+    });
+    it('should disable update button unless any change', () => {
+      act(() => {
+        wrapper = mount(
+          <Provider store={store}>
+            <Profile />
+          </Provider>,
+        );
+      });
+      expect(wrapper.find('FormItem').at(12).find('Button').props().disabled).toBe(true);
     });
   });
 });
