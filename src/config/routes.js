@@ -10,6 +10,7 @@ import Application from '../pages/application';
 import CreateApplication from '../pages/application/CreateApplication';
 import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
+import ApplicationUsers from '../pages/application/users/index';
 
 export default [
   {
@@ -80,5 +81,12 @@ export default [
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Edit Application',
+  },
+  {
+    path: '/applications/:id/users',
+    Component: ApplicationUsers,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Application Users',
   },
 ];

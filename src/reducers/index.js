@@ -4,6 +4,7 @@ import organisations from './organisations';
 import users from './users';
 import media from './media';
 import application from './application';
+import applicationUsers from './applicationUser';
 import notifications from './notifications';
 import profile from './profile';
 
@@ -13,6 +14,7 @@ export default combineReducers({
   users,
   media,
   application,
+  applicationUsers,
   notifications,
-  profile
+  profile,
 });
