@@ -73,18 +73,20 @@ function ApplicationList() {
                 <Avatar icon={<PlusOutlined />} />
               </Link>
             </Tooltip>
-            {record.users.map((each) => (
-              <Tooltip title={each.email} placement="top">
-                <Avatar
-                  style={{
-                    backgroundColor:
-                      '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                  }}
-                >
-                  {each.email.charAt(0).toUpperCase()}
-                </Avatar>
-              </Tooltip>
-            ))}
+            {record.users &&
+              record.users.length > 0 &&
+              record.users.map((each) => (
+                <Tooltip title={each.email} placement="top">
+                  <Avatar
+                    style={{
+                      backgroundColor:
+                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
+                    }}
+                  >
+                    {each.email.charAt(0).toUpperCase()}
+                  </Avatar>
+                </Tooltip>
+              ))}
           </Avatar.Group>
         );
       },

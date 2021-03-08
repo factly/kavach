@@ -4,15 +4,11 @@ import { Select } from 'antd';
 import { getAllUsers } from '../../actions/users';
 
 function Selector({ value, onChange }) {
-  const [query, setQuery] = React.useState({
-    page: 1,
-    limit: 5,
-  });
   const dispatch = useDispatch();
 
   value = [value];
 
-  const { details, loading, selected } = useSelector(({ users, organisations: { selected } }) => {
+  const { details, loading } = useSelector(({ users, organisations: { selected } }) => {
     let details = [];
 
     let ids = [];
@@ -25,7 +21,7 @@ function Selector({ value, onChange }) {
       ids.filter((id) => !value.includes(id)).map((id) => users.details[id]),
     );
 
-    return { details, loading: users.loading, selected };
+    return { details, loading: users.loading };
   });
 
   React.useEffect(() => {
@@ -49,13 +45,6 @@ function Selector({ value, onChange }) {
       filterOption={(input, option) =>
         option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
       }
-      onPopupScroll={(e) => {
-        if (e.target.scrollTop + e.target.offsetHeight === e.target.scrollHeight) {
-          if (details.length < total) {
-            setQuery({ ...query, page: query.page + 1 });
-          }
-        }
-      }}
     >
       {details.map((item) => (
         <Select.Option value={item.id} key={'users' + item.id}>
