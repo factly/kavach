@@ -83,6 +83,8 @@ function OrganisationUsers() {
        </Link>
       ) : null}
       <Table
+        bordered
+        style={{width:'78vw'}}
         rowKey={'id'}
         loading={loading}
         pagination={false}
