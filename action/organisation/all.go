@@ -1,14 +1,11 @@
 package organisation
 
 import (
-	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/renderx"
-	"gorm.io/gorm"
 )
 
 type paging struct {
@@ -32,11 +29,7 @@ func all(w http.ResponseWriter, r *http.Request) {
 
 	searchQuery := r.URL.Query().Get("q")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-
-	defer cancel()
-
-	tx := model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.Organisation{})
+	tx := model.DB.Model(&model.Organisation{})
 
 	if searchQuery != "" {
 		query := fmt.Sprint("%", searchQuery, "%")

@@ -1,17 +1,14 @@
 package user
 
 import (
-	"context"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
-	"gorm.io/gorm"
 )
 
 // list - Get all organisations users
@@ -38,11 +35,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	host := &model.OrganisationUser{}
 	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
-
-	defer cancel()
-
-	err = model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		OrganisationID: uint(orgID),
 		UserID:         uint(hostID),
 	}).First(&host).Error
@@ -55,7 +48,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	users := make([]model.OrganisationUser, 0)
 
-	model.DB.Session(&gorm.Session{Context: ctx}).Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		OrganisationID: uint(orgID),
 	}).Preload("User").Preload("User.Medium").Find(&users)
 
