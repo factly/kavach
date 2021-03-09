@@ -11,6 +11,7 @@ require (
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/gavv/httpexpect v2.0.0+incompatible
 	github.com/go-chi/chi v4.1.2+incompatible
+	github.com/go-chi/cors v1.1.1
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/imkira/go-interpol v1.1.0 // indirect
 	github.com/jinzhu/gorm v1.9.16
