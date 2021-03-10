@@ -31,14 +31,6 @@ func access(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	orgnaisationID := chi.URLParam(r, "organisation_id")
-	oID, err := strconv.Atoi(orgnaisationID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		loggerx.Error(err)
@@ -46,11 +38,21 @@ func access(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	application := model.Application{}
-	err = model.DB.Model(&model.Application{}).Where(&model.Application{
-		OrganisationID: uint(oID),
-		Slug:           appSlug,
-	}).Preload("Users").First(&application).Error
+	organisationUser := make([]model.OrganisationUser, 0)
+
+	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+		UserID: uint(uID),
+	}).Preload("Organisation").Find(&organisationUser)
+
+	orgIDs := make([]uint, 0)
+	for _, ou := range organisationUser {
+		orgIDs = append(orgIDs, ou.OrganisationID)
+	}
+
+	applicationList := make([]model.Application, 0)
+	err = model.DB.Model(&model.Application{}).Where("organisation_id IN (?)", orgIDs).Where(&model.Application{
+		Slug: appSlug,
+	}).Preload("Users").Find(&applicationList).Error
 
 	if err != nil {
 		loggerx.Error(err)
@@ -58,13 +60,14 @@ func access(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	appUsers := application.Users
-
-	for _, usr := range appUsers {
-		if usr.ID == uint(uID) {
-			renderx.JSON(w, http.StatusOK, nil)
-			return
+	for _, app := range applicationList {
+		for _, usr := range app.Users {
+			if usr.ID == uint(uID) {
+				renderx.JSON(w, http.StatusOK, nil)
+				return
+			}
 		}
+
 	}
 
 	renderx.JSON(w, http.StatusUnauthorized, nil)
