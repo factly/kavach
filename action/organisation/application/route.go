@@ -26,6 +26,7 @@ func Router() chi.Router {
 	r.Get("/{application_slug}/access", access)
 	r.Route("/{application_id}", func(r chi.Router) {
 		r.Get("/", details)
+		r.Get("/generateToken", getAPIToken)
 		r.Put("/", update)
 		r.Delete("/", delete)
 		r.Mount("/users", user.Router())

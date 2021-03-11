@@ -1,5 +1,15 @@
 basePath: /
 definitions:
+  application.ValidationBody:
+    properties:
+      access_token:
+        type: string
+      secret_token:
+        type: string
+    required:
+    - access_token
+    - secret_token
+    type: object
   application.application:
     properties:
       description:
@@ -56,6 +66,8 @@ definitions:
     type: object
   model.Application:
     properties:
+      access_token:
+        type: string
       created_at:
         type: string
       created_by_id:
@@ -280,15 +292,6 @@ definitions:
       social_media_urls:
         type: string
     type: object
-  user.appUsers:
-    properties:
-      application:
-        $ref: '#/definitions/model.Application'
-      users:
-        items:
-          $ref: '#/definitions/model.User'
-        type: array
-    type: object
   user.applicationUsers:
     properties:
       user_id:
@@ -374,6 +377,32 @@ info:
   title: Kavach Server API
   version: "1.0"
 paths:
+  /applications/{application_slug}/validateToken:
+    post:
+      description: validate application token
+      operationId: validate-organisation-application-token
+      parameters:
+      - description: Application Slug
+        in: path
+        name: application_slug
+        required: true
+        type: string
+      - description: Validation Body
+        in: body
+        name: ValidationBody
+        required: true
+        schema:
+          $ref: '#/definitions/application.ValidationBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Application'
+      summary: Show a application token
+      tags:
+      - OrganisationApplications
   /media:
     get:
       description: Get all media
@@ -798,6 +827,36 @@ paths:
       summary: Update a application by id
       tags:
       - OrganisationApplications
+  /organisations/{organisation_id}/applications/{application_id}/generateToken:
+    get:
+      description: Get application token by ID
+      operationId: get-organisation-application-token-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Application'
+      summary: Show a application token by id
+      tags:
+      - OrganisationApplications
   /organisations/{organisation_id}/applications/{application_id}/users:
     get:
       description: Get all applications users
@@ -825,9 +884,7 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/user.appUsers'
-              type: array
+              $ref: '#/definitions/model.Application'
             type: array
       summary: Show all applications users
       tags:

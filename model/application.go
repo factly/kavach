@@ -18,6 +18,8 @@ type Application struct {
 	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
 	Users          []User        `gorm:"many2many:application_users;" json:"users"`
+	AccessToken    string        `gorm:"column:access_token" json:"access_token,omitempty"`
+	HashedToken    string        `gorm:"column:hashed_token" json:"-"`
 }
 
 var applicationUserKey ContextKey = "application_user"
