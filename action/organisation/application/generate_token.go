@@ -152,6 +152,6 @@ func GenerateSecretToken(str string) (string, string) {
 	}
 
 	hasher := md5.New()
-	hasher.Write(hash)
+	_, _ = hasher.Write(hash)
 	return string(hash), hex.EncodeToString(hasher.Sum(nil))
 }

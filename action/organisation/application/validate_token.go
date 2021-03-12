@@ -73,7 +73,7 @@ func ValidateToken(w http.ResponseWriter, r *http.Request) {
 // ValidateSecretToken validates the given secretToken with storedToken
 func ValidateSecretToken(secretToken, storedToken string) bool {
 	hasher := md5.New()
-	hasher.Write([]byte(secretToken))
+	_, _ = hasher.Write([]byte(secretToken))
 
 	hashedSecret := hex.EncodeToString(hasher.Sum(nil))
 	fmt.Println(hashedSecret)
