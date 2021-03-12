@@ -17,6 +17,7 @@ DATABASE_SSL_MODE=disable
 
 
 KETO_URL=http://keto:4466
+KRATOS_ADMIN_URL=http://kratos:4434
 MODE=development
 IMAGEPROXY_URL=http://127.0.0.1:7001
 ```
