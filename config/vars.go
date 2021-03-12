@@ -45,4 +45,8 @@ func SetupVars() {
 	if !viper.IsSet("keto_url") {
 		log.Fatal("please provide keto_url in config")
 	}
+
+	if !viper.IsSet("kratos_admin_url") {
+		log.Fatal("please provide kratos_admin_url in config")
+	}
 }

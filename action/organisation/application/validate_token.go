@@ -63,7 +63,6 @@ func ValidateToken(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	fmt.Println(app.HashedToken)
 	if ValidateSecretToken(tokenBody.SecretToken, app.HashedToken) {
 		renderx.JSON(w, http.StatusOK, map[string]interface{}{"valid": true})
 	} else {
