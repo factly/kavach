@@ -20,7 +20,7 @@ func TestCreateApplicationToken(t *testing.T) {
 
 	// Setup DB
 	mock := test.SetupMockDB()
-	test.MockServer()
+	_ = test.MockServer()
 	defer gock.DisableNetworking()
 
 	// Setup HttpExpect
