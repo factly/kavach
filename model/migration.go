@@ -8,6 +8,7 @@ func Migration() {
 		&OrganisationUser{},
 		&Medium{},
 		&Application{},
+		&ApplicationToken{},
 	)
 
 }

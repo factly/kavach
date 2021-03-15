@@ -1,11 +1,11 @@
-package application
+package token
 
 import (
-	"context"
 	"crypto/md5"
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,6 +16,7 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/requestx"
+	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
 	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
@@ -28,18 +29,19 @@ type kratosIdentity struct {
 	} `json:"traits,omitempty"`
 }
 
-// getAPIToken - Get application token by id
+// create - Create application token by id
 // @Summary Show a application token by id
-// @Description Get application token by ID
-// @Tags OrganisationApplications
-// @ID get-organisation-application-token-by-id
+// @Description Create application token by ID
+// @Tags OrganisationApplicationsTokens
+// @ID create-organisation-application-token
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param application_id path string true "Application ID"
-// @Success 200 {object} model.Application
-// @Router /organisations/{organisation_id}/applications/{application_id}/generateToken [get]
-func getAPIToken(w http.ResponseWriter, r *http.Request) {
+// @Param ApplicationTokenBody body applicationToken true "Application Token Body"
+// @Success 200 {object} model.ApplicationToken
+// @Router /organisations/{organisation_id}/applications/{application_id}/tokens [post]
+func create(w http.ResponseWriter, r *http.Request) {
 	applicationID := chi.URLParam(r, "application_id")
 	appID, err := strconv.Atoi(applicationID)
 	if err != nil {
@@ -60,6 +62,21 @@ func getAPIToken(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	appTok := applicationToken{}
+	err = json.NewDecoder(r.Body).Decode(&appTok)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+
+	validationError := validationx.Check(appTok)
+	if validationError != nil {
+		loggerx.Error(errors.New("validation error"))
+		errorx.Render(w, validationError)
 		return
 	}
 
@@ -117,9 +134,12 @@ func getAPIToken(w http.ResponseWriter, r *http.Request) {
 	accessToken := GenerateIDToken(32)
 	token, hash := GenerateSecretToken(fmt.Sprint(accessToken, ":", result.ID, ":", result.Slug, ":", identity))
 
-	err = model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Model(&result).Updates(model.Application{
-		HashedToken: hash,
-		AccessToken: accessToken,
+	err = model.DB.Create(&model.ApplicationToken{
+		Name:          appTok.Name,
+		Description:   appTok.Description,
+		AccessToken:   accessToken,
+		HashedToken:   hash,
+		ApplicationID: &result.ID,
 	}).Error
 	if err != nil {
 		loggerx.Error(err)

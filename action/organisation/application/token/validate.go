@@ -1,4 +1,4 @@
-package application
+package token
 
 import (
 	"crypto/md5"
@@ -22,17 +22,17 @@ type ValidationBody struct {
 	AccessToken string `json:"access_token" validate:"required"`
 }
 
-// ValidateToken - validate application token
+// Validate - validate application token
 // @Summary Show a application token
 // @Description validate application token
-// @Tags OrganisationApplications
+// @Tags OrganisationApplicationsTokens
 // @ID validate-organisation-application-token
 // @Produce  json
 // @Param application_slug path string true "Application Slug"
 // @Param ValidationBody body ValidationBody true "Validation Body"
 // @Success 200 {object} model.Application
 // @Router /applications/{application_slug}/validateToken [post]
-func ValidateToken(w http.ResponseWriter, r *http.Request) {
+func Validate(w http.ResponseWriter, r *http.Request) {
 	appSlug := chi.URLParam(r, "application_slug")
 	if appSlug == "" {
 		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid slug", http.StatusBadRequest)))
@@ -55,15 +55,26 @@ func ValidateToken(w http.ResponseWriter, r *http.Request) {
 	}
 
 	app := model.Application{}
-	err = model.DB.Model(&model.Application{}).Where("slug LIKE ?", appSlug+"%").Where(&model.Application{
-		AccessToken: tokenBody.AccessToken,
-	}).First(&app).Error
+	err = model.DB.Model(&model.Application{}).Where("slug LIKE ?", appSlug+"%").First(&app).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	if ValidateSecretToken(tokenBody.SecretToken, app.HashedToken) {
+
+	appToken := model.ApplicationToken{}
+	// Fetch all tokens for a application
+	err = model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
+		AccessToken:   tokenBody.AccessToken,
+		ApplicationID: &app.ID,
+	}).First(&appToken).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
+	if ValidateSecretToken(tokenBody.SecretToken, appToken.HashedToken) {
 		renderx.JSON(w, http.StatusOK, map[string]interface{}{"valid": true})
 	} else {
 		renderx.JSON(w, http.StatusUnauthorized, map[string]interface{}{"valid": false})

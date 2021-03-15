@@ -1,15 +1,5 @@
 basePath: /
 definitions:
-  application.ValidationBody:
-    properties:
-      access_token:
-        type: string
-      secret_token:
-        type: string
-    required:
-    - access_token
-    - secret_token
-    type: object
   application.application:
     properties:
       description:
@@ -66,8 +56,6 @@ definitions:
     type: object
   model.Application:
     properties:
-      access_token:
-        type: string
       created_at:
         type: string
       created_by_id:
@@ -90,6 +78,10 @@ definitions:
         type: integer
       slug:
         type: string
+      tokens:
+        items:
+          $ref: '#/definitions/model.ApplicationToken'
+        type: array
       updated_at:
         type: string
       updated_by_id:
@@ -100,6 +92,31 @@ definitions:
         items:
           $ref: '#/definitions/model.User'
         type: array
+    type: object
+  model.ApplicationToken:
+    properties:
+      access_token:
+        type: string
+      application:
+        $ref: '#/definitions/model.Application'
+      application_id:
+        type: integer
+      created_at:
+        type: string
+      created_by_id:
+        type: integer
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      updated_by_id:
+        type: integer
     type: object
   model.Medium:
     properties:
@@ -292,6 +309,34 @@ definitions:
       social_media_urls:
         type: string
     type: object
+  token.ValidationBody:
+    properties:
+      access_token:
+        type: string
+      secret_token:
+        type: string
+    required:
+    - access_token
+    - secret_token
+    type: object
+  token.applicationToken:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  token.paging:
+    properties:
+      nodes:
+        items:
+          $ref: '#/definitions/model.ApplicationToken'
+        type: array
+      total:
+        type: integer
+    type: object
   user.applicationUsers:
     properties:
       user_id:
@@ -392,7 +437,7 @@ paths:
         name: ValidationBody
         required: true
         schema:
-          $ref: '#/definitions/application.ValidationBody'
+          $ref: '#/definitions/token.ValidationBody'
       produces:
       - application/json
       responses:
@@ -402,7 +447,7 @@ paths:
             $ref: '#/definitions/model.Application'
       summary: Show a application token
       tags:
-      - OrganisationApplications
+      - OrganisationApplicationsTokens
   /media:
     get:
       description: Get all media
@@ -827,10 +872,10 @@ paths:
       summary: Update a application by id
       tags:
       - OrganisationApplications
-  /organisations/{organisation_id}/applications/{application_id}/generateToken:
+  /organisations/{organisation_id}/applications/{application_id}/tokens:
     get:
-      description: Get application token by ID
-      operationId: get-organisation-application-token-by-id
+      description: Show a application tokens
+      operationId: get-organisation-application-tokens
       parameters:
       - description: User ID
         in: header
@@ -853,10 +898,76 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Application'
+            $ref: '#/definitions/token.paging'
+      summary: List application tokens
+      tags:
+      - OrganisationApplicationsTokens
+    post:
+      description: Create application token by ID
+      operationId: create-organisation-application-token
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Application Token Body
+        in: body
+        name: ApplicationTokenBody
+        required: true
+        schema:
+          $ref: '#/definitions/token.applicationToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ApplicationToken'
       summary: Show a application token by id
       tags:
-      - OrganisationApplications
+      - OrganisationApplicationsTokens
+  /organisations/{organisation_id}/applications/{application_id}/tokens/{token_id}:
+    delete:
+      description: Delete application token by ID
+      operationId: delete-application-token-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Token ID
+        in: path
+        name: token_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+      summary: Delete a applicationa token
+      tags:
+      - OrganisationApplicationsTokens
   /organisations/{organisation_id}/applications/{application_id}/users:
     get:
       description: Get all applications users
