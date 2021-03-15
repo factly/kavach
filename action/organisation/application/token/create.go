@@ -152,7 +152,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		"access_token": accessToken,
 	}
 
-	renderx.JSON(w, http.StatusOK, response)
+	renderx.JSON(w, http.StatusCreated, response)
 }
 
 // GenerateIDToken generated ID token for application

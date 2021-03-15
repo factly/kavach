@@ -10,7 +10,9 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/factly/kavach-server/action"
 	"github.com/factly/kavach-server/test/medium"
+	"github.com/factly/kavach-server/test/organisation/application/token"
 	"github.com/factly/kavach-server/test/organisation/user"
+	"github.com/factly/kavach-server/test/profile"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 )
@@ -71,6 +73,13 @@ func TestListApplications(t *testing.T) {
 				AddRow(2, time.Now(), time.Now(), nil, 1, 1, applicationList[1]["name"], applicationList[1]["slug"], applicationList[1]["description"], applicationList[1]["url"], applicationList[1]["medium_id"], applicationList[1]["organisation_id"]))
 
 		medium.SelectQuery(mock, 1)
+		token.ApplicationTokenSelect(mock)
+
+		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "application_users"`)).
+			WithArgs(1, 2).
+			WillReturnRows(sqlmock.NewRows([]string{"application_id", "user_id"}).AddRow(1, 1))
+
+		profile.UserSelectMock(mock)
 
 		res := e.GET(basePath).
 			WithPathObject(map[string]interface{}{

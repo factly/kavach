@@ -53,7 +53,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	// Check if user is part of organisation
 	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Preload("User").Where(&model.OrganisationUser{
+	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		OrganisationID: uint(oID),
 		UserID:         uint(uID),
 	}).First(permission).Error

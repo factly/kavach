@@ -1,4 +1,4 @@
-package application
+package token
 
 import (
 	"net/http"
@@ -6,19 +6,14 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/factly/kavach-server/test/medium"
-
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/factly/kavach-server/test/organisation/application/token"
-	"github.com/factly/kavach-server/test/organisation/user"
-
 	"github.com/factly/kavach-server/action"
+	"github.com/factly/kavach-server/test/organisation/user"
 	"github.com/factly/kavach-server/util/test"
 	"github.com/gavv/httpexpect"
 )
 
-func TestDetailApplication(t *testing.T) {
-
+func TestDeleteApplicationToken(t *testing.T) {
 	// Setup DB
 	mock := test.SetupMockDB()
 
@@ -29,10 +24,23 @@ func TestDetailApplication(t *testing.T) {
 
 	e := httpexpect.New(t, server.URL)
 
+	t.Run("invalid organisation id", func(t *testing.T) {
+		e.DELETE(path).
+			WithPathObject(map[string]interface{}{
+				"organisation_id": "invalid",
+				"token_id":        "1",
+				"application_id":  "1",
+			}).
+			WithHeader("X-User", "1").
+			Expect().
+			Status(http.StatusBadRequest)
+	})
+
 	t.Run("invalid application id", func(t *testing.T) {
-		e.GET(path).
+		e.DELETE(path).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
+				"token_id":        "1",
 				"application_id":  "invalid",
 			}).
 			WithHeader("X-User", "1").
@@ -40,81 +48,73 @@ func TestDetailApplication(t *testing.T) {
 			Status(http.StatusBadRequest)
 	})
 
-	t.Run("invalid organisation id", func(t *testing.T) {
-		e.GET(path).
+	t.Run("invalid token id", func(t *testing.T) {
+		e.DELETE(path).
 			WithPathObject(map[string]interface{}{
-				"organisation_id": "invalid",
-				"application_id":  "1",
+				"organisation_id": "1",
+				"token_id":        "1",
+				"application_id":  "invalid",
 			}).
 			WithHeader("X-User", "1").
 			Expect().
 			Status(http.StatusBadRequest)
 	})
 
-	t.Run("invalid user id header", func(t *testing.T) {
-		e.GET(path).
-			WithPathObject(map[string]interface{}{
-				"organisation_id": "1",
-				"application_id":  "1",
-			}).
-			WithHeader("X-User", "invalid").
-			Expect().
-			Status(http.StatusBadRequest)
-	})
-
-	t.Run("user is not part of organisation", func(t *testing.T) {
+	t.Run("user not owner of organisation", func(t *testing.T) {
 		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "organisation_users"`)).
-			WithArgs(1, 1).
+			WithArgs(1, 1, "owner").
 			WillReturnRows(sqlmock.NewRows(user.OrganisationUserCols))
-
-		e.GET(path).
-			WithHeader("X-User", "1").
+		e.DELETE(path).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
+				"token_id":        "1",
 				"application_id":  "1",
 			}).
+			WithHeader("X-User", "1").
 			Expect().
 			Status(http.StatusUnauthorized)
+
 		test.ExpectationsMet(t, mock)
 	})
 
-	t.Run("application record not found", func(t *testing.T) {
-		user.OrganisationUserSelectMock(mock)
+	t.Run("application token record not found", func(t *testing.T) {
 
+		user.OrganisationUserOwnerSelectMock(mock)
 		mock.ExpectQuery(selectQuery).
-			WithArgs(1, 1).
-			WillReturnRows(sqlmock.NewRows(ApplicationCols))
+			WillReturnRows(sqlmock.NewRows(ApplicationTokenCols))
 
-		e.GET(path).
+		e.DELETE(path).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
+				"token_id":        "1",
 				"application_id":  "1",
 			}).
 			WithHeader("X-User", "1").
 			Expect().
 			Status(http.StatusNotFound)
+
 		test.ExpectationsMet(t, mock)
 	})
 
-	t.Run("get application by id", func(t *testing.T) {
-		user.OrganisationUserSelectMock(mock)
+	t.Run("delete application token", func(t *testing.T) {
+		user.OrganisationUserOwnerSelectMock(mock)
+		ApplicationTokenSelect(mock)
 
-		ApplicationSelectMock(mock, 1, 1)
+		mock.ExpectExec(regexp.QuoteMeta(`UPDATE "application_tokens" SET "deleted_at"=`)).
+			WithArgs(test.AnyTime{}, 1).
+			WillReturnResult(sqlmock.NewResult(1, 1))
 
-		medium.SelectQuery(mock, 1)
-		token.ApplicationTokenSelect(mock)
-
-		e.GET(path).
+		e.DELETE(path).
 			WithPathObject(map[string]interface{}{
 				"organisation_id": "1",
+				"token_id":        "1",
 				"application_id":  "1",
 			}).
 			WithHeader("X-User", "1").
 			Expect().
-			Status(http.StatusOK).
-			JSON().
-			Object().
-			ContainsMap(Application)
+			Status(http.StatusOK)
+
 		test.ExpectationsMet(t, mock)
 	})
+
 }
