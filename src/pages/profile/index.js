@@ -4,7 +4,7 @@ import moment from 'moment';
 import MediaSelector from '../../components/MediaSelector';
 import { maker, checker } from '../../utils/sluger';
 import { useDispatch, useSelector } from 'react-redux';
-import {getUserProfile, updateProfile } from '../../actions/profile';
+import { getUserProfile, updateProfile } from '../../actions/profile';
 
 const layout = {
   labelCol: {
