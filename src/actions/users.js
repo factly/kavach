@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ADD_ORGANISATION_USERS } from '../constants/organisations';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 
@@ -26,6 +27,25 @@ export const addUser = (data) => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());
         dispatch(addSuccessNotification('User added'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
+  };
+};
+
+export const getAllUsers = () => {
+  return (dispatch, getState) => {
+    return axios
+      .get(`/organisations/${getState().organisations.selected}/users`)
+      .then((res) => {
+        dispatch(
+          addOrganisationUsersList({
+            users: res.data,
+            org_id: getState().organisations.selected,
+          }),
+        );
+        dispatch(stopUsersLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -61,6 +81,11 @@ export const stopUsersLoading = () => ({
 
 export const addUsersList = (data) => ({
   type: ADD_USERS,
+  payload: data,
+});
+
+export const addOrganisationUsersList = (data) => ({
+  type: ADD_ORGANISATION_USERS,
   payload: data,
 });
 

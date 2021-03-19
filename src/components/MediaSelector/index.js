@@ -1,12 +1,13 @@
 import React from 'react';
-import { Modal, Button, Radio, Space } from 'antd';
+import { Modal, Button, Radio, Space, Avatar } from 'antd';
+import { AntDesignOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import MediaUploader from './UploadMedium';
 import MediaList from './MediaList';
 import { getMedium } from '../../actions/media';
 import ImagePlaceholder from '../ErrorsAndImage/PlaceholderImage';
 
-function MediaSelector({ value = null, onChange }) {
+function MediaSelector({ value = null, onChange, profile }) {
   const [show, setShow] = React.useState(false);
   const [selected, setSelected] = React.useState(null);
   const [tab, setTab] = React.useState('list');
@@ -64,10 +65,11 @@ function MediaSelector({ value = null, onChange }) {
         </Space>
       </Modal>
       <Space direction="vertical">
-        {medium ? (<img src={medium.url?.proxy} alt={medium.alt_text} width="100%" /> 
-        ) : ( 
-          <ImagePlaceholder />
-        )}
+        {medium ?  
+        (<img src={medium.url?.proxy} alt={medium.alt_text} width="100%" />) 
+        : 
+          profile ?  <Avatar shape="square" size={300} icon={<AntDesignOutlined />} />  : <ImagePlaceholder width={230}/>
+        }
         <Button onClick={() => setShow(true)}> Select</Button>
       </Space>
     </>      

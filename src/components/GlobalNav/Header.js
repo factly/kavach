@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Layout, Divider, Button, Popover, List } from 'antd';
+import { Layout, Divider, Button, Popover, List, Avatar } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { toggleSider } from '../../actions/settings';
 import AccountMenu from './AccountMenu';
@@ -50,11 +50,13 @@ function Header() {
                   renderItem={(item) => (
                     <List.Item>
                       <a href={item.url} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <img
-                          alt="logo"
-                          className="menu-logo"
-                          src={require(`../../assets/${item.name.toLowerCase()}_icon.png`)}
-                        />
+                        {item.medium && item.medium.url ? (
+                          <img alt="logo" className="menu-logo" src={item.medium.url.raw} />
+                        ) : (
+                          <Avatar shape="square" size={35}>
+                            {item.name.charAt(0)}
+                          </Avatar>
+                        )}
                         <p>{item.name}</p>
                       </a>
                     </List.Item>

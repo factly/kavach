@@ -10,6 +10,7 @@ import Application from '../pages/application';
 import CreateApplication from '../pages/application/CreateApplication';
 import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
+import ApplicationUsers from '../pages/application/users/index';
 
 export default [
   {
@@ -60,7 +61,7 @@ export default [
     title: 'Profile',
   },
   {
-    path: '/application',
+    path: '/applications',
     Component: Application,
     enableNavigation: true,
     enableBreadcrumb: true,
@@ -68,17 +69,24 @@ export default [
     title: 'Application',
   },
   {
-    path: '/application/create',
+    path: '/applications/create',
     Component: CreateApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Create Application',
   },
   {
-    path: '/application/:id/edit',
+    path: '/applications/:id/edit',
     Component: EditApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Edit Application',
+  },
+  {
+    path: '/applications/:id/users',
+    Component: ApplicationUsers,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Application Users',
   },
 ];
