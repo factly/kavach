@@ -7,14 +7,32 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { Avatar } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProfile } from '../../actions/profile';
 
 const AccountMenu = () => {
+  const dispatch = useDispatch();
+  const { profile, loading } = useSelector((state) => {
+    return {
+      profile: state.profile.details ? state.profile.details : null,
+      loading: state.profile.loading,
+    };
+  });
+  React.useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
+
   return (
     <Menu mode="horizontal">
       <Menu.SubMenu
         title={
           <>
-            <UserOutlined />
+            {!loading && profile && profile.medium ? (
+              <Avatar size="small" src={profile.medium.url?.raw} />
+            ) : (
+              <UserOutlined />
+            )}
           </>
         }
       >
