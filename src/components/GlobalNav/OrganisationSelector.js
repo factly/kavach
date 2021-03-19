@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Select } from 'antd';
+import { Select, Avatar } from 'antd';
 import { setSelectedOrganisation } from './../../actions/organisations';
 
 function OrganisationSelector() {
@@ -16,6 +16,9 @@ function OrganisationSelector() {
   const handleOrganisationChange = (id) => {
     dispatch(setSelectedOrganisation(id));
   };
+  const getInitial = (title) => {
+    return title.charAt(0);
+  }
 
   return (
     <Select
@@ -26,6 +29,11 @@ function OrganisationSelector() {
     >
       {organisations.map((organisation) => (
         <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
+          {organisation.medium ? 
+          <Avatar size="small" src={organisation.medium.url.raw}/> 
+          : <Avatar size="small" >{getInitial(organisation.title)}</Avatar>
+          }
+          {' '}
           {organisation.title}
         </Select.Option>
       ))}

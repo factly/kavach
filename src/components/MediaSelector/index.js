@@ -17,8 +17,15 @@ function MediaSelector({ value = null, onChange, profile }) {
     return state.media.details[value] || null;
   });
 
+  const setValue = () => {
+    value = null;
+  };
+
   React.useEffect(() => {
-    if (value) dispatch(getMedium(value));
+    if (value) {
+      dispatch(getMedium(value));
+      setSelected(medium);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,13 +43,12 @@ function MediaSelector({ value = null, onChange, profile }) {
           <Button
             key="submit"
             type="primary"
-            disabled={!selected}
             onClick={() => {
               setShow(false);
-              onChange(selected.id);
+              selected ? onChange(selected.id) : onChange(null);
             }}
           >
-            {selected ? selected.name : null} Select
+            Ok
           </Button>,
         ]}
       >
@@ -52,7 +58,7 @@ function MediaSelector({ value = null, onChange, profile }) {
             <Radio.Button value="upload">Upload</Radio.Button>
           </Radio.Group>
           {tab === 'list' ? (
-            <MediaList onSelect={setSelected} selected={selected} />
+            <MediaList onSelect={setSelected} selected={selected} onUnselect={setValue}/>
           ) : tab === 'upload' ? (
             <MediaUploader />
           ) : null}
