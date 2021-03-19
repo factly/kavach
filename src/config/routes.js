@@ -66,7 +66,7 @@ export default [
     enableNavigation: true,
     enableBreadcrumb: true,
     Icon: AppstoreOutlined,
-    title: 'Application',
+    title: 'Applications',
   },
   {
     path: '/applications/create',
