@@ -40,6 +40,11 @@ function ApplicationList() {
       dataIndex: 'name',
       key: 'name',
       width: '15%',
+      render: (_, record) => {
+        return <Link to={`/applications/${record.id}/detail`}>
+        {record.name}
+        </Link>
+      }
     },
     {
       title: 'Slug',
