@@ -54,21 +54,13 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app := model.Application{}
-	err = model.DB.Model(&model.Application{}).Where("slug LIKE ?", appSlug+"%").First(&app).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
-
 	appToken := model.ApplicationToken{}
 	// Fetch all tokens for a application
-	err = model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
-		AccessToken:   tokenBody.AccessToken,
-		ApplicationID: &app.ID,
+	err = model.DB.Model(&model.ApplicationToken{}).Preload("Application").Where(&model.ApplicationToken{
+		AccessToken: tokenBody.AccessToken,
 	}).First(&appToken).Error
-	if err != nil {
+
+	if err != nil || appToken.Application.Slug != appSlug {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
