@@ -1,4 +1,4 @@
-package application
+package token
 
 import (
 	"net/http"
@@ -11,18 +11,18 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// details - Get application by id
-// @Summary Show a application by id
-// @Description Get application by ID
-// @Tags OrganisationApplications
-// @ID get-organisation-application-by-id
-// @Produce  json
+// delete - Delete application token by id
+// @Summary Delete a applicationa token
+// @Description Delete application token by ID
+// @Tags OrganisationApplicationsTokens
+// @ID delete-application-token-by-id
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param application_id path string true "Application ID"
-// @Success 200 {object} model.Application
-// @Router /organisations/{organisation_id}/applications/{application_id} [get]
-func details(w http.ResponseWriter, r *http.Request) {
+// @Param token_id path string true "Token ID"
+// @Success 200
+// @Router /organisations/{organisation_id}/applications/{application_id}/tokens/{token_id} [delete]
+func delete(w http.ResponseWriter, r *http.Request) {
 	applicationID := chi.URLParam(r, "application_id")
 	appID, err := strconv.Atoi(applicationID)
 	if err != nil {
@@ -31,6 +31,13 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tokenID := chi.URLParam(r, "token_id")
+	tokID, err := strconv.Atoi(tokenID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
 	orgnaisationID := chi.URLParam(r, "organisation_id")
 	oID, err := strconv.Atoi(orgnaisationID)
 	if err != nil {
@@ -46,30 +53,34 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
+	// Check if user is owner of organisation
 	permission := &model.OrganisationUser{}
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
 		OrganisationID: uint(oID),
 		UserID:         uint(uID),
+		Role:           "owner",
 	}).First(permission).Error
-
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	result := model.Application{}
-	result.ID = uint(appID)
+	result := model.ApplicationToken{}
+	result.ID = uint(tokID)
+	uintAppID := uint(appID)
 
-	err = model.DB.Where(&model.Application{
-		OrganisationID: uint(oID),
-	}).Preload("Medium").Preload("Tokens").First(&result).Error
+	// Check if application token record exists
+	err = model.DB.Where(&model.ApplicationToken{
+		ApplicationID: &uintAppID,
+	}).First(&result).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
-	renderx.JSON(w, http.StatusOK, result)
+	model.DB.Delete(&result)
+
+	renderx.JSON(w, http.StatusOK, nil)
 }

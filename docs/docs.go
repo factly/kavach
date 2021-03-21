@@ -32,6 +32,45 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/applications/{application_slug}/validateToken": {
+            "post": {
+                "description": "validate application token",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplicationsTokens"
+                ],
+                "summary": "Show a application token",
+                "operationId": "validate-organisation-application-token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Application Slug",
+                        "name": "application_slug",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Validation Body",
+                        "name": "ValidationBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/token.ValidationBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    }
+                }
+            }
+        },
         "/media": {
             "get": {
                 "description": "Get all media",
@@ -743,6 +782,146 @@ var doc = `{
                 }
             }
         },
+        "/organisations/{organisation_id}/applications/{application_id}/tokens": {
+            "get": {
+                "description": "Show a application tokens",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplicationsTokens"
+                ],
+                "summary": "List application tokens",
+                "operationId": "get-organisation-application-tokens",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/token.paging"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create application token by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplicationsTokens"
+                ],
+                "summary": "Show a application token by id",
+                "operationId": "create-organisation-application-token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Application Token Body",
+                        "name": "ApplicationTokenBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/token.applicationToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ApplicationToken"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/tokens/{token_id}": {
+            "delete": {
+                "description": "Delete application token by ID",
+                "tags": [
+                    "OrganisationApplicationsTokens"
+                ],
+                "summary": "Delete a applicationa token",
+                "operationId": "delete-application-token-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token ID",
+                        "name": "token_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/organisations/{organisation_id}/applications/{application_id}/users": {
             "get": {
                 "description": "Get all applications users",
@@ -783,10 +962,7 @@ var doc = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/user.appUsers"
-                                }
+                                "$ref": "#/definitions/model.Application"
                             }
                         }
                     }
@@ -1301,6 +1477,12 @@ var doc = `{
                 "slug": {
                     "type": "string"
                 },
+                "tokens": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ApplicationToken"
+                    }
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -1315,6 +1497,44 @@ var doc = `{
                     "items": {
                         "$ref": "#/definitions/model.User"
                     }
+                }
+            }
+        },
+        "model.ApplicationToken": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "application": {
+                    "$ref": "#/definitions/model.Application"
+                },
+                "application_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -1608,17 +1828,46 @@ var doc = `{
                 }
             }
         },
-        "user.appUsers": {
+        "token.ValidationBody": {
+            "type": "object",
+            "required": [
+                "access_token",
+                "secret_token"
+            ],
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "secret_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "token.applicationToken": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "token.paging": {
             "type": "object",
             "properties": {
-                "application": {
-                    "$ref": "#/definitions/model.Application"
-                },
-                "users": {
+                "nodes": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.User"
+                        "$ref": "#/definitions/model.ApplicationToken"
                     }
+                },
+                "total": {
+                    "type": "integer"
                 }
             }
         },

@@ -78,6 +78,10 @@ definitions:
         type: integer
       slug:
         type: string
+      tokens:
+        items:
+          $ref: '#/definitions/model.ApplicationToken'
+        type: array
       updated_at:
         type: string
       updated_by_id:
@@ -88,6 +92,31 @@ definitions:
         items:
           $ref: '#/definitions/model.User'
         type: array
+    type: object
+  model.ApplicationToken:
+    properties:
+      access_token:
+        type: string
+      application:
+        $ref: '#/definitions/model.Application'
+      application_id:
+        type: integer
+      created_at:
+        type: string
+      created_by_id:
+        type: integer
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: string
+      updated_by_id:
+        type: integer
     type: object
   model.Medium:
     properties:
@@ -280,14 +309,33 @@ definitions:
       social_media_urls:
         type: string
     type: object
-  user.appUsers:
+  token.ValidationBody:
     properties:
-      application:
-        $ref: '#/definitions/model.Application'
-      users:
+      access_token:
+        type: string
+      secret_token:
+        type: string
+    required:
+    - access_token
+    - secret_token
+    type: object
+  token.applicationToken:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  token.paging:
+    properties:
+      nodes:
         items:
-          $ref: '#/definitions/model.User'
+          $ref: '#/definitions/model.ApplicationToken'
         type: array
+      total:
+        type: integer
     type: object
   user.applicationUsers:
     properties:
@@ -374,6 +422,32 @@ info:
   title: Kavach Server API
   version: "1.0"
 paths:
+  /applications/{application_slug}/validateToken:
+    post:
+      description: validate application token
+      operationId: validate-organisation-application-token
+      parameters:
+      - description: Application Slug
+        in: path
+        name: application_slug
+        required: true
+        type: string
+      - description: Validation Body
+        in: body
+        name: ValidationBody
+        required: true
+        schema:
+          $ref: '#/definitions/token.ValidationBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Application'
+      summary: Show a application token
+      tags:
+      - OrganisationApplicationsTokens
   /media:
     get:
       description: Get all media
@@ -798,6 +872,102 @@ paths:
       summary: Update a application by id
       tags:
       - OrganisationApplications
+  /organisations/{organisation_id}/applications/{application_id}/tokens:
+    get:
+      description: Show a application tokens
+      operationId: get-organisation-application-tokens
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/token.paging'
+      summary: List application tokens
+      tags:
+      - OrganisationApplicationsTokens
+    post:
+      description: Create application token by ID
+      operationId: create-organisation-application-token
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Application Token Body
+        in: body
+        name: ApplicationTokenBody
+        required: true
+        schema:
+          $ref: '#/definitions/token.applicationToken'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ApplicationToken'
+      summary: Show a application token by id
+      tags:
+      - OrganisationApplicationsTokens
+  /organisations/{organisation_id}/applications/{application_id}/tokens/{token_id}:
+    delete:
+      description: Delete application token by ID
+      operationId: delete-application-token-by-id
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Organisation ID
+        in: path
+        name: organisation_id
+        required: true
+        type: string
+      - description: Application ID
+        in: path
+        name: application_id
+        required: true
+        type: string
+      - description: Token ID
+        in: path
+        name: token_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+      summary: Delete a applicationa token
+      tags:
+      - OrganisationApplicationsTokens
   /organisations/{organisation_id}/applications/{application_id}/users:
     get:
       description: Get all applications users
@@ -825,9 +995,7 @@ paths:
           description: OK
           schema:
             items:
-              items:
-                $ref: '#/definitions/user.appUsers'
-              type: array
+              $ref: '#/definitions/model.Application'
             type: array
       summary: Show all applications users
       tags:

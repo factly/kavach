@@ -1,6 +1,7 @@
 package application
 
 import (
+	"github.com/factly/kavach-server/action/organisation/application/token"
 	"github.com/factly/kavach-server/action/organisation/application/user"
 	"github.com/factly/kavach-server/model"
 	"github.com/go-chi/chi"
@@ -28,6 +29,7 @@ func Router() chi.Router {
 		r.Get("/", details)
 		r.Put("/", update)
 		r.Delete("/", delete)
+		r.Mount("/tokens", token.Router())
 		r.Mount("/users", user.Router())
 	})
 

@@ -1,4 +1,4 @@
-package application
+package token
 
 import (
 	"net/http"
@@ -11,18 +11,23 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// details - Get application by id
-// @Summary Show a application by id
-// @Description Get application by ID
-// @Tags OrganisationApplications
-// @ID get-organisation-application-by-id
+type paging struct {
+	Nodes []model.ApplicationToken `json:"nodes"`
+	Total int64                    `json:"total"`
+}
+
+// list - List application tokens
+// @Summary List application tokens
+// @Description Show a application tokens
+// @Tags OrganisationApplicationsTokens
+// @ID get-organisation-application-tokens
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param application_id path string true "Application ID"
-// @Success 200 {object} model.Application
-// @Router /organisations/{organisation_id}/applications/{application_id} [get]
-func details(w http.ResponseWriter, r *http.Request) {
+// @Success 200 {object} paging
+// @Router /organisations/{organisation_id}/applications/{application_id}/tokens [get]
+func list(w http.ResponseWriter, r *http.Request) {
 	applicationID := chi.URLParam(r, "application_id")
 	appID, err := strconv.Atoi(applicationID)
 	if err != nil {
@@ -52,24 +57,19 @@ func details(w http.ResponseWriter, r *http.Request) {
 		OrganisationID: uint(oID),
 		UserID:         uint(uID),
 	}).First(permission).Error
-
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	result := model.Application{}
-	result.ID = uint(appID)
+	result := paging{}
+	result.Nodes = make([]model.ApplicationToken, 0)
 
-	err = model.DB.Where(&model.Application{
-		OrganisationID: uint(oID),
-	}).Preload("Medium").Preload("Tokens").First(&result).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
+	uintAppID := uint(appID)
+	model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
+		ApplicationID: &uintAppID,
+	}).Count(&result.Total).Find(&result.Nodes)
 
 	renderx.JSON(w, http.StatusOK, result)
 }

@@ -9,6 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/action/medium"
 	"github.com/factly/kavach-server/action/organisation"
+	"github.com/factly/kavach-server/action/organisation/application/token"
 	"github.com/factly/kavach-server/action/profile"
 	"github.com/factly/kavach-server/action/user"
 	"github.com/factly/kavach-server/model"
@@ -41,6 +42,7 @@ func RegisterRoutes() http.Handler {
 	r.Mount("/users", user.Router())
 	r.Mount("/profile", profile.Router())
 	r.Mount("/media", medium.Router())
+	r.Post("/applications/{application_slug}/validateToken", token.Validate)
 
 	sqlDB, _ := model.DB.DB()
 
