@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -46,7 +45,6 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-	fmt.Println(orgID)
 
 	tokenBody := ValidationBody{}
 	err = json.NewDecoder(r.Body).Decode(&tokenBody)
@@ -88,7 +86,6 @@ func ValidateSecretToken(secretToken, storedToken string) bool {
 	_, _ = hasher.Write([]byte(secretToken))
 
 	hashedSecret := hex.EncodeToString(hasher.Sum(nil))
-	fmt.Println(hashedSecret)
 
 	return hashedSecret == storedToken
 }
