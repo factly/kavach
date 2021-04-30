@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -28,6 +28,7 @@ type ValidationBody struct {
 // @Tags OrganisationApplicationsTokens
 // @ID validate-organisation-application-token
 // @Produce  json
+// @Param X-Organisation  header string true "Organisation ID"
 // @Param application_slug path string true "Application Slug"
 // @Param ValidationBody body ValidationBody true "Validation Body"
 // @Success 200 {object} model.Application
@@ -39,8 +40,14 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	orgID, err := strconv.Atoi(r.Header.Get("X-Organisation"))
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	tokenBody := ValidationBody{}
-	err := json.NewDecoder(r.Body).Decode(&tokenBody)
+	err = json.NewDecoder(r.Body).Decode(&tokenBody)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
@@ -60,7 +67,7 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		AccessToken: tokenBody.AccessToken,
 	}).First(&appToken).Error
 
-	if err != nil || appToken.Application.Slug != appSlug {
+	if err != nil || appToken.Application.Slug != appSlug || appToken.Application.OrganisationID != uint(orgID) {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
@@ -79,7 +86,6 @@ func ValidateSecretToken(secretToken, storedToken string) bool {
 	_, _ = hasher.Write([]byte(secretToken))
 
 	hashedSecret := hex.EncodeToString(hasher.Sum(nil))
-	fmt.Println(hashedSecret)
 
 	return hashedSecret == storedToken
 }
