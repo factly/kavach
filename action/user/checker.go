@@ -10,6 +10,7 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/slugx"
 )
 
 type authenticationSession struct {
@@ -38,22 +39,26 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	identity := payload.Extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
 
+	var firstName, lastName string
+	if _, ok := traits["first_name"]; ok {
+		firstName = traits["first_name"].(string)
+	}
+
+	if _, ok := traits["last_name"]; ok {
+		lastName = traits["last_name"].(string)
+	}
+
 	user := model.User{
+		Email:     traits["email"].(string),
+		FirstName: firstName,
+		LastName:  lastName,
+		Slug:      slugx.Make(fmt.Sprint(firstName, " ", lastName)),
+	}
+
+	// FirstOrCreate user
+	model.DB.FirstOrCreate(&user, &model.User{
 		Email: traits["email"].(string),
-	}
-
-	err = model.DB.Where(&model.User{
-		Email: user.Email,
-	}).First(&user).Error
-
-	if err != nil {
-		model.DB.Create(&user)
-	}
-
-	// * FirstOrCreate method giving error right now
-	// model.DB.FirstOrCreate(user, &model.User{
-	// 	Email: traits["email"].(string),
-	// })
+	})
 
 	payload.Header = make(http.Header)
 
