@@ -3,7 +3,6 @@ package token
 import (
 	"net/http"
 	"net/http/httptest"
-	"regexp"
 	"testing"
 	"time"
 
@@ -31,7 +30,7 @@ func TestValidateTokens(t *testing.T) {
 				"application_slug": "dega",
 			}).
 			WithJSON(invalidValidateObject).
-			WithHeader("X-User", "1").
+			WithHeader("X-Organisation", "1").
 			Expect().
 			Status(http.StatusUnprocessableEntity)
 	})
@@ -41,31 +40,14 @@ func TestValidateTokens(t *testing.T) {
 			WithPathObject(map[string]interface{}{
 				"application_slug": "dega",
 			}).
-			WithHeader("X-User", "1").
+			WithHeader("X-Organisation", "1").
 			Expect().
 			Status(http.StatusUnprocessableEntity)
 	})
 
-	t.Run("application record not found", func(t *testing.T) {
-		mock.ExpectQuery(regexp.QuoteMeta(`SELECT * FROM "applications"`)).
-			WithArgs("dega%").
-			WillReturnRows(sqlmock.NewRows(application.ApplicationCols))
-		e.POST(validatePath).
-			WithPathObject(map[string]interface{}{
-				"application_slug": "dega",
-			}).
-			WithJSON(ValidateObject).
-			WithHeader("X-User", "1").
-			Expect().
-			Status(http.StatusNotFound)
-		test.ExpectationsMet(t, mock)
-	})
-
 	t.Run("application token not found", func(t *testing.T) {
-		application.ApplicationSelectMock(mock, "dega%")
-
 		mock.ExpectQuery(selectQuery).
-			WithArgs(1, "testaccesstoken").
+			WithArgs("testaccesstoken").
 			WillReturnRows(sqlmock.NewRows(application.ApplicationCols))
 
 		e.POST(validatePath).
@@ -73,26 +55,26 @@ func TestValidateTokens(t *testing.T) {
 				"application_slug": "dega",
 			}).
 			WithJSON(ValidateObject).
-			WithHeader("X-User", "1").
+			WithHeader("X-Organisation", "1").
 			Expect().
 			Status(http.StatusNotFound)
 		test.ExpectationsMet(t, mock)
 	})
 
 	t.Run("validate application token", func(t *testing.T) {
-		application.ApplicationSelectMock(mock, "dega%")
-
 		mock.ExpectQuery(selectQuery).
-			WithArgs(1, "testaccesstoken").
+			WithArgs("testaccesstoken").
 			WillReturnRows(sqlmock.NewRows(ApplicationTokenCols).
 				AddRow(1, time.Now(), time.Now(), nil, 1, 1, ApplicationToken["name"], ApplicationToken["description"], 1, "testaccesstoken", "2c0f9835774c499584e27c1496ca533d"))
 
+		application.ApplicationSelectMock(mock)
+
 		e.POST(validatePath).
 			WithPathObject(map[string]interface{}{
-				"application_slug": "dega",
+				"application_slug": "test-application",
 			}).
 			WithJSON(ValidateObject).
-			WithHeader("X-User", "1").
+			WithHeader("X-Organisation", "1").
 			Expect().
 			Status(http.StatusOK)
 		test.ExpectationsMet(t, mock)

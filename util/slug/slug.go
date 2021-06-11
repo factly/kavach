@@ -11,9 +11,9 @@ type comman struct {
 }
 
 // Approve return slug
-func Approve(slug string) string {
+func Approve(slug, email string) string {
 	var result []comman
-	model.DB.Model(&model.User{}).Select("slug").Where("slug LIKE ?  AND deleted_at IS NULL", slug).First(&result)
+	model.DB.Model(&model.User{}).Select("slug").Where("slug LIKE ? AND email !=?  AND deleted_at IS NULL", slug, email).First(&result)
 	count := 0
 	for {
 		flag := true
