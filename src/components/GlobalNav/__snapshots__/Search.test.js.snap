@@ -1,3 +1,468 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Account Menu component should render the component 1`] = `ReactWrapper {}`;
+exports[`Account Menu component should render the component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Search>
+    <ForwardRef(AutoComplete)
+      onSearch={[Function]}
+      onSelect={[Function]}
+      options={Array []}
+      placeholder="Search..."
+      style={
+        Object {
+          "width": 400,
+        }
+      }
+    >
+      <ForwardRef(InternalSelect)
+        className="ant-select-auto-complete"
+        mode="SECRET_COMBOBOX_MODE_DO_NOT_USE"
+        onSearch={[Function]}
+        onSelect={[Function]}
+        options={Array []}
+        placeholder="Search..."
+        prefixCls="ant-select"
+        style={
+          Object {
+            "width": 400,
+          }
+        }
+      >
+        <Select
+          className="ant-select-auto-complete"
+          clearIcon={<ForwardRef(CloseCircleFilled) />}
+          dropdownClassName=""
+          inputIcon={[Function]}
+          listHeight={256}
+          listItemHeight={24}
+          menuItemSelectedIcon={null}
+          mode="combobox"
+          notFoundContent={null}
+          onSearch={[Function]}
+          onSelect={[Function]}
+          options={Array []}
+          placeholder="Search..."
+          prefixCls="ant-select"
+          removeIcon={<ForwardRef(CloseOutlined) />}
+          style={
+            Object {
+              "width": 400,
+            }
+          }
+          transitionName="slide-up"
+        >
+          <ForwardRef(Select)
+            className="ant-select-auto-complete"
+            clearIcon={<ForwardRef(CloseCircleFilled) />}
+            dropdownClassName=""
+            inputIcon={[Function]}
+            listHeight={256}
+            listItemHeight={24}
+            menuItemSelectedIcon={null}
+            mode="combobox"
+            notFoundContent={null}
+            onSearch={[Function]}
+            onSelect={[Function]}
+            options={Array []}
+            placeholder="Search..."
+            prefixCls="ant-select"
+            removeIcon={<ForwardRef(CloseOutlined) />}
+            style={
+              Object {
+                "width": 400,
+              }
+            }
+            transitionName="slide-up"
+          >
+            <div
+              className="ant-select ant-select-auto-complete ant-select-single ant-select-show-search"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              style={
+                Object {
+                  "width": 400,
+                }
+              }
+            >
+              <SelectTrigger
+                containerWidth={null}
+                dropdownClassName=""
+                empty={true}
+                getTriggerDOMNode={[Function]}
+                popupElement={
+                  <ForwardRef(OptionList)
+                    childrenAsData={false}
+                    defaultActiveFirstOption={false}
+                    flattenOptions={Array []}
+                    height={256}
+                    id="rc_select_TEST_OR_SSR"
+                    itemHeight={24}
+                    menuItemSelectedIcon={null}
+                    multiple={false}
+                    notFoundContent={null}
+                    onActiveValue={[Function]}
+                    onMouseEnter={[Function]}
+                    onSelect={[Function]}
+                    onToggleOpen={[Function]}
+                    options={Array []}
+                    prefixCls="ant-select"
+                    searchValue=""
+                    values={Set {}}
+                    virtual={true}
+                  />
+                }
+                prefixCls="ant-select"
+                transitionName="slide-up"
+                visible={false}
+              >
+                <Trigger
+                  action={Array []}
+                  afterPopupVisibleChange={[Function]}
+                  autoDestroy={false}
+                  blurDelay={0.15}
+                  builtinPlacements={
+                    Object {
+                      "bottomLeft": Object {
+                        "offset": Array [
+                          0,
+                          4,
+                        ],
+                        "overflow": Object {
+                          "adjustX": 0,
+                          "adjustY": 1,
+                        },
+                        "points": Array [
+                          "tl",
+                          "bl",
+                        ],
+                      },
+                      "bottomRight": Object {
+                        "offset": Array [
+                          0,
+                          4,
+                        ],
+                        "overflow": Object {
+                          "adjustX": 0,
+                          "adjustY": 1,
+                        },
+                        "points": Array [
+                          "tr",
+                          "br",
+                        ],
+                      },
+                      "topLeft": Object {
+                        "offset": Array [
+                          0,
+                          -4,
+                        ],
+                        "overflow": Object {
+                          "adjustX": 0,
+                          "adjustY": 1,
+                        },
+                        "points": Array [
+                          "bl",
+                          "tl",
+                        ],
+                      },
+                      "topRight": Object {
+                        "offset": Array [
+                          0,
+                          -4,
+                        ],
+                        "overflow": Object {
+                          "adjustX": 0,
+                          "adjustY": 1,
+                        },
+                        "points": Array [
+                          "br",
+                          "tr",
+                        ],
+                      },
+                    }
+                  }
+                  defaultPopupVisible={false}
+                  destroyPopupOnHide={false}
+                  focusDelay={0}
+                  getDocument={[Function]}
+                  getPopupClassNameFromAlign={[Function]}
+                  getTriggerDOMNode={[Function]}
+                  hideAction={Array []}
+                  mask={false}
+                  maskClosable={true}
+                  mouseEnterDelay={0}
+                  mouseLeaveDelay={0.1}
+                  onPopupAlign={[Function]}
+                  onPopupVisibleChange={[Function]}
+                  popup={
+                    <div>
+                      <ForwardRef(OptionList)
+                        childrenAsData={false}
+                        defaultActiveFirstOption={false}
+                        flattenOptions={Array []}
+                        height={256}
+                        id="rc_select_TEST_OR_SSR"
+                        itemHeight={24}
+                        menuItemSelectedIcon={null}
+                        multiple={false}
+                        notFoundContent={null}
+                        onActiveValue={[Function]}
+                        onMouseEnter={[Function]}
+                        onSelect={[Function]}
+                        onToggleOpen={[Function]}
+                        options={Array []}
+                        prefixCls="ant-select"
+                        searchValue=""
+                        values={Set {}}
+                        virtual={true}
+                      />
+                    </div>
+                  }
+                  popupAlign={Object {}}
+                  popupClassName="ant-select-dropdown-empty"
+                  popupPlacement="bottomLeft"
+                  popupStyle={
+                    Object {
+                      "minWidth": null,
+                      "width": null,
+                    }
+                  }
+                  popupTransitionName="slide-up"
+                  popupVisible={false}
+                  prefixCls="ant-select-dropdown"
+                  showAction={Array []}
+                >
+                  <Selector
+                    accessibilityIndex={0}
+                    activeValue={null}
+                    className="ant-select-auto-complete"
+                    clearIcon={<ForwardRef(CloseCircleFilled) />}
+                    domRef={
+                      Object {
+                        "current": <div
+                          class="ant-select-selector"
+                        >
+                          <span
+                            class="ant-select-selection-search"
+                          >
+                            <input
+                              aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
+                              aria-autocomplete="list"
+                              aria-controls="rc_select_TEST_OR_SSR_list"
+                              aria-haspopup="listbox"
+                              aria-owns="rc_select_TEST_OR_SSR_list"
+                              autocomplete="off"
+                              class="ant-select-selection-search-input"
+                              id="rc_select_TEST_OR_SSR"
+                              role="combobox"
+                              type="search"
+                              value=""
+                            />
+                          </span>
+                          <span
+                            class="ant-select-selection-placeholder"
+                          >
+                            Search...
+                          </span>
+                        </div>,
+                      }
+                    }
+                    dropdownClassName=""
+                    id="rc_select_TEST_OR_SSR"
+                    inputElement={null}
+                    inputIcon={[Function]}
+                    key="trigger"
+                    listHeight={256}
+                    listItemHeight={24}
+                    menuItemSelectedIcon={null}
+                    mode="combobox"
+                    multiple={false}
+                    notFoundContent={null}
+                    onSearch={[Function]}
+                    onSearchSubmit={[Function]}
+                    onSelect={[Function]}
+                    onToggleOpen={[Function]}
+                    options={Array []}
+                    placeholder="Search..."
+                    prefixCls="ant-select"
+                    removeIcon={<ForwardRef(CloseOutlined) />}
+                    searchValue=""
+                    showSearch={true}
+                    style={
+                      Object {
+                        "width": 400,
+                      }
+                    }
+                    tokenWithEnter={false}
+                    transitionName="slide-up"
+                    values={Array []}
+                  >
+                    <div
+                      className="ant-select-selector"
+                      onClick={[Function]}
+                      onMouseDown={[Function]}
+                    >
+                      <SingleSelector
+                        accessibilityIndex={0}
+                        activeValue={null}
+                        className="ant-select-auto-complete"
+                        clearIcon={<ForwardRef(CloseCircleFilled) />}
+                        domRef={
+                          Object {
+                            "current": <div
+                              class="ant-select-selector"
+                            >
+                              <span
+                                class="ant-select-selection-search"
+                              >
+                                <input
+                                  aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
+                                  aria-autocomplete="list"
+                                  aria-controls="rc_select_TEST_OR_SSR_list"
+                                  aria-haspopup="listbox"
+                                  aria-owns="rc_select_TEST_OR_SSR_list"
+                                  autocomplete="off"
+                                  class="ant-select-selection-search-input"
+                                  id="rc_select_TEST_OR_SSR"
+                                  role="combobox"
+                                  type="search"
+                                  value=""
+                                />
+                              </span>
+                              <span
+                                class="ant-select-selection-placeholder"
+                              >
+                                Search...
+                              </span>
+                            </div>,
+                          }
+                        }
+                        dropdownClassName=""
+                        id="rc_select_TEST_OR_SSR"
+                        inputElement={null}
+                        inputIcon={[Function]}
+                        inputRef={
+                          Object {
+                            "current": <input
+                              aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
+                              aria-autocomplete="list"
+                              aria-controls="rc_select_TEST_OR_SSR_list"
+                              aria-haspopup="listbox"
+                              aria-owns="rc_select_TEST_OR_SSR_list"
+                              autocomplete="off"
+                              class="ant-select-selection-search-input"
+                              id="rc_select_TEST_OR_SSR"
+                              role="combobox"
+                              type="search"
+                              value=""
+                            />,
+                          }
+                        }
+                        listHeight={256}
+                        listItemHeight={24}
+                        menuItemSelectedIcon={null}
+                        mode="combobox"
+                        multiple={false}
+                        notFoundContent={null}
+                        onInputChange={[Function]}
+                        onInputCompositionEnd={[Function]}
+                        onInputCompositionStart={[Function]}
+                        onInputKeyDown={[Function]}
+                        onInputMouseDown={[Function]}
+                        onInputPaste={[Function]}
+                        onSearch={[Function]}
+                        onSearchSubmit={[Function]}
+                        onSelect={[Function]}
+                        onToggleOpen={[Function]}
+                        options={Array []}
+                        placeholder="Search..."
+                        prefixCls="ant-select"
+                        removeIcon={<ForwardRef(CloseOutlined) />}
+                        searchValue=""
+                        showSearch={true}
+                        style={
+                          Object {
+                            "width": 400,
+                          }
+                        }
+                        tokenWithEnter={false}
+                        transitionName="slide-up"
+                        values={Array []}
+                      >
+                        <span
+                          className="ant-select-selection-search"
+                        >
+                          <Input
+                            accessibilityIndex={0}
+                            attrs={Object {}}
+                            editable={true}
+                            id="rc_select_TEST_OR_SSR"
+                            inputElement={null}
+                            onChange={[Function]}
+                            onCompositionEnd={[Function]}
+                            onCompositionStart={[Function]}
+                            onKeyDown={[Function]}
+                            onMouseDown={[Function]}
+                            onPaste={[Function]}
+                            prefixCls="ant-select"
+                            value=""
+                          >
+                            <input
+                              aria-activedescendant="rc_select_TEST_OR_SSR_list_0"
+                              aria-autocomplete="list"
+                              aria-controls="rc_select_TEST_OR_SSR_list"
+                              aria-haspopup="listbox"
+                              aria-owns="rc_select_TEST_OR_SSR_list"
+                              autoComplete="off"
+                              className="ant-select-selection-search-input"
+                              id="rc_select_TEST_OR_SSR"
+                              onChange={[Function]}
+                              onCompositionEnd={[Function]}
+                              onCompositionStart={[Function]}
+                              onKeyDown={[Function]}
+                              onMouseDown={[Function]}
+                              onPaste={[Function]}
+                              readOnly={false}
+                              role="combobox"
+                              style={
+                                Object {
+                                  "opacity": null,
+                                }
+                              }
+                              type="search"
+                              unselectable={null}
+                              value=""
+                            />
+                          </Input>
+                        </span>
+                        <span
+                          className="ant-select-selection-placeholder"
+                        >
+                          Search...
+                        </span>
+                      </SingleSelector>
+                    </div>
+                  </Selector>
+                </Trigger>
+              </SelectTrigger>
+            </div>
+          </ForwardRef(Select)>
+        </Select>
+      </ForwardRef(InternalSelect)>
+    </ForwardRef(AutoComplete)>
+  </Search>
+</Provider>
+`;
