@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Account Menu component should render the component 1`] = `
+<Menu
+  mode="horizontal"
+>
+  <SubMenu
+    title={
+      <React.Fragment>
+        <ForwardRef(UserOutlined) />
+      </React.Fragment>
+    }
+  >
+    <MenuItem>
+      <Link
+        to="/password"
+      >
+        <ForwardRef(SafetyCertificateOutlined) />
+         Security
+      </Link>
+    </MenuItem>
+    <MenuItem>
+      <Link
+        to="/profile"
+      >
+        <ForwardRef(EditOutlined) />
+         Profile
+      </Link>
+    </MenuItem>
+    <MenuItem>
+      <a
+        href="undefined/self-service/browser/flows/logout"
+      >
+        <ForwardRef(LogoutOutlined) />
+        Logout
+      </a>
+    </MenuItem>
+  </SubMenu>
+</Menu>
+`;
