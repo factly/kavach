@@ -59,10 +59,10 @@ describe('New User create component', () => {
     it('should render the component', () => {
       let component;
       act(() => {
-        component =  mount(
+        component = mount(
           <Provider store={store}>
             <NewUser />
-          </Provider>
+          </Provider>,
         );
       });
       expect(component).toMatchSnapshot();
@@ -75,9 +75,9 @@ describe('New User create component', () => {
       useHistory.mockReturnValueOnce({ push });
       act(() => {
         wrapper = mount(
-          <Provider store={store} >
+          <Provider store={store}>
             <NewUser />
-          </Provider>
+          </Provider>,
         );
       });
       act(() => {
@@ -85,38 +85,38 @@ describe('New User create component', () => {
           .find('FormItem')
           .at(0)
           .find('Input')
-          .simulate('change', { target : { value : 'ABC' } } );
+          .simulate('change', { target: { value: 'ABC' } });
         wrapper
           .find('FormItem')
           .at(1)
           .find('Input')
-          .simulate('change', { target : { value : 'XYZ' } } );          
+          .simulate('change', { target: { value: 'XYZ' } });
         wrapper
           .find('FormItem')
           .at(2)
           .find('Input')
-          .simulate('change', { target : { value : 'new@gamil.com' } } );   
+          .simulate('change', { target: { value: 'new@gamil.com' } });
         wrapper
           .find('FormItem')
           .at(3)
           .find('Select')
           .props()
-          .onChange({ target : { value : 'member' }});
+          .onChange({ target: { value: 'member' } });
         const addButton = wrapper.find('Button').at(0);
         expect(addButton.text()).toBe('Add');
         addButton.simulate('submit');
       });
-      wrapper.update();          
+      wrapper.update();
       setTimeout(() => {
         expect(addUser).toHaveBeenCalledTimes(1);
         expect(addUser).toHaveBeenCalledWith({
           first_name: 'ABC',
           last_name: 'XYZ',
           email: 'new@gamil.com',
-          role: 'member'
+          role: 'member',
         });
         expect(push).toHaveBeenCalledWith('/users');
-      },0);
+      }, 0);
     });
   });
 });

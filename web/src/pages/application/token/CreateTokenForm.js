@@ -3,8 +3,6 @@ import { Form, Input, Button } from 'antd';
 import { addToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 
-
-
 const layout = {
   labelCol: {
     span: 7,
@@ -20,13 +18,15 @@ const tailLayout = {
   },
 };
 
-const CreateTokenForm= ({ appID, visible }) => {
+const CreateTokenForm = ({ appID, visible }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
-  const [token, setToken] = useState(''); 
+  const [token, setToken] = useState('');
 
-  if (!visible) {setToken('');}
+  if (!visible) {
+    setToken('');
+  }
 
   const onReset = () => {
     form.resetFields();
@@ -34,13 +34,12 @@ const CreateTokenForm= ({ appID, visible }) => {
 
   const onCreate = (values) => {
     dispatch(addToken(values, appID)).then((res) => {
-      setToken(res["secret_token"])
+      setToken(res['secret_token']);
     });
   };
 
-   
-
-  return !token ? (<Form
+  return !token ? (
+    <Form
       form={form}
       layout="vertical"
       name="create-token"
@@ -65,14 +64,16 @@ const CreateTokenForm= ({ appID, visible }) => {
       </Form.Item>
 
       <Form.Item name="description" label="Description">
-      <Input />
+        <Input />
       </Form.Item>
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
           Submit
-        </Button>      
+        </Button>
       </Form.Item>
-    </Form> ): (<Form
+    </Form>
+  ) : (
+    <Form
       form={form}
       name="create-token"
       layout="vertical"
@@ -93,10 +94,10 @@ const CreateTokenForm= ({ appID, visible }) => {
           { max: 50, message: 'Name must be maximum 50 characters.' },
         ]}
       >
-        <Input defaultValue={token}/>
-      </Form.Item> 
-      </Form> );
-  
+        <Input defaultValue={token} />
+      </Form.Item>
+    </Form>
+  );
 };
 
 export default CreateTokenForm;

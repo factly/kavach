@@ -9,25 +9,25 @@ import PageHeader from './index';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useLocation: jest.fn().mockReturnValue({ pathname: '/users'}),
+  useLocation: jest.fn().mockReturnValue({ pathname: '/users' }),
 }));
 
 describe('Page Header component', () => {
   describe('snapshot testing', () => {
-    it('should render component', ()  => {
+    it('should render component', () => {
       const tree = mount(
         <Router>
           <PageHeader />
-        </Router>
+        </Router>,
       );
       expect(tree).toMatchSnapshot();
     });
-    it('should render component with no route found', ()  => {
-      useLocation.mockReturnValue({ pathname: '/xyz'});
+    it('should render component with no route found', () => {
+      useLocation.mockReturnValue({ pathname: '/xyz' });
       const tree = mount(
         <Router>
           <PageHeader />
-        </Router>
+        </Router>,
       );
       expect(tree).toMatchSnapshot();
     });

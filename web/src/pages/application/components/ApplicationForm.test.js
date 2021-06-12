@@ -15,7 +15,7 @@ let onCreate, store;
 const data = {
   name: 'name',
   description: 'description',
-  url : 'url',
+  url: 'url',
 };
 
 describe('Application create form component', () => {
@@ -26,7 +26,7 @@ describe('Application create form component', () => {
       loading: true,
     },
     media: {
-      req : [],
+      req: [],
       details: {},
       loading: false,
     },
@@ -38,40 +38,40 @@ describe('Application create form component', () => {
         (values) => new Promise((resolve, reject) => resolve(values)),
       );
     });
-    it('should render the component', () =>  {
+    it('should render the component', () => {
       const tree = mount(
-          <Provider store={store}>
-            <ApplicationForm />
-          </Provider>,
-        );
+        <Provider store={store}>
+          <ApplicationForm />
+        </Provider>,
+      );
       expect(tree).toMatchSnapshot();
     });
     it('should render the component with empty data', () => {
       const tree = mount(
         <Provider store={store}>
-          <ApplicationForm data={[]}/>
-        </Provider>
+          <ApplicationForm data={[]} />
+        </Provider>,
       );
       expect(tree).toMatchSnapshot();
-    }); 
+    });
     it('should render the component with data', () => {
       const tree = mount(
         <Provider store={store}>
-          <ApplicationForm data={data} onCreate={onCreate}/>
-        </Provider>
+          <ApplicationForm data={data} onCreate={onCreate} />
+        </Provider>,
       );
       expect(tree).toMatchSnapshot();
-    }); 
+    });
   });
   describe('component testing', () => {
     let wrapper, props;
     beforeEach(() => {
       props = {
         onCreate: jest.fn(),
-        data: { 
+        data: {
           name: 'name',
           description: 'description',
-          url : 'url',
+          url: 'url',
         },
       };
       act(() => {
@@ -126,7 +126,7 @@ describe('Application create form component', () => {
           .find('FormItem')
           .at(0)
           .find('Input')
-          .simulate('change',{ target: { value: 'ApplicationName'}, });
+          .simulate('change', { target: { value: 'ApplicationName' } });
         wrapper
           .find('FormItem')
           .at(3)

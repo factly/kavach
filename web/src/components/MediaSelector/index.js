@@ -58,21 +58,23 @@ function MediaSelector({ value = null, onChange, profile }) {
             <Radio.Button value="upload">Upload</Radio.Button>
           </Radio.Group>
           {tab === 'list' ? (
-            <MediaList onSelect={setSelected} selected={selected} onUnselect={setValue}/>
+            <MediaList onSelect={setSelected} selected={selected} onUnselect={setValue} />
           ) : tab === 'upload' ? (
             <MediaUploader />
           ) : null}
         </Space>
       </Modal>
       <Space direction="vertical">
-        {medium ?  
-        (<img src={medium.url?.proxy} alt={medium.alt_text} width="100%" />) 
-        : 
-          profile ?  <Avatar shape="square" size={300} icon={<AntDesignOutlined />} />  : <ImagePlaceholder width={230}/>
-        }
+        {medium ? (
+          <img src={medium.url?.proxy} alt={medium.alt_text} width="100%" />
+        ) : profile ? (
+          <Avatar shape="square" size={300} icon={<AntDesignOutlined />} />
+        ) : (
+          <ImagePlaceholder width={230} />
+        )}
         <Button onClick={() => setShow(true)}> Select</Button>
       </Space>
-    </>      
+    </>
   );
 }
 

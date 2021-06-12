@@ -3,7 +3,7 @@ import {
   ADD_APPLICATIONS,
   ADD_APPLICATIONS_REQUEST,
   SET_APPLICATIONS_LOADING,
-  RESET_APPLICATIONS 
+  RESET_APPLICATIONS,
 } from '../constants/application';
 import deepEqual from 'deep-equal';
 
@@ -42,7 +42,7 @@ export default function application(state = initialState, action = {}) {
         ...state,
         details: {
           ...state.details,
-          ...action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item}), {}),
+          ...action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
         },
       };
     case ADD_APPLICATION:
@@ -54,6 +54,6 @@ export default function application(state = initialState, action = {}) {
         },
       };
     default:
-      return state;     
+      return state;
   }
 }

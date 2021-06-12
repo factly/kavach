@@ -115,13 +115,22 @@ describe('Header component', () => {
           navTheme: 'dark',
           title: 'Dega',
           sider: {
-              collapsed: true,
-            },
+            collapsed: true,
           },
+        },
         organisations: {
           ids: [1],
           details: {
-            1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' }, applications: [{ id: 1, name: 'Dega', url: 'http://1233434/1323'}, { id: 2, name: 'Bindu', url: 'http://1233434/454567'}] },
+            1: {
+              id: 1,
+              title: 'title',
+              description: 'description',
+              permission: { role: 'member' },
+              applications: [
+                { id: 1, name: 'Dega', url: 'http://1233434/1323' },
+                { id: 2, name: 'Bindu', url: 'http://1233434/454567' },
+              ],
+            },
           },
           loading: false,
           selected: 1,
@@ -145,13 +154,22 @@ describe('Header component', () => {
           navTheme: 'dark',
           title: 'Dega',
           sider: {
-              collapsed: true,
-            },
+            collapsed: true,
           },
+        },
         organisations: {
           ids: [1],
           details: {
-            1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' }, applications: [{ id: 1, name: 'Dega', url: 'http://1233434/1323'}, { id: 2, name: 'Bindu', url: 'http://1233434/454567'}] },
+            1: {
+              id: 1,
+              title: 'title',
+              description: 'description',
+              permission: { role: 'member' },
+              applications: [
+                { id: 1, name: 'Dega', url: 'http://1233434/1323' },
+                { id: 2, name: 'Bindu', url: 'http://1233434/454567' },
+              ],
+            },
           },
           loading: false,
           selected: 0,

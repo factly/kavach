@@ -13,31 +13,31 @@ import { addErrorNotification, addSuccessNotification } from './notifications';
 export const getApplications = () => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
-      return axios
-        .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications')
-        .then((response) => {
-          dispatch(
-            addMediaList(
-              response.data
-                .filter((application) => application.medium)
-                .map((application) => application.medium),
-            ),
-          );
-          dispatch(
-            addApplicationsList(
-              response.data.map((application) => {
-                return { ...application, medium: application.medium?.id };
-              }),
-            ),
-          );
-          dispatch(
-            addApplicationsRequest({
-              data: response.data.map((item) => item.id),
-             
-              total: response.data.total,
+    return axios
+      .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications')
+      .then((response) => {
+        dispatch(
+          addMediaList(
+            response.data
+              .filter((application) => application.medium)
+              .map((application) => application.medium),
+          ),
+        );
+        dispatch(
+          addApplicationsList(
+            response.data.map((application) => {
+              return { ...application, medium: application.medium?.id };
             }),
-          );
-          dispatch(stopApplicationLoading());  
+          ),
+        );
+        dispatch(
+          addApplicationsRequest({
+            data: response.data.map((item) => item.id),
+
+            total: response.data.total,
+          }),
+        );
+        dispatch(stopApplicationLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -48,31 +48,31 @@ export const getApplications = () => {
 export const addDefaultApplications = () => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
-      return axios
-        .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/default')
-        .then((response) => {
-          dispatch(
-            addMediaList(
-              response.data
-                .filter((application) => application.medium)
-                .map((application) => application.medium),
-            ),
-          );
-          dispatch(
-            addApplicationsList(
-              response.data.map((application) => {
-                return { ...application, medium: application.medium?.id };
-              }),
-            ),
-          );
-          dispatch(
-            addApplicationsRequest({
-              data: response.data.map((item) => item.id),
-              total: response.data.total,
+    return axios
+      .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/default')
+      .then((response) => {
+        dispatch(
+          addMediaList(
+            response.data
+              .filter((application) => application.medium)
+              .map((application) => application.medium),
+          ),
+        );
+        dispatch(
+          addApplicationsList(
+            response.data.map((application) => {
+              return { ...application, medium: application.medium?.id };
             }),
-          );
-          dispatch(stopApplicationLoading()); 
-          dispatch(addSuccessNotification('Factly Applications Added')) 
+          ),
+        );
+        dispatch(
+          addApplicationsRequest({
+            data: response.data.map((item) => item.id),
+            total: response.data.total,
+          }),
+        );
+        dispatch(stopApplicationLoading());
+        dispatch(addSuccessNotification('Factly Applications Added'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -86,9 +86,9 @@ export const getApplication = (id) => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then((response) => {
-        if( response.data.medium) dispatch(addMediaList([response.data.medium]));
-          dispatch(getApplicationByID({ ...response.data, medium: response.data.medium?.id }));
-          dispatch(stopApplicationLoading());
+        if (response.data.medium) dispatch(addMediaList([response.data.medium]));
+        dispatch(getApplicationByID({ ...response.data, medium: response.data.medium?.id }));
+        dispatch(stopApplicationLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -103,7 +103,7 @@ export const addApplication = (data) => {
       .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications', data)
       .then(() => {
         dispatch(resetApplications());
-        dispatch(addSuccessNotification('Application Added')) 
+        dispatch(addSuccessNotification('Application Added'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -115,16 +115,19 @@ export const updateApplication = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
-    .put(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + data.id, data)
-    .then((response) => {
-      if (response.data.medium) dispatch(addMediaList([response.data.medium]));
+      .put(
+        APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + data.id,
+        data,
+      )
+      .then((response) => {
+        if (response.data.medium) dispatch(addMediaList([response.data.medium]));
         dispatch(getApplicationByID({ ...response.data, medium: response.data.medium?.id }));
         dispatch(stopApplicationLoading());
-        dispatch(addSuccessNotification('Application Updated')) 
-    })
-    .catch((error) => {
-      dispatch(addErrorNotification(error.message));
-    });
+        dispatch(addSuccessNotification('Application Updated'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
   };
 };
 
@@ -135,7 +138,7 @@ export const deleteApplication = (id) => {
       .delete(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then(() => {
         dispatch(resetApplications());
-        dispatch(addSuccessNotification('Application Deleted')) 
+        dispatch(addSuccessNotification('Application Deleted'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -147,13 +150,15 @@ export const addApplications = (applications) => {
   return (dispatch) => {
     dispatch(
       addMediaList(
-        applications.filter((application) => application.medium).map((application) => application.medium),
+        applications
+          .filter((application) => application.medium)
+          .map((application) => application.medium),
       ),
     );
     dispatch(
       addApplicationsList(
         applications.map((application) => {
-          return { ...application, medium: application.medium?.id};
+          return { ...application, medium: application.medium?.id };
         }),
       ),
     );

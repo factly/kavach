@@ -22,4 +22,3 @@ export default function notificationsReducer(state = initialState, action = {}) 
       return state;
   }
 }
-

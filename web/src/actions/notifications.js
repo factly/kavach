@@ -1,4 +1,4 @@
-import  { ADD_NOTIFICATION } from '../constants/notifications';
+import { ADD_NOTIFICATION } from '../constants/notifications';
 
 export const addErrorNotification = (data) => ({
   type: ADD_NOTIFICATION,
@@ -17,4 +17,3 @@ export const addSuccessNotification = (data) => ({
     message: data,
   },
 });
-

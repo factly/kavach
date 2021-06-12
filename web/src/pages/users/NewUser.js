@@ -11,8 +11,8 @@ function NewUser() {
   const addNewUser = (values) => {
     dispatch(addUser(values)).then(() => {
       history.push('/users');
-    })
-  }
+    });
+  };
   const layout = {
     labelCol: {
       span: 6,
@@ -23,8 +23,8 @@ function NewUser() {
   };
   return (
     <div className="content">
-      <Card title="Add User" style={{ width: 450}} >
-        <Form 
+      <Card title="Add User" style={{ width: 450 }}>
+        <Form
           {...layout}
           form={form}
           name="add_user"
@@ -36,18 +36,14 @@ function NewUser() {
           <Form.Item
             name="first_name"
             label="First Name"
-            rules={[
-              { required: true, message: 'Please enter First Name!'}
-            ]}
+            rules={[{ required: true, message: 'Please enter First Name!' }]}
           >
             <Input placeholder="First Name" />
           </Form.Item>
           <Form.Item
             name="last_name"
             label="Last Name"
-            rules={[
-              { required: true, message: 'Please enter Last Name!'}
-            ]}
+            rules={[{ required: true, message: 'Please enter Last Name!' }]}
           >
             <Input placeholder="Last Name" />
           </Form.Item>
@@ -71,11 +67,11 @@ function NewUser() {
             <Button form="add_user" type="primary" htmlType="submit" block>
               Add
             </Button>
-          </Form.Item>    
+          </Form.Item>
         </Form>
-      </Card>  
+      </Card>
     </div>
-  )
+  );
 }
 
 export default NewUser;
