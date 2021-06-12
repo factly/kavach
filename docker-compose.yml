@@ -54,6 +54,42 @@ services:
       - ./companion/.env
 
   ###########################################################################
+  #######                        MINIO                                #######
+  ###########################################################################
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    volumes:
+      - ~/factly/kavach/minio/data:/export
+      - ~/factly/kavach/minio/config:/root/.minio
+    environment:
+      - MINIO_ACCESS_KEY=miniokey
+      - MINIO_SECRET_KEY=miniosecret
+    networks:
+      - kavach
+    command: server /export
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    volumes:
+      - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
+    networks:
+      - kavach
+    entrypoint: >
+      /bin/sh -c "
+      apk add --no-cache bash;
+      wait-for-it.sh minio:9000 -- echo 'Minio is up. Creating the bucket!!';
+      /usr/bin/mc config host add myminio http://minio:9000 miniokey miniosecret;
+      /usr/bin/mc mb myminio/dega;
+      /usr/bin/mc policy set download myminio/dega;
+      exit 0;
+      "
+
+
+  ###########################################################################
   #######             SMTP SERVICES                                 #######
   ###########################################################################
   mailslurper:
@@ -75,9 +111,6 @@ services:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
     volumes:
       - type: bind
-        source: ./kratos/sqlite
-        target: /home/ory/sqlite
-      - type: bind
         source: ./kratos/config
         target: /etc/config/kratos
     command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
@@ -95,9 +128,6 @@ services:
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
     volumes:
-      - type: bind
-        source: ./kratos/sqlite
-        target: /home/ory/sqlite
       - type: bind
         source: ./kratos/config
         target: /etc/config/kratos
