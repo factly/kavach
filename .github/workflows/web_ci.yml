@@ -33,15 +33,15 @@ jobs:
         working-directory: ${{env.working-directory}}
       - run: npm run format:check
         working-directory: ${{env.working-directory}}
-      - run: npm run test:coverage
-        working-directory: ${{env.working-directory}}
-        env:
-          CI: true
-      - name: Upload Test Coverage
-        uses: actions/upload-artifact@v1
-        with:
-          name: code-coverage
-          path: coverage
+      # - run: npm run test:coverage
+      #   working-directory: ${{env.working-directory}}
+      #   env:
+      #     CI: true
+      # - name: Upload Test Coverage
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: code-coverage
+      #     path: coverage
       - run: sed -i 's|SF:/home/runner/work/kavach/web/|SF:|g' coverage/lcov.info
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
