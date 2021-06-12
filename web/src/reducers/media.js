@@ -1,10 +1,10 @@
 import {
-    ADD_MEDIUM,
-    ADD_MEDIA,
-    ADD_MEDIA_REQUEST,
-    SET_MEDIA_LOADING,
-    RESET_MEDIA,
-  } from '../constants/media';
+  ADD_MEDIUM,
+  ADD_MEDIA,
+  ADD_MEDIA_REQUEST,
+  SET_MEDIA_LOADING,
+  RESET_MEDIA,
+} from '../constants/media';
 import deepEqual from 'deep-equal';
 
 const initialState = {

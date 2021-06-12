@@ -6,7 +6,6 @@ import { getUsers, deleteUser } from '../../actions/users';
 import { Link } from 'react-router-dom';
 
 function OrganisationUsers() {
-
   const dispatch = useDispatch();
 
   const { organisation, users, loading } = useSelector((state) => {
@@ -76,15 +75,13 @@ function OrganisationUsers() {
   return (
     <Space direction="vertical">
       {organisation.permission.role === 'owner' ? (
-         <Link key="1" to="/users/new">
-         <Button>
-           Add User
-         </Button>
-       </Link>
+        <Link key="1" to="/users/new">
+          <Button>Add User</Button>
+        </Link>
       ) : null}
       <Table
         bordered
-        style={{width:'78vw'}}
+        style={{ width: '78vw' }}
         rowKey={'id'}
         loading={loading}
         pagination={false}

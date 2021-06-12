@@ -135,11 +135,8 @@ describe('Organisations index component', () => {
         .find('FormItem')
         .at(0)
         .find('Input')
-        .simulate('change',{ target: { value: 'title'}});
-      modal
-        .find('Button')
-        .at(1)
-        .simulate('click'); 
+        .simulate('change', { target: { value: 'title' } });
+      modal.find('Button').at(1).simulate('click');
 
       wrapper.update();
 
@@ -161,11 +158,8 @@ describe('Organisations index component', () => {
         .find('FormItem')
         .at(0)
         .find('Input')
-        .simulate('change',{ target: { value: 'abc'}});
-      modal
-        .find('Button')
-        .at(1)
-        .simulate('click'); 
+        .simulate('change', { target: { value: 'abc' } });
+      modal.find('Button').at(1).simulate('click');
       wrapper.update();
 
       setTimeout(() => {
@@ -184,12 +178,9 @@ describe('Organisations index component', () => {
         .find('FormItem')
         .at(0)
         .find('Input')
-        .simulate('change',{ target: { value: 'title'}});
-      expect(modal.find('Button').at(0).simulate('click').text()).toBe('Cancel');  
-      modal
-        .find('Button')
-        .at(0)
-        .simulate('click'); 
+        .simulate('change', { target: { value: 'title' } });
+      expect(modal.find('Button').at(0).simulate('click').text()).toBe('Cancel');
+      modal.find('Button').at(0).simulate('click');
 
       wrapper.update();
       expect(modal.props().visible).toBe(true);

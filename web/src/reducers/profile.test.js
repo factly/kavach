@@ -13,11 +13,11 @@ describe('profile reducer', () => {
   it('should return the state for default case', () => {
     expect(
       reducer({
-        details: { 1: { id: 1, email: 'abc@gmail.com', first_name: 'abc'} },
+        details: { 1: { id: 1, email: 'abc@gmail.com', first_name: 'abc' } },
         loading: false,
       }),
     ).toEqual({
-      details: { 1: { id: 1, email: 'abc@gmail.com', first_name: 'abc'} },
+      details: { 1: { id: 1, email: 'abc@gmail.com', first_name: 'abc' } },
       loading: false,
     });
   });
@@ -45,10 +45,10 @@ describe('profile reducer', () => {
     expect(
       reducer(initialState, {
         type: types.ADD_PROFILE,
-        payload: { id: 1, email: 'abc@gmail.com', first_name: 'abc'},
+        payload: { id: 1, email: 'abc@gmail.com', first_name: 'abc' },
       }),
     ).toEqual({
-      details: { id: 1, email: 'abc@gmail.com', first_name: 'abc'},
+      details: { id: 1, email: 'abc@gmail.com', first_name: 'abc' },
       loading: true,
     });
   });
@@ -57,18 +57,22 @@ describe('profile reducer', () => {
       reducer(
         {
           details: {
-            id: 1, email: 'abc@gmail.com', first_name: 'abc',
+            id: 1,
+            email: 'abc@gmail.com',
+            first_name: 'abc',
           },
           loading: false,
         },
         {
           type: types.ADD_PROFILE,
-          payload: { id: 1, email: 'querty@gmail.com', first_name: 'abc'},
+          payload: { id: 1, email: 'querty@gmail.com', first_name: 'abc' },
         },
       ),
     ).toEqual({
       details: {
-        id: 1, email: 'querty@gmail.com', first_name: 'abc',
+        id: 1,
+        email: 'querty@gmail.com',
+        first_name: 'abc',
       },
       loading: false,
     });

@@ -15,7 +15,7 @@ const initialState = {
   loading: true,
 };
 
-describe('profile actions' ,() => {
+describe('profile actions', () => {
   let store;
   beforeEach(() => {
     store = mockStore({ initialState });
@@ -35,7 +35,7 @@ describe('profile actions' ,() => {
     expect(actions.stopProfileLoading()).toEqual(stopLoadingAction);
   });
   it('should create an action to ADD_PROFILE', () => {
-    const data = { id: 1, email: 'abc@gmail.com', first_name: 'abc'};
+    const data = { id: 1, email: 'abc@gmail.com', first_name: 'abc' };
     const addProfileAction = {
       type: types.ADD_PROFILE,
       payload: data,
@@ -43,7 +43,7 @@ describe('profile actions' ,() => {
     expect(actions.getProfile(data)).toEqual(addProfileAction);
   });
   it('should create actions to fetch user profile success', () => {
-    const profile = { id: 1, email: 'abc@gmail.com', first_name: 'abc'};
+    const profile = { id: 1, email: 'abc@gmail.com', first_name: 'abc' };
     const resp = { data: profile };
     axios.get.mockResolvedValue(resp);
 
@@ -54,7 +54,7 @@ describe('profile actions' ,() => {
       },
       {
         type: types.ADD_PROFILE,
-        payload: { id: 1, email: 'abc@gmail.com', first_name: 'abc'},
+        payload: { id: 1, email: 'abc@gmail.com', first_name: 'abc' },
       },
       {
         type: types.SET_PROFILE_LOADING,
@@ -90,7 +90,7 @@ describe('profile actions' ,() => {
     expect(axios.get).toHaveBeenCalledWith(types.PROFILE_API);
   });
   it('should create actions to update profile success', () => {
-    const profile = { id: 1, email: 'abc@gmail.com', first_name: 'abc'};
+    const profile = { id: 1, email: 'abc@gmail.com', first_name: 'abc' };
     const resp = { data: profile };
     axios.put.mockResolvedValue(resp);
 
@@ -101,7 +101,7 @@ describe('profile actions' ,() => {
       },
       {
         type: types.ADD_PROFILE,
-        payload: { id: 1, email: 'abc@gmail.com', first_name: 'abc'},
+        payload: { id: 1, email: 'abc@gmail.com', first_name: 'abc' },
       },
       {
         type: types.SET_PROFILE_LOADING,
@@ -122,7 +122,7 @@ describe('profile actions' ,() => {
     expect(axios.put).toHaveBeenCalledWith(types.PROFILE_API, profile);
   });
   it('should create actions to update profile failure', () => {
-    const profile = { id: 1, email: 'abc@gmail.com', first_name: 'abc'};
+    const profile = { id: 1, email: 'abc@gmail.com', first_name: 'abc' };
     const errorMessage = 'Unable to update profile';
     axios.put.mockRejectedValue(new Error(errorMessage));
 

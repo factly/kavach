@@ -7,5 +7,6 @@
 **Other:** [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=ncloc)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=factly_kavach-web) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=factly_kavach-web&metric=coverage)](https://sonarcloud.io/dashboard?id=factly_kavach-web)
 
 ## URLs
-* **Login Page** : `http://127.0.0.1:4455/.factly/kavach/web/auth/login`
-* **Registration Page** : `http://127.0.0.1:4455/.factly/kavach/web/auth/registration`
+
+- **Login Page** : `http://127.0.0.1:4455/.factly/kavach/web/auth/login`
+- **Registration Page** : `http://127.0.0.1:4455/.factly/kavach/web/auth/registration`

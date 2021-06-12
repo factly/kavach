@@ -1,13 +1,19 @@
-name: CI
+name: Web CI
 on:
   pull_request:
     branches: [develop, master]
+    paths:
+    - web/**
   push:
     branches: [develop, master]
+    paths:
+    - web/**
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./web
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,8 +30,11 @@ jobs:
         with:
           node-version: '14.x'
       - run: npm ci
+        working-directory: ${{env.working-directory}}
       - run: npm run format:check
+        working-directory: ${{env.working-directory}}
       - run: npm run test:coverage
+        working-directory: ${{env.working-directory}}
         env:
           CI: true
       - name: Upload Test Coverage
@@ -33,9 +42,11 @@ jobs:
         with:
           name: code-coverage
           path: coverage
-      - run: sed -i 's|SF:/home/runner/work/kavach-web/kavach-web/|SF:|g' coverage/lcov.info
+      - run: sed -i 's|SF:/home/runner/work/kavach/web/|SF:|g' coverage/lcov.info
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: ./web
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

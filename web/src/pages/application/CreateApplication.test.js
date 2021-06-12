@@ -51,8 +51,8 @@ describe('Application Create component', () => {
     it('should render the component', () => {
       const tree = mount(
         <Provider store={store}>
-            <CreateApplication />
-          </Provider>,
+          <CreateApplication />
+        </Provider>,
       );
       expect(tree).toMatchSnapshot();
     });

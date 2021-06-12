@@ -18,7 +18,7 @@ function OrganisationSelector() {
   };
   const getInitial = (title) => {
     return title.charAt(0);
-  }
+  };
 
   return (
     <Select
@@ -29,11 +29,11 @@ function OrganisationSelector() {
     >
       {organisations.map((organisation) => (
         <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
-          {organisation.medium ? 
-          <Avatar size="small" src={organisation.medium.url.raw}/> 
-          : <Avatar size="small" >{getInitial(organisation.title)}</Avatar>
-          }
-          {' '}
+          {organisation.medium ? (
+            <Avatar size="small" src={organisation.medium.url.raw} />
+          ) : (
+            <Avatar size="small">{getInitial(organisation.title)}</Avatar>
+          )}{' '}
           {organisation.title}
         </Select.Option>
       ))}

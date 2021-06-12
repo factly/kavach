@@ -82,16 +82,17 @@ function Password() {
           <Form.Item
             name="confirmPassword"
             dependencies={['password']}
-            rules={[{ required: true, message: 'Please re-enter your Password!' },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if(getFieldValue('password') !== value) {
-                  return Promise.reject('Password do no match!');
-                }
+            rules={[
+              { required: true, message: 'Please re-enter your Password!' },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (getFieldValue('password') !== value) {
+                    return Promise.reject('Password do no match!');
+                  }
                   return Promise.resolve();
-              }
-            })
-          ]}
+                },
+              }),
+            ]}
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}

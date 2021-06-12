@@ -8,7 +8,7 @@ import { ADD_MEDIA } from '../constants/media';
 import { ADD_NOTIFICATION } from '../constants/notifications';
 
 const middlewares = [thunk];
-const mockStore  = configureMockStore(middlewares);
+const mockStore = configureMockStore(middlewares);
 jest.mock('axios');
 
 const initialState = {
@@ -20,8 +20,8 @@ const initialState = {
 describe('Application actions', () => {
   let store;
   beforeEach(() => {
-    store = mockStore({ 
-      application: initialState, 
+    store = mockStore({
+      application: initialState,
       organisations: {
         ids: [1],
         details: { 1: { id: 1, name: 'organisation' } },
@@ -64,7 +64,7 @@ describe('Application actions', () => {
     expect(actions.getApplicationByID(data)).toEqual(addApplicationAction);
   });
   it('should create an action to add application request', () => {
-    const data = [{ query : 'query' }];
+    const data = [{ query: 'query' }];
     const addApplicationRequestAction = {
       type: types.ADD_APPLICATIONS_REQUEST,
       payload: data,
@@ -78,7 +78,7 @@ describe('Application actions', () => {
     expect(actions.resetApplications()).toEqual(resetApplicationsAction);
   });
   it('should create actions to fetch applications success', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const applications = [{ id: 1, name: 'Application 1', medium }];
     const resp = { data: applications };
     axios.get.mockResolvedValue(resp);
@@ -108,7 +108,7 @@ describe('Application actions', () => {
     store
       .dispatch(actions.getApplications())
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');  
+    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');
   });
   it('should create actions to fetch applications failure', () => {
     const errorMessage = 'Unable to fetch';
@@ -126,15 +126,15 @@ describe('Application actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.getApplications())
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');  
+    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');
   });
   it('should create actions to addDefaultApplications success', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const applications = [{ id: 2, name: 'Default Application', medium }];
     const resp = { data: applications };
     axios.post.mockResolvedValue(resp);
@@ -172,7 +172,9 @@ describe('Application actions', () => {
     store
       .dispatch(actions.addDefaultApplications())
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.post).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications/default');  
+    expect(axios.post).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications/default',
+    );
   });
   it('should create actions to addDefaultApplications failure', () => {
     const errorMessage = 'Unable to add default applications';
@@ -190,15 +192,17 @@ describe('Application actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.addDefaultApplications())
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.post).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications/default');  
+    expect(axios.post).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications/default',
+    );
   });
   it('should create action to getApplication success', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const application = { id: 1, name: 'Application 1', medium };
     const resp = { data: application };
     axios.get.mockResolvedValue(resp);
@@ -220,9 +224,10 @@ describe('Application actions', () => {
         payload: false,
       },
     ];
-    store.dispatch(actions.getApplication(1))
-    .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1/applications/'+ 1);
+    store
+      .dispatch(actions.getApplication(1))
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create action to getApplication failure', () => {
     const errorMessage = 'Unable to get application';
@@ -239,14 +244,15 @@ describe('Application actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
-    store.dispatch(actions.getApplication(1))
-    .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1/applications/'+ 1);
+    store
+      .dispatch(actions.getApplication(1))
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create action to getApplication without medium success', () => {
-    const application = { id: 1, name: 'Application 1'};
+    const application = { id: 1, name: 'Application 1' };
     const resp = { data: application };
     axios.get.mockResolvedValue(resp);
     const expectedActions = [
@@ -263,12 +269,13 @@ describe('Application actions', () => {
         payload: false,
       },
     ];
-    store.dispatch(actions.getApplication(1))
-    .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1/applications/'+ 1);
+    store
+      .dispatch(actions.getApplication(1))
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create actions to create application success', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const application = { id: 1, name: 'Application 1', medium };
     const resp = { data: application };
     axios.post.mockResolvedValueOnce(resp);
@@ -293,10 +300,13 @@ describe('Application actions', () => {
     store
       .dispatch(actions.addApplication(application))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.post).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications',application);
+    expect(axios.post).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications',
+      application,
+    );
   });
   it('should create actions to create application failure', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const application = { id: 1, name: 'Application 1', medium };
     const errorMessage = 'Unable to create application';
     axios.post.mockRejectedValueOnce(new Error(errorMessage));
@@ -313,15 +323,18 @@ describe('Application actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.addApplication(application))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.post).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications',application);
+    expect(axios.post).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications',
+      application,
+    );
   });
   it('should create actions to update application success', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const application = { id: 1, name: 'Application 1', medium };
     const resp = { data: application };
     axios.put.mockResolvedValueOnce(resp);
@@ -355,10 +368,13 @@ describe('Application actions', () => {
     store
       .dispatch(actions.updateApplication(application))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.put).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications/'+1,application);
+    expect(axios.put).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications/' + 1,
+      application,
+    );
   });
   it('should create actions to update application failure', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const application = { id: 1, name: 'Application 1', medium };
     const errorMessage = 'Unable to update application';
     axios.put.mockRejectedValueOnce(new Error(errorMessage));
@@ -375,15 +391,18 @@ describe('Application actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.updateApplication(application))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.put).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications/'+1,application);
+    expect(axios.put).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications/' + 1,
+      application,
+    );
   });
   it('should create actions to update application without medium success', () => {
-    const application = { id: 1, name: 'Application 1'};
+    const application = { id: 1, name: 'Application 1' };
     const resp = { data: application };
     axios.put.mockResolvedValueOnce(resp);
 
@@ -394,7 +413,7 @@ describe('Application actions', () => {
       },
       {
         type: types.ADD_APPLICATION,
-        payload: { id: 1, name: 'Application 1'},
+        payload: { id: 1, name: 'Application 1' },
       },
       {
         type: types.SET_APPLICATIONS_LOADING,
@@ -412,7 +431,10 @@ describe('Application actions', () => {
     store
       .dispatch(actions.updateApplication(application))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.put).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications/'+1,application);
+    expect(axios.put).toHaveBeenCalledWith(
+      types.APPLICATIONS_API + '/1' + '/applications/' + 1,
+      application,
+    );
   });
   it('should create actions to delete application success', () => {
     axios.delete.mockResolvedValueOnce();
@@ -437,7 +459,7 @@ describe('Application actions', () => {
     store
       .dispatch(actions.deleteApplication(1))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.delete).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications/'+1);
+    expect(axios.delete).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications/' + 1);
   });
   it('should create actions to delete application failure', () => {
     const errorMessage = 'Unable to get application';
@@ -455,15 +477,15 @@ describe('Application actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.deleteApplication(1))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.delete).toHaveBeenCalledWith(types.APPLICATIONS_API+'/1'+'/applications/'+1);
+    expect(axios.delete).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications/' + 1);
   });
   it('should create action to addApplication list', () => {
-    const medium = { id: 1, medium: 'Medium' };    
+    const medium = { id: 1, medium: 'Medium' };
     const applications = [{ id: 1, name: 'Application 1', medium }];
     const expectedActions = [
       {

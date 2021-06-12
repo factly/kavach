@@ -13,11 +13,19 @@ export const addToken = (data, appID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .post(ORGANISATIONS_API + '/' + getState().organisations.selected + '/applications/' + appID + '/tokens', data)
+      .post(
+        ORGANISATIONS_API +
+          '/' +
+          getState().organisations.selected +
+          '/applications/' +
+          appID +
+          '/tokens',
+        data,
+      )
       .then((res) => {
         dispatch(resetTokens());
-        dispatch(addSuccessNotification('Token Added')) 
-        return res.data
+        dispatch(addSuccessNotification('Token Added'));
+        return res.data;
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -29,17 +37,24 @@ export const deleteToken = (id, appID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .delete(ORGANISATIONS_API + '/' + getState().organisations.selected + '/applications/' + appID + '/tokens/' + id)
+      .delete(
+        ORGANISATIONS_API +
+          '/' +
+          getState().organisations.selected +
+          '/applications/' +
+          appID +
+          '/tokens/' +
+          id,
+      )
       .then(() => {
         dispatch(resetTokens());
-        dispatch(addSuccessNotification('Token Deleted')) 
+        dispatch(addSuccessNotification('Token Deleted'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       });
   };
 };
-
 
 export const loadingTokens = () => ({
   type: SET_TOKENS_LOADING,

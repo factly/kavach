@@ -38,21 +38,21 @@ let state = {
       },
     ],
     details: {
-      '1': {
+      1: {
         id: 1,
         created_at: '2020-09-09T06:49:36.566567Z',
         updated_at: '2020-09-09T06:49:36.566567Z',
         name: 'Application1',
         description: 'description',
-        url : 'url1',
+        url: 'url1',
       },
-      '2': {
+      2: {
         id: 2,
         created_at: '2020-09-09T06:49:54.027402Z',
         updated_at: '2020-09-09T06:49:54.027402Z',
         name: 'Application2',
         description: 'description',
-        url : 'url2',
+        url: 'url2',
       },
     },
     loading: false,
@@ -192,4 +192,4 @@ describe('Application List component', () => {
       expect(button.length).toEqual(0);
     });
   });
-}); 
+});

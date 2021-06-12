@@ -38,12 +38,12 @@ describe('Profiles index component', () => {
 
   describe('snapshot testing', () => {
     it('should render the component', () => {
-      store=mockStore({
-        profile : {
+      store = mockStore({
+        profile: {
           details: {},
         },
         media: {
-          req : [],
+          req: [],
           details: {},
           loading: false,
         },
@@ -51,14 +51,14 @@ describe('Profiles index component', () => {
       const tree = mount(
         <Provider store={store}>
           <Profile />
-        </Provider>
-      );  
+        </Provider>,
+      );
       expect(tree).toMatchSnapshot();
     });
     it('should render the component with data', () => {
       store = mockStore({
         profile: {
-          details: { 
+          details: {
             id: '1',
             first_name: 'abc',
             last_name: 'xyz',
@@ -77,16 +77,16 @@ describe('Profiles index component', () => {
           loading: false,
         },
         media: {
-          req : [],
+          req: [],
           details: {},
           loading: false,
         },
       });
       const tree = mount(
-          <Provider store={store}>
-            <Profile />
-          </Provider>
-        );  
+        <Provider store={store}>
+          <Profile />
+        </Provider>,
+      );
       expect(tree).toMatchSnapshot();
       expect(getUserProfile).toHaveBeenCalled();
     });
@@ -94,7 +94,7 @@ describe('Profiles index component', () => {
   describe('component testing', () => {
     store = mockStore({
       profile: {
-        details: { 
+        details: {
           id: '1',
           first_name: 'abc',
           last_name: 'xyz',
@@ -113,13 +113,13 @@ describe('Profiles index component', () => {
         loading: false,
       },
       media: {
-        req : [],
+        req: [],
         details: {},
         loading: false,
       },
     });
     let wrapper;
-    beforeEach(() =>  {
+    beforeEach(() => {
       act(() => {
         wrapper = mount(
           <Provider store={store}>
@@ -137,17 +137,17 @@ describe('Profiles index component', () => {
           .find('FormItem')
           .at(0)
           .find('Input')
-          .simulate('change', { target: { value: 'firstname'}});
+          .simulate('change', { target: { value: 'firstname' } });
         wrapper
           .find('FormItem')
           .at(1)
           .find('Input')
-          .simulate('change', { target: { value: 'lastname'}});
+          .simulate('change', { target: { value: 'lastname' } });
         wrapper
           .find('FormItem')
           .at(2)
           .find('Input')
-          .simulate('change', { target: { value: 'new Display Name' }});
+          .simulate('change', { target: { value: 'new Display Name' } });
         wrapper
           .find('FormItem')
           .at(4)
@@ -161,15 +161,15 @@ describe('Profiles index component', () => {
           .find(Radio.Group)
           .at(0)
           .props()
-          .onChange({ target: { value: 'male' } });  
+          .onChange({ target: { value: 'male' } });
 
         const updateButtom = wrapper.find('Button').at(1);
         expect(updateButtom.text()).toBe('Update');
-        updateButtom.simulate('submit');  
+        updateButtom.simulate('submit');
       });
-      
+
       wrapper.update();
-     
+
       setTimeout(() => {
         expect(getUserProfile).toHaveBeenCalled();
         expect(updateProfile).toHaveBeenCalledTimes(1);
@@ -189,7 +189,6 @@ describe('Profiles index component', () => {
           description: 'Description',
           featured_medium_id: undefined,
           gender: 'male',
-
         });
         done();
       });

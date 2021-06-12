@@ -7,7 +7,7 @@ import { mount } from 'enzyme';
 
 import '../../matchMedia.mock';
 import Application from './index';
-import * as actions from '../../actions/application'
+import * as actions from '../../actions/application';
 import { act } from 'react-dom/test-utils';
 
 const middlewares = [thunk];
@@ -42,13 +42,13 @@ describe('Application component', () => {
   describe('snapshot testing', () => {
     it('should render the component', () => {
       store = mockStore({
-        application:  {
+        application: {
           req: [],
           details: {},
           loading: false,
-        }
+        },
       });
-      const tree  = mount(
+      const tree = mount(
         <Provider store={store}>
           <Router>
             <Application />
@@ -70,21 +70,21 @@ describe('Application component', () => {
             },
           ],
           details: {
-            '1': {
+            1: {
               id: 1,
               created_at: '2020-09-09T06:49:36.566567Z',
               updated_at: '2020-09-09T06:49:36.566567Z',
               name: 'Application1',
               description: 'description',
-              url : 'url1',
+              url: 'url1',
             },
-            '2': {
+            2: {
               id: 2,
               created_at: '2020-09-09T06:49:54.027402Z',
               updated_at: '2020-09-09T06:49:54.027402Z',
               name: 'Application2',
               description: 'description',
-              url : 'url2',
+              url: 'url2',
             },
           },
           loading: false,
@@ -95,7 +95,7 @@ describe('Application component', () => {
           loading: true,
         },
       });
-      const tree  = mount(
+      const tree = mount(
         <Provider store={store}>
           <Router>
             <Application />
@@ -110,13 +110,13 @@ describe('Application component', () => {
     it('should add default applications', (done) => {
       mockedDispatch = jest.fn(() => Promise.resolve({}));
       useDispatch.mockReturnValue(mockedDispatch);
-    
+
       store = mockStore({
-        application:  {
+        application: {
           req: [
             {
               data: [],
-            }
+            },
           ],
           details: {},
           loading: false,
@@ -137,7 +137,7 @@ describe('Application component', () => {
       setTimeout(() => {
         expect(actions.addDefaultApplications).toHaveBeenCalled();
         done();
-      },0);
+      }, 0);
     });
   });
 });

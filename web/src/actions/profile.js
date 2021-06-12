@@ -6,16 +6,16 @@ export const getUserProfile = () => {
   return (dispatch, getState) => {
     dispatch(loadingProfile());
     return axios
-    .get(PROFILE_API)
-    .then((response) => {
-      dispatch(getProfile(response.data));
-      dispatch(stopProfileLoading());
-    })
-    .catch((error) => {
-      dispatch(addErrorNotification(error.message));
-    })
-  }
-}
+      .get(PROFILE_API)
+      .then((response) => {
+        dispatch(getProfile(response.data));
+        dispatch(stopProfileLoading());
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
+  };
+};
 export const updateProfile = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingProfile());
@@ -28,9 +28,9 @@ export const updateProfile = (data) => {
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
-      })
-    }
-}
+      });
+  };
+};
 
 export const loadingProfile = () => ({
   type: SET_PROFILE_LOADING,
@@ -46,4 +46,3 @@ export const getProfile = (data) => ({
   type: ADD_PROFILE,
   payload: data,
 });
-

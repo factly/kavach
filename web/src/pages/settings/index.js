@@ -1,4 +1,4 @@
-import React , { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input, Space, Divider, Modal, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -19,12 +19,11 @@ function OrganisationEdit() {
     setIsModalVisible(true);
   };
   const handleOk = () => {
-    if( organisation.title === form.getFieldValue('organisationName')) {
+    if (organisation.title === form.getFieldValue('organisationName')) {
       onConfirmDeleteOrganisation();
       setIsModalVisible(false);
-    }
-    else {
-      message.error('Entered wrong organisation name!')
+    } else {
+      message.error('Entered wrong organisation name!');
       setIsModalVisible(true);
     }
   };
@@ -33,11 +32,11 @@ function OrganisationEdit() {
   };
 
   const onConfirmDeleteOrganisation = () => {
-    dispatch(deleteOrganisation(organisation.id)).then(() => { 
+    dispatch(deleteOrganisation(organisation.id)).then(() => {
       history.push('/organisation');
       window.location.reload();
     });
-  }
+  };
 
   const { organisation, selected } = useSelector((state) => {
     return {
@@ -69,10 +68,10 @@ function OrganisationEdit() {
         }}
       >
         <Form.Item name="title" label="Title">
-          <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)}/>
+          <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
         </Form.Item>
-        <Form.Item 
-          name="slug" 
+        <Form.Item
+          name="slug"
           label="Slug"
           rules={[
             {
@@ -86,7 +85,7 @@ function OrganisationEdit() {
           ]}
         >
           <Input placeholder="Slug"></Input>
-      </Form.Item>
+        </Form.Item>
         <Form.Item name="description" label="Description">
           <Input.TextArea placeholder="Description" />
         </Form.Item>
@@ -102,16 +101,11 @@ function OrganisationEdit() {
       <Divider style={{ color: 'red' }} orientation="left">
         Danger zone
       </Divider>
-      <Button onClick={showModal}>
-        Delete
-      </Button>
+      <Button onClick={showModal}>Delete</Button>
       <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <h3>Delete Organisation</h3>
-        <Form
-          form={form}
-          name="organisation_delete"
-        >
-          <Form.Item name="organisationName" >
+        <Form form={form} name="organisation_delete">
+          <Form.Item name="organisationName">
             <Input placeholder="Organisation Name" />
           </Form.Item>
         </Form>

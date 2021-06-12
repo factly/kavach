@@ -23,7 +23,7 @@ const tailLayout = {
 function Profile() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const[valueChange, setValueChange] = React.useState(false);
+  const [valueChange, setValueChange] = React.useState(false);
 
   const { profile, loading } = useSelector((state) => {
     return {
@@ -48,11 +48,11 @@ function Profile() {
       slug: maker(string),
     });
   };
-  console.log('profile',profile);
+  console.log('profile', profile);
 
   return (
     <div className="content">
-      <Card title="Update Profile"  loading={loading}>
+      <Card title="Update Profile" loading={loading}>
         <Form
           {...layout}
           form={form}
@@ -66,82 +66,85 @@ function Profile() {
             setValueChange(true);
           }}
         >
-          <div style={{float:"right",height:600,width:600}}> 
-          <Form.Item name="featured_medium_id">
-            <MediaSelector profile={true}/>
-          </Form.Item>
+          <div style={{ float: 'right', height: 600, width: 600 }}>
+            <Form.Item name="featured_medium_id">
+              <MediaSelector profile={true} />
+            </Form.Item>
           </div>
-          <div style={{float:"left",width:500}}>
-          <Form.Item
-            label="First Name"
-            name="first_name"
-            rules={[{ required: true, message: 'Please input your first name!' }]}
-          >
-            <Input placeholder="First Name" />
-          </Form.Item>
-          <Form.Item
-            label="Last Name"
-            name="last_name"
-            rules={[{ required: true, message: 'Please input your last name!' }]}
-          >
-            <Input placeholder="Last name" />
-          </Form.Item>
-          <Form.Item 
-            name="display_name" 
-            label="Display Name"
-          >
-            <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
-          </Form.Item>
-          <Form.Item
-            label="Slug"
-            name="slug"
-            rules={[
-              {
-                required: true,
-                message: 'Please input the slug!',
-              },
-              {
-                pattern: checker,
-                message: 'Please enter valid slug!',
-              },
-            ]}
-          >
-            <Input placeholder="slug" />
-          </Form.Item>
+          <div style={{ float: 'left', width: 500 }}>
+            <Form.Item
+              label="First Name"
+              name="first_name"
+              rules={[{ required: true, message: 'Please input your first name!' }]}
+            >
+              <Input placeholder="First Name" />
+            </Form.Item>
+            <Form.Item
+              label="Last Name"
+              name="last_name"
+              rules={[{ required: true, message: 'Please input your last name!' }]}
+            >
+              <Input placeholder="Last name" />
+            </Form.Item>
+            <Form.Item name="display_name" label="Display Name">
+              <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
+            </Form.Item>
+            <Form.Item
+              label="Slug"
+              name="slug"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the slug!',
+                },
+                {
+                  pattern: checker,
+                  message: 'Please enter valid slug!',
+                },
+              ]}
+            >
+              <Input placeholder="slug" />
+            </Form.Item>
             <Form.Item
               label="Birthdate"
               name="birth_date"
               rules={[{ type: 'object', required: true, message: 'Please select time!' }]}
             >
               <DatePicker />
-          </Form.Item>
-          <Form.Item label="Gender" name="gender">
-            <Radio.Group>
-              <Radio.Button value="male">Male</Radio.Button>
-              <Radio.Button value="female">Female</Radio.Button>
-              <Radio.Button value="other">Other</Radio.Button>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item label="Facebook Url" name={['social_media_urls', 'facebook']}>
-            <Input placeholder="Facebook url" />
-          </Form.Item>
-          <Form.Item label="Twitter Url" name={['social_media_urls', 'twitter']}>
-            <Input placeholder="Twitter url" />
-          </Form.Item>
-          <Form.Item label="LinkedIn Url" name={['social_media_urls', 'linkedin']}>
-            <Input placeholder="LinkedIn url" />
-          </Form.Item>
-          <Form.Item label="Instagram Url" name={['social_media_urls', 'instagram']}>
-            <Input placeholder="Instagram url" />
-          </Form.Item>
-          <Form.Item label="Description" name="description">
-            <Input.TextArea placeholder="Description" autoSize={{ minRows: 2, maxRows: 6 }} />
-          </Form.Item>
-          <Form.Item {...tailLayout}>
-            <Button disabled={!valueChange} form="update_profile" type="primary" htmlType="submit" block>
-              Update
-            </Button>
-          </Form.Item>
+            </Form.Item>
+            <Form.Item label="Gender" name="gender">
+              <Radio.Group>
+                <Radio.Button value="male">Male</Radio.Button>
+                <Radio.Button value="female">Female</Radio.Button>
+                <Radio.Button value="other">Other</Radio.Button>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item label="Facebook Url" name={['social_media_urls', 'facebook']}>
+              <Input placeholder="Facebook url" />
+            </Form.Item>
+            <Form.Item label="Twitter Url" name={['social_media_urls', 'twitter']}>
+              <Input placeholder="Twitter url" />
+            </Form.Item>
+            <Form.Item label="LinkedIn Url" name={['social_media_urls', 'linkedin']}>
+              <Input placeholder="LinkedIn url" />
+            </Form.Item>
+            <Form.Item label="Instagram Url" name={['social_media_urls', 'instagram']}>
+              <Input placeholder="Instagram url" />
+            </Form.Item>
+            <Form.Item label="Description" name="description">
+              <Input.TextArea placeholder="Description" autoSize={{ minRows: 2, maxRows: 6 }} />
+            </Form.Item>
+            <Form.Item {...tailLayout}>
+              <Button
+                disabled={!valueChange}
+                form="update_profile"
+                type="primary"
+                htmlType="submit"
+                block
+              >
+                Update
+              </Button>
+            </Form.Item>
           </div>
         </Form>
       </Card>

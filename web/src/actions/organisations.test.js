@@ -261,7 +261,7 @@ describe('organisations actions', () => {
   });
   it('should create actions to update organisation failure', () => {
     const organisation = { id: 1, name: 'Organisation' };
-    const errorMessage = 'Failed to update organisation'
+    const errorMessage = 'Failed to update organisation';
     axios.put.mockRejectedValueOnce(new Error(errorMessage));
 
     const expectedActions = [

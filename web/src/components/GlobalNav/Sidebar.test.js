@@ -52,9 +52,9 @@ describe('Sidebar component', () => {
         <Provider store={store}>
           <Router>
             <Sidebar />
-           </Router>
-          </Provider>,
-        );
+          </Router>
+        </Provider>,
+      );
       expect(tree).toMatchSnapshot();
     });
   });

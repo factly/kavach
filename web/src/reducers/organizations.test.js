@@ -171,7 +171,7 @@ describe('organisations reducer', () => {
         2: { id: 2, name: 'new organisation' },
       },
       loading: false,
-      selected: 2
+      selected: 2,
     });
   });
 });

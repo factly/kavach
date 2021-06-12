@@ -42,7 +42,7 @@ describe('Organisations index component', () => {
         component = mount(
           <Provider store={store}>
             <OrganisationCreate />
-          </Provider>  
+          </Provider>,
         );
       });
       expect(component).toMatchSnapshot();
@@ -57,11 +57,11 @@ describe('Organisations index component', () => {
         selected: 1,
       },
       media: {
-        req : [],
+        req: [],
         details: {},
         loading: false,
       },
-    })
+    });
 
     let wrapper;
     beforeEach(() => {
@@ -69,7 +69,7 @@ describe('Organisations index component', () => {
         wrapper = mount(
           <Provider store={store}>
             <OrganisationCreate />
-          </Provider>
+          </Provider>,
         );
       });
     });

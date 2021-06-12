@@ -21,7 +21,7 @@ function GetApplication() {
 
   if (loading && !application) return <Skeleton />;
 
-  return <ApplicationDetail data={application}  />;
+  return <ApplicationDetail data={application} />;
 }
 
 export default GetApplication;

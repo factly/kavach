@@ -30,8 +30,8 @@ function OrganisationCreate() {
       <Form.Item name="title" label="Title">
         <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
       </Form.Item>
-      <Form.Item 
-        name="slug" 
+      <Form.Item
+        name="slug"
         label="Slug"
         rules={[
           {

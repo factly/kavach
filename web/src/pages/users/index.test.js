@@ -5,7 +5,7 @@ import { act } from '@testing-library/react';
 import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { Popconfirm,Table } from 'antd';
+import { Popconfirm, Table } from 'antd';
 
 import '../../matchMedia.mock';
 import OrganisationUsers from './index';
@@ -54,7 +54,7 @@ describe('Users index component', () => {
       selected: 1,
     },
     users: {
-      ids: [1,2],
+      ids: [1, 2],
       details: {
         1: {
           id: 1,
@@ -109,7 +109,6 @@ describe('Users index component', () => {
       });
       expect(component).toMatchSnapshot();
       expect(component.find('Button').at(0).text()).not.toBe('Add User');
-
     });
   });
   describe('component testing for owner', () => {

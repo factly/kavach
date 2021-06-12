@@ -77,7 +77,7 @@ function MediaList({ onSelect, selected, onUnselect }) {
                   style={{ fontSize: '2.5rem', position: 'absolute', top: 8, right: 8 }}
                 />
               </div>
-              ) : (
+            ) : (
               <Avatar
                 onClick={() => onSelect(item)}
                 shape="square"
@@ -93,4 +93,3 @@ function MediaList({ onSelect, selected, onUnselect }) {
 }
 
 export default MediaList;
-

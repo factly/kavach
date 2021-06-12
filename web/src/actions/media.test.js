@@ -37,8 +37,8 @@ describe('media actions', () => {
   });
   it('should create an action to add media list', () => {
     const data = [
-      { id: 1, medium: 'Medium 1' }, 
-      { id: 2, medium: 'Medium 2' }, 
+      { id: 1, medium: 'Medium 1' },
+      { id: 2, medium: 'Medium 2' },
     ];
     const addMediasAction = {
       type: types.ADD_MEDIA,
@@ -61,7 +61,7 @@ describe('media actions', () => {
     expect(actions.getMediumByID(data)).toEqual(addMediumAction);
   });
   it('should create an action to add media request', () => {
-    const data = [{ query : 'query' }];
+    const data = [{ query: 'query' }];
     const addMediaRequestAction = {
       type: types.ADD_MEDIA_REQUEST,
       payload: data,
@@ -69,7 +69,7 @@ describe('media actions', () => {
     expect(actions.addMediaRequest(data)).toEqual(addMediaRequestAction);
   });
   it('should create actions to to fetch media success', () => {
-    const query = { page: 1, limit: 5};
+    const query = { page: 1, limit: 5 };
     const media = [{ id: 1, medium: 'Medium' }];
     const resp = { data: { nodes: media, total: 1 } };
     axios.get.mockResolvedValue(resp);
@@ -88,7 +88,7 @@ describe('media actions', () => {
           data: [1],
           total: 1,
           query: query,
-        }
+        },
       },
       {
         type: types.SET_MEDIA_LOADING,
@@ -103,7 +103,7 @@ describe('media actions', () => {
     });
   });
   it('should create actions to to fetch media failure', () => {
-    const query = { page: 1, limit: 5};
+    const query = { page: 1, limit: 5 };
     const errorMessage = 'Unable to fetch';
     axios.get.mockRejectedValue(new Error(errorMessage));
     const expectedActions = [
@@ -118,7 +118,7 @@ describe('media actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.getMedia(query))
@@ -165,7 +165,7 @@ describe('media actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.getMedium(1))
@@ -195,7 +195,7 @@ describe('media actions', () => {
     store
       .dispatch(actions.addMedium(medium))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.post).toHaveBeenCalledWith(types.MEDIA_API,medium);
+    expect(axios.post).toHaveBeenCalledWith(types.MEDIA_API, medium);
   });
   it('should create actions to addMedium failure', () => {
     const medium = { id: 1, medium: 'Medium' };
@@ -213,16 +213,16 @@ describe('media actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.addMedium(medium))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.post).toHaveBeenCalledWith(types.MEDIA_API,medium);
+    expect(axios.post).toHaveBeenCalledWith(types.MEDIA_API, medium);
   });
   it('should create actions to updateMedium success', () => {
     const medium = { id: 1, medium: 'Medium' };
-    const resp = { data : medium }
+    const resp = { data: medium };
     axios.put.mockResolvedValue(resp);
     const expectedActions = [
       {
@@ -267,7 +267,7 @@ describe('media actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.updateMedium(medium))
@@ -313,7 +313,7 @@ describe('media actions', () => {
           title: 'Error',
           message: errorMessage,
         },
-      },  
+      },
     ];
     store
       .dispatch(actions.deleteMedium(1))
@@ -331,4 +331,4 @@ describe('media actions', () => {
     store.dispatch(actions.addMedia(media));
     expect(store.getActions()).toEqual(expectedActions);
   });
-})
+});

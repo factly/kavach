@@ -13,9 +13,7 @@ const mockStore = configureMockStore(middlewares);
 describe('Account Menu component', () => {
   it('should render the component', () => {
     let store = mockStore({});
-    let component = shallow(
-      <AccountMenu />
-    );
+    let component = shallow(<AccountMenu />);
     expect(component).toMatchSnapshot();
   });
 });
