@@ -42,7 +42,7 @@ jobs:
       #   with:
       #     name: code-coverage
       #     path: coverage
-      - run: sed -i 's|SF:/home/runner/work/kavach/web/|SF:|g' coverage/lcov.info
+      # - run: sed -i 's|SF:/home/runner/work/kavach/web/|SF:|g' coverage/lcov.info
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@master
         with:
