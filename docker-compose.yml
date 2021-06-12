@@ -1,0 +1,214 @@
+version: "3.7"
+
+services:
+  ###########################################################################
+  #######             DB SERVICES                                     #######
+  ###########################################################################
+  postgres:
+    image: postgres:11.7-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg-init-scripts:/docker-entrypoint-initdb.d
+      - ~/factly/kavach/postgresql:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=kratos,keto,kavach
+    networks:
+      - kavach
+
+  ###########################################################################
+  #######                         IMGPROXY                            #######
+  ###########################################################################
+  imgproxy:
+    image: darthsim/imgproxy:v2.15.0
+    ports:
+      - 8080:8080
+    environment:
+      - IMGPROXY_BASE_URL=http://minio:9000/
+      - IMGPROXY_TTL=31536000
+    networks:
+      - kavach
+
+  nginx:
+    image: nginx:1.19.0-alpine
+    ports:
+      - 7001:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    restart: unless-stopped
+    depends_on:
+      - imgproxy
+    networks:
+      - kavach
+
+  ###########################################################################
+  #######             UPLOAD SERVICES                                 #######
+  ###########################################################################
+  companion:
+    image: transloadit/companion
+    ports:
+      - "3020:3020"
+    env_file:
+      - ./companion/.env
+
+  ###########################################################################
+  #######             SMTP SERVICES                                 #######
+  ###########################################################################
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    ports:
+      - "4436:4436"
+      - "4437:4437"
+    networks:
+      - kavach
+
+  ###########################################################################
+  #######             KRATOS, KETO AND OATHKEEPER                     #######
+  ###########################################################################
+  kratos-migrate:
+    depends_on:
+      - postgres
+    image: oryd/kratos:v0.5.0-alpha.1-sqlite
+    environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+    volumes:
+      - type: bind
+        source: ./kratos/sqlite
+        target: /home/ory/sqlite
+      - type: bind
+        source: ./kratos/config
+        target: /etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+    networks:
+      - kavach
+
+  kratos:
+    depends_on:
+      - kratos-migrate
+    image: oryd/kratos:v0.5.0-alpha.1-sqlite
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+    volumes:
+      - type: bind
+        source: ./kratos/sqlite
+        target: /home/ory/sqlite
+      - type: bind
+        source: ./kratos/config
+        target: /etc/config/kratos
+    command: serve -c /etc/config/kratos/kratos.yml --dev
+    restart: unless-stopped
+    networks:
+      - kavach
+
+  keto-migrate:
+    image: oryd/keto:v0.5.7
+    environment:
+      - LOG_LEVEL=debug
+    depends_on:
+      - postgres
+    command: migrate sql postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+    restart: on-failure
+    networks:
+      - kavach
+
+  keto:
+    image: oryd/keto:v0.5.7
+    ports:
+      - "4466:4466"
+    depends_on:
+      - keto-migrate
+    environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+    networks:
+      - kavach
+
+  oathkeeper:
+    image: oryd/oathkeeper:latest-alpine
+    depends_on:
+      - kratos
+    ports:
+      - "4455:4455"
+      - "4456:4456"
+    environment:
+      - LOG_LEVEL=debug
+    volumes:
+      - type: bind
+        source: ./oathkeeper
+        target: /etc/config/oathkeeper
+    command: serve proxy -c "/etc/config/oathkeeper/.oathkeeper.yml"
+    restart: on-failure
+    networks:
+      - kavach
+
+  ###########################################################################
+  #######             KAVACH                                          #######
+  ###########################################################################
+  kavach-server:
+    depends_on:
+      - postgres
+      - keto
+      - kratos
+      - kavach-migrate
+    ports:
+      - 5000:8000
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    environment:
+      - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
+    volumes:
+      - type: bind
+        source: ./server
+        target: /app
+      - type: bind
+        source: ./config.env
+        target: /app/config.env
+    restart: unless-stopped
+    networks:
+      - kavach
+  
+  kavach-migrate:
+    depends_on:
+      - postgres
+      - keto
+      - kratos
+    build:
+      context: ./server
+      dockerfile: Dockerfile.migrate
+    environment:
+      - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
+    volumes:
+      - type: bind
+        source: ./server
+        target: /app
+      - type: bind
+        source: ./config.env
+        target: /app/config.env
+    networks:
+      - kavach
+
+  kavach-web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    environment:
+      - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web
+      - REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio
+      - REACT_APP_BINDU_PUBLIC_URL=http://127.0.0.1:4455/.factly/bindu/studio
+    volumes:
+      - type: bind
+        source: ./web
+        target: /app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - kavach
+
+networks:
+    kavach:

@@ -139,7 +139,6 @@ fabric.properties
 n
 
 # env
-.env
 /tmp
 main
 
