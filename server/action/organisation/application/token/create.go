@@ -1,9 +1,6 @@
 package token
 
 import (
-	"crypto/md5"
-	"crypto/rand"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -131,14 +128,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	accessToken := GenerateIDToken(32)
-	token, hash := GenerateSecretToken(fmt.Sprint(accessToken, ":", result.ID, ":", result.Slug, ":", identity))
+	token := GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", identity))
 
 	err = model.DB.Create(&model.ApplicationToken{
 		Name:          appTok.Name,
 		Description:   appTok.Description,
-		AccessToken:   accessToken,
-		HashedToken:   hash,
+		Token:         token,
 		ApplicationID: &result.ID,
 	}).Error
 	if err != nil {
@@ -148,30 +143,18 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := map[string]interface{}{
-		"secret_token": token,
-		"access_token": accessToken,
+		"token": token,
 	}
 
 	renderx.JSON(w, http.StatusCreated, response)
 }
 
-// GenerateIDToken generated ID token for application
-func GenerateIDToken(length int) string {
-	b := make([]byte, length)
-	if _, err := rand.Read(b); err != nil {
-		return ""
-	}
-	return hex.EncodeToString(b)
-}
-
 // GenerateSecretToken generates secret token for application
-func GenerateSecretToken(str string) (string, string) {
+func GenerateSecretToken(str string) string {
 	hash, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	hasher := md5.New()
-	_, _ = hasher.Write(hash)
-	return string(hash), hex.EncodeToString(hasher.Sum(nil))
+	return string(hash)
 }
