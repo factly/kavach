@@ -1,33 +1,13 @@
-import React, { useState } from 'react';
-import { Form, Input, Button, Descriptions, Table, Popconfirm, Typography, Modal } from 'antd';
+import React from 'react';
+import { Button, Descriptions, Table, Popconfirm, Typography, Modal } from 'antd';
 import { deleteToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import CreateTokenForm from '../token/CreateTokenForm';
 
-const { TextArea } = Input;
-
-const layout = {
-  labelCol: {
-    span: 7,
-  },
-  wrapperCol: {
-    span: 12,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 10,
-    span: 14,
-  },
-};
-
-const ApplicationDetail = ({ data = {} }) => {
-  const [visible, setVisible] = useState(false);
+const ApplicationDetail = ({ data = {}, visible, setVisible }) => {
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
-
   const history = useHistory();
 
   const columns = [
@@ -38,9 +18,9 @@ const ApplicationDetail = ({ data = {} }) => {
       width: '15%',
     },
     {
-      title: 'Acess Token',
-      dataIndex: 'access_token',
-      key: 'access_token',
+      title: 'Api Token',
+      dataIndex: 'token',
+      key: 'token',
       width: '15%',
     },
     {
@@ -102,7 +82,7 @@ const ApplicationDetail = ({ data = {} }) => {
           </Button>,
         ]}
       >
-        <CreateTokenForm appID={data.id} visible={visible} />
+        <CreateTokenForm appID={data.id} setVisible={setVisible} />
       </Modal>
     </>
   );
