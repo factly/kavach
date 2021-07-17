@@ -18,86 +18,52 @@ const tailLayout = {
   },
 };
 
-const CreateTokenForm = ({ appID, visible }) => {
+const CreateTokenForm = ({ appID, setVisible }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-
-  const [token, setToken] = useState('');
-
-  if (!visible) {
-    setToken('');
-  }
 
   const onReset = () => {
     form.resetFields();
   };
 
   const onCreate = (values) => {
-    dispatch(addToken(values, appID)).then((res) => {
-      setToken(res['secret_token']);
-    });
+    dispatch(addToken(values, appID)).then(() => setVisible(false))
   };
 
-  return !token ? (
-    <Form
-      form={form}
-      layout="vertical"
-      name="create-token"
-      onFinish={(values) => {
-        onCreate(values);
-        onReset();
-      }}
+  return <Form
+    form={form}
+    layout="vertical"
+    name="create-token"
+    onFinish={(values) => {
+      onCreate(values);
+      onReset();
+    }}
+  >
+    <Form.Item
+      name="name"
+      label="Name"
+      rules={[
+        {
+          required: true,
+          message: 'Please enter the name!',
+        },
+        { min: 3, message: 'Name must be minimum 3 characters.' },
+        { max: 50, message: 'Name must be maximum 50 characters.' },
+      ]}
     >
-      <Form.Item
-        name="name"
-        label="Name"
-        rules={[
-          {
-            required: true,
-            message: 'Please enter the name!',
-          },
-          { min: 3, message: 'Name must be minimum 3 characters.' },
-          { max: 50, message: 'Name must be maximum 50 characters.' },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      <Input />
+    </Form.Item>
 
-      <Form.Item name="description" label="Description">
-        <Input />
-      </Form.Item>
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  ) : (
-    <Form
-      form={form}
-      name="create-token"
-      layout="vertical"
-      onFinish={(values) => {
-        onCreate(values);
-        onReset();
-      }}
-    >
-      <Form.Item
-        extra="Make sure to secure key in secure place. And we will not be able to show it again."
-        label="Secret Key"
-        rules={[
-          {
-            required: true,
-            message: 'Please enter the name!',
-          },
-          { min: 3, message: 'Name must be minimum 3 characters.' },
-          { max: 50, message: 'Name must be maximum 50 characters.' },
-        ]}
-      >
-        <Input defaultValue={token} />
-      </Form.Item>
-    </Form>
-  );
+    <Form.Item name="description" label="Description">
+      <Input />
+    </Form.Item>
+    <Form.Item {...tailLayout}>
+      <Button type="primary" htmlType="submit">
+        Submit
+      </Button>
+    </Form.Item>
+  </Form>
+
 };
 
 export default CreateTokenForm;
