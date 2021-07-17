@@ -142,8 +142,14 @@ n
 /tmp
 main
 
+server/config.*
+
+!server/config.env.example
+
 #companion
 companion
+
+
 
 # logs
 *.log
