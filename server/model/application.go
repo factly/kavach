@@ -27,8 +27,7 @@ type ApplicationToken struct {
 	Description   string       `gorm:"column:description" json:"description"`
 	ApplicationID *uint        `gorm:"column:application_id" json:"application_id"`
 	Application   *Application `gorm:"foreignKey:application_id" json:"application"`
-	AccessToken   string       `gorm:"column:access_token" json:"access_token,omitempty"`
-	HashedToken   string       `gorm:"column:hashed_token" json:"-"`
+	Token         string       `gorm:"column:token" json:"token"`
 }
 
 var applicationUserKey ContextKey = "application_user"

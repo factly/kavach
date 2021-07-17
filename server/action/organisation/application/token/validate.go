@@ -1,8 +1,6 @@
 package token
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -18,8 +16,7 @@ import (
 
 // ValidationBody request body
 type ValidationBody struct {
-	SecretToken string `json:"secret_token" validate:"required"`
-	AccessToken string `json:"access_token" validate:"required"`
+	Token string `json:"token" validate:"required"`
 }
 
 // Validate - validate application token
@@ -64,7 +61,7 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 	appToken := model.ApplicationToken{}
 	// Fetch all tokens for a application
 	err = model.DB.Model(&model.ApplicationToken{}).Preload("Application").Where(&model.ApplicationToken{
-		AccessToken: tokenBody.AccessToken,
+		Token: tokenBody.Token,
 	}).First(&appToken).Error
 
 	if err != nil || appToken.Application.Slug != appSlug || appToken.Application.OrganisationID != uint(orgID) {
@@ -73,19 +70,9 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ValidateSecretToken(tokenBody.SecretToken, appToken.HashedToken) {
+	if tokenBody.Token == appToken.Token {
 		renderx.JSON(w, http.StatusOK, map[string]interface{}{"valid": true})
 	} else {
 		renderx.JSON(w, http.StatusUnauthorized, map[string]interface{}{"valid": false})
 	}
-}
-
-// ValidateSecretToken validates the given secretToken with storedToken
-func ValidateSecretToken(secretToken, storedToken string) bool {
-	hasher := md5.New()
-	_, _ = hasher.Write([]byte(secretToken))
-
-	hashedSecret := hex.EncodeToString(hasher.Sum(nil))
-
-	return hashedSecret == storedToken
 }
