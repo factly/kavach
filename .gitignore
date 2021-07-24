@@ -147,13 +147,12 @@ server/config.*
 !server/config.env.example
 
 #companion
-companion
-
-
+*.env
 
 # logs
 *.log
 
-config.*
+config.js
+config.env
 coverage
 *.db
