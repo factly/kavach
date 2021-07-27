@@ -199,6 +199,9 @@ services:
       - type: bind
         source: ./config.env
         target: /app/config.env
+      - type: bind
+        source: ./kavach.db
+        target: /app/kavach.db
     restart: unless-stopped
     networks:
       - kavach
@@ -220,6 +223,9 @@ services:
       - type: bind
         source: ./config.env
         target: /app/config.env
+      - type: bind
+        source: ./kavach.db
+        target: /app/kavach.db
     networks:
       - kavach
 
