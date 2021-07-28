@@ -36,10 +36,13 @@ function PageHeader() {
             const route = _.find(routes, { path: generatedReferenceURL });
             if (route) {
               const entityId = pathSnippets[index - 1];
-              return {
-                path: route.path,
-                breadcrumbName: state[entity].details[entityId].name,
-              };
+              if (!state[entity].details[pathSnippets[index - 1]]) {
+                return null;
+              } else
+                return {
+                  path: route.path,
+                  breadcrumbName: state[entity].details[entityId]?.name,
+                };
             }
           }
         } else {
