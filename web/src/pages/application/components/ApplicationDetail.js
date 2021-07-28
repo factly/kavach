@@ -6,7 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
 import CreateTokenForm from '../token/CreateTokenForm';
 
-const ApplicationDetail = ({ data = {}, visible, setVisible }) => {
+const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -61,7 +61,7 @@ const ApplicationDetail = ({ data = {}, visible, setVisible }) => {
         onCancel={() => setVisible(false)}
         footer={null}
       >
-        <CreateTokenForm appID={data.id} setVisible={setVisible} />
+        <CreateTokenForm appID={data.id} setVisible={setVisible} setTokenFlag={setTokenFlag} />
       </Modal>
     </>
   );

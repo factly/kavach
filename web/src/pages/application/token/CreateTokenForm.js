@@ -17,7 +17,7 @@ const tailLayout = {
   },
 };
 
-const CreateTokenForm = ({ appID, setVisible }) => {
+const CreateTokenForm = ({ appID, setVisible, setTokenFlag }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { TextArea } = Input;
@@ -27,7 +27,10 @@ const CreateTokenForm = ({ appID, setVisible }) => {
   };
 
   const onCreate = (values) => {
-    dispatch(addToken(values, appID)).then(() => setVisible(false));
+    dispatch(addToken(values, appID)).then(() => {
+      setVisible(false);
+      setTokenFlag(true);
+    });
   };
 
   return (
