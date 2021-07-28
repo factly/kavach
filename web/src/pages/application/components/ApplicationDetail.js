@@ -48,17 +48,6 @@ const ApplicationDetail = ({ data = {}, visible, setVisible }) => {
 
   return (
     <>
-      <Descriptions bordered={true}>
-        <Descriptions.Item label="Name">{data.name}</Descriptions.Item>
-        <Descriptions.Item label="Slug">{data.slug}</Descriptions.Item>
-        <Descriptions.Item label="Organisation Id">{data.organisation_id}</Descriptions.Item>
-        <Descriptions.Item label="Users">0</Descriptions.Item>
-        <Descriptions.Item label="URL">{data.url}</Descriptions.Item>
-      </Descriptions>
-
-      <div style={{ marginTop: 20 }}>
-        <Typography.Title level={5}>Tokens</Typography.Title>
-      </div>
       <Table bordered columns={columns} dataSource={data.tokens} rowKey={'id'} pagination={false} />
 
       <Button style={{ marginTop: 5 }} onClick={() => setVisible(true)}>
@@ -67,20 +56,10 @@ const ApplicationDetail = ({ data = {}, visible, setVisible }) => {
 
       <Modal
         visible={visible}
-        title="Generate Api key"
+        title="Create New API Token"
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
-        footer={[
-          <Button
-            key="back"
-            onClick={() => {
-              setVisible(false);
-              history.go(0);
-            }}
-          >
-            Return
-          </Button>,
-        ]}
+        footer={null}
       >
         <CreateTokenForm appID={data.id} setVisible={setVisible} />
       </Modal>
