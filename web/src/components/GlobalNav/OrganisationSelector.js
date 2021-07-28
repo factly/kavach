@@ -30,7 +30,7 @@ function OrganisationSelector() {
       {organisations.map((organisation) => (
         <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
           {organisation.medium ? (
-            <Avatar size="small" src={organisation.medium.url.raw} />
+            <Avatar size="small" src={organisation.medium.url.proxy} />
           ) : (
             <Avatar size="small">{getInitial(organisation.title)}</Avatar>
           )}{' '}
