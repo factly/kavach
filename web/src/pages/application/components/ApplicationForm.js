@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Input, Space, Button } from 'antd';
 import MediaSelector from '../../../components/MediaSelector';
 import { checker, maker } from '../../../utils/sluger';
-import GetApplication from '../GetApplication';
 const { TextArea } = Input;
 
 const layout = {
@@ -91,9 +90,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
         ]}
       >
         <Input />
-      </Form.Item>
-      <Form.Item label="Token">
-        <GetApplication />
       </Form.Item>
       <Form.Item {...tailLayout}>
         <Space>
