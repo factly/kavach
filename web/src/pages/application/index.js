@@ -8,7 +8,7 @@ function Application() {
   const dispatch = useDispatch();
   const { application } = useSelector((state) => {
     return {
-      application: state.application.req[0],
+      application: state.applications.req[0],
     };
   });
 

@@ -11,8 +11,8 @@ function GetApplication() {
   const [visible, setVisible] = useState(false);
   const { application, loading } = useSelector((state) => {
     return {
-      application: state.application.details[id] ? state.application.details[id] : null,
-      loading: state.application.loading,
+      application: state.applications.details[id] ? state.applications.details[id] : null,
+      loading: state.applications.loading,
     };
   });
 
