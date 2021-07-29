@@ -33,12 +33,12 @@ function EditApplication() {
   };
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <Collapse>
+      <Collapse defaultActiveKey="1">
         <Panel header="Application Details" key="1">
           <ApplicationEditForm data={application} onCreate={onUpdate} />
         </Panel>
       </Collapse>
-      <Collapse>
+      <Collapse defaultActiveKey="2">
         <Panel header="Tokens" key="2">
           <GetApplication setTokenFlag={setTokenFlag} data={application} />
         </Panel>
