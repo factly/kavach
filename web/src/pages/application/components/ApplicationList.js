@@ -14,15 +14,15 @@ function ApplicationList() {
   });
 
   const { applications, loading, total } = useSelector((state) => {
-    const node = state.application.req[0];
+    const node = state.applications.req[0];
 
     if (node)
       return {
-        applications: node.data.map((element) => state.application.details[element]),
-        loading: state.application.loading,
+        applications: node.data.map((element) => state.applications.details[element]),
+        loading: state.applications.loading,
         total: node.total,
       };
-    return { applications: [], loading: state.application.loading, total: 0 };
+    return { applications: [], loading: state.applications.loading, total: 0 };
   });
 
   React.useEffect(() => {
@@ -40,9 +40,6 @@ function ApplicationList() {
       dataIndex: 'name',
       key: 'name',
       width: '15%',
-      render: (_, record) => {
-        return <Link to={`/applications/${record.id}/detail`}>{record.name}</Link>;
-      },
     },
     {
       title: 'Slug',

@@ -1,28 +1,17 @@
 import React, { useState } from 'react';
 import ApplicationDetail from './components/ApplicationDetail';
-import { useDispatch, useSelector } from 'react-redux';
-import { Skeleton } from 'antd';
-import { getApplication } from '../../actions/application';
-import { useParams } from 'react-router-dom';
 
-function GetApplication() {
-  const { id } = useParams();
-  const dispatch = useDispatch();
+function GetApplication({ data, setTokenFlag }) {
   const [visible, setVisible] = useState(false);
-  const { application, loading } = useSelector((state) => {
-    return {
-      application: state.application.details[id] ? state.application.details[id] : null,
-      loading: state.application.loading,
-    };
-  });
 
-  React.useEffect(() => {
-    dispatch(getApplication(id));
-  }, [dispatch, id, visible]);
-
-  if (loading && !application) return <Skeleton />;
-
-  return <ApplicationDetail data={application} visible={visible} setVisible={setVisible} />;
+  return (
+    <ApplicationDetail
+      data={data}
+      visible={visible}
+      setVisible={setVisible}
+      setTokenFlag={setTokenFlag}
+    />
+  );
 }
 
 export default GetApplication;

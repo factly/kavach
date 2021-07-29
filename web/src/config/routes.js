@@ -74,7 +74,7 @@ export default [
     Component: CreateApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
-    title: 'Create Application',
+    title: 'New Application',
   },
   {
     path: '/applications/:id/edit',
