@@ -1,0 +1,43 @@
+project_name: kavach
+
+builds:
+- id: kavach-server
+  dir: server
+  binary: kavach-server
+  env:
+  - CGO_ENABLED=0
+  - GO386=softfloat
+  goos:
+  - linux
+  - darwin
+  - windows
+
+archives:
+  - id: kavach-server
+    builds:
+      - kavach-server 
+    name_template: "kavach-server_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+dockers:
+- dockerfile: server/Dockerfile.prod
+  image_templates:
+    - "factly/kavach-server:{{ .Tag }}"
+  use: docker
+  build_flag_templates:
+  - "--platform=linux/amd64"
+
+docker_manifests:
+  - 
+    image_templates:
+    - "factly/kavach-server:{{ .Version }}"
+
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
