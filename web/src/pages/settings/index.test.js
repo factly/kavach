@@ -44,6 +44,11 @@ describe('Organisations index component', () => {
         loading: false,
         selected: 1,
       },
+      media: {
+        req: [],
+        details: {},
+        loading: false,
+      },
     });
     const mockedDispatch = jest.fn();
     mockedDispatch.mockReturnValue(Promise.resolve());
@@ -127,9 +132,13 @@ describe('Organisations index component', () => {
     it('should call deleteOrganisation', (done) => {
       const push = jest.fn();
       useHistory.mockReturnValueOnce({ push });
-      const deleteButtom = wrapper.find('Button').at(1);
-      deleteButtom.simulate('click');
-      const modal = wrapper.find('Modal');
+      act(() => {
+        const deleteButtom = wrapper.find('Button').at(2);
+        expect(deleteButtom.text()).toBe('Delete');
+        deleteButtom.simulate('click');
+      });
+      wrapper.update();
+      const modal = wrapper.find('Modal').at(1);
       expect(modal.props().visible).toBe(true);
       modal
         .find('FormItem')
@@ -150,9 +159,13 @@ describe('Organisations index component', () => {
     it('should call deleteOrganisation with incorrect organisation name', (done) => {
       const push = jest.fn();
       useHistory.mockReturnValueOnce({ push });
-      const deleteButtom = wrapper.find('Button').at(1);
-      deleteButtom.simulate('click');
-      const modal = wrapper.find('Modal');
+      act(() => {
+        const deleteButtom = wrapper.find('Button').at(2);
+        expect(deleteButtom.text()).toBe('Delete');
+        deleteButtom.simulate('click');
+      });
+      wrapper.update();
+      const modal = wrapper.find('Modal').at(1);
       expect(modal.props().visible).toBe(true);
       modal
         .find('FormItem')
@@ -170,9 +183,13 @@ describe('Organisations index component', () => {
     it('should handle cancel for modal', () => {
       const push = jest.fn();
       useHistory.mockReturnValueOnce({ push });
-      const deleteButtom = wrapper.find('Button').at(1);
-      deleteButtom.simulate('click');
-      let modal = wrapper.find('Modal');
+      act(() => {
+        const deleteButtom = wrapper.find('Button').at(2);
+        expect(deleteButtom.text()).toBe('Delete');
+        deleteButtom.simulate('click');
+      });
+      wrapper.update();
+      let modal = wrapper.find('Modal').at(1);
       expect(modal.props().visible).toBe(true);
       modal
         .find('FormItem')
