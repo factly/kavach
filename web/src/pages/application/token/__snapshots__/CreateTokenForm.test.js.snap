@@ -1,0 +1,676 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Token form component snapshot testing should render the component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [MockFunction],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <CreateTokenForm>
+    <ForwardRef(InternalForm)
+      form={
+        Object {
+          "__INTERNAL__": Object {
+            "itemRef": [Function],
+            "name": "create-token",
+          },
+          "getFieldError": [Function],
+          "getFieldInstance": [Function],
+          "getFieldValue": [Function],
+          "getFieldsError": [Function],
+          "getFieldsValue": [Function],
+          "getInternalHooks": [Function],
+          "isFieldTouched": [Function],
+          "isFieldValidating": [Function],
+          "isFieldsTouched": [Function],
+          "isFieldsValidating": [Function],
+          "resetFields": [Function],
+          "scrollToField": [Function],
+          "setFields": [Function],
+          "setFieldsValue": [Function],
+          "submit": [Function],
+          "validateFields": [Function],
+        }
+      }
+      layout="vertical"
+      name="create-token"
+      onFinish={[Function]}
+    >
+      <SizeContextProvider>
+        <ForwardRef(Form)
+          className="ant-form ant-form-vertical"
+          form={
+            Object {
+              "__INTERNAL__": Object {
+                "itemRef": [Function],
+                "name": "create-token",
+              },
+              "getFieldError": [Function],
+              "getFieldInstance": [Function],
+              "getFieldValue": [Function],
+              "getFieldsError": [Function],
+              "getFieldsValue": [Function],
+              "getInternalHooks": [Function],
+              "isFieldTouched": [Function],
+              "isFieldValidating": [Function],
+              "isFieldsTouched": [Function],
+              "isFieldsValidating": [Function],
+              "resetFields": [Function],
+              "scrollToField": [Function],
+              "setFields": [Function],
+              "setFieldsValue": [Function],
+              "submit": [Function],
+              "validateFields": [Function],
+            }
+          }
+          id="create-token"
+          name="create-token"
+          onFinish={[Function]}
+          onFinishFailed={[Function]}
+        >
+          <form
+            className="ant-form ant-form-vertical"
+            id="create-token"
+            onSubmit={[Function]}
+          >
+            <FormItem
+              label="Name"
+              name="name"
+              rules={
+                Array [
+                  Object {
+                    "message": "Please enter the name!",
+                    "required": true,
+                  },
+                  Object {
+                    "message": "Name must be minimum 3 characters.",
+                    "min": 3,
+                  },
+                  Object {
+                    "max": 50,
+                    "message": "Name must be maximum 50 characters.",
+                  },
+                ]
+              }
+            >
+              <WrapperField
+                label="Name"
+                messageVariables={
+                  Object {
+                    "label": "Name",
+                  }
+                }
+                name="name"
+                onReset={[Function]}
+                rules={
+                  Array [
+                    Object {
+                      "message": "Please enter the name!",
+                      "required": true,
+                    },
+                    Object {
+                      "message": "Name must be minimum 3 characters.",
+                      "min": 3,
+                    },
+                    Object {
+                      "max": 50,
+                      "message": "Name must be maximum 50 characters.",
+                    },
+                  ]
+                }
+                trigger="onChange"
+                validateTrigger="onChange"
+              >
+                <Field
+                  fieldContext={
+                    Object {
+                      "__INTERNAL__": Object {
+                        "itemRef": [Function],
+                        "name": "create-token",
+                      },
+                      "getFieldError": [Function],
+                      "getFieldInstance": [Function],
+                      "getFieldValue": [Function],
+                      "getFieldsError": [Function],
+                      "getFieldsValue": [Function],
+                      "getInternalHooks": [Function],
+                      "isFieldTouched": [Function],
+                      "isFieldValidating": [Function],
+                      "isFieldsTouched": [Function],
+                      "isFieldsValidating": [Function],
+                      "resetFields": [Function],
+                      "scrollToField": [Function],
+                      "setFields": [Function],
+                      "setFieldsValue": [Function],
+                      "submit": [Function],
+                      "validateFields": [Function],
+                      "validateTrigger": "onChange",
+                    }
+                  }
+                  key="_name"
+                  label="Name"
+                  messageVariables={
+                    Object {
+                      "label": "Name",
+                    }
+                  }
+                  name={
+                    Array [
+                      "name",
+                    ]
+                  }
+                  onReset={[Function]}
+                  rules={
+                    Array [
+                      Object {
+                        "message": "Please enter the name!",
+                        "required": true,
+                      },
+                      Object {
+                        "message": "Name must be minimum 3 characters.",
+                        "min": 3,
+                      },
+                      Object {
+                        "max": 50,
+                        "message": "Name must be maximum 50 characters.",
+                      },
+                    ]
+                  }
+                  trigger="onChange"
+                  validateTrigger="onChange"
+                  valuePropName="value"
+                >
+                  <Row
+                    className="ant-form-item"
+                    key="row"
+                  >
+                    <div
+                      className="ant-row ant-form-item"
+                      style={Object {}}
+                    >
+                      <FormItemLabel
+                        htmlFor="create-token_name"
+                        label="Name"
+                        name="name"
+                        prefixCls="ant-form"
+                        required={true}
+                        requiredMark={true}
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please enter the name!",
+                              "required": true,
+                            },
+                            Object {
+                              "message": "Name must be minimum 3 characters.",
+                              "min": 3,
+                            },
+                            Object {
+                              "max": 50,
+                              "message": "Name must be maximum 50 characters.",
+                            },
+                          ]
+                        }
+                      >
+                        <Col
+                          className="ant-form-item-label"
+                        >
+                          <div
+                            className="ant-col ant-form-item-label"
+                            style={Object {}}
+                          >
+                            <label
+                              className="ant-form-item-required"
+                              htmlFor="create-token_name"
+                              title="Name"
+                            >
+                              Name
+                            </label>
+                          </div>
+                        </Col>
+                      </FormItemLabel>
+                      <FormItemInput
+                        errors={Array []}
+                        label="Name"
+                        name={
+                          Array [
+                            "name",
+                          ]
+                        }
+                        onDomErrorVisibleChange={[Function]}
+                        prefixCls="ant-form"
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please enter the name!",
+                              "required": true,
+                            },
+                            Object {
+                              "message": "Name must be minimum 3 characters.",
+                              "min": 3,
+                            },
+                            Object {
+                              "max": 50,
+                              "message": "Name must be maximum 50 characters.",
+                            },
+                          ]
+                        }
+                        status=""
+                        touched={false}
+                        validateStatus=""
+                        validating={false}
+                      >
+                        <Col
+                          className="ant-form-item-control"
+                        >
+                          <div
+                            className="ant-col ant-form-item-control"
+                            style={Object {}}
+                          >
+                            <div
+                              className="ant-form-item-control-input"
+                            >
+                              <div
+                                className="ant-form-item-control-input-content"
+                              >
+                                <Component
+                                  update={1}
+                                >
+                                  <Input
+                                    id="create-token_name"
+                                    onChange={[Function]}
+                                    type="text"
+                                  >
+                                    <ClearableLabeledInput
+                                      bordered={true}
+                                      element={
+                                        <input
+                                          className="ant-input"
+                                          id="create-token_name"
+                                          onBlur={[Function]}
+                                          onChange={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          type="text"
+                                        />
+                                      }
+                                      focused={false}
+                                      handleReset={[Function]}
+                                      id="create-token_name"
+                                      inputType="input"
+                                      onChange={[Function]}
+                                      prefixCls="ant-input"
+                                      triggerFocus={[Function]}
+                                      type="text"
+                                      value=""
+                                    >
+                                      <input
+                                        className="ant-input"
+                                        id="create-token_name"
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        type="text"
+                                        value=""
+                                      />
+                                    </ClearableLabeledInput>
+                                  </Input>
+                                </Component>
+                              </div>
+                            </div>
+                            <ErrorList
+                              errors={Array []}
+                              onDomErrorVisibleChange={[Function]}
+                            >
+                              <CSSMotion
+                                motionAppear={true}
+                                motionDeadline={500}
+                                motionName="show-help"
+                                onLeaveEnd={[Function]}
+                                removeOnLeave={true}
+                                visible={false}
+                              >
+                                <DomWrapper />
+                              </CSSMotion>
+                            </ErrorList>
+                          </div>
+                        </Col>
+                      </FormItemInput>
+                    </div>
+                  </Row>
+                </Field>
+              </WrapperField>
+            </FormItem>
+            <FormItem
+              label="Description"
+              name="description"
+            >
+              <WrapperField
+                label="Description"
+                messageVariables={
+                  Object {
+                    "label": "Description",
+                  }
+                }
+                name="description"
+                onReset={[Function]}
+                trigger="onChange"
+                validateTrigger="onChange"
+              >
+                <Field
+                  fieldContext={
+                    Object {
+                      "__INTERNAL__": Object {
+                        "itemRef": [Function],
+                        "name": "create-token",
+                      },
+                      "getFieldError": [Function],
+                      "getFieldInstance": [Function],
+                      "getFieldValue": [Function],
+                      "getFieldsError": [Function],
+                      "getFieldsValue": [Function],
+                      "getInternalHooks": [Function],
+                      "isFieldTouched": [Function],
+                      "isFieldValidating": [Function],
+                      "isFieldsTouched": [Function],
+                      "isFieldsValidating": [Function],
+                      "resetFields": [Function],
+                      "scrollToField": [Function],
+                      "setFields": [Function],
+                      "setFieldsValue": [Function],
+                      "submit": [Function],
+                      "validateFields": [Function],
+                      "validateTrigger": "onChange",
+                    }
+                  }
+                  key="_description"
+                  label="Description"
+                  messageVariables={
+                    Object {
+                      "label": "Description",
+                    }
+                  }
+                  name={
+                    Array [
+                      "description",
+                    ]
+                  }
+                  onReset={[Function]}
+                  trigger="onChange"
+                  validateTrigger="onChange"
+                  valuePropName="value"
+                >
+                  <Row
+                    className="ant-form-item"
+                    key="row"
+                  >
+                    <div
+                      className="ant-row ant-form-item"
+                      style={Object {}}
+                    >
+                      <FormItemLabel
+                        htmlFor="create-token_description"
+                        label="Description"
+                        name="description"
+                        prefixCls="ant-form"
+                        required={false}
+                        requiredMark={true}
+                      >
+                        <Col
+                          className="ant-form-item-label"
+                        >
+                          <div
+                            className="ant-col ant-form-item-label"
+                            style={Object {}}
+                          >
+                            <label
+                              className=""
+                              htmlFor="create-token_description"
+                              title="Description"
+                            >
+                              Description
+                            </label>
+                          </div>
+                        </Col>
+                      </FormItemLabel>
+                      <FormItemInput
+                        errors={Array []}
+                        label="Description"
+                        name={
+                          Array [
+                            "description",
+                          ]
+                        }
+                        onDomErrorVisibleChange={[Function]}
+                        prefixCls="ant-form"
+                        status=""
+                        touched={false}
+                        validateStatus=""
+                        validating={false}
+                      >
+                        <Col
+                          className="ant-form-item-control"
+                        >
+                          <div
+                            className="ant-col ant-form-item-control"
+                            style={Object {}}
+                          >
+                            <div
+                              className="ant-form-item-control-input"
+                            >
+                              <div
+                                className="ant-form-item-control-input-content"
+                              >
+                                <Component
+                                  update={1}
+                                >
+                                  <ForwardRef
+                                    id="create-token_description"
+                                    onChange={[Function]}
+                                    rows={4}
+                                  >
+                                    <ClearableLabeledInput
+                                      bordered={true}
+                                      element={
+                                        <TextArea
+                                          className=""
+                                          id="create-token_description"
+                                          onChange={[Function]}
+                                          prefixCls="ant-input"
+                                          rows={4}
+                                        />
+                                      }
+                                      handleReset={[Function]}
+                                      id="create-token_description"
+                                      inputType="text"
+                                      onChange={[Function]}
+                                      prefixCls="ant-input"
+                                      rows={4}
+                                      value=""
+                                    >
+                                      <TextArea
+                                        className=""
+                                        id="create-token_description"
+                                        onChange={[Function]}
+                                        prefixCls="ant-input"
+                                        rows={4}
+                                        value=""
+                                      >
+                                        <ResizableTextArea
+                                          className=""
+                                          id="create-token_description"
+                                          onChange={[Function]}
+                                          onKeyDown={[Function]}
+                                          prefixCls="ant-input"
+                                          rows={4}
+                                          value=""
+                                        >
+                                          <ResizeObserver
+                                            disabled={true}
+                                            onResize={[Function]}
+                                          >
+                                            <textarea
+                                              className="ant-input"
+                                              id="create-token_description"
+                                              onChange={[Function]}
+                                              onKeyDown={[Function]}
+                                              rows={4}
+                                              style={Object {}}
+                                              value=""
+                                            />
+                                          </ResizeObserver>
+                                        </ResizableTextArea>
+                                      </TextArea>
+                                    </ClearableLabeledInput>
+                                  </ForwardRef>
+                                </Component>
+                              </div>
+                            </div>
+                            <ErrorList
+                              errors={Array []}
+                              onDomErrorVisibleChange={[Function]}
+                            >
+                              <CSSMotion
+                                motionAppear={true}
+                                motionDeadline={500}
+                                motionName="show-help"
+                                onLeaveEnd={[Function]}
+                                removeOnLeave={true}
+                                visible={false}
+                              >
+                                <DomWrapper />
+                              </CSSMotion>
+                            </ErrorList>
+                          </div>
+                        </Col>
+                      </FormItemInput>
+                    </div>
+                  </Row>
+                </Field>
+              </WrapperField>
+            </FormItem>
+            <FormItem
+              wrapperCol={
+                Object {
+                  "offset": 8,
+                }
+              }
+            >
+              <Row
+                className="ant-form-item"
+                key="row"
+              >
+                <div
+                  className="ant-row ant-form-item"
+                  style={Object {}}
+                >
+                  <FormItemLabel
+                    prefixCls="ant-form"
+                    requiredMark={true}
+                    wrapperCol={
+                      Object {
+                        "offset": 8,
+                      }
+                    }
+                  />
+                  <FormItemInput
+                    errors={Array []}
+                    onDomErrorVisibleChange={[Function]}
+                    prefixCls="ant-form"
+                    status=""
+                    validateStatus=""
+                    wrapperCol={
+                      Object {
+                        "offset": 8,
+                      }
+                    }
+                  >
+                    <Col
+                      className="ant-form-item-control"
+                      offset={8}
+                    >
+                      <div
+                        className="ant-col ant-col-offset-8 ant-form-item-control"
+                        style={Object {}}
+                      >
+                        <div
+                          className="ant-form-item-control-input"
+                        >
+                          <div
+                            className="ant-form-item-control-input-content"
+                          >
+                            <Button
+                              htmlType="submit"
+                              type="primary"
+                            >
+                              <Wave>
+                                <button
+                                  className="ant-btn ant-btn-primary"
+                                  onClick={[Function]}
+                                  type="submit"
+                                >
+                                  <LoadingIcon
+                                    existIcon={false}
+                                    loading={false}
+                                    prefixCls="ant-btn"
+                                  >
+                                    <CSSMotion
+                                      motionName="ant-btn-loading-icon-motion"
+                                      onAppearActive={[Function]}
+                                      onAppearStart={[Function]}
+                                      onEnterActive={[Function]}
+                                      onEnterStart={[Function]}
+                                      onLeaveActive={[Function]}
+                                      onLeaveStart={[Function]}
+                                      removeOnLeave={true}
+                                      visible={false}
+                                    >
+                                      <DomWrapper />
+                                    </CSSMotion>
+                                  </LoadingIcon>
+                                  <span
+                                    key=".0"
+                                  >
+                                    Create API Token
+                                  </span>
+                                </button>
+                              </Wave>
+                            </Button>
+                          </div>
+                        </div>
+                        <ErrorList
+                          errors={Array []}
+                          onDomErrorVisibleChange={[Function]}
+                        >
+                          <CSSMotion
+                            motionAppear={true}
+                            motionDeadline={500}
+                            motionName="show-help"
+                            onLeaveEnd={[Function]}
+                            removeOnLeave={true}
+                            visible={false}
+                          >
+                            <DomWrapper />
+                          </CSSMotion>
+                        </ErrorList>
+                      </div>
+                    </Col>
+                  </FormItemInput>
+                </div>
+              </Row>
+            </FormItem>
+          </form>
+        </ForwardRef(Form)>
+      </SizeContextProvider>
+    </ForwardRef(InternalForm)>
+  </CreateTokenForm>
+</Provider>
+`;

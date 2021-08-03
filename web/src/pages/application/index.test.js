@@ -42,7 +42,7 @@ describe('Application component', () => {
   describe('snapshot testing', () => {
     it('should render the component', () => {
       store = mockStore({
-        application: {
+        applications: {
           req: [],
           details: {},
           loading: false,
@@ -59,7 +59,7 @@ describe('Application component', () => {
     });
     it('should render the component with data', () => {
       store = mockStore({
-        application: {
+        applications: {
           req: [
             {
               data: [1, 2],
@@ -112,7 +112,7 @@ describe('Application component', () => {
       useDispatch.mockReturnValue(mockedDispatch);
 
       store = mockStore({
-        application: {
+        applications: {
           req: [
             {
               data: [],
