@@ -1,7 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import renderer from 'react-test-renderer';
 import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -48,6 +47,19 @@ describe('Header component', () => {
       },
       loading: false,
       selected: 1,
+    },
+    profile: {
+      details: {
+        id: '1',
+        first_name: 'abc',
+        last_name: 'xyz',
+        display_name: 'abc',
+        slug: 'abc',
+        email: 'abc@gmail.com',
+        social_media_urls: {},
+        description: 'Description',
+      },
+      loading: false,
     },
   };
   store = mockStore(() => state);
@@ -127,13 +139,31 @@ describe('Header component', () => {
               description: 'description',
               permission: { role: 'member' },
               applications: [
-                { id: 1, name: 'Dega', url: 'http://1233434/1323' },
+                {
+                  id: 1,
+                  name: 'Dega',
+                  url: 'http://1233434/1323',
+                  medium: { url: { proxy: 'imageUrl' } },
+                },
                 { id: 2, name: 'Bindu', url: 'http://1233434/454567' },
               ],
             },
           },
           loading: false,
           selected: 1,
+        },
+        profile: {
+          details: {
+            id: '1',
+            first_name: 'abc',
+            last_name: 'xyz',
+            display_name: 'abc',
+            slug: 'abc',
+            email: 'abc@gmail.com',
+            social_media_urls: {},
+            description: 'Description',
+          },
+          loading: false,
         },
       };
       store = mockStore(() => state);
@@ -173,6 +203,19 @@ describe('Header component', () => {
           },
           loading: false,
           selected: 0,
+        },
+        profile: {
+          details: {
+            id: '1',
+            first_name: 'abc',
+            last_name: 'xyz',
+            display_name: 'abc',
+            slug: 'abc',
+            email: 'abc@gmail.com',
+            social_media_urls: {},
+            description: 'Description',
+          },
+          loading: false,
         },
       };
       store = mockStore(() => state);
