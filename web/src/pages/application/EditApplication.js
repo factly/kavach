@@ -3,6 +3,7 @@ import ApplicationEditForm from './components/ApplicationForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { Skeleton, Space, Collapse } from 'antd';
 import { updateApplication, getApplication } from '../../actions/application';
+import { getOrganisations } from '../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import GetApplication from './GetApplication';
@@ -27,9 +28,10 @@ function EditApplication() {
   if (loading && !application) return <Skeleton />;
 
   const onUpdate = (values) => {
-    dispatch(updateApplication({ ...application, ...values })).then(() =>
-      history.push('/applications'),
-    );
+    dispatch(updateApplication({ ...application, ...values })).then(() => {
+      dispatch(getOrganisations());
+      history.push('/applications');
+    });
   };
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
