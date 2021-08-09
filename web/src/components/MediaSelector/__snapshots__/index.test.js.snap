@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MediaSelector component snapshot testing should match component with data 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <MediaSelector
+    value={1}
+  >
+    <Modal
+      closable={false}
+      confirmLoading={false}
+      footer={
+        Array [
+          <ForwardRef(InternalButton)
+            onClick={[Function]}
+          >
+            Return
+          </ForwardRef(InternalButton)>,
+          <ForwardRef(InternalButton)
+            onClick={[Function]}
+            type="primary"
+          >
+            Ok
+          </ForwardRef(InternalButton)>,
+        ]
+      }
+      maskTransitionName="fade"
+      okType="primary"
+      onCancel={[Function]}
+      transitionName="zoom"
+      visible={false}
+      width="800px"
+    >
+      <Dialog
+        closable={false}
+        closeIcon={
+          <span
+            className="ant-modal-close-x"
+          >
+            <ForwardRef(CloseOutlined)
+              className="ant-modal-close-icon"
+            />
+          </span>
+        }
+        confirmLoading={false}
+        focusTriggerAfterClose={true}
+        footer={
+          Array [
+            <ForwardRef(InternalButton)
+              onClick={[Function]}
+            >
+              Return
+            </ForwardRef(InternalButton)>,
+            <ForwardRef(InternalButton)
+              onClick={[Function]}
+              type="primary"
+            >
+              Ok
+            </ForwardRef(InternalButton)>,
+          ]
+        }
+        maskTransitionName="fade"
+        okType="primary"
+        onCancel={[Function]}
+        onClose={[Function]}
+        prefixCls="ant-modal"
+        transitionName="zoom"
+        visible={false}
+        width="800px"
+        wrapClassName=""
+      >
+        <PortalWrapper
+          visible={false}
+        />
+      </Dialog>
+    </Modal>
+    <Space
+      direction="vertical"
+    >
+      <div
+        className="ant-space ant-space-vertical"
+        style={Object {}}
+      >
+        <Item
+          className="ant-space-item"
+          direction="vertical"
+          index={0}
+          key="ant-space-item-0"
+          marginDirection="marginRight"
+          wrap={false}
+        >
+          <div
+            className="ant-space-item"
+            style={
+              Object {
+                "marginBottom": 8,
+              }
+            }
+          >
+            <img
+              width="100%"
+            />
+          </div>
+        </Item>
+        <Item
+          className="ant-space-item"
+          direction="vertical"
+          index={1}
+          key="ant-space-item-1"
+          marginDirection="marginRight"
+          wrap={false}
+        >
+          <div
+            className="ant-space-item"
+            style={Object {}}
+          >
+            <Button
+              onClick={[Function]}
+            >
+              <Wave>
+                <button
+                  className="ant-btn"
+                  onClick={[Function]}
+                  type="button"
+                >
+                  <LoadingIcon
+                    existIcon={false}
+                    loading={false}
+                    prefixCls="ant-btn"
+                  >
+                    <CSSMotion
+                      motionName="ant-btn-loading-icon-motion"
+                      onAppearActive={[Function]}
+                      onAppearStart={[Function]}
+                      onEnterActive={[Function]}
+                      onEnterStart={[Function]}
+                      onLeaveActive={[Function]}
+                      onLeaveStart={[Function]}
+                      removeOnLeave={true}
+                      visible={false}
+                    >
+                      <DomWrapper />
+                    </CSSMotion>
+                  </LoadingIcon>
+                  <span
+                    key=".0"
+                  >
+                     Select
+                  </span>
+                </button>
+              </Wave>
+            </Button>
+          </div>
+        </Item>
+      </div>
+    </Space>
+  </MediaSelector>
+</Provider>
+`;
