@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
+import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
 
 function ApplicationList() {
@@ -110,7 +111,10 @@ function ApplicationList() {
             <Popconfirm
               title="Sure to Delete?"
               onConfirm={() =>
-                dispatch(deleteApplication(record.id)).then(() => fetchApplications())
+                dispatch(deleteApplication(record.id)).then(() => {
+                  dispatch(getOrganisations());
+                  fetchApplications();
+                })
               }
             >
               <Link to="" className="ant-dropdown-link">
