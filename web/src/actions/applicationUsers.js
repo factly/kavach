@@ -83,7 +83,7 @@ export const addApplicationUser = (data) => {
       )
       .then(() => {
         dispatch(resetApplications());
-        dispatch(addSuccessNotification('Application Added'));
+        dispatch(addSuccessNotification('Application User Added'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -130,7 +130,7 @@ export const deleteApplication = (id, appID) => {
       )
       .then(() => {
         dispatch(resetApplications());
-        dispatch(addSuccessNotification('Application Deleted'));
+        dispatch(addSuccessNotification('Application User Deleted'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
