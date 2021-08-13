@@ -1,6 +1,5 @@
 import React from 'react';
 import { Popconfirm, Button, Table, Space, Avatar, Tooltip } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
@@ -63,17 +62,6 @@ function ApplicationList() {
       render: (_, record) => {
         return (
           <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            <Tooltip title="Add user" placement="top">
-              <Link
-                className="ant-dropdown-link"
-                style={{
-                  marginRight: 8,
-                }}
-                to={`/applications/${record.id}/users`}
-              >
-                <Avatar icon={<PlusOutlined />} />
-              </Link>
-            </Tooltip>
             {record.users &&
               record.users.length > 0 &&
               record.users.map((each) => (

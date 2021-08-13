@@ -7,6 +7,7 @@ import { getOrganisations } from '../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import GetApplication from './GetApplication';
+import ApplicationUsers from './users/index';
 
 function EditApplication() {
   const history = useHistory();
@@ -43,6 +44,11 @@ function EditApplication() {
       <Collapse defaultActiveKey="2">
         <Panel header="Tokens" key="2">
           <GetApplication setTokenFlag={setTokenFlag} data={application} />
+        </Panel>
+      </Collapse>
+      <Collapse defaultActiveKey="3">
+        <Panel header="Users" key="3">
+          <ApplicationUsers id={id} />
         </Panel>
       </Collapse>
     </Space>
