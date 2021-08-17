@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteApplication, getApplicationUsers } from '../../../../actions/applicationUsers';
 import { Link } from 'react-router-dom';
 
-function UserList({ id }) {
+function UserList({ id, flag }) {
   const dispatch = useDispatch();
 
   const { users, loading, total } = useSelector(({ applicationUsers }) => {
@@ -19,7 +19,7 @@ function UserList({ id }) {
   React.useEffect(() => {
     fetchApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, flag]);
 
   const fetchApplications = () => {
     dispatch(getApplicationUsers(id));

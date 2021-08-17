@@ -1,18 +1,16 @@
 import React from 'react';
 import UsersList from './components/usersList';
 import { Space, Form, Button } from 'antd';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Selector from '../../../components/Selector';
 import { useDispatch } from 'react-redux';
 import { addApplicationUser } from '../../../actions/applicationUsers';
 
-function Application() {
+function Application({ id }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-
+  const [flag, setFlag] = React.useState(false);
   const history = useHistory();
-
-  const { id } = useParams();
 
   return (
     <Space direction="vertical">
@@ -23,7 +21,10 @@ function Application() {
         onFinish={(values) =>
           dispatch(
             addApplicationUser({ application_id: parseInt(id, 10), user_id: values.user_id }),
-          ).then(() => history.push(`/applications`))
+          ).then(() => {
+            setFlag(!flag);
+            history.push(`/applications/${id}/edit`);
+          })
         }
         style={{ maxWidth: '100%' }}
       >
@@ -37,7 +38,7 @@ function Application() {
         </Form.Item>
       </Form>
 
-      <UsersList id={id} />
+      <UsersList id={id} flag={flag} />
     </Space>
   );
 }
