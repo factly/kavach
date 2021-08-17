@@ -4,7 +4,7 @@ import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { act } from '@testing-library/react';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import moment from 'moment';
 
 import '../../matchMedia.mock';
@@ -39,9 +39,7 @@ describe('Profiles index component', () => {
   describe('snapshot testing', () => {
     it('should render the component', () => {
       store = mockStore({
-        profile: {
-          details: {},
-        },
+        profile: {},
         media: {
           req: [],
           details: {},
@@ -135,29 +133,29 @@ describe('Profiles index component', () => {
       act(() => {
         wrapper
           .find('FormItem')
-          .at(0)
+          .at(1)
           .find('Input')
           .simulate('change', { target: { value: 'firstname' } });
         wrapper
           .find('FormItem')
-          .at(1)
+          .at(2)
           .find('Input')
           .simulate('change', { target: { value: 'lastname' } });
         wrapper
           .find('FormItem')
-          .at(2)
+          .at(3)
           .find('Input')
           .simulate('change', { target: { value: 'new Display Name' } });
         wrapper
           .find('FormItem')
-          .at(4)
+          .at(5)
           .find(DatePicker)
           .at(0)
           .props()
           .onChange({ target: { value: moment('2020-10-10') } });
         wrapper
           .find('FormItem')
-          .at(5)
+          .at(6)
           .find(Radio.Group)
           .at(0)
           .props()

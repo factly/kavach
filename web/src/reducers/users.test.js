@@ -1,9 +1,11 @@
 import reducer from './users';
 import * as types from '../constants/users';
+import { ADD_ORGANISATION_USERS } from '../constants/organisations';
 
 const initialState = {
   ids: [],
   details: {},
+  organisations: {},
   loading: true,
 };
 
@@ -48,6 +50,7 @@ describe('users reducer', () => {
     ).toEqual({
       ids: [],
       details: {},
+      organisations: {},
       loading: true,
     });
     expect(
@@ -58,6 +61,7 @@ describe('users reducer', () => {
     ).toEqual({
       ids: [],
       details: {},
+      organisations: {},
       loading: false,
     });
   });
@@ -73,6 +77,7 @@ describe('users reducer', () => {
     ).toEqual({
       ids: [1, 2],
       details: { 1: { id: 1, name: 'user 1' }, 2: { id: 2, name: 'user 2' } },
+      organisations: {},
       loading: true,
     });
   });
@@ -102,6 +107,21 @@ describe('users reducer', () => {
         2: { id: 2, name: 'new user 2' },
       },
       loading: false,
+    });
+  });
+  it('should handle ADD_ORGANISATION_USERS ', () => {
+    expect(
+      reducer(initialState, {
+        type: ADD_ORGANISATION_USERS,
+        payload: { org_id: 1, users: [{ id: 1, name: 'User' }] },
+      }),
+    ).toEqual({
+      ids: [],
+      details: { 1: { id: 1, name: 'User' } },
+      organisations: {
+        1: [1],
+      },
+      loading: true,
     });
   });
 });

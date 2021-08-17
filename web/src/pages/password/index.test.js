@@ -174,6 +174,7 @@ describe('password component', () => {
               },
               issued_at: '2021-03-04T06:15:55.052524Z',
               messages: null,
+              update_successful: true,
               methods: {
                 oidc: {},
                 password: {

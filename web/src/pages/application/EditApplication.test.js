@@ -34,7 +34,7 @@ describe('Edit Application component', () => {
   let store;
   let mockedDispatch;
   store = mockStore({
-    application: {
+    applications: {
       req: [
         {
           data: [1, 2],
@@ -86,10 +86,10 @@ describe('Edit Application component', () => {
     });
     it('should match component with empty data', () => {
       store = mockStore({
-        application: {
+        applications: {
           req: [],
           details: {},
-          loading: false,
+          loading: true,
         },
         media: {
           req: [],
@@ -106,7 +106,7 @@ describe('Edit Application component', () => {
     });
     it('should match skeleton while loading', () => {
       store = mockStore({
-        application: {
+        applications: {
           req: [],
           details: {},
           loading: true,
@@ -124,7 +124,7 @@ describe('Edit Application component', () => {
     let wrapper;
     beforeEach(() => {
       store = mockStore({
-        application: {
+        applications: {
           req: [
             {
               data: [1, 2],

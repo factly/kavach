@@ -34,9 +34,16 @@ describe('OrganisationSelector component', () => {
 
   store = mockStore({
     organisations: {
-      ids: [1],
+      ids: [1, 2],
       details: {
         1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' } },
+        2: {
+          id: 2,
+          title: 'Org 2',
+          description: 'description',
+          permission: { role: 'member' },
+          medium: { url: { proxy: 'imageUrl' } },
+        },
       },
       loading: false,
       selected: 1,
