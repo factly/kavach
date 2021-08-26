@@ -107,7 +107,7 @@ describe('Application User component', () => {
         wrapper = mount(
           <Provider store={store}>
             <Router>
-              <User />
+              <User id={1} />
             </Router>
           </Provider>,
         );
@@ -129,7 +129,7 @@ describe('Application User component', () => {
           user_id: 1,
           application_id: 1,
         });
-        expect(push).toHaveBeenCalledWith('/applications');
+        expect(push).toHaveBeenCalledWith('/applications/1/edit');
         done();
       });
     });

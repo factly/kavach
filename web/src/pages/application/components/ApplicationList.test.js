@@ -176,7 +176,7 @@ describe('Application List component', () => {
           </Provider>,
         );
       });
-      const link = wrapper.find(Link).at(1);
+      const link = wrapper.find(Link).at(0);
       const button = link.find(Button).at(0);
       expect(button.text()).toEqual('Edit');
       expect(link.prop('to')).toEqual('/applications/1/edit');
