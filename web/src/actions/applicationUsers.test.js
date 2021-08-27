@@ -228,7 +228,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
-          message: 'Application Added',
+          message: 'Application User Added',
         },
       },
     ];
@@ -386,7 +386,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
-          message: 'Application Deleted',
+          message: 'Application User Deleted',
         },
       },
     ];

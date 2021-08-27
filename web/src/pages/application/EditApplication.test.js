@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, useHistory } from 'react-router-dom';
 import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -34,6 +34,30 @@ describe('Edit Application component', () => {
   let store;
   let mockedDispatch;
   store = mockStore({
+    applicationUsers: {
+      details: {
+        1: [{ id: 1, email: 'user@gmail.com' }],
+      },
+      loading: false,
+    },
+    users: {
+      ids: [1],
+      details: {
+        1: { id: 1, name: 'name', email: 'user@gmail.com', permission: { role: 'member' } },
+      },
+      organisations: {
+        1: [1],
+      },
+      loading: false,
+    },
+    organisations: {
+      ids: [1],
+      details: {
+        1: { id: 1, name: 'organisation', applications: [{ id: 1, name: 'Application1' }] },
+      },
+      loading: false,
+      selected: 1,
+    },
     applications: {
       req: [
         {
@@ -53,6 +77,7 @@ describe('Edit Application component', () => {
           name: 'Application1',
           description: 'description',
           url: 'url1',
+          users: [{ id: 1, email: 'user@gmail.com' }],
         },
         2: {
           id: 2,
@@ -79,7 +104,9 @@ describe('Edit Application component', () => {
     it('should render the component', () => {
       const tree = mount(
         <Provider store={store}>
-          <EditApplication />
+          <Router>
+            <EditApplication />
+          </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
@@ -124,6 +151,30 @@ describe('Edit Application component', () => {
     let wrapper;
     beforeEach(() => {
       store = mockStore({
+        applicationUsers: {
+          details: {
+            1: [{ id: 1, email: 'user@gmail.com' }],
+          },
+          loading: false,
+        },
+        users: {
+          ids: [1],
+          details: {
+            1: { id: 1, name: 'name', email: 'user@gmail.com', permission: { role: 'member' } },
+          },
+          organisations: {
+            1: [1],
+          },
+          loading: false,
+        },
+        organisations: {
+          ids: [1],
+          details: {
+            1: { id: 1, name: 'organisation', applications: [{ id: 1, name: 'Application1' }] },
+          },
+          loading: false,
+          selected: 1,
+        },
         applications: {
           req: [
             {
@@ -169,7 +220,9 @@ describe('Edit Application component', () => {
       act(() => {
         wrapper = mount(
           <Provider store={store}>
-            <EditApplication />
+            <Router>
+              <EditApplication />
+            </Router>
           </Provider>,
         );
       });
@@ -182,7 +235,9 @@ describe('Edit Application component', () => {
       act(() => {
         wrapper = mount(
           <Provider store={store}>
-            <EditApplication />
+            <Router>
+              <EditApplication />
+            </Router>
           </Provider>,
         );
       });
