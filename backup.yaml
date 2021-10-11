@@ -1,0 +1,10 @@
+        target: /app/kavach.db
+    restart: unless-stopped
+    networks:
+      - kavach
+
+
+
+
+  kavach-web:
+    build:

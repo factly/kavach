@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "cz-conventional-changelog": "^3.3.0",
+    "react-hook-form": "^7.17.1"
+  }
+}

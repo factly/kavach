@@ -15,13 +15,14 @@ function BasicLayout(props) {
 
   const dispatch = useDispatch();
 
-  const { type, message, description } = useSelector((state) => state.notifications);
+  const { type, message, description, time } = useSelector((state) => state.notifications);
 
   React.useEffect(() => {
     dispatch(getOrganisations());
   }, [dispatch]);
-
   React.useEffect(() => {
+    console.log({ type, message, description, selected, time });
+
     if (type && message && description && selected !== 0) {
       notification[type]({
         message: message,
@@ -29,7 +30,7 @@ function BasicLayout(props) {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [description]);
+  }, [description, time]);
 
   return (
     <Layout hasSider={true}>

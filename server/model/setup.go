@@ -28,7 +28,7 @@ func SetupDB() {
 		"dbname=", viper.GetString("database_name"), " ",
 		"port=", viper.GetInt("database_port"), " ",
 		"sslmode=", viper.GetString("database_ssl_mode"))
-
+	
 	var dialector gorm.Dialector
 	if config.Sqlite() {
 		dialector = sqlite.Open(viper.GetString("sqlite_db_path"))

@@ -19,6 +19,9 @@ import (
 	"github.com/go-chi/chi"
 )
 
+type invites struct{
+	Users []invite `json:"users"`
+}
 type invite struct {
 	FirstName string `gorm:"column:first_name" json:"first_name" validate:"required"`
 	LastName  string `gorm:"column:last_name" json:"last_name"`
@@ -26,6 +29,9 @@ type invite struct {
 	Role      string `json:"role" validate:"required"`
 }
 
+type message struct{
+	Message string `json:"message"`
+}
 // create - Create organisation user
 // @Summary Create organisation user
 // @Description Create organisation user
@@ -40,9 +46,15 @@ type invite struct {
 // @Failure 400 {array} string
 // @Router /organisations/{organisation_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
+	// flag := true
+	// if flag {
+	// 	result := &message{}
+	// 	result.Message = "hello their"
+	// 	renderx.JSON(w, http.StatusInternalServerError, result)
+	// // 	return		
+	// }
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
-
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
@@ -60,100 +72,101 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// Check if logged in user is owner
 	err = util.CheckOwner(uint(currentUID), uint(orgID))
-
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
-
+	
 	// FindOrCreate invitee
-	req := invite{}
+	req := invites{}
 	err = json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
+		fmt.Println("error")
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
 
-	validationError := validationx.Check(req)
-	if validationError != nil {
-		loggerx.Error(errors.New("validation error"))
-		errorx.Render(w, validationError)
-		return
+	for _, user:= range req.Users {
+		validationError := validationx.Check(user)
+		if validationError != nil {
+			loggerx.Error(errors.New("validation error"))
+			errorx.Render(w, validationError)
+			return
+		}
 	}
-
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Begin()
+	results := []userWithPermission{}
+	for _, user := range req.Users {
+		invitee := model.User{
+			Email:     user.Email,
+			FirstName: user.FirstName,
+			LastName:  user.LastName,
+		}
 
-	invitee := model.User{
-		Email:     req.Email,
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-	}
+		err = tx.Where(&model.User{
+			Email: invitee.Email,
+		}).First(&invitee).Error
 
-	err = tx.Where(&model.User{
-		Email: invitee.Email,
-	}).First(&invitee).Error
+		if err != nil {
+			tx.Create(&invitee)
+		}
 
-	if err != nil {
-		tx.Create(&invitee)
-	}
+		// * FirstOrCreate method giving error right now
+		// tx.FirstOrCreate(&invitee, model.User{
+		// 	Email: req.Email,
+		// })
+		// Check if invitee already exist in organisation
+		var totPermissions int64
+		permission := &model.OrganisationUser{}
+		permission.OrganisationID = uint(orgID)
+		permission.UserID = invitee.ID
 
-	// * FirstOrCreate method giving error right now
-	// tx.FirstOrCreate(&invitee, model.User{
-	// 	Email: req.Email,
-	// })
+		model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
+		if totPermissions != 0 {
+			//tx.Rollback()
+			loggerx.Error(errors.New("User already exist in organisation"))
+			//errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+			continue
+		}
 
-	// Check if invitee already exist in organisation
-	var totPermissions int64
-	permission := &model.OrganisationUser{}
-	permission.OrganisationID = uint(orgID)
-	permission.UserID = invitee.ID
+		if user.Role == "owner" {
+			/* creating policy for admins */
+			reqRole := &model.Role{}
+			reqRole.Members = []string{fmt.Sprint(invitee.ID)}
 
-	model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
+			err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
 
-	if totPermissions != 0 {
-		tx.Rollback()
-		loggerx.Error(errors.New("User already exist in organisation"))
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
-		return
-	}
+			if err != nil {
+				tx.Rollback()
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+				return
+			}
+		}
 
-	if req.Role == "owner" {
-		/* creating policy for admins */
-		reqRole := &model.Role{}
-		reqRole.Members = []string{fmt.Sprint(invitee.ID)}
+		// Add user into organisation
+		permission.OrganisationID = uint(orgID)
+		permission.UserID = invitee.ID
+		permission.Role = user.Role
 
-		err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
+		err = tx.Model(&model.OrganisationUser{}).Create(&permission).Error
 
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
+
+		tx.Commit()
+
+		result := &userWithPermission{}
+
+		result.User = invitee
+		result.Permission = *permission
+		results = append(results, *result)
 	}
-
-	// Add user into organisation
-	permission.OrganisationID = uint(orgID)
-	permission.UserID = invitee.ID
-	permission.Role = req.Role
-
-	err = tx.Model(&model.OrganisationUser{}).Create(&permission).Error
-
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-
-	tx.Commit()
-
-	result := &userWithPermission{}
-
-	result.User = invitee
-	result.Permission = *permission
-
-	renderx.JSON(w, http.StatusCreated, result)
+	renderx.JSON(w, http.StatusCreated, results)
 }

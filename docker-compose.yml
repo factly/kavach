@@ -87,8 +87,6 @@ services:
       /usr/bin/mc policy set download myminio/dega;
       exit 0;
       "
-
-
   ###########################################################################
   #######             SMTP SERVICES                                 #######
   ###########################################################################
@@ -199,9 +197,9 @@ services:
       - type: bind
         source: ./config.env
         target: /app/config.env
-      - type: bind
-        source: ./kavach.db
-        target: /app/kavach.db
+#     - type: bind
+#       source: ./kavach.db
+#        target: /app/kavach.db
     restart: unless-stopped
     networks:
       - kavach
@@ -223,9 +221,9 @@ services:
       - type: bind
         source: ./config.env
         target: /app/config.env
-      - type: bind
-        source: ./kavach.db
-        target: /app/kavach.db
+#      - type: bind
+#        source: ./kavach.db
+ #       target: /app/kavach.db
     networks:
       - kavach
 
