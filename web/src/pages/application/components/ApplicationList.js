@@ -60,34 +60,22 @@ function ApplicationList() {
       key: 'users',
       width: '30%',
       render: (_, record) => {
-        const maxAvatar = 4;
         return (
-          <Avatar.Group>
+          <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
             {record.users &&
               record.users.length > 0 &&
-              record.users.slice(0, maxAvatar).map((each) => (
+              record.users.map((each) => (
                 <Tooltip title={each.email} placement="top">
-                  {each.medium && each.medium.url ? (
-                    <Avatar src={each.medium.url.proxy}></Avatar>
-                  ) : (
-                    <Avatar
-                      style={{
-                        backgroundColor:
-                          '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                      }}
-                    >
-                      {each.email.charAt(0).toUpperCase()}
-                    </Avatar>
-                  )}
+                  <Avatar
+                    style={{
+                      backgroundColor:
+                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
+                    }}
+                  >
+                    {each.email.charAt(0).toUpperCase()}
+                  </Avatar>
                 </Tooltip>
               ))}
-            {record.users.length > 4 ? (
-              <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-                +{record.users.length - maxAvatar}
-              </Avatar>
-            ) : (
-              <></>
-            )}
           </Avatar.Group>
         );
       },
