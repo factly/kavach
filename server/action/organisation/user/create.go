@@ -29,9 +29,6 @@ type invite struct {
 	Role      string `json:"role" validate:"required"`
 }
 
-type message struct{
-	Message string `json:"message"`
-}
 // create - Create organisation user
 // @Summary Create organisation user
 // @Description Create organisation user
@@ -46,13 +43,6 @@ type message struct{
 // @Failure 400 {array} string
 // @Router /organisations/{organisation_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
-	// flag := true
-	// if flag {
-	// 	result := &message{}
-	// 	result.Message = "hello their"
-	// 	renderx.JSON(w, http.StatusInternalServerError, result)
-	// // 	return		
-	// }
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
 	if err != nil {
@@ -82,12 +72,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 	req := invites{}
 	err = json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		fmt.Println("error")
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
-
 	for _, user:= range req.Users {
 		validationError := validationx.Check(user)
 		if validationError != nil {

@@ -21,8 +21,6 @@ function BasicLayout(props) {
     dispatch(getOrganisations());
   }, [dispatch]);
   React.useEffect(() => {
-    console.log({ type, message, description, selected, time });
-
     if (type && message && description && selected !== 0) {
       notification[type]({
         message: message,
