@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { ADD_ORGANISATION_USERS } from '../constants/organisations';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
-import { addErrorNotification, addSuccessNotification } from './notifications';
+import {
+  addErrorNotification,
+  addSuccessNotification,
+  addWarningNotification,
+} from './notifications';
 
 export const getUsers = () => {
   return (dispatch, getState) => {
@@ -18,15 +22,16 @@ export const getUsers = () => {
   };
 };
 
-export const addUser = (data) => {
+export const addUser = (data, history) => {
   return (dispatch, getState) => {
     dispatch(loadingUsers());
     return axios
       .post(USERS_API + '/' + getState().organisations.selected + '/users', data)
-      .then(() => {
+      .then((res) => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());
-        dispatch(addSuccessNotification('User added'));
+        dispatch(addSuccessNotification('Users added'));
+        history.push('/users');
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
