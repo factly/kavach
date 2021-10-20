@@ -1,13 +1,19 @@
 import React from 'react';
-import { Modal, Button, Radio, Space, Avatar } from 'antd';
-import { AntDesignOutlined } from '@ant-design/icons';
+import { Modal, Button, Radio, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import MediaUploader from './UploadMedium';
 import MediaList from './MediaList';
-import { getMedium } from '../../actions/media';
+import { getMedium, getMedia } from '../../actions/media';
 import ImagePlaceholder from '../ErrorsAndImage/PlaceholderImage';
+import { DeleteOutlined } from '@ant-design/icons';
 
-function MediaSelector({ value = null, onChange, profile }) {
+function MediaSelector({
+  value = null,
+  onChange,
+  maxWidth,
+  containerStyles = {},
+  profile = false,
+}) {
   const [show, setShow] = React.useState(false);
   const [selected, setSelected] = React.useState(null);
   const [tab, setTab] = React.useState('list');
@@ -16,18 +22,27 @@ function MediaSelector({ value = null, onChange, profile }) {
   const medium = useSelector((state) => {
     return state.media.details[value] || null;
   });
-
+  const { media, loading } = useSelector((state) => {
+    return { media: state.media, loading: state.media.loading };
+  });
   const setValue = () => {
     value = null;
   };
-
+  if (!selected && value && medium) {
+    setSelected(medium);
+  }
   React.useEffect(() => {
     if (value) {
-      dispatch(getMedium(value));
+      dispatch(getMedium(value, profile));
       setSelected(medium);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [value]);
+
+  const onUpload = (values, medium) => {
+    value = medium.id;
+    setSelected(medium);
+  };
 
   return (
     <>
@@ -38,7 +53,7 @@ function MediaSelector({ value = null, onChange, profile }) {
         width={'800px'}
         footer={[
           <Button key="back" onClick={() => setShow(false)}>
-            Return
+            Cancel
           </Button>,
           <Button
             key="submit"
@@ -48,7 +63,7 @@ function MediaSelector({ value = null, onChange, profile }) {
               selected ? onChange(selected.id) : onChange(null);
             }}
           >
-            Ok
+            Confirm
           </Button>,
         ]}
       >
@@ -58,21 +73,55 @@ function MediaSelector({ value = null, onChange, profile }) {
             <Radio.Button value="upload">Upload</Radio.Button>
           </Radio.Group>
           {tab === 'list' ? (
-            <MediaList onSelect={setSelected} selected={selected} onUnselect={setValue} />
+            <MediaList
+              onSelect={setSelected}
+              selected={selected}
+              onUnselect={setValue}
+              profile={profile}
+            />
           ) : tab === 'upload' ? (
-            <MediaUploader />
+            <MediaUploader onMediaUpload={onUpload} profile={profile} />
           ) : null}
         </Space>
       </Modal>
       <Space direction="vertical">
-        {medium ? (
-          <img src={medium.url?.proxy} alt={medium.alt_text} width="100%" />
-        ) : profile ? (
-          <Avatar shape="square" size={300} icon={<AntDesignOutlined />} />
-        ) : (
-          <ImagePlaceholder width={230} />
-        )}
-        <Button onClick={() => setShow(true)}> Select</Button>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            ...containerStyles,
+          }}
+        >
+          <div style={{ position: 'relative' }}>
+            <Button
+              style={{
+                background: 'transparent',
+                borderStyle: 'dashed',
+                height: 'auto',
+                display: 'block',
+              }}
+              onClick={() => setShow(true)}
+            >
+              {medium ? (
+                <img src={medium.url?.proxy} alt={medium.alt_text} width="100%" />
+              ) : (
+                <ImagePlaceholder maxWidth={maxWidth} />
+              )}
+            </Button>
+            {medium && (
+              <Button
+                style={{ position: 'absolute', bottom: 0, left: 0, maxWidth: '52px' }}
+                onClick={() => {
+                  onChange(null);
+                  setSelected(null);
+                }}
+              >
+                <DeleteOutlined />
+              </Button>
+            )}
+          </div>
+        </div>
       </Space>
     </>
   );
