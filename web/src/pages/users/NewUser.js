@@ -117,7 +117,7 @@ function NewUser() {
 
   return (
     <div className="content">
-      <Card title="Add User">
+      <Card title="Invite Users">
         <FormHeader />
         <Form form={form} onFinish={addNewUsers} initialValues={{ users: [''] }}>
           <FormList />

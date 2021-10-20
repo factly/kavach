@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 function ApplicationList() {
   const dispatch = useDispatch();
@@ -106,7 +107,9 @@ function ApplicationList() {
               }}
               to={`/applications/${record.id}/edit`}
             >
-              <Button>Edit</Button>
+              <Button>
+                <EditOutlined />
+              </Button>
             </Link>
             <Popconfirm
               title="Sure to Delete?"
@@ -118,7 +121,9 @@ function ApplicationList() {
               }
             >
               <Link to="" className="ant-dropdown-link">
-                <Button>Delete</Button>
+                <Button type="danger">
+                  <DeleteOutlined />
+                </Button>
               </Link>
             </Popconfirm>
           </span>
