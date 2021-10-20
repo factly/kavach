@@ -34,7 +34,6 @@ function Sidebar() {
       collapsedWidth={48}
       trigger={null}
       style={{
-        background: '#f0f2f5',
         position: 'sticky',
         background: '#f0f2f5',
         left: 0,
@@ -44,14 +43,7 @@ function Sidebar() {
       }}
     >
       <Link to="/">
-        <div
-          className="menu-header"
-          style={
-            {
-              /* backgroundColor: '#1890ff' */
-            }
-          }
-        >
+        <div className="menu-header">
           <img
             alt="logo"
             hidden={!collapsed}
