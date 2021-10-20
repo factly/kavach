@@ -7,6 +7,7 @@ import applications from './application';
 import applicationUsers from './applicationUser';
 import notifications from './notifications';
 import profile from './profile';
+import sidebar from './sidebar';
 
 export default combineReducers({
   settings,
@@ -17,4 +18,5 @@ export default combineReducers({
   applicationUsers,
   notifications,
   profile,
+  sidebar,
 });
