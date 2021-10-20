@@ -17,14 +17,14 @@ function Application() {
   };
   return (
     <Space direction="vertical">
-      <Space direction="horizontal">
-        <Link key="1" to="/applications/create">
-          <Button>Create New</Button>
-        </Link>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
         {application && application.data.length === 0 ? (
           <Button onClick={addDefaultApps}>Add Factly Applications</Button>
         ) : null}
-      </Space>
+        <Link key="1" to="/applications/create">
+          <Button type="primary">New Application</Button>
+        </Link>
+      </div>
       <ApplicationList />
     </Space>
   );

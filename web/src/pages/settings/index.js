@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Space, Divider, Modal, message } from 'antd';
+import { Button, Form, Input, Space, Divider, Modal, message, Card } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -9,6 +9,7 @@ import {
 } from './../../actions/organisations';
 import { maker, checker } from '../../utils/sluger';
 import MediaSelector from '../../components/MediaSelector';
+import { DeleteOutlined } from '@ant-design/icons';
 
 function OrganisationEdit() {
   const dispatch = useDispatch();
@@ -57,59 +58,63 @@ function OrganisationEdit() {
 
   return (
     <Space direction="vertical">
-      <Form
-        form={form}
-        name="organisation_edit"
-        layout="vertical"
-        onFinish={(values) => dispatch(updateOrganisation({ ...organisation, ...values }))}
-        initialValues={organisation}
-        style={{
-          width: '400px',
-        }}
-      >
-        <Form.Item name="title" label="Title">
-          <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
-        </Form.Item>
-        <Form.Item
-          name="slug"
-          label="Slug"
-          rules={[
-            {
-              required: true,
-              message: 'Please input the slug!',
-            },
-            {
-              pattern: checker,
-              message: 'Please enter valid slug!',
-            },
-          ]}
+      <Card title="Organisation Update">
+        <Form
+          form={form}
+          name="organisation_edit"
+          layout="vertical"
+          onFinish={(values) => dispatch(updateOrganisation({ ...organisation, ...values }))}
+          initialValues={organisation}
+          style={{
+            width: '400px',
+          }}
         >
-          <Input placeholder="Slug"></Input>
-        </Form.Item>
-        <Form.Item name="description" label="Description">
-          <Input.TextArea placeholder="Description" />
-        </Form.Item>
-        <Form.Item label="Upload Image" name="featured_medium_id">
-          <MediaSelector />
-        </Form.Item>
-        <Form.Item>
-          <Button form="organisation_edit" type="primary" htmlType="submit" block>
-            Save
-          </Button>
-        </Form.Item>
-      </Form>
-      <Divider style={{ color: 'red' }} orientation="left">
-        Danger zone
-      </Divider>
-      <Button onClick={showModal}>Delete</Button>
-      <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <h3>Delete Organisation</h3>
-        <Form form={form} name="organisation_delete">
-          <Form.Item name="organisationName">
-            <Input placeholder="Organisation Name" />
+          <Form.Item name="title" label="Title">
+            <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
+          </Form.Item>
+          <Form.Item
+            name="slug"
+            label="Slug"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the slug!',
+              },
+              {
+                pattern: checker,
+                message: 'Please enter valid slug!',
+              },
+            ]}
+          >
+            <Input placeholder="Slug"></Input>
+          </Form.Item>
+          <Form.Item name="description" label="Description">
+            <Input.TextArea placeholder="Description" />
+          </Form.Item>
+          <Form.Item label="Logo" name="featured_medium_id">
+            <MediaSelector />
+          </Form.Item>
+          <Form.Item>
+            <Button form="organisation_edit" type="primary" htmlType="submit" block>
+              Save
+            </Button>
           </Form.Item>
         </Form>
-      </Modal>
+        <Divider style={{ color: 'red' }} orientation="left">
+          Danger zone
+        </Divider>
+        <Button onClick={showModal} type="danger">
+          <DeleteOutlined /> Delete
+        </Button>
+        <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <h3>Delete Organisation</h3>
+          <Form form={form} name="organisation_delete">
+            <Form.Item name="organisationName">
+              <Input placeholder="Organisation Name" />
+            </Form.Item>
+          </Form>
+        </Modal>
+      </Card>
     </Space>
   );
 }
