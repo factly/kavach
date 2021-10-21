@@ -73,6 +73,9 @@ function ApplicationList() {
               <DeleteOutlined />
             </Link>
           </Popconfirm>,
+          <a href={props.application.url}>
+            <DeleteOutlined />
+          </a>,
         ]}
       >
         <Card.Meta
