@@ -1,6 +1,6 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Space, Avatar, Tooltip } from 'antd';
-
+import { Popconfirm, Button, Table, Skeleton, Space, Avatar, Tooltip, Card, Row, Col } from 'antd';
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
@@ -12,7 +12,6 @@ function ApplicationList() {
     page: 1,
     limit: 5,
   });
-
   const { applications, loading, total } = useSelector((state) => {
     const node = state.applications.req[0];
 
@@ -33,104 +32,79 @@ function ApplicationList() {
   const fetchApplications = () => {
     dispatch(getApplications());
   };
-
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '15%',
-    },
-    {
-      title: 'Slug',
-      dataIndex: 'slug',
-      key: 'slug',
-      width: '15%',
-    },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      width: '40%',
-      ellipsis: true,
-    },
-    {
-      title: 'Users',
-      dataIndex: 'users',
-      key: 'users',
-      width: '30%',
-      render: (_, record) => {
-        return (
-          <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            {record.users &&
-              record.users.length > 0 &&
-              record.users.map((each) => (
-                <Tooltip title={each.email} placement="top">
-                  <Avatar
-                    style={{
-                      backgroundColor:
-                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                    }}
-                  >
-                    {each.email.charAt(0).toUpperCase()}
-                  </Avatar>
-                </Tooltip>
-              ))}
-          </Avatar.Group>
-        );
-      },
-    },
-    {
-      title: 'Action',
-      dataIndex: 'operation',
-      width: '20%',
-      render: (_, record) => {
-        return (
-          <span>
-            <Link
-              className="ant-dropdown-link"
-              style={{
-                marginRight: 8,
-              }}
-              to={`/applications/${record.id}/edit`}
-            >
-              <Button>Edit</Button>
-            </Link>
-            <Popconfirm
-              title="Sure to Delete?"
-              onConfirm={() =>
-                dispatch(deleteApplication(record.id)).then(() => {
-                  dispatch(getOrganisations());
-                  fetchApplications();
-                })
+  let applicationList = [];
+  const ApplicationCard = (props) => {
+    return (
+      <Card
+        hoverable
+        loading={loading}
+        style={{ width: 280, marginTop: 10 }}
+        cover={
+          loading ? (
+            <Card loading={true}></Card>
+          ) : (
+            <img
+              alt="example"
+              src={
+                props.application.medium && props.application.medium_id
+                  ? props.application.medium.url.proxy
+                  : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
-            >
-              <Link to="" className="ant-dropdown-link">
-                <Button>Delete</Button>
-              </Link>
-            </Popconfirm>
-          </span>
-        );
-      },
-    },
-  ];
+            />
+          )
+        }
+        actions={[
+          <Link
+            to={loading ? '' : `/applications/${props.application.id}/edit`}
+            className="ant-dropdown-link"
+          >
+            <EditOutlined key="edit" />
+          </Link>,
+          <Popconfirm
+            title="Sure to Delete?"
+            onConfirm={() =>
+              dispatch(deleteApplication(props.application.id)).then(() => {
+                dispatch(getOrganisations());
+                fetchApplications();
+              })
+            }
+          >
+            <Link to="" className="ant-dropdown-link">
+              <DeleteOutlined />
+            </Link>
+          </Popconfirm>,
+        ]}
+      >
+        <Card.Meta
+          title={loading ? '' : props.application.name}
+          description={loading ? '' : props.application.description}
+          style={{ textAlign: 'center' }}
+        />
+      </Card>
+    );
+  };
 
+  const ApplicationRow = (props) => {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 50 }}>
+        {props.applications.map((application, index) => (
+          <ApplicationCard key={index} application={application}></ApplicationCard>
+        ))}
+      </div>
+    );
+  };
+  if (loading) {
+    return <Skeleton />;
+  } else {
+    for (var i = 0; i < Math.ceil(applications.length / 3); i++) {
+      applicationList.push(applications.slice(3 * i, 3 * i + 3));
+    }
+  }
   return (
     <Space direction="vertical">
-      <Table
-        bordered
-        columns={columns}
-        dataSource={applications}
-        loading={loading}
-        rowKey={'id'}
-        pagination={{
-          total: total,
-          current: filters.page,
-          pageSize: filters.limit,
-          onChange: (pageNumber, pageSize) =>
-            setFilters({ ...filters, page: pageNumber, limit: pageSize }),
-        }}
-      />
+      {applicationList.map((applicationRow, index) => (
+        <ApplicationRow key={index} applications={applicationRow} />
+      ))}
     </Space>
   );
 }

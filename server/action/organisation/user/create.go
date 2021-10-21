@@ -1,5 +1,4 @@
 package user
-
 import (
 	"context"
 	"encoding/json"
@@ -7,10 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/keto"
-
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -22,6 +19,7 @@ import (
 type invites struct{
 	Users []invite `json:"users"`
 }
+
 type invite struct {
 	FirstName string `gorm:"column:first_name" json:"first_name" validate:"required"`
 	LastName  string `gorm:"column:last_name" json:"last_name"`
@@ -147,11 +145,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
-
 		tx.Commit()
-
 		result := &userWithPermission{}
-
 		result.User = invitee
 		result.Permission = *permission
 		results = append(results, *result)
