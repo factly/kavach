@@ -1,6 +1,18 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Skeleton, Space, Avatar, Tooltip, Card, Row, Col } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  Popconfirm,
+  Button,
+  Table,
+  Skeleton,
+  Space,
+  Avatar,
+  Tooltip,
+  Card,
+  Row,
+  Col,
+  Icon,
+} from 'antd';
+import { PlayCircleFilled, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
@@ -58,7 +70,7 @@ function ApplicationList() {
             to={loading ? '' : `/applications/${props.application.id}/edit`}
             className="ant-dropdown-link"
           >
-            <EditOutlined key="edit" />
+            <EditOutlined key="edit" style={{ fontSize: '150%' }} />
           </Link>,
           <Popconfirm
             title="Sure to Delete?"
@@ -70,11 +82,11 @@ function ApplicationList() {
             }
           >
             <Link to="" className="ant-dropdown-link">
-              <DeleteOutlined />
+              <DeleteOutlined style={{ fontSize: '150%' }} />
             </Link>
           </Popconfirm>,
           <a href={props.application.url}>
-            <DeleteOutlined />
+            <PlayCircleFilled style={{ fontSize: '150%' }} />
           </a>,
         ]}
       >
@@ -89,11 +101,11 @@ function ApplicationList() {
 
   const ApplicationRow = (props) => {
     return (
-      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 50 }}>
+      <Row style={{ width: '125%', display: 'flex', justifyContent: 'flex-start', gap: '10%' }}>
         {props.applications.map((application, index) => (
           <ApplicationCard key={index} application={application}></ApplicationCard>
         ))}
-      </div>
+      </Row>
     );
   };
   if (loading) {
