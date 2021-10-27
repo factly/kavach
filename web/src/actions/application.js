@@ -26,7 +26,7 @@ export const getApplications = () => {
         dispatch(
           addApplicationsList(
             response.data.map((application) => {
-              return { ...application, medium: application.medium?.id };
+              return { ...application, medium: application.medium };
             }),
           ),
         );

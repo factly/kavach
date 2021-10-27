@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"time"
-
 	"github.com/factly/kavach-server/config"
 	"github.com/factly/x/loggerx"
 	"github.com/spf13/viper"
