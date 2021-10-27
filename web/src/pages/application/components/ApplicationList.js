@@ -67,7 +67,7 @@ function ApplicationList() {
               style={{ width: '100%', objectFit: 'cover' }}
               src={
                 props.application.medium && props.application.medium_id
-                  ? props.application.medium.url.proxy
+                  ? props.application.medium?.url?.proxy
                   : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
             >
@@ -128,10 +128,9 @@ function ApplicationList() {
     // }
   }
   return (
-    <div style={{display:'flex',flexWrap:'wrap',gap:'2rem'}}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
       {applications.map((application, index) => (
-         <ApplicationCard key={index} application={application}></ApplicationCard>
-
+        <ApplicationCard key={index} application={application}></ApplicationCard>
       ))}
     </div>
   );
