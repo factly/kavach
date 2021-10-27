@@ -16,7 +16,7 @@ function Application() {
     dispatch(addDefaultApplications()).then(() => window.location.reload());
   };
   return (
-    <Space direction="vertical">
+    <div>
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         {application && application.data.length === 0 ? (
           <Button onClick={addDefaultApps}>Add Factly Applications</Button>
@@ -26,7 +26,7 @@ function Application() {
         </Link>
       </div>
       <ApplicationList />
-    </Space>
+    </div>
   );
 }
 

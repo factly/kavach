@@ -12,7 +12,7 @@ import {
   Col,
   Icon,
 } from 'antd';
-import { PlayCircleFilled, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ExportOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
@@ -50,19 +50,31 @@ function ApplicationList() {
       <Card
         hoverable
         loading={loading}
-        style={{ width: 280, marginTop: 10 }}
+        style={{
+          width: 280,
+          marginTop: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
         cover={
           loading ? (
             <Card loading={true}></Card>
           ) : (
-            <img
-              alt="example"
+            <Avatar
+              shape="square"
+              size={200}
+              style={{ width: '100%', objectFit: 'cover' }}
               src={
                 props.application.medium && props.application.medium_id
                   ? props.application.medium.url.proxy
                   : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
-            />
+            >
+              {props.application.medium && props.application.medium_id
+                ? null
+                : props.application.name.charAt(0)}
+            </Avatar>
           )
         }
         actions={[
@@ -86,13 +98,13 @@ function ApplicationList() {
             </Link>
           </Popconfirm>,
           <a href={props.application.url}>
-            <PlayCircleFilled style={{ fontSize: '150%' }} />
+            <ExportOutlined style={{ fontSize: '150%' }} />
           </a>,
         ]}
       >
         <Card.Meta
           title={loading ? '' : props.application.name}
-          description={loading ? '' : props.application.description}
+          description={loading ? '' : props.application.description || <div> </div>}
           style={{ textAlign: 'center' }}
         />
       </Card>
@@ -101,7 +113,7 @@ function ApplicationList() {
 
   const ApplicationRow = (props) => {
     return (
-      <Row style={{ width: '125%', display: 'flex', justifyContent: 'flex-start', gap: '5%' }}>
+      <Row style={{ display: 'flex', justifyContent: 'flex-start', gap: '2rem' }}>
         {props.applications.map((application, index) => (
           <ApplicationCard key={index} application={application}></ApplicationCard>
         ))}
@@ -111,16 +123,17 @@ function ApplicationList() {
   if (loading) {
     return <Skeleton />;
   } else {
-    for (var i = 0; i < Math.ceil(applications.length / 3); i++) {
-      applicationList.push(applications.slice(3 * i, 3 * i + 3));
-    }
+    // for (var i = 0; i < Math.ceil(applications.length / 3); i++) {
+    //   applicationList.push(applications.slice(3 * i, 3 * i + 3));
+    // }
   }
   return (
-    <Space direction="vertical">
-      {applicationList.map((applicationRow, index) => (
-        <ApplicationRow key={index} applications={applicationRow} />
+    <div style={{display:'flex',flexWrap:'wrap',gap:'2rem'}}>
+      {applications.map((application, index) => (
+         <ApplicationCard key={index} application={application}></ApplicationCard>
+
       ))}
-    </Space>
+    </div>
   );
 }
 
