@@ -41,14 +41,14 @@ function EditApplication() {
           <ApplicationEditForm data={application} onCreate={onUpdate} />
         </Panel>
       </Collapse>
-      <Collapse defaultActiveKey="2">
-        <Panel header="Tokens" key="2">
-          <GetApplication setTokenFlag={setTokenFlag} data={application} />
-        </Panel>
-      </Collapse>
       <Collapse defaultActiveKey="3">
         <Panel header="Users" key="3">
           <ApplicationUsers id={id} />
+        </Panel>
+      </Collapse>
+      <Collapse defaultActiveKey="2">
+        <Panel header="Tokens" key="2">
+          <GetApplication setTokenFlag={setTokenFlag} data={application} />
         </Panel>
       </Collapse>
     </Space>
