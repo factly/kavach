@@ -101,7 +101,7 @@ function ApplicationList() {
 
   const ApplicationRow = (props) => {
     return (
-      <Row style={{ width: '125%', display: 'flex', justifyContent: 'flex-start', gap: '10%' }}>
+      <Row style={{ width: '125%', display: 'flex', justifyContent: 'flex-start', gap: '5%' }}>
         {props.applications.map((application, index) => (
           <ApplicationCard key={index} application={application}></ApplicationCard>
         ))}
