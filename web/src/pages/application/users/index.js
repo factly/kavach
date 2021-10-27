@@ -12,17 +12,16 @@ function Application({ id }) {
   const [flag, setFlag] = React.useState(false);
   const history = useHistory();
 
-  let value = [undefined];
+  let value = [];
 
-  const { users, loadingUsers } = useSelector(({ users, organisations: { selected } }) => {
+  const { users } = useSelector(({ users, organisations: { selected } }) => {
     let details = [];
     let ids = [];
     ids = users.organisations[selected] ? users.organisations[selected] : [];
-    details = value.filter((id) => users.details[id]).map((id) => users.details[id]);
     details = details.concat(
       ids.filter((id) => !value.includes(id)).map((id) => users.details[id]),
     );
-    return { users: details, loadingUsers: users.loading };
+    return { users: details };
   });
 
   React.useEffect(() => {
@@ -34,15 +33,11 @@ function Application({ id }) {
     dispatch(getAllUsers());
   };
 
-  const { applicationUsers, loadingApplicationUsers, total } = useSelector(
-    ({ applicationUsers }) => {
-      return {
-        applicationUsers: applicationUsers.details[id] || [],
-        loadingApplicationUsers: applicationUsers.loading,
-        total: applicationUsers.details[id]?.length || 0,
-      };
-    },
-  );
+  const { applicationUsers } = useSelector(({ applicationUsers }) => {
+    return {
+      applicationUsers: applicationUsers.details[id] || [],
+    };
+  });
   React.useEffect(() => {
     fetchApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -62,7 +57,7 @@ function Application({ id }) {
         name="filters"
         layout="inline"
         onFinish={(values) => {
-          return dispatch(
+          dispatch(
             addApplicationUser({ application_id: parseInt(id, 10), user_id: values.user_id }),
           ).then(() => {
             setFlag(!flag);
