@@ -54,6 +54,5 @@ func list(w http.ResponseWriter, r *http.Request) {
 	model.DB.Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(oID),
 	}).Preload("Users").Preload("Users.Medium").Preload("Medium").Preload("Tokens").Find(&result)
-
 	renderx.JSON(w, http.StatusOK, result)
 }

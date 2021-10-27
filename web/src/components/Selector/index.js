@@ -7,20 +7,14 @@ function Selector({ value, onChange }) {
   const dispatch = useDispatch();
 
   value = [value];
-
   const { details, loading } = useSelector(({ users, organisations: { selected } }) => {
     let details = [];
-
     let ids = [];
-
     ids = users.organisations[selected] ? users.organisations[selected] : [];
-
     details = value.filter((id) => users.details[id]).map((id) => users.details[id]);
-
     details = details.concat(
       ids.filter((id) => !value.includes(id)).map((id) => users.details[id]),
     );
-
     return { details, loading: users.loading };
   });
 
