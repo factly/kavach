@@ -88,7 +88,6 @@ services:
       exit 0;
       "
 
-
   ###########################################################################
   #######             SMTP SERVICES                                 #######
   ###########################################################################
@@ -106,7 +105,7 @@ services:
   kratos-migrate:
     depends_on:
       - postgres
-    image: oryd/kratos:v0.5.0-alpha.1-sqlite
+    image: oryd/kratos:v0.5.5-alpha.1.pre.1-sqlite
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
     volumes:
@@ -121,12 +120,13 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v0.5.0-alpha.1-sqlite
+    image: oryd/kratos:v0.5.5-alpha.1.pre.1-sqlite
     ports:
       - "4433:4433" # public
       - "4434:4434" # admin
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+      - LOG_LEVEL=trace
     volumes:
       - type: bind
         source: ./kratos/config
@@ -202,7 +202,7 @@ services:
     restart: unless-stopped
     networks:
       - kavach
-  
+
   kavach-migrate:
     depends_on:
       - postgres
@@ -241,4 +241,4 @@ services:
       - kavach
 
 networks:
-    kavach:
+  kavach:
