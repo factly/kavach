@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Input, Space, Button } from 'antd';
 import MediaSelector from '../../../components/MediaSelector';
 import { checker, maker } from '../../../utils/sluger';
-
 const { TextArea } = Input;
 
 const layout = {

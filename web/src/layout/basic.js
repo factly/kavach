@@ -15,12 +15,11 @@ function BasicLayout(props) {
 
   const dispatch = useDispatch();
 
-  const { type, message, description } = useSelector((state) => state.notifications);
+  const { type, message, description, time } = useSelector((state) => state.notifications);
 
   React.useEffect(() => {
     dispatch(getOrganisations());
   }, [dispatch]);
-
   React.useEffect(() => {
     if (type && message && description && selected !== 0) {
       notification[type]({
@@ -29,22 +28,22 @@ function BasicLayout(props) {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [description]);
+  }, [description, time]);
 
   return (
     <Layout hasSider={true}>
       <Sidebar />
-      <Layout>
+      <Layout style={{ background: '#fff' }}>
         <Header />
         <Layout.Content className="layout-content">
-          <PageHeader location={location} />
+          {/* <PageHeader location={location} /> */}
           {selected > 0 || location.pathname === '/organisation' ? (
-            <Card key={selected.toString()} className="wrap-children-content">
+            <div key={selected.toString()} className="wrap-children-content">
               {children}
-            </Card>
+            </div>
           ) : null}
         </Layout.Content>
-        <Layout.Footer>Footer</Layout.Footer>
+        {/* <Layout.Footer>Footer</Layout.Footer> */}
       </Layout>
     </Layout>
   );

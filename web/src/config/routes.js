@@ -1,4 +1,10 @@
-import { PieChartOutlined, AppstoreOutlined } from '@ant-design/icons';
+import {
+  SettingOutlined,
+  AppstoreOutlined,
+  UserOutlined,
+  SecurityScanOutlined,
+  ProfileOutlined,
+} from '@ant-design/icons';
 
 //Pages
 import Settings from '../pages/settings';
@@ -19,7 +25,7 @@ export default [
     Component: Settings,
     enableNavigation: true,
     enableBreadcrumb: true,
-    Icon: PieChartOutlined,
+    Icon: SettingOutlined,
     title: 'Settings',
   },
   {
@@ -27,7 +33,7 @@ export default [
     Component: OrganisationCreate,
     enableNavigation: false,
     enableBreadcrumb: true,
-    Icon: PieChartOutlined,
+    Icon: UserOutlined,
     title: 'Organisation',
   },
   {
@@ -35,7 +41,7 @@ export default [
     Component: Users,
     enableNavigation: true,
     enableBreadcrumb: true,
-    Icon: PieChartOutlined,
+    Icon: UserOutlined,
     title: 'Users',
   },
   {
@@ -50,7 +56,7 @@ export default [
     Component: Password,
     enableNavigation: false,
     enableBreadcrumb: true,
-    Icon: PieChartOutlined,
+    Icon: SecurityScanOutlined,
     title: 'Password',
   },
   {
@@ -58,7 +64,7 @@ export default [
     Component: Profile,
     enableNavigation: false,
     enableBreadcrumb: true,
-    Icon: PieChartOutlined,
+    Icon: ProfileOutlined,
     title: 'Profile',
   },
   {
@@ -74,7 +80,7 @@ export default [
     Component: CreateApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
-    title: 'Create Application',
+    title: 'New Application',
   },
   {
     path: '/applications/:id/edit',

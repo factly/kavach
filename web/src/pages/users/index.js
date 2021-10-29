@@ -65,7 +65,7 @@ function OrganisationUsers() {
             dispatch(deleteUser(record.id)).then(() => fetchUsers());
           }}
         >
-          <Button icon={<DeleteOutlined />} />
+          <Button icon={<DeleteOutlined />} type="danger" />
         </Popconfirm>
       ),
       width: '15%',
@@ -75,9 +75,11 @@ function OrganisationUsers() {
   return (
     <Space direction="vertical">
       {organisation.permission.role === 'owner' ? (
-        <Link key="1" to="/users/new">
-          <Button>Add User</Button>
-        </Link>
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
+          <Link key="1" to="/users/new">
+            <Button type="primary">Invite Users</Button>
+          </Link>
+        </div>
       ) : null}
       <Table
         bordered

@@ -4,8 +4,9 @@ import { Popconfirm, Button, Table, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteApplication, getApplicationUsers } from '../../../../actions/applicationUsers';
 import { Link } from 'react-router-dom';
+import { DeleteOutlined } from '@ant-design/icons';
 
-function UserList({ id }) {
+function UserList({ id, flag }) {
   const dispatch = useDispatch();
 
   const { users, loading, total } = useSelector(({ applicationUsers }) => {
@@ -19,7 +20,7 @@ function UserList({ id }) {
   React.useEffect(() => {
     fetchApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [dispatch, flag]);
 
   const fetchApplications = () => {
     dispatch(getApplicationUsers(id));
@@ -50,7 +51,9 @@ function UserList({ id }) {
               }}
             >
               <Link to="" className="ant-dropdown-link">
-                <Button>Delete</Button>
+                <Button type="danger">
+                  <DeleteOutlined />
+                </Button>
               </Link>
             </Popconfirm>
           </span>

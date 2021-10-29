@@ -29,7 +29,7 @@ const AccountMenu = () => {
         title={
           <>
             {!loading && profile && profile.medium ? (
-              <Avatar size="small" src={profile.medium.url?.raw} />
+              <Avatar size="small" src={profile.medium.url?.proxy} />
             ) : (
               <UserOutlined />
             )}

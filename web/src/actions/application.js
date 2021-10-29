@@ -26,7 +26,7 @@ export const getApplications = () => {
         dispatch(
           addApplicationsList(
             response.data.map((application) => {
-              return { ...application, medium: application.medium?.id };
+              return { ...application, medium: application.medium };
             }),
           ),
         );
@@ -87,7 +87,7 @@ export const getApplication = (id) => {
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then((response) => {
         if (response.data.medium) dispatch(addMediaList([response.data.medium]));
-        dispatch(getApplicationByID({ ...response.data, medium: response.data.medium?.id }));
+        dispatch(getApplicationByID({ ...response.data, medium: response.data.medium }));
         dispatch(stopApplicationLoading());
       })
       .catch((error) => {

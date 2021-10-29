@@ -78,8 +78,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	var userSlug string
 
-	if me.Slug != "" && slug.Check(me.Slug) {
-		userSlug = slug.Approve(me.Slug, me.Email)
+	if req.Slug != "" && req.Slug != me.Slug && slug.Check(req.Slug) {
+		userSlug = slug.Approve(req.Slug, me.Email)
 	} else {
 		userSlug = req.Slug
 	}

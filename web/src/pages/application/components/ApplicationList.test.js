@@ -26,7 +26,7 @@ jest.mock('../../../actions/application', () => ({
 let mockedDispatch, store;
 
 let state = {
-  application: {
+  applications: {
     req: [
       {
         data: [1, 2],
@@ -79,7 +79,7 @@ describe('Application List component', () => {
       expect(tree).toMatchSnapshot();
     });
     it('should match component when loading', () => {
-      state.application.loading = true;
+      state.applications.loading = true;
       store = mockStore(state);
       const tree = mount(
         <Provider store={store}>
@@ -91,7 +91,7 @@ describe('Application List component', () => {
       expect(tree).toMatchSnapshot();
     });
     it('should match component with categories', () => {
-      state.application.loading = false;
+      state.applications.loading = false;
       store = mockStore(state);
       const tree = mount(
         <Provider store={store}>
@@ -155,7 +155,17 @@ describe('Application List component', () => {
       expect(getApplications).toHaveBeenCalledWith();
     });
     it('should edit application', () => {
-      store = mockStore(state);
+      const state2 = { ...state };
+      state2.applications.details[1] = {
+        id: 1,
+        created_at: '2020-09-09T06:49:36.566567Z',
+        updated_at: '2020-09-09T06:49:36.566567Z',
+        name: 'Application1',
+        description: 'description',
+        url: 'url1',
+        users: [{ id: 1, email: 'user@gmail.com' }],
+      };
+      store = mockStore(state2);
       let wrapper;
       act(() => {
         wrapper = mount(
@@ -173,7 +183,7 @@ describe('Application List component', () => {
     });
     it('should have no delete and edit buttons', () => {
       store = mockStore({
-        application: {
+        applications: {
           req: [],
         },
       });

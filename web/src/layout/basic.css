@@ -1,5 +1,5 @@
 .slider-menu {
-  height: 100vh;
+  height: calc(100vh - 64px);
 }
 
 .menu-header {
@@ -11,8 +11,14 @@
 }
 
 .menu-logo {
-  height: 36px;
-  width: 36px;
+  max-height: 36px;
+  max-width: 36px;
+  width: 100%;
+  object-fit: contain;
+}
+.main-sidebar .slider-menu {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .menu-company {

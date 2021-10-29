@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import * as actions from '../actions/users';
 import * as types from '../constants/users';
 import { ADD_NOTIFICATION } from '../constants/notifications';
+import { ADD_ORGANISATION_USERS } from '../constants/organisations';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -221,5 +222,46 @@ describe('users actions', () => {
       .dispatch(actions.deleteUser(1))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
     expect(axios.delete).toHaveBeenCalledWith(`${types.USERS_API}/1/users/1`);
+  });
+  it('should create actions to get all users success', () => {
+    const users = [{ id: 1, name: 'User' }];
+    const resp = { data: users };
+    axios.get.mockResolvedValue(resp);
+
+    const expectedActions = [
+      {
+        type: ADD_ORGANISATION_USERS,
+        payload: { org_id: 1, users: [{ id: 1, name: 'User' }] },
+      },
+      {
+        type: types.SET_USERS_LOADING,
+        payload: false,
+      },
+    ];
+
+    store
+      .dispatch(actions.getAllUsers())
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+    expect(axios.get).toHaveBeenCalledWith(`/organisations/1/users`);
+  });
+  it('should create actions to get all users failure', () => {
+    const errorMessage = 'Unable to get application';
+    axios.get.mockRejectedValue(new Error(errorMessage));
+
+    const expectedActions = [
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          message: errorMessage,
+        },
+      },
+    ];
+
+    store
+      .dispatch(actions.getAllUsers())
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+    expect(axios.get).toHaveBeenCalledWith(`/organisations/1/users`);
   });
 });

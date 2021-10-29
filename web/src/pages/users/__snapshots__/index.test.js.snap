@@ -65,6 +65,7 @@ exports[`Users index component snapshot testing should render the component for 
                 style={Object {}}
               >
                 <Table
+                  bordered={true}
                   columns={
                     Array [
                       Object {
@@ -123,9 +124,19 @@ exports[`Users index component snapshot testing should render the component for 
                   loading={false}
                   pagination={false}
                   rowKey="id"
+                  style={
+                    Object {
+                      "width": "78vw",
+                    }
+                  }
                 >
                   <div
                     className="ant-table-wrapper"
+                    style={
+                      Object {
+                        "width": "78vw",
+                      }
+                    }
                   >
                     <Spin
                       size="default"
@@ -140,7 +151,8 @@ exports[`Users index component snapshot testing should render the component for 
                           key="container"
                         >
                           <Table
-                            className=""
+                            bordered={true}
+                            className="ant-table-bordered"
                             columns={
                               Array [
                                 Object {
@@ -374,14 +386,15 @@ exports[`Users index component snapshot testing should render the component for 
                             transformColumns={[Function]}
                           >
                             <div
-                              className="ant-table"
+                              className="ant-table ant-table-bordered"
                             >
                               <Component
                                 pingLeft={false}
                                 pingRight={false}
                                 props={
                                   Object {
-                                    "className": "",
+                                    "bordered": true,
+                                    "className": "ant-table-bordered",
                                     "columns": Array [
                                       Object {
                                         "key": "name",
@@ -3102,6 +3115,7 @@ exports[`Users index component snapshot testing should render the component for 
                 style={Object {}}
               >
                 <Table
+                  bordered={true}
                   columns={
                     Array [
                       Object {
@@ -3170,9 +3184,19 @@ exports[`Users index component snapshot testing should render the component for 
                   loading={false}
                   pagination={false}
                   rowKey="id"
+                  style={
+                    Object {
+                      "width": "78vw",
+                    }
+                  }
                 >
                   <div
                     className="ant-table-wrapper"
+                    style={
+                      Object {
+                        "width": "78vw",
+                      }
+                    }
                   >
                     <Spin
                       size="default"
@@ -3187,7 +3211,8 @@ exports[`Users index component snapshot testing should render the component for 
                           key="container"
                         >
                           <Table
-                            className=""
+                            bordered={true}
+                            className="ant-table-bordered"
                             columns={
                               Array [
                                 Object {
@@ -3489,14 +3514,15 @@ exports[`Users index component snapshot testing should render the component for 
                             transformColumns={[Function]}
                           >
                             <div
-                              className="ant-table"
+                              className="ant-table ant-table-bordered"
                             >
                               <Component
                                 pingLeft={false}
                                 pingRight={false}
                                 props={
                                   Object {
-                                    "className": "",
+                                    "bordered": true,
+                                    "className": "ant-table-bordered",
                                     "columns": Array [
                                       Object {
                                         "key": "name",

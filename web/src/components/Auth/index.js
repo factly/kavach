@@ -8,7 +8,7 @@ import OIDC from './oidc';
 
 function Auth(props) {
   const [method, setMethod] = React.useState({});
-
+  const [errorMsg, setErrorMsg] = React.useState('');
   const { title } = useSelector((state) => state.settings);
 
   React.useEffect(() => {
@@ -46,6 +46,7 @@ function Auth(props) {
       },
     )
       .then((res) => {
+        setErrorMsg('');
         if (res.status === 200) {
           return res.json();
         } else {
@@ -53,6 +54,11 @@ function Auth(props) {
         }
       })
       .then((res) => {
+        if (res.methods.password.config.fields && res.methods.password.config.fields[1].messages) {
+          setErrorMsg(res.methods.password.config.fields[1].messages[0].text);
+        } else {
+          setErrorMsg('');
+        }
         setMethod(res.methods);
       })
       .catch(() => {
@@ -105,11 +111,15 @@ function Auth(props) {
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>
-          {method.password && method.password.config.errors ? (
+          {method.password && method.password.config.messages ? (
             <Form.Item>
-              {method.password.config.errors.map((item) => (
-                <Alert message={item.message} type="error" />
+              {method.password.config.messages.map((item, index) => (
+                <Alert message={item.text} type="error" key={index} />
               ))}{' '}
+            </Form.Item>
+          ) : errorMsg !== '' ? (
+            <Form.Item>
+              <Alert message={errorMsg} type="error" />
             </Form.Item>
           ) : null}
           <Form.Item
@@ -129,6 +139,7 @@ function Auth(props) {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
+              onChange={() => setErrorMsg('')}
             />
           </Form.Item>
           {props.flow === 'login' ? (

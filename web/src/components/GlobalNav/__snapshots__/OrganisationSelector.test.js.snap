@@ -98,12 +98,38 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                     Array [
                       Object {
                         "data": Object {
-                          "children": "title",
+                          "children": Array [
+                            <ForwardRef(InternalAvatar)
+                              shape="circle"
+                              size="small"
+                            >
+                              t
+                            </ForwardRef(InternalAvatar)>,
+                            " ",
+                            "title",
+                          ],
                           "key": "organisation-1",
                           "value": 1,
                         },
                         "groupOption": false,
                         "key": "organisation-1",
+                      },
+                      Object {
+                        "data": Object {
+                          "children": Array [
+                            <ForwardRef(InternalAvatar)
+                              shape="circle"
+                              size="small"
+                              src="imageUrl"
+                            />,
+                            " ",
+                            "Org 2",
+                          ],
+                          "key": "organisation-2",
+                          "value": 2,
+                        },
+                        "groupOption": false,
+                        "key": "organisation-2",
                       },
                     ]
                   }
@@ -124,9 +150,31 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                   options={
                     Array [
                       Object {
-                        "children": "title",
+                        "children": Array [
+                          <ForwardRef(InternalAvatar)
+                            shape="circle"
+                            size="small"
+                          >
+                            t
+                          </ForwardRef(InternalAvatar)>,
+                          " ",
+                          "title",
+                        ],
                         "key": "organisation-1",
                         "value": 1,
+                      },
+                      Object {
+                        "children": Array [
+                          <ForwardRef(InternalAvatar)
+                            shape="circle"
+                            size="small"
+                            src="imageUrl"
+                          />,
+                          " ",
+                          "Org 2",
+                        ],
+                        "key": "organisation-2",
+                        "value": 2,
                       },
                     ]
                   }
@@ -230,12 +278,38 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                         Array [
                           Object {
                             "data": Object {
-                              "children": "title",
+                              "children": Array [
+                                <ForwardRef(InternalAvatar)
+                                  shape="circle"
+                                  size="small"
+                                >
+                                  t
+                                </ForwardRef(InternalAvatar)>,
+                                " ",
+                                "title",
+                              ],
                               "key": "organisation-1",
                               "value": 1,
                             },
                             "groupOption": false,
                             "key": "organisation-1",
+                          },
+                          Object {
+                            "data": Object {
+                              "children": Array [
+                                <ForwardRef(InternalAvatar)
+                                  shape="circle"
+                                  size="small"
+                                  src="imageUrl"
+                                />,
+                                " ",
+                                "Org 2",
+                              ],
+                              "key": "organisation-2",
+                              "value": 2,
+                            },
+                            "groupOption": false,
+                            "key": "organisation-2",
                           },
                         ]
                       }
@@ -256,9 +330,31 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                       options={
                         Array [
                           Object {
-                            "children": "title",
+                            "children": Array [
+                              <ForwardRef(InternalAvatar)
+                                shape="circle"
+                                size="small"
+                              >
+                                t
+                              </ForwardRef(InternalAvatar)>,
+                              " ",
+                              "title",
+                            ],
                             "key": "organisation-1",
                             "value": 1,
+                          },
+                          Object {
+                            "children": Array [
+                              <ForwardRef(InternalAvatar)
+                                shape="circle"
+                                size="small"
+                                src="imageUrl"
+                              />,
+                              " ",
+                              "Org 2",
+                            ],
+                            "key": "organisation-2",
+                            "value": 2,
                           },
                         ]
                       }
@@ -318,8 +414,18 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="title"
                         >
+                          <span
+                            class="ant-avatar ant-avatar-sm ant-avatar-circle"
+                          >
+                            <span
+                              class="ant-avatar-string"
+                              style="transform: scale(1) translateX(-50%);"
+                            >
+                              t
+                            </span>
+                          </span>
+                           
                           title
                         </span>
                       </div>,
@@ -361,7 +467,16 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                       Object {
                         "disabled": undefined,
                         "key": 1,
-                        "label": "title",
+                        "label": Array [
+                          <ForwardRef(InternalAvatar)
+                            shape="circle"
+                            size="small"
+                          >
+                            t
+                          </ForwardRef(InternalAvatar)>,
+                          " ",
+                          "title",
+                        ],
                         "value": 1,
                       },
                     ]
@@ -404,8 +519,18 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                             </span>
                             <span
                               class="ant-select-selection-item"
-                              title="title"
                             >
+                              <span
+                                class="ant-avatar ant-avatar-sm ant-avatar-circle"
+                              >
+                                <span
+                                  class="ant-avatar-string"
+                                  style="transform: scale(1) translateX(-50%);"
+                                >
+                                  t
+                                </span>
+                              </span>
+                               
                               title
                             </span>
                           </div>,
@@ -472,7 +597,16 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                           Object {
                             "disabled": undefined,
                             "key": 1,
-                            "label": "title",
+                            "label": Array [
+                              <ForwardRef(InternalAvatar)
+                                shape="circle"
+                                size="small"
+                              >
+                                t
+                              </ForwardRef(InternalAvatar)>,
+                              " ",
+                              "title",
+                            ],
                             "value": 1,
                           },
                         ]
@@ -526,8 +660,34 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                       </span>
                       <span
                         className="ant-select-selection-item"
-                        title="title"
                       >
+                        <Avatar
+                          shape="circle"
+                          size="small"
+                        >
+                          <span
+                            className="ant-avatar ant-avatar-sm ant-avatar-circle"
+                            style={Object {}}
+                          >
+                            <ResizeObserver
+                              onResize={[Function]}
+                            >
+                              <span
+                                className="ant-avatar-string"
+                                style={
+                                  Object {
+                                    "WebkitTransform": "scale(1) translateX(-50%)",
+                                    "msTransform": "scale(1) translateX(-50%)",
+                                    "transform": "scale(1) translateX(-50%)",
+                                  }
+                                }
+                              >
+                                t
+                              </span>
+                            </ResizeObserver>
+                          </span>
+                        </Avatar>
+                         
                         title
                       </span>
                     </SingleSelector>
@@ -742,12 +902,38 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                     Array [
                       Object {
                         "data": Object {
-                          "children": "title",
+                          "children": Array [
+                            <ForwardRef(InternalAvatar)
+                              shape="circle"
+                              size="small"
+                            >
+                              t
+                            </ForwardRef(InternalAvatar)>,
+                            " ",
+                            "title",
+                          ],
                           "key": "organisation-1",
                           "value": 1,
                         },
                         "groupOption": false,
                         "key": "organisation-1",
+                      },
+                      Object {
+                        "data": Object {
+                          "children": Array [
+                            <ForwardRef(InternalAvatar)
+                              shape="circle"
+                              size="small"
+                              src="imageUrl"
+                            />,
+                            " ",
+                            "Org 2",
+                          ],
+                          "key": "organisation-2",
+                          "value": 2,
+                        },
+                        "groupOption": false,
+                        "key": "organisation-2",
                       },
                     ]
                   }
@@ -768,9 +954,31 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                   options={
                     Array [
                       Object {
-                        "children": "title",
+                        "children": Array [
+                          <ForwardRef(InternalAvatar)
+                            shape="circle"
+                            size="small"
+                          >
+                            t
+                          </ForwardRef(InternalAvatar)>,
+                          " ",
+                          "title",
+                        ],
                         "key": "organisation-1",
                         "value": 1,
+                      },
+                      Object {
+                        "children": Array [
+                          <ForwardRef(InternalAvatar)
+                            shape="circle"
+                            size="small"
+                            src="imageUrl"
+                          />,
+                          " ",
+                          "Org 2",
+                        ],
+                        "key": "organisation-2",
+                        "value": 2,
                       },
                     ]
                   }
@@ -874,12 +1082,38 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                         Array [
                           Object {
                             "data": Object {
-                              "children": "title",
+                              "children": Array [
+                                <ForwardRef(InternalAvatar)
+                                  shape="circle"
+                                  size="small"
+                                >
+                                  t
+                                </ForwardRef(InternalAvatar)>,
+                                " ",
+                                "title",
+                              ],
                               "key": "organisation-1",
                               "value": 1,
                             },
                             "groupOption": false,
                             "key": "organisation-1",
+                          },
+                          Object {
+                            "data": Object {
+                              "children": Array [
+                                <ForwardRef(InternalAvatar)
+                                  shape="circle"
+                                  size="small"
+                                  src="imageUrl"
+                                />,
+                                " ",
+                                "Org 2",
+                              ],
+                              "key": "organisation-2",
+                              "value": 2,
+                            },
+                            "groupOption": false,
+                            "key": "organisation-2",
                           },
                         ]
                       }
@@ -900,9 +1134,31 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                       options={
                         Array [
                           Object {
-                            "children": "title",
+                            "children": Array [
+                              <ForwardRef(InternalAvatar)
+                                shape="circle"
+                                size="small"
+                              >
+                                t
+                              </ForwardRef(InternalAvatar)>,
+                              " ",
+                              "title",
+                            ],
                             "key": "organisation-1",
                             "value": 1,
+                          },
+                          Object {
+                            "children": Array [
+                              <ForwardRef(InternalAvatar)
+                                shape="circle"
+                                size="small"
+                                src="imageUrl"
+                              />,
+                              " ",
+                              "Org 2",
+                            ],
+                            "key": "organisation-2",
+                            "value": 2,
                           },
                         ]
                       }
@@ -962,8 +1218,18 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="title"
                         >
+                          <span
+                            class="ant-avatar ant-avatar-sm ant-avatar-circle"
+                          >
+                            <span
+                              class="ant-avatar-string"
+                              style="transform: scale(1) translateX(-50%);"
+                            >
+                              t
+                            </span>
+                          </span>
+                           
                           title
                         </span>
                       </div>,
@@ -1005,7 +1271,16 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                       Object {
                         "disabled": undefined,
                         "key": 1,
-                        "label": "title",
+                        "label": Array [
+                          <ForwardRef(InternalAvatar)
+                            shape="circle"
+                            size="small"
+                          >
+                            t
+                          </ForwardRef(InternalAvatar)>,
+                          " ",
+                          "title",
+                        ],
                         "value": 1,
                       },
                     ]
@@ -1048,8 +1323,18 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                             </span>
                             <span
                               class="ant-select-selection-item"
-                              title="title"
                             >
+                              <span
+                                class="ant-avatar ant-avatar-sm ant-avatar-circle"
+                              >
+                                <span
+                                  class="ant-avatar-string"
+                                  style="transform: scale(1) translateX(-50%);"
+                                >
+                                  t
+                                </span>
+                              </span>
+                               
                               title
                             </span>
                           </div>,
@@ -1116,7 +1401,16 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                           Object {
                             "disabled": undefined,
                             "key": 1,
-                            "label": "title",
+                            "label": Array [
+                              <ForwardRef(InternalAvatar)
+                                shape="circle"
+                                size="small"
+                              >
+                                t
+                              </ForwardRef(InternalAvatar)>,
+                              " ",
+                              "title",
+                            ],
                             "value": 1,
                           },
                         ]
@@ -1170,8 +1464,34 @@ exports[`OrganisationSelector component snapshot testing should render the compo
                       </span>
                       <span
                         className="ant-select-selection-item"
-                        title="title"
                       >
+                        <Avatar
+                          shape="circle"
+                          size="small"
+                        >
+                          <span
+                            className="ant-avatar ant-avatar-sm ant-avatar-circle"
+                            style={Object {}}
+                          >
+                            <ResizeObserver
+                              onResize={[Function]}
+                            >
+                              <span
+                                className="ant-avatar-string"
+                                style={
+                                  Object {
+                                    "WebkitTransform": "scale(1) translateX(-50%)",
+                                    "msTransform": "scale(1) translateX(-50%)",
+                                    "transform": "scale(1) translateX(-50%)",
+                                  }
+                                }
+                              >
+                                t
+                              </span>
+                            </ResizeObserver>
+                          </span>
+                        </Avatar>
+                         
                         title
                       </span>
                     </SingleSelector>

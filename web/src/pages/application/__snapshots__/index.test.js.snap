@@ -182,18 +182,33 @@ exports[`Application component snapshot testing should render the component 1`] 
                                   "dataIndex": "name",
                                   "key": "name",
                                   "title": "Name",
+                                  "width": "15%",
+                                },
+                                Object {
+                                  "dataIndex": "slug",
+                                  "key": "slug",
+                                  "title": "Slug",
+                                  "width": "15%",
                                 },
                                 Object {
                                   "dataIndex": "description",
                                   "ellipsis": true,
                                   "key": "description",
                                   "title": "Description",
-                                  "width": "50%",
+                                  "width": "40%",
+                                },
+                                Object {
+                                  "dataIndex": "users",
+                                  "key": "users",
+                                  "render": [Function],
+                                  "title": "Users",
+                                  "width": "30%",
                                 },
                                 Object {
                                   "dataIndex": "operation",
                                   "render": [Function],
                                   "title": "Action",
+                                  "width": "20%",
                                 },
                               ]
                             }
@@ -233,18 +248,33 @@ exports[`Application component snapshot testing should render the component 1`] 
                                             "dataIndex": "name",
                                             "key": "name",
                                             "title": "Name",
+                                            "width": "15%",
+                                          },
+                                          Object {
+                                            "dataIndex": "slug",
+                                            "key": "slug",
+                                            "title": "Slug",
+                                            "width": "15%",
                                           },
                                           Object {
                                             "dataIndex": "description",
                                             "ellipsis": true,
                                             "key": "description",
                                             "title": "Description",
-                                            "width": "50%",
+                                            "width": "40%",
+                                          },
+                                          Object {
+                                            "dataIndex": "users",
+                                            "key": "users",
+                                            "render": [Function],
+                                            "title": "Users",
+                                            "width": "30%",
                                           },
                                           Object {
                                             "dataIndex": "operation",
                                             "render": [Function],
                                             "title": "Action",
+                                            "width": "20%",
                                           },
                                         ]
                                       }
@@ -275,9 +305,20 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                 style="table-layout: fixed;"
                                               >
                                                 <colgroup>
-                                                  <col />
                                                   <col
-                                                    style="width: 50%; min-width: 50%;"
+                                                    style="width: 15%; min-width: 15%;"
+                                                  />
+                                                  <col
+                                                    style="width: 15%; min-width: 15%;"
+                                                  />
+                                                  <col
+                                                    style="width: 40%; min-width: 40%;"
+                                                  />
+                                                  <col
+                                                    style="width: 30%; min-width: 30%;"
+                                                  />
+                                                  <col
+                                                    style="width: 20%; min-width: 20%;"
                                                   />
                                                 </colgroup>
                                                 <thead
@@ -290,10 +331,20 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                       Name
                                                     </th>
                                                     <th
+                                                      class="ant-table-cell"
+                                                    >
+                                                      Slug
+                                                    </th>
+                                                    <th
                                                       class="ant-table-cell ant-table-cell-ellipsis"
                                                       title="Description"
                                                     >
                                                       Description
+                                                    </th>
+                                                    <th
+                                                      class="ant-table-cell"
+                                                    >
+                                                      Users
                                                     </th>
                                                     <th
                                                       class="ant-table-cell"
@@ -310,7 +361,7 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                   >
                                                     <td
                                                       class="ant-table-cell"
-                                                      colspan="3"
+                                                      colspan="5"
                                                     >
                                                       <div
                                                         class="ant-empty ant-empty-normal"
@@ -395,18 +446,33 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                   "dataIndex": "name",
                                                   "key": "name",
                                                   "title": "Name",
+                                                  "width": "15%",
+                                                },
+                                                Object {
+                                                  "dataIndex": "slug",
+                                                  "key": "slug",
+                                                  "title": "Slug",
+                                                  "width": "15%",
                                                 },
                                                 Object {
                                                   "dataIndex": "description",
                                                   "ellipsis": true,
                                                   "key": "description",
                                                   "title": "Description",
-                                                  "width": "50%",
+                                                  "width": "40%",
+                                                },
+                                                Object {
+                                                  "dataIndex": "users",
+                                                  "key": "users",
+                                                  "render": [Function],
+                                                  "title": "Users",
+                                                  "width": "30%",
                                                 },
                                                 Object {
                                                   "dataIndex": "operation",
                                                   "render": [Function],
                                                   "title": "Action",
+                                                  "width": "20%",
                                                 },
                                               ],
                                               "data": Array [],
@@ -432,9 +498,20 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                       style="table-layout: fixed;"
                                                     >
                                                       <colgroup>
-                                                        <col />
                                                         <col
-                                                          style="width: 50%; min-width: 50%;"
+                                                          style="width: 15%; min-width: 15%;"
+                                                        />
+                                                        <col
+                                                          style="width: 15%; min-width: 15%;"
+                                                        />
+                                                        <col
+                                                          style="width: 40%; min-width: 40%;"
+                                                        />
+                                                        <col
+                                                          style="width: 30%; min-width: 30%;"
+                                                        />
+                                                        <col
+                                                          style="width: 20%; min-width: 20%;"
                                                         />
                                                       </colgroup>
                                                       <thead
@@ -447,10 +524,20 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                             Name
                                                           </th>
                                                           <th
+                                                            class="ant-table-cell"
+                                                          >
+                                                            Slug
+                                                          </th>
+                                                          <th
                                                             class="ant-table-cell ant-table-cell-ellipsis"
                                                             title="Description"
                                                           >
                                                             Description
+                                                          </th>
+                                                          <th
+                                                            class="ant-table-cell"
+                                                          >
+                                                            Users
                                                           </th>
                                                           <th
                                                             class="ant-table-cell"
@@ -467,7 +554,7 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         >
                                                           <td
                                                             class="ant-table-cell"
-                                                            colspan="3"
+                                                            colspan="5"
                                                           >
                                                             <div
                                                               class="ant-empty ant-empty-normal"
@@ -538,8 +625,12 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                   0,
                                                   0,
                                                   0,
+                                                  0,
+                                                  0,
                                                 ],
                                                 "right": Array [
+                                                  0,
+                                                  0,
                                                   0,
                                                   0,
                                                   0,
@@ -567,9 +658,11 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                 <ColGroup
                                                   colWidths={
                                                     Array [
-                                                      undefined,
-                                                      "50%",
-                                                      undefined,
+                                                      "15%",
+                                                      "15%",
+                                                      "40%",
+                                                      "30%",
+                                                      "20%",
                                                     ]
                                                   }
                                                   columns={
@@ -579,6 +672,14 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         "fixed": undefined,
                                                         "key": "name",
                                                         "title": "Name",
+                                                        "width": "15%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "slug",
+                                                        "fixed": undefined,
+                                                        "key": "slug",
+                                                        "title": "Slug",
+                                                        "width": "15%",
                                                       },
                                                       Object {
                                                         "dataIndex": "description",
@@ -586,13 +687,22 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         "fixed": undefined,
                                                         "key": "description",
                                                         "title": "Description",
-                                                        "width": "50%",
+                                                        "width": "40%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "users",
+                                                        "fixed": undefined,
+                                                        "key": "users",
+                                                        "render": [Function],
+                                                        "title": "Users",
+                                                        "width": "30%",
                                                       },
                                                       Object {
                                                         "dataIndex": "operation",
                                                         "fixed": undefined,
                                                         "render": [Function],
                                                         "title": "Action",
+                                                        "width": "20%",
                                                       },
                                                     ]
                                                   }
@@ -602,8 +712,8 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                       key="0"
                                                       style={
                                                         Object {
-                                                          "minWidth": undefined,
-                                                          "width": undefined,
+                                                          "minWidth": "15%",
+                                                          "width": "15%",
                                                         }
                                                       }
                                                     />
@@ -611,8 +721,35 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                       key="1"
                                                       style={
                                                         Object {
-                                                          "minWidth": "50%",
-                                                          "width": "50%",
+                                                          "minWidth": "15%",
+                                                          "width": "15%",
+                                                        }
+                                                      }
+                                                    />
+                                                    <col
+                                                      key="2"
+                                                      style={
+                                                        Object {
+                                                          "minWidth": "40%",
+                                                          "width": "40%",
+                                                        }
+                                                      }
+                                                    />
+                                                    <col
+                                                      key="3"
+                                                      style={
+                                                        Object {
+                                                          "minWidth": "30%",
+                                                          "width": "30%",
+                                                        }
+                                                      }
+                                                    />
+                                                    <col
+                                                      key="4"
+                                                      style={
+                                                        Object {
+                                                          "minWidth": "20%",
+                                                          "width": "20%",
                                                         }
                                                       }
                                                     />
@@ -624,27 +761,44 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                       undefined,
                                                       undefined,
                                                       undefined,
+                                                      undefined,
+                                                      undefined,
                                                     ]
                                                   }
-                                                  columCount={3}
+                                                  columCount={5}
                                                   columns={
                                                     Array [
                                                       Object {
                                                         "dataIndex": "name",
                                                         "key": "name",
                                                         "title": "Name",
+                                                        "width": "15%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "slug",
+                                                        "key": "slug",
+                                                        "title": "Slug",
+                                                        "width": "15%",
                                                       },
                                                       Object {
                                                         "dataIndex": "description",
                                                         "ellipsis": true,
                                                         "key": "description",
                                                         "title": "Description",
-                                                        "width": "50%",
+                                                        "width": "40%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "users",
+                                                        "key": "users",
+                                                        "render": [Function],
+                                                        "title": "Users",
+                                                        "width": "30%",
                                                       },
                                                       Object {
                                                         "dataIndex": "operation",
                                                         "render": [Function],
                                                         "title": "Action",
+                                                        "width": "20%",
                                                       },
                                                     ]
                                                   }
@@ -655,6 +809,14 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         "fixed": undefined,
                                                         "key": "name",
                                                         "title": "Name",
+                                                        "width": "15%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "slug",
+                                                        "fixed": undefined,
+                                                        "key": "slug",
+                                                        "title": "Slug",
+                                                        "width": "15%",
                                                       },
                                                       Object {
                                                         "dataIndex": "description",
@@ -662,13 +824,22 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         "fixed": undefined,
                                                         "key": "description",
                                                         "title": "Description",
-                                                        "width": "50%",
+                                                        "width": "40%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "users",
+                                                        "fixed": undefined,
+                                                        "key": "users",
+                                                        "render": [Function],
+                                                        "title": "Users",
+                                                        "width": "30%",
                                                       },
                                                       Object {
                                                         "dataIndex": "operation",
                                                         "fixed": undefined,
                                                         "render": [Function],
                                                         "title": "Action",
+                                                        "width": "20%",
                                                       },
                                                     ]
                                                   }
@@ -678,8 +849,12 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         0,
                                                         0,
                                                         0,
+                                                        0,
+                                                        0,
                                                       ],
                                                       "right": Array [
+                                                        0,
+                                                        0,
                                                         0,
                                                         0,
                                                         0,
@@ -704,36 +879,69 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                               "dataIndex": "name",
                                                               "key": "name",
                                                               "title": "Name",
+                                                              "width": "15%",
                                                             },
                                                             "key": "name",
                                                             "rowSpan": 1,
                                                           },
                                                           Object {
-                                                            "children": "Description",
+                                                            "children": "Slug",
                                                             "className": "",
                                                             "colEnd": 1,
                                                             "colSpan": 1,
                                                             "colStart": 1,
                                                             "column": Object {
-                                                              "dataIndex": "description",
-                                                              "ellipsis": true,
-                                                              "key": "description",
-                                                              "title": "Description",
-                                                              "width": "50%",
+                                                              "dataIndex": "slug",
+                                                              "key": "slug",
+                                                              "title": "Slug",
+                                                              "width": "15%",
                                                             },
-                                                            "key": "description",
+                                                            "key": "slug",
                                                             "rowSpan": 1,
                                                           },
                                                           Object {
-                                                            "children": "Action",
+                                                            "children": "Description",
                                                             "className": "",
                                                             "colEnd": 2,
                                                             "colSpan": 1,
                                                             "colStart": 2,
                                                             "column": Object {
+                                                              "dataIndex": "description",
+                                                              "ellipsis": true,
+                                                              "key": "description",
+                                                              "title": "Description",
+                                                              "width": "40%",
+                                                            },
+                                                            "key": "description",
+                                                            "rowSpan": 1,
+                                                          },
+                                                          Object {
+                                                            "children": "Users",
+                                                            "className": "",
+                                                            "colEnd": 3,
+                                                            "colSpan": 1,
+                                                            "colStart": 3,
+                                                            "column": Object {
+                                                              "dataIndex": "users",
+                                                              "key": "users",
+                                                              "render": [Function],
+                                                              "title": "Users",
+                                                              "width": "30%",
+                                                            },
+                                                            "key": "users",
+                                                            "rowSpan": 1,
+                                                          },
+                                                          Object {
+                                                            "children": "Action",
+                                                            "className": "",
+                                                            "colEnd": 4,
+                                                            "colSpan": 1,
+                                                            "colStart": 4,
+                                                            "column": Object {
                                                               "dataIndex": "operation",
                                                               "render": [Function],
                                                               "title": "Action",
+                                                              "width": "20%",
                                                             },
                                                             "key": undefined,
                                                             "rowSpan": 1,
@@ -747,6 +955,14 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                             "fixed": undefined,
                                                             "key": "name",
                                                             "title": "Name",
+                                                            "width": "15%",
+                                                          },
+                                                          Object {
+                                                            "dataIndex": "slug",
+                                                            "fixed": undefined,
+                                                            "key": "slug",
+                                                            "title": "Slug",
+                                                            "width": "15%",
                                                           },
                                                           Object {
                                                             "dataIndex": "description",
@@ -754,13 +970,22 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                             "fixed": undefined,
                                                             "key": "description",
                                                             "title": "Description",
-                                                            "width": "50%",
+                                                            "width": "40%",
+                                                          },
+                                                          Object {
+                                                            "dataIndex": "users",
+                                                            "fixed": undefined,
+                                                            "key": "users",
+                                                            "render": [Function],
+                                                            "title": "Users",
+                                                            "width": "30%",
                                                           },
                                                           Object {
                                                             "dataIndex": "operation",
                                                             "fixed": undefined,
                                                             "render": [Function],
                                                             "title": "Action",
+                                                            "width": "20%",
                                                           },
                                                         ]
                                                       }
@@ -773,8 +998,12 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                             0,
                                                             0,
                                                             0,
+                                                            0,
+                                                            0,
                                                           ],
                                                           "right": Array [
+                                                            0,
+                                                            0,
                                                             0,
                                                             0,
                                                             0,
@@ -793,6 +1022,7 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                               "dataIndex": "name",
                                                               "key": "name",
                                                               "title": "Name",
+                                                              "width": "15%",
                                                             }
                                                           }
                                                           component="th"
@@ -821,11 +1051,43 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                           colStart={1}
                                                           column={
                                                             Object {
+                                                              "dataIndex": "slug",
+                                                              "key": "slug",
+                                                              "title": "Slug",
+                                                              "width": "15%",
+                                                            }
+                                                          }
+                                                          component="th"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          key="slug"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          rowSpan={1}
+                                                          rowType="header"
+                                                        >
+                                                          <th
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          >
+                                                            Slug
+                                                          </th>
+                                                        </Cell>
+                                                        <Cell
+                                                          className=""
+                                                          colEnd={2}
+                                                          colSpan={1}
+                                                          colStart={2}
+                                                          column={
+                                                            Object {
                                                               "dataIndex": "description",
                                                               "ellipsis": true,
                                                               "key": "description",
                                                               "title": "Description",
-                                                              "width": "50%",
+                                                              "width": "40%",
                                                             }
                                                           }
                                                           component="th"
@@ -851,14 +1113,48 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         </Cell>
                                                         <Cell
                                                           className=""
-                                                          colEnd={2}
+                                                          colEnd={3}
                                                           colSpan={1}
-                                                          colStart={2}
+                                                          colStart={3}
+                                                          column={
+                                                            Object {
+                                                              "dataIndex": "users",
+                                                              "key": "users",
+                                                              "render": [Function],
+                                                              "title": "Users",
+                                                              "width": "30%",
+                                                            }
+                                                          }
+                                                          component="th"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          key="users"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          rowSpan={1}
+                                                          rowType="header"
+                                                        >
+                                                          <th
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          >
+                                                            Users
+                                                          </th>
+                                                        </Cell>
+                                                        <Cell
+                                                          className=""
+                                                          colEnd={4}
+                                                          colSpan={1}
+                                                          colStart={4}
                                                           column={
                                                             Object {
                                                               "dataIndex": "operation",
                                                               "render": [Function],
                                                               "title": "Action",
+                                                              "width": "20%",
                                                             }
                                                           }
                                                           component="th"
@@ -902,7 +1198,7 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                     <ExpandedRow
                                                       cellComponent="td"
                                                       className="ant-table-placeholder"
-                                                      colSpan={3}
+                                                      colSpan={5}
                                                       component="tr"
                                                       componentWidth={0}
                                                       expanded={true}
@@ -917,13 +1213,13 @@ exports[`Application component snapshot testing should render the component 1`] 
                                                         }
                                                       >
                                                         <Cell
-                                                          colSpan={3}
+                                                          colSpan={5}
                                                           component="td"
                                                           prefixCls="ant-table"
                                                         >
                                                           <td
                                                             className="ant-table-cell"
-                                                            colSpan={3}
+                                                            colSpan={5}
                                                             rowSpan={null}
                                                             style={Object {}}
                                                           >
@@ -1197,18 +1493,33 @@ exports[`Application component snapshot testing should render the component with
                                   "dataIndex": "name",
                                   "key": "name",
                                   "title": "Name",
+                                  "width": "15%",
+                                },
+                                Object {
+                                  "dataIndex": "slug",
+                                  "key": "slug",
+                                  "title": "Slug",
+                                  "width": "15%",
                                 },
                                 Object {
                                   "dataIndex": "description",
                                   "ellipsis": true,
                                   "key": "description",
                                   "title": "Description",
-                                  "width": "50%",
+                                  "width": "40%",
+                                },
+                                Object {
+                                  "dataIndex": "users",
+                                  "key": "users",
+                                  "render": [Function],
+                                  "title": "Users",
+                                  "width": "30%",
                                 },
                                 Object {
                                   "dataIndex": "operation",
                                   "render": [Function],
                                   "title": "Action",
+                                  "width": "20%",
                                 },
                               ]
                             }
@@ -1267,18 +1578,33 @@ exports[`Application component snapshot testing should render the component with
                                             "dataIndex": "name",
                                             "key": "name",
                                             "title": "Name",
+                                            "width": "15%",
+                                          },
+                                          Object {
+                                            "dataIndex": "slug",
+                                            "key": "slug",
+                                            "title": "Slug",
+                                            "width": "15%",
                                           },
                                           Object {
                                             "dataIndex": "description",
                                             "ellipsis": true,
                                             "key": "description",
                                             "title": "Description",
-                                            "width": "50%",
+                                            "width": "40%",
+                                          },
+                                          Object {
+                                            "dataIndex": "users",
+                                            "key": "users",
+                                            "render": [Function],
+                                            "title": "Users",
+                                            "width": "30%",
                                           },
                                           Object {
                                             "dataIndex": "operation",
                                             "render": [Function],
                                             "title": "Action",
+                                            "width": "20%",
                                           },
                                         ]
                                       }
@@ -1347,9 +1673,20 @@ exports[`Application component snapshot testing should render the component with
                                                 style="table-layout: fixed;"
                                               >
                                                 <colgroup>
-                                                  <col />
                                                   <col
-                                                    style="width: 50%; min-width: 50%;"
+                                                    style="width: 15%; min-width: 15%;"
+                                                  />
+                                                  <col
+                                                    style="width: 15%; min-width: 15%;"
+                                                  />
+                                                  <col
+                                                    style="width: 40%; min-width: 40%;"
+                                                  />
+                                                  <col
+                                                    style="width: 30%; min-width: 30%;"
+                                                  />
+                                                  <col
+                                                    style="width: 20%; min-width: 20%;"
                                                   />
                                                 </colgroup>
                                                 <thead
@@ -1362,10 +1699,20 @@ exports[`Application component snapshot testing should render the component with
                                                       Name
                                                     </th>
                                                     <th
+                                                      class="ant-table-cell"
+                                                    >
+                                                      Slug
+                                                    </th>
+                                                    <th
                                                       class="ant-table-cell ant-table-cell-ellipsis"
                                                       title="Description"
                                                     >
                                                       Description
+                                                    </th>
+                                                    <th
+                                                      class="ant-table-cell"
+                                                    >
+                                                      Users
                                                     </th>
                                                     <th
                                                       class="ant-table-cell"
@@ -1387,10 +1734,20 @@ exports[`Application component snapshot testing should render the component with
                                                       Application1
                                                     </td>
                                                     <td
+                                                      class="ant-table-cell"
+                                                    />
+                                                    <td
                                                       class="ant-table-cell ant-table-cell-ellipsis"
                                                       title="description"
                                                     >
                                                       description
+                                                    </td>
+                                                    <td
+                                                      class="ant-table-cell"
+                                                    >
+                                                      <div
+                                                        class="ant-avatar-group"
+                                                      />
                                                     </td>
                                                     <td
                                                       class="ant-table-cell"
@@ -1436,10 +1793,20 @@ exports[`Application component snapshot testing should render the component with
                                                       Application2
                                                     </td>
                                                     <td
+                                                      class="ant-table-cell"
+                                                    />
+                                                    <td
                                                       class="ant-table-cell ant-table-cell-ellipsis"
                                                       title="description"
                                                     >
                                                       description
+                                                    </td>
+                                                    <td
+                                                      class="ant-table-cell"
+                                                    >
+                                                      <div
+                                                        class="ant-avatar-group"
+                                                      />
                                                     </td>
                                                     <td
                                                       class="ant-table-cell"
@@ -1510,18 +1877,33 @@ exports[`Application component snapshot testing should render the component with
                                                   "dataIndex": "name",
                                                   "key": "name",
                                                   "title": "Name",
+                                                  "width": "15%",
+                                                },
+                                                Object {
+                                                  "dataIndex": "slug",
+                                                  "key": "slug",
+                                                  "title": "Slug",
+                                                  "width": "15%",
                                                 },
                                                 Object {
                                                   "dataIndex": "description",
                                                   "ellipsis": true,
                                                   "key": "description",
                                                   "title": "Description",
-                                                  "width": "50%",
+                                                  "width": "40%",
+                                                },
+                                                Object {
+                                                  "dataIndex": "users",
+                                                  "key": "users",
+                                                  "render": [Function],
+                                                  "title": "Users",
+                                                  "width": "30%",
                                                 },
                                                 Object {
                                                   "dataIndex": "operation",
                                                   "render": [Function],
                                                   "title": "Action",
+                                                  "width": "20%",
                                                 },
                                               ],
                                               "data": Array [
@@ -1581,9 +1963,20 @@ exports[`Application component snapshot testing should render the component with
                                                       style="table-layout: fixed;"
                                                     >
                                                       <colgroup>
-                                                        <col />
                                                         <col
-                                                          style="width: 50%; min-width: 50%;"
+                                                          style="width: 15%; min-width: 15%;"
+                                                        />
+                                                        <col
+                                                          style="width: 15%; min-width: 15%;"
+                                                        />
+                                                        <col
+                                                          style="width: 40%; min-width: 40%;"
+                                                        />
+                                                        <col
+                                                          style="width: 30%; min-width: 30%;"
+                                                        />
+                                                        <col
+                                                          style="width: 20%; min-width: 20%;"
                                                         />
                                                       </colgroup>
                                                       <thead
@@ -1596,10 +1989,20 @@ exports[`Application component snapshot testing should render the component with
                                                             Name
                                                           </th>
                                                           <th
+                                                            class="ant-table-cell"
+                                                          >
+                                                            Slug
+                                                          </th>
+                                                          <th
                                                             class="ant-table-cell ant-table-cell-ellipsis"
                                                             title="Description"
                                                           >
                                                             Description
+                                                          </th>
+                                                          <th
+                                                            class="ant-table-cell"
+                                                          >
+                                                            Users
                                                           </th>
                                                           <th
                                                             class="ant-table-cell"
@@ -1621,10 +2024,20 @@ exports[`Application component snapshot testing should render the component with
                                                             Application1
                                                           </td>
                                                           <td
+                                                            class="ant-table-cell"
+                                                          />
+                                                          <td
                                                             class="ant-table-cell ant-table-cell-ellipsis"
                                                             title="description"
                                                           >
                                                             description
+                                                          </td>
+                                                          <td
+                                                            class="ant-table-cell"
+                                                          >
+                                                            <div
+                                                              class="ant-avatar-group"
+                                                            />
                                                           </td>
                                                           <td
                                                             class="ant-table-cell"
@@ -1670,10 +2083,20 @@ exports[`Application component snapshot testing should render the component with
                                                             Application2
                                                           </td>
                                                           <td
+                                                            class="ant-table-cell"
+                                                          />
+                                                          <td
                                                             class="ant-table-cell ant-table-cell-ellipsis"
                                                             title="description"
                                                           >
                                                             description
+                                                          </td>
+                                                          <td
+                                                            class="ant-table-cell"
+                                                          >
+                                                            <div
+                                                              class="ant-avatar-group"
+                                                            />
                                                           </td>
                                                           <td
                                                             class="ant-table-cell"
@@ -1730,8 +2153,12 @@ exports[`Application component snapshot testing should render the component with
                                                   0,
                                                   0,
                                                   0,
+                                                  0,
+                                                  0,
                                                 ],
                                                 "right": Array [
+                                                  0,
+                                                  0,
                                                   0,
                                                   0,
                                                   0,
@@ -1759,9 +2186,11 @@ exports[`Application component snapshot testing should render the component with
                                                 <ColGroup
                                                   colWidths={
                                                     Array [
-                                                      undefined,
-                                                      "50%",
-                                                      undefined,
+                                                      "15%",
+                                                      "15%",
+                                                      "40%",
+                                                      "30%",
+                                                      "20%",
                                                     ]
                                                   }
                                                   columns={
@@ -1771,6 +2200,14 @@ exports[`Application component snapshot testing should render the component with
                                                         "fixed": undefined,
                                                         "key": "name",
                                                         "title": "Name",
+                                                        "width": "15%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "slug",
+                                                        "fixed": undefined,
+                                                        "key": "slug",
+                                                        "title": "Slug",
+                                                        "width": "15%",
                                                       },
                                                       Object {
                                                         "dataIndex": "description",
@@ -1778,13 +2215,22 @@ exports[`Application component snapshot testing should render the component with
                                                         "fixed": undefined,
                                                         "key": "description",
                                                         "title": "Description",
-                                                        "width": "50%",
+                                                        "width": "40%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "users",
+                                                        "fixed": undefined,
+                                                        "key": "users",
+                                                        "render": [Function],
+                                                        "title": "Users",
+                                                        "width": "30%",
                                                       },
                                                       Object {
                                                         "dataIndex": "operation",
                                                         "fixed": undefined,
                                                         "render": [Function],
                                                         "title": "Action",
+                                                        "width": "20%",
                                                       },
                                                     ]
                                                   }
@@ -1794,8 +2240,8 @@ exports[`Application component snapshot testing should render the component with
                                                       key="0"
                                                       style={
                                                         Object {
-                                                          "minWidth": undefined,
-                                                          "width": undefined,
+                                                          "minWidth": "15%",
+                                                          "width": "15%",
                                                         }
                                                       }
                                                     />
@@ -1803,8 +2249,35 @@ exports[`Application component snapshot testing should render the component with
                                                       key="1"
                                                       style={
                                                         Object {
-                                                          "minWidth": "50%",
-                                                          "width": "50%",
+                                                          "minWidth": "15%",
+                                                          "width": "15%",
+                                                        }
+                                                      }
+                                                    />
+                                                    <col
+                                                      key="2"
+                                                      style={
+                                                        Object {
+                                                          "minWidth": "40%",
+                                                          "width": "40%",
+                                                        }
+                                                      }
+                                                    />
+                                                    <col
+                                                      key="3"
+                                                      style={
+                                                        Object {
+                                                          "minWidth": "30%",
+                                                          "width": "30%",
+                                                        }
+                                                      }
+                                                    />
+                                                    <col
+                                                      key="4"
+                                                      style={
+                                                        Object {
+                                                          "minWidth": "20%",
+                                                          "width": "20%",
                                                         }
                                                       }
                                                     />
@@ -1816,27 +2289,44 @@ exports[`Application component snapshot testing should render the component with
                                                       undefined,
                                                       undefined,
                                                       undefined,
+                                                      undefined,
+                                                      undefined,
                                                     ]
                                                   }
-                                                  columCount={3}
+                                                  columCount={5}
                                                   columns={
                                                     Array [
                                                       Object {
                                                         "dataIndex": "name",
                                                         "key": "name",
                                                         "title": "Name",
+                                                        "width": "15%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "slug",
+                                                        "key": "slug",
+                                                        "title": "Slug",
+                                                        "width": "15%",
                                                       },
                                                       Object {
                                                         "dataIndex": "description",
                                                         "ellipsis": true,
                                                         "key": "description",
                                                         "title": "Description",
-                                                        "width": "50%",
+                                                        "width": "40%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "users",
+                                                        "key": "users",
+                                                        "render": [Function],
+                                                        "title": "Users",
+                                                        "width": "30%",
                                                       },
                                                       Object {
                                                         "dataIndex": "operation",
                                                         "render": [Function],
                                                         "title": "Action",
+                                                        "width": "20%",
                                                       },
                                                     ]
                                                   }
@@ -1847,6 +2337,14 @@ exports[`Application component snapshot testing should render the component with
                                                         "fixed": undefined,
                                                         "key": "name",
                                                         "title": "Name",
+                                                        "width": "15%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "slug",
+                                                        "fixed": undefined,
+                                                        "key": "slug",
+                                                        "title": "Slug",
+                                                        "width": "15%",
                                                       },
                                                       Object {
                                                         "dataIndex": "description",
@@ -1854,13 +2352,22 @@ exports[`Application component snapshot testing should render the component with
                                                         "fixed": undefined,
                                                         "key": "description",
                                                         "title": "Description",
-                                                        "width": "50%",
+                                                        "width": "40%",
+                                                      },
+                                                      Object {
+                                                        "dataIndex": "users",
+                                                        "fixed": undefined,
+                                                        "key": "users",
+                                                        "render": [Function],
+                                                        "title": "Users",
+                                                        "width": "30%",
                                                       },
                                                       Object {
                                                         "dataIndex": "operation",
                                                         "fixed": undefined,
                                                         "render": [Function],
                                                         "title": "Action",
+                                                        "width": "20%",
                                                       },
                                                     ]
                                                   }
@@ -1870,8 +2377,12 @@ exports[`Application component snapshot testing should render the component with
                                                         0,
                                                         0,
                                                         0,
+                                                        0,
+                                                        0,
                                                       ],
                                                       "right": Array [
+                                                        0,
+                                                        0,
                                                         0,
                                                         0,
                                                         0,
@@ -1896,36 +2407,69 @@ exports[`Application component snapshot testing should render the component with
                                                               "dataIndex": "name",
                                                               "key": "name",
                                                               "title": "Name",
+                                                              "width": "15%",
                                                             },
                                                             "key": "name",
                                                             "rowSpan": 1,
                                                           },
                                                           Object {
-                                                            "children": "Description",
+                                                            "children": "Slug",
                                                             "className": "",
                                                             "colEnd": 1,
                                                             "colSpan": 1,
                                                             "colStart": 1,
                                                             "column": Object {
-                                                              "dataIndex": "description",
-                                                              "ellipsis": true,
-                                                              "key": "description",
-                                                              "title": "Description",
-                                                              "width": "50%",
+                                                              "dataIndex": "slug",
+                                                              "key": "slug",
+                                                              "title": "Slug",
+                                                              "width": "15%",
                                                             },
-                                                            "key": "description",
+                                                            "key": "slug",
                                                             "rowSpan": 1,
                                                           },
                                                           Object {
-                                                            "children": "Action",
+                                                            "children": "Description",
                                                             "className": "",
                                                             "colEnd": 2,
                                                             "colSpan": 1,
                                                             "colStart": 2,
                                                             "column": Object {
+                                                              "dataIndex": "description",
+                                                              "ellipsis": true,
+                                                              "key": "description",
+                                                              "title": "Description",
+                                                              "width": "40%",
+                                                            },
+                                                            "key": "description",
+                                                            "rowSpan": 1,
+                                                          },
+                                                          Object {
+                                                            "children": "Users",
+                                                            "className": "",
+                                                            "colEnd": 3,
+                                                            "colSpan": 1,
+                                                            "colStart": 3,
+                                                            "column": Object {
+                                                              "dataIndex": "users",
+                                                              "key": "users",
+                                                              "render": [Function],
+                                                              "title": "Users",
+                                                              "width": "30%",
+                                                            },
+                                                            "key": "users",
+                                                            "rowSpan": 1,
+                                                          },
+                                                          Object {
+                                                            "children": "Action",
+                                                            "className": "",
+                                                            "colEnd": 4,
+                                                            "colSpan": 1,
+                                                            "colStart": 4,
+                                                            "column": Object {
                                                               "dataIndex": "operation",
                                                               "render": [Function],
                                                               "title": "Action",
+                                                              "width": "20%",
                                                             },
                                                             "key": undefined,
                                                             "rowSpan": 1,
@@ -1939,6 +2483,14 @@ exports[`Application component snapshot testing should render the component with
                                                             "fixed": undefined,
                                                             "key": "name",
                                                             "title": "Name",
+                                                            "width": "15%",
+                                                          },
+                                                          Object {
+                                                            "dataIndex": "slug",
+                                                            "fixed": undefined,
+                                                            "key": "slug",
+                                                            "title": "Slug",
+                                                            "width": "15%",
                                                           },
                                                           Object {
                                                             "dataIndex": "description",
@@ -1946,13 +2498,22 @@ exports[`Application component snapshot testing should render the component with
                                                             "fixed": undefined,
                                                             "key": "description",
                                                             "title": "Description",
-                                                            "width": "50%",
+                                                            "width": "40%",
+                                                          },
+                                                          Object {
+                                                            "dataIndex": "users",
+                                                            "fixed": undefined,
+                                                            "key": "users",
+                                                            "render": [Function],
+                                                            "title": "Users",
+                                                            "width": "30%",
                                                           },
                                                           Object {
                                                             "dataIndex": "operation",
                                                             "fixed": undefined,
                                                             "render": [Function],
                                                             "title": "Action",
+                                                            "width": "20%",
                                                           },
                                                         ]
                                                       }
@@ -1965,8 +2526,12 @@ exports[`Application component snapshot testing should render the component with
                                                             0,
                                                             0,
                                                             0,
+                                                            0,
+                                                            0,
                                                           ],
                                                           "right": Array [
+                                                            0,
+                                                            0,
                                                             0,
                                                             0,
                                                             0,
@@ -1985,6 +2550,7 @@ exports[`Application component snapshot testing should render the component with
                                                               "dataIndex": "name",
                                                               "key": "name",
                                                               "title": "Name",
+                                                              "width": "15%",
                                                             }
                                                           }
                                                           component="th"
@@ -2013,11 +2579,43 @@ exports[`Application component snapshot testing should render the component with
                                                           colStart={1}
                                                           column={
                                                             Object {
+                                                              "dataIndex": "slug",
+                                                              "key": "slug",
+                                                              "title": "Slug",
+                                                              "width": "15%",
+                                                            }
+                                                          }
+                                                          component="th"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          key="slug"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          rowSpan={1}
+                                                          rowType="header"
+                                                        >
+                                                          <th
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          >
+                                                            Slug
+                                                          </th>
+                                                        </Cell>
+                                                        <Cell
+                                                          className=""
+                                                          colEnd={2}
+                                                          colSpan={1}
+                                                          colStart={2}
+                                                          column={
+                                                            Object {
                                                               "dataIndex": "description",
                                                               "ellipsis": true,
                                                               "key": "description",
                                                               "title": "Description",
-                                                              "width": "50%",
+                                                              "width": "40%",
                                                             }
                                                           }
                                                           component="th"
@@ -2043,14 +2641,48 @@ exports[`Application component snapshot testing should render the component with
                                                         </Cell>
                                                         <Cell
                                                           className=""
-                                                          colEnd={2}
+                                                          colEnd={3}
                                                           colSpan={1}
-                                                          colStart={2}
+                                                          colStart={3}
+                                                          column={
+                                                            Object {
+                                                              "dataIndex": "users",
+                                                              "key": "users",
+                                                              "render": [Function],
+                                                              "title": "Users",
+                                                              "width": "30%",
+                                                            }
+                                                          }
+                                                          component="th"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          key="users"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          rowSpan={1}
+                                                          rowType="header"
+                                                        >
+                                                          <th
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          >
+                                                            Users
+                                                          </th>
+                                                        </Cell>
+                                                        <Cell
+                                                          className=""
+                                                          colEnd={4}
+                                                          colSpan={1}
+                                                          colStart={4}
                                                           column={
                                                             Object {
                                                               "dataIndex": "operation",
                                                               "render": [Function],
                                                               "title": "Action",
+                                                              "width": "20%",
                                                             }
                                                           }
                                                           component="th"
@@ -2165,6 +2797,34 @@ exports[`Application component snapshot testing should render the component with
                                                         </Cell>
                                                         <Cell
                                                           component="td"
+                                                          dataIndex="slug"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          index={0}
+                                                          key="slug"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          record={
+                                                            Object {
+                                                              "created_at": "2020-09-09T06:49:36.566567Z",
+                                                              "description": "description",
+                                                              "id": 1,
+                                                              "name": "Application1",
+                                                              "updated_at": "2020-09-09T06:49:36.566567Z",
+                                                              "url": "url1",
+                                                            }
+                                                          }
+                                                        >
+                                                          <td
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          />
+                                                        </Cell>
+                                                        <Cell
+                                                          component="td"
                                                           dataIndex="description"
                                                           ellipsis={true}
                                                           firstFixLeft={false}
@@ -2193,6 +2853,51 @@ exports[`Application component snapshot testing should render the component with
                                                             title="description"
                                                           >
                                                             description
+                                                          </td>
+                                                        </Cell>
+                                                        <Cell
+                                                          component="td"
+                                                          dataIndex="users"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          index={0}
+                                                          key="users"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          record={
+                                                            Object {
+                                                              "created_at": "2020-09-09T06:49:36.566567Z",
+                                                              "description": "description",
+                                                              "id": 1,
+                                                              "name": "Application1",
+                                                              "updated_at": "2020-09-09T06:49:36.566567Z",
+                                                              "url": "url1",
+                                                            }
+                                                          }
+                                                          render={[Function]}
+                                                        >
+                                                          <td
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          >
+                                                            <Group
+                                                              maxCount={4}
+                                                              maxStyle={
+                                                                Object {
+                                                                  "backgroundColor": "#fde3cf",
+                                                                  "color": "#f56a00",
+                                                                }
+                                                              }
+                                                            >
+                                                              <SizeContextProvider>
+                                                                <div
+                                                                  className="ant-avatar-group"
+                                                                />
+                                                              </SizeContextProvider>
+                                                            </Group>
                                                           </td>
                                                         </Cell>
                                                         <Cell
@@ -3012,6 +3717,34 @@ exports[`Application component snapshot testing should render the component with
                                                         </Cell>
                                                         <Cell
                                                           component="td"
+                                                          dataIndex="slug"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          index={1}
+                                                          key="slug"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          record={
+                                                            Object {
+                                                              "created_at": "2020-09-09T06:49:54.027402Z",
+                                                              "description": "description",
+                                                              "id": 2,
+                                                              "name": "Application2",
+                                                              "updated_at": "2020-09-09T06:49:54.027402Z",
+                                                              "url": "url2",
+                                                            }
+                                                          }
+                                                        >
+                                                          <td
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          />
+                                                        </Cell>
+                                                        <Cell
+                                                          component="td"
                                                           dataIndex="description"
                                                           ellipsis={true}
                                                           firstFixLeft={false}
@@ -3040,6 +3773,51 @@ exports[`Application component snapshot testing should render the component with
                                                             title="description"
                                                           >
                                                             description
+                                                          </td>
+                                                        </Cell>
+                                                        <Cell
+                                                          component="td"
+                                                          dataIndex="users"
+                                                          firstFixLeft={false}
+                                                          firstFixRight={false}
+                                                          index={1}
+                                                          key="users"
+                                                          lastFixLeft={false}
+                                                          lastFixRight={false}
+                                                          prefixCls="ant-table"
+                                                          record={
+                                                            Object {
+                                                              "created_at": "2020-09-09T06:49:54.027402Z",
+                                                              "description": "description",
+                                                              "id": 2,
+                                                              "name": "Application2",
+                                                              "updated_at": "2020-09-09T06:49:54.027402Z",
+                                                              "url": "url2",
+                                                            }
+                                                          }
+                                                          render={[Function]}
+                                                        >
+                                                          <td
+                                                            className="ant-table-cell"
+                                                            colSpan={null}
+                                                            rowSpan={null}
+                                                            style={Object {}}
+                                                          >
+                                                            <Group
+                                                              maxCount={4}
+                                                              maxStyle={
+                                                                Object {
+                                                                  "backgroundColor": "#fde3cf",
+                                                                  "color": "#f56a00",
+                                                                }
+                                                              }
+                                                            >
+                                                              <SizeContextProvider>
+                                                                <div
+                                                                  className="ant-avatar-group"
+                                                                />
+                                                              </SizeContextProvider>
+                                                            </Group>
                                                           </td>
                                                         </Cell>
                                                         <Cell

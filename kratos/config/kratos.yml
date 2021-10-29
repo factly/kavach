@@ -20,8 +20,11 @@ selfservice:
     - http://127.0.0.1:4455/.factly/bindu/studio/
 
   methods:
+    oidc:
+      enabled: true
     password:
       enabled: true
+
 
   flows:
     error:
@@ -51,6 +54,11 @@ selfservice:
           hooks:
             - hook: session
 
+    recovery:
+      enabled: true
+      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/registration
+
+
 log:
   level: debug
   format: text
@@ -74,3 +82,4 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    from_address : 

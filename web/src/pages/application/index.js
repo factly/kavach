@@ -8,7 +8,7 @@ function Application() {
   const dispatch = useDispatch();
   const { application } = useSelector((state) => {
     return {
-      application: state.application.req[0],
+      application: state.applications.req[0],
     };
   });
 
@@ -16,17 +16,17 @@ function Application() {
     dispatch(addDefaultApplications()).then(() => window.location.reload());
   };
   return (
-    <Space direction="vertical">
-      <Space direction="horizontal">
-        <Link key="1" to="/applications/create">
-          <Button>Create New</Button>
-        </Link>
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
         {application && application.data.length === 0 ? (
           <Button onClick={addDefaultApps}>Add Factly Applications</Button>
         ) : null}
-      </Space>
+        <Link key="1" to="/applications/create">
+          <Button type="primary">New Application</Button>
+        </Link>
+      </div>
       <ApplicationList />
-    </Space>
+    </div>
   );
 }
 

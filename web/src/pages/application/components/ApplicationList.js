@@ -1,9 +1,21 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Space, Avatar, Tooltip } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-
+import {
+  Popconfirm,
+  Button,
+  Table,
+  Skeleton,
+  Space,
+  Avatar,
+  Tooltip,
+  Card,
+  Row,
+  Col,
+  Icon,
+} from 'antd';
+import { ExportOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
+import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
 
 function ApplicationList() {
@@ -12,17 +24,16 @@ function ApplicationList() {
     page: 1,
     limit: 5,
   });
-
   const { applications, loading, total } = useSelector((state) => {
-    const node = state.application.req[0];
+    const node = state.applications.req[0];
 
     if (node)
       return {
-        applications: node.data.map((element) => state.application.details[element]),
-        loading: state.application.loading,
+        applications: node.data.map((element) => state.applications.details[element]),
+        loading: state.applications.loading,
         total: node.total,
       };
-    return { applications: [], loading: state.application.loading, total: 0 };
+    return { applications: [], loading: state.applications.loading, total: 0 };
   });
 
   React.useEffect(() => {
@@ -33,116 +44,95 @@ function ApplicationList() {
   const fetchApplications = () => {
     dispatch(getApplications());
   };
-
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      width: '15%',
-      render: (_, record) => {
-        return <Link to={`/applications/${record.id}/detail`}>{record.name}</Link>;
-      },
-    },
-    {
-      title: 'Slug',
-      dataIndex: 'slug',
-      key: 'slug',
-      width: '15%',
-    },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      width: '40%',
-      ellipsis: true,
-    },
-    {
-      title: 'Users',
-      dataIndex: 'users',
-      key: 'users',
-      width: '30%',
-      render: (_, record) => {
-        return (
-          <Avatar.Group maxCount={4} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            <Tooltip title="Add user" placement="top">
-              <Link
-                className="ant-dropdown-link"
-                style={{
-                  marginRight: 8,
-                }}
-                to={`/applications/${record.id}/users`}
-              >
-                <Avatar icon={<PlusOutlined />} />
-              </Link>
-            </Tooltip>
-            {record.users &&
-              record.users.length > 0 &&
-              record.users.map((each) => (
-                <Tooltip title={each.email} placement="top">
-                  <Avatar
-                    style={{
-                      backgroundColor:
-                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                    }}
-                  >
-                    {each.email.charAt(0).toUpperCase()}
-                  </Avatar>
-                </Tooltip>
-              ))}
-          </Avatar.Group>
-        );
-      },
-    },
-    {
-      title: 'Action',
-      dataIndex: 'operation',
-      width: '20%',
-      render: (_, record) => {
-        return (
-          <span>
-            <Link
-              className="ant-dropdown-link"
-              style={{
-                marginRight: 8,
-              }}
-              to={`/applications/${record.id}/edit`}
-            >
-              <Button>Edit</Button>
-            </Link>
-            <Popconfirm
-              title="Sure to Delete?"
-              onConfirm={() =>
-                dispatch(deleteApplication(record.id)).then(() => fetchApplications())
+  let applicationList = [];
+  const ApplicationCard = (props) => {
+    return (
+      <Card
+        hoverable
+        loading={loading}
+        style={{
+          width: 280,
+          marginTop: 10,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+        cover={
+          loading ? (
+            <Card loading={true}></Card>
+          ) : (
+            <Avatar
+              shape="square"
+              size={200}
+              style={{ width: '100%', objectFit: 'cover' }}
+              src={
+                props.application.medium && props.application.medium_id
+                  ? props.application.medium?.url?.proxy
+                  : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
             >
-              <Link to="" className="ant-dropdown-link">
-                <Button>Delete</Button>
-              </Link>
-            </Popconfirm>
-          </span>
-        );
-      },
-    },
-  ];
+              {props.application.medium && props.application.medium_id
+                ? null
+                : props.application.name.charAt(0)}
+            </Avatar>
+          )
+        }
+        actions={[
+          <Link
+            to={loading ? '' : `/applications/${props.application.id}/edit`}
+            className="ant-dropdown-link"
+          >
+            <EditOutlined key="edit" style={{ fontSize: '150%' }} />
+          </Link>,
+          <Popconfirm
+            title="Sure to Delete?"
+            onConfirm={() =>
+              dispatch(deleteApplication(props.application.id)).then(() => {
+                dispatch(getOrganisations());
+                fetchApplications();
+              })
+            }
+          >
+            <Link to="" className="ant-dropdown-link">
+              <DeleteOutlined style={{ fontSize: '150%' }} />
+            </Link>
+          </Popconfirm>,
+          <a href={props.application.url}>
+            <ExportOutlined style={{ fontSize: '150%' }} />
+          </a>,
+        ]}
+      >
+        <Card.Meta
+          title={loading ? '' : props.application.name}
+          description={loading ? '' : props.application.description || <div> </div>}
+          style={{ textAlign: 'center' }}
+        />
+      </Card>
+    );
+  };
 
+  const ApplicationRow = (props) => {
+    return (
+      <Row style={{ display: 'flex', justifyContent: 'flex-start', gap: '2rem' }}>
+        {props.applications.map((application, index) => (
+          <ApplicationCard key={index} application={application}></ApplicationCard>
+        ))}
+      </Row>
+    );
+  };
+  if (loading) {
+    return <Skeleton />;
+  } else {
+    // for (var i = 0; i < Math.ceil(applications.length / 3); i++) {
+    //   applicationList.push(applications.slice(3 * i, 3 * i + 3));
+    // }
+  }
   return (
-    <Space direction="vertical">
-      <Table
-        bordered
-        columns={columns}
-        dataSource={applications}
-        loading={loading}
-        rowKey={'id'}
-        pagination={{
-          total: total,
-          current: filters.page,
-          pageSize: filters.limit,
-          onChange: (pageNumber, pageSize) =>
-            setFilters({ ...filters, page: pageNumber, limit: pageSize }),
-        }}
-      />
-    </Space>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
+      {applications.map((application, index) => (
+        <ApplicationCard key={index} application={application}></ApplicationCard>
+      ))}
+    </div>
   );
 }
 

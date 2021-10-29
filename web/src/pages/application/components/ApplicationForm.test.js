@@ -70,6 +70,7 @@ describe('Application create form component', () => {
         onCreate: jest.fn(),
         data: {
           name: 'name',
+          slug: 'name',
           description: 'description',
           url: 'url',
         },
@@ -129,12 +130,12 @@ describe('Application create form component', () => {
           .simulate('change', { target: { value: 'ApplicationName' } });
         wrapper
           .find('FormItem')
-          .at(3)
+          .at(4)
           .find('Input')
           .simulate('change', { target: { value: 'new url' } });
         wrapper
           .find('FormItem')
-          .at(2)
+          .at(3)
           .find('TextArea')
           .simulate('change', { target: { value: 'New Description' } });
 
@@ -146,6 +147,7 @@ describe('Application create form component', () => {
         expect(props.onCreate).toHaveBeenCalledTimes(1);
         expect(props.onCreate).toHaveBeenCalledWith({
           name: 'ApplicationName',
+          slug: 'applicationname',
           description: 'New Description',
           url: 'new url',
         });

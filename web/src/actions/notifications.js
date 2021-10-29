@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { ADD_NOTIFICATION } from '../constants/notifications';
 
 export const addErrorNotification = (data) => ({
@@ -6,6 +7,7 @@ export const addErrorNotification = (data) => ({
     type: 'error',
     title: 'Error',
     message: data,
+    time: Date.now(),
   },
 });
 
@@ -15,5 +17,6 @@ export const addSuccessNotification = (data) => ({
     type: 'success',
     title: 'Success',
     message: data,
+    time: Date.now(),
   },
 });
