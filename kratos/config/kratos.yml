@@ -1,4 +1,4 @@
-version: v0.5.0-alpha.1
+version: v0.6.0-alpha.1
 
 dsn: postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
 
@@ -24,7 +24,6 @@ selfservice:
       enabled: true
     password:
       enabled: true
-
 
   flows:
     error:
@@ -69,12 +68,8 @@ secrets:
     - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
 
 hashers:
-  argon2:
-    parallelism: 1
-    memory: 131072
-    iterations: 2
-    salt_length: 16
-    key_length: 16
+  bcrypt:
+    cost: 4
 
 identity:
   default_schema_url: file:///etc/config/kratos/identity.schema.json
@@ -82,4 +77,3 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
-    from_address : 
