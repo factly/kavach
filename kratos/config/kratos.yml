@@ -1,4 +1,4 @@
-version: v0.6.3-alpha.1-sqlite
+version: v0.7.0-alpha.1-sqlite
 
 dsn: postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
 
