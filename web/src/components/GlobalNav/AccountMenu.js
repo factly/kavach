@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile } from '../../actions/profile';
+import { notification } from 'antd';
 
 const AccountMenu = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,25 @@ const AccountMenu = () => {
   React.useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
-
+  
+  const handleLogout = ()=>{
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser')
+    .then((res) => {
+      if (res.status === 200) {
+        return res.json();
+      } else {
+        throw new Error(res.status);
+      }
+    })
+    .then((res)=>{
+      window.location.href = res.logout_url
+    }).catch((err)=>{
+        notification.error({
+          message:'Error',
+          description:'Unable to login'
+        })
+    })
+  }
   return (
     <Menu mode="horizontal">
       <Menu.SubMenu
@@ -46,11 +65,9 @@ const AccountMenu = () => {
             <EditOutlined /> Profile
           </Link>
         </Menu.Item>
-        <Menu.Item>
-          <a href={window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/logout'}>
+        <Menu.Item onClick={handleLogout}>
             <LogoutOutlined />
             Logout
-          </a>
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>

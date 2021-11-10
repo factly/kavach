@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-
+//_^W3tE{V~b password
 function Password() {
   const [ui, setUI] = React.useState({});
 
@@ -30,7 +30,7 @@ function Password() {
       })
       .then((res) => {
         setUI(res.ui);
-        if (res.update_successful) {
+        if (res.state==='success') {
           notification.success({
             message: 'Success',
             description: 'Password has been successful updated',
@@ -48,6 +48,10 @@ function Password() {
     updatePasswordForm.method = ui.method;
     updatePasswordForm.style.display = 'none';
 
+    var emailInput = document.createElement('input');
+    emailInput.name = 'password_identifier';
+    emailInput.value =  ui.nodes[1].value;
+
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
     passwordInput.value = values.password;
@@ -60,7 +64,13 @@ function Password() {
       }
     }).attributes.value;
 
+    var methodInput = document.createElement('input');
+    methodInput.name = 'method';
+    methodInput.value = 'password'; 
+
+    updatePasswordForm.appendChild(emailInput)
     updatePasswordForm.appendChild(passwordInput);
+    updatePasswordForm.appendChild(methodInput);
     updatePasswordForm.appendChild(csrfInput);
     document.body.appendChild(updatePasswordForm);
     updatePasswordForm.submit();
