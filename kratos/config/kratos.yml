@@ -40,13 +40,6 @@ selfservice:
             scope:
               - email
               - profile
-            requested_claims:
-            id_token:
-              email:
-                essential: true
-              given_name:
-                essential: true
-              family_name: null
 
     password:
       enabled: true
