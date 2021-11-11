@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
-//_^W3tE{V~b password
+
 function Password() {
   const [ui, setUI] = React.useState({});
 
@@ -30,7 +30,7 @@ function Password() {
       })
       .then((res) => {
         setUI(res.ui);
-        if (res.state==='success') {
+        if (res.state === 'success') {
           notification.success({
             message: 'Success',
             description: 'Password has been successful updated',
@@ -38,7 +38,8 @@ function Password() {
         }
       })
       .catch((err) => {
-        window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
+        window.location.href =
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
       });
   }, []);
 
@@ -50,7 +51,7 @@ function Password() {
 
     var emailInput = document.createElement('input');
     emailInput.name = 'password_identifier';
-    emailInput.value =  ui.nodes[1].value;
+    emailInput.value = ui.nodes[1].value;
 
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
@@ -66,9 +67,9 @@ function Password() {
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
-    methodInput.value = 'password'; 
+    methodInput.value = 'password';
 
-    updatePasswordForm.appendChild(emailInput)
+    updatePasswordForm.appendChild(emailInput);
     updatePasswordForm.appendChild(passwordInput);
     updatePasswordForm.appendChild(methodInput);
     updatePasswordForm.appendChild(csrfInput);

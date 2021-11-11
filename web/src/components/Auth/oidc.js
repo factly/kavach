@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import { GithubOutlined, GoogleOutlined } from '@ant-design/icons';
 
-function OIDC({action, method, provider, csrf}) {
+function OIDC({ action, method, provider, csrf }) {
   const withOIDC = (values) => {
     var oidcForm = document.createElement('form');
     oidcForm.action = action;
@@ -20,9 +20,9 @@ function OIDC({action, method, provider, csrf}) {
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
     methodInput.value = 'oidc';
-    
+
     oidcForm.appendChild(providerInput);
-    oidcForm.appendChild(csrfInput);    
+    oidcForm.appendChild(csrfInput);
     oidcForm.appendChild(methodInput);
 
     document.body.appendChild(oidcForm);
@@ -30,7 +30,7 @@ function OIDC({action, method, provider, csrf}) {
   };
 
   return (
-    <Button.Group className="oidc">
+    <Button.Group className="oidc" style={{ display: 'flex', justifyContent: 'center' }}>
       <Button icon={<GithubOutlined />} onClick={() => withOIDC('github')}>
         Github
       </Button>

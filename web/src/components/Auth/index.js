@@ -89,7 +89,6 @@ function Auth(props) {
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
     methodInput.value = 'password';
-    
     authForm.appendChild(identifierInput);
     authForm.appendChild(passwordInput);
     authForm.appendChild(csrfInput);
@@ -177,13 +176,23 @@ function Auth(props) {
           </Form.Item>
           <Form.Item>
             {props.flow === 'login' ? (
-              <Link to={'/auth/registration'}>Register now!</Link>
+              <div
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+              >
+                <Link to={'/auth/registration'}>Register now!</Link>
+                <Link to={'/auth/recovery'}>Forgot Password?</Link>
+              </div>
             ) : (
               <Link to={'/auth/login'}>Log In!</Link>
             )}
           </Form.Item>
         </Form>
-        <OIDC action={ui.action} method={ui.method} provider={(ui.nodes)?ui.nodes[1]:""} csrf={(ui.nodes)?ui.nodes[0]:""}/>
+        <OIDC
+          action={ui.action}
+          method={ui.method}
+          provider={ui.nodes ? ui.nodes[1] : ''}
+          csrf={ui.nodes ? ui.nodes[0] : ''}
+        />
       </Card>
     </div>
   );

@@ -43,6 +43,11 @@ selfservice:
 
     password:
       enabled: true
+    
+    link: 
+      enabled: true
+      config:
+        lifespan: 15m
 
   flows:
     error:
@@ -74,7 +79,7 @@ selfservice:
 
     recovery:
       enabled: true
-      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/registration
+      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/recovery
 
 
 log:
@@ -96,3 +101,5 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+
+    
