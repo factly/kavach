@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
+import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import OIDC from './oidc';
 
@@ -46,7 +46,6 @@ function Auth(props) {
       },
     )
       .then((res) => {
-        setErrorMsg('');
         if (res.status === 200) {
           return res.json();
         } else {
@@ -54,15 +53,16 @@ function Auth(props) {
         }
       })
       .then((res) => {
-        if (res.ui.nodes && res.ui.nodes[1].messages) {
-          setErrorMsg(res.ui.nodes[1].messages ? '' : res.ui.nodes[1].messages[0].text);
-        } else {
-          setErrorMsg('');
-        }
         setUI(res.ui);
+        if(res.ui.messages){
+          setErrorMsg(res.ui.messages[0].text)
+        }
       })
       .catch((err) => {
-        console.log(err);
+        notification.error({
+          message:'error',
+          description:'unable to proceed!'
+        })
       });
   }, [props.flow]);
 
