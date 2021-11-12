@@ -1,9 +1,12 @@
 import React from 'react';
-import { Card, Form, Input, Button, notification } from 'antd';
+import { Card, Form, Input, Button, notification, Row, Col } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-
+import { useSelector } from 'react-redux';
+import './index.css';
+import { Link } from 'react-router-dom';
 function Recovery() {
   const [ui, setUI] = React.useState({});
+  const { title } = useSelector((state) => state.settings);
   React.useEffect(() => {
     var obj = {};
     window.location.search
@@ -87,6 +90,14 @@ function Recovery() {
         height: '100vh',
       }}
     >
+      <Row className="header">
+        <Col span={6}>
+          <img alt="logo" className="logo" src={require('../../assets/kavach_icon.png')} />
+        </Col>
+        <Col span={18}>
+          <span className="title">{title}</span>
+        </Col>
+      </Row>
       <Card title="Recover your account " style={{ width: 400 }}>
         <Form name="recovery_email" onFinish={withEmail}>
           <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
@@ -96,6 +107,9 @@ function Recovery() {
             <Button form="recovery_email" type="primary" htmlType="submit" block>
               Send recovery link
             </Button>
+          </Form.Item>
+          <Form.Item>
+            <Link to={'/auth/login'}> Login!</Link>
           </Form.Item>
         </Form>
       </Card>

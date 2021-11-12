@@ -1,0 +1,15 @@
+.header {
+margin-bottom: 24px;
+text-align: center;
+width: 350px;
+}
+
+.logo {
+height: 44px;
+}
+
+.title {
+font-weight: 600;
+font-size: 33px;
+font-family: Avenir, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
