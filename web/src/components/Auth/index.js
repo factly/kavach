@@ -59,10 +59,7 @@ function Auth(props) {
         }
       })
       .catch((err) => {
-        notification.error({
-          message:'error',
-          description:'unable to proceed!'
-        })
+        window.location.href = selfServiceURL
       });
   }, [props.flow]);
 
@@ -96,7 +93,6 @@ function Auth(props) {
     document.body.appendChild(authForm);
     authForm.submit();
   };
-
   return (
     <div className="auth">
       <Row className="header">
@@ -108,7 +104,7 @@ function Auth(props) {
         </Col>
       </Row>
       <Card
-        actions={ui.oidc ? [<OIDC config={ui.nodes} />] : []}
+        actions={ ui.nodes ? (ui.nodes.filter((node)=>node.group==="oidc").length>0)?[<OIDC action={ui.action} method={ui.method} nodes={ui.nodes.filter(node=>node.group==='oidc')} csrf={ui.nodes[0]}/>]:[]:[]}
         title={props.flow}
         style={{ width: 400 }}
       >
@@ -117,13 +113,19 @@ function Auth(props) {
             <Form.Item>
               {ui.nodes.messages.map((item, index) => (
                 <Alert message={item.text} type="error" key={index} />
-              ))}{' '}
+              ))}:{' '} 
             </Form.Item>
           ) : errorMsg !== '' ? (
             <Form.Item>
               <Alert message={errorMsg} type="error" />
             </Form.Item>
           ) : null}
+          { ui.nodes ?
+            ui.nodes.map((node, index)=>{
+               return node.messages.length > 0 ? <Alert message={node.messages[0].text} type="error" key={index} /> : null
+            })
+            : null
+          }
           <Form.Item
             name="email"
             rules={[
@@ -187,12 +189,6 @@ function Auth(props) {
             )}
           </Form.Item>
         </Form>
-        <OIDC
-          action={ui.action}
-          method={ui.method}
-          provider={ui.nodes ? ui.nodes[1] : ''}
-          csrf={ui.nodes ? ui.nodes[0] : ''}
-        />
       </Card>
     </div>
   );
