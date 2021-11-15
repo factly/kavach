@@ -6,5 +6,7 @@ export function getErrorMsgByCode(code){
             return "The password cannot be used because it is to similar to the user identifier."
         case 4000006:
             return "The provided credentials are invalid."
+        default:
+            return "unable to proceed further"
     }
 }
