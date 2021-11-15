@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {getErrorMsgByCode} from '../../utils/errorcode'
 import OIDC from './oidc';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
-  const [errorMsg, setErrorMsg] = React.useState('');
   const { title } = useSelector((state) => state.settings);
 
   React.useEffect(() => {
@@ -53,10 +53,8 @@ function Auth(props) {
         }
       })
       .then((res) => {
+        console.log(res)
         setUI(res.ui);
-        if(res.ui.messages){
-          setErrorMsg(res.ui.messages[0].text)
-        }
       })
       .catch((err) => {
         window.location.href = selfServiceURL
@@ -109,15 +107,16 @@ function Auth(props) {
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>
+          {
+            ui.messages ? ui.messages.map((message, index)=>(
+              <Alert message={getErrorMsgByCode(message.id)} type="error" key={index}/>
+            )) : null
+          }
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
-              {ui.nodes.messages.map((item, index) => (
-                <Alert message={item.text} type="error" key={index} />
+              {ui.nodes.messages.map((message, index) => (
+                <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
               ))}:{' '} 
-            </Form.Item>
-          ) : errorMsg !== '' ? (
-            <Form.Item>
-              <Alert message={errorMsg} type="error" />
             </Form.Item>
           ) : null}
           { ui.nodes ?
@@ -143,7 +142,6 @@ function Auth(props) {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
-              onChange={() => setErrorMsg('')}
             />
           </Form.Item>
           {props.flow === 'login' ? (
