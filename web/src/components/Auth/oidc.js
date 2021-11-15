@@ -2,8 +2,17 @@ import React from 'react';
 import { Button } from 'antd';
 import { GithubOutlined, GoogleOutlined } from '@ant-design/icons';
 
-function OIDC({ action, method, provider, csrf }) {
-  const withOIDC = (values) => {
+function OIDC({action, method, nodes, csrf}) {
+  const getIcon = (provider)=>{
+    switch (provider){ 
+      case 'github':
+        return <GithubOutlined/>
+        break;
+      case 'google':
+        return <GoogleOutlined/>
+    }
+  }
+  const withOIDC = (oidc_provider) => {
     var oidcForm = document.createElement('form');
     oidcForm.action = action;
     oidcForm.method = method;
@@ -14,8 +23,8 @@ function OIDC({ action, method, provider, csrf }) {
     csrfInput.value = csrf.attributes.value;
 
     var providerInput = document.createElement('input');
-    providerInput.name = provider.attributes.name;
-    providerInput.value = values;
+    providerInput.name = 'provider';
+    providerInput.value = oidc_provider;
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
@@ -30,13 +39,10 @@ function OIDC({ action, method, provider, csrf }) {
   };
 
   return (
-    <Button.Group className="oidc" style={{ display: 'flex', justifyContent: 'center' }}>
-      <Button icon={<GithubOutlined />} onClick={() => withOIDC('github')}>
-        Github
-      </Button>
-      <Button icon={<GoogleOutlined />} onClick={() => withOIDC('google')}>
-        Google
-      </Button>
+    <Button.Group className="oidc">
+      {
+        nodes.map((node, index)=>(<Button key={index} icon={getIcon(node.attributes.value)}>{node.attributes.value.charAt(0).toUpperCase()+node.attributes.value.slice(1)}</Button>))
+      }
     </Button.Group>
   );
 }
