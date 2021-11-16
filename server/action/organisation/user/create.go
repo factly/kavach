@@ -16,7 +16,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-type invites struct{
+type invites struct {
 	Users []invite `json:"users"`
 }
 
@@ -74,7 +74,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
-	for _, user:= range req.Users {
+	for _, user := range req.Users {
 		validationError := validationx.Check(user)
 		if validationError != nil {
 			loggerx.Error(errors.New("validation error"))
@@ -112,7 +112,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
 		if totPermissions != 0 {
 			//tx.Rollback()
-			loggerx.Error(errors.New("User already exist in organisation"))
+			loggerx.Error(errors.New("user already exist in organisation"))
 			//errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 			continue
 		}

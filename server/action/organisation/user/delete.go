@@ -86,7 +86,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}).Count(&totalOwners)
 
 	if result.Role == "owner" && totalOwners < 2 {
-		loggerx.Error(errors.New("Cannot delete last user of organisation"))
+		loggerx.Error(errors.New("cannot delete last user of organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}

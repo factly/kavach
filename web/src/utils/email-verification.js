@@ -52,4 +52,5 @@ const sendLink = (ui, email) => {
     verificationEmailForm.appendChild(methodInput);
     document.body.appendChild(verificationEmailForm);
     verificationEmailForm.submit();
+    console.log("email sent!")
   };

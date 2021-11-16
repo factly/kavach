@@ -91,10 +91,9 @@ function Auth(props) {
     document.body.appendChild(authForm);
     authForm.submit();
     if(props.flow==="registration"){
-      const flag = emailVerification(values.email)
-      console.log(values.email,flag)
-      flag ? window.location.href = "http://127.0.0.1:4455/.factly/kavach/web/auth/verification":"http://127.0.0.1:4455/.factly/kavach/web/auth/registration"
+      console.log(emailVerification(values.email))
     }
+
   };
   return (
     <div className="auth">
