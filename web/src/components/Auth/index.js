@@ -53,7 +53,6 @@ function Auth(props) {
         }
       })
       .then((res) => {
-        console.log(res)
         setUI(res.ui);
       })
       .catch((err) => {
@@ -91,7 +90,7 @@ function Auth(props) {
     document.body.appendChild(authForm);
     authForm.submit();
     if(props.flow==="registration"){
-      console.log(emailVerification(values.email))
+      emailVerification(values.email)
     }
 
   };
@@ -107,7 +106,7 @@ function Auth(props) {
       </Row>
       <Card
         actions={ ui.nodes ? (ui.nodes.filter((node)=>node.group==="oidc").length>0)?[<OIDC action={ui.action} method={ui.method} nodes={ui.nodes.filter(node=>node.group==='oidc')} csrf={ui.nodes[0]}/>]:[]:[]}
-        title={props.flow}
+        title={props.flow==="login" ? "User Login" : "User Registration"}
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>
