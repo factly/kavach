@@ -6,7 +6,7 @@ import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {getErrorMsgByCode} from '../../utils/errorcode'
 import OIDC from './oidc';
-
+import {emailVerification} from '../../utils/email-verification'
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const { title } = useSelector((state) => state.settings);
@@ -90,6 +90,11 @@ function Auth(props) {
     authForm.appendChild(methodInput);
     document.body.appendChild(authForm);
     authForm.submit();
+    if(props.flow==="registration"){
+      const flag = emailVerification(values.email)
+      console.log(values.email,flag)
+      flag ? window.location.href = "http://127.0.0.1:4455/.factly/kavach/web/auth/verification":"http://127.0.0.1:4455/.factly/kavach/web/auth/registration"
+    }
   };
   return (
     <div className="auth">
@@ -182,9 +187,8 @@ function Auth(props) {
                 <Link to={'/auth/registration'}>Register now!</Link>
                 <Link to={'/auth/recovery'}>Forgot Password?</Link>
               </div>
-            ) : (
-              <Link to={'/auth/login'}>Log In!</Link>
-            )}
+            ) : null
+            }
           </Form.Item>
         </Form>
       </Card>
