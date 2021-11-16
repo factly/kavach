@@ -107,5 +107,3 @@ courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
 
-    # from_address: postmaster@sandbox22f79ede20ed44559512e77928afc9de.mailgun.org
-    # connection_uri: smtps://postmaster:babc0c1f566e84c4e411d3ba644cb953-2bf328a5-4cc221e8@ssandbox22f79ede20ed44559512e77928afc9de.mailgun.org:587/?skip_ssl_verify=true
