@@ -26,17 +26,17 @@ selfservice:
         providers:
           - id: github
             provider: github 
-            client_id: ${GITHUB_CLIENT_ID}
-            client_secret: ${GITHUB_CLIENT_SECRET_ID}
+            client_id: ${SECRET_ID} #dummy client id
+            client_secret: ${SECRET_ID} #dummy client-secret id
             mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
             scope:
               - user:email
 
           - id: google 
             provider: google
-            client_id: 
-            client_secret: ${GOOGLE_SECRET_ID}
-            mapper_url: ${GOOGLE_CLIENT_SECRET_ID}
+            client_id: ${SECRET_ID} #dummy client id
+            client_secret: ${SECRET_ID} #dummy client id
+            mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
             scope:
               - email
               - profile
@@ -71,7 +71,8 @@ selfservice:
 
     verification:
       enabled: true
-      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/login
+      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/verification
+      
 
     registration:
       after:
