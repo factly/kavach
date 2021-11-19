@@ -7,7 +7,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import OIDC from './oidc';
 
 function Auth(props) {
-  const [method, setMethod] = React.useState({});
+  const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
   const { title } = useSelector((state) => state.settings);
 
@@ -54,26 +54,26 @@ function Auth(props) {
         }
       })
       .then((res) => {
-        if (res.methods.password.config.fields && res.methods.password.config.fields[1].messages) {
-          setErrorMsg(res.methods.password.config.fields[1].messages[0].text);
+        if (res.ui.nodes && res.ui.nodes[1].messages) {
+          setErrorMsg(res.ui.nodes[1].messages ? '' : res.ui.nodes[1].messages[0].text);
         } else {
           setErrorMsg('');
         }
-        setMethod(res.methods);
+        setUI(res.ui);
       })
-      .catch(() => {
-        window.location.href = selfServiceURL;
+      .catch((err) => {
+        console.log(err);
       });
   }, [props.flow]);
 
   const withPassword = (values) => {
     var authForm = document.createElement('form');
-    authForm.action = method.password.config.action;
-    authForm.method = method.password.config.method;
+    authForm.action = ui.action;
+    authForm.method = ui.method;
     authForm.style.display = 'none';
 
     var identifierInput = document.createElement('input');
-    identifierInput.name = props.flow === 'login' ? 'identifier' : 'traits.email';
+    identifierInput.name = props.flow === 'login' ? 'password_identifier' : 'traits.email';
     identifierInput.value = values.email;
 
     var passwordInput = document.createElement('input');
@@ -82,16 +82,21 @@ function Auth(props) {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = method.password.config.fields.find(
-      (value) => value.name === 'csrf_token',
-    ).value;
+    csrfInput.type = 'hidden';
+    csrfInput.value = ui.nodes.find(
+      (value) => value.attributes.name === 'csrf_token',
+    ).attributes.value;
+
+    var methodInput = document.createElement('input');
+    methodInput.name = 'method';
+    methodInput.value = 'password';
 
     authForm.appendChild(identifierInput);
     authForm.appendChild(passwordInput);
     authForm.appendChild(csrfInput);
+    authForm.appendChild(methodInput);
 
     document.body.appendChild(authForm);
-
     authForm.submit();
   };
 
@@ -105,15 +110,11 @@ function Auth(props) {
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card
-        actions={method.oidc ? [<OIDC config={method.oidc.config} />] : []}
-        title={props.flow}
-        style={{ width: 400 }}
-      >
+      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow} style={{ width: 400 }}>
         <Form name="auth" onFinish={withPassword}>
-          {method.password && method.password.config.messages ? (
+          {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
-              {method.password.config.messages.map((item, index) => (
+              {ui.nodes.messages.map((item, index) => (
                 <Alert message={item.text} type="error" key={index} />
               ))}{' '}
             </Form.Item>
