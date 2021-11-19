@@ -83,10 +83,9 @@ function Auth(props) {
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
     csrfInput.type = 'hidden';
-    csrfInput.value = ui.nodes.find((value) => {
-      value.attributes.name === 'csrf_token';
-      return value;
-    }).attributes.value;
+    csrfInput.value = ui.nodes.find(
+      (value) => value.attributes.name === 'csrf_token',
+    ).attributes.value;
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
@@ -111,11 +110,7 @@ function Auth(props) {
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card
-        // actions={ui.oidc ? [<OIDC config={ui.nodes} />] : []}
-        title={props.flow}
-        style={{ width: 400 }}
-      >
+      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow} style={{ width: 400 }}>
         <Form name="auth" onFinish={withPassword}>
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
