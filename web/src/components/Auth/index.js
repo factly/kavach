@@ -71,6 +71,7 @@ function Auth(props) {
     authForm.action = ui.action;
     authForm.method = ui.method;
     authForm.style.display = 'none';
+
     var identifierInput = document.createElement('input');
     identifierInput.name = props.flow === 'login' ? 'password_identifier' : 'traits.email';
     identifierInput.value = values.email;
@@ -78,22 +79,23 @@ function Auth(props) {
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
     passwordInput.value = values.password;
+
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = ui.nodes.find((value) => {
-      if (value.attributes.name === 'csrf_token') {
-        return value;
-      }
-    }).attributes.value;
+    csrfInput.type = 'hidden';
+    csrfInput.value = ui.nodes.find(
+      (value) => value.attributes.name === 'csrf_token',
+    ).attributes.value;
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
     methodInput.value = 'password';
-    
+
     authForm.appendChild(identifierInput);
     authForm.appendChild(passwordInput);
     authForm.appendChild(csrfInput);
     authForm.appendChild(methodInput);
+
     document.body.appendChild(authForm);
     authForm.submit();
   };
@@ -108,11 +110,7 @@ function Auth(props) {
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card
-        actions={ui.oidc ? [<OIDC config={ui.nodes} />] : []}
-        title={props.flow}
-        style={{ width: 400 }}
-      >
+      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow} style={{ width: 400 }}>
         <Form name="auth" onFinish={withPassword}>
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
@@ -183,7 +181,6 @@ function Auth(props) {
             )}
           </Form.Item>
         </Form>
-        <OIDC action={ui.action} method={ui.method} provider={(ui.nodes)?ui.nodes[1]:""} csrf={(ui.nodes)?ui.nodes[0]:""}/>
       </Card>
     </div>
   );

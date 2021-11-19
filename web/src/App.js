@@ -8,7 +8,6 @@ import Auth from './components/Auth';
 
 //Routes
 import routes from './config/routes';
-import KratosError from './pages/error';
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
             path="/auth/registration"
             component={(props) => <Auth {...props} flow={'registration'} />}
           />
-          <Route path="/errors" component={() => <KratosError />} />
           <BasicLayout>
             <Switch>
               {routes.map((route) => (

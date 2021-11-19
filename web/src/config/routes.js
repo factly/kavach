@@ -18,7 +18,7 @@ import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
 import ApplicationUsers from '../pages/application/users/index';
 import GetApplication from '../pages/application/GetApplication';
-import KratosError from '../pages/error';
+
 export default [
   {
     path: '/settings',
@@ -103,11 +103,4 @@ export default [
     enableBreadcrumb: true,
     title: 'Application Users',
   },
-  // {
-  //   path: '/errors',
-  //   Component: KratosError,
-  //   enableNavigation: false,
-  //   enableBreadcrumb: false,
-  //   title: 'Error',
-  // },
 ];
