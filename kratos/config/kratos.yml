@@ -26,16 +26,16 @@ selfservice:
         providers:
           - id: github
             provider: github 
-            client_id: ${SECRET_ID} #dummy client id
-            client_secret: ${SECRET_ID} #dummy client-secret id
+            client_id: ${SECRET_ID} 
+            client_secret: ${SECRET_ID} 
             mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
             scope:
               - user:email
 
           - id: google 
             provider: google
-            client_id: ${SECRET_ID} #dummy client id
-            client_secret: ${SECRET_ID} #dummy client id
+            client_id: ${SECRET_ID} 
+            client_secret: ${SECRET_ID} 
             mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
             scope:
               - email
@@ -107,4 +107,5 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    
 

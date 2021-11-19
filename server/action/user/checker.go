@@ -50,6 +50,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 
 	user := model.User{
 		Email:     traits["email"].(string),
+        KID:       identity["id"].(string),
 		FirstName: firstName,
 		LastName:  lastName,
 		Slug:      slugx.Make(fmt.Sprint(firstName, " ", lastName)),
