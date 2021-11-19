@@ -3,7 +3,7 @@ import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 
 function Password() {
-  const [password, setPassword] = React.useState({});
+  const [ui, setUI] = React.useState({});
 
   React.useEffect(() => {
     var obj = {};
@@ -29,7 +29,7 @@ function Password() {
         }
       })
       .then((res) => {
-        setPassword(res.methods.password);
+        setUI(res.ui);
         if (res.update_successful) {
           notification.success({
             message: 'Success',
@@ -38,15 +38,14 @@ function Password() {
         }
       })
       .catch((err) => {
-        window.location.href =
-          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
+        window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
       });
   }, []);
 
   const changePassword = (values) => {
     var updatePasswordForm = document.createElement('form');
-    updatePasswordForm.action = password.config.action;
-    updatePasswordForm.method = password.config.method;
+    updatePasswordForm.action = ui.action;
+    updatePasswordForm.method = ui.method;
     updatePasswordForm.style.display = 'none';
 
     var passwordInput = document.createElement('input');
@@ -55,13 +54,15 @@ function Password() {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = password.config.fields.find((value) => value.name === 'csrf_token').value;
+    csrfInput.value = ui.nodes.find((value) => {
+      if (value.attributes.name === 'csrf_token') {
+        return value;
+      }
+    }).attributes.value;
 
     updatePasswordForm.appendChild(passwordInput);
     updatePasswordForm.appendChild(csrfInput);
-
     document.body.appendChild(updatePasswordForm);
-
     updatePasswordForm.submit();
   };
 

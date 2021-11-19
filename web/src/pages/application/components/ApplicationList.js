@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-  Popconfirm,
-  Button,
-  Table,
-  Skeleton,
-  Space,
-  Avatar,
-  Tooltip,
-  Card,
-  Row,
-  Col,
-  Icon,
-} from 'antd';
+import { Popconfirm, Skeleton, Avatar, Card, Row } from 'antd';
 import { ExportOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
@@ -20,11 +8,7 @@ import { Link } from 'react-router-dom';
 
 function ApplicationList() {
   const dispatch = useDispatch();
-  const [filters, setFilters] = React.useState({
-    page: 1,
-    limit: 5,
-  });
-  const { applications, loading, total } = useSelector((state) => {
+  const { applications, loading } = useSelector((state) => {
     const node = state.applications.req[0];
 
     if (node)
@@ -120,13 +104,11 @@ function ApplicationList() {
       </Row>
     );
   };
+
   if (loading) {
     return <Skeleton />;
-  } else {
-    // for (var i = 0; i < Math.ceil(applications.length / 3); i++) {
-    //   applicationList.push(applications.slice(3 * i, 3 * i + 3));
-    // }
   }
+
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
       {applications.map((application, index) => (
@@ -135,5 +117,4 @@ function ApplicationList() {
     </div>
   );
 }
-
 export default ApplicationList;
