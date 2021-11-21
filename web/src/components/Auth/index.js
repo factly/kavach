@@ -6,7 +6,7 @@ import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {getErrorMsgByCode} from '../../utils/errorcode'
 import OIDC from './oidc';
-import {emailVerification} from '../../utils/email-verification'
+
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const { title } = useSelector((state) => state.settings);
