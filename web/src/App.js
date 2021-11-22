@@ -8,7 +8,6 @@ import Auth from './components/Auth';
 
 //Routes
 import routes from './config/routes';
-import KratosError from './pages/error';
 import Recovery from './pages/recovery';
 import Verification from './pages/verification';
 function App() {
@@ -20,8 +19,7 @@ function App() {
           <Route
             path="/auth/registration"
             component={(props) => <Auth {...props} flow={'registration'} />}
-          />
-          <Route path="/errors" component={() => <KratosError/>} />
+          />        
           <Route path="/auth/recovery" component={() => <Recovery/>} />
           <Route path="/auth/verification" component={() => <Verification/>} />
           <BasicLayout>
