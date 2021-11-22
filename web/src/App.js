@@ -19,9 +19,9 @@ function App() {
           <Route
             path="/auth/registration"
             component={(props) => <Auth {...props} flow={'registration'} />}
-          />        
-          <Route path="/auth/recovery" component={() => <Recovery/>} />
-          <Route path="/auth/verification" component={() => <Verification/>} />
+          />
+          <Route path="/auth/recovery" component={() => <Recovery />} />
+          <Route path="/auth/verification" component={() => <Verification />} />
           <BasicLayout>
             <Switch>
               {routes.map((route) => (

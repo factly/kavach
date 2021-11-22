@@ -68,8 +68,8 @@ const AccountMenu = () => {
           </Link>
         </Menu.Item>
         <Menu.Item key="logout" onClick={handleLogout}>
-            <LogoutOutlined />
-            Logout
+          <LogoutOutlined />
+          Logout
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>

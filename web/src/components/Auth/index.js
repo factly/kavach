@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {getErrorMsgByCode} from '../../utils/errorcode'
+import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
 
 function Auth(props) {
@@ -56,7 +56,7 @@ function Auth(props) {
         setUI(res.ui);
       })
       .catch((err) => {
-        window.location.href = selfServiceURL
+        window.location.href = selfServiceURL;
       });
   }, [props.flow]);
 
@@ -92,10 +92,9 @@ function Auth(props) {
 
     document.body.appendChild(authForm);
     authForm.submit();
-    if(props.flow==="registration"){
-      emailVerification(values.email)
+    if (props.flow === 'registration') {
+      emailVerification(values.email);
     }
-
   };
   return (
     <div className="auth">
@@ -115,24 +114,26 @@ function Auth(props) {
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>
-          {
-            ui.messages ? ui.messages.map((message, index)=>(
-              <Alert message={getErrorMsgByCode(message.id)} type="error" key={index}/>
-            )) : null
-          }
+          {ui.messages
+            ? ui.messages.map((message, index) => (
+                <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
+              ))
+            : null}
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
               {ui.nodes.messages.map((message, index) => (
                 <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
-              ))}:{' '} 
+              ))}
+              :{' '}
             </Form.Item>
           ) : null}
-          { ui.nodes ?
-            ui.nodes.map((node, index)=>{
-               return node.messages.length > 0 ? <Alert message={node.messages[0].text} type="error" key={index} /> : null
-            })
-            : null
-          }
+          {ui.nodes
+            ? ui.nodes.map((node, index) => {
+                return node.messages.length > 0 ? (
+                  <Alert message={node.messages[0].text} type="error" key={index} />
+                ) : null;
+              })
+            : null}
           <Form.Item
             name="email"
             rules={[
@@ -190,8 +191,7 @@ function Auth(props) {
                 <Link to={'/auth/registration'}>Register now!</Link>
                 <Link to={'/auth/recovery'}>Forgot Password?</Link>
               </div>
-            ) : null
-            }
+            ) : null}
           </Form.Item>
         </Form>
       </Card>
