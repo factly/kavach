@@ -30,7 +30,7 @@ function Password() {
       })
       .then((res) => {
         setUI(res.ui);
-        if (res.update_successful) {
+        if (res.state==='success') {
           notification.success({
             message: 'Success',
             description: 'Password has been successful updated',
@@ -48,19 +48,25 @@ function Password() {
     updatePasswordForm.method = ui.method;
     updatePasswordForm.style.display = 'none';
 
+    var emailInput = document.createElement('input');
+    emailInput.name = 'password_identifier';
+    emailInput.value =  ui.nodes[1].attributes.value;
+
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
     passwordInput.value = values.password;
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = ui.nodes.find((value) => {
-      if (value.attributes.name === 'csrf_token') {
-        return value;
-      }
-    }).attributes.value;
+    csrfInput.value = ui.nodes.find((value) => value.attributes.name === 'csrf_token').attributes.value;
 
+    var methodInput = document.createElement('input');
+    methodInput.name = 'method';
+    methodInput.value = 'password'; 
+
+    updatePasswordForm.appendChild(emailInput)
     updatePasswordForm.appendChild(passwordInput);
+    updatePasswordForm.appendChild(methodInput);
     updatePasswordForm.appendChild(csrfInput);
     document.body.appendChild(updatePasswordForm);
     updatePasswordForm.submit();
