@@ -1,4 +1,4 @@
-version: v0.8.0-alpha.1-sqlite
+version: v0.8.0-alpha.3
 
 dsn: postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
 
@@ -22,25 +22,6 @@ selfservice:
   methods:
     oidc:
       enabled: true
-      config: 
-        providers:
-          - id: github
-            provider: github 
-            client_id: ${GITHUB_CLIENT_ID}
-            client_secret: ${GITHUB_CLIENT_SECRET}
-            mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
-            scope:
-              - user:email
-
-          - id: google 
-            provider: google
-            client_id: ${GITHUB_CLIENT_ID}
-            client_secret: ${GITHUB_CLIENT_SECRET}
-            mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
-            scope:
-              - email
-              - profile
-
     password:
       enabled: true
 
