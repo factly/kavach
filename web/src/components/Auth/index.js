@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {getErrorMsgByCode} from '../../utils/errorcode'
+import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
 
 function Auth(props) {
@@ -56,7 +56,7 @@ function Auth(props) {
         setUI(res.ui);
       })
       .catch((err) => {
-        window.location.href = selfServiceURL
+        window.location.href = selfServiceURL;
       });
   }, [props.flow]);
 
@@ -65,6 +65,7 @@ function Auth(props) {
     authForm.action = ui.action;
     authForm.method = ui.method;
     authForm.style.display = 'none';
+
     var identifierInput = document.createElement('input');
     identifierInput.name = props.flow === 'login' ? 'password_identifier' : 'traits.email';
     identifierInput.value = values.email;
@@ -72,27 +73,28 @@ function Auth(props) {
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
     passwordInput.value = values.password;
+
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = ui.nodes.find((value) => {
-      if (value.attributes.name === 'csrf_token') {
-        return value;
-      }
-    }).attributes.value;
+    csrfInput.type = 'hidden';
+    csrfInput.value = ui.nodes.find(
+      (value) => value.attributes.name === 'csrf_token',
+    ).attributes.value;
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
     methodInput.value = 'password';
+
     authForm.appendChild(identifierInput);
     authForm.appendChild(passwordInput);
     authForm.appendChild(csrfInput);
     authForm.appendChild(methodInput);
+
     document.body.appendChild(authForm);
     authForm.submit();
-    if(props.flow==="registration"){
-      emailVerification(values.email)
+    if (props.flow === 'registration') {
+      emailVerification(values.email);
     }
-
   };
   return (
     <div className="auth">
@@ -105,29 +107,33 @@ function Auth(props) {
         </Col>
       </Row>
       <Card
-        actions={ ui.nodes ? (ui.nodes.filter((node)=>node.group==="oidc").length>0)?[<OIDC action={ui.action} method={ui.method} nodes={ui.nodes.filter(node=>node.group==='oidc')} csrf={ui.nodes[0]}/>]:[]:[]}
-        title={props.flow==="login" ? "User Login" : "User Registration"}
+        actions={
+          ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
+        }
+        title={props.flow}
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>
-          {
-            ui.messages ? ui.messages.map((message, index)=>(
-              <Alert message={getErrorMsgByCode(message.id)} type="error" key={index}/>
-            )) : null
-          }
+          {ui.messages
+            ? ui.messages.map((message, index) => (
+                <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
+              ))
+            : null}
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
               {ui.nodes.messages.map((message, index) => (
                 <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
-              ))}:{' '} 
+              ))}
+              :{' '}
             </Form.Item>
           ) : null}
-          { ui.nodes ?
-            ui.nodes.map((node, index)=>{
-               return node.messages.length > 0 ? <Alert message={node.messages[0].text} type="error" key={index} /> : null
-            })
-            : null
-          }
+          {ui.nodes
+            ? ui.nodes.map((node, index) => {
+                return node.messages.length > 0 ? (
+                  <Alert message={node.messages[0].text} type="error" key={index} />
+                ) : null;
+              })
+            : null}
           <Form.Item
             name="email"
             rules={[
@@ -185,8 +191,7 @@ function Auth(props) {
                 <Link to={'/auth/registration'}>Register now!</Link>
                 <Link to={'/auth/recovery'}>Forgot Password?</Link>
               </div>
-            ) : null
-            }
+            ) : null}
           </Form.Item>
         </Form>
       </Card>

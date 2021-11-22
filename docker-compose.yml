@@ -104,7 +104,7 @@ services:
   kratos-migrate:
     depends_on:
       - postgres
-    image: oryd/kratos:v0.8.0-alpha.3-sqlite
+    image: oryd/kratos:v0.8.0-alpha.3
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
     volumes:
@@ -119,7 +119,7 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v0.8.0-alpha.3-sqlite
+    image: oryd/kratos:v0.8.0-alpha.3
     ports:
       - "4433:4433" # public
       - "4434:4434" # admin
