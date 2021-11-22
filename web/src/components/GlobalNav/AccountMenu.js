@@ -45,6 +45,7 @@ const AccountMenu = () => {
   return (
     <Menu mode="horizontal">
       <Menu.SubMenu
+        key="submenu"
         title={
           <>
             {!loading && profile && profile.medium ? (
@@ -55,17 +56,17 @@ const AccountMenu = () => {
           </>
         }
       >
-        <Menu.Item>
+        <Menu.Item key="password">
           <Link to="/password">
             <SafetyCertificateOutlined /> Security
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="profile">
           <Link to="/profile">
             <EditOutlined /> Profile
           </Link>
         </Menu.Item>
-        <Menu.Item onClick={handleLogout}>
+        <Menu.Item key="logout" onClick={handleLogout}>
             <LogoutOutlined />
             Logout
         </Menu.Item>
