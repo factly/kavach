@@ -4,6 +4,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import './index.css';
 import { Link } from 'react-router-dom';
+
 function Recovery() {
   const [ui, setUI] = React.useState({});
   const { title } = useSelector((state) => state.settings);
