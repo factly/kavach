@@ -50,7 +50,7 @@ function Password() {
 
     var emailInput = document.createElement('input');
     emailInput.name = 'password_identifier';
-    emailInput.value =  ui.nodes[1].value;
+    emailInput.value =  ui.nodes[1].attributes.value;
 
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
@@ -58,11 +58,7 @@ function Password() {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = ui.nodes.find((value) => {
-      if (value.attributes.name === 'csrf_token') {
-        return value;
-      }
-    }).attributes.value;
+    csrfInput.value = ui.nodes.find((value) => value.attributes.name === 'csrf_token').attributes.value;
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
