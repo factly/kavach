@@ -29,3 +29,11 @@ Once the application is up and running you should be able to access it using the
 
 - Create config file with name config (and extension .env, .yml, .json) in root folder and add config variables (see config.env.example for reference)
 - Create a folder `companion` in root and create `.env` file inside companion and add config variables (see .env.example for reference)
+
+### Setting up the email server
+
+- Create a mailgun account.
+- On the dashboard click on one of the sending domains.
+- Select the SMTP method for sending the email.
+- In kratos config file, add the smtp connection URI. Format of the URI is smtp://username:password@smtp.mailgun.org:port/?skip_ssl_verify=true
+- Example : smtp://postmaster@sandboxsomerandomusername123.mailgun.org:somerandompassword123@smtp.mailgun.org:587/?skip_ssl_verify=true
