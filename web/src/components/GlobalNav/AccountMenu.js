@@ -23,25 +23,28 @@ const AccountMenu = () => {
   React.useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
-  
-  const handleLogout = ()=>{
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser')
-    .then((res) => {
-      if (res.status === 200) {
-        return res.json();
-      } else {
-        throw new Error(res.status);
-      }
+
+  const handleLogout = () => {
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
+      credentials: 'include',
     })
-    .then((res)=>{
-      window.location.href = res.logout_url
-    }).catch((err)=>{
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error(res.status);
+        }
+      })
+      .then((res) => {
+        window.location.href = res.logout_url;
+      })
+      .catch((err) => {
         notification.error({
-          message:'Error',
-          description:'Unable to login'
-        })
-    })
-  }
+          message: 'Error',
+          description: 'Unable to logout',
+        });
+      });
+  };
   return (
     <Menu mode="horizontal">
       <Menu.SubMenu
@@ -67,8 +70,8 @@ const AccountMenu = () => {
           </Link>
         </Menu.Item>
         <Menu.Item key="logout" onClick={handleLogout}>
-            <LogoutOutlined />
-            Logout
+          <LogoutOutlined />
+          Logout
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>
