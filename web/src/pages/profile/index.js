@@ -32,7 +32,7 @@ function Profile() {
 
   const update = (values) => {
     values.birth_date = values.birth_date
-      ? moment(values.birth_date).format('YYYY-MM-DDTHH:mm:ssZ')
+      ? moment(values.birth_date).format('YYYY-MM-DD')
       : null;
     dispatch(updateProfile(values));
   };
