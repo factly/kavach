@@ -27,9 +27,20 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: factly/kavach-web:${{ env.RELEASE_VERSION }}
+        tags: |
+          factly/kavach-web:${{ env.RELEASE_VERSION }}
+          factly/kavach-web:latest
         context: web
         file: web/Dockerfile.prod
+    - name: Build and push kavach web (development)
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: |
+          factly/kavach-web:${{ env.RELEASE_VERSION }}-dev
+          factly/kavach-web:latest-dev
+        context: web
+        file: web/Dockerfile      
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
       with:
