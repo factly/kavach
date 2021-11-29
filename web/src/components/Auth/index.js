@@ -107,7 +107,7 @@ function Auth(props) {
         actions={
           ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
         }
-        title={props.flow}
+        title={props.flow==="login"?"User Login":"User Registration"}
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>
