@@ -40,7 +40,7 @@ jobs:
           factly/kavach-web:${{ env.RELEASE_VERSION }}-dev
           factly/kavach-web:latest-dev
         context: web
-        file: web/Dockerfile.prod        
+        file: web/Dockerfile      
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
       with:
