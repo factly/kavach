@@ -3,7 +3,7 @@ import { Card, Form, Input, Button, notification } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 
 function Password() {
-  const [password, setPassword] = React.useState({});
+  const [ui, setUI] = React.useState({});
 
   React.useEffect(() => {
     var obj = {};
@@ -20,7 +20,9 @@ function Password() {
       window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
     }
 
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'])
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'], {
+      credentials: 'include',
+    })
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -29,8 +31,8 @@ function Password() {
         }
       })
       .then((res) => {
-        setPassword(res.methods.password);
-        if (res.update_successful) {
+        setUI(res.ui);
+        if (res.state==='success') {
           notification.success({
             message: 'Success',
             description: 'Password has been successful updated',
@@ -38,16 +40,19 @@ function Password() {
         }
       })
       .catch((err) => {
-        window.location.href =
-          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
+        window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
       });
   }, []);
 
   const changePassword = (values) => {
     var updatePasswordForm = document.createElement('form');
-    updatePasswordForm.action = password.config.action;
-    updatePasswordForm.method = password.config.method;
+    updatePasswordForm.action = ui.action;
+    updatePasswordForm.method = ui.method;
     updatePasswordForm.style.display = 'none';
+
+    var emailInput = document.createElement('input');
+    emailInput.name = 'password_identifier';
+    emailInput.value =  ui.nodes[1].attributes.value;
 
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
@@ -55,13 +60,17 @@ function Password() {
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = password.config.fields.find((value) => value.name === 'csrf_token').value;
+    csrfInput.value = ui.nodes.find((value) => value.attributes.name === 'csrf_token').attributes.value;
 
+    var methodInput = document.createElement('input');
+    methodInput.name = 'method';
+    methodInput.value = 'password'; 
+
+    updatePasswordForm.appendChild(emailInput)
     updatePasswordForm.appendChild(passwordInput);
+    updatePasswordForm.appendChild(methodInput);
     updatePasswordForm.appendChild(csrfInput);
-
     document.body.appendChild(updatePasswordForm);
-
     updatePasswordForm.submit();
   };
 

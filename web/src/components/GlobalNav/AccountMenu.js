@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { Avatar } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile } from '../../actions/profile';
+import { notification } from 'antd';
 
 const AccountMenu = () => {
   const dispatch = useDispatch();
@@ -23,9 +24,31 @@ const AccountMenu = () => {
     dispatch(getUserProfile());
   }, [dispatch]);
 
+  const handleLogout = () => {
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
+      credentials: 'include',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error(res.status);
+        }
+      })
+      .then((res) => {
+        window.location.href = res.logout_url;
+      })
+      .catch((err) => {
+        notification.error({
+          message: 'Error',
+          description: 'Unable to logout',
+        });
+      });
+  };
   return (
     <Menu mode="horizontal">
       <Menu.SubMenu
+        key="submenu"
         title={
           <>
             {!loading && profile && profile.medium ? (
@@ -36,21 +59,19 @@ const AccountMenu = () => {
           </>
         }
       >
-        <Menu.Item>
+        <Menu.Item key="password">
           <Link to="/password">
             <SafetyCertificateOutlined /> Security
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key="profile">
           <Link to="/profile">
             <EditOutlined /> Profile
           </Link>
         </Menu.Item>
-        <Menu.Item>
-          <a href={window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/browser/flows/logout'}>
-            <LogoutOutlined />
-            Logout
-          </a>
+        <Menu.Item key="logout" onClick={handleLogout}>
+          <LogoutOutlined />
+          Logout
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>

@@ -108,7 +108,13 @@ function Auth(props) {
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow==="login" ? "User Login" : "User Registration"} style={{ width: 400 }}>
+      <Card
+        actions={
+          ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
+        }
+        title={props.flow}
+        style={{ width: 400 }}
+      >
         <Form name="auth" onFinish={withPassword}>
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
