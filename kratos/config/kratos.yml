@@ -22,8 +22,28 @@ selfservice:
   methods:
     oidc:
       enabled: true
+      config:
+        providers:
+          - id: github
+            provider: github 
+            client_id: 123abc
+            client_secret: 123abc
+            mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
+            scope:
+              - user:email
+
+          - id: google 
+            provider: google
+            client_id: 123abc
+            client_secret: 123abc
+            mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
+            scope:
+              - email
+              - profile
+
     password:
       enabled: true
+      
     
     link: 
       enabled: true
