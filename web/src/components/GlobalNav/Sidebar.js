@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Button } from 'antd';
-import { toggleSider } from '../../actions/settings';
 import routes from '../../config/routes';
 import { setCollapse } from './../../actions/sidebar';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';

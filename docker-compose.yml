@@ -236,6 +236,7 @@ services:
       - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web
       - REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio
       - REACT_APP_BINDU_PUBLIC_URL=http://127.0.0.1:4455/.factly/bindu/studio
+      - REACT_APP_KAVACH_TITLE=Kavach
     volumes:
       - type: bind
         source: ./web

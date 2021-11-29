@@ -9,7 +9,7 @@ import OIDC from './oidc';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
-  const { title } = useSelector((state) => state.settings);
+  const title = process.env.REACT_APP_KAVACH_TITLE 
 
   React.useEffect(() => {
     var obj = {};
@@ -97,7 +97,7 @@ function Auth(props) {
     <div className="auth">
       <Row className="header">
         <Col span={6}>
-          <img alt="logo" className="logo" src={require('../../assets/kavach_icon.png')} />
+          <img alt="logo" className="logo" src={(title==="Kavach") ? require('../../assets/kavach_icon.png'): require('../../assets/factly-logo.png')} />
         </Col>
         <Col span={18}>
           <span className="title">{title}</span>
