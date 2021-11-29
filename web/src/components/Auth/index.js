@@ -1,6 +1,5 @@
 import React from 'react';
 import './index.css';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -9,8 +8,7 @@ import OIDC from './oidc';
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
-  const { title } = useSelector((state) => state.settings);
-
+  const title = (process.env.REACT_APP_KAVACH_TITLE==undefined) ? "Kavach": process.env.REACT_APP_KAVACH_TITLE
   React.useEffect(() => {
     var obj = {};
 
@@ -104,13 +102,13 @@ function Auth(props) {
     <div className="auth">
       <Row className="header">
         <Col span={6}>
-          <img alt="logo" className="logo" src={require('../../assets/kavach_icon.png')} />
+          <img alt="logo" className="logo" src={(title==="Kavach") ? require('../../assets/kavach_icon.png'): require('../../assets/factly-logo.png')} />
         </Col>
         <Col span={18}>
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow} style={{ width: 400 }}>
+      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow==="login" ? "User Login" : "User Registration"} style={{ width: 400 }}>
         <Form name="auth" onFinish={withPassword}>
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
