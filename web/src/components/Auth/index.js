@@ -24,18 +24,18 @@ function Auth(props) {
 
     const returnTo = obj['return_to'];
     const selfServiceURL = returnTo
-      ? window.REACT_APP_KRATOS_PUBLIC_URL +
+      ? process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/browser?return_to=' +
         returnTo
-      : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+      : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     }
     fetch(
-      window.REACT_APP_KRATOS_PUBLIC_URL +
+      process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/flows' +
