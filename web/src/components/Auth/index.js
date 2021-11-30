@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import OIDC from './oidc';
+import kavach_logo from '../../assets/kavach_icon.png'
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
   const title = (process.env.REACT_APP_KAVACH_TITLE==undefined) ? "Kavach": process.env.REACT_APP_KAVACH_TITLE
+  const logo = (process.env.REACT_APP_LOGO_URL===undefined) ? kavach_logo : process.env.REACT_APP_LOGO_URL
   React.useEffect(() => {
     var obj = {};
 
@@ -60,7 +62,7 @@ function Auth(props) {
         setUI(res.ui);
       })
       .catch((err) => {
-        console.log(err);
+        window.location.href = selfServiceURL;
       });
   }, [props.flow]);
 
@@ -102,7 +104,7 @@ function Auth(props) {
     <div className="auth">
       <Row className="header">
         <Col span={6}>
-          <img alt="logo" className="logo" src={(title==="Kavach") ? require('../../assets/kavach_icon.png'): require('../../assets/factly-logo.png')} />
+          <img alt="logo" className="logo" src={logo} />
         </Col>
         <Col span={18}>
           <span className="title">{title}</span>
