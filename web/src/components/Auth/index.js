@@ -1,13 +1,13 @@
 import React from 'react';
 import './index.css';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
 import kavach_logo from '../../assets/kavach_icon.png'
-function Auth(props) {
+
+function Auth(props) {  
   const [ui, setUI] = React.useState({});
   const title = (process.env.REACT_APP_KAVACH_TITLE===undefined) ? "Kavach" : process.env.REACT_APP_KAVACH_TITLE
   const logo = (process.env.REACT_APP_LOGO_URL===undefined) ? kavach_logo : process.env.REACT_APP_LOGO_URL

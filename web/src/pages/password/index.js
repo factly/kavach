@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Form, Input, Button, notification, Space, Alert, Switch, Row, List, Col} from 'antd';
 import { LockOutlined} from '@ant-design/icons';
-
 function Password() {
   const [ui, setUI] = React.useState({});
   React.useEffect(() => {

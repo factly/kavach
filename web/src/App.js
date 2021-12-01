@@ -1,15 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 
 import Auth from './components/Auth';
-
 //Routes
 import routes from './config/routes';
 import Recovery from './pages/recovery';
 import Verification from './pages/verification';
+
 function App() {
   return (
     <div className="App">
