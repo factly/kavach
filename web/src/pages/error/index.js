@@ -12,7 +12,7 @@ function KratosError() {
         obj[temp[0]] = temp[1];
       });
 
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/errors?error=' + obj['error'])
+    fetch(process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/errors?error=' + obj['error'])
       .then((res) => {
         if (res.status === 200) {
           return res.json();

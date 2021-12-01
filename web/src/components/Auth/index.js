@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import OIDC from './oidc';
+import kavach_logo from '../../assets/kavach_icon.png'
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
   const title = (process.env.REACT_APP_KAVACH_TITLE==undefined) ? "Kavach": process.env.REACT_APP_KAVACH_TITLE
+  const logo = (process.env.REACT_APP_LOGO_URL===undefined) ? kavach_logo : process.env.REACT_APP_LOGO_URL
   React.useEffect(() => {
     var obj = {};
 
@@ -22,18 +24,18 @@ function Auth(props) {
 
     const returnTo = obj['return_to'];
     const selfServiceURL = returnTo
-      ? window.REACT_APP_KRATOS_PUBLIC_URL +
+      ? process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/browser?return_to=' +
         returnTo
-      : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+      : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     }
     fetch(
-      window.REACT_APP_KRATOS_PUBLIC_URL +
+      process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/flows' +
@@ -60,7 +62,7 @@ function Auth(props) {
         setUI(res.ui);
       })
       .catch((err) => {
-        console.log(err);
+        window.location.href = selfServiceURL;
       });
   }, [props.flow]);
 
@@ -102,19 +104,13 @@ function Auth(props) {
     <div className="auth">
       <Row className="header">
         <Col span={6}>
-          <img alt="logo" className="logo" src={(title==="Kavach") ? require('../../assets/kavach_icon.png'): require('../../assets/factly-logo.png')} />
+          <img alt="logo" className="logo" src={logo} />
         </Col>
         <Col span={18}>
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card
-        actions={
-          ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
-        }
-        title={props.flow}
-        style={{ width: 400 }}
-      >
+      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow==="login" ? "User Login" : "User Registration"} style={{ width: 400 }}>
         <Form name="auth" onFinish={withPassword}>
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
