@@ -9,8 +9,8 @@ import kavach_logo from '../../assets/kavach_icon.png'
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
-  const title = (process.env.REACT_APP_KAVACH_TITLE==undefined) ? "Kavach": process.env.REACT_APP_KAVACH_TITLE
-  const logo = (process.env.REACT_APP_LOGO_URL===undefined) ? kavach_logo : process.env.REACT_APP_LOGO_URL
+  const title = process.env.REACT_APP_KAVACH_TITLE || "Kavach"
+  const logo = process.env.REACT_APP_LOGO_URL || kavach_logo
   React.useEffect(() => {
     var obj = {};
 
@@ -110,7 +110,13 @@ function Auth(props) {
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card actions={ui.oidc ? [<OIDC ui={ui} />] : []} title={props.flow==="login" ? "User Login" : "User Registration"} style={{ width: 400 }}>
+      <Card
+        actions={
+          ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
+        }
+        title={props.flow}
+        style={{ width: 400 }}
+      >
         <Form name="auth" onFinish={withPassword}>
           {ui.nodes && ui.nodes.messages ? (
             <Form.Item>
