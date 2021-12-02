@@ -7,6 +7,7 @@ import OIDC from './oidc';
 import kavach_logo from '../../assets/kavach_icon.png'
 
 function Auth(props) {
+  console.log({kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL})
   const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
   const title = process.env.REACT_APP_KAVACH_TITLE || "Kavach"
@@ -30,7 +31,7 @@ function Auth(props) {
         '/browser?return_to=' +
         returnTo
       : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
-
+      console.log({kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL})
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     }
@@ -62,6 +63,7 @@ function Auth(props) {
         setUI(res.ui);
       })
       .catch((err) => {
+        console.log({err: err.message})
         window.location.href = selfServiceURL;
       });
   }, [props.flow]);
