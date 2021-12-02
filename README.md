@@ -37,3 +37,10 @@ Once the application is up and running you should be able to access it using the
 - Select the SMTP method for sending the email.
 - In kratos config file, add the smtp connection URI. Format of the URI is smtp://username:password@smtp.mailgun.org:port/?skip_ssl_verify=true
 - Example : smtp://postmaster@sandboxsomerandomusername123.mailgun.org:somerandompassword123@smtp.mailgun.org:587/?skip_ssl_verify=true
+
+
+### Environment variables you can use for custom title and logo
+
+- REACT_APP_KAVACH_TITLE
+- REACT_APP_LOGO_URL
+- you can add this variable in kavach-web service of docker-compose.yml file in the root  folder
