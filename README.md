@@ -47,5 +47,3 @@ Once the application is up and running you should be able to access it using the
 - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public : used for customising the public URL in kratos-config i.e. the common part for all the self-service endpoints.
 - REACT_APP_COMPANION_URL=http://127.0.0.1:3020 : used for the location of third party storage
 - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server : used for customising server endpoint for kavach-web.
-- REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio : used for customising URL to dega application.
-- REACT_APP_BINDU_PUBLIC_URL=http://127.0.0.1:4455/.factly/bindu/studio : used for customising URL to dega application.
