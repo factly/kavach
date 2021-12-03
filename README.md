@@ -39,8 +39,13 @@ Once the application is up and running you should be able to access it using the
 - Example : smtp://postmaster@sandboxsomerandomusername123.mailgun.org:somerandompassword123@smtp.mailgun.org:587/?skip_ssl_verify=true
 
 
-### Environment variables you can use for custom title and logo
+### Environment variables - Kavach-web
 
-- REACT_APP_KAVACH_TITLE
-- REACT_APP_LOGO_URL
-- you can add this variable in kavach-web service of docker-compose.yml file in the root  folder
+- PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web : used for customising URL for kavach-web
+- REACT_APP_KAVACH_TITLE=Kavach : helps in customising the title on the login screen.
+- REACT_APP_LOGO_URL={some_image_url} : helps in customising the logo on the login screen. 
+- REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public : used for customising the public URL in kratos-config i.e. the common part for all the self-service endpoints.
+- REACT_APP_COMPANION_URL=http://127.0.0.1:3020 : used for the location of third party storage
+- REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server : used for customising server endpoint for kavach-web.
+- REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio : used for customising URL to dega application.
+- REACT_APP_BINDU_PUBLIC_URL=http://127.0.0.1:4455/.factly/bindu/studio : used for customising URL to dega application.
