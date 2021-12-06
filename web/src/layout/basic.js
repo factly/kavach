@@ -36,14 +36,10 @@ function BasicLayout(props) {
       <Layout style={{ background: '#fff' }}>
         <Header />
         <Layout.Content className="layout-content">
-          {/* <PageHeader location={location} /> */}
-          {selected > 0 || location.pathname === '/organisation' ? (
             <div key={selected.toString()} className="wrap-children-content">
               {children}
             </div>
-          ) : null}
         </Layout.Content>
-        {/* <Layout.Footer>Footer</Layout.Footer> */}
       </Layout>
     </Layout>
   );

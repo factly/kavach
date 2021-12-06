@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { addOrganisation } from './../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 import { maker, checker } from '../../utils/sluger';
@@ -10,13 +10,11 @@ function OrganisationCreate() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [form] = Form.useForm();
-
   const onTitleChange = (string) => {
     form.setFieldsValue({
       slug: maker(string),
     });
   };
-
   return (
     <Form
       form={form}
@@ -62,4 +60,3 @@ function OrganisationCreate() {
 }
 
 export default OrganisationCreate;
-
