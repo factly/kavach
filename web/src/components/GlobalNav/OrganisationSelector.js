@@ -21,6 +21,8 @@ function OrganisationSelector() {
   };
 
   return (
+    (organisations.length>0) ?
+    (
     <Select
       value={selected}
       style={{ width: '200px' }}
@@ -38,6 +40,8 @@ function OrganisationSelector() {
         </Select.Option>
       ))}
     </Select>
+    ):
+    (null)
   );
 }
 
