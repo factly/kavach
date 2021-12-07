@@ -8,7 +8,8 @@ import Auth from './components/Auth';
 import routes from './config/routes';
 import Recovery from './pages/recovery';
 import Verification from './pages/verification';
-import OrganisationNotCreated from '../src/components/ErrorsAndImage/OrganisationNotCreated'
+import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
+
 function App() {
   const [orgCount , setOrgCount] = useState(0)
   const {count} = useSelector((state)=>{
@@ -16,7 +17,6 @@ function App() {
         count: (state.organisations && state.organisations.ids) ? state.organisations.ids.length : 0
       }
   })
-  console.log(count)
   React.useEffect(()=>{
     setOrgCount(count)
   },[count])
@@ -35,7 +35,7 @@ function App() {
             <Switch>
               {routes.map((route) => {
                 return (
-                <Route key={route.path} exact path={route.path} component={(orgCount!=0) ? route.Component : (route.path==="/password" || route.path==="/profile" || route.path==="/organisation")? route.Component : OrganisationNotCreated} />
+                <Route key={route.path} exact path={route.path} component={(orgCount!=0) ? route.Component : (route.path==="/password" || route.path==="/profile" || route.path==="/organisation")? route.Component : ()=>ErrorComponent({status:"500", title:"To access this page please create an organisation", link:"/organisation", message:"Create Organisation"})} />
               )})}
             </Switch>
           </BasicLayout>

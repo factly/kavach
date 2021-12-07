@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import GetApplication from './GetApplication';
 import ApplicationUsers from './users/index';
+import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 
 function EditApplication() {
   const history = useHistory();
@@ -15,10 +16,14 @@ function EditApplication() {
   const { Panel } = Collapse;
   const dispatch = useDispatch();
   const [tokenFlag, setTokenFlag] = React.useState(false);
-  const { application, loading } = useSelector((state) => {
+  const { application, loadingApps, userDetails, loadingUsers, userID, loadingID} = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
-      loading: state.applications.loading,
+      loadingApps: state.applications.loading,
+      userDetails: state.users.details,
+      loadingUsers: state.users.loading,
+      userID: state.profile.details.id,
+      loadingID: state.profile.loading
     };
   });
 
@@ -26,8 +31,14 @@ function EditApplication() {
     dispatch(getApplication(id));
   }, [dispatch, id, tokenFlag]);
 
-  if (loading && !application) return <Skeleton />;
+  if (loadingApps && !application && loadingUsers &&loadingID ) return <Skeleton />;
 
+  if(!loadingUsers){
+    if(userDetails[userID].permission.role){
+      return <ErrorComponent status="403" title="Sorry you are not authorised to access this page" link="/organisation" message="Back Home"/>;
+    }
+  }
+  
   const onUpdate = (values) => {
     dispatch(updateApplication({ ...application, ...values })).then(() => {
       dispatch(getOrganisations());
