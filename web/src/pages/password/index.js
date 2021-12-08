@@ -1,6 +1,18 @@
 import React from 'react';
-import { Card, Form, Input, Button, notification, Space, Alert, Switch, Row, List, Col} from 'antd';
-import { LockOutlined} from '@ant-design/icons';
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  notification,
+  Space,
+  Alert,
+  Switch,
+  Row,
+  List,
+  Col,
+} from 'antd';
+import { LockOutlined } from '@ant-design/icons';
 function Password() {
   const [ui, setUI] = React.useState({});
   React.useEffect(() => {
@@ -15,12 +27,16 @@ function Password() {
       });
 
     if (!obj['flow']) {
-      window.location.href = process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
+      window.location.href =
+        process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
     }
 
-    fetch(process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'], {
-      credentials: 'include',
-    })
+    fetch(
+      process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'],
+      {
+        credentials: 'include',
+      },
+    )
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -38,42 +54,49 @@ function Password() {
         }
       })
       .catch((err) => {
-        window.location.href = process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
+        window.location.href =
+          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
       });
   }, []);
 
-  const getImageByText = (value) =>{
-    switch(value){
-        case "google":
-            return <img src={require('../../assets/google_logo.png')} alt="google" width='35%'/>
-        case "github":
-            return <img src={require('../../assets/github_logo.png')} alt="github" width='35%'/>
-        default:
-            return <></>
+  const getImageByText = (value) => {
+    switch (value) {
+      case 'google':
+        return <img src={require('../../assets/google_logo.png')} alt="google" width="35%" />;
+      case 'github':
+        return <img src={require('../../assets/github_logo.png')} alt="github" width="35%" />;
+      default:
+        return <></>;
     }
-  }
-  function SocialItem({provider, state}){
+  };
+  function SocialItem({ provider, state }) {
     return (
-      <Row style={{display:'flex', flexDirection:'row', width:'100%', height:'100%', justifyContent:'center', alignItems:'center'}}>
-        <Col span={18}>
-          {
-            getImageByText(provider)
-          }
-        </Col>
-        <Col span={6} >
+      <Row
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Col span={18}>{getImageByText(provider)}</Col>
+        <Col span={6}>
           <Switch
-            checked={(state==='link') ? false : true}
+            checked={state === 'link' ? false : true}
             checkedChildren="linked"
             unCheckedChildren="unlinked"
-            style={(state==='link')?{backgroundColor:'#FF3632'}:{backgroundColor:'#52CA6D'}}
-            onClick={()=>onClick(provider, state)}
-            >
-          </Switch>
+            style={
+              state === 'link' ? { backgroundColor: '#FF3632' } : { backgroundColor: '#52CA6D' }
+            }
+            onClick={() => onClick(provider, state)}
+          ></Switch>
         </Col>
       </Row>
-    )
+    );
   }
-      
+
   const changePassword = (values) => {
     var updatePasswordForm = document.createElement('form');
     updatePasswordForm.action = ui.action;
@@ -106,7 +129,7 @@ function Password() {
     updatePasswordForm.submit();
   };
 
-  const onClick = (provider, action)=>{
+  const onClick = (provider, action) => {
     var oidcForm = document.createElement('form');
     oidcForm.action = ui.action;
     oidcForm.method = ui.method;
@@ -134,24 +157,21 @@ function Password() {
     document.body.appendChild(oidcForm);
 
     oidcForm.submit();
-  }
+  };
 
   return (
-    <Space 
-      className="content" style={{
-      display:'flex',
-      flexDirection:'column',
-      height:'100%',
-      justifyContent:'space-around',
-      alignItems:'center'
-      
-    }}>
-      {
-        (ui && ui.messages) ? <Alert message={ui.node.messages[0].text}></Alert> : null
-      }
-      <Card 
-        title="Update password"
-        style={{ width: 400 }}>
+    <Space
+      className="content"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+      }}
+    >
+      {ui && ui.messages ? <Alert message={ui.node.messages[0].text}></Alert> : null}
+      <Card title="Update password" style={{ width: 400 }}>
         <Form name="update_password" onFinish={changePassword}>
           <Form.Item
             name="password"
@@ -191,22 +211,18 @@ function Password() {
           </Form.Item>
         </Form>
       </Card>
-      <Card
-        title="Update social sign-in linking" 
-        style={{width:400}}
-      >
+      <Card title="Update social sign-in linking" style={{ width: 400 }}>
         <List
-          itemLayout='horizontal'
-          dataSource={ui&&ui.nodes ? ui.nodes.filter((node)=>node.group==="oidc"): []}
-          renderItem={
-            item=>{
-              return <List.Item>
-                        <SocialItem provider={item.attributes.value} state={item.attributes.name}/>
-                     </List.Item>
-            }
-          }
-          >
-        </List>
+          itemLayout="horizontal"
+          dataSource={ui && ui.nodes ? ui.nodes.filter((node) => node.group === 'oidc') : []}
+          renderItem={(item) => {
+            return (
+              <List.Item>
+                <SocialItem provider={item.attributes.value} state={item.attributes.name} />
+              </List.Item>
+            );
+          }}
+        ></List>
       </Card>
     </Space>
   );

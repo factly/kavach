@@ -5,14 +5,14 @@ import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
-import kavach_logo from '../../assets/kavach_icon.png'
+import kavach_logo from '../../assets/kavach_icon.png';
 
 function Auth(props) {
-  console.log({kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL})
+  console.log({ kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL });
   const [ui, setUI] = React.useState({});
   const [errorMsg, setErrorMsg] = React.useState('');
-  const title = process.env.REACT_APP_KAVACH_TITLE || "Kavach"
-  const logo = process.env.REACT_APP_LOGO_URL || kavach_logo
+  const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
+  const logo = process.env.REACT_APP_LOGO_URL || kavach_logo;
   React.useEffect(() => {
     var obj = {};
 
@@ -32,7 +32,9 @@ function Auth(props) {
         '/browser?return_to=' +
         returnTo
       : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
-      console.log({kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL})
+
+    console.log({ kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL });
+
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     }
@@ -58,7 +60,7 @@ function Auth(props) {
         setUI(res.ui);
       })
       .catch((err) => {
-        console.log({err: err.message})
+        console.log({ err: err.message });
         window.location.href = selfServiceURL;
       });
   }, [props.flow]);
@@ -110,7 +112,7 @@ function Auth(props) {
         actions={
           ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
         }
-        title={props.flow==="login"?"User Login":"User Registration"}
+        title={props.flow === 'login' ? 'User Login' : 'User Registration'}
         style={{ width: 400 }}
       >
         <Form name="auth" onFinish={withPassword}>

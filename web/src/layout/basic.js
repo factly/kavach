@@ -36,9 +36,9 @@ function BasicLayout(props) {
       <Layout style={{ background: '#fff' }}>
         <Header />
         <Layout.Content className="layout-content">
-            <div key={selected.toString()} className="wrap-children-content">
-              {children}
-            </div>
+          <div key={selected.toString()} className="wrap-children-content">
+            {children}
+          </div>
         </Layout.Content>
       </Layout>
     </Layout>
