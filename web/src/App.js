@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useSelector} from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
