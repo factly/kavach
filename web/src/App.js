@@ -16,7 +16,7 @@ function App() {
         count: (state.organisations && state.organisations.ids) ? state.organisations.ids.length : 0
       }
   })
-  console.log(count)
+  
   React.useEffect(()=>{
     setOrgCount(count)
   },[count])
