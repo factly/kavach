@@ -52,7 +52,7 @@ Once the application is up and running you should be able to access it using the
 - At present kavach supports only two OIDC providers i.e. 1)Google and 2)Github
 - for enabling OIDC you can add the example config at https://github.com/factly/kavach/blob/fix/permission-management/kratos/config/kratos.yml#L22
 - Example configuration (only change the client_id and client_secret for each provider) : 
-
+```
     methods:
     oidc:
       enabled: true
@@ -74,7 +74,7 @@ Once the application is up and running you should be able to access it using the
             scope:
               - email
               - profile
-
+```
 
 
     
