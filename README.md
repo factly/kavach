@@ -60,16 +60,16 @@ Once the application is up and running you should be able to access it using the
           providers:
             - id: github
               provider: github 
-              client_id: 123abc
-              client_secret: 123abc
+              client_id: github-client-id
+              client_secret: github-client-secret
               mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
               scope:
                 - user:email
 
             - id: google 
               provider: google
-              client_id: 123abc
-              client_secret: 123abc
+              client_id: google-client-id
+              client_secret: google-client-secret
               mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
               scope:
                 - email
