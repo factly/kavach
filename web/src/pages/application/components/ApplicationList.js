@@ -1,16 +1,16 @@
 import React from 'react';
 import { Popconfirm, Skeleton, Avatar, Card, Tooltip } from 'antd';
 import { ExportOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
 
-function ApplicationList({applicationList, permission}) {
+function ApplicationList({ applicationList, permission }) {
   const dispatch = useDispatch();
   const node = applicationList.req[0];
-  const applications =  node.data.map((element) => applicationList.details[element])
-  const loading = applicationList.loading
+  const applications = node.data.map((element) => applicationList.details[element]);
+  const loading = applicationList.loading;
   const fetchApplications = () => {
     dispatch(getApplications());
   };
@@ -54,29 +54,29 @@ function ApplicationList({applicationList, permission}) {
           >
             <EditOutlined key="edit" style={{ fontSize: '150%' }} />
           </Link>,
-          (permission) ? 
-          (<Popconfirm
-            title="Sure to Delete?"
-            onConfirm={() =>
-              dispatch(deleteApplication(props.application.id)).then(() => {
-                dispatch(getOrganisations());
-                fetchApplications();
-              })
-            }
-          >
-            <Link to="" className="ant-dropdown-link">
-              <DeleteOutlined style={{ fontSize: '150%' }} />
-            </Link>
-          </Popconfirm>):
-          (
-          <Tooltip
-            title="You don't have permission to delete an application"
-            trigger="click"
-            color='red'
+          permission ? (
+            <Popconfirm
+              title="Sure to Delete?"
+              onConfirm={() =>
+                dispatch(deleteApplication(props.application.id)).then(() => {
+                  dispatch(getOrganisations());
+                  fetchApplications();
+                })
+              }
+            >
+              <Link to="" className="ant-dropdown-link">
+                <DeleteOutlined style={{ fontSize: '150%' }} />
+              </Link>
+            </Popconfirm>
+          ) : (
+            <Tooltip
+              title="You don't have permission to delete an application"
+              trigger="click"
+              color="red"
             >
               <DeleteOutlined style={{ fontSize: '150%' }} />
-          </Tooltip>)
-          ,
+            </Tooltip>
+          ),
           <a href={props.application.url}>
             <ExportOutlined style={{ fontSize: '150%' }} />
           </a>,

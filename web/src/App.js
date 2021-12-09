@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
@@ -11,15 +11,14 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 
 function App() {
-  const [orgCount, setOrgCount] = useState(0);
-  const { count } = useSelector((state) => {
+  const { orgCount } = useSelector((state) => {
     return {
-      count: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
+      orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
-  React.useEffect(() => {
-    setOrgCount(count);
-  }, [count]);
+
+  React.useEffect(() => {}, [orgCount]);
+
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
@@ -31,6 +30,7 @@ function App() {
           />
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
+
           <BasicLayout>
             <Switch>
               {routes.map((route) => {
@@ -40,7 +40,7 @@ function App() {
                     exact
                     path={route.path}
                     component={
-                      orgCount != 0
+                      orgCount !== 0
                         ? route.Component
                         : route.path === '/password' ||
                           route.path === '/profile' ||

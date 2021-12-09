@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Descriptions, Table, Popconfirm, Typography, Modal } from 'antd';
+import { Button, Table, Popconfirm, Modal } from 'antd';
 import { deleteToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';

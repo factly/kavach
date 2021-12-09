@@ -41,7 +41,7 @@ function Sidebar() {
         height: '100vh',
       }}
     >
-      <Link to="/settings">
+      <Link to="/">
         <div className="menu-header">
           <img
             alt="logo"

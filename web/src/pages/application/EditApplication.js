@@ -16,36 +16,30 @@ function EditApplication() {
   const { Panel } = Collapse;
   const dispatch = useDispatch();
   const [tokenFlag, setTokenFlag] = React.useState(false);
-  const { application, loadingApps, userDetails, loadingUsers, userID, loadingID } = useSelector(
-    (state) => {
-      return {
-        application: state.applications.details[id] ? state.applications.details[id] : null,
-        loadingApps: state.applications.loading,
-        userDetails: state.users.details,
-        loadingUsers: state.users.loading,
-        userID: state.profile.details.id,
-        loadingID: state.profile.loading,
-      };
-    },
-  );
+  const { application, loadingApp, role, loadingRole } = useSelector((state) => {
+    return {
+      application: state.applications.details[id] ? state.applications.details[id] : null,
+      loadingApps: state.applications.loading,
+      role: state.organisations.role,
+      loadingRole: state.organisations.loading,
+    };
+  });
 
   React.useEffect(() => {
     dispatch(getApplication(id));
   }, [dispatch, id, tokenFlag]);
 
-  if (loadingApps && !application && loadingUsers && loadingID) return <Skeleton />;
+  if (loadingApp || loadingRole) return <Skeleton />;
 
-  if (!loadingUsers) {
-    if (userDetails[userID].permission.role) {
-      return (
-        <ErrorComponent
-          status="403"
-          title="Sorry you are not authorised to access this page"
-          link="/organisation"
-          message="Back Home"
-        />
-      );
-    }
+  if (role === 'member') {
+    return (
+      <ErrorComponent
+        status="403"
+        title="Sorry you are not authorised to access this page"
+        link="/organisation"
+        message="Back Home"
+      />
+    );
   }
 
   const onUpdate = (values) => {

@@ -11,10 +11,12 @@ const initialState = {
   details: {},
   loading: true,
   selected: 0,
+  role: 'member',
 };
 
 export default function tagsReducer(state = initialState, action = {}) {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case RESET_ORGANISATIONS:
       return {
         ...state,
@@ -22,34 +24,35 @@ export default function tagsReducer(state = initialState, action = {}) {
         details: {},
         loading: true,
         selected: 0,
+        role: 'member',
       };
     case SET_ORGANISATIONS_LOADING:
       return {
         ...state,
-        loading: action.payload,
+        loading: payload,
       };
     case ADD_ORGANISATIONS:
       return {
         ...state,
-        ids: action.payload.map((item) => item.id),
-        details: action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
-        selected: action.payload[0].id,
+        ids: payload.map((item) => item.id),
+        details: payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
+        selected: payload[0].id,
+        role: payload[0].permission.role,
       };
     case ADD_ORGANISATION:
       return {
         ...state,
-        ids: state.ids.includes(action.payload.id)
-          ? state.ids
-          : state.ids.concat([action.payload.id]),
+        ids: state.ids.includes(payload.id) ? state.ids : state.ids.concat([payload.id]),
         details: {
           ...state.details,
-          [action.payload.id]: action.payload,
+          [payload.id]: payload,
         },
       };
     case SET_SELECTED_ORGANISATION:
       return {
         ...state,
-        selected: action.payload,
+        selected: payload,
+        role: state.details[payload].permission.role,
       };
     default:
       return state;

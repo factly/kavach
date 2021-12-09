@@ -37,6 +37,7 @@ function Verification() {
       <img
         src={require('../../assets/email-verification.svg')}
         width={200}
+        alt="verification"
         style={{ marginBottom: 10 }}
       />
       <h2>Verify your email address.</h2>

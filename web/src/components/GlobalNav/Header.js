@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Layout, Divider, Button, Popover, List, Avatar } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
 import AccountMenu from './AccountMenu';
