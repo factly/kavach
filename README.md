@@ -54,26 +54,26 @@ Once the application is up and running you should be able to access it using the
 - Example configuration (only change the client_id and client_secret for each provider) : 
 ```
     methods:
-    oidc:
-      enabled: true
-      config:
-        providers:
-          - id: github
-            provider: github 
-            client_id: 123abc
-            client_secret: 123abc
-            mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
-            scope:
-              - user:email
+      oidc:
+        enabled: true
+        config:
+          providers:
+            - id: github
+              provider: github 
+              client_id: 123abc
+              client_secret: 123abc
+              mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
+              scope:
+                - user:email
 
-          - id: google 
-            provider: google
-            client_id: 123abc
-            client_secret: 123abc
-            mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
-            scope:
-              - email
-              - profile
+            - id: google 
+              provider: google
+              client_id: 123abc
+              client_secret: 123abc
+              mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
+              scope:
+                - email
+                - profile
 ```
 
 
