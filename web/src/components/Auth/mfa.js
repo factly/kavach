@@ -40,7 +40,7 @@ export default function MFA({ ui }) {
           </Form.Item>
           <Form.Item>
             <Button type="primary" placeholder="submit" htmlType="submit" block>
-              Save
+              submit
             </Button>
           </Form.Item>
         </Form>
