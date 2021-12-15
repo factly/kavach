@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import React from 'react';
 
 function Verification() {
@@ -24,7 +25,10 @@ function Verification() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        notification.error({
+          message: 'Error',
+          description: err,
+        });
       });
   }, []);
   return (
