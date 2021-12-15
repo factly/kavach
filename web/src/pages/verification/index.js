@@ -23,11 +23,12 @@ function Verification() {
         if (res && res.state === 'passed_challenge') {
           window.location.href = process.env.PUBLIC_URL + '/auth/login';
         }
-      }).catch((err)=>{
-          notification.error({
-            message: 'Error',
-            description: err,
-          });
+      })
+      .catch((err) => {
+        notification.error({
+          message: 'Error',
+          description: err,
+        });
       });
   }, []);
   return (

@@ -82,9 +82,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Begin()
+
 	results := []userWithPermission{}
 	for _, user := range req.Users {
+		tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Begin()
 		invitee := model.User{
 			Email:     user.Email,
 			FirstName: user.FirstName,
