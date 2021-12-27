@@ -1,7 +1,6 @@
 package organisation
 
 import (
-	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -64,10 +63,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Delete all organisation_users associations
 	orgUsers := model.OrganisationUser{
-		OrganisationID: sql.NullInt32{
-			Int32: int32(orgID),
-			Valid: true,
-		},
+		OrganisationID: uint(orgID),
 	}
 
 	tx := model.DB.Begin()

@@ -1,7 +1,6 @@
 package token
 
 import (
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -81,10 +80,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// Check if user is owner of organisation
 	permission := &model.OrganisationUser{}
 	err = model.DB.Model(&model.OrganisationUser{}).Preload("User").Where(&model.OrganisationUser{
-		OrganisationID: sql.NullInt32{
-			Int32: int32(oID),
-			Valid: true,
-		},
+		OrganisationID: uint(oID),
 		UserID:         uint(uID),
 		Role:           "owner",
 	}).First(permission).Error

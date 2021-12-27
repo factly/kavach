@@ -1,7 +1,6 @@
 package model
 
 import (
-	"database/sql"
 	"errors"
 
 	"gorm.io/gorm"
@@ -22,7 +21,7 @@ type OrganisationUser struct {
 	Base
 	UserID         uint          `gorm:"column:user_id" json:"user_id"`
 	User           *User         `json:"user"`
-	OrganisationID sql.NullInt32 `gorm:"column:organisation_id" json:"organisation_id"`
+	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `json:"organisation"`
 	Role           string        `gorm:"column:role" json:"role"`
 	InviteID       uint          `gorm:"column:invite_id"`

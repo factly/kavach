@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -11,8 +10,8 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/kavach-server/util/email"
+	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -69,7 +68,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
-	
+
 	// FindOrCreate invitee
 	req := invites{}
 	err = json.NewDecoder(r.Body).Decode(&req)
@@ -103,7 +102,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			tx.Create(&invitee)
 		}
-		
+
 		// * FirstOrCreate method giving error right now
 		// tx.FirstOrCreate(&invitee, model.User{
 		// 	Email: req.Email,
@@ -111,8 +110,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		// Check if invitee already exist in organisation
 		var totPermissions int64
 		permission := &model.OrganisationUser{}
-		permission.OrganisationID.Int32 = int32(orgID)
-		permission.OrganisationID.Valid = true
+		permission.OrganisationID = uint(orgID)
 		permission.UserID = invitee.ID
 
 		model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
@@ -142,20 +140,20 @@ func create(w http.ResponseWriter, r *http.Request) {
 			Base: model.Base{
 				CreatedByID: uint(currentUID),
 			},
-			InviteeID: invitee.ID,
-			Status: false,
-			Role: user.Role,
+			InviteeID:      invitee.ID,
+			Status:         false,
+			Role:           user.Role,
 			OrganisationID: uint(orgID),
 		}
 		var inviteID uint
-		inviteID, err = createInvite(tx, *invitation)		
-		if err!=nil{
+		inviteID, err = createInvite(tx, *invitation)
+		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 		}
 		// Add user into organisation
-		permission.OrganisationID = sql.NullInt32{}
+		permission.OrganisationID = uint(orgID)
 		permission.UserID = invitee.ID
 		permission.Role = user.Role
 		permission.InviteID = inviteID
@@ -169,21 +167,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		var organisationMap []map[string]interface{}
 		err = model.DB.Model(model.Organisation{}).Select("title").Where("id=?", orgID).Find(&organisationMap).Error
-		if err!=nil{
+		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
 		receiver := email.MailReceiver{
-			InviteeName: user.FirstName+" "+user.LastName,
-			InviteeEmail: user.Email,
-			Role: user.Role,
+			InviteeName:      user.FirstName + " " + user.LastName,
+			InviteeEmail:     user.Email,
+			Role:             user.Role,
 			OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
 		}
 		var count int64
 		err = model.DB.Model(&model.User{}).Where("email=?", user.Email).Count(&count).Error
-		if err!=nil{
+		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
@@ -191,12 +189,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 		if count == 0 {
 			receiver.ActionURL = "http://kavach.factly.org/auth/regisatration"
-		}else{
+		} else {
 			receiver.ActionURL = "http://kavach.factly.org/auth/login"
 		}
 
 		err = email.SendmailwithSendGrid(receiver)
-		if err!=nil{
+		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))

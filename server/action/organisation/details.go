@@ -1,7 +1,6 @@
 package organisation
 
 import (
-	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -37,11 +36,8 @@ func details(w http.ResponseWriter, r *http.Request) {
 	userID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
 	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		UserID: uint(userID),
-		OrganisationID: sql.NullInt32{
-			Int32: int32(id),
-			Valid: true,
-		},
+		UserID:         uint(userID),
+		OrganisationID: uint(id),
 	}).First(&permission)
 
 	organisation := &model.Organisation{}

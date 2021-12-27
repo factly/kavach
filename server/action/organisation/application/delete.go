@@ -1,7 +1,6 @@
 package application
 
 import (
-	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -63,12 +62,9 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// Check if the user is owner of organisation
 	permission := &model.OrganisationUser{}
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: sql.NullInt32{
-			Int32: int32(oID),
-			Valid: true,
-		},
-		UserID: uint(uID),
-		Role:   "owner",
+		OrganisationID: uint(oID),
+		UserID:         uint(uID),
+		Role:           "owner",
 	}).First(permission).Error
 
 	if err != nil {
