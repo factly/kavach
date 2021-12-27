@@ -1,6 +1,7 @@
 package util
 
 import (
+	"database/sql"
 	"errors"
 	"net/url"
 	"strings"
@@ -20,7 +21,7 @@ func GetApplicationID(url url.URL, uID uint) (uint, error) {
 		return 0, err
 	}
 
-	orgIDs := make([]uint, 0)
+	orgIDs := make([]sql.NullInt32, 0)
 	for _, orgUser := range orgUserList {
 		orgIDs = append(orgIDs, orgUser.OrganisationID)
 	}

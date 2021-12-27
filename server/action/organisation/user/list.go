@@ -1,6 +1,7 @@
 package user
 
 import (
+	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -24,22 +25,24 @@ import (
 func list(w http.ResponseWriter, r *http.Request) {
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
-
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-
+	role := r.URL.Query().Get("role")
 	// check the permission of host
 	host := &model.OrganisationUser{}
 	hostID, _ := strconv.Atoi(r.Header.Get("X-User"))
 
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(hostID),
-	}).First(&host).Error
-
+		OrganisationID: sql.NullInt32{
+			Int32: int32(orgID),
+			Valid: true,
+		},
+		UserID: uint(hostID),
+	},
+	).First(&host).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
@@ -47,10 +50,21 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}
 
 	users := make([]model.OrganisationUser, 0)
-
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-	}).Preload("User").Preload("User.Medium").Find(&users)
+	if role == "owner" || role == "member" {
+		model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+			OrganisationID: sql.NullInt32{
+				Int32: int32(orgID),
+				Valid: true,
+			},
+			Role: role,
+			}).Preload("User").Preload("User.Medium").Find(&users)
+	} else {
+		model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+			OrganisationID: sql.NullInt32{
+				Int32: int32(orgID),
+				Valid: true,
+			}}).Preload("User").Preload("User.Medium").Find(&users)
+	}
 
 	result := make([]userWithPermission, 0)
 

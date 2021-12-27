@@ -1,6 +1,7 @@
 package user
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 	"net/http"
@@ -68,8 +69,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Check if record exist
 	err = model.DB.Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(uID),
+		OrganisationID: sql.NullInt32{
+			Int32: int32(orgID),
+			Valid: true,
+		},
+		UserID: uint(uID),
 	}).First(&result).Error
 
 	if err != nil {
@@ -81,8 +85,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// Check if the user to delete is not last owner of organisation
 	var totalOwners int64
 	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		Role:           "owner",
-		OrganisationID: uint(orgID),
+		Role: "owner",
+		OrganisationID: sql.NullInt32{
+			Int32: int32(orgID),
+			Valid: true,
+		},
 	}).Count(&totalOwners)
 
 	if result.Role == "owner" && totalOwners < 2 {

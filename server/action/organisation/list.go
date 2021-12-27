@@ -1,6 +1,7 @@
 package organisation
 
 import (
+	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -31,7 +32,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		UserID: uint(userID),
 	}).Preload("Organisation").Preload("Organisation.Medium").Find(&organisationUser)
 
-	orgIDs := make([]uint, 0)
+	orgIDs := make([]sql.NullInt32, 0)
 	for _, ou := range organisationUser {
 		orgIDs = append(orgIDs, ou.OrganisationID)
 	}
@@ -39,13 +40,13 @@ func list(w http.ResponseWriter, r *http.Request) {
 	applicationList := make([]model.Application, 0)
 	model.DB.Model(&model.Application{}).Preload("Medium").Where("organisation_id IN (?)", orgIDs).Find(&applicationList)
 
-	appMap := make(map[uint][]model.Application)
+	appMap := make(map[int32][]model.Application)
 
 	for _, app := range applicationList {
-		if _, found := appMap[app.OrganisationID]; !found {
-			appMap[app.OrganisationID] = make([]model.Application, 0)
+		if _, found := appMap[int32(app.OrganisationID)]; !found {
+			appMap[int32(app.OrganisationID)] = make([]model.Application, 0)
 		}
-		appMap[app.OrganisationID] = append(appMap[app.OrganisationID], app)
+		appMap[int32(app.OrganisationID)] = append(appMap[int32(app.OrganisationID)], app)
 	}
 
 	result := make([]orgWithRole, 0)
@@ -55,7 +56,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			eachOrg := orgWithRole{}
 			eachOrg.Organisation = *each.Organisation
 			eachOrg.Permission = each
-			eachOrg.Applications = appMap[each.OrganisationID]
+			eachOrg.Applications = appMap[each.OrganisationID.Int32]
 
 			eachOrg.Permission.Organisation = nil
 

@@ -2,6 +2,7 @@ package organisation
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -66,7 +67,10 @@ func update(w http.ResponseWriter, r *http.Request) {
 	permission := &model.OrganisationUser{}
 
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
+		OrganisationID: sql.NullInt32{
+			Int32: int32(orgID),
+			Valid: true,
+		},
 		UserID:         uint(hostID),
 		Role:           "owner",
 	}).First(permission).Error

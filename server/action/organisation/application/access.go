@@ -1,6 +1,7 @@
 package application
 
 import (
+	"database/sql"
 	"net/http"
 	"strconv"
 
@@ -44,7 +45,7 @@ func access(w http.ResponseWriter, r *http.Request) {
 		UserID: uint(uID),
 	}).Preload("Organisation").Find(&organisationUser)
 
-	orgIDs := make([]uint, 0)
+	orgIDs := make([]sql.NullInt32, 0)
 	for _, ou := range organisationUser {
 		orgIDs = append(orgIDs, ou.OrganisationID)
 	}

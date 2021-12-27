@@ -9,6 +9,7 @@ func Migration() {
 		&Medium{},
 		&Application{},
 		&ApplicationToken{},
+		&Invitation{},
 	)
 
 }
