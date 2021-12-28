@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Select, Button, Row, Col, Icon, Space } from 'antd';
+import { Card, Form, Input, Select, Button, Row, Col } from 'antd';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../actions/users';
 import { useHistory } from 'react-router-dom';
@@ -10,11 +10,6 @@ const layout = {
   iconCol: 2,
   roleCol: 3,
   otherCol: 6,
-};
-
-const space = {
-  vertical: 16,
-  horizantal: 8,
 };
 
 //FormHeader is used to create the header of the form
@@ -82,7 +77,7 @@ function FormList() {
                         onClick={() => {
                           remove(field.name);
                         }}
-                        hidden={index == 0 ? true : false}
+                        hidden={index === 0 ? true : false}
                         style={{ marginLeft: 10 }}
                       />
                     </Form.Item>

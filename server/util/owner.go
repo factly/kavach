@@ -14,7 +14,7 @@ func CheckOwner(uid uint, oid uint) error {
 	currentUser.Role = "owner"
 
 	err := model.DB.Model(&model.OrganisationUser{}).Where(currentUser).First(&model.OrganisationUser{}).Error
-	
+
 	if err != nil {
 		return errors.New("user is not owner")
 	}

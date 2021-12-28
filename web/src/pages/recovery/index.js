@@ -31,7 +31,7 @@ function Recovery() {
       .then((res) => {
         setUI(res.ui);
         if (res.ui.messages) {
-          if (res.ui.messages[0].id == 1060002) {
+          if (res.ui.messages[0].id === 1060002) {
             notification.success({
               message: 'Success',
               description: 'successfull sent the recovery email',
@@ -44,7 +44,7 @@ function Recovery() {
           }
         }
       })
-      .catch((err) => {
+      .catch(() => {
         notification.error({
           message: 'Error',
           description: 'unable to proceed further!',
@@ -67,6 +67,8 @@ function Recovery() {
     csrfInput.value = ui.nodes.find((value) => {
       if (value.attributes.name === 'csrf_token') {
         return value;
+      } else {
+        return null;
       }
     }).attributes.value;
 
@@ -110,7 +112,11 @@ function Recovery() {
             </Button>
           </Form.Item>
           <Form.Item>
-            <Link to={'/auth/login'}> Login!</Link>
+            <Link to={'/auth/login'}>
+              <Button type="primary" block>
+                Go back
+              </Button>
+            </Link>
           </Form.Item>
         </Form>
       </Card>
