@@ -1,16 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import { addToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 
-const layout = {
-  labelCol: {
-    span: 7,
-  },
-  wrapperCol: {
-    span: 12,
-  },
-};
 const tailLayout = {
   wrapperCol: {
     offset: 8,

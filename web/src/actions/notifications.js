@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { ADD_NOTIFICATION } from '../constants/notifications';
 
 export const addErrorNotification = (data) => ({

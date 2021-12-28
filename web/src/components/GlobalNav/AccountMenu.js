@@ -38,7 +38,7 @@ const AccountMenu = () => {
       .then((res) => {
         window.location.href = res.logout_url;
       })
-      .catch((err) => {
+      .catch(() => {
         notification.error({
           message: 'Error',
           description: 'Unable to logout',

@@ -1,13 +1,11 @@
 import React from 'react';
 import { Button } from 'antd';
 import { GithubOutlined, GoogleOutlined } from '@ant-design/icons';
+import createForm from '../../utils/form';
 
 function OIDC({ ui }) {
   const withOIDC = (values) => {
-    var oidcForm = document.createElement('form');
-    oidcForm.action = ui.action;
-    oidcForm.method = ui.method;
-    oidcForm.style.display = 'none';
+    var oidcForm = createForm(ui.action, ui.method);
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
@@ -34,7 +32,7 @@ function OIDC({ ui }) {
   };
 
   return (
-    <Button.Group className="oidc">
+    <Button.Group className="oidc" style={{ display: 'flex', justifyContent: 'center' }}>
       <Button icon={<GithubOutlined />} onClick={() => withOIDC('github')}>
         Github
       </Button>

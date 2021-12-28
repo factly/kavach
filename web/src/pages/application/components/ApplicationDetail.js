@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Descriptions, Table, Popconfirm, Typography, Modal } from 'antd';
+import { Button, Table, Popconfirm, Modal } from 'antd';
 import { deleteToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -48,7 +48,13 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
 
   return (
     <>
-      <Table bordered columns={columns} dataSource={data.tokens} rowKey={'id'} pagination={false} />
+      <Table
+        bordered
+        columns={columns}
+        dataSource={data && data.tokens ? data.tokens : []}
+        rowKey={'id'}
+        pagination={false}
+      />
 
       <Button style={{ marginTop: 5 }} onClick={() => setVisible(true)}>
         {<PlusOutlined />}New api key
@@ -61,7 +67,11 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
         onCancel={() => setVisible(false)}
         footer={null}
       >
-        <CreateTokenForm appID={data.id} setVisible={setVisible} setTokenFlag={setTokenFlag} />
+        <CreateTokenForm
+          appID={data && data.id ? data.id : null}
+          setVisible={setVisible}
+          setTokenFlag={setTokenFlag}
+        />
       </Modal>
     </>
   );

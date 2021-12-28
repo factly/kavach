@@ -20,10 +20,18 @@ selfservice:
     - http://127.0.0.1:4455/.factly/bindu/studio/
 
   methods:
-    oidc:
-      enabled: true
     password:
       enabled: true
+      
+    link: 
+      enabled: true
+      config:
+        lifespan: 15m
+    
+    totp:
+      enabled: true
+      config:
+        issuer: factly.in
 
   flows:
     error:
@@ -32,6 +40,7 @@ selfservice:
     settings:
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/password
       privileged_session_max_age: 15m
+      required_aal: highest_available
 
     logout:
       after:
@@ -40,24 +49,28 @@ selfservice:
     login:
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/login
       lifespan: 10m 
-
-    registration:
-      lifespan: 10m
-      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/registration
       after:
         password:
           hooks:
-            -
-              hook: session
-        oidc:
-          hooks:
-            - hook: session
+            - hook: require_verified_address
 
-    recovery:
+    verification:
       enabled: true
+      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/verification
+      
+
+    registration:
+      after:
+        default_browser_return_url: http://127.0.0.1:4455/.factly/kavach/web/auth/verification
+      lifespan: 10m
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/registration
 
-
+            
+    recovery:
+      enabled: true
+      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/recovery
+    
+      
 log:
   level: debug
   format: text
@@ -77,3 +90,5 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+
+
