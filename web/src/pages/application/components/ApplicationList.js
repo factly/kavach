@@ -1,34 +1,20 @@
 import React from 'react';
-import { Popconfirm, Skeleton, Avatar, Card, Row } from 'antd';
+import { Popconfirm, Skeleton, Avatar, Card, Tooltip } from 'antd';
 import { ExportOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
 
-function ApplicationList() {
+function ApplicationList({ applicationList, permission }) {
   const dispatch = useDispatch();
-  const { applications, loading } = useSelector((state) => {
-    const node = state.applications.req[0];
-
-    if (node)
-      return {
-        applications: node.data.map((element) => state.applications.details[element]),
-        loading: state.applications.loading,
-        total: node.total,
-      };
-    return { applications: [], loading: state.applications.loading, total: 0 };
-  });
-
-  React.useEffect(() => {
-    fetchApplications();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
+  const node = applicationList.req[0];
+  const applications = node.data.map((element) => applicationList.details[element]);
+  const loading = applicationList.loading;
   const fetchApplications = () => {
     dispatch(getApplications());
   };
-  let applicationList = [];
+
   const ApplicationCard = (props) => {
     return (
       <Card
@@ -68,19 +54,29 @@ function ApplicationList() {
           >
             <EditOutlined key="edit" style={{ fontSize: '150%' }} />
           </Link>,
-          <Popconfirm
-            title="Sure to Delete?"
-            onConfirm={() =>
-              dispatch(deleteApplication(props.application.id)).then(() => {
-                dispatch(getOrganisations());
-                fetchApplications();
-              })
-            }
-          >
-            <Link to="" className="ant-dropdown-link">
+          permission ? (
+            <Popconfirm
+              title="Sure to Delete?"
+              onConfirm={() =>
+                dispatch(deleteApplication(props.application.id)).then(() => {
+                  dispatch(getOrganisations());
+                  fetchApplications();
+                })
+              }
+            >
+              <Link to="" className="ant-dropdown-link">
+                <DeleteOutlined style={{ fontSize: '150%' }} />
+              </Link>
+            </Popconfirm>
+          ) : (
+            <Tooltip
+              title="You don't have permission to delete an application"
+              trigger="click"
+              color="red"
+            >
               <DeleteOutlined style={{ fontSize: '150%' }} />
-            </Link>
-          </Popconfirm>,
+            </Tooltip>
+          ),
           <a href={props.application.url}>
             <ExportOutlined style={{ fontSize: '150%' }} />
           </a>,
@@ -92,16 +88,6 @@ function ApplicationList() {
           style={{ textAlign: 'center' }}
         />
       </Card>
-    );
-  };
-
-  const ApplicationRow = (props) => {
-    return (
-      <Row style={{ display: 'flex', justifyContent: 'flex-start', gap: '2rem' }}>
-        {props.applications.map((application, index) => (
-          <ApplicationCard key={index} application={application}></ApplicationCard>
-        ))}
-      </Row>
     );
   };
 

@@ -1,17 +1,19 @@
 import React from 'react';
-import { Layout, Card, notification } from 'antd';
+import { Layout, notification } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Header from '../components/GlobalNav/Header';
 import Sidebar from '../components/GlobalNav/Sidebar';
-import PageHeader from '../components/PageHeader';
 import { getOrganisations } from '../actions/organisations';
 import './basic.css';
 
 function BasicLayout(props) {
-  const { location } = props;
   const { children } = props;
-  const selected = useSelector((state) => state.organisations.selected);
+  const { selected } = useSelector((state) => {
+    return {
+      selected: state.organisations.selected,
+    };
+  });
 
   const dispatch = useDispatch();
 
@@ -36,9 +38,9 @@ function BasicLayout(props) {
       <Layout style={{ background: '#fff' }}>
         <Header />
         <Layout.Content className="layout-content">
-            <div key={selected.toString()} className="wrap-children-content">
-              {children}
-            </div>
+          <div key={selected.toString()} className="wrap-children-content">
+            {children}
+          </div>
         </Layout.Content>
       </Layout>
     </Layout>

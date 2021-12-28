@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
@@ -8,18 +8,25 @@ import Auth from './components/Auth';
 import routes from './config/routes';
 import Recovery from './pages/recovery';
 import Verification from './pages/verification';
-import OrganisationNotCreated from '../src/components/ErrorsAndImage/OrganisationNotCreated'
+import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
+import { getInvitation } from './actions/profile';
+
 function App() {
-  const [orgCount , setOrgCount] = useState(0)
-  const {count} = useSelector((state)=>{
+  const dispatch = useDispatch();
+  const { orgCount } = useSelector((state) => {
     return {
-        count: (state.organisations && state.organisations.ids) ? state.organisations.ids.length : 0
-      }
-  })
-  
-  React.useEffect(()=>{
-    setOrgCount(count)
-  },[count])
+      orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
+    };
+  });
+
+  const fetchInvitations = React.useCallback(() => {
+    dispatch(getInvitation());
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    fetchInvitations();
+  }, [fetchInvitations, orgCount]);
+
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
@@ -31,12 +38,34 @@ function App() {
           />
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
+
           <BasicLayout>
             <Switch>
               {routes.map((route) => {
                 return (
-                <Route key={route.path} exact path={route.path} component={(orgCount!=0) ? route.Component : (route.path==="/password" || route.path==="/profile" || route.path==="/organisation")? route.Component : OrganisationNotCreated} />
-              )})}
+                  <Route
+                    key={route.path}
+                    exact
+                    path={route.path}
+                    component={
+                      orgCount !== 0
+                        ? route.Component
+                        : route.path === '/password' ||
+                          route.path === '/profile' ||
+                          route.path === '/organisation' ||
+                          route.path === '/profile/invite'
+                        ? route.Component
+                        : () =>
+                            ErrorComponent({
+                              status: '500',
+                              title: 'To access this page please create an organisation',
+                              link: '/organisation',
+                              message: 'Create Organisation',
+                            })
+                    }
+                  />
+                );
+              })}
             </Switch>
           </BasicLayout>
         </Switch>

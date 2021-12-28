@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Layout, Divider, Button, Popover, List, Avatar } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
-import { toggleSider } from '../../actions/settings';
 import AccountMenu from './AccountMenu';
 import OrganisationSelector from './OrganisationSelector';
 import { Link } from 'react-router-dom';
@@ -13,8 +12,6 @@ function Header() {
       ? state.organisations.details[state.organisations.selected].applications || []
       : [],
   );
-  const dispatch = useDispatch();
-
   return (
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>

@@ -1,7 +1,8 @@
-import { SET_PROFILE_LOADING, ADD_PROFILE } from '../constants/profile';
+import { SET_PROFILE_LOADING, ADD_PROFILE, ADD_INVITE, DELETE_INVITE } from '../constants/profile';
 
 const initialState = {
   details: {},
+  invitations: [],
   loading: true,
 };
 
@@ -16,6 +17,16 @@ export default function profileReducer(state = initialState, action = {}) {
       return {
         ...state,
         details: action.payload,
+      };
+    case ADD_INVITE:
+      return {
+        ...state,
+        invitations: action.payload,
+      };
+    case DELETE_INVITE:
+      return {
+        ...state,
+        invitations: state.invitations.filter((invitation) => invitation.id !== action.payload),
       };
     default:
       return state;

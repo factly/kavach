@@ -4,6 +4,7 @@ import {
   UserOutlined,
   SecurityScanOutlined,
   ProfileOutlined,
+  SendOutlined,
 } from '@ant-design/icons';
 
 //Pages
@@ -18,6 +19,7 @@ import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
 import ApplicationUsers from '../pages/application/users/index';
 import GetApplication from '../pages/application/GetApplication';
+import InvitationComponent from '../pages/profile/invitation';
 
 export default [
   {
@@ -102,5 +104,13 @@ export default [
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Application Users',
+  },
+  {
+    path: '/profile/invite',
+    Component: InvitationComponent,
+    enableNavigation: true,
+    Icon: SendOutlined,
+    title: 'Invitations',
+    enableBreadcrumb: true,
   },
 ];

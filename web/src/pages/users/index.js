@@ -8,11 +8,13 @@ import { Link } from 'react-router-dom';
 function OrganisationUsers() {
   const dispatch = useDispatch();
 
-  const { organisation, users, loading } = useSelector((state) => {
+  const { organisation, users, role, loading, loadingRole } = useSelector((state) => {
     return {
       organisation: state.organisations.details[state.organisations.selected],
       users: state.users.ids.map((id) => state.users.details[id]),
+      role: state.organisations.role,
       loading: state.users.loading,
+      loadingRole: state.organisations.loading,
     };
   });
 
@@ -64,8 +66,13 @@ function OrganisationUsers() {
           onConfirm={() => {
             dispatch(deleteUser(record.id)).then(() => fetchUsers());
           }}
+          disabled={!loadingRole ? (role === 'owner' ? false : true) : true}
         >
-          <Button icon={<DeleteOutlined />} type="danger" />
+          <Button
+            icon={<DeleteOutlined />}
+            type="danger"
+            disabled={!loadingRole ? (role === 'owner' ? false : true) : true}
+          />
         </Popconfirm>
       ),
       width: '15%',

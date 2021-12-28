@@ -1,4 +1,5 @@
 import React from 'react';
+import { notification } from 'antd';
 
 function Verification() {
   React.useEffect(() => {
@@ -20,8 +21,14 @@ function Verification() {
       })
       .then((res) => {
         if (res && res.state === 'passed_challenge') {
-          window.location.href = window.PUBLIC_URL + '/auth/login';
+          window.location.href = process.env.PUBLIC_URL + '/auth/login';
         }
+      })
+      .catch((err) => {
+        notification.error({
+          message: 'Error',
+          description: err,
+        });
       });
   }, []);
   return (
@@ -37,6 +44,7 @@ function Verification() {
       <img
         src={require('../../assets/email-verification.svg')}
         width={200}
+        alt="verification"
         style={{ marginBottom: 10 }}
       />
       <h2>Verify your email address.</h2>

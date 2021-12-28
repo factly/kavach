@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { ADD_ORGANISATION_USERS } from '../constants/organisations';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
-import {
-  addErrorNotification,
-  addSuccessNotification,
-  addWarningNotification,
-} from './notifications';
+import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getUsers = () => {
   return (dispatch, getState) => {

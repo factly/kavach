@@ -25,7 +25,9 @@ const AccountMenu = () => {
   }, [dispatch]);
 
   const handleLogout = () => {
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser')
+    fetch(process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
+      credentials: 'include',
+    })
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -36,10 +38,10 @@ const AccountMenu = () => {
       .then((res) => {
         window.location.href = res.logout_url;
       })
-      .catch((err) => {
+      .catch(() => {
         notification.error({
           message: 'Error',
-          description: 'Unable to login',
+          description: 'Unable to logout',
         });
       });
   };
