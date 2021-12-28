@@ -1,16 +1,19 @@
 import React from 'react';
 import './index.css';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Input, Form, Button, Card, Row, Col, Alert, notification } from 'antd';
+import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {getErrorMsgByCode} from '../../utils/errorcode'
+import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
-import {emailVerification} from '../../utils/email-verification'
+import kavach_logo from '../../assets/kavach_icon.png';
+import createForm from '../../utils/form';
+import MFA from './mfa';
+
 function Auth(props) {
   const [ui, setUI] = React.useState({});
-  const { title } = useSelector((state) => state.settings);
-
+  const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
+  const logo = process.env.REACT_APP_LOGO_URL || kavach_logo;
+  const [aal2, setaal2] = React.useState(false); //aal stands for authenticator assurance level
   React.useEffect(() => {
     var obj = {};
 
@@ -24,18 +27,18 @@ function Auth(props) {
 
     const returnTo = obj['return_to'];
     const selfServiceURL = returnTo
-      ? window.REACT_APP_KRATOS_PUBLIC_URL +
+      ? process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/browser?return_to=' +
         returnTo
-      : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+      : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     }
     fetch(
-      window.REACT_APP_KRATOS_PUBLIC_URL +
+      process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/flows' +
@@ -54,17 +57,16 @@ function Auth(props) {
       })
       .then((res) => {
         setUI(res.ui);
+        setaal2(res.requested_aal === 'aal2');
       })
-      .catch((err) => {
-        window.location.href = selfServiceURL
+      .catch(() => {
+        window.location.href = selfServiceURL;
       });
   }, [props.flow]);
 
   const withPassword = (values) => {
-    var authForm = document.createElement('form');
-    authForm.action = ui.action;
-    authForm.method = ui.method;
-    authForm.style.display = 'none';
+    var authForm = createForm(ui.action, ui.method);
+
     var identifierInput = document.createElement('input');
     identifierInput.name = props.flow === 'login' ? 'password_identifier' : 'traits.email';
     identifierInput.value = values.email;
@@ -72,124 +74,133 @@ function Auth(props) {
     var passwordInput = document.createElement('input');
     passwordInput.name = 'password';
     passwordInput.value = values.password;
+
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
-    csrfInput.value = ui.nodes.find((value) => {
-      if (value.attributes.name === 'csrf_token') {
-        return value;
-      }
-    }).attributes.value;
+    csrfInput.type = 'hidden';
+    csrfInput.value = ui.nodes.find(
+      (value) => value.attributes.name === 'csrf_token',
+    ).attributes.value;
 
     var methodInput = document.createElement('input');
     methodInput.name = 'method';
     methodInput.value = 'password';
+
     authForm.appendChild(identifierInput);
     authForm.appendChild(passwordInput);
     authForm.appendChild(csrfInput);
     authForm.appendChild(methodInput);
+
     document.body.appendChild(authForm);
     authForm.submit();
-    if(props.flow==="registration"){
-      emailVerification(values.email)
-    }
-
   };
+
   return (
     <div className="auth">
       <Row className="header">
         <Col span={6}>
-          <img alt="logo" className="logo" src={require('../../assets/kavach_icon.png')} />
+          <img alt="logo" className="logo" src={logo} />
         </Col>
         <Col span={18}>
           <span className="title">{title}</span>
         </Col>
       </Row>
-      <Card
-        actions={ ui.nodes ? (ui.nodes.filter((node)=>node.group==="oidc").length>0)?[<OIDC action={ui.action} method={ui.method} nodes={ui.nodes.filter(node=>node.group==='oidc')} csrf={ui.nodes[0]}/>]:[]:[]}
-        title={props.flow==="login" ? "User Login" : "User Registration"}
-        style={{ width: 400 }}
-      >
-        <Form name="auth" onFinish={withPassword}>
-          {
-            ui.messages ? ui.messages.map((message, index)=>(
-              <Alert message={getErrorMsgByCode(message.id)} type="error" key={index}/>
-            )) : null
+      {aal2 ? (
+        <MFA ui={ui} />
+      ) : (
+        <Card
+          actions={
+            ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : []
           }
-          {ui.nodes && ui.nodes.messages ? (
-            <Form.Item>
-              {ui.nodes.messages.map((message, index) => (
-                <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
-              ))}:{' '} 
-            </Form.Item>
-          ) : null}
-          { ui.nodes ?
-            ui.nodes.map((node, index)=>{
-               return node.messages.length > 0 ? <Alert message={node.messages[0].text} type="error" key={index} /> : null
-            })
-            : null
-          }
-          <Form.Item
-            name="email"
-            rules={[
-              { required: true, message: 'Please input your Email!' },
-              { type: 'email', message: 'Please input valid Email!' },
-            ]}
-          >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
-          {props.flow === 'login' ? (
-            ''
-          ) : (
+          title={props.flow === 'login' ? 'User Login' : 'User Registration'}
+          style={{ width: 400 }}
+        >
+          <Form name="auth" onFinish={withPassword}>
+            {ui.messages
+              ? ui.messages.map((message, index) => (
+                  <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
+                ))
+              : null}
+            {ui.nodes && ui.nodes.messages ? (
+              <Form.Item>
+                {ui.nodes.messages.map((message, index) => (
+                  <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
+                ))}
+                :{' '}
+              </Form.Item>
+            ) : null}
+            {ui.nodes
+              ? ui.nodes.map((node, index) => {
+                  return node.messages.length > 0 ? (
+                    <Alert message={node.messages[0].text} type="error" key={index} />
+                  ) : null;
+                })
+              : null}
             <Form.Item
-              name="confirmPassword"
-              dependencies={['password']}
+              name="email"
               rules={[
-                { required: true, message: 'Please re-enter your Password!' },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (getFieldValue('password') !== value) {
-                      return Promise.reject('Password do no match!');
-                    }
-                    return Promise.resolve();
-                  },
-                }),
+                { required: true, message: 'Please input your Email!' },
+                { type: 'email', message: 'Please input valid Email!' },
               ]}
+            >
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Email"
+              />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[{ required: true, message: 'Please input your Password!' }]}
             >
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
                 type="password"
-                placeholder="Confirm Password"
+                placeholder="Password"
               />
             </Form.Item>
-          )}
-          <Form.Item>
-            <Button form="auth" type="primary" htmlType="submit" block>
-              Submit
-            </Button>
-          </Form.Item>
-          <Form.Item>
             {props.flow === 'login' ? (
-              <div
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+              ''
+            ) : (
+              <Form.Item
+                name="confirmPassword"
+                dependencies={['password']}
+                rules={[
+                  { required: true, message: 'Please re-enter your Password!' },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (getFieldValue('password') !== value) {
+                        return Promise.reject('Password do no match!');
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                ]}
               >
-                <Link to={'/auth/registration'}>Register now!</Link>
-                <Link to={'/auth/recovery'}>Forgot Password?</Link>
-              </div>
-            ) : null
-            }
-          </Form.Item>
-        </Form>
-      </Card>
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="Confirm Password"
+                />
+              </Form.Item>
+            )}
+            <Form.Item>
+              <Button form="auth" type="primary" htmlType="submit" block>
+                Submit
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              {props.flow === 'login' ? (
+                <div
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+                >
+                  <Link to={'/auth/registration'}>Register now!</Link>
+                  <Link to={'/auth/recovery'}>Forgot Password?</Link>
+                </div>
+              ) : null}
+            </Form.Item>
+          </Form>
+        </Card>
+      )}
     </div>
   );
 }

@@ -12,10 +12,13 @@
           "format": "email",
           "title": "E-Mail",
           "minLength": 3,
-          "ory.sh/kratos": {
+          "ory.sh/kratos": {          
             "credentials": {
               "password": {
                 "identifier": true
+              },
+              "totp":{
+                "account_name": true
               }
             },
             "verification": {
@@ -30,15 +33,13 @@
           "type": "object",
           "properties": {
             "first": {
-              "title": "First Name",
               "type": "string"
             },
             "last": {
-              "title": "Last Name",
               "type": "string"
             }
           }
-        }  
+        }
       },
       "required": [
         "email"

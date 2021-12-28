@@ -10,13 +10,11 @@ function OrganisationCreate() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [form] = Form.useForm();
-
   const onTitleChange = (string) => {
     form.setFieldsValue({
       slug: maker(string),
     });
   };
-
   return (
     <Form
       form={form}

@@ -4,6 +4,7 @@ import {
   UserOutlined,
   SecurityScanOutlined,
   ProfileOutlined,
+  SendOutlined,
 } from '@ant-design/icons';
 
 //Pages
@@ -18,7 +19,8 @@ import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
 import ApplicationUsers from '../pages/application/users/index';
 import GetApplication from '../pages/application/GetApplication';
-import KratosError from '../pages/error';
+import InvitationComponent from '../pages/profile/invitation';
+
 export default [
   {
     path: '/settings',
@@ -103,11 +105,12 @@ export default [
     enableBreadcrumb: true,
     title: 'Application Users',
   },
-  // {
-  //   path: '/errors',
-  //   Component: KratosError,
-  //   enableNavigation: false,
-  //   enableBreadcrumb: false,
-  //   title: 'Error',
-  // },
+  {
+    path: '/profile/invite',
+    Component: InvitationComponent,
+    enableNavigation: true,
+    Icon: SendOutlined,
+    title: 'Invitations',
+    enableBreadcrumb: true,
+  },
 ];

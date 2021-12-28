@@ -16,6 +16,7 @@ export const getOrganisations = () => {
       .get(ORGANISATIONS_API + '/my')
       .then((response) => {
         dispatch(addOrganisationsList(response.data));
+        dispatch(stopOrganisationsLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
