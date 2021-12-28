@@ -1,22 +1,25 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Button, Avatar } from 'antd';
 import routes from '../../config/routes';
 import { setCollapse } from './../../actions/sidebar';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
 const { Sider } = Layout;
 
 function Sidebar() {
-  const {
-    // sider: { collapsed },
-    navTheme,
-  } = useSelector((state) => state.settings);
+  const { navTheme } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const { collapsed } = useSelector((state) => state.sidebar);
   const onCollapse = (collapsed) => {
     collapsed ? dispatch(setCollapse(true)) : dispatch(setCollapse(false));
   };
+  const { inviteCount, loading } = useSelector((state) => {
+    return {
+      inviteCount: state.profile.invitations.length,
+      loading: state.profile.loading,
+    };
+  });
   const buttonStyle = {
     borderRadius: '50px',
     padding: '0.25rem 0.5rem',
@@ -72,6 +75,18 @@ function Sidebar() {
                 <Link to={route.path}>
                   <Icon></Icon>
                   <span>{route.title}</span>
+                  {route.title === 'Invitations' ? (
+                    !loading ? (
+                      inviteCount > 0 ? (
+                        <Avatar
+                          style={{ marginLeft: 10, backgroundColor: 'black', fontSize: '0.75rem' }}
+                          size={20}
+                        >
+                          {inviteCount}
+                        </Avatar>
+                      ) : null
+                    ) : null
+                  ) : null}
                 </Link>
               </Menu.Item>
             );

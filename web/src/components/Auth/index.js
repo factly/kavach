@@ -13,7 +13,7 @@ function Auth(props) {
   const [ui, setUI] = React.useState({});
   const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = process.env.REACT_APP_LOGO_URL || kavach_logo;
-  const [aal2, setaal2] = React.useState(false);
+  const [aal2, setaal2] = React.useState(false); //aal stands for authenticator assurance level
   React.useEffect(() => {
     var obj = {};
 
@@ -59,7 +59,7 @@ function Auth(props) {
         setUI(res.ui);
         setaal2(res.requested_aal === 'aal2');
       })
-      .catch((err) => {
+      .catch(() => {
         window.location.href = selfServiceURL;
       });
   }, [props.flow]);

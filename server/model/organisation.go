@@ -24,7 +24,6 @@ type OrganisationUser struct {
 	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `json:"organisation"`
 	Role           string        `gorm:"column:role" json:"role"`
-	InviteID       uint          `gorm:"column:invite_id"`
 }
 
 var organisationUserKey ContextKey = "organisation_user"

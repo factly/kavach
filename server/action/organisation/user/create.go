@@ -7,11 +7,11 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/email"
-	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -86,7 +86,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	results := []userWithPermission{}
 	for _, user := range req.Users {
 		tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Begin()
 		invitee := model.User{
@@ -103,39 +102,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 			tx.Create(&invitee)
 		}
 
-		// * FirstOrCreate method giving error right now
-		// tx.FirstOrCreate(&invitee, model.User{
-		// 	Email: req.Email,
-		// })
-		// Check if invitee already exist in organisation
-		var totPermissions int64
-		permission := &model.OrganisationUser{}
-		permission.OrganisationID = uint(orgID)
-		permission.UserID = invitee.ID
-
-		model.DB.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
-		if totPermissions != 0 {
-			//tx.Rollback()
-			loggerx.Error(errors.New("user already exist in organisation"))
-			//errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
-			continue
-		}
-
-		if user.Role == "owner" {
-			/* creating policy for admins */
-			reqRole := &model.Role{}
-			reqRole.Members = []string{fmt.Sprint(invitee.ID)}
-
-			err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(orgID)+":admin/members", reqRole)
-
-			if err != nil {
-				tx.Rollback()
-				loggerx.Error(err)
-				errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-				return
-			}
-		}
-
 		invitation := &model.Invitation{
 			Base: model.Base{
 				CreatedByID: uint(currentUID),
@@ -144,20 +110,20 @@ func create(w http.ResponseWriter, r *http.Request) {
 			Status:         false,
 			Role:           user.Role,
 			OrganisationID: uint(orgID),
+			ExpiredAt:      time.Now().AddDate(0, 0, 7),
 		}
-		var inviteID uint
-		inviteID, err = createInvite(tx, *invitation)
-		if err != nil {
-			tx.Rollback()
+
+		var invitationCount int64
+		tx.Model(&model.Invitation{}).Where(&model.Invitation{
+			InviteeID:      uint(invitation.InviteeID),
+			OrganisationID: uint(invitation.OrganisationID),
+		}).Count(&invitationCount)
+
+		if invitationCount > 0 {
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			continue
 		}
-		// Add user into organisation
-		permission.OrganisationID = uint(orgID)
-		permission.UserID = invitee.ID
-		permission.Role = user.Role
-		permission.InviteID = inviteID
-		err = tx.Model(&model.OrganisationUser{}).Create(&permission).Error
+		err := tx.Model(&model.Invitation{}).Create(&invitation).Error
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
@@ -173,6 +139,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
+
 		receiver := email.MailReceiver{
 			InviteeName:      user.FirstName + " " + user.LastName,
 			InviteeEmail:     user.Email,
@@ -188,7 +155,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		if count == 0 {
-			receiver.ActionURL = "http://kavach.factly.org/auth/regisatration"
+			receiver.ActionURL = "http://kavach.factly.org/auth/registration"
 		} else {
 			receiver.ActionURL = "http://kavach.factly.org/auth/login"
 		}
@@ -200,12 +167,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 			return
 		}
-
 		tx.Commit()
-		result := &userWithPermission{}
-		result.User = invitee
-		result.Permission = *permission
-		results = append(results, *result)
 	}
-	renderx.JSON(w, http.StatusCreated, results)
+	renderx.JSON(w, http.StatusOK, nil)
 }

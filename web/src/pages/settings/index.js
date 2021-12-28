@@ -39,10 +39,11 @@ function OrganisationEdit() {
     });
   };
 
-  const { organisation, selected } = useSelector((state) => {
+  const { organisation, selected, role } = useSelector((state) => {
     return {
       organisation: state.organisations.details[state.organisations.selected],
       selected: state.organisations.selected,
+      role: state.organisations.role,
     };
   });
 
@@ -100,12 +101,16 @@ function OrganisationEdit() {
             </Button>
           </Form.Item>
         </Form>
-        <Divider style={{ color: 'red' }} orientation="left">
-          Danger zone
-        </Divider>
-        <Button onClick={showModal} type="danger">
-          <DeleteOutlined /> Delete
-        </Button>
+        {role === 'owner' ? (
+          <div>
+            <Divider style={{ color: 'red' }} orientation="left">
+              Danger zone
+            </Divider>
+            <Button onClick={showModal} type="danger">
+              <DeleteOutlined /> Delete
+            </Button>
+          </div>
+        ) : null}
         <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
           <h3>Delete Organisation</h3>
           <Form form={form} name="organisation_delete">
