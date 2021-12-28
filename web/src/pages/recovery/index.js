@@ -111,7 +111,11 @@ function Recovery() {
             </Button>
           </Form.Item>
           <Form.Item>
-            <Link to={'/auth/login'}> Login!</Link>
+            <Link to={'/auth/login'}>
+              <Button type="primary" block>
+                Go back
+              </Button>
+            </Link>
           </Form.Item>
         </Form>
       </Card>

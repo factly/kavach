@@ -23,11 +23,15 @@ selfservice:
     password:
       enabled: true
       
-    
     link: 
       enabled: true
       config:
         lifespan: 15m
+    
+    totp:
+      enabled: true
+      config:
+        issuer: factly.in
 
   flows:
     error:
@@ -36,6 +40,7 @@ selfservice:
     settings:
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/password
       privileged_session_max_age: 15m
+      required_aal: highest_available
 
     logout:
       after:
@@ -64,6 +69,7 @@ selfservice:
     recovery:
       enabled: true
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/recovery
+    
       
 log:
   level: debug
@@ -84,4 +90,6 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+    
+
 

@@ -84,7 +84,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	tx.Model(&model.Organisation{}).Preload("Medium").First(&organisation)
 
 	permission := model.OrganisationUser{}
-	permission.OrganisationID = organisation.ID
+	permission.OrganisationID = uint(organisation.ID)
 	permission.UserID = uint(userID)
 	permission.Role = "owner"
 

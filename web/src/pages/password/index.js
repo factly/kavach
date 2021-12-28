@@ -1,20 +1,13 @@
 import React from 'react';
-import {
-  Card,
-  Form,
-  Input,
-  Button,
-  notification,
-  Space,
-  Alert,
-  Switch,
-  Row,
-  List,
-  Col,
-} from 'antd';
+import { Card, Form, Input, Button, Space, Alert, Switch, Row, List, Col, Skeleton } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
+import createForm from '../../utils/form';
 function Password() {
+  const cardStyle = {
+    width: 400,
+  };
   const [ui, setUI] = React.useState({});
+  const [state, setState] = React.useState('');
   React.useEffect(() => {
     var obj = {};
 
@@ -46,14 +39,9 @@ function Password() {
       })
       .then((res) => {
         setUI(res.ui);
-        if (res.state === 'success') {
-          notification.success({
-            message: 'Success',
-            description: 'Password has been successful updated',
-          });
-        }
+        setState(res.state);
       })
-      .catch((err) => {
+      .catch(() => {
         window.location.href =
           process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
       });
@@ -66,7 +54,7 @@ function Password() {
       case 'github':
         return <img src={require('../../assets/github_logo.png')} alt="github" width="35%" />;
       default:
-        return <></>;
+        return null;
     }
   };
   function SocialItem({ provider, state }) {
@@ -98,10 +86,7 @@ function Password() {
   }
 
   const changePassword = (values) => {
-    var updatePasswordForm = document.createElement('form');
-    updatePasswordForm.action = ui.action;
-    updatePasswordForm.method = ui.method;
-    updatePasswordForm.style.display = 'none';
+    var updatePasswordForm = createForm(ui.action, ui.method);
 
     var emailInput = document.createElement('input');
     emailInput.name = 'password_identifier';
@@ -130,10 +115,7 @@ function Password() {
   };
 
   const onClick = (provider, action) => {
-    var oidcForm = document.createElement('form');
-    oidcForm.action = ui.action;
-    oidcForm.method = ui.method;
-    oidcForm.style.display = 'none';
+    var oidcForm = createForm(ui.action, ui.method);
 
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
@@ -159,6 +141,36 @@ function Password() {
     oidcForm.submit();
   };
 
+  const updateTOTP = (values) => {
+    var totpForm = createForm(ui.action, ui.method);
+    var csrfInput = document.createElement('input');
+    csrfInput.name = 'csrf_token';
+    csrfInput.type = 'hidden';
+    csrfInput.value = ui.nodes.find(
+      (value) => value.attributes.name === 'csrf_token',
+    ).attributes.value;
+
+    var totpMethod = document.createElement('input');
+    totpMethod.name = 'method';
+    totpMethod.value = 'totp';
+
+    var totpInput = document.createElement('input');
+    if (ui.nodes.filter((node) => node.attributes.node_type === 'img').length) {
+      totpInput.name = 'totp_code';
+      totpInput.value = values.totp_code;
+    } else {
+      totpInput.name = 'totp_unlink';
+      totpInput.value = 'true';
+    }
+
+    totpForm.appendChild(csrfInput);
+    totpForm.appendChild(totpMethod);
+    totpForm.appendChild(totpInput);
+
+    document.body.appendChild(totpForm);
+
+    totpForm.submit();
+  };
   return (
     <Space
       className="content"
@@ -170,60 +182,121 @@ function Password() {
         alignItems: 'center',
       }}
     >
-      {ui && ui.messages ? <Alert message={ui.node.messages[0].text}></Alert> : null}
-      <Card title="Update password" style={{ width: 400 }}>
-        <Form name="update_password" onFinish={changePassword}>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
-          <Form.Item
-            name="confirmPassword"
-            dependencies={['password']}
-            rules={[
-              { required: true, message: 'Please re-enter your Password!' },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (getFieldValue('password') !== value) {
-                    return Promise.reject('Password do no match!');
-                  }
-                  return Promise.resolve();
-                },
-              }),
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Confirm Password"
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button form="update_password" type="primary" htmlType="submit" block>
-              Update
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-      <Card title="Update social sign-in linking" style={{ width: 400 }}>
-        <List
-          itemLayout="horizontal"
-          dataSource={ui && ui.nodes ? ui.nodes.filter((node) => node.group === 'oidc') : []}
-          renderItem={(item) => {
-            return (
-              <List.Item>
-                <SocialItem provider={item.attributes.value} state={item.attributes.name} />
-              </List.Item>
-            );
-          }}
-        ></List>
-      </Card>
+      {ui && ui.messages ? (
+        <Alert message={ui.messages[0].text} type={state === 'success' ? state : 'error'}></Alert>
+      ) : null}
+      {ui && ui.nodes ? (
+        <div>
+          <Card title="Update password" style={{ width: cardStyle.width }}>
+            <Form name="update_password" onFinish={changePassword}>
+              <Form.Item
+                name="password"
+                rules={[{ required: true, message: 'Please input your Password!' }]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="Password"
+                />
+              </Form.Item>
+              <Form.Item
+                name="confirmPassword"
+                dependencies={['password']}
+                rules={[
+                  { required: true, message: 'Please re-enter your Password!' },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (getFieldValue('password') !== value) {
+                        return Promise.reject('Password do no match!');
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="Confirm Password"
+                />
+              </Form.Item>
+              <Form.Item>
+                <Button form="update_password" type="primary" htmlType="submit" block>
+                  Update
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+          <Card title="Manage 2FA Authentication" style={{ width: cardStyle.width }}>
+            {ui !== {}
+              ? ui.nodes
+                  .filter((node) => node.group === 'totp')
+                  .map((node) => {
+                    if (node.messages.length === 0) {
+                      return null;
+                    } else {
+                      return <Alert type="error" message={node.messages[0].text}></Alert>;
+                    }
+                  })
+              : null}
+            {ui.nodes.filter((node) => node.attributes.node_type === 'img').length ? (
+              <div>
+                <img
+                  src={ui.nodes.find((node) => node.attributes.node_type === 'img').attributes.src}
+                  alt="QRCODE"
+                  style={{ width: 256, height: 256, marginLeft: 'auto', marginRight: 'auto' }}
+                />
+                <h4>This is your authenticator app secret. Use it if you cannot scan QR code:</h4>
+                <h4>
+                  <strong>
+                    {
+                      ui.nodes
+                        .filter((node) => node.group === 'totp')
+                        .find((node) => node.attributes.id === 'totp_secret_key').attributes.text
+                        .text
+                    }
+                  </strong>
+                </h4>
+              </div>
+            ) : null}
+            <Form name="update_totp" onFinish={updateTOTP}>
+              {ui.nodes.filter((node) => node.attributes.node_type === 'img').length ? (
+                <div>
+                  <Form.Item name="totp_code">
+                    <Input type="text" placeholder="Verify Code" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" block>
+                      Save
+                    </Button>
+                  </Form.Item>
+                </div>
+              ) : (
+                <Form.Item name="totp_unlink">
+                  <Button type="primary" htmlType="submit" block>
+                    Unlink TOTP Authenticator App
+                  </Button>
+                </Form.Item>
+              )}
+            </Form>
+          </Card>
+          <Card title="Update social sign-in linking" style={{ width: cardStyle.width }}>
+            <List
+              itemLayout="horizontal"
+              dataSource={ui && ui.nodes ? ui.nodes.filter((node) => node.group === 'oidc') : []}
+              renderItem={(item) => {
+                return (
+                  <List.Item>
+                    <SocialItem provider={item.attributes.value} state={item.attributes.name} />
+                  </List.Item>
+                );
+              }}
+            ></List>
+          </Card>
+        </div>
+      ) : (
+        <Skeleton />
+      )}
     </Space>
   );
 }

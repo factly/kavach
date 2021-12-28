@@ -10,6 +10,8 @@ export function getErrorMsgByCode(code) {
       return 'Account not active yet. Did you forget to verify your email address?';
     case 4000001:
       return 'cannot link already existing OpenID connect connection';
+    case 1010003:
+      return 'Please confirm this action by verifying that it is you.';
     default:
       return 'unable to proceed further';
   }
