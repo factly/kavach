@@ -189,6 +189,13 @@ function Auth(props) {
               </Button>
             </Form.Item>
             <Form.Item>
+              <Link to={'/auth/verification'}>
+                <Button type="primary" block>
+                  Verify Email
+                </Button>
+              </Link>
+            </Form.Item>
+            <Form.Item>
               {props.flow === 'login' ? (
                 <div
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
