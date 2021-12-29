@@ -56,6 +56,7 @@ function Auth(props) {
         }
       })
       .then((res) => {
+        console.log('response', res);
         setUI(res.ui);
         setaal2(res.requested_aal === 'aal2');
       })
@@ -188,13 +189,17 @@ function Auth(props) {
                 Submit
               </Button>
             </Form.Item>
-            <Form.Item>
-              <Link to={'/auth/verification'}>
-                <Button type="primary" block>
-                  Verify Email
-                </Button>
-              </Link>
-            </Form.Item>
+            {ui && ui.messages ? (
+              ui.messages[0].id === 4000010 ? (
+                <Form.Item>
+                  <Link to={'/auth/verification'}>
+                    <Button type="primary" block>
+                      Verify your Email
+                    </Button>
+                  </Link>
+                </Form.Item>
+              ) : null
+            ) : null}
             <Form.Item>
               {props.flow === 'login' ? (
                 <div
