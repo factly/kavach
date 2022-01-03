@@ -1,13 +1,12 @@
 import React from 'react';
 import { Card, Form, Input, Button, notification, Row, Col } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
 import './index.css';
 import { Link } from 'react-router-dom';
 
 function Recovery() {
   const [ui, setUI] = React.useState({});
-  const { title } = useSelector((state) => state.settings);
+  const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
   React.useEffect(() => {
     var obj = {};
     window.location.search

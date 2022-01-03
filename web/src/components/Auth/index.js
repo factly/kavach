@@ -188,6 +188,17 @@ function Auth(props) {
                 Submit
               </Button>
             </Form.Item>
+            {ui && ui.messages ? (
+              ui.messages[0].id === 4000010 ? (
+                <Form.Item>
+                  <Link to={'/auth/verification'}>
+                    <Button type="primary" block>
+                      Verify your Email
+                    </Button>
+                  </Link>
+                </Form.Item>
+              ) : null
+            ) : null}
             <Form.Item>
               {props.flow === 'login' ? (
                 <div

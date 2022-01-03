@@ -10,6 +10,7 @@ import Recovery from './pages/recovery';
 import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import { getInvitation } from './actions/profile';
+import VerificationAfterRegistration from './pages/verification/after-regisration';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
           />
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
+          <Route path="/verification" component={() => <VerificationAfterRegistration />} />
 
           <BasicLayout>
             <Switch>
