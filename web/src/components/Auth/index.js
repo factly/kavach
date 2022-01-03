@@ -56,7 +56,6 @@ function Auth(props) {
         }
       })
       .then((res) => {
-        console.log('response', res);
         setUI(res.ui);
         setaal2(res.requested_aal === 'aal2');
       })

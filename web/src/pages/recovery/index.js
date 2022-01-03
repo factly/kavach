@@ -5,7 +5,7 @@ import './index.css';
 import { Link } from 'react-router-dom';
 function Recovery() {
   const [ui, setUI] = React.useState({});
-  const title = process.env.REACT_APP_KAVACH_TITLE;
+  const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
   React.useEffect(() => {
     var obj = {};
     window.location.search
