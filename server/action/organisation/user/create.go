@@ -17,6 +17,7 @@ import (
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
+	"github.com/spf13/viper"
 )
 
 type invites struct {
@@ -39,8 +40,8 @@ type invite struct {
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Param Invite body invite true "Invite Object"
-// @Success 201 {object} userWithPermission
+// @Param Invite body invites true "Invite Object"
+// @Success 201 {array} userWithPermission
 // @Failure 400 {array} string
 // @Router /organisations/{organisation_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
@@ -154,10 +155,15 @@ func create(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
+		domainName := "https://kavach.factly.org"
+
+		if viper.IsSet("mode") && viper.GetString("mode") == "development" {
+			domainName = "http://127.0.0.1:4455/.factly/kavach/web"
+		}
 		if count == 0 {
-			receiver.ActionURL = "http://kavach.factly.org/auth/registration"
+			receiver.ActionURL = domainName + "/auth/registration"
 		} else {
-			receiver.ActionURL = "http://kavach.factly.org/auth/login"
+			receiver.ActionURL = domainName + "/web/profile/invite"
 		}
 
 		err = email.SendmailwithSendGrid(receiver)
