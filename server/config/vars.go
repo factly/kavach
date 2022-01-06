@@ -49,7 +49,11 @@ func SetupVars() {
 	if !viper.IsSet("sendgrid_api_key") {
 		log.Fatal("please provide sendgrid api key in config")
 	}
-	
+
+	if !viper.IsSet("domain_name") {
+		log.Fatal("please provide domain name in config")
+	}
+
 	if !viper.IsSet("kratos_admin_url") {
 		log.Fatal("please provide kratos_admin_url in config")
 	}

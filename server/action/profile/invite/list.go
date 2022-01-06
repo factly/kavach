@@ -21,7 +21,7 @@ type invitationData struct {
 // list - Get all organisation invitation
 // @Summary Get all the organisation invitation
 // @Description Listing all the invitations for a user
-// @Tags Profile
+// @Tags Invite
 // @Consume json
 // @Produce json
 // @Param X-User header string true "User ID"

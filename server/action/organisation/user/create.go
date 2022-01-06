@@ -155,11 +155,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
-		domainName := "https://kavach.factly.org"
+		domainName := viper.GetString("domain_name")
 
-		if viper.IsSet("mode") && viper.GetString("mode") == "development" {
-			domainName = "http://127.0.0.1:4455/.factly/kavach/web"
-		}
 		if count == 0 {
 			receiver.ActionURL = domainName + "/auth/registration"
 		} else {

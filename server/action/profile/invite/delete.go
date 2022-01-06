@@ -14,11 +14,10 @@ import (
 // delete - Delete organisation invite
 // @Summary Delete organisation invite
 // @Description Deleting organisation invite
-// @Tags Profile
+// @Tags Invite
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param invite_id path string true "Invitation ID"
-// @Success 201 {nil}
 // @Failure 400 {array} string
 // @Router /profile/invite/{invite_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {

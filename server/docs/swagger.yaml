@@ -17,6 +17,66 @@ definitions:
     - slug
     - url
     type: object
+  invite.acceptInvite:
+    properties:
+      inviter_id:
+        type: integer
+      organisation_id:
+        type: integer
+      role:
+        type: string
+    type: object
+  invite.invitationData:
+    properties:
+      birth_date:
+        type: string
+      created_at:
+        type: string
+      created_by_id:
+        type: integer
+      deleted_at:
+        type: string
+      description:
+        type: string
+      display_name:
+        type: string
+      email:
+        type: string
+      expired_at:
+        type: string
+      featured_medium_id:
+        type: integer
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      invitee_id:
+        type: integer
+      kid:
+        type: string
+      last_name:
+        type: string
+      medium:
+        $ref: '#/definitions/model.Medium'
+      organisation_id:
+        type: integer
+      role:
+        type: string
+      slug:
+        type: string
+      social_media_urls:
+        type: string
+      status:
+        type: boolean
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by_id:
+        type: integer
+    type: object
   medium.medium:
     properties:
       alt_text:
@@ -95,8 +155,6 @@ definitions:
     type: object
   model.ApplicationToken:
     properties:
-      access_token:
-        type: string
       application:
         $ref: '#/definitions/model.Application'
       application_id:
@@ -112,6 +170,8 @@ definitions:
       id:
         type: integer
       name:
+        type: string
+      token:
         type: string
       updated_at:
         type: string
@@ -311,13 +371,10 @@ definitions:
     type: object
   token.ValidationBody:
     properties:
-      access_token:
-        type: string
-      secret_token:
+      token:
         type: string
     required:
-    - access_token
-    - secret_token
+    - token
     type: object
   token.applicationToken:
     properties:
@@ -358,6 +415,13 @@ definitions:
     - email
     - first_name
     - role
+    type: object
+  user.invites:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/user.invite'
+        type: array
     type: object
   user.paging:
     properties:
@@ -427,6 +491,11 @@ paths:
       description: validate application token
       operationId: validate-organisation-application-token
       parameters:
+      - description: Organisation ID
+        in: header
+        name: X-Organisation
+        required: true
+        type: string
       - description: Application Slug
         in: path
         name: application_slug
@@ -1181,14 +1250,16 @@ paths:
         name: Invite
         required: true
         schema:
-          $ref: '#/definitions/user.invite'
+          $ref: '#/definitions/user.invites'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/user.userWithPermission'
+            items:
+              $ref: '#/definitions/user.userWithPermission'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -1292,6 +1363,92 @@ paths:
       summary: Update user info
       tags:
       - Profile
+  /profile/invite/:
+    get:
+      description: Listing all the invitations for a user
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              items:
+                $ref: '#/definitions/invite.invitationData'
+              type: array
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Get all the organisation invitation
+      tags:
+      - Invite
+  /profile/invite/{invite_id}:
+    delete:
+      description: Deleting organisation invite
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Invitation ID
+        in: path
+        name: invite_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Delete organisation invite
+      tags:
+      - Invite
+    put:
+      description: Accepting organisation invite
+      parameters:
+      - description: User ID
+        in: header
+        name: X-User
+        required: true
+        type: string
+      - description: Invitation ID
+        in: path
+        name: invite_id
+        required: true
+        type: string
+      - description: Accept Invite Object
+        in: body
+        name: Invite
+        required: true
+        schema:
+          $ref: '#/definitions/invite.acceptInvite'
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              type: string
+            type: array
+      summary: Accept organisation invite
+      tags:
+      - Invite
   /users/application:
     get:
       description: Get list of users for application

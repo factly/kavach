@@ -24,13 +24,12 @@ type acceptInvite struct {
 // accept - Accept organisation invite
 // @Summary Accept organisation invite
 // @Description Accepting organisation invite
-// @Tags Profile
+// @Tags Invite
 // @Consume json
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param invite_id path string true "Invitation ID"
 // @Param Invite body acceptInvite true "Accept Invite Object"
-// @Success 201 {nil}
 // @Failure 400 {array} string
 // @Router /profile/invite/{invite_id} [put]
 func accept(w http.ResponseWriter, r *http.Request) {
