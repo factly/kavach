@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"github.com/spf13/viper"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
 )
@@ -34,7 +35,7 @@ func SendmailwithSendGrid(data MailReceiver) error {
 	}
 	htmlContent := buf.String()
 	message := mail.NewSingleEmail(from, subject, to, "", htmlContent)
-	client := sendgrid.NewSendClient("SENDGRID_API_KEY")
+	client := sendgrid.NewSendClient(viper.GetString("sendgrid_api_key"))
 	_, err = client.Send(message)
 	if err != nil {
 		log.Println(err)

@@ -18,13 +18,23 @@ type invitationData struct {
 	model.User         `json:"invited_by"`
 }
 
+// list - Get all organisation invitation
+// @Summary Get all the organisation invitation
+// @Description Listing all the invitations for a user
+// @Tags Invite
+// @Consume json
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Success 201 {array} []invitationData
+// @Failure 400 {array} string
+// @Router /profile/invite/ [get]
 func listInvitations(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-	// var responseData invitationData
+
 	var invitationContext model.ContextKey = "invitation_user"
 	tx := model.DB.WithContext(context.WithValue(r.Context(), invitationContext, userID)).Begin()
 	invitationList := make([]model.Invitation, 0)

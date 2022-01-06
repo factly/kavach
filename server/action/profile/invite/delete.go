@@ -11,6 +11,15 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// delete - Delete organisation invite
+// @Summary Delete organisation invite
+// @Description Deleting organisation invite
+// @Tags Invite
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Param invite_id path string true "Invitation ID"
+// @Failure 400 {array} string
+// @Router /profile/invite/{invite_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	invitationID := chi.URLParam(r, "invite_id")
 	invID, err := strconv.Atoi(invitationID)

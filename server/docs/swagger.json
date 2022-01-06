@@ -31,6 +31,13 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "Organisation ID",
+                        "name": "X-Organisation",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "Application Slug",
                         "name": "application_slug",
                         "in": "path",
@@ -1173,7 +1180,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.invite"
+                            "$ref": "#/definitions/user.invites"
                         }
                     }
                 ],
@@ -1181,7 +1188,10 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/user.userWithPermission"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/user.userWithPermission"
+                            }
                         }
                     },
                     "400": {
@@ -1300,6 +1310,135 @@
                 }
             }
         },
+        "/profile/invite/": {
+            "get": {
+                "description": "Listing all the invitations for a user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Invite"
+                ],
+                "summary": "Get all the organisation invitation",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/invite.invitationData"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/invite/{invite_id}": {
+            "put": {
+                "description": "Accepting organisation invite",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Invite"
+                ],
+                "summary": "Accept organisation invite",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Invitation ID",
+                        "name": "invite_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Accept Invite Object",
+                        "name": "Invite",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/invite.acceptInvite"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deleting organisation invite",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Invite"
+                ],
+                "summary": "Delete organisation invite",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Invitation ID",
+                        "name": "invite_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/application": {
             "get": {
                 "description": "Get list of users for application",
@@ -1368,6 +1507,97 @@
                 },
                 "url": {
                     "type": "string"
+                }
+            }
+        },
+        "invite.acceptInvite": {
+            "type": "object",
+            "properties": {
+                "inviter_id": {
+                    "type": "integer"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "invite.invitationData": {
+            "type": "object",
+            "properties": {
+                "birth_date": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "display_name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "expired_at": {
+                    "type": "string"
+                },
+                "featured_medium_id": {
+                    "type": "integer"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "invitee_id": {
+                    "type": "integer"
+                },
+                "kid": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "medium": {
+                    "$ref": "#/definitions/model.Medium"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "social_media_urls": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -1488,9 +1718,6 @@
         "model.ApplicationToken": {
             "type": "object",
             "properties": {
-                "access_token": {
-                    "type": "string"
-                },
                 "application": {
                     "$ref": "#/definitions/model.Application"
                 },
@@ -1513,6 +1740,9 @@
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1816,14 +2046,10 @@
         "token.ValidationBody": {
             "type": "object",
             "required": [
-                "access_token",
-                "secret_token"
+                "token"
             ],
             "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "secret_token": {
+                "token": {
                     "type": "string"
                 }
             }
@@ -1886,6 +2112,17 @@
                 },
                 "role": {
                     "type": "string"
+                }
+            }
+        },
+        "user.invites": {
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user.invite"
+                    }
                 }
             }
         },
