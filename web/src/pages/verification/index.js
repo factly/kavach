@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Verification() {
   const [ui, setUI] = React.useState({});
-  const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
+  const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
 
   React.useEffect(() => {
     var obj = {};
@@ -32,12 +32,12 @@ function Verification() {
           });
         }
         if (res && res.state === 'passed_challenge') {
-          window.location.href = process.env.PUBLIC_URL + '/auth/login';
+          window.location.href = window.PUBLIC_URL + '/auth/login';
         }
       })
       .catch(() => {
         window.location.href =
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/verification/browser';
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/verification/browser';
       });
   }, []);
 

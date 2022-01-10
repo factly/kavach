@@ -11,8 +11,8 @@ import MFA from './mfa';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
-  const title = process.env.REACT_APP_KAVACH_TITLE || 'Kavach';
-  const logo = process.env.REACT_APP_LOGO_URL || kavach_logo;
+  const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
+  const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); //aal stands for authenticator assurance level
   React.useEffect(() => {
     var obj = {};
@@ -27,18 +27,18 @@ function Auth(props) {
 
     const returnTo = obj['return_to'];
     const selfServiceURL = returnTo
-      ? process.env.REACT_APP_KRATOS_PUBLIC_URL +
+      ? window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/browser?return_to=' +
         returnTo
-      : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+      : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     }
     fetch(
-      process.env.REACT_APP_KRATOS_PUBLIC_URL +
+      window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/flows' +
