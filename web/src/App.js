@@ -13,12 +13,6 @@ import { getInvitation } from './actions/profile';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 
 function App() {
-  console.log("APP")
-  console.log({kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL})
-  console.log({kratos: process.env.PUBLIC_URL})
-
-  console.log("APP ENV vars")
-
   const dispatch = useDispatch();
   const { orgCount } = useSelector((state) => {
     return {
@@ -36,7 +30,7 @@ function App() {
 
   return (
     <div className="App">
-      <Router basename={window.PUBLIC_URL}>
+      <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
           <Route
