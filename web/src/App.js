@@ -13,10 +13,11 @@ import { getInvitation } from './actions/profile';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 
 function App() {
-  window.env = process.env
-  console.log({process: process.env})
+  console.log("APP")
   console.log({kratos: process.env.REACT_APP_KRATOS_PUBLIC_URL})
   console.log({kratos: process.env.PUBLIC_URL})
+
+  console.log("APP ENV vars")
 
   const dispatch = useDispatch();
   const { orgCount } = useSelector((state) => {
