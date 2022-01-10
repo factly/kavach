@@ -126,7 +126,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/login/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
@@ -225,7 +225,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/login/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
@@ -335,7 +335,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/login/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
@@ -374,7 +374,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/login/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
@@ -383,7 +383,7 @@ describe('Auth component', () => {
           ],
         ]);
         expect(window.location.href).toBe(
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/login/browser',
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/login/browser',
         );
         done();
       }, 0);
@@ -410,7 +410,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/login/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
@@ -418,14 +418,14 @@ describe('Auth component', () => {
             },
           ],
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/login/flows?id=' + undefined,
+            window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/login/flows?id=' + undefined,
             {
               credentials: 'include',
             },
           ],
         ]);
         expect(window.location.href).toBe(
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/login/browser?return_to=return',
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/login/browser?return_to=return',
         );
         done();
       }, 0);
@@ -524,7 +524,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/registration/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
@@ -629,7 +629,7 @@ describe('Auth component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/registration/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
             {

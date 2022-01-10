@@ -129,7 +129,7 @@ describe('MediaSelector component', () => {
     });
     it('should handle Tab change and unselect image', () => {
       const onChange = jest.fn();
-      process.env.REACT_APP_COMPANION_URL = 'http://127.0.0.1:3020';
+      window.REACT_APP_COMPANION_URL = 'http://127.0.0.1:3020';
       act(() => {
         wrapper = mount(
           <Provider store={store}>
