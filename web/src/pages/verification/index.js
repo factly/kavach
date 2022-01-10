@@ -32,7 +32,7 @@ function Verification() {
           });
         }
         if (res && res.state === 'passed_challenge') {
-          window.location.href = window.PUBLIC_URL + '/auth/login';
+          window.location.href = process.env.PUBLIC_URL + '/auth/login';
         }
       })
       .catch(() => {
