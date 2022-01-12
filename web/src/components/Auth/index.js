@@ -10,6 +10,12 @@ import createForm from '../../utils/form';
 import MFA from './mfa';
 
 function Auth(props) {
+  console.log("Auth  flow : ", props.flow);
+  console.log("window.REACT_APP_KAVACH_TITLE :",window.REACT_APP_KAVACH_TITLE)
+  console.log("window.REACT_APP_LOGO_URL :",window.REACT_APP_LOGO_URL)
+  console.log("window.REACT_APP_KRATOS_PUBLIC_URL :",window.REACT_APP_KRATOS_PUBLIC_URL)
+  console.log("Public url : ", process.env.PUBLIC_URL);
+
   const [ui, setUI] = React.useState({});
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
@@ -59,7 +65,9 @@ function Auth(props) {
         setUI(res.ui);
         setaal2(res.requested_aal === 'aal2');
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log({err: err.message})
+        console.log({err})
         window.location.href = selfServiceURL;
       });
   }, [props.flow]);
