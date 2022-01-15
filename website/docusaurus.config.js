@@ -10,7 +10,7 @@ const config = {
   tagline: 'Open Source Identity Platform',
   url: 'https://kavach.factly.com',
   baseUrl: '/',
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'factly', // Usually your GitHub org/user name.
