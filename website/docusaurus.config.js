@@ -10,7 +10,7 @@ const config = {
   tagline: 'Open Source Identity Platform',
   url: 'https://kavach.factly.com',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'factly', // Usually your GitHub org/user name.
@@ -83,10 +83,6 @@ const config = {
                 label: 'Contact',
                 href: 'mailto:admin@factly.in',
               },
-              {
-                label: 'Privacy Policy',
-                to: 'docs/privacy-policy',
-              },
             ],
           },
           {
@@ -127,19 +123,6 @@ const config = {
                 href: 'https://github.com/factly/kavach',
                 target: '_blank',
               }
-            ],
-          },
-          {
-            title: 'Resources',
-            items: [
-              {
-                label: 'Guides',
-                to: 'docs/what-is-dega',
-              },
-              {
-                label: 'FAQ',
-                to: 'docs/faq',
-              },
             ],
           },
         ],
