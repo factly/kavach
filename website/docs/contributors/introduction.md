@@ -40,11 +40,11 @@ do this is via the project's Github Discuccions page or [Factly's Chat](http://s
 
 - I am new to the community. Where can I find the [Factly Community Code of Conduct?](./code-of-conduct)
 
-- I have a question. Where can I get [answers to questions regarding the application?](/docs/contact-us)
+- I have a question. Where can I get [answers to questions regarding the application?]
 
 - I would like to contribute but I am not sure how. Are there [easy ways to contribute?](#how-can-i-contribute)
 
-- I want to talk to other application users. [How can I become a part of the community?](/docs/contact-us)
+- I want to talk to other application users. [How can I become a part of the community?]
 
 ## How can I contribute?
 
@@ -59,7 +59,7 @@ a few things you can do to help out:
 
 - **Join the community.** Sometimes helping people can be as easy as listening
   to their problems and offering a different perspective. Join our Slack, have a
-  look at discussions in the forum. More info on this in [Communication](/docs/contact-us).
+  look at discussions in the forum. More info on this in [Communication].
 
 - **Helping with open issues.** We have a lot of open issues for various projects at Factly Labs
   and some of them may lack necessary information, some are duplicates of older
