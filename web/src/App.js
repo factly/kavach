@@ -11,7 +11,7 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import { getInvitation } from './actions/profile';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
-
+import KratosError from './pages/error';
 function App() {
   const dispatch = useDispatch();
   const { orgCount } = useSelector((state) => {
@@ -40,7 +40,7 @@ function App() {
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
           <Route path="/verification" component={() => <VerificationAfterRegistration />} />
-
+          <Route path="/error" component={() => <KratosError />} />
           <BasicLayout>
             <Switch>
               {routes.map((route) => {
