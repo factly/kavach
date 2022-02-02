@@ -8,9 +8,11 @@ import OIDC from './oidc';
 import kavach_logo from '../../assets/kavach_icon.png';
 import createForm from '../../utils/form';
 import MFA from './mfa';
+// import passwordValidation from '../../utils/password-validation';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
+  // const [form] = Form.useForm();
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); //aal stands for authenticator assurance level
@@ -152,7 +154,17 @@ function Auth(props) {
             </Form.Item>
             <Form.Item
               name="password"
-              rules={[{ required: true, message: 'Please input your Password!' }]}
+              rules={
+                props.flow !== 'login'
+                  ? [
+                      { required: true, message: 'Please input your Password!' },
+                      {
+                        pattern: new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#/$%/^&/*])(?=.{8,})/),
+                        message: 'Password should have atleast one uppercase one lowercase one number one special character and 8 characters',
+                      },
+                    ]
+                  : [{ required: true, message: 'Please input your Password!' }]
+              }
             >
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
