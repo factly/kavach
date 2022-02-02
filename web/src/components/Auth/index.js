@@ -60,8 +60,8 @@ function Auth(props) {
         setaal2(res.requested_aal === 'aal2');
       })
       .catch((err) => {
-        console.log({err: err.message})
-        console.log({err})
+        console.log({ err: err.message });
+        console.log({ err });
         window.location.href = selfServiceURL;
       });
   }, [props.flow]);
@@ -209,7 +209,9 @@ function Auth(props) {
                   <Link to={'/auth/registration'}>Register now!</Link>
                   <Link to={'/auth/recovery'}>Forgot Password?</Link>
                 </div>
-              ) : null}
+              ) : (
+                <Link to={'/auth/login'}>Login!</Link>
+              )}
             </Form.Item>
           </Form>
         </Card>

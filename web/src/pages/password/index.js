@@ -20,16 +20,12 @@ function Password() {
       });
 
     if (!obj['flow']) {
-      window.location.href =
-        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
+      window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser';
     }
 
-    fetch(
-      window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'],
-      {
-        credentials: 'include',
-      },
-    )
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + obj['flow'], {
+      credentials: 'include',
+    })
       .then((res) => {
         if (res.status === 200) {
           return res.json();
@@ -227,72 +223,78 @@ function Password() {
               </Form.Item>
             </Form>
           </Card>
-          <Card title="Manage 2FA Authentication" style={{ width: cardStyle.width }}>
-            {ui !== {}
-              ? ui.nodes
-                  .filter((node) => node.group === 'totp')
-                  .map((node) => {
-                    if (node.messages.length === 0) {
-                      return null;
-                    } else {
-                      return <Alert type="error" message={node.messages[0].text}></Alert>;
-                    }
-                  })
-              : null}
-            {ui.nodes.filter((node) => node.attributes.node_type === 'img').length ? (
-              <div>
-                <img
-                  src={ui.nodes.find((node) => node.attributes.node_type === 'img').attributes.src}
-                  alt="QRCODE"
-                  style={{ width: 256, height: 256, marginLeft: 'auto', marginRight: 'auto' }}
-                />
-                <h4>This is your authenticator app secret. Use it if you cannot scan QR code:</h4>
-                <h4>
-                  <strong>
-                    {
-                      ui.nodes
-                        .filter((node) => node.group === 'totp')
-                        .find((node) => node.attributes.id === 'totp_secret_key').attributes.text
-                        .text
-                    }
-                  </strong>
-                </h4>
-              </div>
-            ) : null}
-            <Form name="update_totp" onFinish={updateTOTP}>
+          {ui.nodes.filter((node) => node.group === 'totp').length > 0 ? (
+            <Card title="Manage 2FA Authentication" style={{ width: cardStyle.width }}>
+              {ui !== {}
+                ? ui.nodes
+                    .filter((node) => node.group === 'totp')
+                    .map((node) => {
+                      if (node.messages.length === 0) {
+                        return null;
+                      } else {
+                        return <Alert type="error" message={node.messages[0].text}></Alert>;
+                      }
+                    })
+                : null}
               {ui.nodes.filter((node) => node.attributes.node_type === 'img').length ? (
                 <div>
-                  <Form.Item name="totp_code">
-                    <Input type="text" placeholder="Verify Code" />
-                  </Form.Item>
-                  <Form.Item>
+                  <img
+                    src={
+                      ui.nodes.find((node) => node.attributes.node_type === 'img').attributes.src
+                    }
+                    alt="QRCODE"
+                    style={{ width: 256, height: 256, marginLeft: 'auto', marginRight: 'auto' }}
+                  />
+                  <h4>This is your authenticator app secret. Use it if you cannot scan QR code:</h4>
+                  <h4>
+                    <strong>
+                      {
+                        ui.nodes
+                          .filter((node) => node.group === 'totp')
+                          .find((node) => node.attributes.id === 'totp_secret_key').attributes.text
+                          .text
+                      }
+                    </strong>
+                  </h4>
+                </div>
+              ) : null}
+              <Form name="update_totp" onFinish={updateTOTP}>
+                {ui.nodes.filter((node) => node.attributes.node_type === 'img').length ? (
+                  <div>
+                    <Form.Item name="totp_code">
+                      <Input type="text" placeholder="Verify Code" />
+                    </Form.Item>
+                    <Form.Item>
+                      <Button type="primary" htmlType="submit" block>
+                        Save
+                      </Button>
+                    </Form.Item>
+                  </div>
+                ) : (
+                  <Form.Item name="totp_unlink">
                     <Button type="primary" htmlType="submit" block>
-                      Save
+                      Unlink TOTP Authenticator App
                     </Button>
                   </Form.Item>
-                </div>
-              ) : (
-                <Form.Item name="totp_unlink">
-                  <Button type="primary" htmlType="submit" block>
-                    Unlink TOTP Authenticator App
-                  </Button>
-                </Form.Item>
-              )}
-            </Form>
-          </Card>
-          <Card title="Update social sign-in linking" style={{ width: cardStyle.width }}>
-            <List
-              itemLayout="horizontal"
-              dataSource={ui && ui.nodes ? ui.nodes.filter((node) => node.group === 'oidc') : []}
-              renderItem={(item) => {
-                return (
-                  <List.Item>
-                    <SocialItem provider={item.attributes.value} state={item.attributes.name} />
-                  </List.Item>
-                );
-              }}
-            ></List>
-          </Card>
+                )}
+              </Form>
+            </Card>
+          ) : null}
+          {ui.nodes.filter((node) => node.group === 'oidc').length > 0 ? (
+            <Card title="Update social sign-in linking" style={{ width: cardStyle.width }}>
+              <List
+                itemLayout="horizontal"
+                dataSource={ui.nodes.filter((node) => node.group === 'oidc')}
+                renderItem={(item) => {
+                  return (
+                    <List.Item>
+                      <SocialItem provider={item.attributes.value} state={item.attributes.name} />
+                    </List.Item>
+                  );
+                }}
+              ></List>
+            </Card>
+          ) : null}
         </div>
       ) : (
         <Skeleton />
