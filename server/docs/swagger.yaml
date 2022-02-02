@@ -60,6 +60,7 @@ definitions:
         type: string
       medium:
         $ref: '#/definitions/model.Medium'
+        type: object
       organisation_id:
         type: integer
       role:
@@ -128,12 +129,14 @@ definitions:
         type: integer
       medium:
         $ref: '#/definitions/model.Medium'
+        type: object
       medium_id:
         type: integer
       name:
         type: string
       organisation:
         $ref: '#/definitions/model.Organisation'
+        type: object
       organisation_id:
         type: integer
       slug:
@@ -157,6 +160,7 @@ definitions:
     properties:
       application:
         $ref: '#/definitions/model.Application'
+        type: object
       application_id:
         type: integer
       created_at:
@@ -231,6 +235,7 @@ definitions:
         type: integer
       medium:
         $ref: '#/definitions/model.Medium'
+        type: object
       slug:
         type: string
       title:
@@ -252,6 +257,7 @@ definitions:
         type: integer
       organisation:
         $ref: '#/definitions/model.Organisation'
+        type: object
       organisation_id:
         type: integer
       role:
@@ -262,6 +268,7 @@ definitions:
         type: integer
       user:
         $ref: '#/definitions/model.User'
+        type: object
       user_id:
         type: integer
     type: object
@@ -295,6 +302,7 @@ definitions:
         type: string
       medium:
         $ref: '#/definitions/model.Medium'
+        type: object
       slug:
         type: string
       social_media_urls:
@@ -324,8 +332,10 @@ definitions:
         type: integer
       medium:
         $ref: '#/definitions/model.Medium'
+        type: object
       permission:
         $ref: '#/definitions/model.OrganisationUser'
+        type: object
       slug:
         type: string
       title:
@@ -462,8 +472,10 @@ definitions:
         type: string
       medium:
         $ref: '#/definitions/model.Medium'
+        type: object
       permission:
         $ref: '#/definitions/model.OrganisationUser'
+        type: object
       slug:
         type: string
       social_media_urls:
@@ -473,7 +485,7 @@ definitions:
       updated_by_id:
         type: integer
     type: object
-host: localhost:5000
+host: localhost:5001
 info:
   contact:
     email: support@swagger.io
@@ -598,8 +610,7 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: ""
+        "200": {}
       summary: Delete a medium
       tags:
       - Medium
@@ -729,8 +740,7 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: ""
+        "200": {}
       summary: Delete a organisation
       tags:
       - Organisation
@@ -873,8 +883,7 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: ""
+        "200": {}
       summary: Delete a application
       tags:
       - OrganisationApplications
@@ -1032,8 +1041,7 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: ""
+        "200": {}
       summary: Delete a applicationa token
       tags:
       - OrganisationApplicationsTokens
@@ -1097,8 +1105,7 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: ""
+        "201": {}
         "400":
           description: Bad Request
           schema:
@@ -1134,8 +1141,7 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: ""
+        "200": {}
       summary: Delete a application user
       tags:
       - ApplicationUser
@@ -1162,10 +1168,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: ""
-        "401":
-          description: ""
+        "200": {}
+        "401": {}
       summary: Get access of application based on slug
       tags:
       - OrganisationApplications
@@ -1290,8 +1294,7 @@ paths:
         required: true
         type: string
       responses:
-        "200":
-          description: ""
+        "200": {}
       summary: Delete a organisation user
       tags:
       - OrganisationUser
