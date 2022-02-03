@@ -8,6 +8,7 @@ import OIDC from './oidc';
 import kavach_logo from '../../assets/kavach_icon.png';
 import createForm from '../../utils/form';
 import MFA from './mfa';
+import passwordValidation from '../../utils/password-validation';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
@@ -152,7 +153,21 @@ function Auth(props) {
             </Form.Item>
             <Form.Item
               name="password"
-              rules={[{ required: true, message: 'Please input your Password!' }]}
+              rules={
+                props.flow !== 'login'
+                  ? [
+                      { required: true, message: 'Please input your Password!' },
+                      ({ getFieldValue }) => ({
+                          validator(rule, value) {
+                            if (passwordValidation(value)!==null) {
+                              return Promise.reject(passwordValidation(value));
+                            }
+                            return Promise.resolve();
+                          },
+                        }),
+                    ]
+                  : [{ required: true, message: 'Please input your Password!' }]
+              }
             >
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
