@@ -165,10 +165,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		err = email.SendmailwithSendGrid(receiver)
 		if err != nil {
-			tx.Rollback()
+			// tx.Rollback()
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-			return
+			// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+			// return
 		}
 		tx.Commit()
 	}
