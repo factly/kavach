@@ -158,13 +158,13 @@ function Auth(props) {
                   ? [
                       { required: true, message: 'Please input your Password!' },
                       ({ getFieldValue }) => ({
-                          validator(rule, value) {
-                            if (passwordValidation(value)!==null) {
-                              return Promise.reject(passwordValidation(value));
-                            }
-                            return Promise.resolve();
-                          },
-                        }),
+                        validator(rule, value) {
+                          if (passwordValidation(value) !== null) {
+                            return Promise.reject(passwordValidation(value));
+                          }
+                          return Promise.resolve();
+                        },
+                      }),
                     ]
                   : [{ required: true, message: 'Please input your Password!' }]
               }
