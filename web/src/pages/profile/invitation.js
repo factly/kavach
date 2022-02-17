@@ -19,6 +19,15 @@ function InvitationComponent() {
     };
   });
 
+  const fetchInvitations = () => {
+    dispatch(getInvitation());
+  };
+
+  React.useEffect(() => {
+    fetchInvitations();
+    console.log('invitations called');
+  }, [dispatch]);
+
   const onAccept = (value) => {
     const data = {
       organisation_id: value.orgID,

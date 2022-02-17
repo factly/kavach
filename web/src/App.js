@@ -13,23 +13,13 @@ import { getInvitation } from './actions/profile';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
 function App() {
-  var inAuth = window.location.pathname.includes('auth');
-  const dispatch = useDispatch();
   const { orgCount } = useSelector((state) => {
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
 
-  const fetchInvitations = React.useCallback(() => {
-    dispatch(getInvitation());
-  }, [dispatch]);
-
-  React.useEffect(() => {
-    if (!inAuth) {
-      fetchInvitations();
-    }
-  }, [fetchInvitations, orgCount, inAuth]);
+  React.useEffect(() => {}, [orgCount]);
 
   return (
     <div className="App">
