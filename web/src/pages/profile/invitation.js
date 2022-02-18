@@ -25,7 +25,7 @@ function InvitationComponent() {
 
   React.useEffect(() => {
     fetchInvitations();
-    console.log('invitations called');
+    // eslint-disable-next-line
   }, [dispatch]);
 
   const onAccept = (value) => {

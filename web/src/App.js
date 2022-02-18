@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
@@ -9,7 +9,6 @@ import routes from './config/routes';
 import Recovery from './pages/recovery';
 import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
-import { getInvitation } from './actions/profile';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
 function App() {
