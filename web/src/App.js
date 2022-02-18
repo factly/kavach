@@ -13,6 +13,7 @@ import { getInvitation } from './actions/profile';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
 function App() {
+  var inAuth = window.location.pathname.includes('auth');
   const dispatch = useDispatch();
   const { orgCount } = useSelector((state) => {
     return {
@@ -25,8 +26,10 @@ function App() {
   }, [dispatch]);
 
   React.useEffect(() => {
-    fetchInvitations();
-  }, [fetchInvitations, orgCount]);
+    if (!inAuth) {
+      fetchInvitations();
+    }
+  }, [fetchInvitations, orgCount, inAuth]);
 
   return (
     <div className="App">
