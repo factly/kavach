@@ -64,7 +64,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		ApplicationID:  &appID,
 		OrganisationID: uint(oID),
-	}).Preload("Medium").Preload("Application").Find(&spaces).Error
+	}).Preload("Application").Preload("Logo").Preload("LogoMobile").Preload("FavIcon").Preload("MobileIcon").Find(&spaces).Error
+	
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

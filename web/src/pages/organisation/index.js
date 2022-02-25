@@ -22,7 +22,7 @@ function OrganisationCreate() {
       loading: state.organisations.loading,
     };
   });
-  console.log({organisationCount, loading})
+
   return (
     <>
       {!loading ? (

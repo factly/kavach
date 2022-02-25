@@ -8,7 +8,7 @@ import applicationUsers from './applicationUser';
 import notifications from './notifications';
 import profile from './profile';
 import sidebar from './sidebar';
-
+import spaces from './space';
 export default combineReducers({
   settings,
   organisations,
@@ -19,4 +19,5 @@ export default combineReducers({
   notifications,
   profile,
   sidebar,
+  spaces,
 });

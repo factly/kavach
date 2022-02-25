@@ -44,22 +44,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	spaceID := chi.URLParam(r, "space_id")
-	sID, err := strconv.Atoi(spaceID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
 	space := &model.Space{}
-	space.ID = uint(sID)
 	err = json.NewDecoder(r.Body).Decode(&space)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
-
 	validationError := validationx.Check(space)
 	if validationError != nil {
 		loggerx.Error(errors.New("validation error"))
@@ -77,7 +68,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	// Check if record exist or not
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{
-			ID: uint(sID),
+			ID: space.ID,
 		},
 	}).First(&space).Error
 	if err != nil {
@@ -86,15 +77,17 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = model.DB.Model(&model.Space{}).Updates(&model.Space{
-		Name: space.Name,
-		Slug: space.Slug,
-		SiteTitle: space.SiteTitle,
+	// err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(&space).Error
+	err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(&model.Space{
+		Name:        space.Name,
+		Slug:        space.Slug,
+		SiteTitle:   space.SiteTitle,
 		Description: space.Description,
 		SiteAddress: space.SiteAddress,
-		LogoID: space.LogoID,
-		FavIconID: space.FavIconID,
-		// more fields to be added
+		LogoID:      space.LogoID,
+		FavIconID:   space.FavIconID,
+		HeaderCode:  space.HeaderCode,
+		FooterCode:  space.FooterCode,
 	}).Error
 	if err != nil {
 		loggerx.Error(err)

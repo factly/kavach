@@ -41,6 +41,7 @@ export const getApplications = () => {
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+        dispatch(stopApplicationLoading());
       });
   };
 };
@@ -76,6 +77,7 @@ export const addDefaultApplications = () => {
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+        dispatch(stopApplicationLoading());
       });
   };
 };

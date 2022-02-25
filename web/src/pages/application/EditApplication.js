@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import GetApplication from './GetApplication';
 import ApplicationUsers from './users/index';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
-
+import Spaces from './spaces/index';
 function EditApplication() {
   const history = useHistory();
   const { id } = useParams();
@@ -63,6 +63,11 @@ function EditApplication() {
       <Collapse defaultActiveKey="2">
         <Panel header="Tokens" key="2">
           <GetApplication setTokenFlag={setTokenFlag} data={application} />
+        </Panel>
+      </Collapse>
+      <Collapse defaultActiveKey="4">
+        <Panel header="Spaces" key="4">
+          <Spaces id={id} />
         </Panel>
       </Collapse>
     </Space>

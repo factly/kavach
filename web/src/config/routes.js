@@ -5,6 +5,7 @@ import {
   SecurityScanOutlined,
   ProfileOutlined,
   SendOutlined,
+  ApartmentOutlined,
 } from '@ant-design/icons';
 
 //Pages
@@ -20,7 +21,9 @@ import NewUser from '../pages/users/NewUser';
 import ApplicationUsers from '../pages/application/users/index';
 import GetApplication from '../pages/application/GetApplication';
 import InvitationComponent from '../pages/profile/invitation';
-
+import CreateSpace from '../pages/application/spaces/CreateSpace';
+import EditSpace from '../pages/application/spaces/EditSpace';
+import Spaces from '../pages/application/spaces/index';
 export default [
   {
     path: '/settings',
@@ -104,6 +107,28 @@ export default [
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Application Users',
+  },
+  {
+    path: '/applications/spaces',
+    Component: Spaces,
+    enableNavigation: true,
+    enableBreadcrumb: true,
+    title: 'Spaces',
+    Icon: ApartmentOutlined,
+  },
+  {
+    path: '/applications/:id/spaces/create',
+    Component: CreateSpace,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'New Space',
+  },
+  {
+    path: '/applications/:id/spaces/:id/edit',
+    Component: EditSpace,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'New Space',
   },
   {
     path: '/profile/invite',
