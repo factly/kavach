@@ -48,7 +48,7 @@ function Spaces() {
               justifyContent: 'space-between',
             }}
           >
-            <h3> Application</h3>
+            <h3> Choose application :</h3>
             <Select
               style={{ width: '150px', marginLeft: 10 }}
               placeholder="choose application"
