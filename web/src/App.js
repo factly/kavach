@@ -11,24 +11,26 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
+
 function App() {
+  const disableRegistration = process.env.REACT_APP_DISABLE_REGISTRATION || 'false';
   const { orgCount } = useSelector((state) => {
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
 
-  React.useEffect(() => {}, [orgCount]);
-
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
-          <Route
-            path="/auth/registration"
-            component={(props) => <Auth {...props} flow={'registration'} />}
-          />
+          {disableRegistration === 'false' ? (
+            <Route
+              path="/auth/registration"
+              component={(props) => <Auth {...props} flow={'registration'} />}
+            />
+          ) : null}
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
           <Route path="/verification" component={() => <VerificationAfterRegistration />} />
