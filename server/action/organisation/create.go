@@ -65,10 +65,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
-	var userCount int64
+
 	if !viper.GetBool("enable_multitenancy"){
-		tx.Model(&model.Organisation{}).Where("created_by_id = ?", userID).Count(&userCount)
-		if userCount != 0{
+		var organisation model.Organisation
+		result := tx.Model(&model.Organisation{}).First(&organisation)
+		if result.RowsAffected != 0 {
 			loggerx.Error(errors.New("user not authorised"))
 			renderx.JSON(w, http.StatusUnauthorized, errorx.Unauthorized())
 			tx.Rollback()

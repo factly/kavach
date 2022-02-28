@@ -18,8 +18,6 @@ function App() {
     };
   });
 
-  React.useEffect(() => {}, [orgCount]);
-
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
