@@ -66,33 +66,46 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Check if record exist or not
+	var count int64
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{
 			ID: space.ID,
 		},
-	}).First(&space).Error
+	}).Count(&count).Error
+
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
-	// err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(&space).Error
-	err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(&model.Space{
-		Name:        space.Name,
-		Slug:        space.Slug,
-		SiteTitle:   space.SiteTitle,
-		Description: space.Description,
-		SiteAddress: space.SiteAddress,
-		LogoID:      space.LogoID,
-		FavIconID:   space.FavIconID,
-		HeaderCode:  space.HeaderCode,
-		FooterCode:  space.FooterCode,
-	}).Error
+	if count != 1 {
+		loggerx.Error(errors.New("record not found"))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
+	updateMap := map[string]interface{}{
+		"name":           space.Name,
+		"slug":           space.Slug,
+		"site_title":     space.SiteTitle,
+		"tag_line":       space.TagLine,
+		"site_addres":    space.SiteAddress,
+		"description":    space.Description,
+		"logo_id":        space.LogoID,
+		"logo_mobile_id": space.LogoMobileID,
+		"fav_icon_id":    space.FavIconID,
+		"mobile_icon_id": space.MobileIconID,
+		"header_code":    space.HeaderCode,
+		"footer_code":    space.FooterCode,
+	}
+
+	err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	renderx.JSON(w, http.StatusOK, space)
+
+	renderx.JSON(w, http.StatusOK, nil)
 }

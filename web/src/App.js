@@ -30,7 +30,19 @@ function App() {
               path="/auth/registration"
               component={(props) => <Auth {...props} flow={'registration'} />}
             />
-          ) : null}
+          ) : (
+            <Route
+              path="/auth/registration"
+              component={() => (
+                <ErrorComponent
+                  status="404"
+                  title="Sorry, the page you visited does not exist."
+                  link="/auth/login"
+                  message="Goto login!"
+                />
+              )}
+            />
+          )}
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
           <Route path="/verification" component={() => <VerificationAfterRegistration />} />
@@ -64,6 +76,18 @@ function App() {
               })}
             </Switch>
           </BasicLayout>
+          <Route
+            path="*"
+            exact={true}
+            component={() => (
+              <ErrorComponent
+                status="404"
+                title="Sorry, the page you visited does not exist."
+                link="/auth/login"
+                message="Goto login!"
+              />
+            )}
+          />
         </Switch>
       </Router>
     </div>

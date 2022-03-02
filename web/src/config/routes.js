@@ -24,6 +24,7 @@ import InvitationComponent from '../pages/profile/invitation';
 import CreateSpace from '../pages/application/spaces/CreateSpace';
 import EditSpace from '../pages/application/spaces/EditSpace';
 import Spaces from '../pages/application/spaces/index';
+import SpaceUser from '../pages/application/spaces/users';
 export default [
   {
     path: '/settings',
@@ -136,6 +137,13 @@ export default [
     enableNavigation: true,
     Icon: SendOutlined,
     title: 'Invitations',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/spaces/:id/users',
+    Component: SpaceUser,
+    enableNavigation: false,
+    title: 'SpaceUsers',
     enableBreadcrumb: true,
   },
 ];

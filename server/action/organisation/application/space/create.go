@@ -81,7 +81,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-
+	
+	space.Users = append(space.Users, model.User{
+		Base: model.Base{
+			ID:        uint(uID),
+		},
+	})
 	err = model.DB.Model(&model.Space{}).Create(&space).Error
 	if err != nil {
 		loggerx.Error(err)

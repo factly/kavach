@@ -1,6 +1,9 @@
 package space
 
-import "github.com/go-chi/chi"
+import (
+	"github.com/factly/kavach-server/action/organisation/application/space/user"
+	"github.com/go-chi/chi"
+)
 
 // Router organisation
 func Router() chi.Router {
@@ -8,7 +11,10 @@ func Router() chi.Router {
 
 	r.Post("/", create)
 	r.Get("/", list)
-	r.Delete("/{space_id}", delete)
-	r.Put("/{space_id}", update)
+	r.Route("/{space_id}", func(r chi.Router) {
+		r.Mount("/users", user.Router())
+		r.Delete("/", delete)
+		r.Put("/", update)
+	})
 	return r
 }

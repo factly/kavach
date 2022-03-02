@@ -17,11 +17,13 @@ function Spaces() {
     dispatch(getApplications());
   };
 
-  const { applications, selectedApp, loading } = useSelector((state) => {
+  const { applications, selectedApp, loading, role } = useSelector((state) => {
     return {
       applications: state.applications.req[0]?.data.map((id) => state.applications.details[id]),
       selectedApp: state.spaces.selected,
       loading: state.applications.loading,
+      role: state.organisations.role,
+      loadingRole: state.organisations.loading,
     };
   });
   const [appID, setappID] = React.useState(loading ? null : selectedApp);
@@ -66,14 +68,16 @@ function Spaces() {
               })}
             </Select>
           </div>
-          <Link to={`/applications/${appID}/spaces/create`}>
-            <Button type="primary" disabled={!appID}>
-              Create Space
-            </Button>
-          </Link>
+          {role === 'owner' ? (
+            <Link to={`/applications/${appID}/spaces/create`}>
+              <Button type="primary" disabled={!appID}>
+                Create Space
+              </Button>
+            </Link>
+          ) : null}
         </div>
       )}
-      {appID ? <SpaceList appID={appID} /> : null}
+      {appID ? <SpaceList appID={appID} role={role} /> : null}
     </Space>
   );
 }

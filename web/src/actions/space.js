@@ -90,14 +90,14 @@ export const deleteSpace = (appID, id) => {
   };
 };
 
-const loadingSpaces = () => {
+export const loadingSpaces = () => {
   return {
     type: SET_SPACES_LOADING,
     payload: true,
   };
 };
 
-const stopLoadingSpaces = () => {
+export const stopLoadingSpaces = () => {
   return {
     type: STOP_SPACES_LOADING,
     payload: false,

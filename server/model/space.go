@@ -28,7 +28,8 @@ type Space struct {
 	HeaderCode        string         `gorm:"column:header_code" json:"header_code"`
 	FooterCode        string         `gorm:"column:footer_code" json:"footer_code"`
 	MetaFields        postgres.Jsonb `gorm:"column:meta_fields" json:"meta_fields" swaggertype:"primitive,string"`
-	OrganisationID    uint            `gorm:"column:organisation_id" json:"organisation_id"`
+	OrganisationID    uint           `gorm:"column:organisation_id" json:"organisation_id"`
 	ApplicationID     *uint          `gorm:"column:application_id;default:NULL" json:"application_id"`
 	Application       *Application   `gorm:"foreignKey:application_id" json:"application"`
+	Users             []User         `gorm:"many2many:space_users;" json:"users"`
 }

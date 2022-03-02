@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteSpace, getSpaces } from '../../../actions/space';
-import { Popconfirm, Button, Table } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
-function SpaceList({ appID }) {
+function SpaceList({ appID, role }) {
   const dispatch = useDispatch();
   const { spaces, loading } = useSelector((state) => {
     return {
@@ -35,22 +35,49 @@ function SpaceList({ appID }) {
       width: '16%',
       render: (_, record) => {
         return (
-          <Link
-            style={{
-              marginRight: 8,
-            }}
-            to={`/applications/${appID}/spaces/${record.id}/edit`}
-          >
-            {record.name}
-          </Link>
+          <div>
+            {
+              role==='owner'?
+              <Link
+              style={{
+                marginRight: 8,
+              }}
+              to={`/applications/${appID}/spaces/${record.id}/edit`}
+            >
+              {record.name}
+            </Link> :
+            <h4>{record.name}</h4>
+            }
+          </div>
         );
       },
     },
     {
-      title: 'Site Address',
-      dataIndex: 'site_address',
-      key: 'site_address',
+      title: 'Space users',
+      dataIndex: 'space_users',
+      key: 'space_users',
       width: '24%',
+      render: (_, record) => {
+        return (
+          <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+            {record.users.map((user) => {
+              return (
+                <Tooltip title={user.email} placement="top">
+                  <Avatar
+                    key={user.id}
+                    style={{
+                      backgroundColor:
+                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
+                    }}
+                  >
+                    {user.email.charAt(0)}
+                  </Avatar>
+                </Tooltip>
+              );
+            })}
+          </Avatar.Group>
+        );
+      },
     },
     {
       title: 'Site Title',
@@ -72,12 +99,18 @@ function SpaceList({ appID }) {
       width: 150,
       render: (_, record) => {
         return (
-          <Popconfirm
-            title="Are you sure you want to delete this?"
-            onConfirm={() => onDelete(appID, record.id)}
-          >
-            <Button type="danger" icon={<DeleteOutlined />} />
-          </Popconfirm>
+          <Space>
+            <Link to={`/applications/${appID}/spaces/${record.id}/users`}>
+              <Button icon={<PlusOutlined />} style={{ backgroundColor: '#00FF00' }} disabled={role!=='owner'}/>
+            </Link>
+            <Popconfirm
+              title="Are you sure you want to delete this?"
+              onConfirm={() => onDelete(appID, record.id)}
+              disabled={role!=='owner'}
+            >
+              <Button type="danger" icon={<DeleteOutlined />} disabled={role!=='owner'}/>
+            </Popconfirm>
+          </Space>
         );
       },
     },

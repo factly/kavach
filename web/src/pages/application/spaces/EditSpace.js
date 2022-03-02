@@ -22,7 +22,7 @@ function EditSpace() {
 
   const handleFinish = (values) => {
     dispatch(editSpace(id, space.application.id, values)).then(() => {
-      history.push(`/applications/${space.application.id}/edit`);
+      history.push(`/applications/${space.application.id}/spaces/${space.id}/edit`);
     });
   };
 
