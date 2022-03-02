@@ -47,7 +47,7 @@ Once the application is up and running you should be able to access it using the
 - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public : used for customising the public URL in kratos-config i.e. the common part for all the self-service endpoints.
 - REACT_APP_COMPANION_URL=http://127.0.0.1:3020 : used for the location of third party storage
 - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server : used for customising server endpoint for kavach-web.
-
+- REACT_APP_ENABLE_MULTITENANCY=true/false : it is used to activate the multitenancy feature of kavach.
 ### For enabling OIDC
 - At present kavach supports only two OIDC providers i.e. 1)Google and 2)Github
 - for enabling OIDC you can add the example config at https://github.com/factly/kavach/blob/fix/permission-management/kratos/config/kratos.yml#L22

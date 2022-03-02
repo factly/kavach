@@ -7,19 +7,30 @@ import OrganisationSelector from './OrganisationSelector';
 import { Link } from 'react-router-dom';
 
 function Header() {
-  const apps = useSelector((state) =>
-    state.organisations.selected > 0
-      ? state.organisations.details[state.organisations.selected].applications || []
-      : [],
-  );
+  const { apps, organisationCount } = useSelector((state) => {
+    return {
+      apps:
+        state.organisations.selected > 0
+          ? state.organisations.details[state.organisations.selected].applications || []
+          : [],
+      organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
+    };
+  });
+
   return (
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
         <Link to="/organisation">
-          <Button>New Organisation</Button>
+          {process.env.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
+            <div>
+              <Button>New Organisation</Button>
+              <OrganisationSelector />
+            </div>
+          ) : organisationCount < 1 ? (
+            <Button>New Organisation</Button>
+          ) : null}
         </Link>
-        <OrganisationSelector />
         {apps.length > 0 ? (
           <>
             <Divider type="vertical" />

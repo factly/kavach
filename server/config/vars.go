@@ -58,6 +58,10 @@ func SetupVars() {
 		log.Fatal("please provide kratos_admin_url in config")
 	}
 
+	if !viper.IsSet("enable_multitenancy") {
+		log.Fatal("please provide enable_multitenancy in config")
+	}
+
 	if Sqlite() {
 		if !viper.IsSet("sqlite_db_path") {
 			log.Fatal("please provide sqlite_db_path config param")

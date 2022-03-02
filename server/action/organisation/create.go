@@ -14,6 +14,7 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
+	"github.com/spf13/viper"
 )
 
 type organisation struct {
@@ -63,14 +64,25 @@ func create(w http.ResponseWriter, r *http.Request) {
 		mediumID = nil
 	}
 
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
+
+	if !viper.GetBool("enable_multitenancy"){
+		var organisation model.Organisation
+		result := tx.Model(&model.Organisation{}).First(&organisation)
+		if result.RowsAffected != 0 {
+			loggerx.Error(errors.New("user not authorised"))
+			renderx.JSON(w, http.StatusUnauthorized, errorx.Unauthorized())
+			tx.Rollback()
+			return
+		}
+	}
+
 	organisation := &model.Organisation{
 		Title:            org.Title,
 		Slug:             org.Slug,
 		Description:      org.Description,
 		FeaturedMediumID: mediumID,
 	}
-
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
 	err = tx.Model(&model.Organisation{}).Create(&organisation).Error
 
