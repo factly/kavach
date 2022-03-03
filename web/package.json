@@ -46,13 +46,6 @@
   "engines": {
     "node": ">=8.9.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
-    }
-  },
   "lint-staged": {
     "**/*.{js,jsx,yml,yaml,json,css,scss,md}": [
       "npm run format",
@@ -79,7 +72,7 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.3",
     "enzyme-to-json": "^3.6.1",
-    "husky": "^4.2.5",
+    "husky": "^4.3.8",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
     "redux-mock-store": "^1.5.4",

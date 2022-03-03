@@ -14,7 +14,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:5000",
+    "host": "localhost:5001",
     "basePath": "/",
     "paths": {
         "/applications/{application_slug}/validateToken": {
@@ -263,9 +263,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    }
+                    "200": {}
                 }
             }
         },
@@ -493,9 +491,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    }
+                    "200": {}
                 }
             }
         },
@@ -768,9 +764,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    }
+                    "200": {}
                 }
             }
         },
@@ -908,9 +902,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    }
+                    "200": {}
                 }
             }
         },
@@ -1003,9 +995,7 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": ""
-                    },
+                    "201": {},
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -1057,9 +1047,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    }
+                    "200": {}
                 }
             }
         },
@@ -1098,12 +1086,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    },
-                    "401": {
-                        "description": ""
-                    }
+                    "200": {},
+                    "401": {}
                 }
             }
         },
@@ -1238,9 +1222,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": ""
-                    }
+                    "200": {}
                 }
             }
         },
@@ -1573,6 +1555,7 @@
                     "type": "string"
                 },
                 "medium": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "organisation_id": {
@@ -1675,6 +1658,7 @@
                     "type": "integer"
                 },
                 "medium": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "medium_id": {
@@ -1684,6 +1668,7 @@
                     "type": "string"
                 },
                 "organisation": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -1719,6 +1704,7 @@
             "type": "object",
             "properties": {
                 "application": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Application"
                 },
                 "application_id": {
@@ -1831,6 +1817,7 @@
                     "type": "integer"
                 },
                 "medium": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "slug": {
@@ -1863,6 +1850,7 @@
                     "type": "integer"
                 },
                 "organisation": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -1878,6 +1866,7 @@
                     "type": "integer"
                 },
                 "user": {
+                    "type": "object",
                     "$ref": "#/definitions/model.User"
                 },
                 "user_id": {
@@ -1928,6 +1917,7 @@
                     "type": "string"
                 },
                 "medium": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "slug": {
@@ -1972,9 +1962,11 @@
                     "type": "integer"
                 },
                 "medium": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "permission": {
+                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
                 },
                 "slug": {
@@ -2183,9 +2175,11 @@
                     "type": "string"
                 },
                 "medium": {
+                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "permission": {
+                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
                 },
                 "slug": {
