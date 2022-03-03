@@ -10,6 +10,8 @@ func Migration() {
 		&Application{},
 		&ApplicationToken{},
 		&Invitation{},
+		&Space{},
+		&SpaceToken{},
+		&OrganisationToken{},
 	)
-
 }
