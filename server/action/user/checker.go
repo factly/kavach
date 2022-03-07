@@ -56,17 +56,11 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check whether user exists
-	var count int64
 	err = model.DB.Model(&model.User{}).Where(&model.User{
 		Email: user.Email,
-	}).Count(&count).Error
+	}).First(&user).Error
 	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-	if count == 0 {
-		// create user
+		// record does not exist
 		err = model.DB.Create(&user).Error
 		if err != nil {
 			loggerx.Error(err)
