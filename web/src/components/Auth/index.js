@@ -15,6 +15,7 @@ function Auth(props) {
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); //aal stands for authenticator assurance level
+  // const [return_to, setReturnTo] = React.useState(); //return_to is the url to redirect to after authentication
   React.useEffect(() => {
     var obj = {};
 
@@ -227,9 +228,6 @@ function Auth(props) {
               </Form.Item> 
               <Form.Item
                 name="last_name"
-                rules={[
-                  { required: true, message: 'Please input your Last Name!' },
-                ]}
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
