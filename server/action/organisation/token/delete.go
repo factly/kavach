@@ -46,7 +46,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = util.CheckOwner(uint(oID), uint(uID))
+	err = util.CheckOwner(uint(uID), uint(oID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))

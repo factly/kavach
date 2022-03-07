@@ -58,7 +58,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = util.CheckOwner(uint(uID), uint(uID))
+	err = util.CheckOwner(uint(uID), uint(oID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
@@ -97,6 +97,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	*orgID = uint(oID)
 	organisationToken.OrganisationID = orgID
 	organisationToken.Token = util.GenerateSecretToken(fmt.Sprint(oID, ":", orgMap["slug"].(string), ":", user.KID))
+	organisationToken.CreatedByID = uint(uID)
 	err = model.DB.Model(&model.OrganisationToken{}).Create(&organisationToken).Error
 	if err != nil {
 		loggerx.Error(err)

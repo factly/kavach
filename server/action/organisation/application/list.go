@@ -48,7 +48,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
 	result := make([]model.Application, 0)
 	model.DB.Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(oID),

@@ -22,10 +22,10 @@ function UserList({ spaceID }) {
     dispatch(getSpaces(appID));
   };
 
-  const onDelete = (id)=>{
-    dispatch(deleteSpaceUser(appID, spaceID, id)).then(()=>fetchSpaces(appID))
-  }
- 
+  const onDelete = (id) => {
+    dispatch(deleteSpaceUser(appID, spaceID, id)).then(() => fetchSpaces(appID));
+  };
+
   const columns = [
     { title: 'First Name', dataIndex: 'first_name', key: 'name' },
     { title: 'Last Name', dataIndex: 'last_name', key: 'last_name' },
@@ -38,10 +38,7 @@ function UserList({ spaceID }) {
       render: (_, record) => {
         return (
           <span>
-            <Popconfirm
-              title="Sure to Delete?"
-              onConfirm={() => onDelete(record.id)}
-            >
+            <Popconfirm title="Sure to Delete?" onConfirm={() => onDelete(record.id)}>
               <Link to="" className="ant-dropdown-link">
                 <Button type="danger">
                   <DeleteOutlined />

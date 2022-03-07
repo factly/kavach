@@ -134,6 +134,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	*uintspaceID = uint(spaceID)
 	spaceToken.SpaceID = uintspaceID
 	spaceToken.Token = util.GenerateSecretToken(fmt.Sprint(spaceID, ":", spaceMap["slug"].(string), ":", user.KID))
+	spaceToken.CreatedByID = uint(userID)
 	err = model.DB.Model(&model.SpaceToken{}).Create(&spaceToken).Error
 	if err != nil {
 		loggerx.Error(err)

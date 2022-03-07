@@ -36,18 +36,18 @@ function SpaceList({ appID, role }) {
       render: (_, record) => {
         return (
           <div>
-            {
-              role==='owner'?
+            {role === 'owner' ? (
               <Link
-              style={{
-                marginRight: 8,
-              }}
-              to={`/applications/${appID}/spaces/${record.id}/edit`}
-            >
-              {record.name}
-            </Link> :
-            <h4>{record.name}</h4>
-            }
+                style={{
+                  marginRight: 8,
+                }}
+                to={`/applications/${appID}/spaces/${record.id}/edit`}
+              >
+                {record.name}
+              </Link>
+            ) : (
+              <h4>{record.name}</h4>
+            )}
           </div>
         );
       },
@@ -101,14 +101,18 @@ function SpaceList({ appID, role }) {
         return (
           <Space>
             <Link to={`/applications/${appID}/spaces/${record.id}/users`}>
-              <Button icon={<PlusOutlined />} style={{ backgroundColor: '#00FF00' }} disabled={role!=='owner'}/>
+              <Button
+                icon={<PlusOutlined />}
+                style={{ backgroundColor: '#00FF00' }}
+                disabled={role !== 'owner'}
+              />
             </Link>
             <Popconfirm
               title="Are you sure you want to delete this?"
               onConfirm={() => onDelete(appID, record.id)}
-              disabled={role!=='owner'}
+              disabled={role !== 'owner'}
             >
-              <Button type="danger" icon={<DeleteOutlined />} disabled={role!=='owner'}/>
+              <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} />
             </Popconfirm>
           </Space>
         );
