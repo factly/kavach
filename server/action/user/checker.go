@@ -60,7 +60,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		Email: user.Email,
 	}).First(&user).Error
 	if err != nil {
-		// record does not exist
+		// record does not exist so create new user
 		err = model.DB.Create(&user).Error
 		if err != nil {
 			loggerx.Error(err)
