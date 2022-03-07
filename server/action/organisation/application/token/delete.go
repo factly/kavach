@@ -38,6 +38,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
+	
 	orgnaisationID := chi.URLParam(r, "organisation_id")
 	oID, err := strconv.Atoi(orgnaisationID)
 	if err != nil {

@@ -239,6 +239,8 @@ services:
       - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server
       - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public
       - REACT_APP_ENABLE_MULTITENANCY=false
+      - REACT_APP_ENABLE_MULTITENANCY=true
+      - REACT_APP_DISABLE_REGISTRATION=false
     volumes:
       - type: bind
         source: ./web

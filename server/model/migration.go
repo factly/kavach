@@ -11,5 +11,4 @@ func Migration() {
 		&ApplicationToken{},
 		&Invitation{},
 	)
-
 }

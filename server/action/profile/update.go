@@ -19,11 +19,12 @@ type user struct {
 	LastName         string         `json:"last_name"`
 	DisplayName      string         `json:"display_name"`
 	Slug             string         `json:"slug"`
-	BirthDate        string      `json:"birth_date"`
+	BirthDate        string         `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
 	SocialMediaURLs  postgres.Jsonb `json:"social_media_urls" swaggertype:"primitive,string"`
+	Meta             postgres.Jsonb `json:"meta" swaggertype:"primitive,string"`
 }
 
 // update - Update user info
@@ -85,23 +86,24 @@ func update(w http.ResponseWriter, r *http.Request) {
 		userSlug = req.Slug
 	}
 	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
-	if err!=nil{
+	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
-	updateUser := model.User{
-		FirstName:        req.FirstName,
-		LastName:         req.LastName,
-		BirthDate:        birthDate,
-		Slug:             userSlug,
-		Gender:           req.Gender,
-		FeaturedMediumID: mediumID,
-		Description:      req.Description,
-		SocialMediaURLs:  req.SocialMediaURLs,
-		DisplayName:      req.DisplayName,
+	updateUser := map[string]interface{}{
+		"first_name":         req.FirstName,
+		"last_name":          req.LastName,
+		"birth_date":         birthDate,
+		"slug":               userSlug,
+		"gender":             req.Gender,
+		"featured_medium_id": mediumID,
+		"description":        req.Description,
+		"social_media_urls":  req.SocialMediaURLs,
+		"display_name":       req.DisplayName,
+		"meta":               req.Meta,
 	}
-	updateUser.ID = me.ID
+	updateUser["id"] = me.ID
 
 	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&me).Error
 

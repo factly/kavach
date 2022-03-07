@@ -47,8 +47,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	orgnaisationID := chi.URLParam(r, "organisation_id")
-	oID, err := strconv.Atoi(orgnaisationID)
+	organisationID := chi.URLParam(r, "organisation_id")
+	oID, err := strconv.Atoi(organisationID)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
