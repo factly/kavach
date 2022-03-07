@@ -94,6 +94,20 @@ function Auth(props) {
     authForm.appendChild(csrfInput);
     authForm.appendChild(methodInput);
 
+    // adding first name and last name if the flow is for registration
+    if ( props.flow !== 'login'){
+      var fnameInput = document.createElement('input');
+      fnameInput.name = 'traits.name.first';
+      fnameInput.value = values.first_name;
+
+      var lnameInput = document.createElement('input');
+      lnameInput.name = 'traits.name.last';
+      lnameInput.value = values.last_name;
+
+      authForm.appendChild(fnameInput);
+      authForm.appendChild(lnameInput);
+    }
+
     document.body.appendChild(authForm);
     authForm.submit();
   };
@@ -178,6 +192,7 @@ function Auth(props) {
             {props.flow === 'login' ? (
               ''
             ) : (
+            <div>
               <Form.Item
                 name="confirmPassword"
                 dependencies={['password']}
@@ -199,6 +214,29 @@ function Auth(props) {
                   placeholder="Confirm Password"
                 />
               </Form.Item>
+              <Form.Item
+                name="first_name"
+                rules={[
+                  { required: true, message: 'Please input your First Name!' },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined className="site-form-item-icon" />}
+                  placeholder="First Name"
+                />
+              </Form.Item> 
+              <Form.Item
+                name="last_name"
+                rules={[
+                  { required: true, message: 'Please input your Last Name!' },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined className="site-form-item-icon" />}
+                  placeholder="Last Name"
+                />
+              </Form.Item>
+            </div>
             )}
             <Form.Item>
               <Button form="auth" type="primary" htmlType="submit" block>
