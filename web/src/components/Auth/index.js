@@ -14,8 +14,9 @@ function Auth(props) {
   const [ui, setUI] = React.useState({});
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
-  const [aal2, setaal2] = React.useState(false); //aal stands for authenticator assurance level
-  // const [return_to, setReturnTo] = React.useState(); //return_to is the url to redirect to after authentication
+  const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
+  var afterVerificationURL = localStorage.getItem('returnTo') || null;
+
   React.useEffect(() => {
     var obj = {};
 
@@ -28,13 +29,22 @@ function Auth(props) {
       });
 
     const returnTo = obj['return_to'];
-    const selfServiceURL = returnTo
-      ? window.REACT_APP_KRATOS_PUBLIC_URL +
-        '/self-service/' +
-        props.flow +
-        '/browser?return_to=' +
-        returnTo
-      : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+    const selfServiceURL =
+      props.flow === 'login'
+        ? returnTo
+          ? window.REACT_APP_KRATOS_PUBLIC_URL +
+            '/self-service/' +
+            props.flow +
+            '/browser?return_to=' +
+            returnTo
+          : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
+        : afterVerificationURL
+        ? window.REACT_APP_KRATOS_PUBLIC_URL +
+          '/self-service/' +
+          props.flow +
+          '/browser?after_verification_return_to=' +
+          afterVerificationURL
+        : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
@@ -60,13 +70,16 @@ function Auth(props) {
       .then((res) => {
         setUI(res.ui);
         setaal2(res.requested_aal === 'aal2');
+        if (props.flow === 'login') {
+          localStorage.setItem('returnTo', res.return_to);
+        }
       })
       .catch((err) => {
         console.log({ err: err.message });
         console.log({ err });
         window.location.href = selfServiceURL;
       });
-  }, [props.flow]);
+  }, [props.flow, afterVerificationURL]);
 
   const withPassword = (values) => {
     var authForm = createForm(ui.action, ui.method);
@@ -96,7 +109,7 @@ function Auth(props) {
     authForm.appendChild(methodInput);
 
     // adding first name and last name if the flow is for registration
-    if ( props.flow !== 'login'){
+    if (props.flow !== 'login') {
       var fnameInput = document.createElement('input');
       fnameInput.name = 'traits.name.first';
       fnameInput.value = values.first_name;
@@ -193,48 +206,44 @@ function Auth(props) {
             {props.flow === 'login' ? (
               ''
             ) : (
-            <div>
-              <Form.Item
-                name="confirmPassword"
-                dependencies={['password']}
-                rules={[
-                  { required: true, message: 'Please re-enter your Password!' },
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      if (getFieldValue('password') !== value) {
-                        return Promise.reject('Password do no match!');
-                      }
-                      return Promise.resolve();
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  type="password"
-                  placeholder="Confirm Password"
-                />
-              </Form.Item>
-              <Form.Item
-                name="first_name"
-                rules={[
-                  { required: true, message: 'Please input your First Name!' },
-                ]}
-              >
-                <Input
-                  prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="First Name"
-                />
-              </Form.Item> 
-              <Form.Item
-                name="last_name"
-              >
-                <Input
-                  prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Last Name"
-                />
-              </Form.Item>
-            </div>
+              <div>
+                <Form.Item
+                  name="confirmPassword"
+                  dependencies={['password']}
+                  rules={[
+                    { required: true, message: 'Please re-enter your Password!' },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (getFieldValue('password') !== value) {
+                          return Promise.reject('Password do no match!');
+                        }
+                        return Promise.resolve();
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    type="password"
+                    placeholder="Confirm Password"
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="first_name"
+                  rules={[{ required: true, message: 'Please input your First Name!' }]}
+                >
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="First Name"
+                  />
+                </Form.Item>
+                <Form.Item name="last_name">
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Last Name"
+                  />
+                </Form.Item>
+              </div>
             )}
             <Form.Item>
               <Button form="auth" type="primary" htmlType="submit" block>
