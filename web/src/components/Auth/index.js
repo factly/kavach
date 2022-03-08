@@ -167,6 +167,25 @@ function Auth(props) {
                   ) : null;
                 })
               : null}
+            {props.flow !== 'login' ? (
+              <div>
+                <Form.Item
+                  name="first_name"
+                  rules={[{ required: true, message: 'Please input your First Name!' }]}
+                >
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="First Name"
+                  />
+                </Form.Item>
+                <Form.Item name="last_name">
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="Last Name"
+                  />
+                </Form.Item>
+              </div>
+            ) : null}
             <Form.Item
               name="email"
               rules={[
@@ -206,44 +225,27 @@ function Auth(props) {
             {props.flow === 'login' ? (
               ''
             ) : (
-              <div>
-                <Form.Item
-                  name="confirmPassword"
-                  dependencies={['password']}
-                  rules={[
-                    { required: true, message: 'Please re-enter your Password!' },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (getFieldValue('password') !== value) {
-                          return Promise.reject('Password do no match!');
-                        }
-                        return Promise.resolve();
-                      },
-                    }),
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    type="password"
-                    placeholder="Confirm Password"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="first_name"
-                  rules={[{ required: true, message: 'Please input your First Name!' }]}
-                >
-                  <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="First Name"
-                  />
-                </Form.Item>
-                <Form.Item name="last_name">
-                  <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="Last Name"
-                  />
-                </Form.Item>
-              </div>
+              <Form.Item
+                name="confirmPassword"
+                dependencies={['password']}
+                rules={[
+                  { required: true, message: 'Please re-enter your Password!' },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (getFieldValue('password') !== value) {
+                        return Promise.reject('Password do no match!');
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="Confirm Password"
+                />
+              </Form.Item>
             )}
             <Form.Item>
               <Button form="auth" type="primary" htmlType="submit" block>
