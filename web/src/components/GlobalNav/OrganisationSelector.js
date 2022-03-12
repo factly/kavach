@@ -8,7 +8,9 @@ function OrganisationSelector() {
   const list = ['/edit', '/create'];
   const { organisations, selected } = useSelector((state) => {
     return {
-      organisations: state.organisations.ids.map((id) => state.organisations.details[id]),
+      organisations: state.profile.details?.organisation_ids
+        ? state.profile.details?.organisation_ids.map((id) => state.organisations.details[id])
+        : [],
       selected: state.organisations.selected,
     };
   });

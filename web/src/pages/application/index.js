@@ -16,9 +16,14 @@ function Application() {
     dispatch(getApplications());
   };
 
-  const { applicationData, role, loadingRole } = useSelector((state) => {
+  const { applicationData, loadingApps, role, loadingRole } = useSelector((state) => {
     return {
-      applicationData: state.applications,
+      applicationData: state.organisations.details[state.organisations.selected]?.application_ids
+        ? state.organisations.details[state.organisations.selected]?.application_ids.map(
+            (id) => state.applications.details[id],
+          )
+        : [],
+      loadingApps: state.applications.loading,
       role: state.organisations.role,
       loadingRole: state.organisations.loading,
     };
@@ -33,9 +38,9 @@ function Application() {
         {loadingRole ? (
           <Skeleton />
         ) : role === 'owner' ? (
-          applicationData.loading ? (
+          loadingApps ? (
             <Skeleton />
-          ) : applicationData.req[0].data.length === 0 ? (
+          ) : applicationData.length === 0 ? (
             <div>
               <Button onClick={addDefaultApps}>Add Factly Applications</Button>
               <Link key="1" to="/applications/create">
@@ -49,12 +54,13 @@ function Application() {
           )
         ) : null}
       </div>
-      {applicationData.loading ? (
+      {loadingApps ? (
         <Skeleton />
-      ) : applicationData.req[0].data.length ? (
+      ) : applicationData.length ? (
         <ApplicationList
           applicationList={applicationData}
           permission={loadingRole ? false : role === 'owner'}
+          loading={loadingApps}
         />
       ) : (
         <ErrorComponent title="You have 0 applications" link="/organisation" message="Go Home" />

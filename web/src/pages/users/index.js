@@ -11,13 +11,15 @@ function OrganisationUsers() {
   const { organisation, users, role, loading, loadingRole } = useSelector((state) => {
     return {
       organisation: state.organisations.details[state.organisations.selected],
-      users: state.users.ids.map((id) => state.users.details[id]),
+      users: state.organisations.details[state.organisations.selected]?.user_ids?.map(
+        (id) => state.users.details[id],
+      ),
       role: state.organisations.role,
       loading: state.users.loading,
       loadingRole: state.organisations.loading,
     };
   });
-
+  console.log('this is users', users);
   const fetchUsers = React.useCallback(() => {
     dispatch(getUsers());
   }, [dispatch]);

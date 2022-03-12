@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 
 function SpaceList({ appID, role }) {
   const dispatch = useDispatch();
-  const { spaces, loading } = useSelector((state) => {
+  const { spaces, loading, users } = useSelector((state) => {
+    const spaceIDList = state.applications.details[appID]?.space_ids // it is undefined if there are no spaces
     return {
-      spaces: state.spaces.ids.map((id) => state.spaces.details[id]),
+      spaces: (spaceIDList) ? spaceIDList.map((id)=>(state.spaces.details[id])) : [], 
       loading: state.spaces.loading,
     };
   });
@@ -60,7 +61,7 @@ function SpaceList({ appID, role }) {
       render: (_, record) => {
         return (
           <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            {record.users.map((user) => {
+            {/* {record.users.map((user) => {
               return (
                 <Tooltip title={user.email} placement="top">
                   <Avatar
@@ -74,7 +75,7 @@ function SpaceList({ appID, role }) {
                   </Avatar>
                 </Tooltip>
               );
-            })}
+            })} */}
           </Avatar.Group>
         );
       },

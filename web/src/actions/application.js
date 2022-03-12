@@ -7,8 +7,11 @@ import {
   RESET_APPLICATIONS,
   APPLICATIONS_API,
 } from '../constants/application';
-import { addMediaList } from './media';
+import { ADD_APPLICATION_IDS } from '../constants/organisations';
+import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
+import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { addUsersList } from './users';
 
 export const getApplications = () => {
   return (dispatch, getState) => {
@@ -16,31 +19,24 @@ export const getApplications = () => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications')
       .then((response) => {
-        dispatch(
-          addMediaList(
-            response.data
-              .filter((application) => application.medium)
-              .map((application) => application.medium),
-          ),
-        );
-        dispatch(
-          addApplicationsList(
-            response.data.map((application) => {
-              return { ...application, medium: application.medium };
-            }),
-          ),
-        );
-        dispatch(
-          addApplicationsRequest({
-            data: response.data.map((item) => item.id),
-
-            total: response.data.total,
-          }),
-        );
-        dispatch(stopApplicationLoading());
+        response.data.map((application) => {
+          if (application.medium_id !== null) {
+            dispatch(addMedia(application.medium));
+          }
+          deleteKeys([application], ['medium']);
+          application.user_ids = getIds(application.users);
+          dispatch(addUsersList(buildObjectOfItems(application.users)));
+          return null;
+        });
+        deleteKeys(response.data, ['users']);
+        dispatch(addApplicationsList(buildObjectOfItems(response.data)));
+        const appIdList = getIds(response.data);
+        dispatch(addApplicationIds(appIdList));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
         dispatch(stopApplicationLoading());
       });
   };
@@ -88,12 +84,20 @@ export const getApplication = (id) => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then((response) => {
-        if (response.data.medium) dispatch(addMediaList([response.data.medium]));
-        dispatch(getApplicationByID({ ...response.data, medium: response.data.medium }));
-        dispatch(stopApplicationLoading());
+        if (response.data.medium_id !== null) {
+          dispatch(addMedia(response.data.medium));
+        }
+        deleteKeys([response.data], ['medium']);
+        response.data.user_ids = getIds(response.data.users);
+        dispatch(addUsersList(buildObjectOfItems(response.data.users)));
+        deleteKeys([response.data], ['users']);
+        dispatch(getApplicationByID(response.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopApplicationLoading());
       });
   };
 };
@@ -194,4 +198,9 @@ export const addApplicationsRequest = (data) => ({
 
 export const resetApplications = () => ({
   type: RESET_APPLICATIONS,
+});
+
+export const addApplicationIds = (data) => ({
+  type: ADD_APPLICATION_IDS,
+  payload: data,
 });

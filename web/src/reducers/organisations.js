@@ -4,7 +4,10 @@ import {
   SET_ORGANISATIONS_LOADING,
   RESET_ORGANISATIONS,
   SET_SELECTED_ORGANISATION,
+  ADD_ORGANISATION_USERS,
+  ADD_APPLICATION_IDS,
 } from '../constants/organisations';
+import { buildObjectOfItems } from '../utils/objects';
 
 const initialState = {
   ids: [],
@@ -35,7 +38,7 @@ export default function tagsReducer(state = initialState, action = {}) {
       return {
         ...state,
         ids: payload.map((item) => item.id),
-        details: payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
+        details: buildObjectOfItems(payload),
         selected: payload[0].id,
         role: payload[0].permission.role,
       };
@@ -48,11 +51,33 @@ export default function tagsReducer(state = initialState, action = {}) {
           [payload.id]: payload,
         },
       };
+    case ADD_ORGANISATION_USERS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            user_ids: payload,
+          },
+        },
+      };
     case SET_SELECTED_ORGANISATION:
       return {
         ...state,
         selected: payload,
         role: state.details[payload].permission.role,
+      };
+    case ADD_APPLICATION_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            application_ids: payload,
+          },
+        },
       };
     default:
       return state;

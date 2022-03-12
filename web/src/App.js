@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
@@ -11,14 +11,20 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
+import { getProfileDetails } from './actions/profile';
 
 function App() {
+  const dispatch = useDispatch();
   const disableRegistration = process.env.REACT_APP_DISABLE_REGISTRATION || 'false';
   const { orgCount } = useSelector((state) => {
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
+
+  React.useEffect(() => {
+    dispatch(getProfileDetails());
+  }, [dispatch]);
 
   return (
     <div className="App">

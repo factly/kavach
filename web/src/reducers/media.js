@@ -35,7 +35,7 @@ export default function mediaReducer(state = initialState, action = {}) {
           .concat(action.payload),
       };
     case ADD_MEDIA:
-      if (action.payload.length === 0) {
+      if (action.payload?.length === 0) {
         return state;
       }
       return {

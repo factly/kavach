@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { ADD_ORGANISATION_USERS } from '../constants/organisations';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
+import { buildObjectOfItems, getIds } from '../utils/objects';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { loadingOrganisations, stopOrganisationsLoading } from './organisations';
 
 export const getUsers = () => {
   return (dispatch, getState) => {
@@ -9,11 +11,14 @@ export const getUsers = () => {
     return axios
       .get(USERS_API + '/' + getState().organisations.selected + '/users')
       .then((response) => {
-        dispatch(addUsersList(response.data));
-        dispatch(stopUsersLoading());
+        dispatch(addUsersList(buildObjectOfItems(response.data)));
+        dispatch(addOrganisationUsers(response.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopUsersLoading());
       });
   };
 };
@@ -37,19 +42,20 @@ export const addUser = (data, history) => {
 
 export const getAllUsers = () => {
   return (dispatch, getState) => {
+    dispatch(loadingUsers());
+    dispatch(loadingOrganisations());
     return axios
       .get(`/organisations/${getState().organisations.selected}/users`)
       .then((res) => {
-        dispatch(
-          addOrganisationUsersList({
-            users: res.data,
-            org_id: getState().organisations.selected,
-          }),
-        );
-        dispatch(stopUsersLoading());
+        dispatch(addUsersList(buildObjectOfItems(res.data)));
+        dispatch(addOrganisationUsers(res.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopUsersLoading());
+        dispatch(stopOrganisationsLoading());
       });
   };
 };
@@ -92,4 +98,9 @@ export const addOrganisationUsersList = (data) => ({
 
 export const resetUsers = () => ({
   type: RESET_USERS,
+});
+
+const addOrganisationUsers = (data) => ({
+  type: ADD_ORGANISATION_USERS,
+  payload: getIds(data),
 });

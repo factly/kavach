@@ -19,7 +19,11 @@ function Spaces() {
 
   const { applications, selectedApp, loading, role } = useSelector((state) => {
     return {
-      applications: state.applications.req[0]?.data.map((id) => state.applications.details[id]),
+      applications: state.organisations.details[state.organisations.selected]?.application_ids
+        ? state.organisations.details[state.organisations.selected]?.application_ids.map(
+            (id) => state.applications.details[id],
+          )
+        : [],
       selectedApp: state.spaces.selected,
       loading: state.applications.loading,
       role: state.organisations.role,

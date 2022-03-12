@@ -22,7 +22,7 @@ type OrganisationUser struct {
 	UserID         uint          `gorm:"column:user_id" json:"user_id"`
 	User           *User         `json:"user"`
 	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
-	Organisation   *Organisation `json:"organisation"`
+	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation"`
 	Role           string        `gorm:"column:role" json:"role"`
 }
 

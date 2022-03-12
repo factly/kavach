@@ -4,6 +4,7 @@ import {
   ADD_APPLICATIONS_REQUEST,
   SET_APPLICATIONS_LOADING,
   RESET_APPLICATIONS,
+  ADD_SPACE_IDS,
 } from '../constants/application';
 import deepEqual from 'deep-equal';
 
@@ -35,15 +36,9 @@ export default function application(state = initialState, action = {}) {
           .concat(action.payload),
       };
     case ADD_APPLICATIONS:
-      if (action.payload.length === 0) {
-        return state;
-      }
       return {
         ...state,
-        details: {
-          ...state.details,
-          ...action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
-        },
+        details: { ...state.details, ...action.payload },
       };
     case ADD_APPLICATION:
       return {
@@ -51,6 +46,17 @@ export default function application(state = initialState, action = {}) {
         details: {
           ...state.details,
           [action.payload.id]: action.payload,
+        },
+      };
+    case ADD_SPACE_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            space_ids: action.payload.space_ids,
+          },
         },
       };
     default:

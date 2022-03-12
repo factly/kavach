@@ -6,49 +6,51 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addApplicationUser } from '../../../actions/applicationUsers';
 import { getAllUsers } from '../../../actions/users';
 import { getApplicationUsers } from '../../../actions/applicationUsers';
-function Application({ id }) {
+function ApplicationUser({ id }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [flag, setFlag] = React.useState(false);
   const history = useHistory();
 
-  let value = [];
+  // const { users } = useSelector(({ users, organisations: { selected } }) => {
+  //   let details = [];
+  //   let ids = [];
+  //   ids = users.organisations[selected] ? users.organisations[selected] : [];
+  //   details = ids.map((id) => users.details[id]);
+  //   return { users: details  };
+  // });
 
-  const { users } = useSelector(({ users, organisations: { selected } }) => {
-    let details = [];
-    let ids = [];
-    ids = users.organisations[selected] ? users.organisations[selected] : [];
-    details = details.concat(
-      ids.filter((id) => !value.includes(id)).map((id) => users.details[id]),
-    );
-    return { users: details };
-  });
-
-  React.useEffect(() => {
-    fetchEntities();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
-  const fetchEntities = () => {
-    dispatch(getAllUsers());
-  };
-
-  const { applicationUsers } = useSelector(({ applicationUsers }) => {
+  const { remainingUsers } = useSelector((state) => {
+    const orgUserIds = state.organisations[state.organisations.selected]?.user_ids;
+    const appUserIds = state.applications.details[id]?.user_ids;
     return {
-      applicationUsers: applicationUsers.details[id] || [],
+      remainingUsers:
+        orgUserIds && appUserIds
+          ? orgUserIds
+              .filter((id) => !appUserIds.includes(id))
+              ?.map((id) => state.users.details[id])
+          : [],
     };
   });
-  React.useEffect(() => {
-    fetchApplications();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
   const fetchApplications = () => {
+    console.log('fetch application');
     dispatch(getApplicationUsers(id));
   };
 
-  const remainingUsers = users.filter((data, index) =>
-    applicationUsers.every((newData) => !(newData.email === data.email)),
-  );
+  const fetchEntities = () => {
+    console.log('fetch entities');
+    dispatch(getAllUsers());
+  };
+
+  React.useEffect(() => {
+    fetchEntities();
+    fetchApplications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // React.useEffect(() => {
+
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <Space direction="vertical">
@@ -60,7 +62,7 @@ function Application({ id }) {
           dispatch(
             addApplicationUser({ application_id: parseInt(id, 10), user_id: values.user_id }),
           ).then(() => {
-            setFlag(!flag);
+            setFlag((prev) => !prev);
             history.push(`/applications/${id}/edit`);
           });
         }}
@@ -87,4 +89,4 @@ function Application({ id }) {
   );
 }
 
-export default Application;
+export default ApplicationUser;

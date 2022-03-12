@@ -10,11 +10,15 @@ import (
 	"github.com/factly/x/renderx"
 )
 
-type profileResponse struct {
+type orgWithRole struct {
+	model.Organisation
+	Permission model.OrganisationUser `json:"permission"`
+}
+type profileDetailsResponse struct {
 	model.User
-	Organisations []model.Organisation `json:"organisations"`
-	Applications  []model.Application  `json:"applications"`
-	Spaces        []model.Space        `json:"spaces"`
+	Organisations []orgWithRole       `json:"organisations"`
+	Applications  []model.Application `json:"applications"`
+	Spaces        []model.Space       `json:"spaces"`
 }
 
 // detail - Get logged in user details
@@ -24,7 +28,7 @@ type profileResponse struct {
 // @ID get-logged-in-user
 // @Produce json
 // @Param X-User header string true "User ID"
-// @Success 200 {object} profileResponse
+// @Success 200 {object} model.User
 // @Router /profile [get]
 func detail(w http.ResponseWriter, r *http.Request) {
 
@@ -35,10 +39,42 @@ func detail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	me := &profileResponse{}
-	me.User.ID = uint(userID)
+	me := &model.User{}
+	me.ID = uint(userID)
 
 	err = model.DB.Model(&model.User{}).Preload("Medium").First(&me).Error
+
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
+	renderx.JSON(w, http.StatusOK, me)
+}
+
+// profileDetail - Get logged in user details including organisations, applications and spaces
+// @Summary Get logged in user details including organisations, applications and spaces
+// @Description Get logged in user details including organisations, applications and spaces
+// @Tags Profile
+// @ID get-logged-in-user-details
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Success 200 {object} profileDetailsResponse
+// @Router /profile/details [get]
+func profileDetail(w http.ResponseWriter, r *http.Request) {
+
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	me := &profileDetailsResponse{}
+	me.User.ID = uint(userID)
+
+	err = model.DB.Model(&model.User{}).Preload("Medium").First(&me.User).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
@@ -50,7 +86,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 		model.OrganisationUser{
 			UserID: uint(userID),
 		},
-	).Find(&orgUser).Error
+	).Preload("Organisation").Find(&orgUser).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
@@ -58,14 +94,27 @@ func detail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, org := range orgUser {
-		me.Organisations = append(me.Organisations, *org.Organisation)
+		me.Organisations = append(me.Organisations, orgWithRole{
+			Organisation: *org.Organisation,
+			Permission:   org,
+		})
 	}
 
 	for _, org := range me.Organisations {
+		org.Permission.Organisation = nil
+	}
+	
+	for _, org := range me.Organisations {
 		result := make([]model.Application, 0)
-		model.DB.Model(&model.Application{}).Where(&model.Application{
+		err = model.DB.Model(&model.Application{}).Where(&model.Application{
 			OrganisationID: org.ID,
-		}).Preload("Users").Preload("Users.Medium").Preload("Medium").Find(&result)
+		}).Preload("Users").Preload("Users.Medium").Preload("Medium").Find(&result).Error
+
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+			return
+		}
 
 		for _, app := range result {
 			for _, user := range app.Users {
@@ -74,12 +123,6 @@ func detail(w http.ResponseWriter, r *http.Request) {
 				}
 			}
 		}
-
-		if err != nil {
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-			return
-		}
 	}
 
 	for _, app := range me.Applications {
@@ -87,7 +130,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 		uintAppID := uint(app.ID)
 		model.DB.Model(&model.Space{}).Where(&model.Space{
 			ApplicationID: &uintAppID,
-		}).Preload("Users").Preload("Users.Medium").Preload("Medium").Find(&result)
+		}).Preload("Application").Preload("Logo").Preload("LogoMobile").Preload("FavIcon").Preload("MobileIcon").Preload("Users").Find(&result)
 
 		for _, space := range result {
 			for _, user := range space.Users {

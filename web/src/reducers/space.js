@@ -4,10 +4,10 @@ import {
   RESET_SPACES,
   STOP_SPACES_LOADING,
   SET_SELECTED_APP,
+  ADD_SPACES,
 } from '../constants/space';
 
 const initialState = {
-  ids: [],
   details: {},
   selected: null,
   loading: true,
@@ -30,6 +30,11 @@ export default function spaces(state = initialState, action = {}) {
         ...state,
         ids: action.payload.map((item) => item.id),
         details: action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
+      };
+    case ADD_SPACES:
+      return {
+        ...state,
+        details: action.payload,
       };
     case RESET_SPACES:
       return {
