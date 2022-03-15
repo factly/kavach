@@ -11,7 +11,7 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
-import { getProfileDetails } from './actions/profile';
+import { addProfileDetails } from './actions/profile';
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ function App() {
   });
 
   React.useEffect(() => {
-    dispatch(getProfileDetails());
+    dispatch(addProfileDetails());
   }, [dispatch]);
 
   return (
