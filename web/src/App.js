@@ -16,6 +16,8 @@ import { addProfileDetails } from './actions/profile';
 function App() {
   const dispatch = useDispatch();
   const disableRegistration = process.env.REACT_APP_DISABLE_REGISTRATION || 'false';
+  var inAuth = window.location.pathname.includes('auth');
+  const [flag, setFlag] = React.useState(true);
   const { orgCount } = useSelector((state) => {
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
@@ -23,8 +25,13 @@ function App() {
   });
 
   React.useEffect(() => {
-    dispatch(addProfileDetails());
-  }, [dispatch]);
+    if (!inAuth) {
+      if (flag) {
+        dispatch(addProfileDetails());
+        setFlag(false);
+      }
+    }
+  }, [dispatch, flag, inAuth]);
 
   return (
     <div className="App">
