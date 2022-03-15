@@ -8,9 +8,9 @@ import { Link } from 'react-router-dom';
 function SpaceList({ appID, role }) {
   const dispatch = useDispatch();
   const { spaces, loading, users } = useSelector((state) => {
-    const spaceIDList = state.applications.details[appID]?.space_ids // it is undefined if there are no spaces
+    const spaceIDList = state.applications.details[appID]?.space_ids; // it is undefined if there are no spaces
     return {
-      spaces: (spaceIDList) ? spaceIDList.map((id)=>(state.spaces.details[id])) : [], 
+      spaces: spaceIDList ? spaceIDList.map((id) => state.spaces.details[id]) : [],
       loading: state.spaces.loading,
     };
   });

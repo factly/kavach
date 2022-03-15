@@ -8,9 +8,10 @@ import {
   APPLICATIONS_API,
 } from '../constants/application';
 import { ADD_APPLICATION_IDS } from '../constants/organisations';
-import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
+import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { addSpaces } from './space';
 import { addUsersList } from './users';
 
 export const getApplications = () => {
@@ -19,19 +20,8 @@ export const getApplications = () => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications')
       .then((response) => {
-        response.data.map((application) => {
-          if (application.medium_id !== null) {
-            dispatch(addMedia(application.medium));
-          }
-          deleteKeys([application], ['medium']);
-          application.user_ids = getIds(application.users);
-          dispatch(addUsersList(buildObjectOfItems(application.users)));
-          return null;
-        });
-        deleteKeys(response.data, ['users']);
-        dispatch(addApplicationsList(buildObjectOfItems(response.data)));
-        const appIdList = getIds(response.data);
-        dispatch(addApplicationIds(appIdList));
+        dispatch(addApplicationList(response.data));
+        dispatch(addApplicationIds(getIds(response.data)));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -56,7 +46,7 @@ export const addDefaultApplications = () => {
           ),
         );
         dispatch(
-          addApplicationsList(
+          addApplicationList(
             response.data.map((application) => {
               return { ...application, medium: application.medium?.id };
             }),
@@ -84,14 +74,7 @@ export const getApplication = (id) => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then((response) => {
-        if (response.data.medium_id !== null) {
-          dispatch(addMedia(response.data.medium));
-        }
-        deleteKeys([response.data], ['medium']);
-        response.data.user_ids = getIds(response.data.users);
-        dispatch(addUsersList(buildObjectOfItems(response.data.users)));
-        deleteKeys([response.data], ['users']);
-        dispatch(getApplicationByID(response.data));
+        addApplicationList(response.data);
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -162,7 +145,7 @@ export const addApplications = (applications) => {
       ),
     );
     dispatch(
-      addApplicationsList(
+      addApplicationList(
         applications.map((application) => {
           return { ...application, medium: application.medium?.id };
         }),
@@ -186,10 +169,22 @@ export const getApplicationByID = (data) => ({
   payload: data,
 });
 
-export const addApplicationsList = (data) => ({
-  type: ADD_APPLICATIONS,
-  payload: data,
-});
+export const addApplicationList = (data) => (dispatch) => {
+  dispatch(loadingApplications());
+  const medium = getValues(data, 'medium');
+  dispatch(addMediaList(medium));
+  const spaces = getValues(data, 'spaces');
+  dispatch(addSpaces(spaces));
+  data.forEach((application) => {
+    application.spaces = getIds(application.spaces);
+    application.users = getIds(application.users);
+  });
+  dispatch({
+    type: ADD_APPLICATIONS,
+    payload: buildObjectOfItems(data),
+  });
+  dispatch(stopApplicationLoading());
+};
 
 export const addApplicationsRequest = (data) => ({
   type: ADD_APPLICATIONS_REQUEST,

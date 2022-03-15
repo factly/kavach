@@ -6,7 +6,6 @@ import { updateApplication, getApplication } from '../../actions/application';
 import { getOrganisations } from '../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import GetApplication from './GetApplication';
 import ApplicationUsers from './users/index';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 
@@ -15,7 +14,6 @@ function EditApplication() {
   const { id } = useParams();
   const { Panel } = Collapse;
   const dispatch = useDispatch();
-  const [tokenFlag, setTokenFlag] = React.useState(false);
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
@@ -27,7 +25,7 @@ function EditApplication() {
 
   React.useEffect(() => {
     dispatch(getApplication(id));
-  }, [dispatch, id, tokenFlag]);
+  }, [dispatch, id]);
 
   if (loadingApp || loadingRole) return <Skeleton />;
 
@@ -58,11 +56,6 @@ function EditApplication() {
       <Collapse defaultActiveKey="3">
         <Panel header="Users" key="3">
           <ApplicationUsers id={id} />
-        </Panel>
-      </Collapse>
-      <Collapse defaultActiveKey="2">
-        <Panel header="Tokens" key="2">
-          <GetApplication setTokenFlag={setTokenFlag} data={application} />
         </Panel>
       </Collapse>
     </Space>

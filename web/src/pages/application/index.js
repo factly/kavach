@@ -17,14 +17,11 @@ function Application() {
   };
 
   const { applicationData, loadingApps, role, loadingRole } = useSelector((state) => {
+    const applicationIds = state.organisations.details[state.organisations.selected]?.applications;
     return {
-      applicationData: state.organisations.details[state.organisations.selected]?.application_ids
-        ? state.organisations.details[state.organisations.selected]?.application_ids.map(
-            (id) => state.applications.details[id],
-          )
-        : [],
+      applicationData: applicationIds.map((id) => state.applications.details[id]),
       loadingApps: state.applications.loading,
-      role: state.organisations.role,
+      role: state.organisations.details[state.organisations.selected].role,
       loadingRole: state.organisations.loading,
     };
   });

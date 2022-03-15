@@ -1,15 +1,14 @@
 import {
   ADD_APPLICATION,
   ADD_APPLICATIONS,
-  ADD_APPLICATIONS_REQUEST,
   SET_APPLICATIONS_LOADING,
   RESET_APPLICATIONS,
   ADD_SPACE_IDS,
 } from '../constants/application';
-import deepEqual from 'deep-equal';
+
+import { ADD_USER_IDS } from '../constants/applicationUser';
 
 const initialState = {
-  req: [],
   details: {},
   loading: true,
 };
@@ -19,7 +18,6 @@ export default function application(state = initialState, action = {}) {
     case RESET_APPLICATIONS:
       return {
         ...state,
-        req: [],
         details: {},
         loading: true,
       };
@@ -27,13 +25,6 @@ export default function application(state = initialState, action = {}) {
       return {
         ...state,
         loading: action.payload,
-      };
-    case ADD_APPLICATIONS_REQUEST:
-      return {
-        ...state,
-        req: state.req
-          .filter((value) => !deepEqual(value.query, action.payload.query))
-          .concat(action.payload),
       };
     case ADD_APPLICATIONS:
       return {
@@ -55,7 +46,18 @@ export default function application(state = initialState, action = {}) {
           ...state.details,
           [action.payload.id]: {
             ...state.details[action.payload.id],
-            space_ids: action.payload.space_ids,
+            spaces: action.payload.space_ids,
+          },
+        },
+      };
+    case ADD_USER_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            users: action.payload.data,
           },
         },
       };

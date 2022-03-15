@@ -4,7 +4,7 @@ import { maker } from '../../../utils/sluger';
 // import MonacoEditor from '../../../components/MonacoEditor';
 import SlugInput from '../../../components/FormItems/SlugInput';
 import { useParams, useHistory } from 'react-router-dom';
-import { addSpace } from '../../../actions/space';
+import { createSpace } from '../../../actions/space';
 import { useDispatch } from 'react-redux';
 
 function CreateSpace() {
@@ -19,7 +19,7 @@ function CreateSpace() {
   };
 
   const onSubmit = (values) => {
-    dispatch(addSpace(values, id)).then(() => {
+    dispatch(createSpace(values, id)).then(() => {
       history.push(`/applications/spaces`);
     });
   };

@@ -153,7 +153,11 @@ export const getSpaceTokens = (appID, spaceID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/spaces/${spaceID}/tokens`)
+      .get(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/spaces/${spaceID}/tokens`,
+      )
       .then((res) => {
         dispatch(addSpaceTokens(res.data));
       })
@@ -163,14 +167,19 @@ export const getSpaceTokens = (appID, spaceID) => {
       .finally(() => {
         dispatch(stopTokenLoading());
       });
-  }
-}
+  };
+};
 
-export const addSpaceToken = (data, appID, spaceID)=>{
+export const addSpaceToken = (data, appID, spaceID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .post(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/spaces/${spaceID}/tokens`,data)
+      .post(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/spaces/${spaceID}/tokens`,
+        data,
+      )
       .then(() => {
         dispatch(addSuccessNotification('Token Added Successfully'));
       })
@@ -180,14 +189,18 @@ export const addSpaceToken = (data, appID, spaceID)=>{
       .finally(() => {
         dispatch(stopTokenLoading());
       });
-  }
-}
+  };
+};
 
 export const deleteSpaceToken = (id, appID, spaceID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .delete(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/spaces/${spaceID}/tokens/${id}`)
+      .delete(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/spaces/${spaceID}/tokens/${id}`,
+      )
       .then(() => {
         dispatch(addSuccessNotification('Token Deleted Successfully'));
       })
@@ -200,11 +213,14 @@ export const deleteSpaceToken = (id, appID, spaceID) => {
   };
 };
 
-export const addApplicationToken = (appID, data)=>{
+export const addApplicationToken = (appID, data) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .post(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/tokens`, data)
+      .post(
+        `${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/tokens`,
+        data,
+      )
       .then(() => {
         dispatch(addSuccessNotification('Token Added Successfully'));
       })
@@ -215,15 +231,15 @@ export const addApplicationToken = (appID, data)=>{
         dispatch(stopTokenLoading());
       });
   };
-}
+};
 
-const addApplicationTokens = (data)=>{
+const addApplicationTokens = (data) => {
   return {
     type: ADD_APPLICATION_TOKENS,
     payload: data,
-  }
-}
-export  const getApplicationsTokens = (appID) => {
+  };
+};
+export const getApplicationsTokens = (appID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
@@ -237,14 +253,18 @@ export  const getApplicationsTokens = (appID) => {
       .finally(() => {
         dispatch(stopTokenLoading());
       });
-  }
-}
+  };
+};
 
-export const deleteApplicationToken = (appID, id) =>{
+export const deleteApplicationToken = (appID, id) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
-      .delete(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/tokens/${id}`)
+      .delete(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/tokens/${id}`,
+      )
       .then(() => {
         dispatch(addSuccessNotification('Token Deleted Successfully'));
       })
@@ -255,4 +275,4 @@ export const deleteApplicationToken = (appID, id) =>{
         dispatch(stopTokenLoading());
       });
   };
-}
+};

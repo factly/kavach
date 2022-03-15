@@ -6,6 +6,7 @@ import {
   SET_SELECTED_ORGANISATION,
   ADD_ORGANISATION_USERS,
   ADD_APPLICATION_IDS,
+  ADD_ORGANISATION_ROLE,
 } from '../constants/organisations';
 import { buildObjectOfItems } from '../utils/objects';
 
@@ -14,7 +15,6 @@ const initialState = {
   details: {},
   loading: true,
   selected: 0,
-  role: 'member',
 };
 
 export default function tagsReducer(state = initialState, action = {}) {
@@ -35,12 +35,13 @@ export default function tagsReducer(state = initialState, action = {}) {
         loading: payload,
       };
     case ADD_ORGANISATIONS:
+      const organisationData = { ...state.details, ...payload.data };
       return {
         ...state,
-        ids: payload.map((item) => item.id),
-        details: buildObjectOfItems(payload),
-        selected: payload[0].id,
-        role: payload[0].permission.role,
+        ids: Object.keys(organisationData).map((id) => parseInt(id, 10)),
+        details: organisationData,
+        selected: payload.ids[0],
+        role: organisationData[payload.ids[0]].role,
       };
     case ADD_ORGANISATION:
       return {
@@ -66,7 +67,7 @@ export default function tagsReducer(state = initialState, action = {}) {
       return {
         ...state,
         selected: payload,
-        role: state.details[payload].permission.role,
+        role: state.details[payload].role,
       };
     case ADD_APPLICATION_IDS:
       return {
@@ -75,7 +76,18 @@ export default function tagsReducer(state = initialState, action = {}) {
           ...state.details,
           [state.selected]: {
             ...state.details[state.selected],
-            application_ids: payload,
+            applications: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_ROLE:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            role: payload,
           },
         },
       };

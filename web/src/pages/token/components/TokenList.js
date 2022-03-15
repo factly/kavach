@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Skeleton } from 'antd';
+import { Popconfirm, Button, Table } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrganisationTokens } from '../../../actions/token';
@@ -37,7 +37,6 @@ export default function TokenList({ type }) {
     dispatch(getOrganisationTokens());
   };
 
-  
   React.useEffect(() => {
     fetchTokens();
     // eslint-disable-next-line
@@ -85,17 +84,17 @@ export default function TokenList({ type }) {
   ];
 
   return (
-      <Table
-        bordered
-        columns={columns}
-        dataSource={tokens}
-        rowKey={'id'}
-        style={{ width: '300px' }}
-        loading={loading}
-        style={{
-          display:'flex',
-          justifyContent: 'center'
-        }}
-      />
+    <Table
+      bordered
+      columns={columns}
+      dataSource={tokens}
+      rowKey={'id'}
+      loading={loading}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '300px',
+      }}
+    />
   );
 }

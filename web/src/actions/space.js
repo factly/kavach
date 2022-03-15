@@ -6,15 +6,17 @@ import {
   STOP_SPACES_LOADING,
   SET_SELECTED_APP,
   ADD_SPACES,
+  ADD_SPACE,
 } from '../constants/space';
 
 import { ORGANISATIONS_API } from '../constants/organisations';
 import { addErrorNotification, addSuccessNotification } from './notifications';
-import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
+import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addUsersList } from './users';
 import { ADD_SPACE_IDS } from '../constants/application';
-import { addMedia } from './media';
-export const addSpace = (data, id) => {
+import { addMedia, addMediaList } from './media';
+
+export const createSpace = (data, id) => {
   return (dispatch, getState) => {
     dispatch(loadingSpaces());
     return axios
@@ -61,7 +63,7 @@ export const getSpaces = (id) => {
           }
           deleteKeys([space], ['mobile_icon']);
           return null;
-        })
+        });
         deleteKeys(response.data, ['users']);
         dispatch(addSpaces(buildObjectOfItems(response.data)));
         const spaceIds = getIds(response.data);
@@ -69,10 +71,10 @@ export const getSpaces = (id) => {
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
-      }).finally(()=>{
-        dispatch(stopLoadingSpaces());
       })
-      ;
+      .finally(() => {
+        dispatch(stopLoadingSpaces());
+      });
   };
 };
 
@@ -154,9 +156,26 @@ const resetSpaces = () => {
   };
 };
 
-export const addSpaces = (data) => {
-  return {
+export const addSpaces = (data) => (dispatch) => {
+  dispatch(loadingSpaces());
+  const media = getValues(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon']);
+  dispatch(addMediaList(media));
+  deleteKeys(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon', 'application']);
+  const users = getValues(data, ['users']);
+  dispatch(addUsersList(users));
+  data.forEach((space) => {
+    space.users = getIds(space.users);
+  });
+  dispatch({
     type: ADD_SPACES,
+    payload: buildObjectOfItems(data),
+  });
+  dispatch(stopLoadingSpaces());
+};
+
+export const addSpace = (data) => {
+  return {
+    type: ADD_SPACE,
     payload: data,
   };
 };

@@ -16,7 +16,7 @@ export default combineReducers({
   users,
   media,
   applications,
-  applicationUsers,
+  // applicationUsers,
   notifications,
   profile,
   sidebar,

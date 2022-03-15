@@ -6,9 +6,12 @@ import {
   SET_APPLICATION_USERS_LOADING,
   RESET_APPLICATION_USERS,
   APPLICATION_USERS_API,
+  ADD_USER_IDS,
 } from '../constants/applicationUser';
+import { getIds } from '../utils/objects';
 import { addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { loadingUsers, stopUsersLoading } from './users';
 
 export const getApplications = (appID) => {
   return (dispatch, getState) => {
@@ -24,7 +27,7 @@ export const getApplications = (appID) => {
       )
       .then((response) => {
         dispatch(
-          addApplicationsList(
+          addApplicationList(
             response.data.users.map((user) => {
               return user;
             }),
@@ -140,8 +143,7 @@ export const deleteApplication = (id, appID) => {
 
 export const getApplicationUsers = (appID) => {
   return (dispatch, getState) => {
-    dispatch(loadingApplications());
-
+    dispatch(loadingUsers());
     return axios
       .get(
         APPLICATION_USERS_API +
@@ -152,11 +154,13 @@ export const getApplicationUsers = (appID) => {
           '/users',
       )
       .then((res) => {
-        dispatch(addApplicationsList({ users: res.data.users, id: appID }));
-        dispatch(stopApplicationLoading());
+        dispatch(addUserIds(getIds(res.data.applications), appID));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopUsersLoading());
       });
   };
 };
@@ -171,7 +175,7 @@ export const addApplications = (applications) => {
       ),
     );
     dispatch(
-      addApplicationsList(
+      addApplicationList(
         applications.map((application) => {
           return { ...application, medium: application.medium?.id };
         }),
@@ -195,7 +199,7 @@ export const getApplicationByID = (data) => ({
   payload: data,
 });
 
-export const addApplicationsList = (data) => ({
+export const addApplicationList = (data) => ({
   type: ADD_APPLICATION_USERS,
   payload: data,
 });
@@ -205,6 +209,13 @@ export const addApplicationsRequest = (data) => ({
   payload: data,
 });
 
+const addUserIds = (data, appID) => ({
+  type: ADD_USER_IDS,
+  payload: {
+    id: appID,
+    data: data,
+  },
+});
 export const resetApplications = () => ({
   type: RESET_APPLICATION_USERS,
 });

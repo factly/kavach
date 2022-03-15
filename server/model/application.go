@@ -17,6 +17,7 @@ type Application struct {
 	Medium         *Medium            `gorm:"foreignKey:medium_id" json:"medium"`
 	OrganisationID uint               `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation      `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
+	Spaces         []*Space           `gorm:"foreignKey:application_id" json:"spaces,omitempty"`
 	Users          []User             `gorm:"many2many:application_users;" json:"users"`
 	Tokens         []ApplicationToken `json:"tokens"`
 }

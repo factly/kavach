@@ -28,18 +28,16 @@ export default function spaces(state = initialState, action = {}) {
     case ADD_SPACE:
       return {
         ...state,
-        ids: action.payload.map((item) => item.id),
         details: action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
       };
     case ADD_SPACES:
       return {
         ...state,
-        details: action.payload,
+        details: { ...state.details, ...action.payload },
       };
     case RESET_SPACES:
       return {
         ...state,
-        ids: [],
         details: {},
         loading: true,
       };
