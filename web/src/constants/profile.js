@@ -4,6 +4,6 @@ export const ADD_PROFILE = 'ADD_PROFILE';
 export const ADD_PROFILE_DETAILS = 'ADD_PROFILE_DETAILS';
 export const ADD_INVITE = 'ADD_INVITE';
 export const DELETE_INVITE = 'DELETE_INVITE';
-
+export const ADD_ORGANISATION_IDS = 'ADD_ORGANISATION_IDS';
 //API
 export const PROFILE_API = '/profile';

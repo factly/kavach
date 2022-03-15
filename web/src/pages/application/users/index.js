@@ -13,18 +13,15 @@ function ApplicationUser({ id }) {
   const history = useHistory();
 
   const { applicationUsers, organisationUsers, loading } = useSelector((state) => {
-    const orgUserIds = state.organisations[state.organisations.selected]?.users;
-    const appUserIds = state.applications.details[id]?.users;
+    const orgUserIds = state.organisations.details[state.organisations.selected]?.users || [];
+    const appUserIds = state.applications.details[id]?.users || [];
     return {
-      applicationUsers: appUserIds.map((id) => state.users.details[id]),
-      organisationUsers: orgUserIds.map((id) => state.users.details[id]),
+      applicationUsers: appUserIds?.map((id) => state.users.details[id]),
+      organisationUsers: orgUserIds?.map((id) => state.users.details[id]),
       loading: state.users.loading,
     };
   });
-  console.log({
-    applicationUsers,
-    organisationUsers,
-  });
+
   const fetchApplications = () => {
     dispatch(getApplicationUsers(id));
   };
@@ -36,9 +33,9 @@ function ApplicationUser({ id }) {
   React.useEffect(() => {
     fetchEntities();
     fetchApplications();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
-
-  const remainingUsers = []
+  const remainingUsers = organisationUsers.filter((user) => !applicationUsers.includes(user));
   return (
     <>
       {loading ? (
@@ -53,6 +50,7 @@ function ApplicationUser({ id }) {
               dispatch(
                 addApplicationUser({ application_id: parseInt(id, 10), user_id: values.user_id }),
               ).then(() => {
+                dispatch(getApplicationUsers(id));
                 setFlag((prev) => !prev);
                 history.push(`/applications/${id}/edit`);
               });

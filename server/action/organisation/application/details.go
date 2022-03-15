@@ -64,7 +64,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	err = model.DB.Where(&model.Application{
 		OrganisationID: uint(oID),
-	}).Preload("Medium").Preload("Tokens").First(&result).Error
+	}).Preload("Medium").Preload("Tokens").Preload("Users").First(&result).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))

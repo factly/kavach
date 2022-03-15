@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Input, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOrganisation } from './../../actions/organisations';
+import { addOrganisation, getOrganisations } from './../../actions/organisations';
 import { useHistory } from 'react-router-dom';
 import { maker, checker } from '../../utils/sluger';
 import MediaSelector from '../../components/MediaSelector';
@@ -31,7 +31,7 @@ function OrganisationCreate() {
             form={form}
             name="organisation_create"
             layout="vertical"
-            onFinish={(values) => dispatch(addOrganisation(values)).then(history.push('/settings'))}
+            onFinish={(values) => dispatch(addOrganisation(values)).then(dispatch(getOrganisations())).then(history.push('/settings'))}
             style={{
               width: '400px',
             }}

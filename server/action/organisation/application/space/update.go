@@ -90,7 +90,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"slug":           space.Slug,
 		"site_title":     space.SiteTitle,
 		"tag_line":       space.TagLine,
-		"site_addres":    space.SiteAddress,
+		"site_address":    space.SiteAddress,
 		"description":    space.Description,
 		"logo_id":        space.LogoID,
 		"logo_mobile_id": space.LogoMobileID,

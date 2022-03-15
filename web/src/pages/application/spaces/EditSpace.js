@@ -19,10 +19,10 @@ function EditSpace() {
       loading: state.spaces.loading,
     };
   });
-
+  console.log(space);
   const handleFinish = (values) => {
-    dispatch(editSpace(id, space.application.id, values)).then(() => {
-      history.push(`/applications/${space.application.id}/spaces/${space.id}/edit`);
+    dispatch(editSpace(id, space.application_id, values)).then(() => {
+      history.push(`/applications/${space.application_id}/spaces/${space.id}/edit`);
     });
   };
 

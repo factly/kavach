@@ -3,7 +3,6 @@ import { ADD_ORGANISATION_USERS, ADD_ORGANISATION_ROLE } from '../constants/orga
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
 import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
 import { addErrorNotification, addSuccessNotification } from './notifications';
-import { loadingOrganisations, stopOrganisationsLoading } from './organisations';
 
 export const getUsers = () => {
   return (dispatch, getState) => {

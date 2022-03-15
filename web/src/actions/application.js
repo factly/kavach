@@ -12,7 +12,6 @@ import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/obje
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 import { addSpaces } from './space';
-import { addUsersList } from './users';
 
 export const getApplications = () => {
   return (dispatch, getState) => {
@@ -74,7 +73,12 @@ export const getApplication = (id) => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then((response) => {
-        addApplicationList(response.data);
+        if(response.data.medium_id){
+          dispatch(addMedia(response.data.medium))
+        }
+        deleteKeys([response.data], ['medium'])
+        response.data.users = getIds(response.data.users)
+        addApplication(response.data);
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -85,7 +89,7 @@ export const getApplication = (id) => {
   };
 };
 
-export const addApplication = (data) => {
+export const createApplication = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
@@ -101,6 +105,7 @@ export const addApplication = (data) => {
 };
 
 export const updateApplication = (data) => {
+  console.log('update user calledz')
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
@@ -109,14 +114,22 @@ export const updateApplication = (data) => {
         data,
       )
       .then((response) => {
-        if (response.data.medium) dispatch(addMediaList([response.data.medium]));
-        dispatch(getApplicationByID({ ...response.data, medium: response.data.medium?.id }));
-        dispatch(stopApplicationLoading());
+        console.log(response.data)
+        if(response.data.medium_id){
+          dispatch(addMedia(response.data.medium))
+        }
+        deleteKeys([response.data], ['medium'])
+        response.data.users = getIds(response.data.users)
+        dispatch(addApplication(response.data));
         dispatch(addSuccessNotification('Application Updated'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
-      });
+      })
+      .finally(()=>{
+        dispatch(stopApplicationLoading());
+      })
+      ;
   };
 };
 
@@ -173,6 +186,7 @@ export const addApplicationList = (data) => (dispatch) => {
   dispatch(loadingApplications());
   const medium = getValues(data, 'medium');
   dispatch(addMediaList(medium));
+  deleteKeys(data, ['medium'])
   const spaces = getValues(data, 'spaces');
   dispatch(addSpaces(spaces));
   data.forEach((application) => {
@@ -199,3 +213,8 @@ export const addApplicationIds = (data) => ({
   type: ADD_APPLICATION_IDS,
   payload: data,
 });
+
+export const addApplication = (data) => ({
+  type: ADD_APPLICATION,
+  payload: data
+})

@@ -4,6 +4,7 @@ import {
   ADD_INVITE,
   DELETE_INVITE,
   ADD_PROFILE_DETAILS,
+  ADD_ORGANISATION_IDS,
 } from '../constants/profile';
 
 const initialState = {
@@ -38,6 +39,14 @@ export default function profileReducer(state = initialState, action = {}) {
       return {
         ...state,
       };
+    case ADD_ORGANISATION_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          organisations: action.payload,
+        },
+      }
     default:
       return state;
   }

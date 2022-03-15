@@ -18,24 +18,23 @@ function Spaces() {
   };
 
   const { applications, selectedApp, loading, role } = useSelector((state) => {
+    const appIds = state.organisations.details[state.organisations.selected]?.applications;
     return {
-      applications: state.organisations.details[state.organisations.selected]?.application_ids
-        ? state.organisations.details[state.organisations.selected]?.application_ids.map(
+      applications: appIds.map(
             (id) => state.applications.details[id],
-          )
-        : [],
+          ),
       selectedApp: state.spaces.selected,
       loading: state.applications.loading,
-      role: state.organisations.role,
+      role: state.organisations.details[state.organisations.selected].role,
       loadingRole: state.organisations.loading,
     };
   });
+
   const [appID, setappID] = React.useState(loading ? null : selectedApp);
   const onApplicationChange = (value, key) => {
     setappID(parseInt(key.key, 10));
     dispatch(setSelectedApp(parseInt(key.key, 10)));
   };
-
   return (
     <Space direction="vertical">
       {loading ? (

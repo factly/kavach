@@ -116,7 +116,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		Description: app.Description,
 		URL:         app.URL,
 		MediumID:    mediumID,
-	}).Preload("Medium").First(&result).Error
+	}).Preload("Medium").Preload("Users").First(&result).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)

@@ -65,10 +65,10 @@ func list(w http.ResponseWriter, r *http.Request) {
 		ApplicationID:  &appID,
 		OrganisationID: uint(oID),
 	}).Preload("Application").Preload("Logo").Preload("LogoMobile").Preload("FavIcon").Preload("MobileIcon").Preload("Users").Find(&spaces).Error
-	
 	filteredSpaces := make([]model.Space, 0)
-	for _, space := range spaces {	
-		for _, user := range space.Users{
+
+	for _, space := range spaces {
+		for _, user := range space.Users {
 			if user.ID == uint(uID) {
 				filteredSpaces = append(filteredSpaces, space)
 			}

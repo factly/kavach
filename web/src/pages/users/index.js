@@ -13,7 +13,7 @@ function OrganisationUsers() {
     return {
       users: organisationDetails?.users?.map((id) => ({
         ...state.users.details[id],
-        role: state.organisations.details[state.organisations.selected].roles[id],
+        role: state.organisations.details[state.organisations.selected]?.roles[id],
       })),
       role: state.organisations.details[state.organisations.selected].role,
       loading: state.users.loading,

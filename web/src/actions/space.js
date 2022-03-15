@@ -14,7 +14,7 @@ import { addErrorNotification, addSuccessNotification } from './notifications';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addUsersList } from './users';
 import { ADD_SPACE_IDS } from '../constants/application';
-import { addMedia, addMediaList } from './media';
+import {  addMediaList } from './media';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
@@ -37,37 +37,15 @@ export const createSpace = (data, id) => {
 
 export const getSpaces = (id) => {
   return (dispatch, getState) => {
-    dispatch(resetSpaces());
+    dispatch(loadingSpaces());
     return axios
       .get(
         `${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${id}${SPACES_API}`,
       ) // eslint-disable-next-line
       .then((response) => {
-        response.data.map((space) => {
-          space.user_ids = getIds(space.users);
-          dispatch(addUsersList(buildObjectOfItems(space.users)));
-          if (space.logo_id !== null) {
-            dispatch(addMedia(space.logo));
-          }
-          deleteKeys([space], ['logo']);
-          if (space.logo_mobile_id !== null) {
-            dispatch(addMedia(space.logo_mobile));
-          }
-          deleteKeys([space], ['logo_mobile']);
-          if (space.fav_icon_id !== null) {
-            dispatch(addMedia(space.fav_icon));
-          }
-          deleteKeys([space], ['fav_icon']);
-          if (space.mobile_icon_id !== null) {
-            dispatch(addMedia(space.mobile_icon));
-          }
-          deleteKeys([space], ['mobile_icon']);
-          return null;
-        });
-        deleteKeys(response.data, ['users']);
-        dispatch(addSpaces(buildObjectOfItems(response.data)));
-        const spaceIds = getIds(response.data);
-        dispatch(addSpaceIds(spaceIds, id));
+        deleteKeys(response.data, ['application']);
+        dispatch(addSpaces(response.data));
+        // dispatch(addSpaceIds(getIds(response.data), id));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

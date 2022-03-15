@@ -8,14 +8,10 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 function UserList({ id, flag, users, total }) {
   const dispatch = useDispatch();
-  const fetchApplications = () => {
-    dispatch(getApplicationUsers(id));
-  };
 
   React.useEffect(() => {
-    fetchApplications();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, flag]);
+  }, [flag]);
 
   const columns = [
     { title: 'First Name', dataIndex: 'first_name', key: 'name' },
@@ -38,7 +34,7 @@ function UserList({ id, flag, users, total }) {
             <Popconfirm
               title="Sure to Delete?"
               onConfirm={() => {
-                dispatch(deleteApplication(id, record.id));
+                dispatch(deleteApplication(id, record.id)).then(dispatch(getApplicationUsers(id)));
               }}
             >
               <Link to="" className="ant-dropdown-link">

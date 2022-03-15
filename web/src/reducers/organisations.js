@@ -59,7 +59,7 @@ export default function tagsReducer(state = initialState, action = {}) {
           ...state.details,
           [state.selected]: {
             ...state.details[state.selected],
-            user_ids: payload,
+            users: payload,
           },
         },
       };

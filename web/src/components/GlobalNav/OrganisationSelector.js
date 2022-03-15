@@ -9,11 +9,11 @@ function OrganisationSelector() {
   const { organisations, selected } = useSelector((state) => {
     const organisationIds = state.profile.details?.organisations || [];
     return {
-      organisations: organisationIds.map((id) => state.organisations.details[id]),
+      organisations: organisationIds?.map((id) => state.organisations.details[id]) || [],
       selected: state.organisations.selected,
     };
   });
-
+  
   React.useEffect(() => {
     setSelectorState(list.some((item) => window.location.pathname.includes(item)));
   }, [selectorState, list]);
