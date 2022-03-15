@@ -46,6 +46,7 @@ export const getOrganisation = (id) => {
         response.data.organisation_users.map((item) => {
           users.push(item.user);
           response.data.roles[item.user.id] = item.role;
+          return null
         });
         response.data.role = response.data.permission.role
         deleteKeys([response.data], ['permission', 'organisation_users']);
@@ -147,6 +148,7 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
         organisation.role = item.role;
       }
       organisation.roles[item.user.id] = item.role;
+      return null
     });
     dispatch(addUsersList(users));
     organisation.users = getIds(users);

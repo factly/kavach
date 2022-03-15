@@ -8,7 +8,6 @@ import {
   ADD_APPLICATION_IDS,
   ADD_ORGANISATION_ROLE,
 } from '../constants/organisations';
-import { buildObjectOfItems } from '../utils/objects';
 
 const initialState = {
   ids: [],

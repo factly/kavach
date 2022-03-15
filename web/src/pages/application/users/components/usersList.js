@@ -1,7 +1,7 @@
 import React from 'react';
 import { Popconfirm, Button, Table, Space } from 'antd';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteApplication, getApplicationUsers } from '../../../../actions/applicationUsers';
 import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';

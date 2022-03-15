@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {
   SET_SPACES_LOADING,
-  RESET_SPACES,
   SPACES_API,
   STOP_SPACES_LOADING,
   SET_SELECTED_APP,
@@ -13,7 +12,6 @@ import { ORGANISATIONS_API } from '../constants/organisations';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addUsersList } from './users';
-import { ADD_SPACE_IDS } from '../constants/application';
 import {  addMediaList } from './media';
 
 export const createSpace = (data, id) => {
@@ -45,7 +43,6 @@ export const getSpaces = (id) => {
       .then((response) => {
         deleteKeys(response.data, ['application']);
         dispatch(addSpaces(response.data));
-        // dispatch(addSpaceIds(getIds(response.data), id));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -115,22 +112,6 @@ export const setSelectedApp = (data) => {
   return {
     type: SET_SELECTED_APP,
     payload: data,
-  };
-};
-
-const addSpaceIds = (data, id) => {
-  return {
-    type: ADD_SPACE_IDS,
-    payload: {
-      id: id,
-      space_ids: data,
-    },
-  };
-};
-
-const resetSpaces = () => {
-  return {
-    type: RESET_SPACES,
   };
 };
 

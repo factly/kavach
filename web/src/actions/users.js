@@ -87,6 +87,7 @@ export const addOrganisationRole = (data) => (dispatch) => {
   const orgRole = {};
   data.map((user) => {
     orgRole[user.id] = user.permission.role;
+    return null
   });
   return {
     type: ADD_ORGANISATION_ROLE,

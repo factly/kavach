@@ -6,7 +6,6 @@ import {
   ADD_SPACE_TOKENS,
   DELETE_SPACE_TOKEN,
   SET_TOKENS_LOADING,
-  STOP_TOKENS_LOADING,
 } from '../constants/token';
 
 const initialState = {
