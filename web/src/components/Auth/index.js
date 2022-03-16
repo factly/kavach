@@ -75,9 +75,11 @@ function Auth(props) {
         }
       })
       .catch((err) => {
-        console.log({ err: err.message });
-        console.log({ err });
-        window.location.href = selfServiceURL;
+        if(err.message === '404'){
+          window.location.href = selfServiceURL;
+        }else{  
+          window.location.href = window.PUBLIC_URL + '/error';
+        }
       });
   }, [props.flow, afterVerificationURL]);
 
