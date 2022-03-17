@@ -85,12 +85,25 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
+	if *space.LogoID == 0 {
+		space.LogoID = nil
+	}
+	if *space.LogoMobileID == 0 {
+		space.LogoID = nil
+	}
+	if *space.FavIconID == 0 {
+		space.LogoID = nil
+	}
+	if *space.MobileIconID == 0 {
+		space.LogoID = nil
+	}
 	updateMap := map[string]interface{}{
 		"name":           space.Name,
 		"slug":           space.Slug,
 		"site_title":     space.SiteTitle,
 		"tag_line":       space.TagLine,
-		"site_address":    space.SiteAddress,
+		"site_address":   space.SiteAddress,
 		"description":    space.Description,
 		"logo_id":        space.LogoID,
 		"logo_mobile_id": space.LogoMobileID,

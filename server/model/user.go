@@ -23,7 +23,7 @@ type User struct {
 	Medium           *Medium        `gorm:"foreignKey:featured_medium_id" json:"medium"`
 	SocialMediaURLs  postgres.Jsonb `gorm:"column:social_media_urls" json:"social_media_urls" swaggertype:"primitive,string"`
 	Description      string         `gorm:"column:description" json:"description"`
-	Organisations    *[]Organisation `gorm:"many2many:organisation_users;" json:"organisations"`
+	Organisations    []Organisation `gorm:"many2many:organisation_users;" json:"organisations"`
 }
 
 // BeforeUpdate - validation for medium

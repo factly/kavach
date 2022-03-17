@@ -116,7 +116,6 @@ export const setSelectedApp = (data) => {
 };
 
 export const addSpaces = (data) => (dispatch) => {
-  dispatch(loadingSpaces());
   const media = getValues(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon']);
   dispatch(addMediaList(media));
   deleteKeys(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon', 'application']);
@@ -129,7 +128,6 @@ export const addSpaces = (data) => (dispatch) => {
     type: ADD_SPACES,
     payload: buildObjectOfItems(data),
   });
-  dispatch(stopLoadingSpaces());
 };
 
 export const addSpace = (data) => {

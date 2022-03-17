@@ -6,7 +6,6 @@ import {
   ProfileOutlined,
   SendOutlined,
   ApartmentOutlined,
-  PoundCircleOutlined,
 } from '@ant-design/icons';
 
 //Pages
@@ -26,7 +25,6 @@ import CreateSpace from '../pages/application/spaces/CreateSpace';
 import EditSpace from '../pages/application/spaces/EditSpace';
 import Spaces from '../pages/application/spaces/index';
 import SpaceUser from '../pages/application/spaces/users';
-import Token from '../pages/token';
 
 export default [
   {
@@ -148,13 +146,5 @@ export default [
     enableNavigation: false,
     title: 'SpaceUsers',
     enableBreadcrumb: true,
-  },
-  {
-    path: '/tokens',
-    Component: Token,
-    enableNavigation: true,
-    title: 'Tokens',
-    enableBreadcrumb: true,
-    Icon: PoundCircleOutlined,
   },
 ];

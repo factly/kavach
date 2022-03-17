@@ -59,7 +59,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	space.CreatedByID = uint(uID)
-	space.ApplicationID = &appID
+	space.ApplicationID = appID
 	space.OrganisationID = uint(oID)
 
 	validationError := validationx.Check(space)

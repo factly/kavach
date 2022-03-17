@@ -12,9 +12,6 @@ const options = {
 module.exports = function override(config, env) {
   config.plugins.push(
     new AntDesignThemePlugin(options),
-    // new MonacoWebpackPlugin({
-    //   languages: ['json', 'html'],
-    // }),
   );
   return config;
 };

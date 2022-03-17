@@ -58,6 +58,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		for _, user := range app.Users{
 			if user.ID == uint(uID) {
 				filteredApps = append(filteredApps, app)
+				break
 			}
 		}
 	}

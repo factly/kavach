@@ -29,16 +29,9 @@ type Space struct {
 	FooterCode        string         `gorm:"column:footer_code" json:"footer_code"`
 	MetaFields        postgres.Jsonb `gorm:"column:meta_fields" json:"meta_fields" swaggertype:"primitive,string"`
 	OrganisationID    uint           `gorm:"column:organisation_id" json:"organisation_id"`
-	ApplicationID     *uint          `gorm:"column:application_id;default:NULL" json:"application_id"`
+	Organisation      *Organisation  `gorm:"foreignKey:organisation_id" json:"organisation"`
+	ApplicationID     uint           `gorm:"column:application_id" json:"application_id"`
 	Application       *Application   `gorm:"foreignKey:application_id" json:"application"`
 	Users             []User         `gorm:"many2many:space_users;" json:"users"`
 }
 
-type SpaceToken struct {
-	Base
-	Name        string `gorm:"column:name" json:"name"`
-	Description string `gorm:"column:description" json:"description"`
-	SpaceID     *uint  `gorm:"column:space_id" json:"space_id"`
-	Space       *Space `gorm:"foreignKey:space_id" json:"space"`
-	Token       string `gorm:"column:token" json:"token"`
-}

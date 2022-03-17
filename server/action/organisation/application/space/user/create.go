@@ -1,11 +1,11 @@
 package user
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
 	"strconv"
+
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
@@ -48,14 +48,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	applicationID := chi.URLParam(r, "application_id")
-	appID, err := strconv.Atoi(applicationID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	sID := chi.URLParam(r, "space_id")
 	spaceID, err := strconv.Atoi(sID)
 	if err != nil {
@@ -84,43 +76,31 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, validationError)
 		return
 	}
-	// check if the user is part of application or not
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
-	app := &model.Application{}
-	err = tx.Model(&model.Application{}).Where(&model.Application{
+	// check if the user is part of space or not
+	tx := model.DB.Begin()
+	space := &model.Space{}
+	err = tx.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{
-			ID: uint(appID),
+			ID: uint(spaceID),
 		},
-	}).Preload("Users").Find(&app).Error
+	}).Preload("Users").Find(&space).Error
 
 	if err != nil {
 		loggerx.Error(err)
-		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
 	flag := false
-	for _, user := range app.Users {
+	for _, user := range space.Users {
 		if user.ID == uint(userID) {
 			flag = true
+			break
 		}
 	}
 
 	if !flag {
-		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
-	space := model.Space{}
-	space.ID = uint(spaceID)
-	// Check if space exists
-	err = tx.Model(&model.Space{}).Preload("Users").First(&space).Error
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 

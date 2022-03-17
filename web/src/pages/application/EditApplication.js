@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ApplicationUsers from './users/index';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
+import GetApplication from './GetApplication';
 
 function EditApplication() {
   const history = useHistory();
@@ -56,6 +57,11 @@ function EditApplication() {
       <Collapse defaultActiveKey="3">
         <Panel header="Users" key="3">
           <ApplicationUsers id={id} />
+        </Panel>
+      </Collapse>
+      <Collapse defaultActiveKey="2">
+        <Panel header="Tokens" key="2">
+          <GetApplication setTokenFlag={setTokenFlag} data={application} />
         </Panel>
       </Collapse>
     </Space>

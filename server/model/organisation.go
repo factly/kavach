@@ -14,8 +14,8 @@ type Organisation struct {
 	Description       string              `gorm:"column:description" json:"description"`
 	FeaturedMediumID  *uint               `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
 	Medium            *Medium             `gorm:"foreignKey:featured_medium_id" json:"medium"`
-	Applications      *[]Application      `gorm:"foreignKey:organisation_id" json:"applications"`
-	OrganisationUsers *[]OrganisationUser `gorm:"foreignKey:organisation_id" json:"organisation_users"`
+	Applications      []Application      `gorm:"foreignKey:organisation_id" json:"applications"`
+	OrganisationUsers []OrganisationUser `gorm:"foreignKey:organisation_id" json:"organisation_users"`
 }
 
 // OrganisationUser model definition
@@ -32,7 +32,7 @@ type OrganisationToken struct {
 	Base
 	Name           string        `gorm:"column:name" json:"name"`
 	Description    string        `gorm:"column:description" json:"description"`
-	OrganisationID *uint         `gorm:"column:organisation_id" json:"organisation_id"`
+	OrganisationID uint         `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation"`
 	Token          string        `gorm:"column:token" json:"token"`
 }

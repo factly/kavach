@@ -1,7 +1,6 @@
-package application
+package space
 
 import (
-	"context"
 	"net/http"
 	"strconv"
 
@@ -12,26 +11,19 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// details - Get application by id
-// @Summary Show a application by id
-// @Description Get application by ID
-// @Tags OrganisationApplications
-// @ID get-organisation-application-by-id
+// details - Get space by id
+// @Summary Show a space by id
+// @Description Get space by ID
+// @Tags Spaces
+// @ID get-organisation-application-space-by-id
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param application_id path string true "Application ID"
-// @Success 200 {object} model.Application
-// @Router /organisations/{organisation_id}/applications/{application_id} [get]
+// @Param application_id path string true "Space ID"
+// @Success 200 {object} model.Space
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id} [get]
 func details(w http.ResponseWriter, r *http.Request) {
-	applicationID := chi.URLParam(r, "application_id")
-	appID, err := strconv.Atoi(applicationID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		loggerx.Error(err)
@@ -39,24 +31,30 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user is part of application or not
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
-	app := &model.Application{}
-	err = tx.Model(&model.Application{}).Where(&model.Application{
+	spaceID := chi.URLParam(r, "space_id")
+	sID, err := strconv.Atoi(spaceID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+	// check if the user is part of space or not
+	space := &model.Space{}
+	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{
-			ID: uint(appID),
+			ID: uint(sID),
 		},
-	}).Preload("Users").Preload("Spaces").Preload("Tokens").Find(&app).Error
+	}).Preload("Users").Preload("Logo").Preload("LogoMobile").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").
+		Find(&space).Error
 
 	if err != nil {
 		loggerx.Error(err)
-		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
 	flag := false
-	for _, user := range app.Users {
+	for _, user := range space.Users {
 		if user.ID == uint(uID) {
 			flag = true
 			break
@@ -64,10 +62,9 @@ func details(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !flag {
-		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	renderx.JSON(w, http.StatusOK, app)
+	renderx.JSON(w, http.StatusOK, space)
 }

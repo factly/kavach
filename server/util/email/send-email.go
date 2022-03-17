@@ -41,6 +41,5 @@ func SendmailwithSendGrid(data MailReceiver) error {
 		log.Println(err)
 		return err
 	}
-	log.Println("Email sent successfully")
 	return nil
 }
