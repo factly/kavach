@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Form, Input, Card } from 'antd';
 import { maker } from '../../../utils/sluger';
-// import MonacoEditor from '../../../components/MonacoEditor';
 import SlugInput from '../../../components/FormItems/SlugInput';
 import { useParams, useHistory } from 'react-router-dom';
 import { createSpace } from '../../../actions/space';
@@ -66,13 +65,6 @@ function CreateSpace() {
           <Form.Item name="tag_line" label="Tag Line">
             <Input placeholder="Tag Line" />
           </Form.Item>
-          {/* 
-          <Form.Item name="description" label="Description">
-            <Input.TextArea placeholder="Enter description..." />
-          </Form.Item> 
-          <Form.Item name="meta_fields" label="Metafields">
-            <MonacoEditor language="json"/>
-          </Form.Item> */}
           <Form.Item>
             <Button type="primary" htmlType="submit" block>
               Submit
