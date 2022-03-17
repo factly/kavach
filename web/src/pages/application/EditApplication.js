@@ -15,6 +15,7 @@ function EditApplication() {
   const { id } = useParams();
   const { Panel } = Collapse;
   const dispatch = useDispatch();
+  const [tokenFlag, setTokenFlag] = React.useState(false);
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
@@ -26,7 +27,7 @@ function EditApplication() {
 
   React.useEffect(() => {
     dispatch(getApplication(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, tokenFlag]);
 
   if (loadingApp || loadingRole) return <Skeleton />;
 
