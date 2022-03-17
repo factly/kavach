@@ -21,27 +21,27 @@ services:
   ###########################################################################
   #######                         IMGPROXY                            #######
   ###########################################################################
-  # imgproxy:
-  #   image: darthsim/imgproxy:v2.15.0
-  #   ports:
-  #     - 8080:8080
-  #   environment:
-  #     - IMGPROXY_BASE_URL=http://minio:9000/
-  #     - IMGPROXY_TTL=31536000
-  #   networks:
-  #     - kavach
+  imgproxy:
+    image: darthsim/imgproxy:v2.15.0
+    ports:
+      - 8080:8080
+    environment:
+      - IMGPROXY_BASE_URL=http://minio:9000/
+      - IMGPROXY_TTL=31536000
+    networks:
+      - kavach
 
-  # nginx:
-  #   image: nginx:1.19.0-alpine
-  #   ports:
-  #     - 7001:80
-  #   volumes:
-  #     - ./nginx:/etc/nginx/conf.d
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - imgproxy
-  #   networks:
-  #     - kavach
+  nginx:
+    image: nginx:1.19.0-alpine
+    ports:
+      - 7001:80
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    restart: unless-stopped
+    depends_on:
+      - imgproxy
+    networks:
+      - kavach
 
   ###########################################################################
   #######             UPLOAD SERVICES                                 #######
