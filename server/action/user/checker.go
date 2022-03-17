@@ -38,7 +38,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 
 	identity := payload.Extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
-	_, ok := traits["name"]
+	_, ok := traits["name"].(string)
 	var firstName, lastName string
 	if ok {
 		name := traits["name"].(map[string]interface{})
