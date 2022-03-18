@@ -38,12 +38,18 @@ func checker(w http.ResponseWriter, r *http.Request) {
 
 	identity := payload.Extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
-	_, ok := traits["name"].(string)
+	name, ok := traits["name"].(map[string]interface{})
+	fmt.Println("this is okay", ok)
 	var firstName, lastName string
 	if ok {
-		name := traits["name"].(map[string]interface{})
-		firstName = name["first"].(string)
-		lastName = name["last"].(string)
+		_, ok = name["first"].(string)
+		if ok {
+			firstName = name["first"].(string)
+		}
+		_, ok = name["last"].(string)
+		if ok {
+			lastName = name["last"].(string)
+		}
 	}
 
 	user := model.User{

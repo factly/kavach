@@ -87,6 +87,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
@@ -105,15 +106,14 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 	updateUser["id"] = me.ID
 
-	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&me).Error
-
+	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&updateUser).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-
 	tx.Commit()
-	renderx.JSON(w, http.StatusOK, me)
+	updateUser["birth_date"] = req.BirthDate
+	renderx.JSON(w, http.StatusOK, updateUser)
 }
