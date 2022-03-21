@@ -25,7 +25,7 @@ const AccountMenu = () => {
   }, [dispatch]);
 
   const handleLogout = () => {
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
+    fetch(process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
       credentials: 'include',
     })
       .then((res) => {

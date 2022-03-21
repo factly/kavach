@@ -17,9 +17,9 @@ function Recovery() {
         obj[temp[0]] = temp[1];
       });
     if (!obj['flow']) {
-      window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/browser';
+      window.location.href = process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/browser';
     }
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/flows?id=' + obj['flow'])
+    fetch(process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/flows?id=' + obj['flow'])
       .then((res) => {
         if (res.status === 200) {
           return res.json();
