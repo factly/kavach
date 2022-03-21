@@ -17,11 +17,6 @@ function Auth(props) {
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
   var afterVerificationURL = localStorage.getItem('returnTo') || null;
 
-  console.log('process.env.REACT_APP_KRATOS_PUBLIC_URL',process.env.REACT_APP_KRATOS_PUBLIC_URL)
-  console.log('process.env.PUBLIC_URL',process.env.PUBLIC_URL)
-  console.log('process.env.REACT_APP_API_URL',process.env.REACT_APP_API_URL) 
-  console.log('process.env.REACT_APP_COMPANION_URL',process.env.REACT_APP_COMPANION_URL)
-
   React.useEffect(() => {
     var obj = {};
 
@@ -37,25 +32,25 @@ function Auth(props) {
     const selfServiceURL =
       props.flow === 'login'
         ? returnTo
-          ? process.env.REACT_APP_KRATOS_PUBLIC_URL +
+          ? window.REACT_APP_KRATOS_PUBLIC_URL +
             '/self-service/' +
             props.flow +
             '/browser?return_to=' +
             returnTo
-          : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
+          : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
         : afterVerificationURL
-        ? process.env.REACT_APP_KRATOS_PUBLIC_URL +
+        ? window.REACT_APP_KRATOS_PUBLIC_URL +
           '/self-service/' +
           props.flow +
           '/browser?after_verification_return_to=' +
           afterVerificationURL
-        : process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+        : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     } else {
       fetch(
-        process.env.REACT_APP_KRATOS_PUBLIC_URL +
+        window.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/flows' +
@@ -69,7 +64,7 @@ function Auth(props) {
           if (res.status === 200) {
             return res.json();
           } else {
-            throw new Error(res);
+            throw new Error(res.json());
           }
         })
         .then((res) => {
@@ -81,7 +76,7 @@ function Auth(props) {
         })
         .catch((err) => {
           console.log({ msg: err.message, err })  
-          window.location.href = process.env.PUBLIC_URL + '/error';
+          window.location.href = window.PUBLIC_URL + '/error';
         });
     }
   }, [props.flow, afterVerificationURL]);

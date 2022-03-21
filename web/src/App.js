@@ -18,12 +18,6 @@ function App() {
     };
   });
 
-  console.log('App.js process.env.PUBLIC_URL', process.env.PUBLIC_URL);
-  console.log('App.js process.env.REACT_APP_PUBLIC_PATH_PRODUCTION', process.env.REACT_APP_PUBLIC_PATH_PRODUCTION);
-  console.log('App.js process.env.REACT_APP_KRATOS_PUBLIC_URL',process.env.REACT_APP_KRATOS_PUBLIC_URL)
-  console.log('App.js process.env.REACT_APP_API_URL',process.env.REACT_APP_API_URL) 
-  console.log('App.js process.env.REACT_APP_COMPANION_URL',process.env.REACT_APP_COMPANION_URL)
-
 
   return (
     <div className="App">
