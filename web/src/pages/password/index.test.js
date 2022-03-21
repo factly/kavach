@@ -84,7 +84,7 @@ describe('password component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/settings/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
           ],
@@ -113,13 +113,13 @@ describe('password component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/settings/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
           ],
         ]);
         expect(window.location.href).toBe(
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser',
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser',
         );
         done();
       }, 0);
@@ -139,14 +139,14 @@ describe('password component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/settings/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
           ],
-          [process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + undefined],
+          [window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + undefined],
         ]);
         expect(window.location.href).toBe(
-          process.env.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser',
+          window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/browser',
         );
         done();
       }, 0);
@@ -227,7 +227,7 @@ describe('password component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/settings/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
           ],
@@ -310,7 +310,7 @@ describe('password component', () => {
       setTimeout(() => {
         expect(fetch.mock.calls).toEqual([
           [
-            process.env.REACT_APP_KRATOS_PUBLIC_URL +
+            window.REACT_APP_KRATOS_PUBLIC_URL +
               '/self-service/settings/flows?id=' +
               '8060d57f-5c69-402f-9ecd-073e283f632a',
           ],
