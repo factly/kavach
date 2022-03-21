@@ -6,7 +6,7 @@ const options = {
   stylesDir: path.join(__dirname, './src/styles'),
   varFile: path.join(__dirname, './src/styles/variables.less'),
   themeVariables: ['@primary-color', '@link-color'],
-  publicPath: process.env.NODE_ENV === 'production' ? 'kavach.factly.org' : '/.factly/kavach/web/',
+  publicPath: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PUBLIC_PATH_PRODUCTION : process.env.REACT_APP_PUBLIC_PATH_DEVELOPMENT,
   indexFileName: 'index.html',
 };
 module.exports = function override(config, env) {
