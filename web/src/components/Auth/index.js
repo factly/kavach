@@ -17,6 +17,11 @@ function Auth(props) {
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
   var afterVerificationURL = localStorage.getItem('returnTo') || null;
 
+  console.log('process.env.REACT_APP_KRATOS_PUBLIC_URL',process.env.REACT_APP_KRATOS_PUBLIC_URL)
+  console.log('process.env.PUBLIC_URL',process.env.PUBLIC_URL)
+  console.log('process.env.REACT_APP_API_URL',process.env.REACT_APP_API_URL) 
+  console.log('process.env.REACT_APP_COMPANION_URL',process.env.REACT_APP_COMPANION_URL)
+
   React.useEffect(() => {
     var obj = {};
 
@@ -48,39 +53,37 @@ function Auth(props) {
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
-    }
-    fetch(
-      process.env.REACT_APP_KRATOS_PUBLIC_URL +
+    } else {
+      fetch(
+        process.env.REACT_APP_KRATOS_PUBLIC_URL +
         '/self-service/' +
         props.flow +
         '/flows' +
         '?id=' +
         obj['flow'],
-      {
-        credentials: 'include',
-      },
-    )
-      .then((res) => {
-        if (res.status === 200) {
-          return res.json();
-        } else {
-          throw new Error(res.status);
-        }
-      })
-      .then((res) => {
-        setUI(res.ui);
-        setaal2(res.requested_aal === 'aal2');
-        if (props.flow === 'login') {
-          localStorage.setItem('returnTo', res.return_to);
-        }
-      })
-      .catch((err) => {
-        if(err.message === '404'){
-          window.location.href = selfServiceURL;
-        }else{  
+        {
+          credentials: 'include',
+        },
+      )
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+            throw new Error(res);
+          }
+        })
+        .then((res) => {
+          setUI(res.ui);
+          setaal2(res.requested_aal === 'aal2');
+          if (props.flow === 'login') {
+            localStorage.setItem('returnTo', res.return_to);
+          }
+        })
+        .catch((err) => {
+          console.log({ msg: err.message, err })  
           window.location.href = process.env.PUBLIC_URL + '/error';
-        }
-      });
+        });
+    }
   }, [props.flow, afterVerificationURL]);
 
   const withPassword = (values) => {
