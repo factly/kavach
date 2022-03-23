@@ -19,7 +19,7 @@ type user struct {
 	LastName         string         `json:"last_name"`
 	DisplayName      string         `json:"display_name"`
 	Slug             string         `json:"slug"`
-	BirthDate        string         `json:"birth_date"`
+	BirthDate        time.Time      `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
@@ -72,17 +72,10 @@ func update(w http.ResponseWriter, r *http.Request) {
 	} else {
 		userSlug = req.Slug
 	}
-	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
-		return
-	}
+
 	updateUser := map[string]interface{}{
 		"first_name":         req.FirstName,
 		"last_name":          req.LastName,
-		"birth_date":         birthDate,
 		"slug":               userSlug,
 		"gender":             req.Gender,
 		"featured_medium_id": req.FeaturedMediumID,
@@ -90,6 +83,18 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"social_media_urls":  req.SocialMediaURLs,
 		"display_name":       req.DisplayName,
 		"meta":               req.Meta,
+	}
+
+	if !req.BirthDate.IsZero() {
+		birthDate := me.BirthDate.Format("2006-01-02") // format birth_date to YYYY-MM-DD
+
+		if err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		updateUser["birth_date"] = birthDate
 	}
 	if req.FeaturedMediumID == 0 {
 		updateUser["featured_medium_id"] = nil
