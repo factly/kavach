@@ -15,10 +15,10 @@ import (
 )
 
 type user struct {
-	FirstName        string         `json:"first_name"`
+	FirstName        string         `json:"first_name" validate:"required"`
 	LastName         string         `json:"last_name"`
-	DisplayName      string         `json:"display_name"`
-	Slug             string         `json:"slug"`
+	DisplayName      string         `json:"display_name" validate:"required"`
+	Slug             string         `json:"slug" validate:"required"`
 	BirthDate        time.Time      `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
@@ -67,7 +67,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	var userSlug string
 
-	if req.Slug != "" && req.Slug != me.Slug && slug.Check(req.Slug) {
+	if req.Slug != me.Slug && slug.Check(req.Slug) {
 		userSlug = slug.Approve(req.Slug, me.Email)
 	} else {
 		userSlug = req.Slug
@@ -86,7 +86,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !req.BirthDate.IsZero() {
-		birthDate := me.BirthDate.Format("2006-01-02") // format birth_date to YYYY-MM-DD
+		birthDate := req.BirthDate.Format("2006-01-02") // format birth_date to YYYY-MM-DD
 
 		if err != nil {
 			tx.Rollback()
@@ -95,7 +95,10 @@ func update(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		updateUser["birth_date"] = birthDate
+	} else {
+		updateUser["birth_date"] = nil
 	}
+
 	if req.FeaturedMediumID == 0 {
 		updateUser["featured_medium_id"] = nil
 	}
