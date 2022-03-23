@@ -71,7 +71,7 @@ function Profile() {
           >
             <Input placeholder="Last name" />
           </Form.Item>
-          <Form.Item name="display_name" label="Display Name" rules={[{ required: true, message: 'Please input your last name!' }]}>
+          <Form.Item name="display_name" label="Display Name" rules={[{ required: true, message: 'Please input your display name!' }]}>
             <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
           </Form.Item>
           <Form.Item
