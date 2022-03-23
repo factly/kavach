@@ -15,11 +15,11 @@ import (
 )
 
 type user struct {
-	FirstName        string         `json:"first_name"`
+	FirstName        string         `json:"first_name" validate:"required"`
 	LastName         string         `json:"last_name"`
-	DisplayName      string         `json:"display_name"`
-	Slug             string         `json:"slug"`
-	BirthDate        string         `json:"birth_date"`
+	DisplayName      string         `json:"display_name" validate:"required"`
+	Slug             string         `json:"slug" validate:"required"`
+	BirthDate        time.Time      `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
@@ -65,48 +65,45 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 	tx := model.DB.Begin()
 
-	mediumID := &req.FeaturedMediumID
-	me.FeaturedMediumID = &req.FeaturedMediumID
-	if req.FeaturedMediumID == 0 {
-		err = tx.Model(&me).Updates(map[string]interface{}{"featured_medium_id": nil}).First(&me).Error
-		mediumID = nil
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-			return
-		}
-	}
-
 	var userSlug string
 
-	if req.Slug != "" && req.Slug != me.Slug && slug.Check(req.Slug) {
+	if req.Slug != me.Slug && slug.Check(req.Slug) {
 		userSlug = slug.Approve(req.Slug, me.Email)
 	} else {
 		userSlug = req.Slug
 	}
-	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
-		return
-	}
+
 	updateUser := map[string]interface{}{
 		"first_name":         req.FirstName,
 		"last_name":          req.LastName,
-		"birth_date":         birthDate,
 		"slug":               userSlug,
 		"gender":             req.Gender,
-		"featured_medium_id": mediumID,
+		"featured_medium_id": req.FeaturedMediumID,
 		"description":        req.Description,
 		"social_media_urls":  req.SocialMediaURLs,
 		"display_name":       req.DisplayName,
 		"meta":               req.Meta,
 	}
-	updateUser["id"] = me.ID
 
-	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&updateUser).Error
+	if !req.BirthDate.IsZero() {
+		birthDate := req.BirthDate.Format("2006-01-02") // format birth_date to YYYY-MM-DD
+
+		if err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		updateUser["birth_date"] = birthDate
+	} else {
+		updateUser["birth_date"] = nil
+	}
+
+	if req.FeaturedMediumID == 0 {
+		updateUser["featured_medium_id"] = nil
+	}
+
+	err = tx.Model(&me).Preload("Medium").Updates(&updateUser).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -114,6 +111,5 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit()
-	updateUser["birth_date"] = req.BirthDate
-	renderx.JSON(w, http.StatusOK, updateUser)
+	renderx.JSON(w, http.StatusOK, me)
 }
