@@ -65,19 +65,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 	tx := model.DB.Begin()
 
-	mediumID := &req.FeaturedMediumID
-	me.FeaturedMediumID = &req.FeaturedMediumID
-	if req.FeaturedMediumID == 0 {
-		err = tx.Model(&me).Updates(map[string]interface{}{"featured_medium_id": nil}).First(&me).Error
-		mediumID = nil
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-			return
-		}
-	}
-
 	var userSlug string
 
 	if req.Slug != "" && req.Slug != me.Slug && slug.Check(req.Slug) {
@@ -98,15 +85,17 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"birth_date":         birthDate,
 		"slug":               userSlug,
 		"gender":             req.Gender,
-		"featured_medium_id": mediumID,
+		"featured_medium_id": req.FeaturedMediumID,
 		"description":        req.Description,
 		"social_media_urls":  req.SocialMediaURLs,
 		"display_name":       req.DisplayName,
 		"meta":               req.Meta,
 	}
-	updateUser["id"] = me.ID
+	if req.FeaturedMediumID == 0 {
+		updateUser["featured_medium_id"] = nil
+	}
 
-	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&updateUser).Error
+	err = tx.Model(&me).Preload("Medium").Updates(&updateUser).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -114,6 +103,5 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit()
-	updateUser["birth_date"] = req.BirthDate
-	renderx.JSON(w, http.StatusOK, updateUser)
+	renderx.JSON(w, http.StatusOK, me)
 }
