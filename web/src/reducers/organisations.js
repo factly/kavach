@@ -8,6 +8,7 @@ import {
   ADD_APPLICATION_IDS,
   ADD_ORGANISATION_ROLE,
 } from '../constants/organisations';
+import { ADD_ORGANISATION_TOKENS } from '../constants/token';
 
 const initialState = {
   ids: [],
@@ -90,6 +91,17 @@ export default function tagsReducer(state = initialState, action = {}) {
           },
         },
       };
+    case ADD_ORGANISATION_TOKENS:
+      return {
+        ...state,
+        details:{
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            tokens: payload
+          }
+        }
+      }
     default:
       return state;
   }

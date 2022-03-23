@@ -72,7 +72,7 @@ function ApplicationUser({ id }) {
               </Button>
             </Form.Item>
           </Form>
-          <UsersList id={id} flag={flag} users={applicationUsers} total={applicationUsers.length}/>
+          <UsersList id={id} flag={flag} users={applicationUsers} total={applicationUsers.length} />
         </Space>
       )}
     </>

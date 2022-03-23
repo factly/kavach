@@ -8,9 +8,14 @@ import { Link } from 'react-router-dom';
 function SpaceList({ appID, role }) {
   const dispatch = useDispatch();
   const { spaces, loading } = useSelector((state) => {
-    const spaceIDList = state.applications.details[appID]?.spaces; 
+    const spaceIDList = state.applications.details[appID]?.spaces;
     return {
-      spaces: spaceIDList ? spaceIDList.map((id) => ({...state.spaces.details[id], users: state.spaces.details[id].users.map((id)=>state.users.details[id])})) : [],
+      spaces: spaceIDList
+        ? spaceIDList.map((id) => ({
+            ...state.spaces.details[id],
+            users: state.spaces.details[id].users.map((id) => state.users.details[id]),
+          }))
+        : [],
       loading: state.spaces.loading,
     };
   });
@@ -26,7 +31,7 @@ function SpaceList({ appID, role }) {
     fetchSpaces();
     // eslint-disable-next-line
   }, [appID]);
-  
+
   const columns = [
     {
       title: 'Name',

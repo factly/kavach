@@ -13,7 +13,7 @@ function OrganisationSelector() {
       selected: state.organisations.selected,
     };
   });
-  
+
   React.useEffect(() => {
     setSelectorState(list.some((item) => window.location.pathname.includes(item)));
   }, [selectorState, list]);

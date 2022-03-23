@@ -12,7 +12,7 @@ function UserList({ spaceID }) {
   const { appID } = useParams();
   const { spaceUsers, loading, total } = useSelector((state) => {
     return {
-      spaceUsers: state.spaces.details[spaceID]?.users.map((id)=>state.users.details[id]) || [],
+      spaceUsers: state.spaces.details[spaceID]?.users.map((id) => state.users.details[id]) || [],
       loading: state.spaces.loading,
       total: state.spaces.details[spaceID]?.length,
     };

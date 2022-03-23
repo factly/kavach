@@ -38,29 +38,28 @@ export const getOrganisation = (id) => {
     return axios
       .get(ORGANISATIONS_API + '/' + id)
       .then((response) => {
-        if(response.featured_medium_id){
-          addMedia(response.data.medium)
+        if (response.featured_medium_id) {
+          addMedia(response.data.medium);
         }
         let users = [];
         response.data.roles = {};
         response.data.organisation_users.map((item) => {
           users.push(item.user);
           response.data.roles[item.user.id] = item.role;
-          return null
+          return null;
         });
-        response.data.role = response.data.permission.role
+        response.data.role = response.data.permission.role;
         deleteKeys([response.data], ['permission', 'organisation_users']);
-        response.data.applications = getIds(response.data.applications)
-        response.data.users = getIds(users)
+        response.data.applications = getIds(response.data.applications);
+        response.data.users = getIds(users);
         dispatch(getOrganisationByID(response.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })
-      .finally(()=>{
+      .finally(() => {
         dispatch(stopOrganisationsLoading());
-      })
-      ;
+      });
   };
 };
 
@@ -76,10 +75,10 @@ export const addOrganisation = (data) => {
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
-      }).finally(()=>{
-        dispatch(stopOrganisationsLoading());
       })
-      ;
+      .finally(() => {
+        dispatch(stopOrganisationsLoading());
+      });
   };
 };
 
@@ -148,7 +147,7 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
         organisation.role = item.role;
       }
       organisation.roles[item.user.id] = item.role;
-      return null
+      return null;
     });
     dispatch(addUsersList(users));
     organisation.users = getIds(users);

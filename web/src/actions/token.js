@@ -11,8 +11,9 @@ import {
   ADD_SPACE_TOKENS,
 } from '../constants/token';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects'
 
-export const addToken = (data, appID) => {
+export const addApplicationToken = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
@@ -21,12 +22,11 @@ export const addToken = (data, appID) => {
           '/' +
           getState().organisations.selected +
           '/applications/' +
-          appID +
+          data.application +
           '/tokens',
         data,
       )
       .then((res) => {
-        dispatch(resetTokens());
         dispatch(addSuccessNotification('Token Added'));
         return res.data;
       })
@@ -99,7 +99,10 @@ export const getOrganisationTokens = () => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/tokens`)
       .then((res) => {
-        dispatch(addOrganisationTokens(res.data));
+        console.log(res.data)
+        deleteKeys(res.data, ['organisation'])
+        dispatch(addTokensList(buildObjectOfItems(res.data)))
+        dispatch(addOrganisationTokens(getIds(res.data)))
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -159,7 +162,9 @@ export const getSpaceTokens = (appID, spaceID) => {
         }/applications/${appID}/spaces/${spaceID}/tokens`,
       )
       .then((res) => {
-        dispatch(addSpaceTokens(res.data));
+        deleteKeys(res.data, ['organisation'])
+        dispatch(buildObjectOfItems(addTokensList(res.data)))
+        dispatch(addOrganisationTokens(getIds(res.data)))
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -170,15 +175,18 @@ export const getSpaceTokens = (appID, spaceID) => {
   };
 };
 
-export const addSpaceToken = (data, appID, spaceID) => {
+export const addSpaceToken = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
       .post(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
-        }/applications/${appID}/spaces/${spaceID}/tokens`,
-        data,
+        `${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${
+          data.application
+        }/spaces/${data.space}/tokens`,
+        {
+          "name": data.name,
+          "description": data.description
+        },
       )
       .then(() => {
         dispatch(addSuccessNotification('Token Added Successfully'));
@@ -213,39 +221,24 @@ export const deleteSpaceToken = (id, appID, spaceID) => {
   };
 };
 
-export const addApplicationToken = (appID, data) => {
-  return (dispatch, getState) => {
-    dispatch(loadingTokens());
-    return axios
-      .post(
-        `${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/tokens`,
-        data,
-      )
-      .then(() => {
-        dispatch(addSuccessNotification('Token Added Successfully'));
-      })
-      .catch((error) => {
-        dispatch(addErrorNotification(error.message));
-      })
-      .finally(() => {
-        dispatch(stopTokenLoading());
-      });
-  };
-};
-
-const addApplicationTokens = (data) => {
+const addApplicationTokens = (appID, data) => {
   return {
     type: ADD_APPLICATION_TOKENS,
-    payload: data,
+    payload: {
+      id: appID,
+      data: data
+    },
   };
 };
-export const getApplicationsTokens = (appID) => {
+export const getApplicationTokens = (appID) => {
   return (dispatch, getState) => {
     dispatch(loadingTokens());
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/tokens`)
       .then((res) => {
-        dispatch(addApplicationTokens(res.data));
+        deleteKeys(res.data.nodes, ['application'])
+        dispatch(addTokensList(buildObjectOfItems(res.data.nodes)))
+        dispatch(addApplicationTokens(appID, getIds(res.data.nodes)))
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

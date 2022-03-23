@@ -133,4 +133,3 @@ export const deleteInvite = (data) => ({
   type: DELETE_INVITE,
   payload: data,
 });
-

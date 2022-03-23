@@ -73,11 +73,11 @@ export const getApplication = (id) => {
     return axios
       .get(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then((response) => {
-        if(response.data.medium_id){
-          dispatch(addMedia(response.data.medium))
+        if (response.data.medium_id) {
+          dispatch(addMedia(response.data.medium));
         }
-        deleteKeys([response.data], ['medium'])
-        response.data.users = getIds(response.data.users)
+        deleteKeys([response.data], ['medium']);
+        response.data.users = getIds(response.data.users);
         addApplication(response.data);
       })
       .catch((error) => {
@@ -105,7 +105,7 @@ export const createApplication = (data) => {
 };
 
 export const updateApplication = (data) => {
-  console.log('update user calledz')
+  console.log('update user calledz');
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
@@ -114,22 +114,21 @@ export const updateApplication = (data) => {
         data,
       )
       .then((response) => {
-        console.log(response.data)
-        if(response.data.medium_id){
-          dispatch(addMedia(response.data.medium))
+        console.log(response.data);
+        if (response.data.medium_id) {
+          dispatch(addMedia(response.data.medium));
         }
-        deleteKeys([response.data], ['medium'])
-        response.data.users = getIds(response.data.users)
+        deleteKeys([response.data], ['medium']);
+        response.data.users = getIds(response.data.users);
         dispatch(addApplication(response.data));
         dispatch(addSuccessNotification('Application Updated'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })
-      .finally(()=>{
+      .finally(() => {
         dispatch(stopApplicationLoading());
-      })
-      ;
+      });
   };
 };
 
@@ -186,7 +185,7 @@ export const addApplicationList = (data) => (dispatch) => {
   dispatch(loadingApplications());
   const medium = getValues(data, 'medium');
   dispatch(addMediaList(medium));
-  deleteKeys(data, ['medium'])
+  deleteKeys(data, ['medium']);
   const spaces = getValues(data, 'spaces');
   dispatch(addSpaces(spaces));
   data.forEach((application) => {
@@ -216,5 +215,5 @@ export const addApplicationIds = (data) => ({
 
 export const addApplication = (data) => ({
   type: ADD_APPLICATION,
-  payload: data
-})
+  payload: data,
+});

@@ -14,9 +14,9 @@ function SpaceUser() {
 
   const { appUsers, loadingApps, spaceUsers, loadingSpace } = useSelector((state) => {
     return {
-      appUsers: state.applications.details[appID]?.users.map((id)=>state.users.details[id]) || [],
+      appUsers: state.applications.details[appID]?.users.map((id) => state.users.details[id]) || [],
       loadingApps: state.applications.loading,
-      spaceUsers: state.spaces.details[id]?.users.map((id)=>state.users.details[id]) || [],
+      spaceUsers: state.spaces.details[id]?.users.map((id) => state.users.details[id]) || [],
       loadingSpace: state.spaces.loading,
     };
   });

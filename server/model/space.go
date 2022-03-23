@@ -35,3 +35,11 @@ type Space struct {
 	Users             []User         `gorm:"many2many:space_users;" json:"users"`
 }
 
+type SpaceToken struct {
+	Base
+	Name        string `gorm:"column:name" json:"name"`
+	Description string `gorm:"column:description" json:"description"`
+	SpaceID     uint   `gorm:"column:space_id" json:"space_id"`
+	Space       *Space `gorm:"foreignKey:space_id" json:"application"`
+	Token       string `gorm:"column:token" json:"token"`
+}

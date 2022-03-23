@@ -31,7 +31,11 @@ function OrganisationCreate() {
             form={form}
             name="organisation_create"
             layout="vertical"
-            onFinish={(values) => dispatch(addOrganisation(values)).then(dispatch(getOrganisations())).then(history.push('/settings'))}
+            onFinish={(values) =>
+              dispatch(addOrganisation(values))
+                .then(dispatch(getOrganisations()))
+                .then(history.push('/settings'))
+            }
             style={{
               width: '400px',
             }}

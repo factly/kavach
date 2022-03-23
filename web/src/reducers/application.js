@@ -7,6 +7,7 @@ import {
 } from '../constants/application';
 
 import { ADD_USER_IDS } from '../constants/applicationUser';
+import { ADD_APPLICATION_TOKENS } from '../constants/token';
 
 const initialState = {
   details: {},
@@ -61,6 +62,17 @@ export default function application(state = initialState, action = {}) {
           },
         },
       };
+    case ADD_APPLICATION_TOKENS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]:{
+            ...state.details[action.payload.id],
+            tokens: action.payload.data
+          }
+        }
+      }
     default:
       return state;
   }

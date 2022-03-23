@@ -46,7 +46,7 @@ export default function profileReducer(state = initialState, action = {}) {
           ...state.details,
           organisations: action.payload,
         },
-      }
+      };
     default:
       return state;
   }

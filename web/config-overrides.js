@@ -10,8 +10,6 @@ const options = {
   indexFileName: 'index.html',
 };
 module.exports = function override(config, env) {
-  config.plugins.push(
-    new AntDesignThemePlugin(options),
-  );
+  config.plugins.push(new AntDesignThemePlugin(options));
   return config;
 };

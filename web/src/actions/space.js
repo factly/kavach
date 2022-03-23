@@ -12,7 +12,7 @@ import { ORGANISATIONS_API } from '../constants/organisations';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addUsersList } from './users';
-import {  addMediaList } from './media';
+import { addMediaList } from './media';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
