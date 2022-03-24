@@ -38,19 +38,14 @@ func detail(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	var birthDate string
-	if me.BirthDate != nil {
-		birthDate = me.BirthDate.Format("2006-01-02")
-	} else {
-		birthDate = ""
-	}
+
 	response := map[string]interface{}{
 		"id":                 me.ID,
 		"kid":                me.KID,
 		"email":              me.Email,
 		"first_name":         me.FirstName,
 		"last_name":          me.LastName,
-		"birth_date":         birthDate,
+		"birth_date":         me.BirthDate,
 		"slug":               me.Slug,
 		"gender":             me.Gender,
 		"featured_medium_id": me.FeaturedMediumID,
