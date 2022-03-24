@@ -19,15 +19,18 @@ function Token() {
   const onSubmit = (values, type) => {
     switch (type) {
       case 'organisation':
-        dispatch(addOrganisationToken(values)).then(() => getOrganisationTokens());
+        dispatch(addOrganisationToken(values)).then(() => 
+          dispatch(getOrganisationTokens())
+        );
         break;
       case 'application':
-        console.log({ type, values });
-        dispatch(addApplicationToken(values)).then(() => getApplicationTokens(values.application));
+        dispatch(addApplicationToken(values)).then(() => 
+          getApplicationTokens(values.application)
+        );
         break;
       case 'space':
         dispatch(addSpaceToken(values)).then(() =>
-          getSpaceTokens(values.application, values.space),
+          dispatch(getSpaceTokens(values.application, values.space)),
         );
         break;
       default:

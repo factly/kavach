@@ -3,6 +3,9 @@ import { Popconfirm, Button, Table, Form, Select } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  deleteOrganisationToken,
+  deleteSpaceToken,
+  deleteApplicationToken,
   getApplicationTokens,
   getOrganisationTokens,
   getSpaceTokens,
@@ -42,41 +45,18 @@ export default function TokenList({ type }) {
           loading: state.tokens.loading
         }
       case 'space':
-        tokenIDs = state.space.details[spaceID]?.tokens || []
+        tokenIDs = state.spaces.details[spaceID]?.tokens || []
         return {
           tokens: tokenIDs.map((id)=>state.tokens?.details[id]),
           loading: state.tokens.loading
         }
+      default:
+        return {
+          tokens: [],
+          loading: true
+        }
     }
   })
-
-  console.log({ tokens, loading})
-  // const { tokens, loading } = useSelector((state) => {
-  //   switch (type) {
-  //     case 'organisation':
-  //       return {
-  //         tokens: state.tokens.organisations,
-  //         loading: state.tokens.loading,
-  //       };
-
-  //     case 'application':
-  //       return {
-  //         tokens: state.tokens.applications,
-  //         loading: state.tokens.loading,
-  //       };
-
-  //     case 'space':
-  //       return {
-  //         tokens: state.tokens.spaces,
-  //         loading: state.tokens.loading,
-  //       };
-  //     default:
-  //       return {
-  //         tokens: [],
-  //         loading: false,
-  //       };
-  //   }
-  // });
 
   const onAppChange = (value) => {
     setAppID(value);
@@ -106,10 +86,39 @@ export default function TokenList({ type }) {
     }
   };
 
+  const onDelete = (id) => {
+    switch (type) {
+      case 'organisation':
+        dispatch(deleteOrganisationToken(id)).then(() =>
+          dispatch(getOrganisationTokens()),
+          );
+        break;
+      case 'application':
+        dispatch(deleteApplicationToken(appID, id)).then(() =>
+          dispatch(getApplicationTokens(appID)),
+          );
+        break;
+      case 'space':
+        dispatch(deleteSpaceToken(id, appID, spaceID)).then(() =>
+          dispatch(getSpaceTokens(appID, spaceID)),
+          );
+        break;
+      default:
+        return;
+    }
+  };
+
+
   React.useEffect(() => {
     fetchTokens();
     // eslint-disable-next-line
   }, [dispatch, spaceID, appID, type]);
+
+  React.useEffect(()=>{
+    setAppID(applications[0]?.id)
+    setSpaceID(spaces[0]?.id)
+    // eslint-disable-next-line
+  }, [type])
   const columns = [
     {
       title: 'Name',
@@ -138,7 +147,7 @@ export default function TokenList({ type }) {
           <span>
             <Popconfirm
               title="Sure to Revoke?"
-              //   onConfirm={() => dispatch(deleteToken(record.id, data.id)).then(() => history.go(0))}
+                onConfirm={()=>onDelete(record.id)}
             >
               <Link to="" className="ant-dropdown-link">
                 <Button danger type="text">
@@ -151,8 +160,6 @@ export default function TokenList({ type }) {
       },
     },
   ];
-  // const tokens = [];
-  // const loading = false;
 
   return (
     <div>
@@ -167,8 +174,11 @@ export default function TokenList({ type }) {
                 message: 'Please input application name!',
               },
             ]}
+            style={{
+              width: 300
+            }}
           >
-            <Select onChange={onAppChange}>
+            <Select onChange={onAppChange} defaultValue={applications[0]?.id}>
               {applications.map((app) => {
                 return (
                   <Select.Option key={app.id} value={app.id}>
@@ -189,6 +199,9 @@ export default function TokenList({ type }) {
                 message: 'Please input space name!',
               },
             ]}
+            style={{
+              width: 300
+            }}
           >
             <Select onChange={onSpaceChange}>
               {spaces.map((space) => {

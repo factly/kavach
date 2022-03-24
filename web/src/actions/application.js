@@ -105,7 +105,6 @@ export const createApplication = (data) => {
 };
 
 export const updateApplication = (data) => {
-  console.log('update user calledz');
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
@@ -114,7 +113,6 @@ export const updateApplication = (data) => {
         data,
       )
       .then((response) => {
-        console.log(response.data);
         if (response.data.medium_id) {
           dispatch(addMedia(response.data.medium));
         }

@@ -36,29 +36,6 @@ export const addApplicationToken = (data) => {
   };
 };
 
-export const deleteToken = (id, appID) => {
-  return (dispatch, getState) => {
-    dispatch(loadingTokens());
-    return axios
-      .delete(
-        ORGANISATIONS_API +
-          '/' +
-          getState().organisations.selected +
-          '/applications/' +
-          appID +
-          '/tokens/' +
-          id,
-      )
-      .then(() => {
-        dispatch(resetTokens());
-        dispatch(addSuccessNotification('Token Deleted'));
-      })
-      .catch((error) => {
-        dispatch(addErrorNotification(error.message));
-      });
-  };
-};
-
 export const loadingTokens = () => ({
   type: SET_TOKENS_LOADING,
   payload: true,
@@ -88,9 +65,12 @@ export const resetTokens = () => ({
   type: RESET_TOKENS,
 });
 
-const addSpaceTokens = (data) => ({
+const addSpaceTokens = (spaceID, data) => ({
   type: ADD_SPACE_TOKENS,
-  payload: data,
+  payload: {
+    spaceID: spaceID,
+    data: data,
+  },
 });
 
 export const getOrganisationTokens = () => {
@@ -99,7 +79,6 @@ export const getOrganisationTokens = () => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/tokens`)
       .then((res) => {
-        console.log(res.data)
         deleteKeys(res.data, ['organisation'])
         dispatch(addTokensList(buildObjectOfItems(res.data)))
         dispatch(addOrganisationTokens(getIds(res.data)))
@@ -163,8 +142,8 @@ export const getSpaceTokens = (appID, spaceID) => {
       )
       .then((res) => {
         deleteKeys(res.data, ['organisation'])
-        dispatch(buildObjectOfItems(addTokensList(res.data)))
-        dispatch(addOrganisationTokens(getIds(res.data)))
+        dispatch(addTokensList(buildObjectOfItems(res.data)))
+        dispatch(addSpaceTokens(spaceID, getIds(res.data)))
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
