@@ -20,7 +20,6 @@ import CreateApplication from '../pages/application/CreateApplication';
 import EditApplication from '../pages/application/EditApplication';
 import NewUser from '../pages/users/NewUser';
 import ApplicationUsers from '../pages/application/users/index';
-import GetApplication from '../pages/application/GetApplication';
 import InvitationComponent from '../pages/profile/invitation';
 import CreateSpace from '../pages/application/spaces/CreateSpace';
 import EditSpace from '../pages/application/spaces/EditSpace';
@@ -93,13 +92,6 @@ export default [
   {
     path: '/applications/:id/edit',
     Component: EditApplication,
-    enableNavigation: false,
-    enableBreadcrumb: true,
-    title: 'Edit Application',
-  },
-  {
-    path: '/applications/:id/detail',
-    Component: GetApplication,
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Edit Application',
