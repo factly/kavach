@@ -144,7 +144,7 @@ function Auth(props) {
               ))
               : null}
               <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
-                {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} />] : null}</div>
+                {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} flow={props.flow} />] : null}</div>
             {ui.nodes && ui.nodes.messages ? (
               <Form.Item>
                 {ui.nodes.messages.map((message, index) => (
@@ -242,7 +242,7 @@ function Auth(props) {
             )}
             <Form.Item>
               <Button form="auth" type="primary" htmlType="submit" block>
-                  {props.flow === 'login' ? 'Login' : 'Registration'}
+                  {props.flow === 'login' ? 'Login' : 'Register'}
               </Button>
             </Form.Item>
             {ui && ui.messages ? (

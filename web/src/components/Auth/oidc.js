@@ -1,12 +1,11 @@
 import React from 'react';
 import { Button } from 'antd';
-import { GithubOutlined, GoogleOutlined } from '@ant-design/icons';
 import createForm from '../../utils/form';
 import GoogleIcon from '../../assets/btn_google_light_normal_ios.svg';
 import GithubIcon from '../../assets/GitHub-Mark-120px-plus.png'
 import { Divider } from 'antd';
 
-function OIDC({ ui }) {
+function OIDC({ ui, flow='login' }) {
   const withOIDC = (values) => {
     var oidcForm = createForm(ui.action, ui.method);
 
@@ -42,7 +41,7 @@ function OIDC({ ui }) {
       <Button onClick={() => withOIDC('google')} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '48px', fontWeight: 'bold', }}>
         <img src={GoogleIcon} alt="Continue with Google" style={{ height: '100%' }} /> <span>Continue with Google</span>
       </Button>
-      <Divider plain>Or Sign in with Email</Divider>
+      <Divider plain>Or Sign {flow === 'registration'? 'up' : 'in'} with Email</Divider>
     </Button.Group>
   );
 }
