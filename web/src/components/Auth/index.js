@@ -111,11 +111,11 @@ function Auth(props) {
     if (props.flow !== 'login') {
       var fnameInput = document.createElement('input');
       fnameInput.name = 'traits.name.first';
-      fnameInput.value = values.first_name;
+      fnameInput.value = values.first_name || '';
 
       var lnameInput = document.createElement('input');
       lnameInput.name = 'traits.name.last';
-      lnameInput.value = values.last_name;
+      lnameInput.value = values.last_name || '';
 
       authForm.appendChild(fnameInput);
       authForm.appendChild(lnameInput);
