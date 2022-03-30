@@ -39,16 +39,18 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	identity := payload.Extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
 	name, ok := traits["name"].(map[string]interface{})
-	fmt.Println("this is okay", ok)
-	var firstName, lastName string
+
+	var firstName, lastName, displayName string
 	if ok {
 		_, ok = name["first"].(string)
 		if ok {
 			firstName = name["first"].(string)
+			displayName = firstName
 		}
 		_, ok = name["last"].(string)
 		if ok {
 			lastName = name["last"].(string)
+			displayName = displayName + " " + lastName
 		}
 	}
 
@@ -57,7 +59,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		KID:         identity["id"].(string),
 		FirstName:   firstName,
 		LastName:    lastName,
-		DisplayName: fmt.Sprintf("%s %s", firstName, lastName),
+		DisplayName: displayName,
 		Slug:        slugx.Make(fmt.Sprint(firstName, " ", lastName)),
 	}
 
@@ -74,6 +76,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
 	payload.Header = make(http.Header)
 
 	payload.Header.Add("X-User", fmt.Sprint(user.ID))
