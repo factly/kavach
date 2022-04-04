@@ -11,6 +11,7 @@ import (
 	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
+	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
@@ -64,7 +65,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	result.Description = reqBody.Description
 
 	for _, value := range reqBody.Users {
-		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+value)
+		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":"+value)
 	}
 
 	for _, permission := range reqBody.Permissions {
@@ -82,5 +83,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	
+	renderx.JSON(w, http.StatusOK, nil)
 }

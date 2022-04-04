@@ -10,7 +10,7 @@ import (
 )
 
 // KetoGetRequest does get request to keto with empty body
-func GetPolicy(path string) (*http.Response, error) {
+func GetPolicy(path string) (*model.Policy, error) {
 	req, err := http.NewRequest("GET", viper.GetString("keto_url")+path, nil)
 	if err != nil {
 		return nil, err
@@ -22,7 +22,12 @@ func GetPolicy(path string) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	return resp, nil
+	policy := &model.Policy{}
+	err = json.NewDecoder(resp.Body).Decode(policy)
+	if err != nil {
+		return nil, err
+	}
+	return policy, nil
 }
 
 // UpdatePolicy PUT request to keto server to update the policy
@@ -50,6 +55,23 @@ func UpdatePolicy(uri string, body *model.Policy) error {
 
 // Delete DELETE request to keto server to delete resource
 func Delete(uri string) error {
+	req, err := http.NewRequest("DELETE", viper.GetString("keto_url")+uri, nil)
+
+	if err != nil {
+		return err
+	}
+
+	client := &http.Client{}
+	_, err = client.Do(req)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//DeletePolicy is used to delete the policy from keto
+func DeletePolicy(uri string) error {
 	req, err := http.NewRequest("DELETE", viper.GetString("keto_url")+uri, nil)
 
 	if err != nil {

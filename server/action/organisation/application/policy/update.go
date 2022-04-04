@@ -9,26 +9,26 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	"github.com/factly/kavach-server/util/application"
 	"github.com/factly/kavach-server/util/keto"
-	"github.com/factly/kavach-server/util/space"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
-//create - Create policy for an organisation using organisation_id
-// @Summary Create policy for an organisation using organisation_id
-// @Description Create policy for an organisation using organisation_id
+//update - Update policy for an organisation using organisation_id
+// @Summary Update policy for an organisation using organisation_id
+// @Description Update policy for an organisation using organisation_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID update-organisation-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
 // @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/roles [post]
-func create(w http.ResponseWriter, r *http.Request) {
+// @Router /organisations/{organisation_id}/policy/{policy_id} [post]
+func update(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
@@ -54,15 +54,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get space ID path parameter
-	sID := chi.URLParam(r, "space_id")
-	spaceID, err := strconv.Atoi(sID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	// Check if user is owner of organisation
 	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
 		loggerx.Error(err)
@@ -70,10 +61,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if user is part of space or not
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
+	// check if the user is part of application or not
+	flag := application.CheckAuthorisation(uint(appID), uint(userID))
 	if !flag {
-		loggerx.Error(errors.New("user is not part of space"))
+		loggerx.Error(errors.New("user is not part of application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -88,12 +79,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// ----------- Creating policy on the keto server ---------------
 	result := model.Policy{}
-	commonPolicyString := fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":")
+	commonPolicyString := fmt.Sprint(":org:", orgID, ":app:", appID, ":")
 	result.ID = "id" + commonPolicyString + reqBody.Name
 	result.Description = reqBody.Description
 
 	for _, value := range reqBody.Users {
-		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":space:"+fmt.Sprint(spaceID)+":"+value)
+		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":"+value)
 	}
 
 	for _, permission := range reqBody.Permissions {

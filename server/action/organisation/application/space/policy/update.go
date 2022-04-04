@@ -2,7 +2,6 @@ package policy
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -10,25 +9,24 @@ import (
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/keto"
-	"github.com/factly/kavach-server/util/space"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
 )
 
-//create - Create policy for an organisation using organisation_id
-// @Summary Create policy for an organisation using organisation_id
-// @Description Create policy for an organisation using organisation_id
+//update - Update policy for an organisation using organisation_id
+// @Summary Update policy for an organisation using organisation_id
+// @Description Update policy for an organisation using organisation_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID update-organisation-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
 // @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/roles [post]
-func create(w http.ResponseWriter, r *http.Request) {
+// @Router /organisations/{organisation_id}/policy/{policy_id} [post]
+func update(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
@@ -70,14 +68,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if user is part of space or not
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of space"))
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
 	// decoding request body to policyReq struct
 	var reqBody policyReq
 	err = json.NewDecoder(r.Body).Decode(&reqBody)
@@ -111,5 +101,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderx.JSON(w, http.StatusOK, nil)
+	renderx.JSON(w, http.StatusOK, result)
 }

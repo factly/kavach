@@ -12,7 +12,7 @@ type policyReq struct {
 }
 
 type permission struct {
-	Resource string `json:"resource"`
+	Resource string   `json:"resource"`
 	Actions  []string `json:"actions"`
 }
 
