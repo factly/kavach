@@ -58,7 +58,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, validationError)
 		return
 	}
-	
+
 	mediumID := &org.FeaturedMediumID
 	if org.FeaturedMediumID == 0 {
 		mediumID = nil
@@ -66,7 +66,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
-	if !viper.GetBool("enable_multitenancy"){
+	if !viper.GetBool("enable_multitenancy") {
 		var organisation model.Organisation
 		result := tx.Model(&model.Organisation{}).First(&organisation)
 		if result.RowsAffected != 0 {
@@ -109,6 +109,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// creating the default role admin role for organisation
+	role := &model.OrganisationRole{
+		Name:           "admin",
+		Description:    "Administrator",
+		OrganisationID: uint(organisation.ID),
+	}
+	role.Users = append(role.Users,  model.User{
+		Base: model.Base{
+			ID: uint(userID),
+		}})
+	
+	err = tx.Model(&model.OrganisationRole{}).Create(&role).Error
+	if err!=nil{
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	result := orgWithRole{}
 	result.Organisation = *organisation
 	result.Permission = permission

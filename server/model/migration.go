@@ -13,5 +13,8 @@ func Migration() {
 		&Space{},
 		&SpaceToken{},
 		&OrganisationToken{},
+		&OrganisationRole{},
+		&ApplicationRole{},
+		&SpaceRole{},
 	)
 }

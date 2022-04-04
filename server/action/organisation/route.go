@@ -2,6 +2,7 @@ package organisation
 
 import (
 	"github.com/factly/kavach-server/action/organisation/application"
+	"github.com/factly/kavach-server/action/organisation/roles"
 	"github.com/factly/kavach-server/action/organisation/token"
 	"github.com/factly/kavach-server/action/organisation/user"
 	"github.com/factly/kavach-server/model"
@@ -30,6 +31,7 @@ func Router() chi.Router {
 		r.Mount("/users", user.Router())
 		r.Mount("/applications", application.Router())
 		r.Mount("/tokens", token.Router())
+		r.Mount("/roles", roles.Router())
 	})
 
 	return r

@@ -1,8 +1,9 @@
 package space
 
 import (
-	"github.com/factly/kavach-server/action/organisation/application/space/user"
+	"github.com/factly/kavach-server/action/organisation/application/space/roles"
 	"github.com/factly/kavach-server/action/organisation/application/space/token"
+	"github.com/factly/kavach-server/action/organisation/application/space/user"
 	"github.com/go-chi/chi"
 )
 
@@ -18,6 +19,7 @@ func Router() chi.Router {
 		r.Put("/", update)
 		r.Put("/", details)
 		r.Mount("/tokens", token.Router())
+		r.Mount("/roles", roles.Router())
 	})
 	return r
 }

@@ -3,7 +3,6 @@ package user
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -109,7 +108,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// append user to space_user association
 	users = append(space.Users, model.User{Base: model.Base{ID: uint(spaceUser.UserID)}})
 	space.Users = users
-	fmt.Println("this is users", users)
 	if err = tx.Model(&space).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()
 		loggerx.Error(err)

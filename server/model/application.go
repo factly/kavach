@@ -20,6 +20,7 @@ type Application struct {
 	Spaces         []*Space           `gorm:"foreignKey:application_id" json:"spaces,omitempty"`
 	Users          []User             `gorm:"many2many:application_users;" json:"users"`
 	Tokens         []ApplicationToken `json:"tokens"`
+	Roles          []ApplicationRole  `gorm:"foreignKey:application_id" json:"application_role"`
 }
 
 type ApplicationToken struct {
