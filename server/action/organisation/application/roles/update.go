@@ -95,7 +95,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, validationError)
 		return
 	}
-	fmt.Println("this is role", appRole)
 	//update the application role
 	err = model.DB.Model(&model.ApplicationRole{}).Where("application_id = ? AND id = ?", appID, roleIDInt).Updates(appRole).Error
 	if err != nil {

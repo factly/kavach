@@ -21,7 +21,6 @@ func CreateKratosIdentity(email string) (string, error) {
 	req := strings.NewReader(reqBody)
 	response, err := http.Post(viper.GetString("kratos_admin_url")+"/identities", "application/json", req)
 	if err != nil {
-		fmt.Println(err)
 		return "", err
 	}
 	defer response.Body.Close()
@@ -30,6 +29,5 @@ func CreateKratosIdentity(email string) (string, error) {
     if err != nil {
         return "", err
     }
-    fmt.Println(responseMap)
 	return responseMap["id"].(string), nil
 }

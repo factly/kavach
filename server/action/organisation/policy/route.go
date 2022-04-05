@@ -8,7 +8,7 @@ type policyReq struct {
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
 	Permissions []permission `json:"permissions"`
-	Users       []string     `json:"users"`
+	Roles       []uint       `json:"roles"`
 }
 
 type permission struct {

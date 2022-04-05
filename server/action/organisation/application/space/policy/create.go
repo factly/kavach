@@ -15,6 +15,7 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
+	"github.com/lib/pq"
 )
 
 //create - Create policy for an organisation using organisation_id
@@ -86,14 +87,50 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 	}
 
+	// -------------------- Adding the space policy to the kavach DB --------------------------
+	// binding the policyReq to SpacePolicy model
+	var policy model.SpacePolicy
+	policy.Name = reqBody.Name
+	policy.Description = reqBody.Description
+	policy.SpaceID = uint(spaceID)
+	for _, value := range reqBody.Permissions {
+		var permission model.Permission
+		permission.Resource = value.Resource
+		permission.Actions = pq.StringArray(value.Actions)
+		policy.Permissions = append(policy.Permissions, permission)
+	}
+
+	roles := make([]model.SpaceRole, 0)
+	for _, each := range reqBody.Roles {
+		roles = append(roles, model.SpaceRole{Base: model.Base{ID: each}})
+	}
+
+	policy.Roles = roles
+	// inserting space role to the kavachDB
+	tx := model.DB.Begin()
+	err = tx.Model(&model.SpacePolicy{}).Create(&policy).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
 	// ----------- Creating policy on the keto server ---------------
 	result := model.Policy{}
 	commonPolicyString := fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":")
 	result.ID = "id" + commonPolicyString + reqBody.Name
 	result.Description = reqBody.Description
 
-	for _, value := range reqBody.Users {
-		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":space:"+fmt.Sprint(spaceID)+":"+value)
+	for _, value := range reqBody.Roles {
+		roleName, err := util.GetSpaceRoleByID(value)
+		if err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":space:"+fmt.Sprint(spaceID)+":"+*roleName)
 	}
 
 	for _, permission := range reqBody.Permissions {
@@ -111,5 +148,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderx.JSON(w, http.StatusOK, nil)
+	renderx.JSON(w, http.StatusOK, policy)
 }

@@ -16,5 +16,9 @@ func Migration() {
 		&OrganisationRole{},
 		&ApplicationRole{},
 		&SpaceRole{},
+		&OrganisationPolicy{},
+		&ApplicationPolicy{},
+		&SpacePolicy{},
+		&Permission{},
 	)
 }

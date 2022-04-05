@@ -2,13 +2,11 @@ package policy
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -34,15 +32,6 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get organisation id from path
-	organisationID := chi.URLParam(r, "organisation_id")
-	orgID, err := strconv.Atoi(organisationID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	// Get application ID path parameter
 	applicationID := chi.URLParam(r, "application_id")
 	appID, err := strconv.Atoi(applicationID)
@@ -52,15 +41,12 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(userID),
-	}).First(permission).Error
+	// Get policy ID path parameter
+	pID := chi.URLParam(r, "policy_id")
+	policyID, err := strconv.Atoi(pID)
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
 
@@ -71,13 +57,17 @@ func details(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	
-	//---------------------Get Keto Policy from the Keto Server --------------------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":") + "" // the empty string will be name
-	policy, err := keto.GetPolicy("/engines/acp/ory/regex/policies/" + id)
+
+	// ----------------- get details of the application policy using the policy id
+	policy := new(model.ApplicationPolicy)
+	err = model.DB.Where(&model.ApplicationPolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Application").Preload("Permissions").Preload("Roles").First(policy).Error
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 

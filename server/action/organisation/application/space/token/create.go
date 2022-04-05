@@ -92,12 +92,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 	flag := false
 
 	for _, user := range space.Users {
-		fmt.Println("user ids", user.ID, userID)
 		if user.ID == uint(userID) {
 			flag = true
 		}
 	}
-	fmt.Println("this is flag", flag)
 	if !flag {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return

@@ -8,7 +8,7 @@ type policyReq struct {
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
 	Permissions []permission `json:"permissions"`
-	Users       []string     `json:"users"`
+	Roles       []uint       `json:"roles"`
 }
 
 type permission struct {
@@ -25,7 +25,7 @@ func Router() chi.Router {
 	r.Route("/{role_id}", func(r chi.Router) {
 		r.Get("/", details)
 		r.Delete("/", delete)
-		r.Put("/", update) 
+		r.Put("/", update)
 	})
 
 	return r

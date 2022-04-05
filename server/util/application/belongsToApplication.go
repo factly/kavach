@@ -23,5 +23,5 @@ func CheckAuthorisation(appID, userID uint) bool {
 			break
 		}
 	}
-	return flag 
+	return flag
 }

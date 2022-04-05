@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/application"
 	"github.com/factly/kavach-server/util/keto"
@@ -15,17 +16,19 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//delete - Delete policy for an organisation using organisation_id
-// @Summary Delete policy for an organisation using organisation_id
-// @Description Delete policy for an organisation using organisation_id
-// @Tags OrganisationPolicy
-// @ID delete-organisation-policy
+//delete - Delete policy for an application using policy_id
+// @Summary Delete policy for an application using policy_id
+// @Description Delete policy for an application using policy_id
+// @Tags ApplicationPolicy
+// @ID delete-application-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/applications/{application_id}/roles [delete]
+// @Param application_id path string true "Application ID"
+// @Param policy_id path string true "Policy ID"
+// @Param ApplicationPolicy body model.ApplicationPolicy true "Policy"
+// @Success 200 {object} nil
+// @Router /organisations/{organisation_id}/applications/{application_id}/policy/{policy_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
 	organisationID := chi.URLParam(r, "organisation_id")
@@ -52,6 +55,15 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get policy id path parameter
+	pID := chi.URLParam(r, "policy_id")
+	policyID, err := strconv.Atoi(pID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	// Check if user is owner of organisation
 	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
 		loggerx.Error(err)
@@ -66,15 +78,36 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
+
+	// getting policy name from policyID
+	policyName, err := util.GetApplicationPolicyByID(uint(policyID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	// Deleting the application policy from the kavachDB
+	tx := model.DB.Begin()
+	err = model.DB.Delete(&model.ApplicationPolicy{}, policyID).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	
 	// ---------------- Delete policy from the keto server -----------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":") + "" // the empty string will be name
+	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":") + *policyName // the empty string will be name
 	err = keto.DeletePolicy("/engines/acp/ory/regex/policies/" + id)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
+	tx.Commit() // commiting the transaction
 	// send JSON response
 	renderx.JSON(w, http.StatusOK, nil)
 

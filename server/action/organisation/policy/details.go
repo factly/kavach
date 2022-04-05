@@ -1,12 +1,10 @@
 package policy
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -41,6 +39,15 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get organisation id from path
+	pID := chi.URLParam(r, "organisation_id")
+	policyID, err := strconv.Atoi(pID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	// Check if user is part of organisation
 	permission := &model.OrganisationUser{}
 	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
@@ -53,15 +60,19 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//---------------------Get Keto Policy from the Keto Server --------------------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":") + "" // the empty string will be name
-	policy, err := keto.GetPolicy("/engines/acp/ory/regex/policies/" + id)
+	// ---------------- get details of the organisation policy from the database ---------------------
+	policy := new(model.OrganisationPolicy)
+	err = model.DB.Where(&model.OrganisationPolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Organisation").Preload("Permissions").Preload("Roles").First(policy).Error
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
-	// sending JSON response 
+	// sending JSON response
 	renderx.JSON(w, http.StatusOK, policy)
 }

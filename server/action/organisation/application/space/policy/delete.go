@@ -1,12 +1,15 @@
 package policy
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/keto"
+	"github.com/factly/kavach-server/util/space"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -59,6 +62,15 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get policy ID path parameter
+	pID := chi.URLParam(r, "policy_id")
+	policyID, err := strconv.Atoi(pID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	// Check if user is owner of organisation
 	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
 		loggerx.Error(err)
@@ -66,15 +78,42 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check if the user is part of application or not
+	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
+	if !flag {
+		loggerx.Error(errors.New("user is not part of space"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	// getting policy name from policyID
+	policyName, err := util.GetSpacePolicyByID(uint(policyID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	// Deleting the space policy from the kavachDB
+	tx := model.DB.Begin()
+	err = model.DB.Delete(&model.SpacePolicy{}, policyID).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	// ---------------- Delete policy from the keto server -----------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":") + "" // the empty string will be name
+	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":") + *policyName
 	err = keto.DeletePolicy("/engines/acp/ory/regex/policies/" + id)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
+	tx.Commit() // commiting the transaction
 	// send JSON response
 	renderx.JSON(w, http.StatusOK, nil)
 
