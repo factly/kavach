@@ -39,8 +39,8 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get organisation id from path
-	pID := chi.URLParam(r, "organisation_id")
+	// Get policy id from path
+	pID := chi.URLParam(r, "policy_id")
 	policyID, err := strconv.Atoi(pID)
 	if err != nil {
 		loggerx.Error(err)

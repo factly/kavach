@@ -32,7 +32,9 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
           <span>
             <Popconfirm
               title="Sure to Revoke?"
-              onConfirm={() => dispatch(deleteApplicationToken(record.id, data.id)).then(() => history.go(0))}
+              onConfirm={() =>
+                dispatch(deleteApplicationToken(record.id, data.id)).then(() => history.go(0))
+              }
             >
               <Link to="" className="ant-dropdown-link">
                 <Button danger type="text">

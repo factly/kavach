@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ApplicationUsers from './users/index';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
- 
+
 function EditApplication() {
   const history = useHistory();
   const { id } = useParams();

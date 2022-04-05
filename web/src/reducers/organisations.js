@@ -7,6 +7,7 @@ import {
   ADD_ORGANISATION_USERS,
   ADD_APPLICATION_IDS,
   ADD_ORGANISATION_ROLE,
+  ADD_ORGANISATION_ROLE_IDS,
 } from '../constants/organisations';
 import { ADD_ORGANISATION_TOKENS } from '../constants/token';
 
@@ -94,14 +95,25 @@ export default function tagsReducer(state = initialState, action = {}) {
     case ADD_ORGANISATION_TOKENS:
       return {
         ...state,
-        details:{
+        details: {
           ...state.details,
           [state.selected]: {
             ...state.details[state.selected],
-            tokens: payload
-          }
-        }
-      }
+            tokens: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_ROLE_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            roles: payload,
+          },
+        },
+      };
     default:
       return state;
   }

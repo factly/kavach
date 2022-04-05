@@ -29,34 +29,34 @@ export default function TokenList({ type }) {
     };
   });
 
-  const { tokens, loading } = useSelector((state)=>{
-    var tokenIDs = []
-    switch(type){
+  const { tokens, loading } = useSelector((state) => {
+    var tokenIDs = [];
+    switch (type) {
       case 'organisation':
-        tokenIDs = state.organisations.details[state.organisations.selected]?.tokens || []
+        tokenIDs = state.organisations.details[state.organisations.selected]?.tokens || [];
         return {
-          tokens: tokenIDs.map((id)=>state.tokens.details[id]),
-          loading: state.tokens.loading
-        }
+          tokens: tokenIDs.map((id) => state.tokens.details[id]),
+          loading: state.tokens.loading,
+        };
       case 'application':
-         tokenIDs = state.applications.details[appID]?.tokens || []
+        tokenIDs = state.applications.details[appID]?.tokens || [];
         return {
-          tokens: tokenIDs.map((id)=>state.tokens.details[id]),
-          loading: state.tokens.loading
-        }
+          tokens: tokenIDs.map((id) => state.tokens.details[id]),
+          loading: state.tokens.loading,
+        };
       case 'space':
-        tokenIDs = state.spaces.details[spaceID]?.tokens || []
+        tokenIDs = state.spaces.details[spaceID]?.tokens || [];
         return {
-          tokens: tokenIDs.map((id)=>state.tokens?.details[id]),
-          loading: state.tokens.loading
-        }
+          tokens: tokenIDs.map((id) => state.tokens?.details[id]),
+          loading: state.tokens.loading,
+        };
       default:
         return {
           tokens: [],
-          loading: true
-        }
+          loading: true,
+        };
     }
-  })
+  });
 
   const onAppChange = (value) => {
     setAppID(value);
@@ -89,36 +89,33 @@ export default function TokenList({ type }) {
   const onDelete = (id) => {
     switch (type) {
       case 'organisation':
-        dispatch(deleteOrganisationToken(id)).then(() =>
-          dispatch(getOrganisationTokens()),
-          );
+        dispatch(deleteOrganisationToken(id)).then(() => dispatch(getOrganisationTokens()));
         break;
       case 'application':
         dispatch(deleteApplicationToken(appID, id)).then(() =>
           dispatch(getApplicationTokens(appID)),
-          );
+        );
         break;
       case 'space':
         dispatch(deleteSpaceToken(id, appID, spaceID)).then(() =>
           dispatch(getSpaceTokens(appID, spaceID)),
-          );
+        );
         break;
       default:
         return;
     }
   };
 
-
   React.useEffect(() => {
     fetchTokens();
     // eslint-disable-next-line
   }, [dispatch, spaceID, appID, type]);
 
-  React.useEffect(()=>{
-    setAppID(applications[0]?.id)
-    setSpaceID(spaces[0]?.id)
+  React.useEffect(() => {
+    setAppID(applications[0]?.id);
+    setSpaceID(spaces[0]?.id);
     // eslint-disable-next-line
-  }, [type])
+  }, [type]);
   const columns = [
     {
       title: 'Name',
@@ -145,10 +142,7 @@ export default function TokenList({ type }) {
       render: (_, record) => {
         return (
           <span>
-            <Popconfirm
-              title="Sure to Revoke?"
-                onConfirm={()=>onDelete(record.id)}
-            >
+            <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
               <Link to="" className="ant-dropdown-link">
                 <Button danger type="text">
                   Revoke
@@ -175,7 +169,7 @@ export default function TokenList({ type }) {
               },
             ]}
             style={{
-              width: 300
+              width: 300,
             }}
           >
             <Select onChange={onAppChange} defaultValue={applications[0]?.id}>
@@ -200,7 +194,7 @@ export default function TokenList({ type }) {
               },
             ]}
             style={{
-              width: 300
+              width: 300,
             }}
           >
             <Select onChange={onSpaceChange}>

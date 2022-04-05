@@ -14,7 +14,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//create - Update role for an organisation using organisation_id
+//update - Update role for an organisation using organisation_id
 // @Summary Update role for an organisation using organisation_id
 // @Description Update role for an organisation using organisation_id
 // @Tags Organisationroles

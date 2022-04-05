@@ -7,6 +7,8 @@ import {
   SendOutlined,
   ApartmentOutlined,
   PoundCircleOutlined,
+  UsergroupAddOutlined,
+  GatewayOutlined,
 } from '@ant-design/icons';
 
 //Pages
@@ -26,6 +28,8 @@ import EditSpace from '../pages/application/spaces/EditSpace';
 import Spaces from '../pages/application/spaces/index';
 import SpaceUser from '../pages/application/spaces/users';
 import Token from '../pages/tokens';
+import Roles from '../pages/roles';
+import Policy from '../pages/policy';
 export default [
   {
     path: '/settings',
@@ -147,5 +151,21 @@ export default [
     title: 'Tokens',
     enableBreadcrumb: true,
     Icon: PoundCircleOutlined,
+  },
+  {
+    path: '/roles',
+    Component: Roles,
+    enableNavigation: true,
+    title: 'Roles',
+    enableBreadcrumb: true,
+    Icon: UsergroupAddOutlined,
+  },
+  {
+    path: '/policies',
+    Component: Policy,
+    enableNavigation: true,
+    title: 'Policy',
+    enableBreadcrumb: true,
+    Icon: GatewayOutlined,
   },
 ];

@@ -22,7 +22,7 @@ func Router() chi.Router {
 
 	r.Get("/", list)
 	r.Post("/", create)
-	r.Route("/{role_id}", func(r chi.Router) {
+	r.Route("/{policy_id}", func(r chi.Router) {
 		r.Get("/", details)
 		r.Delete("/", delete)
 		r.Put("/", update)

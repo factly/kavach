@@ -9,6 +9,7 @@ import profile from './profile';
 import sidebar from './sidebar';
 import spaces from './space';
 import tokens from './token';
+import roles from './roles'
 export default combineReducers({
   settings,
   organisations,
@@ -21,4 +22,5 @@ export default combineReducers({
   sidebar,
   spaces,
   tokens,
+  roles
 });

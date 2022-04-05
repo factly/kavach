@@ -11,7 +11,7 @@ import {
   ADD_SPACE_TOKENS,
 } from '../constants/token';
 import { addErrorNotification, addSuccessNotification } from './notifications';
-import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects'
+import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
 
 export const addApplicationToken = (data) => {
   return (dispatch, getState) => {
@@ -79,9 +79,9 @@ export const getOrganisationTokens = () => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/tokens`)
       .then((res) => {
-        deleteKeys(res.data, ['organisation'])
-        dispatch(addTokensList(buildObjectOfItems(res.data)))
-        dispatch(addOrganisationTokens(getIds(res.data)))
+        deleteKeys(res.data, ['organisation']);
+        dispatch(addTokensList(buildObjectOfItems(res.data)));
+        dispatch(addOrganisationTokens(getIds(res.data)));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -141,9 +141,9 @@ export const getSpaceTokens = (appID, spaceID) => {
         }/applications/${appID}/spaces/${spaceID}/tokens`,
       )
       .then((res) => {
-        deleteKeys(res.data, ['organisation'])
-        dispatch(addTokensList(buildObjectOfItems(res.data)))
-        dispatch(addSpaceTokens(spaceID, getIds(res.data)))
+        deleteKeys(res.data, ['organisation']);
+        dispatch(addTokensList(buildObjectOfItems(res.data)));
+        dispatch(addSpaceTokens(spaceID, getIds(res.data)));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -163,8 +163,8 @@ export const addSpaceToken = (data) => {
           data.application
         }/spaces/${data.space}/tokens`,
         {
-          "name": data.name,
-          "description": data.description
+          name: data.name,
+          description: data.description,
         },
       )
       .then(() => {
@@ -205,7 +205,7 @@ const addApplicationTokens = (appID, data) => {
     type: ADD_APPLICATION_TOKENS,
     payload: {
       id: appID,
-      data: data
+      data: data,
     },
   };
 };
@@ -215,9 +215,9 @@ export const getApplicationTokens = (appID) => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/tokens`)
       .then((res) => {
-        deleteKeys(res.data.nodes, ['application'])
-        dispatch(addTokensList(buildObjectOfItems(res.data.nodes)))
-        dispatch(addApplicationTokens(appID, getIds(res.data.nodes)))
+        deleteKeys(res.data.nodes, ['application']);
+        dispatch(addTokensList(buildObjectOfItems(res.data.nodes)));
+        dispatch(addApplicationTokens(appID, getIds(res.data.nodes)));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

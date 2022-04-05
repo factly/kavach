@@ -1,7 +1,4 @@
-import {
-  ADD_TOKENS,
-  SET_TOKENS_LOADING
-} from '../constants/token';
+import { ADD_TOKENS, SET_TOKENS_LOADING } from '../constants/token';
 
 const initialState = {
   details: {},
@@ -15,7 +12,7 @@ export default function tokensReducer(state = initialState, action = {}) {
         ...state,
         details: { ...state.details, ...action.payload },
       };
-    
+
     case SET_TOKENS_LOADING:
       return {
         ...state,

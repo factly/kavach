@@ -5,11 +5,9 @@ import {
   STOP_SPACES_LOADING,
   SET_SELECTED_APP,
   ADD_SPACES,
-  
+  ADD_SPACE_ROLE_IDS
 } from '../constants/space';
-import {
-  ADD_SPACE_TOKENS
-} from '../constants/token';
+import { ADD_SPACE_TOKENS } from '../constants/token';
 const initialState = {
   details: {},
   selected: null,
@@ -60,6 +58,17 @@ export default function spaces(state = initialState, action = {}) {
           },
         },
       };
+    case ADD_SPACE_ROLE_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            roles: action.payload.data
+          }
+        }
+      }
     default:
       return state;
   }
