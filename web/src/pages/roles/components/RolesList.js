@@ -16,21 +16,23 @@ export default function RolesList({ type }) {
   const dispatch = useDispatch();
   const [appID, setAppID] = React.useState(null);
   const [spaceID, setSpaceID] = React.useState(null);
-  const { applications, loadingApps, spaces, loadingSpaces, userRole, orgID } = useSelector((state) => {
-    return {
-      applications: state.organisations.details[state.organisations.selected].applications.map(
-        (id) => state.applications.details[id],
-      ),
-      loadingApps: state.organisations.loading,
-      spaces:
-        appID === null
-          ? []
-          : state.applications.details[appID].spaces.map((id) => state.spaces.details[id]),
-      loadingSpaces: state.applications.loading,
-      userRole: state.organisations.details[state.organisations.selected].role,
-      orgID: state.organisations.selected
-    };
-  });
+  const { applications, loadingApps, spaces, loadingSpaces, userRole, orgID } = useSelector(
+    (state) => {
+      return {
+        applications: state.organisations.details[state.organisations.selected].applications.map(
+          (id) => state.applications.details[id],
+        ),
+        loadingApps: state.organisations.loading,
+        spaces:
+          appID === null
+            ? []
+            : state.applications.details[appID].spaces.map((id) => state.spaces.details[id]),
+        loadingSpaces: state.applications.loading,
+        userRole: state.organisations.details[state.organisations.selected].role,
+        orgID: state.organisations.selected,
+      };
+    },
+  );
 
   const { roles, loading } = useSelector((state) => {
     var roleIDs = [];
@@ -120,7 +122,7 @@ export default function RolesList({ type }) {
     }
   };
 
-  function getPathfromType(type, id){
+  function getPathfromType(type, id) {
     switch (type) {
       case 'organisation':
         return `/organisations/${orgID}/roles/${id}/edit`;
@@ -157,12 +159,10 @@ export default function RolesList({ type }) {
                 style={{
                   marginRight: 8,
                 }}
-                to={
-                  {
-                    pathname: getPathfromType(type, record?.id),
-                    state: type
-                  }
-                }
+                to={{
+                  pathname: getPathfromType(type, record?.id),
+                  state: type,
+                }}
               >
                 {record?.name}
               </Link>
@@ -171,7 +171,7 @@ export default function RolesList({ type }) {
             )}
           </div>
         );
-      }
+      },
     },
     {
       title: 'Description',

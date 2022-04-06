@@ -9,29 +9,29 @@ import {
   getSpaceRoleByID,
 } from '../../../actions/roles';
 
-import {  useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function EditRoles() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const location = useLocation()
-  const type = location.state
+  const location = useLocation();
+  const type = location.state;
   const { id, appID, spaceID } = useParams();
 
   const onUpdate = (data) => {
-    switch(type){
-    	case 'organisation':
-    		dispatch(updateOrganisationRole(id, data));
+    switch (type) {
+      case 'organisation':
+        dispatch(updateOrganisationRole(id, data));
         break;
       case 'application':
-        dispatch(updateApplicationRole(id, appID, data))
-        break
+        dispatch(updateApplicationRole(id, appID, data));
+        break;
       case 'space':
-        dispatch(updateSpaceRole(id, appID, spaceID, data))
-        break
+        dispatch(updateSpaceRole(id, appID, spaceID, data));
+        break;
       default:
-        return
+        return;
     }
   };
 
@@ -58,7 +58,7 @@ export default function EditRoles() {
       default:
         return {
           role: {},
-          loading: true
+          loading: true,
         };
     }
   });

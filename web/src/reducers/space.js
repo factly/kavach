@@ -6,6 +6,7 @@ import {
   SET_SELECTED_APP,
   ADD_SPACES,
   ADD_SPACE_ROLE_IDS,
+  ADD_SPACE_POLICY_IDS,
 } from '../constants/space';
 import { ADD_SPACE_TOKENS } from '../constants/token';
 const initialState = {
@@ -66,6 +67,17 @@ export default function spaces(state = initialState, action = {}) {
           [action.payload.id]: {
             ...state.details[action.payload.id],
             roleIDs: action.payload.data,
+          },
+        },
+      };
+    case ADD_SPACE_POLICY_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            policyIDs: action.payload.data,
           },
         },
       };

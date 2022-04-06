@@ -5,6 +5,7 @@ import {
   RESET_APPLICATIONS,
   ADD_SPACE_IDS,
   ADD_APPLICATION_ROLE_IDS,
+  ADD_APPLICATION_POLICY_IDS,
 } from '../constants/application';
 
 import { ADD_USER_IDS } from '../constants/applicationUser';
@@ -82,6 +83,17 @@ export default function application(state = initialState, action = {}) {
           [action.payload.id]: {
             ...state.details[action.payload.id],
             roleIDs: action.payload.data,
+          },
+        },
+      };
+    case ADD_APPLICATION_POLICY_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            policyIDs: action.payload.data,
           },
         },
       };

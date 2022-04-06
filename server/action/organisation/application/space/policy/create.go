@@ -90,6 +90,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// -------------------- Adding the space policy to the kavach DB --------------------------
 	// binding the policyReq to SpacePolicy model
 	var policy model.SpacePolicy
+	policy.CreatedByID = uint(userID)
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.SpaceID = uint(spaceID)

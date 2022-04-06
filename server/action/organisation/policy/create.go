@@ -63,6 +63,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// ------------- Creating Organisation Policy in the Database -----------
 	// binding policyReq to the model.OrganisationPolicy datamodel
 	var policy model.OrganisationPolicy
+	policy.CreatedByID = uint(userID)
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.OrganisationID = uint(orgID)

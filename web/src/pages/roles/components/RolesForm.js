@@ -54,7 +54,7 @@ export default function FormComponent({ type, onSubmit, form }) {
           onFinish={(values) => onSubmit(values, type)}
           form={form}
           initialValues={{
-           application: applications[0]?.id,
+            application: applications[0]?.id,
             space: spaceID,
           }}
         >
@@ -81,7 +81,7 @@ export default function FormComponent({ type, onSubmit, form }) {
                 },
               ]}
             >
-              <Select onChange={onChange} >
+              <Select onChange={onChange}>
                 {applications.map((app) => {
                   return (
                     <Select.Option key={app.id} value={app.id}>

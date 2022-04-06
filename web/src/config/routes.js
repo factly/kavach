@@ -8,7 +8,7 @@ import {
   ApartmentOutlined,
   PoundCircleOutlined,
   UsergroupAddOutlined,
-  GatewayOutlined,
+  FileProtectOutlined,
 } from '@ant-design/icons';
 
 //Pages
@@ -167,7 +167,7 @@ export default [
     enableNavigation: true,
     title: 'Policy',
     enableBreadcrumb: true,
-    Icon: GatewayOutlined,
+    Icon: FileProtectOutlined,
   },
   {
     path: '/organisations/:orgID/roles/:id/edit',

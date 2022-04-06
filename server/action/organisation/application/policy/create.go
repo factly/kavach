@@ -79,6 +79,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// binding the policyReq to ApplicationPolicy model
 	var policy model.ApplicationPolicy
+	policy.CreatedByID = uint(userID)
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.ApplicationID = uint(appID)
