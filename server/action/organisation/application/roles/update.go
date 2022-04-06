@@ -94,8 +94,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, validationError)
 		return
 	}
+
+	updateMap := map[string]interface{}{
+		"name": appRole.Name,
+		"description": appRole.Description,
+	} 
 	//update the application role
-	err = model.DB.Model(&model.ApplicationRole{}).Where("application_id = ? AND id = ?", appID, roleIDInt).Updates(appRole).Error
+	err = model.DB.Model(&model.ApplicationRole{}).Where("application_id = ? AND id = ?", appID, roleIDInt).Updates(updateMap).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

@@ -1,5 +1,5 @@
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
-// const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+
 const path = require('path');
 const options = {
   antDir: path.join(__dirname, './node_modules/antd'),

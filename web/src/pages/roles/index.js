@@ -1,8 +1,16 @@
 import React from 'react';
 import { Collapse, Form, Tabs } from 'antd';
 import FormComponent from './components/RolesForm';
+import RolesList from './components/RolesList';
 import { useDispatch } from 'react-redux';
-import { getOrganisationRoles, getApplicationRoles, getSpaceRoles,  createOrganisationRole, createApplicationRole, createSpaceRole } from '../../actions/roles';
+import {
+  getOrganisationRoles,
+  getApplicationRoles,
+  getSpaceRoles,
+  createOrganisationRole,
+  createApplicationRole,
+  createSpaceRole,
+} from '../../actions/roles';
 
 function Roles() {
   const [form] = Form.useForm();
@@ -11,16 +19,19 @@ function Roles() {
     const reqBody = {
       name: value.name,
       description: value.description,
-    }
+    };
+
     switch (type) {
       case 'organisation':
         dispatch(createOrganisationRole(reqBody)).then(() => dispatch(getOrganisationRoles()));
         break;
       case 'application':
-        dispatch(createApplicationRole(reqBody)).then(() => getApplicationRoles(value.application));
+        dispatch(createApplicationRole(value.application, reqBody)).then(() =>
+          getApplicationRoles(value.application),
+        );
         break;
       case 'space':
-        dispatch(createSpaceRole(reqBody)).then(() =>
+        dispatch(createSpaceRole(value.application, value.space, reqBody)).then(() =>
           dispatch(getSpaceRoles(value.application, value.space)),
         );
         break;
@@ -47,9 +58,15 @@ function Roles() {
       </Collapse.Panel>
       <Collapse.Panel header=" View Roles">
         <Tabs centered={true}>
-          <Tabs.TabPane tab="Organisation roles" key="1"></Tabs.TabPane>
-          <Tabs.TabPane tab="Application roles" key="2"></Tabs.TabPane>
-          <Tabs.TabPane tab="Space roles" key="3"></Tabs.TabPane>
+          <Tabs.TabPane tab="Organisation roles" key="1">
+            <RolesList type="organisation" />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Application roles" key="2">
+            <RolesList type="application" />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Space roles" key="3">
+            <RolesList type="space" />
+          </Tabs.TabPane>
         </Tabs>
       </Collapse.Panel>
     </Collapse>

@@ -60,7 +60,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//binding organisation role
-	orgRole := model.OrganisationRole{}
+	orgRole := new(model.OrganisationRole)
 	orgRole.ID = uint(roleIDInt)
 
 	//initiating a transaction

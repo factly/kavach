@@ -110,7 +110,7 @@ export default function tagsReducer(state = initialState, action = {}) {
           ...state.details,
           [state.selected]: {
             ...state.details[state.selected],
-            roles: payload,
+            roleIDs: payload,
           },
         },
       };

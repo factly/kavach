@@ -24,13 +24,14 @@ export default function FormComponent({ type, onSubmit, form }) {
   };
 
   const onSpaceChange = (value) => {
-    setSpaceID(value)
-  }
-  
-  React.useEffect(()=>{
+    setSpaceID(value);
+  };
+
+  React.useEffect(() => {
     setAppID(applications[0]?.id);
     setSpaceID(spaces[0]?.id);
-  }, [type])
+    // eslint-disable-next-line
+  }, [type]);
 
   return (
     <div
@@ -53,7 +54,7 @@ export default function FormComponent({ type, onSubmit, form }) {
           onFinish={(values) => onSubmit(values, type)}
           form={form}
           initialValues={{
-            application: appID,
+           application: applications[0]?.id,
             space: spaceID,
           }}
         >

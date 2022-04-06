@@ -50,8 +50,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	// list application role
-	roles := make([]model.ApplicationRole, 0)
+	// list space role
+	roles := make([]model.SpaceRole, 0)
 
 	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
 		SpaceID: uint(spaceID),

@@ -9,18 +9,17 @@ import profile from './profile';
 import sidebar from './sidebar';
 import spaces from './space';
 import tokens from './token';
-import roles from './roles'
+import roles from './roles';
 export default combineReducers({
   settings,
   organisations,
   users,
   media,
   applications,
-  // applicationUsers,
   notifications,
   profile,
   sidebar,
   spaces,
   tokens,
-  roles
+  roles,
 });

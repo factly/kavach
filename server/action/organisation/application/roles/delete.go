@@ -93,7 +93,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//binding application role
-	appRole := model.ApplicationRole{}
+	appRole := new(model.ApplicationRole)
 	appRole.ID = uint(roleIDInt)
 
 	// delete the role from application

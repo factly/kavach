@@ -116,6 +116,7 @@ export default function TokenList({ type }) {
     setSpaceID(spaces[0]?.id);
     // eslint-disable-next-line
   }, [type]);
+
   const columns = [
     {
       title: 'Name',

@@ -94,8 +94,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	updateMap := map[string]interface{}{
+		"name": spaceRole.Name,
+		"description": spaceRole.Description,
+	} 
+
 	//update the application role
-	err = model.DB.Model(&model.SpaceRole{}).Where("space_id = ? AND id = ?", spaceID, roleIDInt).Updates(spaceRole).Error
+	err = model.DB.Model(&model.SpaceRole{}).Where("space_id = ? AND id = ?", spaceID, roleIDInt).Updates(updateMap).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

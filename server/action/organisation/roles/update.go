@@ -73,8 +73,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	updateMap := map[string]interface{}{
+		"name": organisationRole.Name,
+		"description": organisationRole.Description,
+	} 
+
 	//update the organisation role
-	err = model.DB.Model(&model.OrganisationRole{}).Where("organisation_id = ? AND id = ?", orgID, roleIDInt).Updates(organisationRole).Error
+	err = model.DB.Model(&model.OrganisationRole{}).Where("organisation_id = ? AND id = ?", orgID, roleIDInt).Updates(updateMap).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
