@@ -75,7 +75,7 @@ function Auth(props) {
           }
         })
         .catch((err) => {
-          window.location.href = window.PUBLIC_URL + '/error';
+          window.location.href = window.REACT_APP_PUBLIC_URL + '/error';
         });
     }
   }, [props.flow, afterVerificationURL]);
