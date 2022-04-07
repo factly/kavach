@@ -31,6 +31,8 @@ import Token from '../pages/tokens';
 import Roles from '../pages/roles';
 import Policy from '../pages/policy';
 import EditRoles from '../pages/roles/components/EditRoles';
+import EditPolicy from '../pages/policy/components/EditPolicy';
+
 export default [
   {
     path: '/settings',
@@ -188,6 +190,27 @@ export default [
     Component: EditRoles,
     enableNavigation: false,
     title: 'Edit Space Role',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/organisations/:orgID/policy/:id/edit',
+    Component: EditPolicy,
+    enableNavigation: false,
+    title: 'Edit Organistion Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/organisations/:orgID/applications/:appID/policy/:id/edit',
+    Component: EditPolicy,
+    enableNavigation: false,
+    title: 'Edit Application Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/organisations/:orgID/applications/:appID/spaces/:spaceID/policy/:id/edit',
+    Component: EditPolicy,
+    enableNavigation: false,
+    title: 'Edit Space Policy',
     enableBreadcrumb: true,
   },
 ];

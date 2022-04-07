@@ -2,9 +2,9 @@ import React from 'react';
 import { Form, Button, Select, Input, Row, Col } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-export default function DynamicPermissionField() {
+export default function DynamicPermissionField({ type }) {
   const PermissionForm = ({ permission, index, remove }) => {
-		const colSpan = 8
+    const colSpan = 9;
     return (
       <Row key={index} justify="center" align="middle" gutter={[10, 0]}>
         <Col span={colSpan}>
@@ -25,10 +25,10 @@ export default function DynamicPermissionField() {
             <Select mode="tags" placeholder="select action" />
           </Form.Item>
         </Col>
-        <Col span={colSpan} style>
+        <Col span={colSpan - 3} style>
           <Button
             type="danger"
-            onClick={() => remove(permission.name)}
+            onClick={() => remove(permission?.name)}
             icon={<MinusCircleOutlined />}
             hidden={index === 0}
           />
@@ -42,11 +42,12 @@ export default function DynamicPermissionField() {
       {(permissions, { add, remove }) => {
         return (
           <div>
+            {type === 'create' ? <PermissionForm index={0} remove={remove} /> : null}
             {permissions.map((permission, index) => (
               <PermissionForm
+                key={index}
                 permission={permission}
-                permissions={permissions}
-                index={index}
+                index={type === 'create' ? index + 1 : index}
                 remove={remove}
               />
             ))}
