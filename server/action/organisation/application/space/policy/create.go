@@ -87,6 +87,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 	}
 
+	// validating slug
+	var count int64
+	err = model.DB.Model(&model.SpacePolicy{}).Find(model.SpacePolicy{
+		Slug: reqBody.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count > 0 {
+		loggerx.Error(errors.New("space policy slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
+
 	// -------------------- Adding the space policy to the kavach DB --------------------------
 	// binding the policyReq to SpacePolicy model
 	var policy model.SpacePolicy

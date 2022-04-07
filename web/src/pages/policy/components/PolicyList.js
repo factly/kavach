@@ -214,10 +214,10 @@ export default function PolicyList({ type }) {
                 state: type,
               }}
             >
-              <Button icon={<EditOutlined />} />
+              <Button icon={<EditOutlined />} disabled={userRole!=='owner'}/>
             </Link>
-            <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record. id)}>
-              <Button danger type="text" icon={<DeleteOutlined />} />
+            <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
+              <Button danger type="text" icon={<DeleteOutlined />} disabled={userRole!=='owner'}/>
             </Popconfirm>
           </div>
         );
@@ -227,6 +227,7 @@ export default function PolicyList({ type }) {
 
   React.useEffect(() => {
     fetchPolicy();
+    // eslint-disable-next-line
     fetchRoles();
     // eslint-disable-next-line
   }, [dispatch, spaceID, appID, type]);

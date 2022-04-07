@@ -2,6 +2,7 @@ package policy
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -60,10 +61,27 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// validating slug
+	var count int64
+	err = model.DB.Model(&model.OrganisationPolicy{}).Find(model.OrganisationPolicy{
+		Slug: reqBody.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count > 0 {
+		loggerx.Error(errors.New("organisation policy slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
+
 	// ------------- Creating Organisation Policy in the Database -----------
 	// binding policyReq to the model.OrganisationPolicy datamodel
 	var policy model.OrganisationPolicy
 	policy.CreatedByID = uint(userID)
+	policy.Slug = reqBody.Slug
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.OrganisationID = uint(orgID)

@@ -7,6 +7,7 @@ import (
 type policyReq struct {
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
+	Slug        string       `json:"slug"`
 	Permissions []permission `json:"permissions"`
 	Roles       []uint       `json:"roles"`
 }

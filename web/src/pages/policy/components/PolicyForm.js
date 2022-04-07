@@ -3,6 +3,7 @@ import { Card, Form, Input, Button, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from './DynamicPermissionField';
 import { getOrganisationRoles, getApplicationRoles, getSpaceRoles } from '../../../actions/roles';
+import { maker, checker } from '../../../utils/sluger';
 export default function FormComponent({ type, onSubmit, form }) {
   const [appID, setAppID] = React.useState(null);
   const [spaceID, setSpaceID] = React.useState(null);
@@ -20,6 +21,12 @@ export default function FormComponent({ type, onSubmit, form }) {
       loadingSpaces: state.applications.loading,
     };
   });
+  
+  const onTitleChange = (string) => {
+    form.setFieldsValue({
+      slug: maker(string),
+    });
+  };
 
   const { roles, loadingRoles } = useSelector((state) => {
     var roleIDs = [];
@@ -165,7 +172,23 @@ export default function FormComponent({ type, onSubmit, form }) {
                 },
               ]}
             >
-              <Input />
+              <Input onChange={(e) => onTitleChange(e.target.value)} placeholder="enter the name"/>
+            </Form.Item>
+            <Form.Item
+              name="slug"
+              label="Slug"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input the slug!',
+                },
+                {
+                  pattern: checker,
+                  message: 'Please enter valid slug!',
+                },
+              ]}
+            >
+              <Input placeholder="enter the slug"></Input>
             </Form.Item>
             <Form.Item
               name="description"
@@ -192,7 +215,7 @@ export default function FormComponent({ type, onSubmit, form }) {
             >
               <Select
                 mode="multiple"
-                style={{ width: '100%' }}
+                style={{width:'100%'}}
                 placeholder="select one role"
                 optionLabelProp="label"
               >

@@ -2,6 +2,7 @@ package roles
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -63,6 +64,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 	validationError := validationx.Check(organisationRole)
 	if validationError != nil {
 		errorx.Render(w, validationError)
+		return
+	}
+
+	// validating slug
+	var count int64
+	err = model.DB.Model(&model.OrganisationRole{}).Find(model.OrganisationRole{
+		Slug: organisationRole.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count > 0 {
+		loggerx.Error(errors.New("organisation role slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
 		return
 	}
 

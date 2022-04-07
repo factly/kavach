@@ -82,6 +82,7 @@ export default function EditPolicy() {
 
   React.useEffect(() => {
     fetchPolicy();
+    // eslint-disable-next-line
   }, []);
 
   return (

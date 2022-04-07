@@ -34,13 +34,13 @@ function Policy() {
       <Collapse.Panel header="Create Policy">
         <Tabs centered={true}>
           <Tabs.TabPane tab="Organisation Policy" key="1">
-            <PolicyForm type="organisation" onSubmit={onSubmit} />
+            <PolicyForm type="organisation" onSubmit={onSubmit} form={form}/>
           </Tabs.TabPane>
           <Tabs.TabPane tab="Application " key="2">
-            <PolicyForm type="application" onSubmit={onSubmit} />
+            <PolicyForm type="application" onSubmit={onSubmit} form={form}/>
           </Tabs.TabPane>
           <Tabs.TabPane tab="Space Policy" key="3">
-            <PolicyForm type="space" onSubmit={onSubmit} />
+            <PolicyForm type="space" onSubmit={onSubmit} form={form}/>
           </Tabs.TabPane>
         </Tabs>
       </Collapse.Panel>

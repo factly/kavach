@@ -77,6 +77,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 	}
 
+	// validating slug
+	var count int64
+	err = model.DB.Model(&model.ApplicationPolicy{}).Find(model.ApplicationPolicy{
+		Slug: reqBody.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count > 0 {
+		loggerx.Error(errors.New("application policy slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
+
 	// binding the policyReq to ApplicationPolicy model
 	var policy model.ApplicationPolicy
 	policy.CreatedByID = uint(userID)

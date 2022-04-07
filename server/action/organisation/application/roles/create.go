@@ -70,6 +70,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// validating slug
+	var count int64
+	err = model.DB.Model(&model.ApplicationRole{}).Find(model.ApplicationRole{
+		Slug: appRole.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count > 0 {
+		loggerx.Error(errors.New("application role slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
+
 	// Check if user is owner of organisation
 	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
 		loggerx.Error(err)
@@ -103,7 +119,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// Creating role in keto
 	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:"+ fmt.Sprint(appID) + ":" + appRole.Name
+	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(appID) + ":" + appRole.Name
 	reqRole.Description = appRole.Description
 	reqRole.Members = []string{fmt.Sprint(userID)}
 

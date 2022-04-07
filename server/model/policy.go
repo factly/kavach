@@ -7,6 +7,7 @@ import (
 type OrganisationPolicy struct {
 	Base
 	Name           string             `gorm:"column:name" json:"name"`
+	Slug           string             `gorm:"column:slug" json:"slug"`
 	Description    string             `gorm:"column:description" json:"description"`
 	OrganisationID uint               `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation      `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
@@ -17,6 +18,7 @@ type OrganisationPolicy struct {
 type ApplicationPolicy struct {
 	Base
 	Name          string            `gorm:"column:name" json:"name"`
+	Slug           string             `gorm:"column:slug" json:"slug"`
 	Description   string            `gorm:"column:description" json:"description"`
 	ApplicationID uint              `gorm:"column:application_id" json:"application_id"`
 	Application   *Application      `gorm:"foreignKey:application_id" json:"application,omitempty"`
@@ -27,6 +29,7 @@ type ApplicationPolicy struct {
 type SpacePolicy struct {
 	Base
 	Name        string       `gorm:"column:name" json:"name"`
+	Slug           string             `gorm:"column:slug" json:"slug"`
 	Description string       `gorm:"column:description" json:"description"`
 	SpaceID     uint         `gorm:"column:space_id" json:"space_id"`
 	Space       *Space       `gorm:"foreignKey:space_id" json:"space,omitempty"`
