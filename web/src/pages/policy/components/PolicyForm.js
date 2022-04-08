@@ -21,7 +21,7 @@ export default function FormComponent({ type, onSubmit, form }) {
       loadingSpaces: state.applications.loading,
     };
   });
-  
+
   const onTitleChange = (string) => {
     form.setFieldsValue({
       slug: maker(string),
@@ -172,7 +172,7 @@ export default function FormComponent({ type, onSubmit, form }) {
                 },
               ]}
             >
-              <Input onChange={(e) => onTitleChange(e.target.value)} placeholder="enter the name"/>
+              <Input onChange={(e) => onTitleChange(e.target.value)} placeholder="enter the name" />
             </Form.Item>
             <Form.Item
               name="slug"
@@ -215,7 +215,7 @@ export default function FormComponent({ type, onSubmit, form }) {
             >
               <Select
                 mode="multiple"
-                style={{width:'100%'}}
+                style={{ width: '100%' }}
                 placeholder="select one role"
                 optionLabelProp="label"
               >

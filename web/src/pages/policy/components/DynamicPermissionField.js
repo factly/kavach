@@ -42,7 +42,7 @@ export default function DynamicPermissionField({ type }) {
       {(permissions, { add, remove }) => {
         return (
           <div>
-            {type === 'create' ? <PermissionForm index={0} remove={remove} /> : null}
+            {type === 'create' ? <PermissionForm key={0} index={0} /> : null}
             {permissions.map((permission, index) => (
               <PermissionForm
                 key={index}

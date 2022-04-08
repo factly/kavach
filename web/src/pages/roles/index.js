@@ -19,7 +19,7 @@ function Roles() {
     const reqBody = {
       name: value.name,
       description: value.description,
-      slug: value.slug
+      slug: value.slug,
     };
 
     switch (type) {

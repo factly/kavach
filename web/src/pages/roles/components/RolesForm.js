@@ -64,34 +64,34 @@ export default function FormComponent({ type, onSubmit, form }) {
             space: spaceID,
           }}
         >
-             <Form.Item
-              name="name"
-              label="Name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input policy name!',
-                },
-              ]}
-            >
-              <Input onChange={(e) => onTitleChange(e.target.value)} placeholder="enter the name"/>
-            </Form.Item>
-            <Form.Item
-              name="slug"
-              label="Slug"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input the slug!',
-                },
-                {
-                  pattern: checker,
-                  message: 'Please enter valid slug!',
-                },
-              ]}
-            >
-              <Input placeholder="enter the slug"></Input>
-            </Form.Item>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[
+              {
+                required: true,
+                message: 'Please input policy name!',
+              },
+            ]}
+          >
+            <Input onChange={(e) => onTitleChange(e.target.value)} placeholder="enter the name" />
+          </Form.Item>
+          <Form.Item
+            name="slug"
+            label="Slug"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the slug!',
+              },
+              {
+                pattern: checker,
+                message: 'Please enter valid slug!',
+              },
+            ]}
+          >
+            <Input placeholder="enter the slug"></Input>
+          </Form.Item>
           {(type === 'application' || type === 'space') && !loading ? (
             <Form.Item
               label="Application"
