@@ -39,15 +39,6 @@ type OrganisationToken struct {
 	Token          string        `gorm:"column:token" json:"token"`
 }
 
-type OrganisationToken struct {
-	Base
-	Name           string        `gorm:"column:name" json:"name"`
-	Description    string        `gorm:"column:description" json:"description"`
-	OrganisationID *uint         `gorm:"column:organisation_id" json:"organisation_id"`
-	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation"`
-	Token          string        `gorm:"column:token" json:"token"`
-}
-
 var organisationUserKey ContextKey = "organisation_user"
 
 // BeforeSave - validation for medium

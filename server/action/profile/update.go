@@ -17,15 +17,9 @@ import (
 type user struct {
 	FirstName        string         `json:"first_name" validate:"required"`
 	LastName         string         `json:"last_name"`
-<<<<<<< HEAD
-	DisplayName      string         `json:"display_name"`
-	Slug             string         `json:"slug"`
-	BirthDate        string         `json:"birth_date"`
-=======
 	DisplayName      string         `json:"display_name" validate:"required"`
 	Slug             string         `json:"slug" validate:"required"`
 	BirthDate        time.Time      `json:"birth_date"`
->>>>>>> fe3ae8295903bf38e274e917262a3cc54c0fca23
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
