@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 
 function KratosError() {
-  const [status, setStatus] = useState(null);
-  const [title, setTitle] = useState(null);
+  const [status, setStatus] = useState('500');
+  const [title, setTitle] = useState('Something went wrong. Try after some time.');
   React.useEffect(() => {
     var obj = {};
 
@@ -26,8 +26,6 @@ function KratosError() {
       .then((res) => {
         if (res.error.code >= 400 && res.error.code <= 499) {
           setStatus('error');
-        } else if (res.error.code >= 500) {
-          setStatus('500');
         }
         setTitle(res.error.message);
       })

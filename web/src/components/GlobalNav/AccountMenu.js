@@ -37,6 +37,7 @@ const AccountMenu = () => {
       })
       .then((res) => {
         window.location.href = res.logout_url;
+        localStorage.removeItem('returnTo');
       })
       .catch(() => {
         notification.error({

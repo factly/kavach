@@ -66,7 +66,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
-	if !viper.GetBool("enable_multitenancy") {
+	if !viper.GetBool("enable_multitenancy"){
 		var organisation model.Organisation
 		result := tx.Model(&model.Organisation{}).First(&organisation)
 		if result.RowsAffected != 0 {
