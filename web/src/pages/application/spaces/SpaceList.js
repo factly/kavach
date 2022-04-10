@@ -108,9 +108,10 @@ function SpaceList({ appID, role }) {
             <Link to={`/applications/${appID}/spaces/${record?.id}/users`}>
               <Button
                 icon={<PlusOutlined />}
-                style={{ backgroundColor: '#00FF00' }}
+                type="primary"
                 disabled={role !== 'owner'}
-              />
+              > Add User 
+              </Button>
             </Link>
             <Popconfirm
               title="Are you sure you want to delete this?"

@@ -30,6 +30,7 @@ function SpaceUser() {
 
   const onSubmit = (values) => {
     dispatch(addSpaceUser(appID, id, values)).then(() => dispatch(getSpaces(appID)));
+    form.resetFields();
   };
 
   return (

@@ -17,7 +17,7 @@ type User struct {
 	LastName         string         `gorm:"column:last_name" json:"last_name"`
 	Slug             string         `gorm:"column:slug" json:"slug"`
 	DisplayName      string         `gorm:"column:display_name" json:"display_name"`
-	BirthDate        time.Time      `gorm:"column:birth_date" json:"birth_date"`
+	BirthDate        *time.Time      `gorm:"column:birth_date" json:"birth_date"`
 	Gender           string         `gorm:"column:gender" json:"gender"`
 	FeaturedMediumID *uint          `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
 	Medium           *Medium        `gorm:"foreignKey:featured_medium_id" json:"medium"`

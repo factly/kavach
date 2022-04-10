@@ -70,7 +70,7 @@ export default function FormComponent({ type, onSubmit, form }) {
             rules={[
               {
                 required: true,
-                message: 'Please input policy name!',
+                message: 'Please input role name!',
               },
             ]}
           >

@@ -19,7 +19,7 @@ type user struct {
 	LastName         string         `json:"last_name"`
 	DisplayName      string         `json:"display_name"`
 	Slug             string         `json:"slug"`
-	BirthDate        string      `json:"birth_date"`
+	BirthDate        string         `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
@@ -85,15 +85,17 @@ func update(w http.ResponseWriter, r *http.Request) {
 		userSlug = req.Slug
 	}
 	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
-	if err!=nil{
+	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
+	bDate := new (time.Time)
+	*bDate = birthDate
 	updateUser := model.User{
 		FirstName:        req.FirstName,
 		LastName:         req.LastName,
-		BirthDate:        birthDate,
+		BirthDate:        bDate,
 		Slug:             userSlug,
 		Gender:           req.Gender,
 		FeaturedMediumID: mediumID,

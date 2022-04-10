@@ -10,7 +10,7 @@ import {
   getSpaceRoles,
 } from '../../../actions/roles';
 import { Link } from 'react-router-dom';
-
+import { PlusOutlined } from '@ant-design/icons';
 // RolesList displays the roles in the form of table
 export default function RolesList({ type }) {
   const dispatch = useDispatch();
@@ -213,6 +213,14 @@ export default function RolesList({ type }) {
       render: (_, record) => {
         return (
           <span>
+            <Link to={``}>
+              <Button
+                icon={<PlusOutlined />}
+                type="primary"
+                disabled={userRole !== 'owner'}
+              > Add User 
+              </Button>
+            </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
               <Button danger type="text">
                 Revoke

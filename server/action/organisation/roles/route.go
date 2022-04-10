@@ -1,6 +1,7 @@
 package roles
 
 import (
+	"github.com/factly/kavach-server/action/organisation/roles/user"
 	"github.com/go-chi/chi"
 )
 
@@ -13,7 +14,8 @@ func Router() chi.Router {
 	r.Route("/{role_id}", func(r chi.Router) {
 		r.Get("/", details)
 		r.Delete("/", delete)
-		r.Put("/", update) // needed discussion on whether there should be update role or not
+		r.Put("/", update) 
+		r.Mount("/users", user.Router())
 	})
 
 	return r

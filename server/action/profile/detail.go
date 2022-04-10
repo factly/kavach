@@ -75,4 +75,3 @@ func profileDetail(w http.ResponseWriter, r *http.Request) {
 
 	renderx.JSON(w, http.StatusOK, me)
 }
-//

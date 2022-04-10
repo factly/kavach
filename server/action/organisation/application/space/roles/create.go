@@ -122,7 +122,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 
-	err = model.DB.Model(&model.ApplicationRole{}).Create(spaceRole).Error
+	err = model.DB.Model(&model.SpaceRole{}).Create(spaceRole).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
