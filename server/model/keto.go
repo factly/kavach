@@ -16,3 +16,10 @@ type Role struct {
 	Description string   `json:"description"`
 	Members     []string `json:"members"`
 }
+
+//CheckKeto structure is used to check keto policy
+type CheckKeto struct {
+	Subject string `json:"subject"`
+	Action  string `json:"action"`
+	Resource string `json:"resource"`
+}
