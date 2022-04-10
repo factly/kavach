@@ -120,13 +120,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
-		Base: model.Base{
-			ID: uint(roleID),
-		},
-		ApplicationID: uint(appID),
-	}).Association("Users").Replace(&users)
-
+	err = model.DB.Model(&appRole).Association("Users").Replace(&users); 
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

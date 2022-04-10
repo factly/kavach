@@ -114,13 +114,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	users := make([]model.User, 0)
 	users = append(appRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	appRole.Users = users
-	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
-		Base: model.Base{
-			ID: uint(roleID),
-		},
-		ApplicationID: uint(appID),
-	}).Association("Users").Replace(&users)
-	if err != nil {
+	if err = model.DB.Model(&appRole).Association("Users").Replace(&users); err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return

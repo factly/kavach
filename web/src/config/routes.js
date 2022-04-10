@@ -33,7 +33,7 @@ import Policy from '../pages/policy';
 import EditRoles from '../pages/roles/components/EditRoles';
 import EditPolicy from '../pages/policy/components/EditPolicy';
 import ViewPolicy from '../pages/policy/components/ViewPolicy';
-
+import RoleUsers from '../pages/roles/users';
 export default [
   {
     path: '/settings',
@@ -219,6 +219,27 @@ export default [
     Component: ViewPolicy,
     enableNavigation: false,
     title: 'View Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/organisations/:orgID/roles/:id/users',
+    Component: RoleUsers,
+    enableNavigation: false,
+    title: 'Edit Organistion Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/organisations/:orgID/applications/:appID/roles/:id/users',
+    Component: RoleUsers,
+    enableNavigation: false,
+    title: 'Edit Application Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/organisations/:orgID/applications/:appID/spaces/:spaceID/roles/:id/users',
+    Component: RoleUsers,
+    enableNavigation: false,
+    title: 'Edit Space Policy',
     enableBreadcrumb: true,
   },
 ];

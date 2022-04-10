@@ -9,6 +9,9 @@ import {
   ADD_ORGANISATION_ROLE_BY_ID,
   ADD_APPLICATION_ROLE_BY_ID,
   ADD_SPACE_ROLE_BY_ID,
+  ADD_ORGANISATION_ROLE_USERS,
+  ADD_APPLICATION_ROLE_USERS,
+  ADD_SPACE_ROLE_USERS
 } from '../constants/roles';
 
 import { addErrorNotification, addSuccessNotification } from './notifications';
@@ -401,6 +404,213 @@ export const updateSpaceRole = (id, appID, spaceID, data) => {
       )
       .then(() => {
         dispatch(addSuccessNotification('Role Updated Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+
+export const deleteOrganisationRoleUserByID = (roleID, userID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .delete(
+        `${ORGANISATIONS_API}/${getState().organisations.selected}/roles/${roleID}/users/${userID}`,
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('User Deleted Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const deleteApplicationRoleUserByID = (appID, roleID, userID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .delete(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/roles/${roleID}/users/${userID}`,
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('User Deleted Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const deleteSpaceRoleUserByID = (appID, spaceID, roleID, userID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .delete(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/spaces/${spaceID}/roles/${roleID}/users/${userID}`,
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('User Deleted Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const addOrganisationRoleUserByID = (roleID, userID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .post(`${ORGANISATIONS_API}/${getState().organisations.selected}/roles/${roleID}/users`, {
+        user_id: userID,
+      })
+      .then(() => {
+        dispatch(addSuccessNotification('User Added Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const addApplicationRoleUserByID = (appID, roleID, userID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .post(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/roles/${roleID}/users`,
+        { user_id: userID },
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('User Added Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const addSpaceRoleUserByID = (appID, spaceID, roleID, userID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .post(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/spaces/${spaceID}/roles/${roleID}/users`,
+        { user_id: userID },
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('User Added Successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+const addOrganisationRoleUsers = (orgID, roleID, data) => ({
+  type: ADD_ORGANISATION_ROLE_USERS,
+  payload: {
+    orgID: orgID,
+    roleID: roleID,
+    data: data
+  }
+})
+
+const addApplicationRoleUsers = (appID, roleID, data) => ({
+  type: ADD_APPLICATION_ROLE_USERS,
+  payload: {
+    appID: appID,
+    roleID: roleID,
+    data: data
+  }
+})
+
+const addSpaceRoleUsers = (spaceID, roleID, data) => ({
+  type: ADD_SPACE_ROLE_USERS,
+  payload: {
+    spaceID: spaceID,
+    roleID: roleID,
+    data: data
+  }
+})
+
+export const getOrganisationRoleUsers = (roleID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/roles/${roleID}/users`)
+      .then((res) => {
+        dispatch(addOrganisationRoleUsers(getState().organisations.selected, roleID, getIds(res.data)))
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const getApplicationRoleUsers = (appID, roleID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/roles/${roleID}/users`)
+      .then((res) => {
+        dispatch(addApplicationRoleUsers(appID, roleID, getIds(res.data)))
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingRoles());
+      });
+  };
+};
+
+export const getSpaceRoleUsers = (appID, spaceID, roleID) => {
+  return (dispatch, getState) => {
+    dispatch(startLoadingRoles());
+    return axios
+      .get(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}/spaces/${spaceID}/roles/${roleID}/users`,
+      )
+      .then((res) => {
+        dispatch(addSpaceRoleUsers(spaceID, roleID, getIds(res.data)))
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

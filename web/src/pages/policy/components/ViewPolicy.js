@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 
 export default function ViewPolicy() {
   const location = useLocation();
-  const { policy, type } = location.state;
-  const span = 2
+  const { policy } = location.state;
+  const span = 2;
   const nestedTableColumns = [
     {
       title: 'Resource',
@@ -28,9 +28,15 @@ export default function ViewPolicy() {
     },
   ];
   return (
-    <Descriptions title={`Policy detail`}  bordered>
-      <Descriptions.Item label="Name" span={span}>{policy.name}</Descriptions.Item><br/>
-      <Descriptions.Item label="Description" span={span}>{policy.description}</Descriptions.Item><br/>
+    <Descriptions title={`Policy detail`} bordered>
+      <Descriptions.Item label="Name" span={span}>
+        {policy.name}
+      </Descriptions.Item>
+      <br />
+      <Descriptions.Item label="Description" span={span}>
+        {policy.description}
+      </Descriptions.Item>
+      <br />
       <Descriptions.Item label="Permissions" span={span}>
         <Table
           bordered={false}
@@ -39,7 +45,8 @@ export default function ViewPolicy() {
           rowKey={'id'}
           pagination={false}
         />
-      </Descriptions.Item><br/>
+      </Descriptions.Item>
+      <br />
       <Descriptions.Item label="Roles" span={span}>
         {policy.roles.map((role) => {
           return (

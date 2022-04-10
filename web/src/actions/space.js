@@ -115,6 +115,28 @@ export const setSelectedApp = (data) => {
   };
 };
 
+export const getSpaceByID = (appID, spaceID) => {
+  return (dispatch, getState) => {
+    dispatch(loadingSpaces());
+    return axios
+      .get(
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
+        }/applications/${appID}${SPACES_API}/${spaceID}`,
+      ) // eslint-disable-next-line
+      .then((response) => {
+        deleteKeys([response], ['application']);
+        dispatch(addSpaces([response]));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopLoadingSpaces());
+      });
+  };
+};
+
 export const addSpaces = (data) => (dispatch) => {
   const media = getValues(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon']);
   dispatch(addMediaList(media));

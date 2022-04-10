@@ -7,5 +7,6 @@ export const STOP_SPACES_LOADING = 'STOP_SPACES_LOADING';
 export const SET_SELECTED_APP = 'SET_SELECTED_APP';
 export const ADD_SPACE_ROLE_IDS = 'ADD_SPACE_ROLE_IDS';
 export const ADD_SPACE_POLICY_IDS = 'ADD_SPACE_POLICY_IDS';
+export const ADD_SPACE_USERS = 'ADD_SPACE_USERS';
 //API
 export const SPACES_API = '/spaces';

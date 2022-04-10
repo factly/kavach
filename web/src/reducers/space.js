@@ -7,6 +7,7 @@ import {
   ADD_SPACES,
   ADD_SPACE_ROLE_IDS,
   ADD_SPACE_POLICY_IDS,
+  ADD_SPACE_USERS,
 } from '../constants/space';
 import { ADD_SPACE_TOKENS } from '../constants/token';
 const initialState = {
@@ -36,6 +37,17 @@ export default function spaces(state = initialState, action = {}) {
       return {
         ...state,
         details: { ...state.details, ...action.payload },
+      };
+    case ADD_SPACE_USERS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.spaceID]: {
+            ...state.details[action.payload.spaceID],
+            users: action.payload.data,
+          },
+        },
       };
     case RESET_SPACES:
       return {

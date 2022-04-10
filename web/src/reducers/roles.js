@@ -6,6 +6,9 @@ import {
   ADD_ORGANISATION_ROLE_BY_ID,
   ADD_APPLICATION_ROLE_BY_ID,
   ADD_SPACE_ROLE_BY_ID,
+  ADD_SPACE_ROLE_USERS,
+  ADD_APPLICATION_ROLE_USERS,
+  ADD_ORGANISATION_ROLE_USERS,
 } from '../constants/roles';
 
 const initialState = {
@@ -76,6 +79,48 @@ export default function rolesReducer(state = initialState, action = {}) {
           [action.payload.spaceID]: {
             ...state.organisation[action.payload.spaceID],
             [action.payload.roleID]: action.payload.data,
+          },
+        },
+      };
+    case ADD_ORGANISATION_ROLE_USERS:
+      return {
+        ...state,
+        organisation: {
+          ...state.organisation,
+          [action.payload.orgID]: {
+            ...state.organisation[action.payload.orgID],
+            [action.payload.roleID]: {
+              ...state.organisation[action.payload.orgID][action.payload.roleID],
+              users: action.payload.data,
+            },
+          },
+        },
+      };
+    case ADD_APPLICATION_ROLE_USERS:
+      return {
+        ...state,
+        application: {
+          ...state.application,
+          [action.payload.appID]: {
+            ...state.application[action.payload.appID],
+            [action.payload.roleID]: {
+              ...state.application[action.payload.appID][action.payload.roleID],
+              users: action.payload.data,
+            },
+          },
+        },
+      };
+    case ADD_SPACE_ROLE_USERS:
+      return {
+        ...state,
+        space: {
+          ...state.space,
+          [action.payload.spaceID]: {
+            ...state.space[action.payload.spaceID],
+            [action.payload.roleID]: {
+              ...state.space[action.payload.appID][action.payload.roleID],
+              users: action.payload.data,
+            },
           },
         },
       };

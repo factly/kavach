@@ -122,14 +122,14 @@ export default function RolesList({ type }) {
     }
   };
 
-  function getPathfromType(type, id) {
+  function getPathfromType(type, id, pathType) {
     switch (type) {
       case 'organisation':
-        return `/organisations/${orgID}/roles/${id}/edit`;
+        return `/organisations/${orgID}/roles/${id}/${pathType}`;
       case 'application':
-        return `/organisations/${orgID}/applications/${appID}/roles/${id}/edit`;
+        return `/organisations/${orgID}/applications/${appID}/roles/${id}/${pathType}`;
       case 'space':
-        return `/organisations/${orgID}/applications/${appID}/spaces/${spaceID}/roles/${id}/edit`;
+        return `/organisations/${orgID}/applications/${appID}/spaces/${spaceID}/roles/${id}/${pathType}`;
       default:
         return null;
     }
@@ -160,7 +160,7 @@ export default function RolesList({ type }) {
                   marginRight: 8,
                 }}
                 to={{
-                  pathname: getPathfromType(type, record?.id),
+                  pathname: getPathfromType(type, record?.id, 'edit'),
                   state: type,
                 }}
               >
@@ -189,7 +189,7 @@ export default function RolesList({ type }) {
           <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
             {record.users.map((user) => {
               return (
-                <Tooltip title={user.email} placement="top">
+                <Tooltip title={user.email} placement="top" key={user.id}>
                   <Avatar
                     key={user.id}
                     style={{
@@ -213,9 +213,13 @@ export default function RolesList({ type }) {
       render: (_, record) => {
         return (
           <span>
-            <Link to={``}>
+            <Link
+              to={{
+                pathname: getPathfromType(type, record?.id, 'users'),
+                state: type,
+              }}
+            >
               <Button icon={<PlusOutlined />} type="primary" disabled={userRole !== 'owner'}>
-                {' '}
                 Add User
               </Button>
             </Link>

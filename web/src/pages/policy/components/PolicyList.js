@@ -164,28 +164,6 @@ export default function PolicyList({ type }) {
     }
   }
 
-  const nestedTableColumns = [
-    {
-      title: 'Resource',
-      dataIndex: 'resource',
-      key: 'resource',
-    },
-    {
-      title: 'Action',
-      dataIndex: 'action',
-      key: 'action',
-      render: (_, record) => {
-        return record.actions.map((action) => {
-          return (
-            <Tag key={action} color="blue">
-              {action}
-            </Tag>
-          );
-        });
-      },
-    },
-  ];
-
   const columns = [
     {
       title: 'Name',

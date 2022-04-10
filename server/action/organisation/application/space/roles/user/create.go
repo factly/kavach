@@ -114,13 +114,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	users := make([]model.User, 0)
 	users = append(spaceRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	spaceRole.Users = users
-	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
-		Base: model.Base{
-			ID: uint(roleID),
-		},
-		SpaceID: uint(spaceID),
-	}).Association("Users").Replace(&users)
-	if err != nil {
+	if err = model.DB.Model(&spaceRole).Association("Users").Replace(&users); err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
