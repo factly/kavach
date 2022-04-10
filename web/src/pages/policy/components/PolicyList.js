@@ -60,42 +60,39 @@ export default function PolicyList({ type }) {
     switch (type) {
       case 'organisation':
         policyIDs = state.organisations.details[state.organisations.selected]?.policyIDs || [];
-        
+
         return {
-          policy: 
-            policyIDs.map((id) => ({
-              ...state.policy.organisation[state.organisations.selected][id],
-              roles:
-                state.policy.organisation[state.organisations.selected][id]?.roles.map(
-                  (rId) => ({...state.roles.organisation[state.organisations.selected]?.[rId]}),
-                ) || [],
-            })),
+          policy: policyIDs.map((id) => ({
+            ...state.policy.organisation[state.organisations.selected][id],
+            roles:
+              state.policy.organisation[state.organisations.selected][id]?.roles.map((rId) => ({
+                ...state.roles.organisation[state.organisations.selected]?.[rId],
+              })) || [],
+          })),
           loading: state.policy.loading,
-        }
+        };
       case 'application':
         policyIDs = state.applications.details[appID]?.policyIDs || [];
         return {
-          policy: 
-            policyIDs.map((id) => ({
-              ...state.policy.application[appID][id],
-              roles:
-                state.policy.application[appID][id]?.roles.map(
-                  (rId) => ({...state.roles.application[appID]?.[rId]}),
-                ) || [],
-            })),
+          policy: policyIDs.map((id) => ({
+            ...state.policy.application[appID][id],
+            roles:
+              state.policy.application[appID][id]?.roles.map((rId) => ({
+                ...state.roles.application[appID]?.[rId],
+              })) || [],
+          })),
           loading: state.policy.loading,
         };
       case 'space':
         policyIDs = state.spaces.details[spaceID]?.policyIDs || [];
         return {
-          policy: 
-            policyIDs.map((id) => ({
-              ...state.policy.space[spaceID][id],
-              roles:
-                state.policy.space[spaceID][id]?.roles.map(
-                  (rId) => ({...state.roles.space[spaceID]?.[rId]}),
-                ) || [],
-            })),
+          policy: policyIDs.map((id) => ({
+            ...state.policy.space[spaceID][id],
+            roles:
+              state.policy.space[spaceID][id]?.roles.map((rId) => ({
+                ...state.roles.space[spaceID]?.[rId],
+              })) || [],
+          })),
           loading: state.policy.loading,
         };
       default:
@@ -113,7 +110,6 @@ export default function PolicyList({ type }) {
   const onSpaceChange = (value) => {
     setSpaceID(value);
   };
-
 
   const fetchPolicy = () => {
     switch (type) {
@@ -206,8 +202,8 @@ export default function PolicyList({ type }) {
     {
       title: 'Roles',
       dataIndex: 'roles',
-      key: 'permissions',
-      width: '40%',
+      key: 'roles',
+      width: '30%',
       render: (_, record) => {
         return record.roles.map((role) => {
           return (
@@ -216,25 +212,43 @@ export default function PolicyList({ type }) {
             </Tag>
           );
         });
-      }
+      },
     },
     {
       title: 'Action',
       dataIndex: 'operation',
-      width: '15%',
+      width: '25%',
       render: (_, record) => {
         return (
           <div>
+            <Link
+              to={{
+                pathname: '/policies/view',
+                state: {
+                  type: type,
+                  policy: record,
+                },
+              }}
+            >
+              <Button disabled={userRole !== 'owner'}> View </Button>
+            </Link>
             <Link
               to={{
                 pathname: getPathfromType(type, record?.id),
                 state: type,
               }}
             >
-              <Button icon={<EditOutlined />} disabled={userRole!=='owner'}/>
+              <Button icon={<EditOutlined />} disabled={userRole !== 'owner'}>
+                Edit
+              </Button>
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-              <Button danger type="text" icon={<DeleteOutlined />} disabled={userRole!=='owner'}/>
+              <Button
+                danger
+                type="text"
+                icon={<DeleteOutlined />}
+                disabled={userRole !== 'owner'}
+              />
             </Popconfirm>
           </div>
         );
@@ -313,49 +327,3 @@ export default function PolicyList({ type }) {
     </div>
   );
 }
-
-// const { policy, loading } = useSelector((state) => {
-//   var policyIDs = [];
-//   switch (type) {
-//     case 'organisation':
-//       policyIDs = state.organisations.details[state.organisations.selected]?.policyIDs || [];
-
-//       return {
-//         policy: policyIDs.map(
-//           (id) => ({
-//             ...state.policy.organisation[state.organisations.selected][id],
-//             roles:
-//               state.policy.organisation[state.organisations.selected][id]?.roles.map((id)=>(state.roles.organisation[state.organisations.selected][id])) || [],
-//           })
-//         ),
-//         loading: state.policy.loading,
-//       };
-//     case 'application':
-//       policyIDs = state.applications.details[appID]?.policyIDs || [];
-//       return {
-//         policy: policyIDs.map((id) => (
-//           {
-//             ...state.policy.application[appID][id],
-//             roles:
-//               state.policy.application[appID][id]?.roles.map((id)=>(state.roles.application[appID][id])) || [],
-//           }
-//         )),
-//         loading: state.policy.loading,
-//       };
-//     case 'space':
-//       policyIDs = state.spaces.details[spaceID]?.policyIDs || [];
-//       return {
-//         policy: policyIDs.map((id) => ({
-//           ...state.policy.space[spaceID][id],
-//           roles:
-//             state.policy.space[spaceID][id]?.roles.map((id)=>(state.roles.space[spaceID][id])) || [],
-//         })),
-//         loading: state.policy.loading,
-//       };
-//     default:
-//       return {
-//         policy: [],
-//         loading: true,
-//       };
-//   }
-// });

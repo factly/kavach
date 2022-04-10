@@ -32,6 +32,7 @@ import Roles from '../pages/roles';
 import Policy from '../pages/policy';
 import EditRoles from '../pages/roles/components/EditRoles';
 import EditPolicy from '../pages/policy/components/EditPolicy';
+import ViewPolicy from '../pages/policy/components/ViewPolicy';
 
 export default [
   {
@@ -211,6 +212,13 @@ export default [
     Component: EditPolicy,
     enableNavigation: false,
     title: 'Edit Space Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/policies/view',
+    Component: ViewPolicy,
+    enableNavigation: false,
+    title: 'View Policy',
     enableBreadcrumb: true,
   },
 ];
