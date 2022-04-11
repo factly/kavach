@@ -42,7 +42,7 @@ export default function mediaReducer(state = initialState, action = {}) {
         ...state,
         details: {
           ...state.details,
-          ...action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
+          ...action.payload,
         },
       };
     case ADD_MEDIUM:

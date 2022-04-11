@@ -96,7 +96,7 @@ export const addProfileDetails = () => {
       .get(PROFILE_API + '/details')
       .then((response) => {
         if (response.data.featured_medium_id) {
-          dispatch(addMedia(response.data.medium));
+          dispatch(addMedia([response.data.medium]));
           deleteKeys([response.data], ['medium']);
         }
         dispatch(addOrganisationsList(response.data.organisations, response.data.id));

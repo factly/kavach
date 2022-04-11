@@ -7,6 +7,7 @@ import {
   RESET_MEDIA,
   MEDIA_API,
 } from '../constants/media';
+import { buildObjectOfItems } from '../utils/objects';
 
 import { addErrorNotification, addSuccessNotification } from './notifications';
 
@@ -119,7 +120,7 @@ export const getMediumByID = (data) => ({
 export const addMediaList = (data) => (dispatch) => {
   dispatch({
     type: ADD_MEDIA,
-    payload: data,
+    payload: buildObjectOfItems(data),
   });
 };
 

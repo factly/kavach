@@ -587,7 +587,7 @@ export const getApplicationRoleUsers = (appID, roleID) => {
   return (dispatch, getState) => {
     dispatch(startLoadingRoles());
     return axios
-      .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/roles/${roleID}/users`)
+      .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${appID}/roles/${roleID}/users`)
       .then((res) => {
         dispatch(addApplicationRoleUsers(appID, roleID, getIds(res.data)))
       })

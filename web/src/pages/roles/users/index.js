@@ -88,12 +88,12 @@ export default function RoleUsers() {
         break;
       case 'application':
         if (appID) {
-          dispatch(getApplicationRoleUsers(appID));
+          dispatch(getApplicationRoleUsers(appID, id));
         }
         break;
       case 'space':
         if (spaceID) {
-          dispatch(getSpaceRoleUsers(appID, spaceID));
+          dispatch(getSpaceRoleUsers(appID, spaceID, id));
         }
         break;
       default:
