@@ -57,10 +57,9 @@ export const getOrganisation = (id) => {
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })
-      .finally(()=>{
+      .finally(() => {
         dispatch(stopOrganisationsLoading());
-      })
-      ;
+      });
   };
 };
 

@@ -104,28 +104,34 @@ export default function RoleUsers() {
   const onSubmit = (values) => {
     switch (type) {
       case 'organisation':
-        dispatch(addOrganisationRoleUserByID(id, values.user_id)).then(()=>dispatch(getOrganisationRoleUsers(id)));
+        dispatch(addOrganisationRoleUserByID(id, values.user_id)).then(() =>
+          dispatch(getOrganisationRoleUsers(id)),
+        );
         break;
       case 'application':
         if (appID) {
-          dispatch(addApplicationRoleUserByID(appID, id, values.user_id)).then(()=>dispatch(getApplicationRoleUsers(appID, id)));
+          dispatch(addApplicationRoleUserByID(appID, id, values.user_id)).then(() =>
+            dispatch(getApplicationRoleUsers(appID, id)),
+          );
         }
         break;
       case 'space':
         if (spaceID) {
-          dispatch(addSpaceRoleUserByID(appID, spaceID, id, values.user_id)).then(()=>dispatch(getSpaceRoleUsers(appID, spaceID, id)));
+          dispatch(addSpaceRoleUserByID(appID, spaceID, id, values.user_id)).then(() =>
+            dispatch(getSpaceRoleUsers(appID, spaceID, id)),
+          );
         }
         break;
       default:
         return;
     }
-		form.resetFields()
+    form.resetFields();
   };
 
   React.useEffect(() => {
     fetchUsers();
     fetchRoleUsers();
-		// eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   return (

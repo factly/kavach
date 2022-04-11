@@ -16,4 +16,4 @@ export const getFileName = (value) => {
   const fileExt = value.split('.').pop();
   const fileName = maker(value.split('.').slice(0, -1).join('.'));
   return `${fileName}.${fileExt}`;
-}
+};
