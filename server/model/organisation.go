@@ -27,7 +27,6 @@ type OrganisationUser struct {
 	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation"`
 	Role           string        `gorm:"column:role" json:"role"`
-	RoleID         uint          `gorm:"column:role_id" json:"role_id"`
 }
 
 type OrganisationToken struct {
