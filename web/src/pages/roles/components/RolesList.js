@@ -219,12 +219,12 @@ export default function RolesList({ type }) {
                 state: type,
               }}
             >
-              <Button icon={<PlusOutlined />} type="primary" disabled={userRole !== 'owner'}>
+              <Button primary icon={<PlusOutlined />} disabled={userRole !== 'owner'}>
                 Add User
               </Button>
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-              <Button danger type="text">
+              <Button  type="danger">
                 Revoke
               </Button>
             </Popconfirm>

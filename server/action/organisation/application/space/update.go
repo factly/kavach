@@ -3,6 +3,7 @@ package space
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -45,12 +46,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	space := &model.Space{}
-	err = json.NewDecoder(r.Body).Decode(&space)
+	err = json.NewDecoder(r.Body).Decode(space)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
+
 	validationError := validationx.Check(space)
 	if validationError != nil {
 		loggerx.Error(errors.New("validation error"))
@@ -85,6 +87,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("this is space", space)
+
 	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
 	if *space.LogoID == 0 {
 		space.LogoID = nil
@@ -98,19 +102,25 @@ func update(w http.ResponseWriter, r *http.Request) {
 	if *space.MobileIconID == 0 {
 		space.LogoID = nil
 	}
+
 	updateMap := map[string]interface{}{
-		"name":           space.Name,
-		"slug":           space.Slug,
-		"site_title":     space.SiteTitle,
-		"tag_line":       space.TagLine,
-		"site_address":   space.SiteAddress,
-		"description":    space.Description,
-		"logo_id":        space.LogoID,
-		"logo_mobile_id": space.LogoMobileID,
-		"fav_icon_id":    space.FavIconID,
-		"mobile_icon_id": space.MobileIconID,
-		"header_code":    space.HeaderCode,
-		"footer_code":    space.FooterCode,
+		"name":               space.Name,
+		"slug":               space.Slug,
+		"site_title":         space.SiteTitle,
+		"tag_line":           space.TagLine,
+		"site_address":       space.SiteAddress,
+		"description":        space.Description,
+		"logo_id":            space.LogoID,
+		"logo_mobile_id":     space.LogoMobileID,
+		"fav_icon_id":        space.FavIconID,
+		"mobile_icon_id":     space.MobileIconID,
+		"header_code":        space.HeaderCode,
+		"footer_code":        space.FooterCode,
+		"meta_fields":        space.MetaFields,
+		"verification_codes": space.VerificationCodes,
+		"social_media_urls":  space.SocialMediaURLs,
+		"contact_info":       space.ContactInfo,
+		"analytics":          space.Analytics,
 	}
 
 	err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error

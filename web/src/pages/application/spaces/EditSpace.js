@@ -14,14 +14,17 @@ function EditSpace() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { space, loading } = useSelector((state) => {
+    var spaceDetails = state.spaces.details[id] ? state.spaces.details[id] : null
+    delete spaceDetails.users
     return {
-      space: state.spaces.details[id] ? state.spaces.details[id] : null,
+      space: spaceDetails,
       loading: state.spaces.loading,
     };
   });
 
   const handleFinish = (values) => {
-    dispatch(editSpace(id, space.application_id, values)).then(() => {
+    var reqBody = { ...values, meta_fields: JSON.parse(values.meta_fields) };
+    dispatch(editSpace(id, space.application_id, reqBody)).then(() => {
       history.push(`/applications/${space.application_id}/spaces/${space.id}/edit`);
     });
   };
@@ -77,7 +80,10 @@ function EditSpace() {
               layout="vertical"
               form={form}
               onFinish={() => handleFinish(form.getFieldsValue(true))}
-              initialValues={{ ...space }}
+              initialValues={{
+                ...space,
+                meta_fields: space.meta_fields ? JSON.stringify(space.meta_fields) : '',
+              }}
             >
               {steps[current].component}
               {current === 3 ? (

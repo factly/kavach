@@ -57,11 +57,12 @@ export const addDefaultApplications = () => {
             total: response.data.total,
           }),
         );
-        dispatch(stopApplicationLoading());
         dispatch(addSuccessNotification('Factly Applications Added'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
         dispatch(stopApplicationLoading());
       });
   };

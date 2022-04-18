@@ -43,6 +43,7 @@ function SpaceList({ appID, role }) {
           <div>
             {role === 'owner' ? (
               <Link
+                key={record.id}
                 style={{
                   marginRight: 8,
                 }}
@@ -67,7 +68,7 @@ function SpaceList({ appID, role }) {
           <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
             {record.users.map((user) => {
               return (
-                <Tooltip title={user.email} placement="top">
+                <Tooltip title={user.email} placement="top" key={record.id}>
                   <Avatar
                     key={user.id}
                     style={{

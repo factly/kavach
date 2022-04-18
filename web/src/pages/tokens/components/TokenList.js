@@ -145,7 +145,7 @@ export default function TokenList({ type }) {
           <span>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
               <Link to="" className="ant-dropdown-link">
-                <Button danger type="text">
+                <Button type="danger">
                   Revoke
                 </Button>
               </Link>
