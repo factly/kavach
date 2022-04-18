@@ -25,8 +25,7 @@ import (
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param organisation_id path string true "Application ID"
-// @Param  body model.CheckKeto true "Policy"
-// @Success 200 {object}
+// @Success 200 {object} nil
 // @Router /organisations/{organisation_id}/applications/{application_id}/policy/allowed [post]
 func allowed(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header

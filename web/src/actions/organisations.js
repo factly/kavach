@@ -49,10 +49,10 @@ export const getOrganisation = (id) => {
           return null;
         });
         response.data.role = response.data.permission.role;
-        deleteKeys([response.data], ['permission', 'organisation_users']);
+        deleteKeys([response.data], ['permission', 'organisation_users','medium']);
         response.data.applications = getIds(response.data.applications);
         response.data.users = getIds(users);
-        dispatch(getOrganisationByID(response.data));
+        dispatch(addOrganisationByID(response.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -69,7 +69,7 @@ export const addOrganisation = (data) => {
     return axios
       .post(ORGANISATIONS_API, data)
       .then((response) => {
-        dispatch(getOrganisationByID(response.data));
+        dispatch(addOrganisationByID(response.data));
         dispatch(setSelectedOrganisation(response.data.id));
         dispatch(addSuccessNotification('Organisation added'));
       })
@@ -88,7 +88,7 @@ export const updateOrganisation = (data) => {
     return axios
       .put(ORGANISATIONS_API + '/' + data.id, data)
       .then((response) => {
-        dispatch(getOrganisationByID(response.data));
+        dispatch(addOrganisationByID(response.data));
         dispatch(stopOrganisationsLoading());
         dispatch(addSuccessNotification('Organisation Updated'));
       })
@@ -128,10 +128,15 @@ export const stopOrganisationsLoading = () => ({
   payload: false,
 });
 
-export const getOrganisationByID = (data) => ({
-  type: ADD_ORGANISATION,
-  payload: data,
-});
+export const addOrganisationByID = (data) => {
+  return {
+    type: ADD_ORGANISATION,
+    payload: {
+      id: data.id,
+      data: data
+    },
+  };
+};
 
 export const addOrganisationsList = (data, id) => (dispatch) => {
   const medium = getValues(data, 'medium');

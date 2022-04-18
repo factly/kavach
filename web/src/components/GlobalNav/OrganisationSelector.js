@@ -6,11 +6,11 @@ import { setSelectedOrganisation } from './../../actions/organisations';
 function OrganisationSelector() {
   const [selectorState, setSelectorState] = React.useState(false);
   const list = ['/edit', '/create'];
-  const { organisations, selected } = useSelector((state) => {
+  const { organisations, selectedOrg } = useSelector((state) => {
     const organisationIds = state.profile.details?.organisations || [];
     return {
       organisations: organisationIds?.map((id) => state.organisations.details[id]) || [],
-      selected: state.organisations.selected,
+      selectedOrg: state.organisations?.details[state.organisations?.selected]?.title,
     };
   });
 
@@ -24,12 +24,12 @@ function OrganisationSelector() {
     dispatch(setSelectedOrganisation(id));
   };
   const getInitial = (title) => {
-    return title.charAt(0);
+    return title?.charAt(0);
   };
 
   return organisations.length > 0 ? (
     <Select
-      value={selected}
+      value={selectedOrg}
       style={{ width: '200px' }}
       onChange={handleOrganisationChange}
       bordered={false}
@@ -38,7 +38,7 @@ function OrganisationSelector() {
       {organisations.map((organisation) => (
         <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
           {organisation.medium ? (
-            <Avatar size="small" src={organisation.medium.url.proxy} />
+            <Avatar size="small" src={organisation?.medium?.url.proxy} />
           ) : (
             <Avatar size="small">{getInitial(organisation.title)}</Avatar>
           )}{' '}

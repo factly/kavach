@@ -26,7 +26,7 @@ import (
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.OrganisationRole true "Organisation role Body"
-// @Success 200 {object} model.Organisationrole
+// @Success 200 {object} model.OrganisationRole
 // @Router /organisations/{organisation_id}/roles [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header

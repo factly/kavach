@@ -25,7 +25,7 @@ import (
 // @Param organisation_id path string true "Organisation ID"
 // @Param application_id path string true "Application ID"
 // @Param SpaceRoleBody body model.SpaceRole true "Space role Body"
-// @Success 200 {object} model.Organisationrole
+// @Success 200 {object} model.SpaceRole
 // @Router /organisations/{organisation_id}/application/{application_id}/spaces/{space_id}/roles [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header

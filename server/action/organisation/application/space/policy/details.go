@@ -17,13 +17,13 @@ import (
 // @Summary get policy for an organisation using organisation_id
 // @Description get policy for an organisation using organisation_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID get-space-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/policy/{policy_id} [get]
+// @Success 200 {object} nil
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/policy/{policy_id} [get]
 func details(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))

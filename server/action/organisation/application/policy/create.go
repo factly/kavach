@@ -22,13 +22,13 @@ import (
 // @Summary Create policy for an organisation using organisation_id
 // @Description Create policy for an organisation using organisation_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID create-application-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/roles [post]
+// @Success 200 {object} model.OrganisationRole
+// @Router /organisations/{organisation_id}/applications/{application_id}/roles [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
 	organisationID := chi.URLParam(r, "organisation_id")

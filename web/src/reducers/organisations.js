@@ -40,7 +40,7 @@ export default function tagsReducer(state = initialState, action = {}) {
       const organisationData = { ...state.details, ...payload.data };
       return {
         ...state,
-        ids: Object.keys(organisationData).map((id) => parseInt(id, 10)),
+        ids: payload.ids,
         details: organisationData,
         selected: payload.ids[0],
         role: organisationData[payload.ids[0]].role,
@@ -51,7 +51,7 @@ export default function tagsReducer(state = initialState, action = {}) {
         ids: state.ids.includes(payload.id) ? state.ids : state.ids.concat([payload.id]),
         details: {
           ...state.details,
-          [payload.id]: payload,
+          [payload.id]: payload.data,
         },
       };
     case ADD_ORGANISATION_USERS:

@@ -49,7 +49,7 @@ func detail(w http.ResponseWriter, r *http.Request) {
 // @ID get-logged-in-user-details
 // @Produce json
 // @Param X-User header string true "User ID"
-// @Success 200 {object} profileDetailsResponse
+// @Success 200 {object} model.User
 // @Router /profile/details [get]
 func profileDetail(w http.ResponseWriter, r *http.Request) {
 

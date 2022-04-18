@@ -25,7 +25,7 @@ import (
 // @Param organisation_id path string true "Organisation ID"
 // @Param application_id path string true "Application ID"
 // @Param OrganisationRoleBody body model.OrganisationRole true "Organisation role Body"
-// @Success 200 {object} model.OrganisationRole
+// @Success 200 {object} model.SpaceRole
 // @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/roles/{role_id} [put]
 func update(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
