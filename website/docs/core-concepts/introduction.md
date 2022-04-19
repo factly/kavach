@@ -9,6 +9,7 @@ On each level you can manage:
 - Tokens
 - Roles
 - Policies
+  
 ## Should I read through this chapter?
 If you don't have good understanding of entities in Kavach then you should read this chapter. 
 
