@@ -234,6 +234,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web
+      - REACT_APP_PUBLIC_PATH_PRODUCTION=kavach.factly.org
+      - REACT_APP_PUBLIC_PATH_DEVELOPMENT=/.factly/kavach/web/
       - REACT_APP_KAVACH_TITLE=Kavach
       - REACT_APP_COMPANION_URL=http://127.0.0.1:3020
       - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server
