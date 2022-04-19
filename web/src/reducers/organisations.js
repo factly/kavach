@@ -43,7 +43,7 @@ export default function tagsReducer(state = initialState, action = {}) {
         ids: payload.ids,
         details: organisationData,
         selected: payload.ids[0],
-        role: organisationData[payload.ids[0]].role,
+        role: organisationData[payload.ids[0]]?.role,
       };
     case ADD_ORGANISATION:
       return {
