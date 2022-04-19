@@ -2,17 +2,19 @@
 sidebar_position: 5
 ---
 # Tokens
-API tokens allow a user to authenticate with cloud apps and bypass two-step verification and SSO, and retrieve data from the instance through REST APIs.
-  
-- Owners can create API-Tokens so that other users can access the services provided by the API.
-- Owners can also revoke the API tokens. Once revoked that API token cannot be used again.
+Kavach being a authentication and identity management application for it security and having control over entities is very much important. For this purpose Tokens ( Tokens and API Tokens are used interchangeably) are used. Tokens are managed at all levels in Kavach.
 
-- Token can be created by navigating to the *Application* page and then click on the edit action for the application you want to add API-key. After that click on the *New api key* button at the bottom and then fill out the form. 
+- Only owners have access to create, view or delete the tokens.
+- Tokens can only be viewed once for security reasons.
  
-Following are the details required for creating an API-token:
+## How tokens are used at each level:
 
-- Name
-- Description
-  
+### Organisation
+- In organisation, tokens can be used make the organisation more secure. For example - we can users for tokens to keep track of their actions and have better control over them. We can also use tokens to invite users.
+### Application
+- Dega is a factly application which helps in managing content. In Dega, we have a Dega-API service which can only be accessed by users which have the access token generated from Kavach. This helps us to add a security layer as well as with the help of tokens we can use analytics to have more details about the applications entities.
+### Space
+- Space is mainly about managing entities for a website. Tokens help us to keep track of what, how much and which entities have been created, deleted, updated or viewed in the space.
 
+Depending on your used case, you can use tokens for different purposes depending on your needs.
 
