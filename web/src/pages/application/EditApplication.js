@@ -58,6 +58,11 @@ function EditApplication() {
           <ApplicationUsers id={id} />
         </Panel>
       </Collapse>
+      <Collapse defaultActiveKey="2">
+        <Panel header="Tokens" key="2">
+          <GetApplication setTokenFlag={setTokenFlag} data={application} />
+        </Panel>
+      </Collapse>
     </Space>
   );
 }
