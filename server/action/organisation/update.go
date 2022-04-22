@@ -93,13 +93,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// update
-	err = tx.Model(&organisation).Updates(model.Organisation{
-		Base:             model.Base{UpdatedByID: uint(hostID)},
-		Title:            req.Title,
-		Slug:             req.Slug,
-		Description:      req.Description,
-		FeaturedMediumID: mediumID,
-	}).Preload("Medium").First(&organisation).Error
+	updateMap := map[string]interface{}{
+		"updated_by_id": uint(hostID),
+		"title": req.Title,
+		"slug": req.Slug,
+		"description": req.Description,
+		"featured_medium_id": mediumID,
+	}
+	
+	err = tx.Model(&organisation).Updates(&updateMap).Preload("Medium").First(&organisation).Error
 
 	if err != nil {
 		tx.Rollback()

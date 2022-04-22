@@ -35,14 +35,14 @@ export default function mediaReducer(state = initialState, action = {}) {
           .concat(action.payload),
       };
     case ADD_MEDIA:
-      if (action.payload.length === 0) {
+      if (action.payload?.length === 0) {
         return state;
       }
       return {
         ...state,
         details: {
           ...state.details,
-          ...action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
+          ...action.payload,
         },
       };
     case ADD_MEDIUM:

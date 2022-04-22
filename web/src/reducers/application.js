@@ -1,14 +1,17 @@
 import {
   ADD_APPLICATION,
   ADD_APPLICATIONS,
-  ADD_APPLICATIONS_REQUEST,
   SET_APPLICATIONS_LOADING,
   RESET_APPLICATIONS,
+  ADD_SPACE_IDS,
+  ADD_APPLICATION_ROLE_IDS,
+  ADD_APPLICATION_POLICY_IDS,
 } from '../constants/application';
-import deepEqual from 'deep-equal';
+
+import { ADD_USER_IDS } from '../constants/applicationUser';
+import { ADD_APPLICATION_TOKENS } from '../constants/token';
 
 const initialState = {
-  req: [],
   details: {},
   loading: true,
 };
@@ -18,7 +21,6 @@ export default function application(state = initialState, action = {}) {
     case RESET_APPLICATIONS:
       return {
         ...state,
-        req: [],
         details: {},
         loading: true,
       };
@@ -27,23 +29,10 @@ export default function application(state = initialState, action = {}) {
         ...state,
         loading: action.payload,
       };
-    case ADD_APPLICATIONS_REQUEST:
-      return {
-        ...state,
-        req: state.req
-          .filter((value) => !deepEqual(value.query, action.payload.query))
-          .concat(action.payload),
-      };
     case ADD_APPLICATIONS:
-      if (action.payload.length === 0) {
-        return state;
-      }
       return {
         ...state,
-        details: {
-          ...state.details,
-          ...action.payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
-        },
+        details: { ...state.details, ...action.payload },
       };
     case ADD_APPLICATION:
       return {
@@ -51,6 +40,61 @@ export default function application(state = initialState, action = {}) {
         details: {
           ...state.details,
           [action.payload.id]: action.payload,
+        },
+      };
+    case ADD_SPACE_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            spaces: action.payload.space_ids,
+          },
+        },
+      };
+    case ADD_USER_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            users: action.payload.data,
+          },
+        },
+      };
+    case ADD_APPLICATION_TOKENS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            tokens: action.payload.data,
+          },
+        },
+      };
+    case ADD_APPLICATION_ROLE_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            roleIDs: action.payload.data,
+          },
+        },
+      };
+    case ADD_APPLICATION_POLICY_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.id]: {
+            ...state.details[action.payload.id],
+            policyIDs: action.payload.data,
+          },
         },
       };
     default:

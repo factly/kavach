@@ -1,6 +1,7 @@
 package application
 
 import (
+	"context"
 	"net/http"
 	"strconv"
 
@@ -31,14 +32,6 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	orgnaisationID := chi.URLParam(r, "organisation_id")
-	oID, err := strconv.Atoi(orgnaisationID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		loggerx.Error(err)
@@ -46,30 +39,35 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-	}).First(permission).Error
+	// check if the user is part of application or not
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+	app := &model.Application{}
+	err = tx.Model(&model.Application{}).Where(&model.Application{
+		Base: model.Base{
+			ID: uint(appID),
+		},
+	}).Preload("Users").Preload("Spaces").Preload("Tokens").Find(&app).Error
 
 	if err != nil {
 		loggerx.Error(err)
+		tx.Rollback()
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	flag := false
+	for _, user := range app.Users {
+		if user.ID == uint(uID) {
+			flag = true
+			break
+		}
+	}
+
+	if !flag {
+		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	result := model.Application{}
-	result.ID = uint(appID)
-
-	err = model.DB.Where(&model.Application{
-		OrganisationID: uint(oID),
-	}).Preload("Medium").Preload("Tokens").First(&result).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
-
-	renderx.JSON(w, http.StatusOK, result)
+	renderx.JSON(w, http.StatusOK, app)
 }

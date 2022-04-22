@@ -1,5 +1,4 @@
 const AntDesignThemePlugin = require('antd-theme-webpack-plugin');
-// const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const path = require('path');
 const options = {
   antDir: path.join(__dirname, './node_modules/antd'),
@@ -12,9 +11,6 @@ const options = {
 module.exports = function override(config, env) {
   config.plugins.push(
     new AntDesignThemePlugin(options),
-    // new MonacoWebpackPlugin({
-    //   languages: ['json', 'html'],
-    // }),
   );
   return config;
 };

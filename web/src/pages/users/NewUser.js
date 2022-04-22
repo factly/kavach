@@ -16,7 +16,7 @@ const layout = {
 function FormHeader() {
   return (
     <>
-      <Row gutter={[8, 8]} style={{ fontWeight: fontWeight }}>
+      <Row gut ter={[8, 8]} style={{ fontWeight: fontWeight }}>
         <Col span={layout.otherCol}>Email</Col>
         <Col span={layout.otherCol}>First name</Col>
         <Col span={layout.otherCol}>Last name</Col>

@@ -2,7 +2,6 @@ package config
 
 import (
 	"log"
-
 	"github.com/spf13/viper"
 )
 
@@ -60,6 +59,14 @@ func SetupVars() {
 
 	if !viper.IsSet("enable_multitenancy") {
 		log.Fatal("please provide enable_multitenancy in config")
+	}
+
+	if !viper.IsSet("disable_registration") {
+		log.Fatal("please provide disable_registration in config")
+	}
+
+	if !viper.IsSet("super_user_email") {
+		log.Fatal("please provide super_user_email in config")
 	}
 
 	if Sqlite() {

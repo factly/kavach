@@ -7,8 +7,9 @@ function OrganisationSelector() {
   const [selectorState, setSelectorState] = React.useState(false);
   const list = ['/edit', '/create'];
   const { organisations, selected } = useSelector((state) => {
+    const organisationIds = state.profile.details?.organisations || [];
     return {
-      organisations: state.organisations.ids.map((id) => state.organisations.details[id]),
+      organisations: organisationIds?.map((id) => state.organisations.details[id]) || [],
       selected: state.organisations.selected,
     };
   });

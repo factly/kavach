@@ -3,7 +3,6 @@ package application
 import (
 	"net/http"
 	"strconv"
-
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -50,9 +49,26 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// check if user is part of application or not 
 	result := make([]model.Application, 0)
 	model.DB.Model(&model.Application{}).Where(&model.Application{
 		OrganisationID: uint(oID),
-	}).Preload("Users").Preload("Users.Medium").Preload("Medium").Preload("Tokens").Find(&result)
-	renderx.JSON(w, http.StatusOK, result)
+	}).Preload("Users").Preload("Users.Medium").Preload("Medium").Preload("Tokens").Preload("Spaces").Preload("Spaces.Users").Find(&result)
+
+	filteredApps := make([]model.Application, 0)
+	for _, app := range result {	
+		for _, user := range app.Users{
+			if user.ID == uint(uID) {
+				filteredApps = append(filteredApps, app)
+				break
+			}
+		}
+	}
+
+	if err!=nil{
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	renderx.JSON(w, http.StatusOK, filteredApps)
 }

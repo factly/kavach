@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Table, Popconfirm, Modal } from 'antd';
-import { deleteToken } from '../../../actions/token';
+import { deleteApplicationToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
@@ -32,7 +32,9 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
           <span>
             <Popconfirm
               title="Sure to Revoke?"
-              onConfirm={() => dispatch(deleteToken(record.id, data.id)).then(() => history.go(0))}
+              onConfirm={() =>
+                dispatch(deleteApplicationToken(record.id, data.id)).then(() => history.go(0))
+              }
             >
               <Link to="" className="ant-dropdown-link">
                 <Button danger type="text">

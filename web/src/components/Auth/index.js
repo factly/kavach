@@ -261,7 +261,9 @@ function Auth(props) {
                 <div
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
                 >
-                  <Link to={'/auth/registration'}>Register now!</Link>
+                  {process.env.REACT_APP_DISABLE_REGISTRATION === 'false' ? (
+                    <Link to={'/auth/registration'}>Register now!</Link>
+                  ) : null}
                   <Link to={'/auth/recovery'}>Forgot Password?</Link>
                 </div>
               ) : (

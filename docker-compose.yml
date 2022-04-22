@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   ###########################################################################
-  #######             DB SERVICES                                     #######
+  #######                  DB SERVICES                                #######
   ###########################################################################
   postgres:
     image: postgres:11.7-alpine
@@ -241,7 +241,6 @@ services:
       - REACT_APP_COMPANION_URL=http://127.0.0.1:3020
       - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server
       - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public
-      - REACT_APP_ENABLE_MULTITENANCY=false
       - REACT_APP_ENABLE_MULTITENANCY=true
       - REACT_APP_DISABLE_REGISTRATION=false
     volumes:

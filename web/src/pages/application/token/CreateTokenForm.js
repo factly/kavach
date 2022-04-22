@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import { addToken } from '../../../actions/token';
+import { addApplicationToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 
 const tailLayout = {
@@ -19,7 +19,7 @@ const CreateTokenForm = ({ appID, setVisible, setTokenFlag }) => {
   };
 
   const onCreate = (values) => {
-    dispatch(addToken(values, appID)).then(() => {
+    dispatch(addApplicationToken(values, appID)).then(() => {
       setVisible(false);
       setTokenFlag(true);
     });

@@ -6,8 +6,10 @@ import {
   ADD_INVITE,
   DELETE_INVITE,
 } from '../constants/profile';
+import { deleteKeys, getIds } from '../utils/objects';
+import { addMedia } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
-import { getOrganisations } from './organisations';
+import { addOrganisationsList, getOrganisations } from './organisations';
 
 export const getUserProfile = () => {
   return (dispatch, getState) => {
@@ -15,7 +17,7 @@ export const getUserProfile = () => {
     return axios
       .get(PROFILE_API)
       .then((response) => {
-        dispatch(getProfile(response.data));
+        dispatch(addProfile(response.data));
         dispatch(stopProfileLoading());
       })
       .catch((error) => {
@@ -29,7 +31,7 @@ export const updateProfile = (data) => {
     return axios
       .put(PROFILE_API, data)
       .then((response) => {
-        dispatch(getProfile(response.data));
+        dispatch(addProfile(response.data));
         dispatch(stopProfileLoading());
         dispatch(addSuccessNotification('Profile Updated'));
       })
@@ -86,6 +88,27 @@ export const acceptInvitation = (id, data) => {
       });
   };
 };
+
+export const addProfileDetails = () => {
+  return (dispatch, getState) => {
+    dispatch(loadingProfile);
+    return axios
+      .get(PROFILE_API + '/details')
+      .then((response) => {
+        if (response.data.featured_medium_id) {
+          dispatch(addMedia([response.data.medium]));
+          deleteKeys([response.data], ['medium']);
+        }
+        dispatch(addOrganisationsList(response.data.organisations, response.data.id));
+        response.data.organisations = getIds(response.data.organisations);
+        dispatch(addProfile(response.data));
+      })
+      .finally(() => {
+        dispatch(stopProfileLoading());
+      });
+  };
+};
+
 export const loadingProfile = () => ({
   type: SET_PROFILE_LOADING,
   payload: true,
@@ -96,7 +119,7 @@ export const stopProfileLoading = () => ({
   payload: false,
 });
 
-export const getProfile = (data) => ({
+export const addProfile = (data) => ({
   type: ADD_PROFILE,
   payload: data,
 });

@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -16,7 +16,6 @@ import (
 	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
 	"github.com/spf13/viper"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type kratosIdentity struct {
@@ -128,7 +127,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	token := GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", identity))
+	token := util.GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", identity))
 
 	err = model.DB.Create(&model.ApplicationToken{
 		Name:          appTok.Name,
@@ -147,14 +146,4 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	renderx.JSON(w, http.StatusCreated, response)
-}
-
-// GenerateSecretToken generates secret token for application
-func GenerateSecretToken(str string) string {
-	hash, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.DefaultCost)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return string(hash)
 }

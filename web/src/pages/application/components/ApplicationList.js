@@ -6,11 +6,8 @@ import { getApplications, deleteApplication } from '../../../actions/application
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
 
-function ApplicationList({ applicationList, permission }) {
+function ApplicationList({ applicationList, permission, loading }) {
   const dispatch = useDispatch();
-  const node = applicationList.req[0];
-  const applications = node.data.map((element) => applicationList.details[element]);
-  const loading = applicationList.loading;
   const fetchApplications = () => {
     dispatch(getApplications());
   };
@@ -36,15 +33,11 @@ function ApplicationList({ applicationList, permission }) {
               size={200}
               style={{ width: '100%', objectFit: 'cover' }}
               src={
-                props.application.medium && props.application.medium_id
+                props.application?.medium && props.application.medium_id
                   ? props.application.medium?.url?.proxy
                   : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
-            >
-              {props.application.medium && props.application.medium_id
-                ? null
-                : props.application.name.charAt(0)}
-            </Avatar>
+            ></Avatar>
           )
         }
         actions={[
@@ -97,7 +90,7 @@ function ApplicationList({ applicationList, permission }) {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
-      {applications.map((application, index) => (
+      {applicationList.map((application, index) => (
         <ApplicationCard key={index} application={application}></ApplicationCard>
       ))}
     </div>

@@ -12,6 +12,7 @@ import (
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/email"
+	"github.com/factly/kavach-server/util/kratos"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -141,12 +142,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		receiver := email.MailReceiver{
-			InviteeName:      user.FirstName + " " + user.LastName,
-			InviteeEmail:     user.Email,
-			Role:             user.Role,
-			OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
-		}
 		var count int64
 		err = model.DB.Model(&model.User{}).Where("email=?", user.Email).Count(&count).Error
 		if err != nil {
@@ -155,20 +150,63 @@ func create(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
-		domainName := viper.GetString("domain_name")
-
-		if count == 0 {
-			receiver.ActionURL = domainName + "/auth/registration"
+		if viper.GetBool("disable_registration") && count == 0 {
+			id, err := kratos.CreateKratosIdentity(user.Email)
+			if err != nil {
+				tx.Rollback()
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DBError()))
+				return
+			}
+			err = tx.Model(&model.User{}).Where("email=?", user.Email).Update("kid", id).Error
+			if err != nil {
+				tx.Rollback()
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DBError()))
+				return
+			}
+			var response *kratos.RecoveryResponse
+			response, err = kratos.CreateRecoveryLink("168h", id)
+			if err != nil {
+				tx.Rollback()
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DBError()))
+				return
+			}
+			receiver := email.MailReceiver{
+				InviteeName:      user.FirstName + " " + user.LastName,
+				InviteeEmail:     user.Email,
+				Role:             user.Role,
+				OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
+				ActionURL:        response.RecoveryURL,
+			}
+			err = email.SendmailwithSendGrid(receiver)
+			if err != nil {
+				// tx.Rollback()
+				loggerx.Error(err)
+				// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+				// return
+			}
 		} else {
-			receiver.ActionURL = domainName + "/web/profile/invite"
-		}
-
-		err = email.SendmailwithSendGrid(receiver)
-		if err != nil {
-			// tx.Rollback()
-			loggerx.Error(err)
-			// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-			// return
+			domainName := viper.GetString("domain_name")
+			receiver := email.MailReceiver{
+				InviteeName:      user.FirstName + " " + user.LastName,
+				InviteeEmail:     user.Email,
+				Role:             user.Role,
+				OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
+			}
+			if count == 0 {
+				receiver.ActionURL = domainName + "/auth/registration"
+			} else {
+				receiver.ActionURL = domainName + "/web/profile/invite"
+			}
+			err = email.SendmailwithSendGrid(receiver)
+			if err != nil {
+				// tx.Rollback()
+				loggerx.Error(err)
+				// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+				// return
+			}
 		}
 		tx.Commit()
 	}

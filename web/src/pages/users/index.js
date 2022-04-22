@@ -8,16 +8,18 @@ import { Link } from 'react-router-dom';
 function OrganisationUsers() {
   const dispatch = useDispatch();
 
-  const { organisation, users, role, loading, loadingRole } = useSelector((state) => {
+  const { users, loading, loadingRole, role } = useSelector((state) => {
+    const organisationDetails = state.organisations.details[state.organisations.selected];
     return {
-      organisation: state.organisations.details[state.organisations.selected],
-      users: state.users.ids.map((id) => state.users.details[id]),
-      role: state.organisations.role,
+      users: organisationDetails?.users?.map((id) => ({
+        ...state.users.details[id],
+        role: state.organisations.details[state.organisations.selected]?.roles[id],
+      })),
+      role: state.organisations.details[state.organisations.selected].role,
       loading: state.users.loading,
       loadingRole: state.organisations.loading,
     };
   });
-
   const fetchUsers = React.useCallback(() => {
     dispatch(getUsers());
   }, [dispatch]);
@@ -42,7 +44,7 @@ function OrganisationUsers() {
     {
       title: 'Role',
       key: 'role',
-      dataIndex: ['permission', 'role'],
+      dataIndex: 'role',
       filters: [
         {
           text: 'Owner',
@@ -54,7 +56,7 @@ function OrganisationUsers() {
         },
       ],
       filterMultiple: false,
-      onFilter: (value, record) => record.permission.role === value,
+      onFilter: (value, record) => record.role === value,
       width: '25%',
     },
     {
@@ -81,7 +83,7 @@ function OrganisationUsers() {
 
   return (
     <Space direction="vertical">
-      {organisation.permission.role === 'owner' ? (
+      {role === 'owner' ? (
         <div style={{ display: 'flex', justifyContent: 'end' }}>
           <Link key="1" to="/users/new">
             <Button type="primary">Invite Users</Button>
