@@ -1,0 +1,41 @@
+.slider-menu {
+  height: calc(100vh - 64px);
+}
+
+.menu-header {
+  height: 64px;
+  line-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-logo {
+  max-height: 36px;
+  max-width: 36px;
+  width: 100%;
+  object-fit: contain;
+}
+.main-sidebar .slider-menu {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.menu-company {
+  color: #ffffff;
+  font-size: 24px;
+  padding-left: 16px;
+}
+
+.layout-content {
+  padding: 0.2rem;
+}
+
+.layout-header {
+  background-color: #ffffff;
+  padding-left: 16px;
+}
+
+.wrap-children-content {
+  margin: 24px 24px;
+}
