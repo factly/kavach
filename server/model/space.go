@@ -34,6 +34,7 @@ type Space struct {
 	Application       *Application   `gorm:"foreignKey:application_id" json:"application"`
 	Users             []User         `gorm:"many2many:space_users;" json:"users"`
 	Roles             []SpaceRole    `gorm:"many2many:space_roles;" json:"roles"`
+	Tokens            []SpaceToken   `json:"tokens"`
 }
 
 type SpaceToken struct {

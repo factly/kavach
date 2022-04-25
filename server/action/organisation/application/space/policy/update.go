@@ -122,6 +122,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	var permissions []permission
 	err = json.Unmarshal(reqBody.Permissions.RawMessage, &permissions)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
@@ -154,10 +155,11 @@ func update(w http.ResponseWriter, r *http.Request) {
 	result.Effect = "allow"
 	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", &result)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
-
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, policy)
 }

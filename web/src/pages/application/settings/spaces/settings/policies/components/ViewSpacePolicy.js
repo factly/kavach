@@ -52,40 +52,40 @@ export default function ViewSpacePolicy() {
   }, []);
 
   return (
-    <Descriptions title={`Policy detail`} bordered>
+    <div>
       {loading ? (
         <Skeleton />
       ) : (
-        <div>
+        <Descriptions title={`Policy detail`} bordered>
           <Descriptions.Item label="Name" span={span}>
-            {policy.name}
+            {policy?.name}
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Description" span={span}>
-            {policy.description}
+            {policy?.description}
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Permissions" span={span}>
             <Table
               bordered={false}
               columns={nestedTableColumns}
-              dataSource={policy.permissions}
+              dataSource={policy?.permissions}
               rowKey={'id'}
               pagination={false}
             />
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Roles" span={span}>
-            {policy.roles.map((role) => {
+            {policy?.roles.map((role) => {
               return (
                 <Tag key={role.id} color="blue">
-                  {role.name}
+                  {role?.name}
                 </Tag>
               );
             })}
           </Descriptions.Item>
-        </div>
+        </Descriptions>
       )}
-    </Descriptions>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Button, Tag } from 'antd';
+import { Table, Popconfirm, Button, Tag, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteSpacePolicy, getSpacePolicy } from '../../../../../../../actions/policy';
 import { getSpaceRoles } from '../../../../../../../actions/roles';
@@ -11,7 +11,7 @@ export default function PolicyList({ appID, spaceID, role }) {
   const { policies, loading } = useSelector((state) => {
     const policyIDs = state.spaces.details[spaceID]?.policyIDs || [];
     return {
-      policy: policyIDs.map((id) => ({
+      policies: policyIDs.map((id) => ({
         ...state.policy.space[spaceID][id],
         roles:
           state.policy.space[spaceID][id]?.roles.map((rId) => ({
@@ -70,7 +70,7 @@ export default function PolicyList({ appID, spaceID, role }) {
       width: '25%',
       render: (_, record) => {
         return (
-          <div>
+          <Space>
             <Link
               to={{
                 pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/policies/${record.id}/view`,
@@ -90,7 +90,7 @@ export default function PolicyList({ appID, spaceID, role }) {
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
               <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} />
             </Popconfirm>
-          </div>
+          </Space>
         );
       },
     },

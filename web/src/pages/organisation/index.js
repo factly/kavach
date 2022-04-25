@@ -34,8 +34,7 @@ function OrganisationDetails() {
             extra={
               <Link to={`/organisation/edit`}>
                 <Button icon={<EditOutlined />} type="primary">
-                  {' '}
-                  Edit Organisation{' '}
+                  Edit Organisation
                 </Button>
               </Link>
             }

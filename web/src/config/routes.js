@@ -354,7 +354,7 @@ export default [
     title: 'Edit Space Role',
   },
   {
-    path: '/applications/:id/settings/spaces/:spaceID/settings/policies',
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/policies',
     Component: SpacePolicies,
     enableNavigation: false,
     title: 'Application Policies',
@@ -368,7 +368,7 @@ export default [
     enableBreadcrumb: true,
   },
   {
-    path: '/applications/:appID/settingsc/spaces/:spaceID/settings/policies/:policyID/view',
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/policies/:policyID/view',
     Component: ViewSpacePolicy,
     enableNavigation: false,
     title: 'View application policy',

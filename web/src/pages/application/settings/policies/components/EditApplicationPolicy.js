@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { getApplicationPolicyByID, updateApplicationPolicy } from '../../../../../actions/policy';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -12,7 +12,7 @@ export default function EditApplicationPolicy() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { appID, policyID } = useParams();
-
+  const history = useHistory();
   const { policy, loading, role, loadingRole, application, loadingApp } = useSelector((state) => {
     return {
       policy: state.policy.application[appID][policyID],
@@ -25,7 +25,9 @@ export default function EditApplicationPolicy() {
   });
 
   const onUpdate = (data) => {
-    dispatch(updateApplicationPolicy(appID, policyID, data));
+    dispatch(updateApplicationPolicy(appID, policyID, data)).then(() =>
+      history.push(`/applications/${appID}/settings/policies`),
+    );
   };
 
   const onReset = () => {

@@ -30,10 +30,10 @@ export const startLoadingPolicy = () => ({
 
 export const addOrganisationPolicy = (orgID, data) => (dispatch) => {
   data.forEach((policy) => {
-    if(policy.roles?.length){
-      policy.roles.forEach((role)=>{
-        role.users = getIds(role.users)
-      })
+    if (policy.roles?.length) {
+      policy.roles.forEach((role) => {
+        role.users = getIds(role.users);
+      });
     }
     dispatch(addOrganisationRoles(orgID, buildObjectOfItems(policy.roles)));
     policy.roles = getIds(policy.roles);

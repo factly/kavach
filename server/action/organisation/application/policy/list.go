@@ -53,7 +53,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	policies := make([]model.ApplicationPolicy, 0)
 	err = model.DB.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationPolicy{
 		ApplicationID: uint(appID),
-	}).Preload("Application").Preload("Permissions").Preload("Roles").Find(&policies).Error
+	}).Preload("Application").Preload("Roles").Find(&policies).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

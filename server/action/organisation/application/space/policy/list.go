@@ -53,7 +53,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	policies := make([]model.SpacePolicy, 0)
 	err = model.DB.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
 		SpaceID: uint(spaceID),
-	}).Preload("Space").Preload("Permissions").Preload("Roles").Find(&policies).Error
+	}).Preload("Space").Preload("Roles").Find(&policies).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

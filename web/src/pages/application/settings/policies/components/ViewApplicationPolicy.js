@@ -1,9 +1,9 @@
 import React from 'react';
-import { Descriptions, Tag, Table, Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Descriptions, Tag, Table, Skeleton, Button } from 'antd';
+import { Link, useParams } from 'react-router-dom';
 import { getApplicationPolicyByID } from '../../../../../actions/policy';
 import { useSelector } from 'react-redux';
-
+import { BackwardOutlined } from '@ant-design/icons';
 export default function ViewApplicationPolicy() {
   const { policyID, appID } = useParams();
   const span = 2;
@@ -50,41 +50,45 @@ export default function ViewApplicationPolicy() {
     fetchPolicy();
     //eslint-disable-next-line
   }, []);
+
   return (
-    <Descriptions title={`Policy detail`} bordered>
+    <div>
+      <Link to={`/applications/${appID}/settings/policies`}>
+        <Button icon={<BackwardOutlined />} type="primary"></Button>
+      </Link>
       {loading ? (
         <Skeleton />
       ) : (
-        <div>
+        <Descriptions title={`Policy detail`} bordered>
           <Descriptions.Item label="Name" span={span}>
-            {policy.name}
+            {policy?.name}
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Description" span={span}>
-            {policy.description}
+            {policy?.description}
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Permissions" span={span}>
             <Table
               bordered={false}
               columns={nestedTableColumns}
-              dataSource={policy.permissions}
+              dataSource={policy?.permissions}
               rowKey={'id'}
               pagination={false}
             />
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Roles" span={span}>
-            {policy.roles.map((role) => {
+            {policy?.roles.map((role) => {
               return (
                 <Tag key={role.id} color="blue">
-                  {role.name}
+                  {role?.name}
                 </Tag>
               );
             })}
           </Descriptions.Item>
-        </div>
+        </Descriptions>
       )}
-    </Descriptions>
+    </div>
   );
 }

@@ -21,7 +21,7 @@ export const SettingsCard = ({ icon, title, description }) => {
   );
 };
 
-export default function SettingsList({ type, orgID, appID, spaceID }) {
+export default function SettingsList({ type, orgID, appID, spaceID, role }) {
   let baseLink = '';
   switch (type) {
     case 'organisation':

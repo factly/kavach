@@ -6,7 +6,7 @@ import { maker, checker } from '../../../../../utils/sluger';
 import { getApplicationRoles } from '../../../../../actions/roles';
 import { getApplication } from '../../../../../actions/application';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { createApplicationPolicy } from '../../../../../actions/policy';
 
 export default function CreateApplicationPolicyForm() {
@@ -14,7 +14,7 @@ export default function CreateApplicationPolicyForm() {
   const { appID } = useParams();
   const [form] = Form.useForm();
   const { TextArea } = Input;
-
+  const history = useHistory();
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[appID] ? state.applications.details[appID] : null,
@@ -47,7 +47,9 @@ export default function CreateApplicationPolicyForm() {
   };
 
   const onCreate = (values) => {
-    dispatch(createApplicationPolicy(appID, values));
+    dispatch(createApplicationPolicy(appID, values)).then(() =>
+      history.push(`/applications/${appID}/settings/policies`),
+    );
   };
 
   React.useEffect(() => {

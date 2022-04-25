@@ -6,7 +6,7 @@ import { maker, checker } from '../../../../../../../utils/sluger';
 import { getSpaceRoles } from '../../../../../../../actions/roles';
 import { getSpaceByID } from '../../../../../../../actions/space';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { createSpacePolicy } from '../../../../../../../actions/policy';
 
 export default function CreateSpacePolicyForm() {
@@ -14,7 +14,7 @@ export default function CreateSpacePolicyForm() {
   const { appID, spaceID } = useParams();
   const [form] = Form.useForm();
   const { TextArea } = Input;
-
+  const history = useHistory();
   const { space, loadingSpace, role, loadingRole } = useSelector((state) => {
     return {
       space: state.spaces.details[spaceID] ? state.spaces.details[spaceID] : null,
@@ -25,9 +25,9 @@ export default function CreateSpacePolicyForm() {
   });
 
   const { roles, loadingRoles } = useSelector((state) => {
-    var roleIDs = state.applications.details[appID]?.roleIDs || [];
+    var roleIDs = state.spaces.details[spaceID]?.roleIDs || [];
     return {
-      roles: roleIDs.map((id) => state.roles.application[appID][id]),
+      roles: roleIDs.map((id) => state.roles.space[spaceID][id]),
       loadingRoles: state.roles.loading,
     };
   });
@@ -47,7 +47,9 @@ export default function CreateSpacePolicyForm() {
   };
 
   const onCreate = (values) => {
-    dispatch(createSpacePolicy(appID, spaceID, values));
+    dispatch(createSpacePolicy(appID, spaceID, values)).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`),
+    );
   };
 
   React.useEffect(() => {

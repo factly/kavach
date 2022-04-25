@@ -64,7 +64,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(policyID),
 		},
-	}).Preload("Application").Preload("Permissions").Preload("Roles").First(policy).Error
+	}).Preload("Application").Preload("Roles").First(policy).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
