@@ -3,7 +3,6 @@ import {
   SET_SPACES_LOADING,
   RESET_SPACES,
   STOP_SPACES_LOADING,
-  SET_SELECTED_APP,
   ADD_SPACES,
   ADD_SPACE_ROLE_IDS,
   ADD_SPACE_POLICY_IDS,
@@ -12,7 +11,6 @@ import {
 } from '../constants/space';
 const initialState = {
   details: {},
-  selected: null,
   loading: true,
 };
 
@@ -54,11 +52,6 @@ export default function spaces(state = initialState, action = {}) {
         ...state,
         details: {},
         loading: true,
-      };
-    case SET_SELECTED_APP:
-      return {
-        ...state,
-        selected: action.payload,
       };
     case ADD_SPACE_ROLE_IDS:
       return {

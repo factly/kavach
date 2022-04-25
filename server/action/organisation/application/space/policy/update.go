@@ -15,7 +15,6 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
-	"github.com/lib/pq"
 )
 
 //update - Update policy for an organisation using organisation_id
@@ -97,16 +96,12 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	// binding the policyReq to SpacePolicy model
 	var policy model.SpacePolicy
+	policy.ID = uint(policyID)
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
+	policy.Slug = reqBody.Slug
 	policy.SpaceID = uint(spaceID)
-	for _, value := range reqBody.Permissions {
-		var permission model.Permission
-		permission.Resource = value.Resource
-		permission.Actions = pq.StringArray(value.Actions)
-		policy.Permissions = append(policy.Permissions, permission)
-	}
-
+	policy.Permissions = reqBody.Permissions
 	roles := make([]model.SpaceRole, 0)
 	for _, each := range reqBody.Roles {
 		roles = append(roles, model.SpaceRole{Base: model.Base{ID: each}})
@@ -123,7 +118,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	
+
+	var permissions []permission
+	err = json.Unmarshal(reqBody.Permissions.RawMessage, &permissions)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	// ----------- updating the policy on the keto server ---------------
 	result := model.Policy{}
 	commonPolicyString := fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":")
@@ -141,7 +144,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":space:"+fmt.Sprint(spaceID)+":"+*roleName)
 	}
 
-	for _, permission := range reqBody.Permissions {
+	for _, permission := range permissions {
 		result.Resources = append(result.Resources, "resources"+commonPolicyString+permission.Resource)
 		for _, action := range permission.Actions {
 			result.Actions = append(result.Actions, "actions"+commonPolicyString+action)

@@ -4,7 +4,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { oneDark } from '@codemirror/theme-one-dark';
 import { jsonLanguage } from '@codemirror/lang-json';
 import { htmlLanguage } from '@codemirror/lang-html';
-import {  useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { editSpace, getSpaceByID } from '../../../../../../../actions/space';
 
@@ -12,6 +12,7 @@ function SpaceMetadata() {
   const [form] = Form.useForm();
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [modeHeader, setHeaderMode] = React.useState('html');
   const [modeFooter, setFooterMode] = React.useState('html');
   const [modeMetaData, setMetaDataMode] = React.useState('json');
@@ -55,8 +56,11 @@ function SpaceMetadata() {
 
   const handleSubmit = (data) => {
     const reqBody = { ...space, ...data };
-    reqBody.users = null;
-    dispatch(editSpace(spaceID, appID, reqBody));
+    delete reqBody.users;
+    reqBody.meta_fields = JSON.parse(reqBody.meta_fields);
+    dispatch(editSpace(spaceID, appID, reqBody)).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/edit`),
+    );
   };
 
   return (

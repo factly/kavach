@@ -57,6 +57,8 @@ import EditSpace from '../pages/application/settings/spaces/components/editspace
 import SpaceDetails from '../pages/application/settings/spaces/components/editspace/components/SpaceDetails';
 import SpaceLogoForm from '../pages/application/settings/spaces/components/editspace/components/SpaceLogoform';
 import SpaceMetadata from '../pages/application/settings/spaces/components/editspace/components/SpaceMetadata';
+import SpaceContact from '../pages/application/settings/spaces/components/editspace/components/SpaceContact';
+import EditSpaceRole from '../pages/application/settings/spaces/settings/roles/components/EditRole';
 
 export default [
   {
@@ -289,6 +291,13 @@ export default [
     enableBreadcrumb: true,
   },
   {
+    path: '/applications/:appID/settings/spaces/:spaceID/edit/contacts',
+    Component: SpaceContact,
+    title: 'Edit Contact Details',
+    enableNavigation: false,
+    enableBreadcrumb: true,
+  },
+  {
     path: '/applications/:appID/settings/spaces/:spaceID/settings',
     Component: SpaceSettings,
     enableNavigation: false,
@@ -336,6 +345,13 @@ export default [
     enableNavigation: false,
     title: 'Add Application Role User',
     enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/roles/:roleID/edit',
+    Component: EditSpaceRole,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Edit Space Role',
   },
   {
     path: '/applications/:id/settings/spaces/:spaceID/settings/policies',
@@ -422,7 +438,7 @@ export default [
     title: 'Edit Organisation Policy',
   },
   {
-    path: 'organisation/:orgID/settings/policies/:policyID/view',
+    path: '/organisation/:orgID/settings/policies/:policyID/view',
     Component: ViewOrganisationPolicy,
     enableNavigation: false,
     enableBreadcrumb: true,

@@ -6,10 +6,6 @@ import { deleteSpaceRoleUserByID, getSpaceRoleUsers } from '../../../../../../..
 
 export default function UserList({ users, appID, spaceID, roleID }) {
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const columns = [
     { title: 'First Name', dataIndex: 'first_name', key: 'name' },
     { title: 'Last Name', dataIndex: 'last_name', key: 'last_name' },

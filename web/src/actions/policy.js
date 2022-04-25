@@ -30,10 +30,15 @@ export const startLoadingPolicy = () => ({
 
 export const addOrganisationPolicy = (orgID, data) => (dispatch) => {
   data.forEach((policy) => {
-    dispatch(addOrganisationRoles(orgID, buildObjectOfItems(policy.roles)))
-    policy.roles = getIds(policy.roles)
+    if(policy.roles?.length){
+      policy.roles.forEach((role)=>{
+        role.users = getIds(role.users)
+      })
+    }
+    dispatch(addOrganisationRoles(orgID, buildObjectOfItems(policy.roles)));
+    policy.roles = getIds(policy.roles);
   });
-  
+
   dispatch({
     type: ADD_ORGANISATION_POLICY,
     payload: {
@@ -112,12 +117,10 @@ export const getOrganisationPolicy = () => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}${POLICY_API}`)
       .then((res) => {
-        dispatch(
-          addOrganisationPolicy(getState().organisations.selected, res.data),
-        );
+        dispatch(addOrganisationPolicy(getState().organisations.selected, res.data));
         const policyIDs = getIds(res.data);
         dispatch(addOrganisationPolicyIDs(policyIDs));
-        })
+      })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })

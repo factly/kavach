@@ -31,7 +31,13 @@ export default function ViewSpacePolicy() {
 
   const { policy, loading } = useSelector((state) => {
     return {
-      policy: state.policy.space[spaceID][policyID],
+      policy: {
+        ...state.policy.space[spaceID][policyID],
+        roles:
+          state.policy.space[spaceID][policyID]?.roles.map((rId) => ({
+            ...state.roles.space[spaceID]?.[rId],
+          })) || [],
+      },
       loading: state.policy.loading,
     };
   });

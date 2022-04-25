@@ -57,6 +57,13 @@ export default function CreateSpace() {
             onFinish={(values) => onSubmit(values)}
           >
             <Form.Item
+              name="application_name"
+              label="Application Name"
+              initialValue={application?.name}
+            >
+              <Input disabled={true} />
+            </Form.Item>
+            <Form.Item
               name="name"
               label="Name"
               rules={[

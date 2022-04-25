@@ -65,7 +65,7 @@ function OrganisationRoleList({ orgID, role }) {
           <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
             {record?.users?.map((user) => {
               return (
-                <Tooltip title={user?.email} placement="top" key={'role-' + user?.id}>
+                <Tooltip title={user?.email} placement="top" key={'role-tooltip-' + user?.id}>
                   <Avatar
                     key={user?.id}
                     style={{

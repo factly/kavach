@@ -34,7 +34,7 @@ function OrganisationRoles() {
           {role === 'owner' ? (
             <div style={{ display: 'flex', justifyContent: 'end' }}>
               <Link
-                key="1"
+                key="2"
                 to={{
                   pathname: `/organisation/${orgID}/settings/roles/create`,
                 }}

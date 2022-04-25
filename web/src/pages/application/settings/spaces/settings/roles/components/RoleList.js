@@ -28,9 +28,10 @@ function SpaceRoleList({ appID, spaceID, role }) {
       width: '15%',
       render: (_, record) => {
         return (
-          <div>
+          <div key={record.id}>
             {role === 'owner' ? (
               <Link
+                key={record.id}
                 style={{
                   marginRight: 8,
                 }}
@@ -41,7 +42,7 @@ function SpaceRoleList({ appID, spaceID, role }) {
                 {record?.name}
               </Link>
             ) : (
-              <h4>{record?.name}</h4>
+              <h4 key={record.id}>{record?.name}</h4>
             )}
           </div>
         );
@@ -60,7 +61,11 @@ function SpaceRoleList({ appID, spaceID, role }) {
       width: '15%',
       render: (_, record) => {
         return (
-          <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+          <Avatar.Group
+            maxCount={3}
+            maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+            key={record.id}
+          >
             {record?.users?.map((user) => {
               return (
                 <Tooltip title={user?.email} placement="top" key={'role-' + user?.id}>
@@ -91,7 +96,7 @@ function SpaceRoleList({ appID, spaceID, role }) {
               <Space>
                 <Link
                   to={{
-                    pathname: `/applications/${appID}/settings/spaces/settings/${spaceID}/roles/${record.id}/users`,
+                    pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/users`,
                   }}
                 >
                   <Button icon={<UserAddOutlined />} primary="true">

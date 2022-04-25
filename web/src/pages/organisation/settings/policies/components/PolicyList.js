@@ -22,7 +22,6 @@ export default function PolicyList({ orgID, role }) {
     };
   });
 
-  console.log({ policies})
   const fetchPolicy = () => {
     dispatch(getOrganisationPolicy());
   };

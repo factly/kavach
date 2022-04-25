@@ -43,7 +43,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	organisation := &model.Organisation{}
 	organisation.ID = uint(id)
 
-	err = model.DB.Model(&model.Organisation{}).Preload("Medium").Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").Preload("Policies.Permissions").First(&organisation).Error
+	err = model.DB.Model(&model.Organisation{}).Preload("Medium").Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").Preload("Policies.Roles.Users").First(&organisation).Error
 
 	if err != nil {
 		loggerx.Error(err)

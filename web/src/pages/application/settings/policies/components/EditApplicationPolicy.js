@@ -73,6 +73,13 @@ export default function EditApplicationPolicy() {
             initialValues={policy}
           >
             <Form.Item
+              name="application_name"
+              label="Application Name"
+              initialValue={application?.name}
+            >
+              <Input disabled={true} />
+            </Form.Item>
+            <Form.Item
               name="name"
               label="Name"
               rules={[

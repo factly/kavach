@@ -110,6 +110,7 @@ export const getOrganisationRoles = () => {
       .then((res) => {
         deleteKeys(res.data, ['organisation']);
         res.data.forEach((role) => {
+          dispatch((addUsersList(role.users)))
           role.users = getIds(role.users);
         });
         dispatch(

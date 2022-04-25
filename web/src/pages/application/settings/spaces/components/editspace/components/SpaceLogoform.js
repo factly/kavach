@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button, Skeleton, Card, Row, Col } from 'antd';
 import { editSpace, getSpaceByID } from '../../../../../../../actions/space';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import MediaSelector from '../../../../../../../components/MediaSelector';
 
@@ -9,7 +9,7 @@ export default function SpaceLogoForm() {
   const [form] = Form.useForm();
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
-
+  const history = useHistory();
   React.useEffect(() => {
     dispatch(getSpaceByID(appID, spaceID));
     //eslint-disable-next-line
@@ -24,7 +24,10 @@ export default function SpaceLogoForm() {
 
   const handleSubmit = (data) => {
     const reqBody = { ...space, ...data };
-    dispatch(editSpace(spaceID, appID, reqBody));
+    delete reqBody.users;
+    dispatch(editSpace(spaceID, appID, reqBody)).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/edit`),
+    );
   };
 
   return (
@@ -59,7 +62,7 @@ export default function SpaceLogoForm() {
               </Col>
             </Row>
             <Form.Item>
-              <Button type="primary" htmlType="submit" form="space-basic-details" block>
+              <Button type="primary" htmlType="submit" form="space-logo-details" block>
                 Submit
               </Button>
             </Form.Item>

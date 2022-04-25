@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_ORGANISATION_USERS, ADD_ORGANISATION_ROLE} from '../constants/organisations';
+import { ADD_ORGANISATION_USERS, ADD_ORGANISATION_ROLE } from '../constants/organisations';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
 import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
 import { addMedia } from './media';

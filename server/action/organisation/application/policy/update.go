@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/application"
@@ -15,9 +14,7 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
-	"github.com/lib/pq"
 )
-
 
 func update(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
@@ -82,13 +79,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.ApplicationID = uint(appID)
-	for _, value := range reqBody.Permissions {
-		var permission model.Permission
-		permission.Resource = value.Resource
-		permission.Actions = pq.StringArray(value.Actions)
-		policy.Permissions = append(policy.Permissions, permission)
-	}
-
+	policy.Permissions = reqBody.Permissions
+	policy.Slug = reqBody.Slug
 	roles := make([]model.ApplicationRole, 0)
 	for _, each := range reqBody.Roles {
 		roles = append(roles, model.ApplicationRole{Base: model.Base{ID: each}})
@@ -106,6 +98,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var permissions []permission
+	err = json.Unmarshal(reqBody.Permissions.RawMessage, &permissions)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
 	// ----------- Creating policy on the keto server ---------------
 	result := model.Policy{}
 	commonPolicyString := fmt.Sprint(":org:", orgID, ":app:", appID, ":")
@@ -123,7 +122,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":"+*roleName)
 	}
 
-	for _, permission := range reqBody.Permissions {
+	for _, permission := range permissions {
 		result.Resources = append(result.Resources, "resources"+commonPolicyString+permission.Resource)
 		for _, action := range permission.Actions {
 			result.Actions = append(result.Actions, "actions"+commonPolicyString+action)

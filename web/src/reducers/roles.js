@@ -115,11 +115,11 @@ export default function rolesReducer(state = initialState, action = {}) {
         ...state,
         space: {
           ...state.space,
-          [action.payload.spaceID]: {
-            ...state.space[action.payload.spaceID],
-            [action.payload.roleID]: {
-              ...state.space[action.payload.appID][action.payload.roleID],
-              users: action.payload.data,
+          [action.payload?.spaceID]: {
+            ...state.space[action.payload?.spaceID],
+            [action.payload?.roleID]: {
+              ...state.space[action.payload.appID]?.[action.payload.roleID],
+              users: action.payload?.data,
             },
           },
         },

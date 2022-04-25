@@ -96,7 +96,7 @@ export const getOrganisation = (id) => {
         if (response.featured_medium_id) {
           addMedia(response.data.medium);
         }
-        if (response.data.roles.length) {
+        if (response.data.roles?.length) {
           response.data.roles.forEach((role) => {
             dispatch(addUsersList(role.users));
             role.users = getIds(role.users);

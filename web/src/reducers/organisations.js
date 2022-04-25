@@ -37,12 +37,12 @@ export default function tagsReducer(state = initialState, action = {}) {
       };
     case ADD_ORGANISATIONS:
       const organisationData = { ...state.details, ...payload.data };
-      const { selected } = { ...state} 
+      const { selected } = { ...state };
       return {
         ...state,
         ids: payload.ids,
         details: organisationData,
-        selected: (selected===0) ? payload.ids[0] : selected,
+        selected: selected === 0 ? payload.ids[0] : selected,
       };
     case ADD_ORGANISATION:
       return {

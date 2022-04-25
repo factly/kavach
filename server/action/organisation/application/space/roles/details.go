@@ -61,8 +61,8 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	// Get space role
 	role := &model.SpaceRole{}
-	err = model.DB.Model(&model.SpaceRole{}).Where(&model.ApplicationRole{
-		ApplicationID: uint(spaceID),
+	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+		SpaceID: uint(spaceID),
 		Base: model.Base{
 			ID: uint(roleIDInt),
 		},

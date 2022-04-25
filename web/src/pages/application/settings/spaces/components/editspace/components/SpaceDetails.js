@@ -3,13 +3,14 @@ import { Form, Input, Button, Card, Skeleton } from 'antd';
 import SlugInput from '../../../../../../../components/FormItems/SlugInput';
 import { maker } from '../../../../../../../utils/sluger';
 import { editSpace, getSpaceByID } from '../../../../../../../actions/space';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 function SpaceDetails() {
   const [form] = Form.useForm();
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const { TextArea } = Input;
   const onNameChange = (string) => {
     form.setFieldsValue({
@@ -32,13 +33,15 @@ function SpaceDetails() {
   const handleSubmit = (data) => {
     const reqBody = { ...space, ...data };
     reqBody.users = null;
-    dispatch(editSpace(spaceID, appID, reqBody));
+    dispatch(editSpace(spaceID, appID, reqBody)).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/edit`),
+    );
   };
 
   return (
     <div>
       {!loading ? (
-        <Card title="Edit basic space details" style={{ width: '50%' }}>
+        <Card title="Edit basic details" style={{ width: '50%' }}>
           <Form
             name="space-basic-details"
             form={form}

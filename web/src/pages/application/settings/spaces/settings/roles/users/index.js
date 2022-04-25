@@ -14,9 +14,11 @@ export default function SpaceRoleUsers() {
     (state) => {
       var remUserIDs = [];
       var roleUserIDs = [];
-      roleUserIDs = state.roles.space[spaceID][roleID].users || [];
-      const spaceUserIDs = state.spaces.details[spaceID].users || [];
-      remUserIDs = spaceUserIDs.filter((uID) => roleUserIDs.every((rUID) => !(rUID === uID)));
+      roleUserIDs = state.roles.space[spaceID][roleID]?.users || [];
+      const spaceUserIDs = state.spaces.details[spaceID]?.users || [];
+      if (spaceUserIDs?.length) {
+        remUserIDs = spaceUserIDs.filter((uID) => roleUserIDs.every((rUID) => !(rUID === uID)));
+      }
       return {
         roleUsers: roleUserIDs.map((id) => state.users.details[id]),
         remainingSpaceUsers: remUserIDs.map((id) => state.users.details[id]),
