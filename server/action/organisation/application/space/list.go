@@ -63,7 +63,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		ApplicationID:  appID,
 		OrganisationID: uint(oID),
-	}).Preload("Application").Preload("Logo").Preload("LogoMobile").Preload("FavIcon").Preload("MobileIcon").Preload("Users").Find(&spaces).Error
+	}).Preload("Application").Preload("Logo").Preload("FavIcon").Preload("Users").Find(&spaces).Error
 	filteredSpaces := make([]model.Space, 0)
 
 	for _, space := range spaces {

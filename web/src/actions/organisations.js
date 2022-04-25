@@ -14,6 +14,7 @@ import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/obje
 import { addApplicationList } from './application';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { addOrganisationPolicy } from './policy';
 import { loadingProfile, stopProfileLoading } from './profile';
 import { addOrganisationRoles } from './roles';
 import { addUsersList } from './users';
@@ -103,6 +104,9 @@ export const getOrganisation = (id) => {
         }
         dispatch(addOrganisationRoles(id, buildObjectOfItems(response.data.roles)));
         response.data.roleIDs = getIds(response.data.roles);
+        dispatch(addOrganisationPolicy(id, response.data.policies));
+        response.data.policyIDs = getIds(response.data.policies);
+        delete response.data.policies;
         let users = [];
         response.data.roles = {};
         response.data.organisation_users.map((item) => {

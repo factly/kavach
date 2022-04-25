@@ -9,14 +9,15 @@ import (
 // Organisation model definition
 type Organisation struct {
 	Base
-	Title             string              `gorm:"column:title" json:"title"`
-	Slug              string              `gorm:"column:slug" json:"slug"`
-	Description       string              `gorm:"column:description" json:"description"`
-	FeaturedMediumID  *uint               `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
-	Medium            *Medium             `gorm:"foreignKey:featured_medium_id" json:"medium"`
-	Applications      []Application       `gorm:"foreignKey:organisation_id" json:"applications"`
-	OrganisationUsers []OrganisationUser  `gorm:"foreignKey:organisation_id" json:"organisation_users"`
-	Roles             []OrganisationRole `gorm:"foreignKey:organisation_id" json:"roles"`
+	Title             string               `gorm:"column:title" json:"title"`
+	Slug              string               `gorm:"column:slug" json:"slug"`
+	Description       string               `gorm:"column:description" json:"description"`
+	FeaturedMediumID  *uint                `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
+	Medium            *Medium              `gorm:"foreignKey:featured_medium_id" json:"medium"`
+	Applications      []Application        `gorm:"foreignKey:organisation_id" json:"applications"`
+	OrganisationUsers []OrganisationUser   `gorm:"foreignKey:organisation_id" json:"organisation_users"`
+	Roles             []OrganisationRole   `gorm:"foreignKey:organisation_id" json:"roles"`
+	Policies          []OrganisationPolicy `gorm:"foreignKey:organisation_id" json:"policies"`
 }
 
 // OrganisationUser model definition

@@ -22,7 +22,10 @@ function OrganisationRoles() {
   });
 
   return (
-    <div>
+    <Space direction="vertical">
+      <Link key="1" to={`/organisation`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <h2>Roles in {organisation?.title}</h2>
       {loading && loadingOrg ? (
         <Skeleton />
@@ -43,7 +46,7 @@ function OrganisationRoles() {
           <OrganisationRoleList orgID={orgID} role={role} />
         </Space>
       )}
-    </div>
+    </Space>
   );
 }
 

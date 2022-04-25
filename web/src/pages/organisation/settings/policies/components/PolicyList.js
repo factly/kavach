@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Button, Tag } from 'antd';
+import { Table, Popconfirm, Button, Tag, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteOrganisationPolicy, getOrganisationPolicy } from '../../../../../actions/policy';
 import { getOrganisationRoles } from '../../../../../actions/roles';
@@ -11,7 +11,7 @@ export default function PolicyList({ orgID, role }) {
   const { policies, loading } = useSelector((state) => {
     var policyIDs = state.organisations.details[orgID]?.policyIDs || [];
     return {
-      policy: policyIDs.map((id) => ({
+      policies: policyIDs.map((id) => ({
         ...state.policy.organisation[orgID][id],
         roles:
           state.policy.organisation[orgID][id]?.roles.map((rId) => ({
@@ -22,6 +22,7 @@ export default function PolicyList({ orgID, role }) {
     };
   });
 
+  console.log({ policies})
   const fetchPolicy = () => {
     dispatch(getOrganisationPolicy());
   };
@@ -68,7 +69,7 @@ export default function PolicyList({ orgID, role }) {
       width: '25%',
       render: (_, record) => {
         return (
-          <div>
+          <Space>
             <Link
               to={{
                 pathname: `/organisation/${orgID}/settings/policies/${record.id}/view`,
@@ -88,7 +89,7 @@ export default function PolicyList({ orgID, role }) {
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
               <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} />
             </Popconfirm>
-          </div>
+          </Space>
         );
       },
     },

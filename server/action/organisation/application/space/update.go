@@ -51,7 +51,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
-
+	space.UpdatedByID = uint(uID)
 	validationError := validationx.Check(space)
 	if validationError != nil {
 		loggerx.Error(errors.New("validation error"))
@@ -66,38 +66,27 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
+	tx := model.DB.Begin()
 	// Check if record exist or not
 	var count int64
-	err = model.DB.Model(&model.Space{}).Where(&model.Space{
+	err = tx.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{
 			ID: space.ID,
 		},
 	}).Count(&count).Error
 
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
 	if count != 1 {
+		tx.Rollback()
 		loggerx.Error(errors.New("record not found"))
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
-	}
-
-	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
-	if *space.LogoID == 0 {
-		space.LogoID = nil
-	}
-	if *space.LogoMobileID == 0 {
-		space.LogoID = nil
-	}
-	if *space.FavIconID == 0 {
-		space.LogoID = nil
-	}
-	if *space.MobileIconID == 0 {
-		space.LogoID = nil
 	}
 
 	updateMap := map[string]interface{}{
@@ -119,13 +108,30 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"contact_info":       space.ContactInfo,
 		"analytics":          space.Analytics,
 	}
+	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
+	if space.LogoID == 0 {
+		updateMap["logo_id"] = nil
+	}
 
-	err = model.DB.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
+	if space.LogoMobileID == 0 {
+		updateMap["logo_mobile_id"] = nil
+	}
+
+	if space.FavIconID == 0 {
+		updateMap["fav_icon_id"] = nil
+	}
+
+	if space.MobileIconID == 0 {
+		updateMap["mobile_icon_id"] = nil
+	}
+
+	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-
+	tx.Commit();
 	renderx.JSON(w, http.StatusOK, nil)
 }

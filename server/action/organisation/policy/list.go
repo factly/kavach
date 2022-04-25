@@ -55,7 +55,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	policies := make([]model.OrganisationPolicy, 0)
 	err = model.DB.Model(&model.OrganisationPolicy{}).Where(&model.OrganisationPolicy{
 		OrganisationID: uint(orgID),
-	}).Preload("Organisation").Preload("Permissions").Preload("Roles").Find(&policies).Error
+	}).Preload("Permissions").Preload("Roles").Find(&policies).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

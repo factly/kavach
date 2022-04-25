@@ -16,6 +16,7 @@ import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
 import { ADD_ORGANISATION_POLICY_IDS, ORGANISATIONS_API } from '../constants/organisations';
 import { ADD_APPLICATION_POLICY_IDS } from '../constants/application';
 import { ADD_SPACE_POLICY_IDS } from '../constants/space';
+import { addOrganisationRoles } from './roles';
 
 export const stopLoadingPolicy = () => ({
   type: POLICY_LOADING,
@@ -27,13 +28,20 @@ export const startLoadingPolicy = () => ({
   payload: true,
 });
 
-export const addOrganisationPolicy = (orgID, data) => ({
-  type: ADD_ORGANISATION_POLICY,
-  payload: {
-    id: orgID,
-    data: data,
-  },
-});
+export const addOrganisationPolicy = (orgID, data) => (dispatch) => {
+  data.forEach((policy) => {
+    dispatch(addOrganisationRoles(orgID, buildObjectOfItems(policy.roles)))
+    policy.roles = getIds(policy.roles)
+  });
+  
+  dispatch({
+    type: ADD_ORGANISATION_POLICY,
+    payload: {
+      id: orgID,
+      data: buildObjectOfItems(data),
+    },
+  });
+};
 
 export const addApplicationPolicy = (appID, data) => ({
   type: ADD_APPLICATION_POLICY,
@@ -104,16 +112,12 @@ export const getOrganisationPolicy = () => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}${POLICY_API}`)
       .then((res) => {
-        deleteKeys(res.data, ['organisation']);
-        res.data.forEach((policy) => {
-          policy.roles = getIds(policy.roles);
-        });
         dispatch(
-          addOrganisationPolicy(getState().organisations.selected, buildObjectOfItems(res.data)),
+          addOrganisationPolicy(getState().organisations.selected, res.data),
         );
         const policyIDs = getIds(res.data);
         dispatch(addOrganisationPolicyIDs(policyIDs));
-      })
+        })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })

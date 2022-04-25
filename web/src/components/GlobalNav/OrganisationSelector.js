@@ -4,8 +4,6 @@ import { Select, Avatar } from 'antd';
 import { setSelectedOrganisation } from './../../actions/organisations';
 
 function OrganisationSelector() {
-  const [selectorState, setSelectorState] = React.useState(false);
-  const list = ['/edit', '/create'];
   const { organisations, selectedOrg } = useSelector((state) => {
     const organisationIds = state.profile.details?.organisations || [];
     return {
@@ -14,9 +12,7 @@ function OrganisationSelector() {
     };
   });
 
-  React.useEffect(() => {
-    setSelectorState(list.some((item) => window.location.pathname.includes(item)));
-  }, [selectorState, list]);
+  React.useEffect(() => {}, []);
 
   const dispatch = useDispatch();
 
@@ -33,7 +29,6 @@ function OrganisationSelector() {
       style={{ width: '200px' }}
       onChange={handleOrganisationChange}
       bordered={false}
-      disabled={selectorState}
     >
       {organisations.map((organisation) => (
         <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>

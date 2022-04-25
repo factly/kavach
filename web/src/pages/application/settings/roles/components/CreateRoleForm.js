@@ -60,10 +60,14 @@ const CreateApplicationRoleForm = () => {
               onReset();
             }}
           >
-            {/* <Form.Item name="application_name" label="Application Name" initialValue={application.name}>
-										<Input disabled={true} />
-									</Form.Item> */}
-            <h3> Application : {application?.name}</h3>
+            <Form.Item
+              name="application_name"
+              label="Application Name"
+              initialValue={application.name}
+            >
+              <Input disabled={true} />
+            </Form.Item>
+            {/* <h3> Application : {application?.name}</h3> */}
             <Form.Item
               name="name"
               label="Name"

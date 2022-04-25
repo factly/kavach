@@ -6,11 +6,11 @@ import { editSpace, getSpaceByID } from '../../../../../../../actions/space';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-const { TextArea } = Input;
 function SpaceDetails() {
   const [form] = Form.useForm();
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
+  const { TextArea } = Input;
   const onNameChange = (string) => {
     form.setFieldsValue({
       slug: maker(string),
@@ -31,7 +31,8 @@ function SpaceDetails() {
 
   const handleSubmit = (data) => {
     const reqBody = { ...space, ...data };
-    dispatch(editSpace(spaceID, appID, reqBody))
+    reqBody.users = null;
+    dispatch(editSpace(spaceID, appID, reqBody));
   };
 
   return (

@@ -1,8 +1,10 @@
 import React from 'react';
-import { Skeleton, Descriptions, Space, Divider } from 'antd';
+import { Skeleton, Descriptions, Space, Divider, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrganisations } from './../../actions/organisations';
 import OrganisationSettings from './settings';
+import { EditOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 function OrganisationDetails() {
   const dispatch = useDispatch();
@@ -26,7 +28,18 @@ function OrganisationDetails() {
         <Skeleton />
       ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Descriptions title={<h2> Manage organisation </h2>} bordered={true}>
+          <Descriptions
+            title={<h2> Manage organisation </h2>}
+            bordered={true}
+            extra={
+              <Link to={`/organisation/edit`}>
+                <Button icon={<EditOutlined />} type="primary">
+                  {' '}
+                  Edit Organisation{' '}
+                </Button>
+              </Link>
+            }
+          >
             <Descriptions.Item label="Name" span={descriptionSpan}>
               {organisation?.title}
             </Descriptions.Item>

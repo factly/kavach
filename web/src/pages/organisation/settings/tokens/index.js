@@ -20,7 +20,10 @@ export default function OrganisationTokens() {
       {loading || loadingOrg ? (
         <Skeleton />
       ) : (
-        <div>
+        <Space direction="vertical">
+          <Link key="1" to={`/organisation`}>
+            <Button type="primary"> Goto Settings </Button>
+          </Link>
           <h2>Tokens in {organisation?.title}</h2>
           <Space direction="vertical">
             {role === 'owner' ? (
@@ -37,7 +40,7 @@ export default function OrganisationTokens() {
             ) : null}
             <TokenList orgID={orgID} role={role} />
           </Space>
-        </div>
+        </Space>
       )}
     </div>
   );

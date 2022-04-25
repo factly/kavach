@@ -272,21 +272,21 @@ export default [
     Component: SpaceDetails,
     title: 'Edit Space Basic Details',
     enableNavigation: false,
-    enableBreadcrumb: true
+    enableBreadcrumb: true,
   },
   {
     path: '/applications/:appID/settings/spaces/:spaceID/edit/logos',
     Component: SpaceLogoForm,
     title: 'Edit Space Metadata Details',
     enableNavigation: false,
-    enableBreadcrumb: true
+    enableBreadcrumb: true,
   },
   {
     path: '/applications/:appID/settings/spaces/:spaceID/edit/metadata',
     Component: SpaceMetadata,
     title: 'Edit Space Basic Details',
     enableNavigation: false,
-    enableBreadcrumb: true
+    enableBreadcrumb: true,
   },
   {
     path: '/applications/:appID/settings/spaces/:spaceID/settings',
@@ -415,14 +415,14 @@ export default [
     title: 'Add Organisation Policy',
   },
   {
-    path: '/organisation/:orgID/settings/policies/edit',
+    path: '/organisation/:orgID/settings/policies/:policyID/edit',
     Component: EditOrganisationPolicy,
     enableNavigation: false,
     enableBreadcrumb: true,
     title: 'Edit Organisation Policy',
   },
   {
-    path: 'organisation/:orgID/settings/policies/view',
+    path: 'organisation/:orgID/settings/policies/:policyID/view',
     Component: ViewOrganisationPolicy,
     enableNavigation: false,
     enableBreadcrumb: true,

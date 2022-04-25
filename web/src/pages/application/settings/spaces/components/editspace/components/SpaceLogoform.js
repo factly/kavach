@@ -24,7 +24,7 @@ export default function SpaceLogoForm() {
 
   const handleSubmit = (data) => {
     const reqBody = { ...space, ...data };
-		dispatch(editSpace(spaceID, appID, reqBody))
+    dispatch(editSpace(spaceID, appID, reqBody));
   };
 
   return (

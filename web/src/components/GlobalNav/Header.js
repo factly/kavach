@@ -22,16 +22,16 @@ function Header() {
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
-        <Link to="/organisation/create">
           {process.env.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
             <div>
-              <Button>New Organisation</Button>
+              <Link to="/organisation/create">
+                <Button>New Organisation</Button>
+              </Link>
               <OrganisationSelector />
             </div>
           ) : organisationCount < 1 ? (
             <Button>New Organisation</Button>
           ) : null}
-        </Link>
         {apps.length > 0 ? (
           <>
             <Divider type="vertical" />

@@ -87,8 +87,20 @@ function OrganisationUsers() {
   return (
     <Space direction="vertical">
       {role === 'owner' ? (
-        <div style={{ display: 'flex', justifyContent: 'end' }}>
-          <Link key="1" to={`/organisation/${orgID}/settings/users/new`}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <Link key="1" to={`/organisation`} style={{ alignSelf: 'flex-start' }}>
+            <Button type="primary"> Goto Settings </Button>
+          </Link>
+          <Link
+            key="2"
+            to={`/organisation/${orgID}/settings/users/new`}
+            style={{ alignSelf: 'flex-end' }}
+          >
             <Button type="primary">Invite Users</Button>
           </Link>
         </div>

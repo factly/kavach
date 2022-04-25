@@ -29,7 +29,6 @@ export default function tagsReducer(state = initialState, action = {}) {
         details: {},
         loading: true,
         selected: 0,
-        role: 'member',
       };
     case SET_ORGANISATIONS_LOADING:
       return {
@@ -38,12 +37,12 @@ export default function tagsReducer(state = initialState, action = {}) {
       };
     case ADD_ORGANISATIONS:
       const organisationData = { ...state.details, ...payload.data };
+      const { selected } = { ...state} 
       return {
         ...state,
         ids: payload.ids,
         details: organisationData,
-        selected: payload.ids[0],
-        role: organisationData[payload.ids[0]]?.role,
+        selected: (selected===0) ? payload.ids[0] : selected,
       };
     case ADD_ORGANISATION:
       return {
@@ -69,7 +68,6 @@ export default function tagsReducer(state = initialState, action = {}) {
       return {
         ...state,
         selected: payload,
-        role: state.details[payload].role,
       };
     case ADD_APPLICATION_IDS:
       return {

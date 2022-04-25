@@ -74,8 +74,8 @@ export default function OrganisationRoleUsers() {
             <Form.Item name="user_id" label="Users">
               <Select bordered listHeight={128} style={{ width: 200 }} placeholder="select user">
                 {remainingOrgUsers.map((user, index) => (
-                  <Select.Option value={user.id} key={index}>
-                    {user.email}
+                  <Select.Option value={user?.id} key={index}>
+                    {user?.email}
                   </Select.Option>
                 ))}
               </Select>
