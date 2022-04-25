@@ -36,26 +36,26 @@ function SpaceMetadata() {
   `;
   return (
     <div>
-      <Form.Item 
-          label="Header Code" 
-          name="header_code"
-          rules={
-            modeHeader === 'json'
-              ? [
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      try {
-                        JSON.parse(value);
-                        return Promise.resolve();
-                      } catch (error) {
-                        return Promise.reject('Invalid JSON format: ', error);
-                      }
-                    },
-                  }),
-                ]
-              : []
-            }
-          >
+      <Form.Item
+        label="Header Code"
+        name="header_code"
+        rules={
+          modeHeader === 'json'
+            ? [
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    try {
+                      JSON.parse(value);
+                      return Promise.resolve();
+                    } catch (error) {
+                      return Promise.reject('Invalid JSON format: ', error);
+                    }
+                  },
+                }),
+              ]
+            : []
+        }
+      >
         <CodeMirror
           value=""
           placeholder={modeHeader === 'html' ? htmlSample : jsonSample}

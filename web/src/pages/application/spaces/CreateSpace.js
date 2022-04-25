@@ -66,7 +66,7 @@ function CreateSpace() {
             <Input placeholder="Tag Line" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>

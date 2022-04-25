@@ -23,8 +23,8 @@ function Spaces() {
       applications: appIds.map((id) => state.applications.details[id]),
       selectedApp: state.spaces.selected,
       loading: state.applications.loading,
-      role: state.organisations.details[state.organisations.selected].role,
-      loadingRole: state.organisations.loading,
+      role: state.profile.roles[state.organisations.selected],
+      loadingRole: state.profile.loading,
     };
   });
 

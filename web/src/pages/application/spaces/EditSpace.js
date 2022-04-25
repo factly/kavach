@@ -14,8 +14,8 @@ function EditSpace() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { space, loading } = useSelector((state) => {
-    var spaceDetails = state.spaces.details[id] ? state.spaces.details[id] : null
-    delete spaceDetails.users
+    var spaceDetails = state.spaces.details[id] ? state.spaces.details[id] : null;
+    delete spaceDetails.users;
     return {
       space: spaceDetails,
       loading: state.spaces.loading,

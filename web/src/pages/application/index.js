@@ -21,8 +21,8 @@ function Application() {
     return {
       applicationData: applicationIds.map((id) => state.applications.details[id]),
       loadingApps: state.applications.loading,
-      role: state.organisations.details[state.organisations.selected].role,
-      loadingRole: state.organisations.loading,
+      role: state.profile.roles[state.organisations.selected],
+      loadingRole: state.profile.loading,
     };
   });
 

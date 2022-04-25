@@ -142,6 +142,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := map[string]interface{}{
+		"name": appTok.Name,
+		"description": appTok.Description,
 		"token": token,
 	}
 

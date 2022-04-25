@@ -46,7 +46,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(appID),
 		},
-	}).Preload("Users").Preload("Spaces").Preload("Tokens").Find(&app).Error
+	}).Preload("Users").Preload("Spaces").Preload("Tokens").Preload("Medium").Find(&app).Error
 
 	if err != nil {
 		loggerx.Error(err)

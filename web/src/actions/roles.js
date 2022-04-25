@@ -19,6 +19,7 @@ import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
 import { ADD_ORGANISATION_ROLE_IDS, ORGANISATIONS_API } from '../constants/organisations';
 import { ADD_APPLICATION_ROLE_IDS } from '../constants/application';
 import { ADD_SPACE_ROLE_IDS } from '../constants/space';
+import { addUsersList } from './users';
 
 export const stopLoadingRoles = () => ({
   type: ROLES_LOADING,
@@ -571,6 +572,7 @@ export const getOrganisationRoleUsers = (roleID) => {
     return axios
       .get(`${ORGANISATIONS_API}/${getState().organisations.selected}/roles/${roleID}/users`)
       .then((res) => {
+        dispatch(addUsersList(res.data));
         dispatch(
           addOrganisationRoleUsers(getState().organisations.selected, roleID, getIds(res.data)),
         );

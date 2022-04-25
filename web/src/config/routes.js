@@ -1,70 +1,113 @@
 import {
-  SettingOutlined,
   AppstoreOutlined,
-  UserOutlined,
   SecurityScanOutlined,
   ProfileOutlined,
   SendOutlined,
-  ApartmentOutlined,
-  PoundCircleOutlined,
-  UsergroupAddOutlined,
-  FileProtectOutlined,
+  BankOutlined,
 } from '@ant-design/icons';
 
 //Pages
-import Settings from '../pages/settings';
-import Users from '../pages/users';
 import Profile from '../pages/profile';
 import Password from '../pages/password';
-import OrganisationCreate from '../pages/organisation';
+import OrganisationCreate from '../pages/organisation/components/OrganisationForm';
 import Application from '../pages/application';
 import CreateApplication from '../pages/application/CreateApplication';
 import EditApplication from '../pages/application/EditApplication';
-import NewUser from '../pages/users/NewUser';
 import ApplicationUsers from '../pages/application/users/index';
 import InvitationComponent from '../pages/profile/invitation';
-import CreateSpace from '../pages/application/spaces/CreateSpace';
-import EditSpace from '../pages/application/spaces/EditSpace';
-import Spaces from '../pages/application/spaces/index';
-import SpaceUser from '../pages/application/spaces/users';
-import Token from '../pages/tokens';
-import Roles from '../pages/roles';
-import Policy from '../pages/policy';
-import EditRoles from '../pages/roles/components/EditRoles';
-import EditPolicy from '../pages/policy/components/EditPolicy';
-import ViewPolicy from '../pages/policy/components/ViewPolicy';
-import RoleUsers from '../pages/roles/users';
+import ApplicationSettings from '../pages/application/settings';
+import ApplicationTokens from '../pages/application/settings/token';
+import CreateApplicationTokenForm from '../pages/application/settings/token/components/CreateTokenForm';
+import CreateApplicationRoleForm from '../pages/application/settings/roles/components/CreateRoleForm';
+import ApplicationRoles from '../pages/application/settings/roles';
+import EditApplicationRole from '../pages/application/settings/roles/components/EditRole';
+import ApplicationRoleUsers from '../pages/application/settings/roles/users';
+import ApplicationPolicies from '../pages/application/settings/policies';
+import CreateApplicationPolicyForm from '../pages/application/settings/policies/components/CreateApplicationPolicy';
+import ViewApplicationPolicy from '../pages/application/settings/policies/components/ViewApplicationPolicy';
+import EditApplicationPolicy from '../pages/application/settings/policies/components/EditApplicationPolicy';
+import ApplicationSpaces from '../pages/application/settings/spaces';
+import CreateSpace from '../pages/application/settings/spaces/components/SpaceForm';
+import SpaceSettings from '../pages/application/settings/spaces/settings';
+import SpaceUser from '../pages/application/settings/spaces/settings/users';
+import SpaceTokens from '../pages/application/settings/spaces/settings/tokens';
+import CreateSpaceTokenForm from '../pages/application/settings/spaces/settings/tokens/components/CreateSpaceToken';
+import CreateSpaceRoleForm from '../pages/application/settings/spaces/settings/roles/components/CreateRoleForm';
+import SpaceRoles from '../pages/application/settings/spaces/settings/roles';
+import SpaceRoleUsers from '../pages/application/settings/spaces/settings/roles/users';
+import SpacePolicies from '../pages/application/settings/spaces/settings/policies';
+import CreateSpacePolicyForm from '../pages/application/settings/spaces/settings/policies/components/CreateSpacePolicy';
+import ViewSpacePolicy from '../pages/application/settings/spaces/settings/policies/components/ViewSpacePolicy';
+import EditSpacePolicy from '../pages/application/settings/spaces/settings/policies/components/EditSpacePolicy';
+import OrganisationDetails from '../pages/organisation';
+import OrganisationEdit from '../pages/organisation/components/EditOrganisation';
+import OrganisationUsers from '../pages/organisation/settings/users';
+import NewOrganisationUser from '../pages/organisation/settings/users/components/NewUser';
+import OrganisationTokens from '../pages/organisation/settings/tokens';
+import CreateOrganisationToken from '../pages/organisation/settings/tokens/components/CreateTokenForm';
+import OrganisationPolicies from '../pages/organisation/settings/policies';
+import CreateOrganisationPolicyForm from '../pages/organisation/settings/policies/components/CreateOrganisationPolicy';
+import ViewOrganisationPolicy from '../pages/organisation/settings/policies/components/ViewOrganisationPolicy';
+import EditOrganisationPolicy from '../pages/organisation/settings/policies/components/EditOrganistionPolicy';
+import OrganisationRoles from '../pages/organisation/settings/roles';
+import CreateOrganisationRoleForm from '../pages/organisation/settings/roles/components/CreateRoleForm';
+import EditOrganisationRole from '../pages/organisation/settings/roles/components/EditRole';
+import OrganisationRoleUsers from '../pages/organisation/settings/roles/users';
+import EditSpace from '../pages/application/settings/spaces/components/editspace';
+import SpaceDetails from '../pages/application/settings/spaces/components/editspace/components/SpaceDetails';
+import SpaceLogoForm from '../pages/application/settings/spaces/components/editspace/components/SpaceLogoform';
+import SpaceMetadata from '../pages/application/settings/spaces/components/editspace/components/SpaceMetadata';
+
 export default [
   {
-    path: '/settings',
-    Component: Settings,
+    path: '/organisation',
+    Component: OrganisationDetails,
     enableNavigation: true,
     enableBreadcrumb: true,
-    Icon: SettingOutlined,
-    title: 'Settings',
-  },
-  {
-    path: '/organisation',
-    Component: OrganisationCreate,
-    enableNavigation: false,
-    enableBreadcrumb: true,
-    Icon: UserOutlined,
+    Icon: BankOutlined,
     title: 'Organisation',
   },
   {
-    path: '/users',
-    Component: Users,
-    enableNavigation: true,
-    enableBreadcrumb: true,
-    Icon: UserOutlined,
-    title: 'Users',
-  },
-  {
-    path: '/users/new',
-    Component: NewUser,
+    path: '/organisation/create',
+    Component: OrganisationCreate,
     enableNavigation: false,
     enableBreadcrumb: true,
-    title: 'New User',
+    title: 'Organisation',
+  },
+  {
+    path: '/organisation/edit',
+    Component: OrganisationEdit,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Edit Organisation',
+  },
+  {
+    path: '/organisation/:orgID/settings/users',
+    Component: OrganisationUsers,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Organisation User',
+  },
+  {
+    path: '/organisation/:orgID/settings/users/new',
+    Component: NewOrganisationUser,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Organisation User',
+  },
+  {
+    path: '/organisation/:orgID/settings/tokens',
+    Component: OrganisationTokens,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Organisation Token',
+  },
+  {
+    path: '/organisation/:orgID/settings/tokens/create',
+    Component: CreateOrganisationToken,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Organisation Token',
   },
   {
     path: '/password',
@@ -112,28 +155,6 @@ export default [
     title: 'Application Users',
   },
   {
-    path: '/applications/spaces',
-    Component: Spaces,
-    enableNavigation: true,
-    enableBreadcrumb: true,
-    title: 'Spaces',
-    Icon: ApartmentOutlined,
-  },
-  {
-    path: '/applications/:id/spaces/create',
-    Component: CreateSpace,
-    enableNavigation: false,
-    enableBreadcrumb: true,
-    title: 'New Space',
-  },
-  {
-    path: '/applications/:id/spaces/:id/edit',
-    Component: EditSpace,
-    enableNavigation: false,
-    enableBreadcrumb: true,
-    title: 'New Space',
-  },
-  {
     path: '/profile/invite',
     Component: InvitationComponent,
     enableNavigation: true,
@@ -142,104 +163,269 @@ export default [
     enableBreadcrumb: true,
   },
   {
-    path: '/applications/:appID/spaces/:id/users',
+    path: '/applications/:id/settings',
+    Component: ApplicationSettings,
+    enableNavigation: false,
+    title: 'Application Settings',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:id/settings/users',
+    Component: ApplicationUsers,
+    enableNavigation: false,
+    title: 'Application Users',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:id/settings/tokens',
+    Component: ApplicationTokens,
+    enableNavigation: false,
+    title: 'Application Tokens',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:id/settings/tokens/create',
+    Component: CreateApplicationTokenForm,
+    enableNavigation: false,
+    title: 'New Application Token',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:id/settings/roles',
+    Component: ApplicationRoles,
+    enableNavigation: false,
+    title: 'Application Roles',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:id/settings/roles/create',
+    Component: CreateApplicationRoleForm,
+    enableNavigation: false,
+    title: 'New Application Role',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/roles/:roleID/edit',
+    Component: EditApplicationRole,
+    enableNavigation: false,
+    title: 'Update Application Role',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/roles/:roleID/users',
+    Component: ApplicationRoleUsers,
+    enableNavigation: false,
+    title: 'Add Application Role User',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:id/settings/policies',
+    Component: ApplicationPolicies,
+    enableNavigation: false,
+    title: 'Application Policies',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/policies/create',
+    Component: CreateApplicationPolicyForm,
+    enableNavigation: false,
+    title: 'Create Application Policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/policies/:policyID/view',
+    Component: ViewApplicationPolicy,
+    enableNavigation: false,
+    title: 'View application policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/policies/:policyID/edit',
+    Component: EditApplicationPolicy,
+    enableNavigation: false,
+    title: 'Edit application policy',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/spaces',
+    Component: ApplicationSpaces,
+    enableNavigation: false,
+    title: 'Spaces',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/spaces/create',
+    Component: CreateSpace,
+    enableNavigation: false,
+    title: 'Create space',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/edit',
+    Component: EditSpace,
+    title: 'Edit space',
+    enableNavigation: false,
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/edit/details',
+    Component: SpaceDetails,
+    title: 'Edit Space Basic Details',
+    enableNavigation: false,
+    enableBreadcrumb: true
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/edit/logos',
+    Component: SpaceLogoForm,
+    title: 'Edit Space Metadata Details',
+    enableNavigation: false,
+    enableBreadcrumb: true
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/edit/metadata',
+    Component: SpaceMetadata,
+    title: 'Edit Space Basic Details',
+    enableNavigation: false,
+    enableBreadcrumb: true
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/settings',
+    Component: SpaceSettings,
+    enableNavigation: false,
+    title: 'Space Settings',
+    enableBreadcrumb: true,
+  },
+  {
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/users',
     Component: SpaceUser,
     enableNavigation: false,
-    title: 'SpaceUsers',
+    title: 'Space users',
     enableBreadcrumb: true,
   },
   {
-    path: '/tokens',
-    Component: Token,
-    enableNavigation: true,
-    title: 'Tokens',
-    enableBreadcrumb: true,
-    Icon: PoundCircleOutlined,
-  },
-  {
-    path: '/roles',
-    Component: Roles,
-    enableNavigation: true,
-    title: 'Roles',
-    enableBreadcrumb: true,
-    Icon: UsergroupAddOutlined,
-  },
-  {
-    path: '/policies',
-    Component: Policy,
-    enableNavigation: true,
-    title: 'Policy',
-    enableBreadcrumb: true,
-    Icon: FileProtectOutlined,
-  },
-  {
-    path: '/organisations/:orgID/roles/:id/edit',
-    Component: EditRoles,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/tokens',
+    Component: SpaceTokens,
     enableNavigation: false,
-    title: 'Edit Organistion Role',
+    title: 'Space Tokens',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/applications/:appID/roles/:id/edit',
-    Component: EditRoles,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/tokens/create',
+    Component: CreateSpaceTokenForm,
     enableNavigation: false,
-    title: 'Edit Application Role',
+    title: 'New Space Token',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/applications/:appID/spaces/:spaceID/roles/:id/edit',
-    Component: EditRoles,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/roles/create',
+    Component: CreateSpaceRoleForm,
     enableNavigation: false,
-    title: 'Edit Space Role',
+    title: 'New Space Role',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/policy/:id/edit',
-    Component: EditPolicy,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/roles',
+    Component: SpaceRoles,
     enableNavigation: false,
-    title: 'Edit Organistion Policy',
+    title: 'Space Roles',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/applications/:appID/policy/:id/edit',
-    Component: EditPolicy,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/roles/:roleID/users',
+    Component: SpaceRoleUsers,
     enableNavigation: false,
-    title: 'Edit Application Policy',
+    title: 'Add Application Role User',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/applications/:appID/spaces/:spaceID/policy/:id/edit',
-    Component: EditPolicy,
+    path: '/applications/:id/settings/spaces/:spaceID/settings/policies',
+    Component: SpacePolicies,
     enableNavigation: false,
-    title: 'Edit Space Policy',
+    title: 'Application Policies',
     enableBreadcrumb: true,
   },
   {
-    path: '/policies/view',
-    Component: ViewPolicy,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/policies/create',
+    Component: CreateSpacePolicyForm,
     enableNavigation: false,
-    title: 'View Policy',
+    title: 'Create Application Policy',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/roles/:id/users',
-    Component: RoleUsers,
+    path: '/applications/:appID/settingsc/spaces/:spaceID/settings/policies/:policyID/view',
+    Component: ViewSpacePolicy,
     enableNavigation: false,
-    title: 'Edit Organistion Policy',
+    title: 'View application policy',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/applications/:appID/roles/:id/users',
-    Component: RoleUsers,
+    path: '/applications/:appID/settings/spaces/:spaceID/settings/policies/:policyID/edit',
+    Component: EditSpacePolicy,
     enableNavigation: false,
-    title: 'Edit Application Policy',
+    title: 'Edit space policy',
     enableBreadcrumb: true,
   },
   {
-    path: '/organisations/:orgID/applications/:appID/spaces/:spaceID/roles/:id/users',
-    Component: RoleUsers,
+    path: '/organisation/:orgID/settings/roles',
+    Component: OrganisationRoles,
     enableNavigation: false,
-    title: 'Edit Space Policy',
     enableBreadcrumb: true,
+    title: 'Organisation Roles',
+  },
+  {
+    path: '/organisation/:orgID/settings/roles/create',
+    Component: CreateOrganisationRoleForm,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Create Organisation Role',
+  },
+  {
+    path: '/organisation/:orgID/settings/roles/:roleID/edit',
+    Component: EditOrganisationRole,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Edit Organisation Role',
+  },
+  {
+    path: '/organisation/:orgID/settings/roles/:roleID/users',
+    Component: OrganisationRoleUsers,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Add Organisation Role User',
+  },
+  {
+    path: '/organisation/:orgID/settings/policies',
+    Component: OrganisationPolicies,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Add Organisation Policy',
+  },
+  {
+    path: '/organisation/:orgID/settings/policies',
+    Component: OrganisationPolicies,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Organisation Policy',
+  },
+  {
+    path: '/organisation/:orgID/settings/policies/create',
+    Component: CreateOrganisationPolicyForm,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Add Organisation Policy',
+  },
+  {
+    path: '/organisation/:orgID/settings/policies/edit',
+    Component: EditOrganisationPolicy,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'Edit Organisation Policy',
+  },
+  {
+    path: 'organisation/:orgID/settings/policies/view',
+    Component: ViewOrganisationPolicy,
+    enableNavigation: false,
+    enableBreadcrumb: true,
+    title: 'View Organisation Policy',
   },
 ];

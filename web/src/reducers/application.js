@@ -6,10 +6,10 @@ import {
   ADD_SPACE_IDS,
   ADD_APPLICATION_ROLE_IDS,
   ADD_APPLICATION_POLICY_IDS,
+  ADD_APPLICATION_TOKEN_IDS,
 } from '../constants/application';
 
 import { ADD_USER_IDS } from '../constants/applicationUser';
-import { ADD_APPLICATION_TOKENS } from '../constants/token';
 
 const initialState = {
   details: {},
@@ -47,9 +47,9 @@ export default function application(state = initialState, action = {}) {
         ...state,
         details: {
           ...state.details,
-          [action.payload.id]: {
-            ...state.details[action.payload.id],
-            spaces: action.payload.space_ids,
+          [action.payload.appID]: {
+            ...state.details[action.payload.appID],
+            spaces: action.payload.data,
           },
         },
       };
@@ -64,7 +64,7 @@ export default function application(state = initialState, action = {}) {
           },
         },
       };
-    case ADD_APPLICATION_TOKENS:
+    case ADD_APPLICATION_TOKEN_IDS:
       return {
         ...state,
         details: {

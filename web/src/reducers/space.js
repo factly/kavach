@@ -8,8 +8,8 @@ import {
   ADD_SPACE_ROLE_IDS,
   ADD_SPACE_POLICY_IDS,
   ADD_SPACE_USERS,
+  ADD_SPACE_TOKEN_IDS,
 } from '../constants/space';
-import { ADD_SPACE_TOKENS } from '../constants/token';
 const initialState = {
   details: {},
   selected: null,
@@ -60,17 +60,6 @@ export default function spaces(state = initialState, action = {}) {
         ...state,
         selected: action.payload,
       };
-    case ADD_SPACE_TOKENS:
-      return {
-        ...state,
-        details: {
-          ...state.details,
-          [action.payload.spaceID]: {
-            ...state.details[action.payload.spaceID],
-            tokens: action.payload.data,
-          },
-        },
-      };
     case ADD_SPACE_ROLE_IDS:
       return {
         ...state,
@@ -90,6 +79,17 @@ export default function spaces(state = initialState, action = {}) {
           [action.payload.id]: {
             ...state.details[action.payload.id],
             policyIDs: action.payload.data,
+          },
+        },
+      };
+    case ADD_SPACE_TOKEN_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [action.payload.spaceID]: {
+            ...state.details[action.payload.spaceID],
+            tokens: action.payload.data,
           },
         },
       };

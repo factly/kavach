@@ -254,19 +254,19 @@ export const deleteApplicationPolicy = (appID, roleID) => {
   };
 };
 
-export const getApplicationPolicyByID = (appID, roleID) => {
+export const getApplicationPolicyByID = (appID, policyID) => {
   return (dispatch, getState) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
         `${ORGANISATIONS_API}/${
           getState().organisations.selected
-        }/applications/${appID}/policy/${roleID}`,
+        }/applications/${appID}/policy/${policyID}`,
       )
       .then((res) => {
         deleteKeys([res.data], ['application']);
         res.data.roles = getIds(res.data.roles);
-        dispatch(addApplicationPolicyByID(appID, roleID, res.data));
+        dispatch(addApplicationPolicyByID(appID, policyID, res.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -277,14 +277,14 @@ export const getApplicationPolicyByID = (appID, roleID) => {
   };
 };
 
-export const updateApplicationPolicy = (id, appID, data) => {
+export const updateApplicationPolicy = (appID, policyID, data) => {
   return (dispatch, getState) => {
     dispatch(startLoadingPolicy());
     return axios
       .put(
         `${ORGANISATIONS_API}/${
           getState().organisations.selected
-        }/applications/${appID}/policy/${id}`,
+        }/applications/${appID}/policy/${policyID}`,
         data,
       )
       .then(() => {
@@ -366,19 +366,19 @@ export const deleteSpacePolicy = (appID, spaceID, roleID) => {
   };
 };
 
-export const getSpacePolicyByID = (appID, spaceID, roleID) => {
+export const getSpacePolicyByID = (appID, spaceID, policyID) => {
   return (dispatch, getState) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
         `${ORGANISATIONS_API}/${
           getState().organisations.selected
-        }/applications/${appID}/spaces/${spaceID}/policy/${roleID}`,
+        }/applications/${appID}/spaces/${spaceID}/policy/${policyID}`,
       )
       .then((res) => {
         deleteKeys([res.data], ['space']);
         res.data.roles = getIds(res.data.roles);
-        dispatch(addSpacePolicyByID(spaceID, roleID, res.data));
+        dispatch(addSpacePolicyByID(spaceID, policyID, res.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

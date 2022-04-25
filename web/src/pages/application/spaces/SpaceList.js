@@ -108,7 +108,6 @@ function SpaceList({ appID, role }) {
           <Space>
             <Link to={`/applications/${appID}/spaces/${record?.id}/users`}>
               <Button icon={<PlusOutlined />} type="primary" disabled={role !== 'owner'}>
-                {' '}
                 Add User
               </Button>
             </Link>

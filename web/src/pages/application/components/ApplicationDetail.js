@@ -37,9 +37,7 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
               }
             >
               <Link to="" className="ant-dropdown-link">
-                <Button type="danger">
-                  Revoke
-                </Button>
+                <Button type="danger">Revoke</Button>
               </Link>
             </Popconfirm>
           </span>

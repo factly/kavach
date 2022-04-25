@@ -3,7 +3,6 @@ package space
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -86,8 +85,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-
-	fmt.Println("this is space", space)
 
 	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
 	if *space.LogoID == 0 {
