@@ -31,7 +31,7 @@ function Profile() {
   }, [dispatch]);
 
   const update = (values) => {
-    values.birth_date = values.birth_date ? moment(values.birth_date).format('YYYY-MM-DD') : null;
+    values.birth_date = values.birth_date ? values.birth_date : null;
     dispatch(updateProfile(values));
   };
 
@@ -53,7 +53,7 @@ function Profile() {
             ...profile,
             birth_date: profile && profile.birth_date ? moment(profile.birth_date) : null,
           }}
-          onValuesChange={(changedValues, allValues) => {
+          onValuesChange={() => {
             setValueChange(true);
           }}
         >
@@ -67,11 +67,11 @@ function Profile() {
           <Form.Item
             label="Last Name"
             name="last_name"
-            rules={[{ required: true, message: 'Please input your last name!' }]}
+            
           >
             <Input placeholder="Last name" />
           </Form.Item>
-          <Form.Item name="display_name" label="Display Name">
+          <Form.Item name="display_name" label="Display Name" rules={[{ required: true, message: 'Please input your display name!' }]}>
             <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
           </Form.Item>
           <Form.Item
@@ -93,7 +93,6 @@ function Profile() {
           <Form.Item
             label="Birthdate"
             name="birth_date"
-            rules={[{ type: 'object', required: true, message: 'Please select time!' }]}
           >
             <DatePicker />
           </Form.Item>

@@ -15,15 +15,22 @@ import (
 )
 
 type user struct {
-	FirstName        string         `json:"first_name"`
+	FirstName        string         `json:"first_name" validate:"required"`
 	LastName         string         `json:"last_name"`
+<<<<<<< HEAD
+	DisplayName      string         `json:"display_name" validate:"required"`
+	Slug             string         `json:"slug" validate:"required"`
+	BirthDate        time.Time      `json:"birth_date"`
+=======
 	DisplayName      string         `json:"display_name"`
 	Slug             string         `json:"slug"`
 	BirthDate        string         `json:"birth_date"`
+>>>>>>> 196a6957d7d8b9cf931a70caa1bdc1f6fbb8869f
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
 	SocialMediaURLs  postgres.Jsonb `json:"social_media_urls" swaggertype:"primitive,string"`
+	Meta             postgres.Jsonb `json:"meta" swaggertype:"primitive,string"`
 }
 
 // update - Update user info
@@ -64,56 +71,51 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 	tx := model.DB.Begin()
 
-	mediumID := &req.FeaturedMediumID
-	me.FeaturedMediumID = &req.FeaturedMediumID
-	if req.FeaturedMediumID == 0 {
-		err = tx.Model(&me).Updates(map[string]interface{}{"featured_medium_id": nil}).First(&me).Error
-		mediumID = nil
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-			return
-		}
-	}
-
 	var userSlug string
 
-	if req.Slug != "" && req.Slug != me.Slug && slug.Check(req.Slug) {
+	if req.Slug != me.Slug && slug.Check(req.Slug) {
 		userSlug = slug.Approve(req.Slug, me.Email)
 	} else {
 		userSlug = req.Slug
 	}
-	birthDate, err := time.Parse("2006-01-02", req.BirthDate)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
-		return
-	}
-	bDate := new (time.Time)
-	*bDate = birthDate
-	updateUser := model.User{
-		FirstName:        req.FirstName,
-		LastName:         req.LastName,
-		BirthDate:        bDate,
-		Slug:             userSlug,
-		Gender:           req.Gender,
-		FeaturedMediumID: mediumID,
-		Description:      req.Description,
-		SocialMediaURLs:  req.SocialMediaURLs,
-		DisplayName:      req.DisplayName,
-	}
-	updateUser.ID = me.ID
 
-	err = tx.Model(&me).Updates(&updateUser).Preload("Medium").First(&me).Error
+	updateUser := map[string]interface{}{
+		"first_name":         req.FirstName,
+		"last_name":          req.LastName,
+		"slug":               userSlug,
+		"gender":             req.Gender,
+		"featured_medium_id": req.FeaturedMediumID,
+		"description":        req.Description,
+		"social_media_urls":  req.SocialMediaURLs,
+		"display_name":       req.DisplayName,
+		"meta":               req.Meta,
+	}
 
+	if !req.BirthDate.IsZero() {
+		birthDate := req.BirthDate.Format("2006-01-02") // format birth_date to YYYY-MM-DD
+
+		if err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		updateUser["birth_date"] = birthDate
+	} else {
+		updateUser["birth_date"] = nil
+	}
+
+	if req.FeaturedMediumID == 0 {
+		updateUser["featured_medium_id"] = nil
+	}
+
+	err = tx.Model(&me).Preload("Medium").Updates(&updateUser).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, me)
 }

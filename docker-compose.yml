@@ -18,9 +18,9 @@ services:
     networks:
       - kavach
 
-  ###########################################################################
-  #######                         IMGPROXY                            #######
-  ###########################################################################
+  ##########################################################################
+  ######                         IMGPROXY                            #######
+  ##########################################################################
   imgproxy:
     image: darthsim/imgproxy:v2.15.0
     ports:
@@ -60,6 +60,7 @@ services:
     image: minio/minio
     ports:
       - "9000:9000"
+      - "9001:9001"
     volumes:
       - ~/factly/kavach/minio/data:/export
       - ~/factly/kavach/minio/config:/root/.minio
@@ -68,7 +69,7 @@ services:
       - MINIO_SECRET_KEY=miniosecret
     networks:
       - kavach
-    command: server /export
+    command: server /export --console-address ":9001"
 
   createbuckets:
     image: minio/mc
@@ -83,8 +84,8 @@ services:
       apk add --no-cache bash;
       wait-for-it.sh minio:9000 -- echo 'Minio is up. Creating the bucket!!';
       /usr/bin/mc config host add myminio http://minio:9000 miniokey miniosecret;
-      /usr/bin/mc mb myminio/dega;
-      /usr/bin/mc policy set download myminio/dega;
+      /usr/bin/mc mb myminio/kavach;
+      /usr/bin/mc policy set download myminio/kavach;
       exit 0;
       "
   ###########################################################################
@@ -245,6 +246,28 @@ services:
     volumes:
       - type: bind
         source: ./web
+        target: /app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - kavach
+
+  kavach-studio:
+    build:
+      context: ./studio
+      dockerfile: Dockerfile
+    environment:
+      - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/studio
+      - REACT_APP_PUBLIC_PATH_PRODUCTION=kavach.factly.org
+      - REACT_APP_PUBLIC_PATH_DEVELOPMENT=/.factly/kavach/studio/
+      - REACT_APP_KAVACH_TITLE=Kavach
+      - REACT_APP_COMPANION_URL=http://127.0.0.1:3020
+      - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server
+      - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public
+
+    volumes:
+      - type: bind
+        source: ./studio
         target: /app
       - /app/node_modules
     restart: unless-stopped

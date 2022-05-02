@@ -38,28 +38,44 @@ func checker(w http.ResponseWriter, r *http.Request) {
 
 	identity := payload.Extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
+	name, ok := traits["name"].(map[string]interface{})
 
-	var firstName, lastName string
-	if _, ok := traits["first_name"]; ok {
-		firstName = traits["first_name"].(string)
-	}
-
-	if _, ok := traits["last_name"]; ok {
-		lastName = traits["last_name"].(string)
+	var firstName, lastName, displayName string
+	if ok {
+		_, ok = name["first"].(string)
+		if ok {
+			firstName = name["first"].(string)
+			displayName = firstName
+		}
+		_, ok = name["last"].(string)
+		if ok {
+			lastName = name["last"].(string)
+			displayName = displayName + " " + lastName
+		}
 	}
 
 	user := model.User{
-		Email:     traits["email"].(string),
-        KID:       identity["id"].(string),
-		FirstName: firstName,
-		LastName:  lastName,
-		Slug:      slugx.Make(fmt.Sprint(firstName, " ", lastName)),
+		Email:       traits["email"].(string),
+		KID:         identity["id"].(string),
+		FirstName:   firstName,
+		LastName:    lastName,
+		DisplayName: displayName,
+		Slug:        slugx.Make(fmt.Sprint(firstName, " ", lastName)),
 	}
 
-	// FirstOrCreate user
-	model.DB.FirstOrCreate(&user, &model.User{
-		Email: traits["email"].(string),
-	})
+	// check whether user exists
+	err = model.DB.Model(&model.User{}).Where(&model.User{
+		Email: user.Email,
+	}).First(&user).Error
+	if err != nil {
+		// record does not exist so create new user
+		err = model.DB.Create(&user).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+	}
 
 	payload.Header = make(http.Header)
 

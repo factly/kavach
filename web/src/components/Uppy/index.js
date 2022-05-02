@@ -9,7 +9,7 @@ import '@uppy/core/dist/style.css';
 import '@uppy/dashboard/dist/style.css';
 import '@uppy/url/dist/style.css';
 import '@uppy/image-editor/dist/style.css';
-import { checker, maker } from '../../utils/sluger';
+import { checker, getFileName } from '../../utils/sluger';
 import { useSelector } from 'react-redux';
 
 function UppyUploader({ onUpload }) {
@@ -25,11 +25,10 @@ function UppyUploader({ onUpload }) {
     autoProceed: false,
     onBeforeUpload: (files) => {
       const updatedFiles = {};
-
       Object.keys(files).forEach((fileID) => {
         const name = checker.test(files[fileID].meta.name)
           ? files[fileID].meta.name
-          : maker(files[fileID].meta.name);
+          : getFileName(files[fileID].meta.name);
         updatedFiles[fileID] = {
           ...files[fileID],
           file_name: name,

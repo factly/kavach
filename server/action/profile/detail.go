@@ -39,7 +39,24 @@ func detail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	renderx.JSON(w, http.StatusOK, me)
+	response := map[string]interface{}{
+		"id":                 me.ID,
+		"kid":                me.KID,
+		"email":              me.Email,
+		"first_name":         me.FirstName,
+		"last_name":          me.LastName,
+		"birth_date":         me.BirthDate,
+		"slug":               me.Slug,
+		"gender":             me.Gender,
+		"featured_medium_id": me.FeaturedMediumID,
+		"medium":             me.Medium,
+		"description":        me.Description,
+		"social_media_urls":  me.SocialMediaURLs,
+		"display_name":       me.DisplayName,
+		"meta":               me.Meta,
+	}
+
+	renderx.JSON(w, http.StatusOK, response)
 }
 
 // profileDetail - Get logged in user details including organisations, applications and spaces
