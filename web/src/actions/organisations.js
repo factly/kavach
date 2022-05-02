@@ -6,20 +6,74 @@ import {
   RESET_ORGANISATIONS,
   ORGANISATIONS_API,
   SET_SELECTED_ORGANISATION,
+  ADD_MY_ORGANISATION_ROLE,
+  ADD_ORGANISATION_TOKEN_IDS,
 } from '../constants/organisations';
 import { ADD_ORGANISATION_IDS } from '../constants/profile';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addApplicationList } from './application';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { addOrganisationPolicy } from './policy';
+import { loadingProfile, stopProfileLoading } from './profile';
+import { addOrganisationRoles } from './roles';
 import { addUsersList } from './users';
+
+export const resetOrganisations = () => ({
+  type: RESET_ORGANISATIONS,
+});
+
+export const addOrganisationIds = (ids) => (dispatch) => {
+  dispatch({
+    type: ADD_ORGANISATION_IDS,
+    payload: ids,
+  });
+};
+
+export const setSelectedOrganisation = (id) => ({
+  type: SET_SELECTED_ORGANISATION,
+  payload: id,
+});
+
+export const loadingOrganisations = () => ({
+  type: SET_ORGANISATIONS_LOADING,
+  payload: true,
+});
+
+export const stopOrganisationsLoading = () => ({
+  type: SET_ORGANISATIONS_LOADING,
+  payload: false,
+});
+
+export const addOrganisationByID = (data) => {
+  return {
+    type: ADD_ORGANISATION,
+    payload: {
+      id: data.id,
+      data: data,
+    },
+  };
+};
+
+export const addMyOrganisationRole = (roles) => {
+  return {
+    type: ADD_MY_ORGANISATION_ROLE,
+    payload: roles,
+  };
+};
 
 export const getOrganisations = () => {
   return (dispatch, getState) => {
     dispatch(loadingOrganisations());
+    dispatch(loadingProfile());
     return axios
       .get(ORGANISATIONS_API + '/my')
       .then((response) => {
+        let roleMap = {};
+        response.data.forEach((organisation) => {
+          roleMap[organisation.id] = organisation.permission.role;
+        });
+        dispatch(addMyOrganisationRole(roleMap));
         dispatch(addOrganisationsList(response.data));
         dispatch(addOrganisationIds(getIds(response.data)));
       })
@@ -28,6 +82,7 @@ export const getOrganisations = () => {
       })
       .finally(() => {
         dispatch(stopOrganisationsLoading());
+        dispatch(stopProfileLoading());
       });
   };
 };
@@ -41,6 +96,17 @@ export const getOrganisation = (id) => {
         if (response.featured_medium_id) {
           addMedia(response.data.medium);
         }
+        if (response.data.roles?.length) {
+          response.data.roles.forEach((role) => {
+            dispatch(addUsersList(role.users));
+            role.users = getIds(role.users);
+          });
+        }
+        dispatch(addOrganisationRoles(id, buildObjectOfItems(response.data.roles)));
+        response.data.roleIDs = getIds(response.data.roles);
+        dispatch(addOrganisationPolicy(id, response.data.policies));
+        response.data.policyIDs = getIds(response.data.policies);
+        delete response.data.policies;
         let users = [];
         response.data.roles = {};
         response.data.organisation_users.map((item) => {
@@ -49,10 +115,10 @@ export const getOrganisation = (id) => {
           return null;
         });
         response.data.role = response.data.permission.role;
-        deleteKeys([response.data], ['permission', 'organisation_users']);
+        deleteKeys([response.data], ['permission', 'organisation_users', 'medium']);
         response.data.applications = getIds(response.data.applications);
         response.data.users = getIds(users);
-        dispatch(getOrganisationByID(response.data));
+        dispatch(addOrganisationByID(response.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -69,7 +135,7 @@ export const addOrganisation = (data) => {
     return axios
       .post(ORGANISATIONS_API, data)
       .then((response) => {
-        dispatch(getOrganisationByID(response.data));
+        dispatch(addOrganisationByID(response.data));
         dispatch(setSelectedOrganisation(response.data.id));
         dispatch(addSuccessNotification('Organisation added'));
       })
@@ -88,7 +154,7 @@ export const updateOrganisation = (data) => {
     return axios
       .put(ORGANISATIONS_API + '/' + data.id, data)
       .then((response) => {
-        dispatch(getOrganisationByID(response.data));
+        dispatch(addOrganisationByID(response.data));
         dispatch(stopOrganisationsLoading());
         dispatch(addSuccessNotification('Organisation Updated'));
       })
@@ -113,26 +179,6 @@ export const deleteOrganisation = (id) => {
   };
 };
 
-export const setSelectedOrganisation = (id) => ({
-  type: SET_SELECTED_ORGANISATION,
-  payload: id,
-});
-
-export const loadingOrganisations = () => ({
-  type: SET_ORGANISATIONS_LOADING,
-  payload: true,
-});
-
-export const stopOrganisationsLoading = () => ({
-  type: SET_ORGANISATIONS_LOADING,
-  payload: false,
-});
-
-export const getOrganisationByID = (data) => ({
-  type: ADD_ORGANISATION,
-  payload: data,
-});
-
 export const addOrganisationsList = (data, id) => (dispatch) => {
   const medium = getValues(data, 'medium');
   dispatch(addMediaList(medium));
@@ -141,14 +187,16 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
   data.forEach((organisation) => {
     let users = [];
     organisation.roles = {};
-    organisation.organisation_users.map((item) => {
-      users.push(item.user);
-      if (item.user.id === id) {
-        organisation.role = item.role;
-      }
-      organisation.roles[item.user.id] = item.role;
-      return null;
-    });
+    if (organisation && organisation.organisation_users) {
+      organisation.organisation_users.map((item) => {
+        users.push(item.user);
+        if (item.user.id === id) {
+          organisation.role = item.role;
+        }
+        organisation.roles[item.user.id] = item.role;
+        return null;
+      });
+    }
     dispatch(addUsersList(users));
     organisation.users = getIds(users);
     organisation.applications = getIds(organisation.applications);
@@ -164,13 +212,9 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
   });
 };
 
-export const resetOrganisations = () => ({
-  type: RESET_ORGANISATIONS,
-});
-
-export const addOrganisationIds = (ids) => (dispatch) => {
-  dispatch({
-    type: ADD_ORGANISATION_IDS,
-    payload: ids,
-  });
+export const addOrganisationTokenIDs = (tokenIDs) => {
+  return {
+    type: ADD_ORGANISATION_TOKEN_IDS,
+    payload: tokenIDs,
+  };
 };

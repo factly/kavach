@@ -22,12 +22,12 @@ import (
 // @Summary Create role for an application using organisation_id
 // @Description Create role for an application using organisation_id
 // @Tags Organisationroles
-// @ID create-organisation-role
+// @ID create-application-role
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.OrganisationRole true "Organisation role Body"
-// @Success 200 {object} model.Organisationrole
+// @Success 200 {object} model.ApplicationRole
 // @Router /organisations/{organisation_id}/application/{application_id}/roles [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header

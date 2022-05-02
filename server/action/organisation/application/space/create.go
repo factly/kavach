@@ -23,10 +23,10 @@ import (
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Param Application body application true "Application Object"
+// @Param Application body model.Application true "Application Object"
 // @Success 201 {object} model.Application
 // @Failure 400 {array} string
-// @Router /organisations/{organisation_id}/applications [post]
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {

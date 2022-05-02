@@ -15,12 +15,12 @@ import (
 // @Summary get policy for an organisation using organisation_id
 // @Description get policy for an organisation using organisation_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID list-organisation-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
+// @Success 200 {object} nil
 // @Router /organisations/{organisation_id}/policy [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
@@ -55,7 +55,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	policies := make([]model.OrganisationPolicy, 0)
 	err = model.DB.Model(&model.OrganisationPolicy{}).Where(&model.OrganisationPolicy{
 		OrganisationID: uint(orgID),
-	}).Preload("Organisation").Preload("Permissions").Preload("Roles").Find(&policies).Error
+	}).Preload("Organisation").Preload("Roles").Find(&policies).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

@@ -20,7 +20,7 @@ import (
 // @Summary Create organisation application
 // @Description Create organisation application
 // @Tags OrganisationApplications
-// @ID add-organisation-application
+// @ID add-space
 // @Consume json
 // @Produce json
 // @Param X-User header string true "User ID"

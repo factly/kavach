@@ -19,6 +19,5 @@ func Migration() {
 		&OrganisationPolicy{},
 		&ApplicationPolicy{},
 		&SpacePolicy{},
-		&Permission{},
 	)
 }

@@ -18,12 +18,12 @@ import (
 // @Summary Delete role for an organisation using organisation_id
 // @Description Delete role for an organisation using organisation_id
 // @Tags Organisationroles
-// @ID create-organisation-role
+// @ID delete-organisation-role
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.OrganisationRole true "Organisation role Body"
-// @Success 200 {object} model.Organisationrole
+// @Success 200 {object} model.OrganisationRole
 // @Router /organisations/{organisation_id}/roles/{role_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header

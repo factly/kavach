@@ -2,14 +2,15 @@ package policy
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/jinzhu/gorm/dialects/postgres"
 )
 
 type policyReq struct {
-	Name        string       `json:"name"`
-	Slug        string       `json:"slug"`
-	Description string       `json:"description"`
-	Permissions []permission `json:"permissions"`
-	Roles       []uint       `json:"roles"`
+	Name        string         `json:"name"`
+	Slug        string         `json:"slug"`
+	Description string         `json:"description"`
+	Permissions postgres.Jsonb `json:"permissions"`
+	Roles       []uint         `json:"roles"`
 }
 
 type permission struct {

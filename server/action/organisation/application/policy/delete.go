@@ -16,19 +16,6 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//delete - Delete policy for an application using policy_id
-// @Summary Delete policy for an application using policy_id
-// @Description Delete policy for an application using policy_id
-// @Tags ApplicationPolicy
-// @ID delete-application-policy
-// @Produce json
-// @Param X-User header string true "User ID"
-// @Param organisation_id path string true "Organisation ID"
-// @Param application_id path string true "Application ID"
-// @Param policy_id path string true "Policy ID"
-// @Param ApplicationPolicy body model.ApplicationPolicy true "Policy"
-// @Success 200 {object} nil
-// @Router /organisations/{organisation_id}/applications/{application_id}/policy/{policy_id} [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
 	organisationID := chi.URLParam(r, "organisation_id")

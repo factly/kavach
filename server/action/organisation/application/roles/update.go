@@ -27,7 +27,7 @@ import (
 // @Param organisation_id path string true "Application ID"
 // @Param OrganisationRoleBody body model.OrganisationRole true "Organisation role Body"
 // @Success 200 {object} model.OrganisationRole
-// @Router /organisations/{organisation_id}/roles/{role_id} [put]
+// @Router /organisations/{organisation_id}/applications/{application_id}/roles/{role_id} [put]
 func update(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))

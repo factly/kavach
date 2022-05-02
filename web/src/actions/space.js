@@ -6,13 +6,14 @@ import {
   SET_SELECTED_APP,
   ADD_SPACES,
   ADD_SPACE,
+  ADD_SPACE_TOKEN_IDS,
 } from '../constants/space';
-
 import { ORGANISATIONS_API } from '../constants/organisations';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addUsersList } from './users';
 import { addMediaList } from './media';
+import { addSpaceIDs } from './application';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
@@ -41,6 +42,8 @@ export const getSpaces = (id) => {
         `${ORGANISATIONS_API}/${getState().organisations.selected}/applications/${id}${SPACES_API}`,
       ) // eslint-disable-next-line
       .then((response) => {
+        const spaceIDs = getIds(response.data);
+        dispatch(addSpaceIDs(id, spaceIDs));
         deleteKeys(response.data, ['application']);
         dispatch(addSpaces(response.data));
       })
@@ -156,5 +159,15 @@ export const addSpace = (data) => {
   return {
     type: ADD_SPACE,
     payload: data,
+  };
+};
+
+export const addSpaceTokenIDs = (spaceID, data) => {
+  return {
+    type: ADD_SPACE_TOKEN_IDS,
+    payload: {
+      spaceID: spaceID,
+      data: data,
+    },
   };
 };

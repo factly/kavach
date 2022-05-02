@@ -24,8 +24,8 @@ import (
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.OrganisationRole true "Organisation role Body"
-// @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/application/{application_id}/roles [post]
+// @Success 200 {object} model.OrganisationRole
+// @Router /organisations/{organisation_id}/application/{application_id}/roles [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))

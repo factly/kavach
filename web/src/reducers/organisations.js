@@ -9,8 +9,8 @@ import {
   ADD_ORGANISATION_ROLE,
   ADD_ORGANISATION_ROLE_IDS,
   ADD_ORGANISATION_POLICY_IDS,
+  ADD_ORGANISATION_TOKEN_IDS,
 } from '../constants/organisations';
-import { ADD_ORGANISATION_TOKENS } from '../constants/token';
 
 const initialState = {
   ids: [],
@@ -29,7 +29,6 @@ export default function tagsReducer(state = initialState, action = {}) {
         details: {},
         loading: true,
         selected: 0,
-        role: 'member',
       };
     case SET_ORGANISATIONS_LOADING:
       return {
@@ -38,12 +37,12 @@ export default function tagsReducer(state = initialState, action = {}) {
       };
     case ADD_ORGANISATIONS:
       const organisationData = { ...state.details, ...payload.data };
+      const { selected } = { ...state };
       return {
         ...state,
-        ids: Object.keys(organisationData).map((id) => parseInt(id, 10)),
+        ids: payload.ids,
         details: organisationData,
-        selected: payload.ids[0],
-        role: organisationData[payload.ids[0]].role,
+        selected: selected === 0 ? payload.ids[0] : selected,
       };
     case ADD_ORGANISATION:
       return {
@@ -51,7 +50,7 @@ export default function tagsReducer(state = initialState, action = {}) {
         ids: state.ids.includes(payload.id) ? state.ids : state.ids.concat([payload.id]),
         details: {
           ...state.details,
-          [payload.id]: payload,
+          [payload.id]: payload.data,
         },
       };
     case ADD_ORGANISATION_USERS:
@@ -69,7 +68,6 @@ export default function tagsReducer(state = initialState, action = {}) {
       return {
         ...state,
         selected: payload,
-        role: state.details[payload].role,
       };
     case ADD_APPLICATION_IDS:
       return {
@@ -89,18 +87,7 @@ export default function tagsReducer(state = initialState, action = {}) {
           ...state.details,
           [state.selected]: {
             ...state.details[state.selected],
-            role: payload,
-          },
-        },
-      };
-    case ADD_ORGANISATION_TOKENS:
-      return {
-        ...state,
-        details: {
-          ...state.details,
-          [state.selected]: {
-            ...state.details[state.selected],
-            tokens: payload,
+            roles: payload,
           },
         },
       };
@@ -123,6 +110,17 @@ export default function tagsReducer(state = initialState, action = {}) {
           [state.selected]: {
             ...state.details[state.selected],
             policyIDs: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_TOKEN_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            tokens: payload,
           },
         },
       };

@@ -27,7 +27,7 @@ type requestModel struct {
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Success 200 nil
+// @Success 200 {object} nil
 // @Router /organisations/{organisation_id}/roles/{role_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))

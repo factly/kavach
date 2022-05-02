@@ -17,12 +17,12 @@ import (
 // @Summary Show all application role users
 // @Description Get all application role users
 // @Tags ApplicationRoleUsers
-// @ID get-all-application-role-users
+// @ID get-all-space-role-users
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Success 200 {array} []model.User
-// @Router /organisations/{organisation_id}/applications/{application_id}/roles/{role_id}/users [get]
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/roles/{role_id}/users [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {

@@ -6,13 +6,15 @@ import {
   SET_APPLICATIONS_LOADING,
   RESET_APPLICATIONS,
   APPLICATIONS_API,
+  ADD_SPACE_IDS,
 } from '../constants/application';
 import { ADD_APPLICATION_IDS } from '../constants/organisations';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 import { addSpaces } from './space';
-
+import { addApplicationTokens } from './token';
+import { addUsersList } from './users';
 export const getApplications = () => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
@@ -57,11 +59,12 @@ export const addDefaultApplications = () => {
             total: response.data.total,
           }),
         );
-        dispatch(stopApplicationLoading());
         dispatch(addSuccessNotification('Factly Applications Added'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
         dispatch(stopApplicationLoading());
       });
   };
@@ -77,6 +80,7 @@ export const getApplication = (id) => {
           dispatch(addMedia(response.data.medium));
         }
         deleteKeys([response.data], ['medium']);
+        dispatch(addUsersList(response.data.users));
         response.data.users = getIds(response.data.users);
         addApplication(response.data);
       })
@@ -112,13 +116,7 @@ export const updateApplication = (data) => {
         APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + data.id,
         data,
       )
-      .then((response) => {
-        if (response.data.medium_id) {
-          dispatch(addMedia(response.data.medium));
-        }
-        deleteKeys([response.data], ['medium']);
-        response.data.users = getIds(response.data.users);
-        dispatch(addApplication(response.data));
+      .then(() => {
         dispatch(addSuccessNotification('Application Updated'));
       })
       .catch((error) => {
@@ -186,10 +184,14 @@ export const addApplicationList = (data) => (dispatch) => {
   deleteKeys(data, ['medium']);
   const spaces = getValues(data, 'spaces');
   dispatch(addSpaces(spaces));
+
   data.forEach((application) => {
     application.spaces = getIds(application.spaces);
     application.users = getIds(application.users);
+    dispatch(addApplicationTokens(application.id, application.tokens));
+    application.tokens = getIds(application.tokens);
   });
+
   dispatch({
     type: ADD_APPLICATIONS,
     payload: buildObjectOfItems(data),
@@ -214,4 +216,12 @@ export const addApplicationIds = (data) => ({
 export const addApplication = (data) => ({
   type: ADD_APPLICATION,
   payload: data,
+});
+
+export const addSpaceIDs = (appID, data) => ({
+  type: ADD_SPACE_IDS,
+  payload: {
+    appID: appID,
+    data: data,
+  },
 });
