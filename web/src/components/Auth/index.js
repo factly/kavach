@@ -15,7 +15,7 @@ function Auth(props) {
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
-  var afterVerificationURL = localStorage.getItem('returnTo') || null;
+  var afterRegistrationReturnToURL = localStorage.getItem('returnTo') || null;
 
   React.useEffect(() => {
     var obj = {};
@@ -29,22 +29,13 @@ function Auth(props) {
       });
 
     const returnTo = obj['return_to'];
-    const selfServiceURL =
-      props.flow === 'login'
-        ? returnTo
-          ? window.REACT_APP_KRATOS_PUBLIC_URL +
-          '/self-service/' +
-          props.flow +
-          '/browser?return_to=' +
-          returnTo
-          : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
-        : afterVerificationURL
-          ? window.REACT_APP_KRATOS_PUBLIC_URL +
-          '/self-service/' +
-          props.flow +
-          '/browser?after_verification_return_to=' +
-          afterVerificationURL
-          : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+
+    let selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
+    if (returnTo) {
+      selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser?return_to=' + returnTo
+    } else if (afterRegistrationReturnToURL) {
+      selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser?return_to=' + afterRegistrationReturnToURL
+    }
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
@@ -78,7 +69,7 @@ function Auth(props) {
           window.location.href = window.REACT_APP_PUBLIC_URL + '/error';
         });
     }
-  }, [props.flow, afterVerificationURL]);
+  }, [props.flow, afterRegistrationReturnToURL]);
 
   const withPassword = (values) => {
     var authForm = createForm(ui.action, ui.method);
