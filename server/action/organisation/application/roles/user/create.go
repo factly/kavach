@@ -24,12 +24,12 @@ type requestModel struct {
 // @Summary add a user to the organisation role
 // @Description create organisation role user
 // @Tags ApplicationRoleUsers
-// @ID create-a-organisation-role-users
+// @ID create-a-application-role-users
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Success 200 nil
-// @Router /organisations/{organisation_id}/roles/{role_id}/users [post]
+// @Success 200 {object} nil
+// @Router /organisations/{organisation_id}/applications/{application_id}/roles/{role_id}/users [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {

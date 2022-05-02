@@ -28,7 +28,7 @@ import (
 // @Param organisation_id path string true "Space ID"
 // @Param OrganisationTokenBody body model.OrganisationToken true "Organisation Token Body"
 // @Success 200 {object} model.OrganisationToken
-// @Router /organisations/{organisation_id}/tokens [post]
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/tokens [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {

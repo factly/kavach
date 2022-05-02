@@ -19,7 +19,7 @@ import (
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
-// @Success 200 {array} model.Application
+// @Success 200 {array} model.OrganisationRole
 // @Router /organisations/{organisation_id}/roles/{role_id}/users [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))

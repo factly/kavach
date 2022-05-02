@@ -18,7 +18,7 @@ import (
 // @Summary Update role for an organisation using organisation_id
 // @Description Update role for an organisation using organisation_id
 // @Tags Organisationroles
-// @ID create-organisation-role
+// @ID update-organisation-role
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"

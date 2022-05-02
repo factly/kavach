@@ -1,3 +1,4 @@
+import { ADD_MY_ORGANISATION_ROLE } from '../constants/organisations';
 import {
   SET_PROFILE_LOADING,
   ADD_PROFILE,
@@ -9,6 +10,7 @@ import {
 
 const initialState = {
   details: {},
+  roles: {},
   invitations: [],
   loading: true,
 };
@@ -46,6 +48,11 @@ export default function profileReducer(state = initialState, action = {}) {
           ...state.details,
           organisations: action.payload,
         },
+      };
+    case ADD_MY_ORGANISATION_ROLE:
+      return {
+        ...state,
+        roles: action.payload,
       };
     default:
       return state;

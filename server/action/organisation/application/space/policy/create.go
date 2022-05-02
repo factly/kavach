@@ -15,20 +15,19 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
-	"github.com/lib/pq"
 )
 
 //create - Create policy for an organisation using organisation_id
 // @Summary Create policy for an organisation using organisation_id
 // @Description Create policy for an organisation using organisation_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID create-space-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/roles [post]
+// @Success 200 {object} nil
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/policy [post]
 func create(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter
 	organisationID := chi.URLParam(r, "organisation_id")
@@ -107,16 +106,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// binding the policyReq to SpacePolicy model
 	var policy model.SpacePolicy
 	policy.CreatedByID = uint(userID)
+	policy.Slug = reqBody.Slug
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.SpaceID = uint(spaceID)
-	for _, value := range reqBody.Permissions {
-		var permission model.Permission
-		permission.Resource = value.Resource
-		permission.Actions = pq.StringArray(value.Actions)
-		policy.Permissions = append(policy.Permissions, permission)
-	}
-
+	policy.Permissions = reqBody.Permissions
 	roles := make([]model.SpaceRole, 0)
 	for _, each := range reqBody.Roles {
 		roles = append(roles, model.SpaceRole{Base: model.Base{ID: each}})
@@ -130,6 +124,15 @@ func create(w http.ResponseWriter, r *http.Request) {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	var permissions []permission
+	err = json.Unmarshal(reqBody.Permissions.RawMessage, &permissions)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -150,20 +153,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":space:"+fmt.Sprint(spaceID)+":"+*roleName)
 	}
 
-	for _, permission := range reqBody.Permissions {
+	for _, permission := range permissions {
 		result.Resources = append(result.Resources, "resources"+commonPolicyString+permission.Resource)
 		for _, action := range permission.Actions {
 			result.Actions = append(result.Actions, "actions"+commonPolicyString+action)
 		}
 	}
-
+	
 	result.Effect = "allow"
 	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", &result)
 	if err != nil {
+		tx.Rollback();
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
 		return
 	}
-
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, policy)
 }

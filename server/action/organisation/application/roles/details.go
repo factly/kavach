@@ -16,12 +16,12 @@ import (
 // @Summary Show a OrganisationROle by id
 // @Description Get OrganisationRole by ID
 // @Tags Spaces
-// @ID get-organisation-role-id
+// @ID get-application-role-id
 // @Produce  json
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Success 200 {object} model.OrganisationRole
-// @Router /organisations/{organisation_id}/role/{role_id} [get]
+// @Router /organisations/{organisation_id}/applications/{application_id}/role/{role_id} [get]
 func details(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))

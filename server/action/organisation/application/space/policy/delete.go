@@ -25,7 +25,7 @@ import (
 // @Param X-User header string true "User ID"
 // @Param organisation_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
+// @Success 200 {object} nil
 // @Router /organisations/{organisation_id}/applications/{application_id}/roles [delete]
 func delete(w http.ResponseWriter, r *http.Request) {
 	// Get organisation ID path parameter

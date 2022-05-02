@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   const { apps, organisationCount } = useSelector((state) => {
+    const appIDs = state.organisations.details[state.organisations.selected]?.applications || [];
     return {
       apps:
         state.organisations.selected > 0
-          ? state.organisations.details[state.organisations.selected].applications || []
+          ? appIDs.map((id) => state?.applications?.details[id])
           : [],
       organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
     };
@@ -21,16 +22,16 @@ function Header() {
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
-        <Link to="/organisation">
-          {process.env.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
-            <div>
+        {process.env.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
+          <div>
+            <Link to="/organisation/create">
               <Button>New Organisation</Button>
-              <OrganisationSelector />
-            </div>
-          ) : organisationCount < 1 ? (
-            <Button>New Organisation</Button>
-          ) : null}
-        </Link>
+            </Link>
+            <OrganisationSelector />
+          </div>
+        ) : organisationCount < 1 ? (
+          <Button>New Organisation</Button>
+        ) : null}
         {apps.length > 0 ? (
           <>
             <Divider type="vertical" />

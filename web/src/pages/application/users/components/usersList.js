@@ -6,12 +6,12 @@ import { deleteApplication, getApplicationUsers } from '../../../../actions/appl
 import { Link } from 'react-router-dom';
 import { DeleteOutlined } from '@ant-design/icons';
 
-function UserList({ id, flag, users, total }) {
+function UserList({ id, flag, users, total, role }) {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flag]);
+  }, [flag, id, role]);
 
   const columns = [
     { title: 'First Name', dataIndex: 'first_name', key: 'name' },
@@ -38,7 +38,7 @@ function UserList({ id, flag, users, total }) {
               }}
             >
               <Link to="" className="ant-dropdown-link">
-                <Button type="danger">
+                <Button type="danger" disabled={role !== 'owner'}>
                   <DeleteOutlined />
                 </Button>
               </Link>

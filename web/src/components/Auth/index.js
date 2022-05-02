@@ -207,7 +207,7 @@ function Auth(props) {
                     }),
                   ]
                   : [{ required: true, message: 'Please input your Password!' }]
-              }
+              } //password validation
             >
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}

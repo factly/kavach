@@ -21,7 +21,6 @@ import (
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param space_id path string true "space ID"
-// @Param Application body application true "Application Object"
 // @Success 201 {object} model.Application
 // @Failure 400 {array} string
 // @Router /spaces/{space_id}/applications [post]

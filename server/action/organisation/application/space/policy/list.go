@@ -17,13 +17,13 @@ import (
 // @Summary get policy for an application using application_id
 // @Description get policy for an application using application_id
 // @Tags OrganisationPolicy
-// @ID create-organisation-policy
+// @ID create-space-policy
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param application_id path string true "Organisation ID"
 // @Param OrganisationRoleBody body model.Policy true "Policy"
-// @Success 200 {object} model.Organisationrole
-// @Router /organisations/{organisation_id}/policy [get]
+// @Success 200 {array} nil
+// @Router /organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/policy [get]
 func list(w http.ResponseWriter, r *http.Request) {
 	// Get user id from request header
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
@@ -53,7 +53,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	policies := make([]model.SpacePolicy, 0)
 	err = model.DB.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
 		SpaceID: uint(spaceID),
-	}).Preload("Space").Preload("Permissions").Preload("Roles").Find(&policies).Error
+	}).Preload("Space").Preload("Roles").Find(&policies).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
