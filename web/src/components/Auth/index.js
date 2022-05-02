@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 import { Link } from 'react-router-dom';
-import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
+import { Input, Form, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
@@ -15,11 +15,11 @@ function Auth(props) {
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
-  var afterRegistrationReturnToURL = localStorage.getItem('returnTo') || null;
-
+  var afterRegistrationReturnToURL = localStorage.getItem('returnTo') ? localStorage.getItem('returnTo') : null;
+  console.log({ afterRegistrationReturnToURL })
   React.useEffect(() => {
     var obj = {};
-
+    
     window.location.search
       .split('?')
       .filter((each) => each.trim() !== '')
@@ -29,12 +29,14 @@ function Auth(props) {
       });
 
     const returnTo = obj['return_to'];
-
-    let selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
+    
+    let selfServiceURL;
     if (returnTo) {
       selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser?return_to=' + returnTo
     } else if (afterRegistrationReturnToURL) {
       selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser?return_to=' + afterRegistrationReturnToURL
+    } else{
+      selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
     }
 
     if (!obj['flow']) {
@@ -61,7 +63,7 @@ function Auth(props) {
         .then((res) => {
           setUI(res.ui);
           setaal2(res.requested_aal === 'aal2');
-          if (props.flow === 'login') {
+          if (props.flow === 'login' && res.return_to) {
             localStorage.setItem('returnTo', res.return_to);
           }
         })
