@@ -22,7 +22,7 @@ function Header() {
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
         <Link to="/organisation">
-          {process.env.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
+          {window.REACT_APP_ENABLE_MULTITENANCY ? (
             <div>
               <Button>New Organisation</Button>
               <OrganisationSelector />
