@@ -16,7 +16,7 @@ function Auth(props) {
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
   var afterRegistrationReturnToURL = localStorage.getItem('returnTo') ? localStorage.getItem('returnTo') : null;
-  console.log({ afterRegistrationReturnToURL })
+  
   React.useEffect(() => {
     var obj = {};
     
