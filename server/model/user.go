@@ -24,6 +24,7 @@ type User struct {
 	SocialMediaURLs  postgres.Jsonb `gorm:"column:social_media_urls" json:"social_media_urls" swaggertype:"primitive,string"`
 	Description      string         `gorm:"column:description" json:"description"`
 	Meta             postgres.Jsonb `gorm:"column:meta" json:"meta" swaggertype:"primitive,string"`
+	IsActive         bool           `gorm:"column:is_active" json:"is_active" `
 }
 
 // BeforeUpdate - validation for medium
