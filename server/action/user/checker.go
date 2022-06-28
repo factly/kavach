@@ -1,8 +1,10 @@
 package user
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 
@@ -11,6 +13,8 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/slugx"
+	"github.com/sendgrid/sendgrid-go"
+	"github.com/spf13/viper"
 )
 
 type authenticationSession struct {
@@ -23,6 +27,12 @@ type authenticationSession struct {
 type matchContext struct {
 	RegexpCaptureGroups []string `json:"regexp_capture_groups"`
 	URL                 *url.URL `json:"url"`
+}
+
+type templateContent struct {
+	From             map[string]interface{} `json:"from"`
+	Personalizations []interface{}          `json:"personalizations"`
+	TemplateID       string                 `json:"template_id"`
 }
 
 // create organisation
@@ -67,7 +77,48 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	err = model.DB.Model(&model.User{}).Where(&model.User{
 		Email: user.Email,
 	}).First(&user).Error
+
+	/**
+	** check whether user is active or not and check host matches to mande
+	**/
+	if !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host") {
+		//send registration mail
+		request := sendgrid.GetRequest(viper.GetString("dynamic_sendgrid_api_key"), "/v3/mail/send", "https://api.sendgrid.com")
+		request.Method = "POST"
+
+		var reqBody templateContent
+
+		reqBody.From = map[string]interface{}{
+			"email": viper.GetString("dynamic_from_email"),
+		}
+
+		reqBody.Personalizations = append(reqBody.Personalizations, map[string]interface{}{
+			"to": []interface{}{
+				map[string]interface{}{
+					"email": user.Email,
+				},
+			},
+			"dynamic_template_data": map[string]interface{}{
+				"name": displayName,
+			},
+		})
+
+		reqBody.TemplateID = viper.GetString("dynamic_mande_template_id")
+
+		buf := new(bytes.Buffer)
+		err := json.NewEncoder(buf).Encode(&reqBody)
+		if err != nil {
+			log.Println(err)
+		}
+
+		request.Body = buf.Bytes()
+		_, err = sendgrid.API(request)
+		if err != nil {
+			log.Println(err)
+		}
+	}
 	if err != nil {
+		user.IsActive = true
 		// record does not exist so create new user
 		err = model.DB.Create(&user).Error
 		if err != nil {
