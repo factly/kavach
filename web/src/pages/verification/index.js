@@ -16,9 +16,12 @@ function Verification() {
         var temp = each.split('=');
         obj[temp[0]] = temp[1];
       });
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/verification/flows?id=' + obj['flow'], {
-      credentials: 'include',
-    })
+    fetch(
+      window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/verification/flows?id=' + obj['flow'],
+      {
+        credentials: 'include',
+      },
+    )
       .then((res) => {
         if (res.status === 200) {
           return res.json();

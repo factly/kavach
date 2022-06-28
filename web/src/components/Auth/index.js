@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 import { Link } from 'react-router-dom';
-import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
+import { Input, Form, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
@@ -15,7 +15,9 @@ function Auth(props) {
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
-  var afterRegistrationReturnToURL = localStorage.getItem('returnTo') || null;
+  var afterRegistrationReturnToURL = localStorage.getItem('returnTo')
+    ? localStorage.getItem('returnTo')
+    : null;
 
   React.useEffect(() => {
     var obj = {};
@@ -30,11 +32,24 @@ function Auth(props) {
 
     const returnTo = obj['return_to'];
 
-    let selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
+    let selfServiceURL;
     if (returnTo) {
-      selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser?return_to=' + returnTo
+      selfServiceURL =
+        window.REACT_APP_KRATOS_PUBLIC_URL +
+        '/self-service/' +
+        props.flow +
+        '/browser?return_to=' +
+        returnTo;
     } else if (afterRegistrationReturnToURL) {
-      selfServiceURL = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser?return_to=' + afterRegistrationReturnToURL
+      selfServiceURL =
+        window.REACT_APP_KRATOS_PUBLIC_URL +
+        '/self-service/' +
+        props.flow +
+        '/browser?return_to=' +
+        afterRegistrationReturnToURL;
+    } else {
+      selfServiceURL =
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
     }
 
     if (!obj['flow']) {
@@ -42,11 +57,11 @@ function Auth(props) {
     } else {
       fetch(
         window.REACT_APP_KRATOS_PUBLIC_URL +
-        '/self-service/' +
-        props.flow +
-        '/flows' +
-        '?id=' +
-        obj['flow'],
+          '/self-service/' +
+          props.flow +
+          '/flows' +
+          '?id=' +
+          obj['flow'],
         {
           credentials: 'include',
         },
@@ -61,7 +76,7 @@ function Auth(props) {
         .then((res) => {
           setUI(res.ui);
           setaal2(res.requested_aal === 'aal2');
-          if (props.flow === 'login') {
+          if (props.flow === 'login' && res.return_to) {
             localStorage.setItem('returnTo', res.return_to);
           }
         })
@@ -125,17 +140,18 @@ function Auth(props) {
       {aal2 ? (
         <MFA ui={ui} />
       ) : (
-          <div
-            style={{ maxWidth: 400, margin: '2rem' }}
-        >
+        <div style={{ maxWidth: 400, margin: '2rem' }}>
           <Form name="auth" onFinish={withPassword}>
             {ui.messages
               ? ui.messages.map((message, index) => (
-                <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
-              ))
+                  <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
+                ))
               : null}
-              <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
-                {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} flow={props.flow} />] : null}</div>
+            <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
+              {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0
+                ? [<OIDC ui={ui} flow={props.flow} />]
+                : null}
+            </div>
             {ui.nodes && ui.nodes.messages ? (
               <Form.Item>
                 {ui.nodes.messages.map((message, index) => (
@@ -146,10 +162,10 @@ function Auth(props) {
             ) : null}
             {ui.nodes
               ? ui.nodes.map((node, index) => {
-                return node.messages.length > 0 ? (
-                  <Alert message={node.messages[0].text} type="error" key={index} />
-                ) : null;
-              })
+                  return node.messages.length > 0 ? (
+                    <Alert message={node.messages[0].text} type="error" key={index} />
+                  ) : null;
+                })
               : null}
             {props.flow !== 'login' ? (
               <div>
@@ -187,16 +203,16 @@ function Auth(props) {
               rules={
                 props.flow !== 'login'
                   ? [
-                    { required: true, message: 'Please input your Password!' },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (passwordValidation(value) !== null) {
-                          return Promise.reject(passwordValidation(value));
-                        }
-                        return Promise.resolve();
-                      },
-                    }),
-                  ]
+                      { required: true, message: 'Please input your Password!' },
+                      ({ getFieldValue }) => ({
+                        validator(rule, value) {
+                          if (passwordValidation(value) !== null) {
+                            return Promise.reject(passwordValidation(value));
+                          }
+                          return Promise.resolve();
+                        },
+                      }),
+                    ]
                   : [{ required: true, message: 'Please input your Password!' }]
               }
             >
@@ -233,7 +249,7 @@ function Auth(props) {
             )}
             <Form.Item>
               <Button form="auth" type="primary" htmlType="submit" block>
-                  {props.flow === 'login' ? 'Login' : 'Register'}
+                {props.flow === 'login' ? 'Login' : 'Register'}
               </Button>
             </Form.Item>
             {ui && ui.messages ? (
@@ -260,7 +276,7 @@ function Auth(props) {
               )}
             </Form.Item>
           </Form>
-          </div>
+        </div>
       )}
     </div>
   );
