@@ -81,11 +81,15 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	log.Println("IsActive", user.IsActive)
 	log.Println("Host", payload.MatchContext.URL.Host)
 	log.Println("Path", payload.MatchContext.URL.Path)
+	log.Println("env host ", viper.GetString("mande_host"))
+
+	log.Println("Condn", !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host"))
 
 	/**
 	** check whether user is active or not and check host matches to mande
 	**/
 	if !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host") {
+		log.Println("start email request")
 		//send registration mail
 		request := sendgrid.GetRequest(viper.GetString("dynamic_sendgrid_api_key"), "/v3/mail/send", "https://api.sendgrid.com")
 		request.Method = "POST"
@@ -120,6 +124,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		if reqErr != nil {
 			log.Println(reqErr)
 		}
+		log.Println("end email request")
 	}
 	if err != nil {
 		user.IsActive = true
