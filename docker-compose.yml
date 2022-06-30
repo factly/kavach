@@ -18,6 +18,17 @@ services:
     networks:
       - kavach
 
+
+  crdb:  #cockroach db
+    image: cockroachdb/cockroach:latest
+    ports: 
+      - "26257:26257"
+      - "8090:8080"
+    command: start-single-node --insecure
+    volumes: 
+      - ./cockroach-data/:/cockroach/cockroach-data
+    networks:
+      - kavach
   ##########################################################################
   ######                         IMGPROXY                            #######
   ##########################################################################
@@ -105,9 +116,10 @@ services:
   kratos-migrate:
     depends_on:
       - postgres
+      - crdb
     image: oryd/kratos:v0.8.0-alpha.3
     environment:
-      - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+      - DSN=postgres://root@crdb:26257/kratos?sslmode=disable
     volumes:
       - type: bind
         source: ./kratos/config
@@ -125,7 +137,7 @@ services:
       - "4433:4433" # public
       - "4434:4434" # admin
     environment:
-      - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+      - DSN=postgres://root@crdb:26257/kratos?sslmode=disable
       - LOG_LEVEL=trace
     volumes:
       - type: bind
@@ -142,7 +154,8 @@ services:
       - LOG_LEVEL=debug
     depends_on:
       - postgres
-    command: migrate sql postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+      - crdb
+    command: migrate sql postgres://root@crdb:26257/keto?sslmode=disable
     restart: on-failure
     networks:
       - kavach
@@ -154,7 +167,7 @@ services:
     depends_on:
       - keto-migrate
     environment:
-      - DSN=postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+      - DSN=postgres://root@crdb:26257/keto?sslmode=disable
     networks:
       - kavach
 
@@ -185,6 +198,7 @@ services:
       - keto
       - kratos
       - kavach-migrate
+      - crdb
     ports:
       - 5001:8000
     build:
@@ -211,6 +225,7 @@ services:
       - postgres
       - keto
       - kratos
+      - crdb
     build:
       context: ./server
       dockerfile: Dockerfile.migrate

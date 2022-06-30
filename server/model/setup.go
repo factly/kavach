@@ -21,13 +21,14 @@ func SetupDB() {
 
 	fmt.Println("connecting to database ...")
 
-	dbString := fmt.Sprint("host=", viper.GetString("database_host"), " ",
-		"user=", viper.GetString("database_user"), " ",
-		"password=", viper.GetString("database_password"), " ",
-		"dbname=", viper.GetString("database_name"), " ",
-		"port=", viper.GetInt("database_port"), " ",
-		"sslmode=", viper.GetString("database_ssl_mode"))
-	
+	// dbString := fmt.Sprint("host=", viper.GetString("database_host"), " ",
+	// 	"user=", viper.GetString("database_user"), " ",
+	// 	"password=", viper.GetString("database_password"), " ",
+	// 	"dbname=", viper.GetString("database_name"), " ",
+	// 	"port=", viper.GetInt("database_port"), " ",
+	// 	"sslmode=", viper.GetString("database_ssl_mode"))
+	dbString := fmt.Sprintf("postgresql://root@%s:%s/%s?sslmode=%s", viper.GetString("database_host"), viper.GetString("database_port"), viper.GetString("database_name"), viper.GetString("database_ssl_mode"))
+
 	var dialector gorm.Dialector
 	if config.Sqlite() {
 		dialector = sqlite.Open(viper.GetString("sqlite_db_path"))

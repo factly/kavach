@@ -13,9 +13,9 @@ type Application struct {
 	Slug           string             `gorm:"column:slug" json:"slug"`
 	Description    string             `gorm:"column:description" json:"description"`
 	URL            string             `gorm:"column:url" json:"url"`
-	MediumID       *uint              `gorm:"column:medium_id;default:NULL" json:"medium_id"`
+	MediumID       *uint              `gorm:"column:medium_id;type:SERIAL4;default:NULL" json:"medium_id"`
 	Medium         *Medium            `gorm:"foreignKey:medium_id" json:"medium"`
-	OrganisationID uint               `gorm:"column:organisation_id" json:"organisation_id"`
+	OrganisationID uint               `gorm:"column:organisation_id;type:SERIAL4;" json:"organisation_id"`
 	Organisation   *Organisation      `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
 	Users          []User             `gorm:"many2many:application_users;" json:"users"`
 	Tokens         []ApplicationToken `json:"tokens"`
@@ -25,7 +25,7 @@ type ApplicationToken struct {
 	Base
 	Name          string       `gorm:"column:name" json:"name"`
 	Description   string       `gorm:"column:description" json:"description"`
-	ApplicationID *uint        `gorm:"column:application_id" json:"application_id"`
+	ApplicationID *uint        `gorm:"column:application_id;type:SERIAL4;" json:"application_id"`
 	Application   *Application `gorm:"foreignKey:application_id" json:"application"`
 	Token         string       `gorm:"column:token" json:"token"`
 }
