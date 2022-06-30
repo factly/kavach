@@ -78,6 +78,10 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		Email: user.Email,
 	}).First(&user).Error
 
+	log.Println("IsActive", user.IsActive)
+	log.Println("Host", payload.MatchContext.URL.Host)
+	log.Println("Path", payload.MatchContext.URL.Path)
+
 	/**
 	** check whether user is active or not and check host matches to mande
 	**/
@@ -106,15 +110,15 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		reqBody.TemplateID = viper.GetString("dynamic_mande_template_id")
 
 		buf := new(bytes.Buffer)
-		err := json.NewEncoder(buf).Encode(&reqBody)
+		reqErr := json.NewEncoder(buf).Encode(&reqBody)
 		if err != nil {
-			log.Println(err)
+			log.Println(reqErr)
 		}
 
 		request.Body = buf.Bytes()
-		_, err = sendgrid.API(request)
-		if err != nil {
-			log.Println(err)
+		_, reqErr = sendgrid.API(request)
+		if reqErr != nil {
+			log.Println(reqErr)
 		}
 	}
 	if err != nil {
