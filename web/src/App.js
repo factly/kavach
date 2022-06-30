@@ -61,7 +61,8 @@ function App() {
                         : route.path === '/password' ||
                           route.path === '/profile' ||
                           route.path === '/organisation' ||
-                          route.path === '/profile/invite'
+                          route.path === '/profile/invite' ||
+                          route.path === '/organisation/create'
                         ? route.Component
                         : () =>
                             ErrorComponent({
