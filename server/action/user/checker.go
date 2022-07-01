@@ -78,13 +78,15 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		Email: user.Email,
 	}).First(&user).Error
 
-	log.Println("IsActive", user.IsActive)
-	log.Println("Host", payload.MatchContext.URL.Host)
-	log.Println("Path", payload.MatchContext.URL.Path)
-	log.Println("env host ", viper.GetString("mande_host"))
-
-	log.Println("Condn", !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host"))
-
+	if err == nil {
+		user.IsActive = true
+		err = model.DB.Model(&model.User{}).Where("email = ?", user.Email).Updates(&user).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+	}
 	/**
 	** check whether user is active or not and check host matches to mande
 	**/
