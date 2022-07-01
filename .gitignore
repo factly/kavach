@@ -21,7 +21,7 @@
 ### Go Patch ###
 /vendor/
 /Godeps/
-
+cockroach-data
 ### react ###
 .DS_*
 *.log
