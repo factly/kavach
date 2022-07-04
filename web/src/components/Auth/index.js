@@ -148,7 +148,7 @@ function Auth(props) {
                 ))
               : null}
             <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
-              {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0
+              {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 && props.flow === 'login'
                 ? [<OIDC ui={ui} flow={props.flow} />]
                 : null}
             </div>
