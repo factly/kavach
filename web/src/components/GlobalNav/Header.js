@@ -16,21 +16,23 @@ function Header() {
       organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
-
   return (
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
-        <Link to="/organisation">
+
           {window.REACT_APP_ENABLE_MULTITENANCY ? (
             <div>
-              <Button>New Organisation</Button>
+              <Link to="/organisation">
+                <Button>New Organisation</Button>
+              </Link>
               <OrganisationSelector />
             </div>
           ) : organisationCount < 1 ? (
-            <Button>New Organisation</Button>
+            <Link to="/organisation">
+              <Button>New Organisation</Button>
+            </Link>
           ) : null}
-        </Link>
         {apps.length > 0 ? (
           <>
             <Divider type="vertical" />
