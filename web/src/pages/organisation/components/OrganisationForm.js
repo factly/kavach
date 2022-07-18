@@ -26,7 +26,7 @@ function OrganisationCreate() {
   return (
     <>
       {!loading ? (
-        process.env.REACT_APP_ENABLE_MULTITENANCY === 'true' || organisationCount < 1 ? (
+        window.REACT_APP_ENABLE_MULTITENANCY === 'true' || organisationCount < 1 ? (
           <Form
             form={form}
             name="organisation_create"

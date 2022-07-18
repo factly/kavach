@@ -13,7 +13,7 @@ import VerificationAfterRegistration from './pages/verification/after-regisratio
 import KratosError from './pages/error';
 
 function App() {
-  const disableRegistration = process.env.REACT_APP_DISABLE_REGISTRATION || 'false';
+  const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION || 'false';
   const { orgCount } = useSelector((state) => {
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
