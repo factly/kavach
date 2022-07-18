@@ -30,7 +30,9 @@ function Header() {
             <OrganisationSelector />
           </div>
         ) : organisationCount < 1 ? (
-          <Button>New Organisation</Button>
+          <Link to="/organisation/create">
+            <Button>New Organisation</Button>
+          </Link>
         ) : null}
         {apps.length > 0 ? (
           <>

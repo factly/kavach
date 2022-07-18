@@ -34,7 +34,7 @@ function OrganisationCreate() {
             onFinish={(values) =>
               dispatch(addOrganisation(values))
                 .then(dispatch(getOrganisations()))
-                .then(history.push('/organisations'))
+                .then(history.push('/organisation'))
             }
             style={{
               width: '400px',

@@ -5,15 +5,17 @@ import { getOrganisations } from './../../actions/organisations';
 import OrganisationSettings from './settings';
 import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 
 function OrganisationDetails() {
   const dispatch = useDispatch();
   const descriptionSpan = 3;
-  const { organisation, loading, selected } = useSelector((state) => {
+  const { organisation, loading, selected, orgCount } = useSelector((state) => {
     return {
       organisation: state.organisations.details[state.organisations.selected],
       loading: state.organisations.loading,
       selected: state.organisations.selected,
+      orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
 
@@ -26,7 +28,16 @@ function OrganisationDetails() {
     <div>
       {loading ? (
         <Skeleton />
-      ) : (
+      ): (orgCount === 0) ?
+        (
+          <ErrorComponent
+            status="403"
+            title="You have 0 organisations. To access this page please create an organisation"
+            link="/organisation/create"
+            message="Create Organisation"
+          />
+        )
+      : (
         <Space direction="vertical" style={{ width: '100%' }}>
           <Descriptions
             title={<h2> Manage organisation </h2>}
