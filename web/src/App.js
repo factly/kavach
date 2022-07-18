@@ -13,7 +13,7 @@ import VerificationAfterRegistration from './pages/verification/after-regisratio
 import KratosError from './pages/error';
 
 function App() {
-  const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION || 'false';
+  const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION || false;
   const { orgCount } = useSelector((state) => {
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
@@ -25,7 +25,7 @@ function App() {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
-          {disableRegistration === 'false' ? (
+          {disableRegistration === false ? (
             <Route
               path="/auth/registration"
               component={(props) => <Auth {...props} flow={'registration'} />}
