@@ -28,16 +28,14 @@ function OrganisationDetails() {
     <div>
       {loading ? (
         <Skeleton />
-      ): (orgCount === 0) ?
-        (
-          <ErrorComponent
-            status="403"
-            title="You have 0 organisations. To access this page please create an organisation"
-            link="/organisation/create"
-            message="Create Organisation"
-          />
-        )
-      : (
+      ) : orgCount === 0 ? (
+        <ErrorComponent
+          status="403"
+          title="You have 0 organisations. To access this page please create an organisation"
+          link="/organisation/create"
+          message="Create Organisation"
+        />
+      ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
           <Descriptions
             title={<h2> Manage organisation </h2>}

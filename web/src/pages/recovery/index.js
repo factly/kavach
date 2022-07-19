@@ -19,7 +19,7 @@ function Recovery() {
     if (!obj['flow']) {
       window.location.href = window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/browser';
     }
-    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/flows?id=' + obj['flow'],{
+    fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/flows?id=' + obj['flow'], {
       credentials: 'include',
     })
       .then((res) => {

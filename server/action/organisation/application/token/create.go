@@ -61,7 +61,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	appTok := applicationToken{}
+	appTok := createAppToken{}
 	err = json.NewDecoder(r.Body).Decode(&appTok)
 	if err != nil {
 		loggerx.Error(err)

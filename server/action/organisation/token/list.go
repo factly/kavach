@@ -49,7 +49,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokens := make([]model.OrganisationToken, 0)
+	tokens := make([]organisationToken, 0)
 
 	err = model.DB.Model(&model.OrganisationToken{}).Where(&model.OrganisationToken{
 		OrganisationID: uint(oID),

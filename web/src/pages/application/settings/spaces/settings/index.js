@@ -9,7 +9,7 @@ export default function SpaceSettings() {
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
   const descriptionSpan = 3;
-  const { space, loadingSpace} = useSelector((state) => {
+  const { space, loadingSpace } = useSelector((state) => {
     return {
       space: state.spaces.details[spaceID],
       loadingSpace: state.spaces.loading,

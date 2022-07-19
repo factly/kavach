@@ -53,7 +53,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := make([]model.SpaceToken, 0)
+	result := make([]spaceToken, 0)
 
 	err = model.DB.Model(&model.SpaceToken{}).Where(&model.SpaceToken{
 		SpaceID: uint(spaceID),

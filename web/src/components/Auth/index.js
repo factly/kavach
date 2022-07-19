@@ -33,29 +33,29 @@ function Auth(props) {
       props.flow === 'login'
         ? returnTo
           ? window.REACT_APP_KRATOS_PUBLIC_URL +
-          '/self-service/' +
-          props.flow +
-          '/browser?return_to=' +
-          returnTo
+            '/self-service/' +
+            props.flow +
+            '/browser?return_to=' +
+            returnTo
           : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
         : afterVerificationURL
-          ? window.REACT_APP_KRATOS_PUBLIC_URL +
+        ? window.REACT_APP_KRATOS_PUBLIC_URL +
           '/self-service/' +
           props.flow +
           '/browser?after_verification_return_to=' +
           afterVerificationURL
-          : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+        : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
     } else {
       fetch(
         window.REACT_APP_KRATOS_PUBLIC_URL +
-        '/self-service/' +
-        props.flow +
-        '/flows' +
-        '?id=' +
-        obj['flow'],
+          '/self-service/' +
+          props.flow +
+          '/flows' +
+          '?id=' +
+          obj['flow'],
         {
           credentials: 'include',
         },
@@ -134,17 +134,18 @@ function Auth(props) {
       {aal2 ? (
         <MFA ui={ui} />
       ) : (
-          <div
-            style={{ maxWidth: 400, margin: '2rem' }}
-        >
+        <div style={{ maxWidth: 400, margin: '2rem' }}>
           <Form name="auth" onFinish={withPassword}>
             {ui.messages
               ? ui.messages.map((message, index) => (
-                <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
-              ))
+                  <Alert message={getErrorMsgByCode(message.id)} type="error" key={index} />
+                ))
               : null}
-              <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
-                {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 ? [<OIDC ui={ui} flow={props.flow} />] : null}</div>
+            <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
+              {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0
+                ? [<OIDC ui={ui} flow={props.flow} />]
+                : null}
+            </div>
             {ui.nodes && ui.nodes.messages ? (
               <Form.Item>
                 {ui.nodes.messages.map((message, index) => (
@@ -155,10 +156,10 @@ function Auth(props) {
             ) : null}
             {ui.nodes
               ? ui.nodes.map((node, index) => {
-                return node.messages.length > 0 ? (
-                  <Alert message={node.messages[0].text} type="error" key={index} />
-                ) : null;
-              })
+                  return node.messages.length > 0 ? (
+                    <Alert message={node.messages[0].text} type="error" key={index} />
+                  ) : null;
+                })
               : null}
             {props.flow !== 'login' ? (
               <div>
@@ -196,16 +197,16 @@ function Auth(props) {
               rules={
                 props.flow !== 'login'
                   ? [
-                    { required: true, message: 'Please input your Password!' },
-                    ({ getFieldValue }) => ({
-                      validator(rule, value) {
-                        if (passwordValidation(value) !== null) {
-                          return Promise.reject(passwordValidation(value));
-                        }
-                        return Promise.resolve();
-                      },
-                    }),
-                  ]
+                      { required: true, message: 'Please input your Password!' },
+                      ({ getFieldValue }) => ({
+                        validator(rule, value) {
+                          if (passwordValidation(value) !== null) {
+                            return Promise.reject(passwordValidation(value));
+                          }
+                          return Promise.resolve();
+                        },
+                      }),
+                    ]
                   : [{ required: true, message: 'Please input your Password!' }]
               } //password validation
             >
@@ -242,7 +243,7 @@ function Auth(props) {
             )}
             <Form.Item>
               <Button form="auth" type="primary" htmlType="submit" block>
-                  {props.flow === 'login' ? 'Login' : 'Register'}
+                {props.flow === 'login' ? 'Login' : 'Register'}
               </Button>
             </Form.Item>
             {ui && ui.messages ? (
@@ -271,7 +272,7 @@ function Auth(props) {
               )}
             </Form.Item>
           </Form>
-          </div>
+        </div>
       )}
     </div>
   );

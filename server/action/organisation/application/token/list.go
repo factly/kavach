@@ -12,7 +12,7 @@ import (
 )
 
 type paging struct {
-	Nodes []model.ApplicationToken `json:"nodes"`
+	Nodes []applicationToken `json:"nodes"`
 	Total int64                    `json:"total"`
 }
 
@@ -64,7 +64,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := paging{}
-	result.Nodes = make([]model.ApplicationToken, 0)
+	result.Nodes = make([]applicationToken, 0)
 
 	uintAppID := uint(appID)
 	model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{

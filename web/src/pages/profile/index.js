@@ -64,14 +64,14 @@ function Profile() {
           >
             <Input placeholder="First Name" />
           </Form.Item>
-          <Form.Item
-            label="Last Name"
-            name="last_name"
-            
-          >
+          <Form.Item label="Last Name" name="last_name">
             <Input placeholder="Last name" />
           </Form.Item>
-          <Form.Item name="display_name" label="Display Name" rules={[{ required: true, message: 'Please input your display name!' }]}>
+          <Form.Item
+            name="display_name"
+            label="Display Name"
+            rules={[{ required: true, message: 'Please input your display name!' }]}
+          >
             <Input placeholder="Display name" onChange={(e) => onNameChange(e.target.value)} />
           </Form.Item>
           <Form.Item
@@ -90,10 +90,7 @@ function Profile() {
           >
             <Input placeholder="slug" />
           </Form.Item>
-          <Form.Item
-            label="Birthdate"
-            name="birth_date"
-          >
+          <Form.Item label="Birthdate" name="birth_date">
             <DatePicker />
           </Form.Item>
           <Form.Item label="Gender" name="gender">
