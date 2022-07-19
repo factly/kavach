@@ -109,24 +109,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// creating the default role admin role for organisation
-	role := &model.OrganisationRole{
-		Name:           "admin",
-		Description:    "Administrator",
-		OrganisationID: uint(organisation.ID),
-	}
-	role.Users = append(role.Users, model.User{
-		Base: model.Base{
-			ID: uint(userID),
-		}})
-
-	err = tx.Model(&model.OrganisationRole{}).Create(&role).Error
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
 	result := orgWithRole{}
 	result.Organisation = *organisation
 	result.Permission = permission

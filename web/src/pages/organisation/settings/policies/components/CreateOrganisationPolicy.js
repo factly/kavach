@@ -6,7 +6,7 @@ import { maker, checker } from '../../../../../utils/sluger';
 import { getOrganisationRoles } from '../../../../../actions/roles';
 import { getOrganisation } from '../../../../../actions/organisations';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { createOrganisationPolicy } from '../../../../../actions/policy';
 
 export default function CreateOrganisationPolicyForm() {
@@ -14,7 +14,7 @@ export default function CreateOrganisationPolicyForm() {
   const { orgID } = useParams();
   const [form] = Form.useForm();
   const { TextArea } = Input;
-
+  const history = useHistory();
   const { organisation, loadingOrg, role, loadingRole } = useSelector((state) => {
     return {
       organisation: state.organisations.details[orgID] ? state.organisations.details[orgID] : null,
@@ -47,7 +47,7 @@ export default function CreateOrganisationPolicyForm() {
   };
 
   const onCreate = (values) => {
-    dispatch(createOrganisationPolicy(values));
+    dispatch(createOrganisationPolicy(values)).then(() => history.push(`/organisation/${orgID}/settings/policies`));
   };
 
   React.useEffect(() => {

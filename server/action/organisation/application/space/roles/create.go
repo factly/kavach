@@ -83,7 +83,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// validating slug
 	var count int64
-	err = model.DB.Model(&model.SpaceRole{}).Find(model.SpaceRole{
+	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
 		Slug: spaceRole.Slug,
 	}).Count(&count).Error
 	if err != nil {

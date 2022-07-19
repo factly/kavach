@@ -22,7 +22,10 @@ export default function SpacePolicies() {
   });
 
   return (
-    <div>
+    <Space direction="vertical">
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <h2>Policies in {space.name}</h2>
       {loading && loadingSpace ? (
         <Skeleton />
@@ -41,6 +44,6 @@ export default function SpacePolicies() {
           <PolicyList appID={appID} spaceID={spaceID} role={role} />
         </Space>
       )}
-    </div>
+    </Space>
   );
 }

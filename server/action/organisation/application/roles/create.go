@@ -72,7 +72,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// validating slug
 	var count int64
-	err = model.DB.Model(&model.ApplicationRole{}).Find(model.ApplicationRole{
+	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		Slug: appRole.Slug,
 	}).Count(&count).Error
 	if err != nil {

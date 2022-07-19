@@ -22,7 +22,10 @@ function ApplicationRoles() {
   });
 
   return (
-    <div>
+    <Space direction="vertical">
+      <Link key="1" to={`/applications/${id}/settings`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <h2>Roles in {application.name}</h2>
       {loading && loadingApp ? (
         <Skeleton />
@@ -43,7 +46,7 @@ function ApplicationRoles() {
           <ApplicationRoleList appID={id} role={role} />
         </Space>
       )}
-    </div>
+    </Space>
   );
 }
 

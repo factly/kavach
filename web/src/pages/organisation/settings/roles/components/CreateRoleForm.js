@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton } from 'antd';
 import { createOrganisationRole } from '../../../../../actions/roles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getOrganisation } from '../../../../../actions/organisations';
 import { checker, maker } from '../../../../../utils/sluger';
@@ -15,7 +15,7 @@ const CreateOrganisationRoleForm = () => {
   const onReset = () => {
     form.resetFields();
   };
-
+  const history = useHistory();
   const onTitleChange = (string) => {
     form.setFieldsValue({
       slug: maker(string),
@@ -38,7 +38,7 @@ const CreateOrganisationRoleForm = () => {
   }, [dispatch, orgID]);
 
   const onCreate = (values) => {
-    dispatch(createOrganisationRole(values));
+    dispatch(createOrganisationRole(values)).then(() => history.push(`/organisation/${orgID}/settings/roles`));
   };
 
   return (

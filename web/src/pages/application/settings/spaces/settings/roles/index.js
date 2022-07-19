@@ -23,7 +23,10 @@ export default function SpaceRoles() {
   });
 
   return (
-    <div>
+    <Space direction="vertical">
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <h2>Roles in {space?.name}</h2>
       {loading && loadingSpace ? (
         <Skeleton />
@@ -44,6 +47,6 @@ export default function SpaceRoles() {
           <SpaceRoleList appID={appID} role={role} spaceID={spaceID} />
         </Space>
       )}
-    </div>
+    </Space>
   );
 }

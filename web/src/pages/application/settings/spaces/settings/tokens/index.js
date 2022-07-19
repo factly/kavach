@@ -26,7 +26,10 @@ export default function SpaceTokens() {
     //eslint-disable-next-line
   }, []);
   return (
-    <div>
+    <Space direction="vertical">
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <h2> Tokens in {space?.name}</h2>
       {loading || loadingSpace ? (
         <Skeleton />
@@ -47,6 +50,6 @@ export default function SpaceTokens() {
           <TokenList appID={appID} spaceID={spaceID} role={role} />
         </Space>
       )}
-    </div>
+    </Space>
   );
 }

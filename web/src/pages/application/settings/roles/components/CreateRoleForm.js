@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton } from 'antd';
 import { createApplicationRole } from '../../../../../actions/roles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getApplication } from '../../../../../actions/application';
 import { checker, maker } from '../../../../../utils/sluger';
@@ -12,6 +12,7 @@ const CreateApplicationRoleForm = () => {
   const { id } = useParams();
   const [form] = Form.useForm();
   const { TextArea } = Input;
+  const history = useHistory();
   const onReset = () => {
     form.resetFields();
   };
@@ -36,7 +37,7 @@ const CreateApplicationRoleForm = () => {
   }, [dispatch, id]);
 
   const onCreate = (values) => {
-    dispatch(createApplicationRole(id, values));
+    dispatch(createApplicationRole(id, values)).then(() => history.push(`/applications/${id}/settings/roles/`));
   };
 
   return (

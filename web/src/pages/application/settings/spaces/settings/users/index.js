@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space, Form, Button, Select } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import UserList from './components/userList';
 import { getSpaces } from '../../../../../../actions/space';
@@ -35,6 +35,9 @@ export default function SpaceUser() {
 
   return (
     <Space direction="vertical">
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <Form
         form={form}
         name="filters"

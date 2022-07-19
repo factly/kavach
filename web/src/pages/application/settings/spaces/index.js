@@ -22,7 +22,10 @@ export default function Spaces() {
   }, [appID, dispatch]);
 
   return (
-    <div>
+    <Space direction="vertical">      
+      <Link key="1" to={`/applications/${appID}/settings`}>
+        <Button type="primary"> Goto Settings </Button>
+      </Link>
       <h2>Spaces in {application.name}</h2>
       {loading || loadingApp ? (
         <Skeleton />
@@ -43,6 +46,6 @@ export default function Spaces() {
           <SpaceList appID={appID} role={role} />
         </Space>
       )}
-    </div>
+    </Space>
   );
 }
