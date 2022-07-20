@@ -1,1 +1,7 @@
-
+dsn: postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+version: v0.8.0-alpha.2
+namespaces:
+  - id: 0
+    name: access-control
+  - id: 1
+    name: groups
