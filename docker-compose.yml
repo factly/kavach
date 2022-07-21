@@ -18,9 +18,9 @@ services:
     networks:
       - kavach
 
-  ##########################################################################
-  ######                         IMGPROXY                            #######
-  ##########################################################################
+  #########################################################################
+  #####                         IMGPROXY                            #######
+  #########################################################################
   imgproxy:
     image: darthsim/imgproxy:v2.15.0
     ports:
@@ -137,24 +137,37 @@ services:
       - kavach
 
   keto-migrate:
-    image: oryd/keto:v0.5.7
+    image: oryd/keto:v0.8.0-alpha.2
     environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
       - LOG_LEVEL=debug
     depends_on:
       - postgres
-    command: migrate sql postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+    volumes:
+      - type: bind
+        source: ./keto
+        target: /etc/config/keto
+    # command: namespace migrate legacy -c "/etc/config/keto/keto.yml" --yes
+    command: migrate up -c "/etc/config/keto/keto.yml" --yes
     restart: on-failure
     networks:
       - kavach
 
   keto:
-    image: oryd/keto:v0.5.7
-    ports:
-      - "4466:4466"
     depends_on:
       - keto-migrate
+    image: oryd/keto:v0.8.0-alpha.2
+    ports:
+      - "4466:4466" # read
+      - "4467:4467" # write 
+      - "4468:4468" # metric
     environment:
-      - DSN=postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
+      - LOG_LEVEL=debug
+    volumes:
+      - type: bind
+        source: ./keto
+        target: /etc/config/keto
+    command: serve -c "/etc/config/keto/keto.yml" 
     networks:
       - kavach
 
@@ -273,6 +286,6 @@ services:
     restart: unless-stopped
     networks:
       - kavach
-
+  
 networks:
   kavach:
