@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Form, Input, Select, Button, Row, Col, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../../../../../actions/users';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { CloseOutlined } from '@ant-design/icons';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 
@@ -106,9 +106,10 @@ function FormList() {
 function NewUser() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { orgID } = useParams();
   const [form] = Form.useForm();
   const addNewUsers = (values) => {
-    dispatch(addUser(values, history)).then(() => history.push(`/organisation/settings/users`));
+    dispatch(addUser(values, history)).then(() => history.push(`/organisation/${orgID}/settings/users`));
   };
 
   const { role, loading } = useSelector((state) => {
