@@ -1,9 +1,15 @@
 package application
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
+
 	"github.com/factly/kavach-server/model"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -36,39 +42,58 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-	}).First(permission).Error
-
+	// VERIFY WHETHER THE USER IS PART OF Organisation OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d", oID),
+		fmt.Sprintf("%d", uID),
+	)
 	if err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the organisation"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	// check if user is part of application or not 
-	result := make([]model.Application, 0)
-	model.DB.Model(&model.Application{}).Where(&model.Application{
-		OrganisationID: uint(oID),
-	}).Preload("Users").Preload("Users.Medium").Preload("Medium").Preload("Tokens").Preload("Spaces").Preload("Spaces.Users").Find(&result)
-
-	filteredApps := make([]model.Application, 0)
-	for _, app := range result {	
-		for _, user := range app.Users{
-			if user.ID == uint(uID) {
-				filteredApps = append(filteredApps, app)
-				break
-			}
-		}
-	}
-
-	if err!=nil{
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+	objects, err := keto.ListObjectsBySubjectID("applications", "", fmt.Sprintf("%d", uID))
+	if err != nil {
+		loggerx.Error(errors.New("user is not part of the organisation"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	renderx.JSON(w, http.StatusOK, filteredApps)
+
+	appIDs := []int{}
+	for _, object := range objects {
+		if object[:3] == "org" {
+			splittedObject := strings.Split(object, ":")
+			appID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			if err != nil {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+				return
+			}
+			appIDs = append(appIDs, appID)
+		}
+	}
+	applications := make([]model.Application, 0)
+	for _, appID := range appIDs {
+		application := &model.Application{}
+		err = model.DB.Model(&model.Application{}).Where(&model.Application{
+			Base: model.Base{
+				ID: uint(appID),
+			},
+		}).Preload("Users").Preload("Users.Medium").Preload("Medium").Preload("Tokens").Preload("Spaces").Preload("Spaces.Users").Find(&application).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		applications = append(applications, *application)
+	}
+
+	renderx.JSON(w, http.StatusOK, applications)
 }

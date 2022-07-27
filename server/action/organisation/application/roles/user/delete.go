@@ -2,12 +2,14 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -73,10 +75,19 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -96,7 +107,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	users := make([]model.User, 0)
-	flag = false
+	var flag bool
 
 	for _, user := range appRole.Users {
 		if user.ID == uint(delUserID) {
@@ -120,12 +131,27 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = model.DB.Model(&appRole).Association("Users").Replace(&users); 
+	err = model.DB.Model(&appRole).Association("Users").Replace(&users)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Relation:  appRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", delUserID),
+	}
+
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	renderx.JSON(w, http.StatusOK, nil)
 }

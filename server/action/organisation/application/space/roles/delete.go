@@ -90,7 +90,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// getting the space role name using roleID
 	roleMap := make(map[string]interface{})
-	err = model.DB.Model(&model.SpaceRole{}).Where(&model.Space{
+	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
 		Base: model.Base{
 			ID: uint(roleIDInt),
 		},

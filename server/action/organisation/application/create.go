@@ -4,11 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -99,7 +101,23 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+	// creating the application-role: owner, on the keto api
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d:app:%d", oID, result.ID),
+			Relation:  "owner",
+		},
+		SubjectID: fmt.Sprintf("%d", uID),
+	}
 
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	tx.Commit()
 
 	renderx.JSON(w, http.StatusCreated, result)

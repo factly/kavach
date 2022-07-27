@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm/dialects/postgres"
 )
 
+const namespace string = "applications"
 type policyReq struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`

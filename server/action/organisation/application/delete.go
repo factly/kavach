@@ -1,10 +1,13 @@
 package application
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -45,6 +48,13 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = util.CheckOwner(uint(uID), uint(oID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+	
 	result := model.Application{}
 	result.ID = uint(appID)
 
@@ -56,20 +66,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
-
-	// Check if the user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
-
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -86,6 +82,23 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// delete application
 	tx.Delete(&result)
+
+	// Deleting the all the relation tuple related to "orgnanisation" object
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: "organisations",
+			Object:    fmt.Sprintf("org:%d:app:%d", oID, appID),
+			Relation:  "", // relation is an empty string to avoid addition of the relation query parameter
+		},
+		SubjectID: "",
+	}
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 
 	tx.Commit()
 

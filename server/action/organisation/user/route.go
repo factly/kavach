@@ -9,7 +9,7 @@ type userWithPermission struct {
 	model.User
 	Permission model.OrganisationUser `json:"permission"`
 }
-
+const namespace string = "organisations"
 var userContext model.ContextKey = "organisation_user"
 
 // Router organisation

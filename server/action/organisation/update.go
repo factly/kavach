@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -63,17 +64,11 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check the permission of host
-	permission := &model.OrganisationUser{}
-
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(hostID),
-		Role:           "owner",
-	}).First(permission).Error
+	err = util.CheckOwner(uint(hostID), uint(orgID))
 
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -94,13 +89,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	// update
 	updateMap := map[string]interface{}{
-		"updated_by_id": uint(hostID),
-		"title": req.Title,
-		"slug": req.Slug,
-		"description": req.Description,
+		"updated_by_id":      uint(hostID),
+		"title":              req.Title,
+		"slug":               req.Slug,
+		"description":        req.Description,
 		"featured_medium_id": mediumID,
 	}
-	
+
 	err = tx.Model(&organisation).Updates(&updateMap).Preload("Medium").First(&organisation).Error
 
 	if err != nil {
@@ -109,7 +104,19 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+	// fetching permissions of the user
+	permission := &model.OrganisationUser{}
+	err = tx.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+		OrganisationID: uint(orgID),
+		UserID:         uint(hostID),
+	}).First(permission).Error
 
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
 	result := &orgWithRole{}
 	result.Organisation = *organisation
 	result.Permission = *permission

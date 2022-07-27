@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -71,6 +72,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 	result.ID = uint(appID)
 	// Check if record exist or not
 	err = model.DB.Model(&model.Application{}).Where(&model.Application{
+		Base: model.Base{
+			ID: uint(appID),
+		},
 		OrganisationID: uint(oID),
 	}).First(&result).Error
 
@@ -80,13 +84,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if the user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
+	err = util.CheckOwner(uint(uID), uint(oID))
 
 	if err != nil {
 		loggerx.Error(err)

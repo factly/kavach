@@ -2,12 +2,13 @@ package policy
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/keto"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -41,14 +42,19 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(userID),
-	}).First(permission).Error
+	// VERIFY WHETHER THE USER IS PART OF ORGANISATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		"organisations",
+		fmt.Sprintf("org:%d", orgID),
+		fmt.Sprintf("%d", userID),
+	)
 	if err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the organisation"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -61,18 +67,18 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	// -------------verifying whether a particular action is allowed on a resource or not ------------
-	policyObj := new(model.CheckKeto)
-	policyObj.Subject = fmt.Sprintf("roles:org:%d:%s", orgID, reqBody.Subject)
-	policyObj.Action = fmt.Sprintf("actions:org:%d:%s", orgID, reqBody.Action)
-	policyObj.Resource = fmt.Sprintf("resources:org:%d:%s", orgID, reqBody.Resource)
-	responseBody, err := keto.CheckKetoPermission(*policyObj)
+
+	// if the subject_type is id then it uses CheckKetoRelationTupleWithSubjectID function to validate the action
+	isAllowed, err := user.IsActionValid(namespace, fmt.Sprintf("resource:org:%d:%s", orgID, reqBody.Resource), reqBody.Subject, reqBody.Action, reqBody.SubjectType, fmt.Sprintf("roles:org:%d", orgID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
+	responseBody := map[string]interface{}{
+		"allowed": isAllowed,
+	}
 	//render JSON
 	renderx.JSON(w, http.StatusOK, responseBody)
 }

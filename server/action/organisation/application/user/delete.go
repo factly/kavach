@@ -3,11 +3,14 @@ package user
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -72,45 +75,75 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	result := &model.Application{}
 
 	result.ID = uint(appID)
-
+	tx := model.DB.Begin()
 	// Check if record exist
-	err = model.DB.Preload("Users").First(&result).Error
+	err = tx.Preload("Users").First(&result).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
 	newUsers := make([]model.User, 0)
-	flag := false
-
-	for _, user := range result.Users {
-		if user.ID == uint(uID) {
-			flag = true
-		} else {
-			newUsers = append(newUsers, user)
-		}
-	}
-
-	// if user not found for application
-	if !flag {
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", uID),
+	)
+	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		tx.Rollback()
+		loggerx.Error(errors.New("user is not part of the application"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
 	// Check if the user to delete is not last user of application
 	if len(newUsers) < 1 {
+		tx.Rollback()
 		loggerx.Error(errors.New("cannot delete last user of application"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
 
-	if err = model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Model(&result).Association("Users").Replace(&newUsers); err != nil {
+	if err = tx.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Model(&result).Association("Users").Replace(&newUsers); err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	kavachRole, err := util.GetKavachRoleByID(uint(uID), uint(orgID))
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d:app:%d", orgID, appID),
+			Relation:  kavachRole, // relation is an empty string to avoid addition of the relation query parameter
+		},
+		SubjectID: fmt.Sprintf("%d", uID),
+	}
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

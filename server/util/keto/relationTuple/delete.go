@@ -23,10 +23,19 @@ func DeleteRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubjectI
 
 	// add Query Parameters
 	params := url.Values{}
-	params.Add("namespace", tuple.Namespace)
-	params.Add("object", tuple.Object)
-	params.Add("relation", tuple.Relation)
-	params.Add("subject_id", tuple.SubjectID)
+	// adding the query parameters only when they have some value, if it is an empty string then the query parameters is not added
+	if tuple.Namespace != "" {
+		params.Add("namespace", tuple.Namespace)
+	}
+	if tuple.Object != "" {
+		params.Add("object", tuple.Object)
+	}
+	if tuple.Relation != "" {
+		params.Add("relation", tuple.Relation)
+	}
+	if tuple.SubjectID != "" {
+		params.Add("subject_id", tuple.SubjectID)
+	}
 	baseURL.RawQuery = params.Encode()
 
 	// sending a delete request to keto api to delete the relation tuple
@@ -65,12 +74,24 @@ func DeleteRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubject
 
 	// add Query Parameters
 	params := url.Values{}
-	params.Add("namespace", tuple.Namespace)
-	params.Add("object", tuple.Object)
-	params.Add("relation", tuple.Relation)
-	params.Add("subject_set.namespace", tuple.SubjectSet.Namespace)
-	params.Add("subject_set.object", tuple.SubjectSet.Object)
-	params.Add("subject_set.relation", tuple.SubjectSet.Relation)
+	if tuple.Namespace != "" {
+		params.Add("namespace", tuple.Namespace)
+	}
+	if tuple.Object != "" {
+		params.Add("object", tuple.Object)
+	}
+	if tuple.Relation != "" {
+		params.Add("relation", tuple.Relation)
+	}
+	if tuple.SubjectSet.Namespace != "" {
+		params.Add("subject_space.namespace", tuple.SubjectSet.Namespace)
+	}
+	if tuple.SubjectSet.Object != "" {
+		params.Add("subject_space.object", tuple.SubjectSet.Object)
+	}
+	if tuple.SubjectSet.Relation != "" {
+		params.Add("subject_space.relation", tuple.SubjectSet.Relation)
+	}
 	baseURL.RawQuery = params.Encode()
 
 	// sending a delete request to keto api to delete the relation tuple

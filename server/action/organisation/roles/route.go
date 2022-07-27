@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const namespace string = "namespace"
 // Organisation Role Router
 func Router() chi.Router {
 	r := chi.NewRouter()

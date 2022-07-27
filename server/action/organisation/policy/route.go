@@ -17,7 +17,7 @@ type permission struct {
 	Resource string   `json:"resource"`
 	Actions  []string `json:"actions"`
 }
-
+const namespace string = "organisations"
 // Organisation Role Router
 func Router() chi.Router {
 	r := chi.NewRouter()

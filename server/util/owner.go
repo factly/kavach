@@ -27,3 +27,4 @@ func CheckOwner(uid uint, oid uint) error {
 	}
 	return nil
 }
+

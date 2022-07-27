@@ -22,6 +22,7 @@ type CheckKeto struct {
 	Subject  string `json:"subject"`
 	Action   string `json:"action"`
 	Resource string `json:"resource"`
+	SubjectType string `json:"subject_type"`
 }
 
 /*

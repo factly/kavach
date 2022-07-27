@@ -8,7 +8,7 @@ import (
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -79,7 +79,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	tx := model.DB.Begin()
 	// getting the application role name using roleID
 	roleMap := make(map[string]interface{})
-	err = tx.Model(&model.ApplicationRole{}).Where(&model.Space{
+	err = tx.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		Base: model.Base{
 			ID: uint(roleIDInt),
 		},
@@ -105,13 +105,20 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// delete the role from keto server
-	ketoRoleID := "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(appID) + ":" + roleMap["name"].(string)
-	err = keto.DeleteRole("/engines/acp/ory/regex/roles", ketoRoleID)
+	// Deleting the all the relation tuple related to "orgnanisation-role"
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: "organisations",
+			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Relation:  roleMap["name"].(string),
+		},
+		SubjectID: "",
+	}
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
 

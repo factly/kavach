@@ -2,11 +2,13 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -63,34 +65,67 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-
+	tx := model.DB.Begin()
 	// getting the organisation role
 	orgRole := new(model.OrganisationRole)
-	err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		Base: model.Base{
 			ID: uint(roleID),
 		},
 		OrganisationID: uint(orgID),
 	}).Preload("Users").Find(orgRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
 	users := make([]model.User, 0)
-	flag := false
 
-	for _, user := range orgRole.Users {
-		if user.ID == uint(delUserID) {
-			flag = true
-		} else {
-			users = append(users, user)
-		}
+	// checking whether the user deleting is part of role or not
+	var flag bool
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d", orgID),
+			Relation:  orgRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
+	flag, err = keto.CheckKetoRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !flag {
+		tx.Rollback()
+		loggerx.Error(errors.New("user trying to delete is not part of organisation role"))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
 	}
 
-	// if user not found for application
+	// checking whether the user to be deleted is part of organisation-role or not
+	tuple = &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d", orgID),
+			Relation:  orgRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", delUserID),
+	}
+
+	flag, err = keto.CheckKetoRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	if !flag {
+		tx.Rollback()
 		loggerx.Error(errors.New("user to be deleted is not part of organisation role"))
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
@@ -98,17 +133,28 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the user to delete is not last user of application
 	if len(users) < 1 {
+		tx.Rollback()
 		loggerx.Error(errors.New("cannot delete last user of organisation role"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
 
-	err = model.DB.Model(&orgRole).Association("Users").Replace(&users); 
+	err = model.DB.Model(&orgRole).Association("Users").Replace(&users)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	// Deleting the all the relation tuple related to "orgnanisation-role"
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

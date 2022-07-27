@@ -3,11 +3,13 @@ package user
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -81,13 +83,15 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// getting the organisation role
 	orgRole := new(model.OrganisationRole)
-	err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+	tx := model.DB.Begin()
+	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		Base: model.Base{
 			ID: uint(roleID),
 		},
 		OrganisationID: uint(orgID),
 	}).Preload("Users").Find(orgRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -96,11 +100,31 @@ func create(w http.ResponseWriter, r *http.Request) {
 	users := make([]model.User, 0)
 	users = append(orgRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	orgRole.Users = users
-	if err = model.DB.Model(&orgRole).Association("Users").Replace(&users); err != nil {
+	if err = tx.Model(&orgRole).Association("Users").Replace(&users); err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d", orgID),
+			Relation:  orgRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

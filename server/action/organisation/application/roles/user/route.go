@@ -4,6 +4,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const namespace string = "applications"
 // Router to manage users in different organisation roles
 func Router() chi.Router {
 	r := chi.NewRouter()
