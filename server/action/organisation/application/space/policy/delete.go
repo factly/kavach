@@ -1,6 +1,7 @@
 package policy
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -8,8 +9,8 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
-	"github.com/factly/kavach-server/util/space"
+	"github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -78,39 +79,82 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user is part of application or not
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of space"))
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	// getting policy name from policyID
-	policyName, err := util.GetSpacePolicyByID(uint(policyID))
+	policy := new(model.SpacePolicy)
+	tx := model.DB.Begin()
+	err = tx.Where(&model.SpacePolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Roles").First(policy).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
 	// Deleting the space policy from the kavachDB
-	tx := model.DB.Begin()
-	err = model.DB.Delete(&model.SpacePolicy{}, policyID).Error
+	err = tx.Delete(&model.SpacePolicy{}, policyID).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+
 	// ---------------- Delete policy from the keto server -----------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":") + *policyName
-	err = keto.DeletePolicy("/engines/acp/ory/regex/policies/" + id)
+	var permissions []permission
+	err = json.Unmarshal(policy.Permissions.RawMessage, &permissions)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
+	}
+
+	for _, role := range policy.Roles {
+		for _, permission := range permissions {
+			for _, action := range permission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:app:%d:space:%d:%s", orgID, appID, spaceID, permission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org%d:app:%d:space:%d", orgID, appID, spaceID),
+						Relation:  role.Name,
+					},
+				}
+
+				err = keto.DeleteRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
+		}
 	}
 
 	tx.Commit() // commiting the transaction

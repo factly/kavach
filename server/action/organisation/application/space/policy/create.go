@@ -9,8 +9,8 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
-	"github.com/factly/kavach-server/util/space"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -38,18 +38,18 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get user id from request header
-	userID, err := strconv.Atoi(r.Header.Get("X-User"))
-	if err != nil {
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
 	// Get application ID path parameter
 	applicationID := chi.URLParam(r, "application_id")
 	appID, err := strconv.Atoi(applicationID)
 	if err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+	
+	// Get user id from request header
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -70,10 +70,20 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if user is part of space or not
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of space"))
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -137,36 +147,39 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// ----------- Creating policy on the keto server ---------------
-	result := model.Policy{}
-	commonPolicyString := fmt.Sprint(":org:", orgID, ":app:", appID, ":space:", spaceID, ":")
-	result.ID = "id" + commonPolicyString + reqBody.Name
-	result.Description = reqBody.Description
-
-	for _, value := range reqBody.Roles {
-		roleName, err := util.GetSpaceRoleByID(value)
+	for _, role := range reqBody.Roles {
+		roleName, err := util.GetApplicationRoleByID(role)
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 			return
 		}
-		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":app:"+fmt.Sprint(appID)+":space:"+fmt.Sprint(spaceID)+":"+*roleName)
-	}
 
-	for _, permission := range permissions {
-		result.Resources = append(result.Resources, "resources"+commonPolicyString+permission.Resource)
-		for _, action := range permission.Actions {
-			result.Actions = append(result.Actions, "actions"+commonPolicyString+action)
+		for _, permission := range permissions {
+			for _, action := range permission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:app:%d:space:%d:%s", orgID, appID, spaceID, permission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, appID, spaceID),
+						Relation:  *roleName,
+					},
+				}
+
+				err = keto.CreateRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
 		}
-	}
-	
-	result.Effect = "allow"
-	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", &result)
-	if err != nil {
-		tx.Rollback();
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
 	}
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, policy)

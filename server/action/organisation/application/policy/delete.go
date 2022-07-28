@@ -9,7 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto/relationTuple"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -75,21 +75,22 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
+	tx := model.DB.Begin()
 	policy := new(model.ApplicationPolicy)
-	err = model.DB.Where(&model.ApplicationPolicy{
+	err = tx.Where(&model.ApplicationPolicy{
 		Base: model.Base{
 			ID: uint(policyID),
 		},
 	}).Preload("Roles").First(policy).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 	//------------- deleting from the kavachDB -------------
-	tx := model.DB.Begin()
-	err = model.DB.Delete(&model.ApplicationPolicy{}, policyID).Error
+
+	err = tx.Delete(&model.ApplicationPolicy{}, policyID).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -113,7 +114,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 				tuple := &model.KetoRelationTupleWithSubjectSet{
 					KetoSubjectSet: model.KetoSubjectSet{
 						Namespace: namespace,
-						Object:    fmt.Sprintf("resource:org:%d:app:%d:%s", orgID, appID,permission.Resource),
+						Object:    fmt.Sprintf("resource:org:%d:app:%d:%s", orgID, appID, permission.Resource),
 						Relation:  action,
 					},
 					SubjectSet: model.KetoSubjectSet{
@@ -122,7 +123,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 						Relation:  role.Name,
 					},
 				}
-				
+
 				err = keto.DeleteRelationTupleWithSubjectSet(tuple)
 				if err != nil {
 					tx.Rollback()
