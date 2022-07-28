@@ -3,6 +3,7 @@ package keto
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -62,8 +63,8 @@ func ListObjectsBySubjectID(namespace, relation, subjectID string) ([]string, er
 	}
 	// initialising objects array
 	accessibleObjects := []string{}
-	for _, eachRelationTuple := range responseBody["relation_tuples"].([]map[string]interface{}) {
-		object, ok:= eachRelationTuple["object"].(string)
+	for _, eachRelationTuple := range responseBody["relation_tuples"].([]interface{}) {
+		object, ok := eachRelationTuple.(map[string]interface{})["object"].(string)
 		if ok {
 			accessibleObjects = append(accessibleObjects, object)
 		}
