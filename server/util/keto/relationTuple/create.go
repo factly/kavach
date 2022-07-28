@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/factly/kavach-server/model"
@@ -35,7 +36,10 @@ func CreateRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubjectI
 		if err != nil {
 			return err
 		}
-		loggerx.Error(errors.New(responseBody["message"].(string)))
+		errorMessage, ok := responseBody["message"].(string)
+		if ok {
+			loggerx.Error(errors.New(errorMessage))
+		}
 		return errors.New("error in creating the relation tuple")
 	}
 	return nil
