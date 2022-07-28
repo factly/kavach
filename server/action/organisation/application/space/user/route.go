@@ -6,7 +6,7 @@ import (
 )
 
 var userContext model.ContextKey = "user"
-
+const namespace string ="spaces"
 // Router space/user
 func Router() chi.Router {
 	r := chi.NewRouter()

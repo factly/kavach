@@ -47,6 +47,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if user is owner of organisation
+	err = util.CheckOwner(uint(uID), uint(oID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	app := application{}
 	err = json.NewDecoder(r.Body).Decode(&app)
 	if err != nil {
@@ -59,14 +67,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 	if validationError != nil {
 		loggerx.Error(errors.New("validation error"))
 		errorx.Render(w, validationError)
-		return
-	}
-
-	// Check if user is owner of organisation
-	err = util.CheckOwner(uint(uID), uint(oID))
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -101,7 +101,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	// creating the application-role: owner, on the keto api
+	// making the user who created application, owner of it
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: namespace,

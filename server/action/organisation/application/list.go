@@ -44,7 +44,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	// VERIFY WHETHER THE USER IS PART OF Organisation OR NOT
 	isAuthorised, err := user.IsUserAuthorised(
-		namespace,
+		orgNamespace,
 		fmt.Sprintf("org:%d", oID),
 		fmt.Sprintf("%d", uID),
 	)
@@ -61,7 +61,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	objects, err := keto.ListObjectsBySubjectID("applications", "", fmt.Sprintf("%d", uID))
 	if err != nil {
-		loggerx.Error(errors.New("user is not part of the organisation"))
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
