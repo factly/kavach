@@ -53,8 +53,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// initiating a transaction
-	tx := model.DB.Begin()
 	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
 	isAuthorised, err := user.IsUserAuthorised(
 		namespace,
@@ -62,13 +60,11 @@ func list(w http.ResponseWriter, r *http.Request) {
 		fmt.Sprintf("%d", userID),
 	)
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
 	if !isAuthorised {
-		tx.Rollback()
 		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
@@ -76,16 +72,14 @@ func list(w http.ResponseWriter, r *http.Request) {
 	// list application role
 	roles := make([]model.ApplicationRole, 0)
 
-	err = tx.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
+	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		ApplicationID: uint(appID),
 	}).Preload("Application").Preload("Users").Find(&roles).Error
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, roles)
 }

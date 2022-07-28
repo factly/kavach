@@ -59,8 +59,6 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// initiating a transaction
-	tx := model.DB.Begin()
 	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
 	isAuthorised, err := user.IsUserAuthorised(
 		namespace,
@@ -68,13 +66,11 @@ func details(w http.ResponseWriter, r *http.Request) {
 		fmt.Sprintf("%d", userID),
 	)
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
 	if !isAuthorised {
-		tx.Rollback()
 		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
@@ -90,11 +86,9 @@ func details(w http.ResponseWriter, r *http.Request) {
 	}).First(role).Preload("Application").Preload("Users").Error
 
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, role)
 }

@@ -9,8 +9,8 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
-	"github.com/factly/kavach-server/util/space"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -48,6 +48,13 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if user is owner of organisation
+	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	// Get Application ID from the path
 	appID := chi.URLParam(r, "application_id")
 	applicationID, err := strconv.Atoi(appID)
@@ -66,6 +73,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, applicationID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	// Bind space role
 	spaceRole := &model.SpaceRole{}
 	if err := json.NewDecoder(r.Body).Decode(&spaceRole); err != nil {
@@ -74,7 +99,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate application role
+	// Validate space role
 	validationError := validationx.Check(spaceRole)
 	if validationError != nil {
 		errorx.Render(w, validationError)
@@ -97,21 +122,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is owner of organisation
-	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
-	// check if the user if part of space or not
 	tx := model.DB.Begin()
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		tx.Rollback()
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
 
 	// Create space role
 	spaceRole.SpaceID = uint(spaceID)
@@ -122,26 +133,32 @@ func create(w http.ResponseWriter, r *http.Request) {
 		},
 	})
 
-	err = model.DB.Model(&model.SpaceRole{}).Create(spaceRole).Error
+	err = tx.Model(&model.SpaceRole{}).Create(spaceRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	tx.Commit()
 
-	// Creaing space role on keto server
-	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(applicationID) + ":space:" + fmt.Sprint(spaceID) + ":" + spaceRole.Name
-	reqRole.Description = spaceRole.Description
-	reqRole.Members = []string{fmt.Sprint(userID)}
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, applicationID, spaceID),
+			Relation:  spaceRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
 
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+	tx.Commit()
 	// sending the JSON response
 	renderx.JSON(w, http.StatusOK, spaceRole)
 }

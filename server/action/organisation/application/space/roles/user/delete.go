@@ -2,12 +2,14 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -39,8 +41,17 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	applicationID := chi.URLParam(r, "space_id")
-	spaceID, err := strconv.Atoi(applicationID)
+	// Get application id from path
+	applicationID := chi.URLParam(r, "application_id")
+	appID, err := strconv.Atoi(applicationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+	
+	sID := chi.URLParam(r, "space_id")
+	spaceID, err := strconv.Atoi(sID)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
@@ -64,6 +75,24 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//  WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	// get user ID of the user to be deleted
 	delUID := chi.URLParam(r, "user_id")
 	delUserID, err := strconv.Atoi(delUID)
@@ -73,28 +102,23 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check user is part of application or not
-	flag := application.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
-	// getting the application role
+	tx := model.DB.Begin()
+	// getting the space role
 	spaceRole := new(model.SpaceRole)
-	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+	err = tx.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
 		Base: model.Base{
 			ID: uint(roleID),
 		},
 		SpaceID: uint(spaceID),
 	}).Preload("Users").Find(spaceRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	var flag bool
 	users := make([]model.User, 0)
 	flag = false
 
@@ -108,6 +132,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// if user not found for application
 	if !flag {
+		tx.Rollback()
 		loggerx.Error(errors.New("user to be deleted is not part of organisation role"))
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
@@ -115,17 +140,37 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Check if the user to delete is not last user of application
 	if len(users) < 1 {
+		tx.Rollback()
 		loggerx.Error(errors.New("cannot delete last user of organisation role"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
 
-	err = model.DB.Model(&spaceRole).Association("Users").Replace(&users); 
+	err = tx.Model(&spaceRole).Association("Users").Replace(&users)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Relation:  spaceRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", delUserID),
+	}
+
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }
