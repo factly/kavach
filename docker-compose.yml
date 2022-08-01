@@ -243,7 +243,7 @@ services:
       - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public
       - REACT_APP_ENABLE_MULTITENANCY=true
       - REACT_APP_DISABLE_REGISTRATION=false
-      - REACT_APP_POSTHOG_API_KEY=phc_AxbDEBRhLAVa2WJamV7vJujy3FDbUzZOp0rm9TwAKZe
+      - REACT_APP_POSTHOG_API_KEY=POSTHOG_API_KEY
       - REACT_APP_POSTHOG_URL=https://app.posthog.com
     volumes:
       - type: bind
