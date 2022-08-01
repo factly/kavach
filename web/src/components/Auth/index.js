@@ -9,7 +9,7 @@ import kavach_logo from '../../assets/kavach_icon.png';
 import createForm from '../../utils/form';
 import MFA from './mfa';
 import passwordValidation from '../../utils/password-validation';
-
+import posthog from 'posthog-js'
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
@@ -87,6 +87,7 @@ function Auth(props) {
   }, [props.flow, afterRegistrationReturnToURL]);
 
   const withPassword = (values) => {
+    posthog.capture('Login Event', { 'email': values?.email })
     var authForm = createForm(ui.action, ui.method);
 
     var identifierInput = document.createElement('input');

@@ -4,9 +4,11 @@ import createForm from '../../utils/form';
 import GoogleIcon from '../../assets/btn_google_light_normal_ios.svg';
 import GithubIcon from '../../assets/GitHub-Mark-120px-plus.png';
 import { Divider } from 'antd';
+import posthog from 'posthog-js';
 
 function OIDC({ ui, flow = 'login' }) {
   const withOIDC = (values) => {
+    posthog.identify()
     var oidcForm = createForm(ui.action, ui.method);
 
     var csrfInput = document.createElement('input');
