@@ -18,7 +18,7 @@ func CheckKetoRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubje
 		return false, err
 	}
 
-	req, err := http.NewRequest("POST", viper.GetString("keto_read_api_url")+"/check", buf)
+	req, err := http.NewRequest("POST", viper.GetString("keto_read_api_url")+"/relation-tuples/check", buf)
 	if err != nil {
 		return false, err
 	}
@@ -49,7 +49,7 @@ func CheckKetoRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubj
 		return false, err
 	}
 
-	req, err := http.NewRequest("POST", viper.GetString("keto_read_api_url")+"/check", buf)
+	req, err := http.NewRequest("POST", viper.GetString("keto_read_api_url")+"/relation-tuples/check", buf)
 	if err != nil {
 		return false, err
 	}

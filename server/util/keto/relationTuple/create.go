@@ -19,7 +19,7 @@ func CreateRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubjectI
 		return err
 	}
 
-	req, err := http.NewRequest("PUT", viper.GetString("keto_write_api_url")+"/relation-tuples", buf)
+	req, err := http.NewRequest("PUT", viper.GetString("keto_write_api_url")+"/admin/relation-tuples", buf)
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func CreateRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubject
 		return err
 	}
 
-	req, err := http.NewRequest("PUT", viper.GetString("keto_write_api_url")+"/relation-tuples", buf)
+	req, err := http.NewRequest("PUT", viper.GetString("keto_write_api_url")+"/admin/relation-tuples", buf)
 	if err != nil {
 		return err
 	}

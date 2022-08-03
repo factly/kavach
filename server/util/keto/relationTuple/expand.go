@@ -21,7 +21,7 @@ func Expand(tuple *model.KetoSubjectSet) (map[string]interface{}, error) {
 	}
 
 	// adding the path for the URL
-	baseURL.Path += "expand"
+	baseURL.Path += "relation-tuples/expand"
 
 	// adding the query parameters for the request
 	params := url.Values{}

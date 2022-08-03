@@ -19,7 +19,7 @@ func DeleteRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubjectI
 	}
 
 	//adding the path
-	baseURL.Path += "relation-tuples"
+	baseURL.Path += "admin/relation-tuples"
 
 	// add Query Parameters
 	params := url.Values{}
@@ -70,7 +70,7 @@ func DeleteRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubject
 	}
 
 	//adding the path
-	baseURL.Path += "relation-tuples"
+	baseURL.Path += "admin/relation-tuples"
 
 	// add Query Parameters
 	params := url.Values{}
