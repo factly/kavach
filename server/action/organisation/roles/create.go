@@ -73,8 +73,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		Slug: organisationRole.Slug,
 	}).Count(&count).Error
-	fmt.Println("this is count", count)
-	fmt.Println("this is role", organisationRole)
+	
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
