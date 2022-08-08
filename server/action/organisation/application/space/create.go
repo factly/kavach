@@ -88,6 +88,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
+
 	space.CreatedByID = uint(uID)
 	space.ApplicationID = appID
 	space.OrganisationID = uint(oID)
@@ -146,5 +147,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit()
-	renderx.JSON(w, http.StatusCreated, nil)
+	renderx.JSON(w, http.StatusCreated, space)
 }
