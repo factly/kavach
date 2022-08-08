@@ -68,7 +68,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	uintAppID := uint(appID)
 	model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
-		ApplicationID: &uintAppID,
+		ApplicationID: uintAppID,
 	}).Count(&result.Total).Find(&result.Nodes)
 
 	renderx.JSON(w, http.StatusOK, result)

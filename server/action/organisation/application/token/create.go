@@ -133,7 +133,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		Name:          appTok.Name,
 		Description:   appTok.Description,
 		Token:         token,
-		ApplicationID: &result.ID,
+		ApplicationID: result.ID,
 	}).Error
 	if err != nil {
 		loggerx.Error(err)

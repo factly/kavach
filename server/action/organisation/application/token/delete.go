@@ -73,7 +73,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Check if application token record exists
 	err = model.DB.Where(&model.ApplicationToken{
-		ApplicationID: &uintAppID,
+		ApplicationID: uintAppID,
 	}).First(&result).Error
 	if err != nil {
 		loggerx.Error(err)
