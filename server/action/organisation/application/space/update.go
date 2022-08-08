@@ -3,7 +3,6 @@ package space
 import (
 	"encoding/json"
 	"errors"
-
 	"net/http"
 	"strconv"
 
@@ -118,20 +117,28 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"analytics":          space.Analytics,
 	}
 	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
-	if *space.LogoID == 0 {
-		updateMap["logo_id"] = nil
+	if space.LogoID != nil {
+		if *space.LogoID == 0 {
+			updateMap["logo_id"] = nil
+		}
 	}
 
-	if *space.LogoMobileID == 0 {
-		updateMap["logo_mobile_id"] = nil
+	if space.FavIcon != nil {
+		if *space.FavIconID == 0 {
+			updateMap["fav_icon_id"] = nil
+		}
 	}
 
-	if *space.FavIconID == 0 {
-		updateMap["fav_icon_id"] = nil
+	if space.LogoMobileID != nil {
+		if *space.LogoMobileID == 0 {
+			updateMap["logo_mobile_id"] = nil
+		}
 	}
 
-	if *space.MobileIconID == 0 {
-		updateMap["mobile_icon_id"] = nil
+	if space.MobileIconID != nil {
+		if *space.MobileIconID == 0 {
+			updateMap["mobile_icon_id"] = nil
+		}
 	}
 
 	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
@@ -142,5 +149,5 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit()
-	renderx.JSON(w, http.StatusOK, nil)
+	renderx.JSON(w, http.StatusOK, updateMap)
 }
