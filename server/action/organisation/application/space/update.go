@@ -3,6 +3,7 @@ package space
 import (
 	"encoding/json"
 	"errors"
+
 	"net/http"
 	"strconv"
 
@@ -44,7 +45,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	spaceID := chi.URLParam(r, "space_id")
+	sID, err := strconv.Atoi(spaceID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
 	space := &model.Space{}
+	space.ID = uint(sID)
 	err = json.NewDecoder(r.Body).Decode(space)
 	if err != nil {
 		loggerx.Error(err)
@@ -82,9 +91,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if count != 1 {
+	if count > 1 {
 		tx.Rollback()
-		loggerx.Error(errors.New("record not found"))
+		loggerx.Error(errors.New("space already exists"))
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
@@ -132,6 +141,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	tx.Commit();
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }
