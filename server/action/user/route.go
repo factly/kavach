@@ -10,6 +10,7 @@ func Router() chi.Router {
 
 	r.Post("/checker", checker)
 	r.Get("/application", list)
+	r.Get("/space/{space_id}/getOrganisation", getOrganisation)
 
 	return r
 }

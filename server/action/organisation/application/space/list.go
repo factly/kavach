@@ -81,13 +81,13 @@ func list(w http.ResponseWriter, r *http.Request) {
 	for _, object := range objects {
 		if object[:3] == "org" {
 			splittedObject := strings.Split(object, ":")
-			ketoappID, err := strconv.Atoi(splittedObject[len(splittedObject)-3])
+			ketoOrgID, err := strconv.Atoi(splittedObject[len(splittedObject)-5])
 			if err != nil {
 				loggerx.Error(err)
 				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 				return
 			}
-			if ketoappID == appID {
+			if ketoOrgID == orgID {
 				spaceID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
 				if err != nil {
 					loggerx.Error(err)
