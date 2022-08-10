@@ -1,10 +1,13 @@
 package space
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -31,6 +34,22 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	applicationID := chi.URLParam(r, "application_id")
+	appID, err := strconv.Atoi(applicationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	spaceID := chi.URLParam(r, "space_id")
 	sID, err := strconv.Atoi(spaceID)
 	if err != nil {
@@ -38,31 +57,34 @@ func details(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-	// check if the user is part of space or not
-	space := &model.Space{}
+
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, sID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", uID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	space := model.Space{}
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{
 			ID: uint(sID),
 		},
-	}).Preload("Users").Preload("Logo").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").Preload("Tokens").
-		Find(&space).Error
-
+	}).Preload("Users").Preload("Logo").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").Preload("Tokens").Find(&space).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-
-	flag := false
-	for _, user := range space.Users {
-		if user.ID == uint(uID) {
-			flag = true
-			break
-		}
-	}
-
-	if !flag {
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 

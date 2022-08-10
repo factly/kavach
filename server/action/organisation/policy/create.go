@@ -9,7 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -109,38 +109,42 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	// ----------- Creating policy on the keto server ---------------
-	result := model.Policy{}
-	commonPolicyString := fmt.Sprint(":org:", orgID, ":")
-	result.ID = "id" + commonPolicyString + reqBody.Name
-	result.Description = reqBody.Description
-
-	for _, value := range reqBody.Roles {
-		roleName, err := util.GetOrganisationRoleByID(value)
+	// ----------- Creating relation ruple for policies on the keto server ---------------
+	for _, role := range reqBody.Roles {
+		roleName, err := util.GetOrganisationRoleByID(role)
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 			return
 		}
-		result.Subjects = append(result.Subjects, "roles:org:"+fmt.Sprint(orgID)+":"+*roleName)
-	}
 
-	for _, permission := range permissions {
-		result.Resources = append(result.Resources, "resources"+commonPolicyString+permission.Resource)
-		for _, action := range permission.Actions {
-			result.Actions = append(result.Actions, "actions"+commonPolicyString+action)
+		for _, permission := range permissions {
+			for _, action := range permission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:%s", orgID, permission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org:%d", orgID),
+						Relation:  *roleName,
+					},
+				}
+
+				err = keto.CreateRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
 		}
 	}
 
-	result.Effect = "allow"
-	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", &result)
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
-	}
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, policy)
 }

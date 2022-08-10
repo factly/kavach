@@ -8,6 +8,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
+const namespace string = "spaces"
+const appNamespace string = "applications"
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()

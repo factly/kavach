@@ -1,11 +1,13 @@
 package application
 
 import (
-	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -39,10 +41,34 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user is part of application or not
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
+
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", uID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	app := &model.Application{}
-	err = tx.Model(&model.Application{}).Where(&model.Application{
+	err = model.DB.Model(&model.Application{}).Where(&model.Application{
 		Base: model.Base{
 			ID: uint(appID),
 		},
@@ -50,22 +76,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		loggerx.Error(err)
-		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-
-	flag := false
-	for _, user := range app.Users {
-		if user.ID == uint(uID) {
-			flag = true
-			break
-		}
-	}
-
-	if !flag {
-		tx.Rollback()
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 

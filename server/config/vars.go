@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+
 	"github.com/spf13/viper"
 )
 
@@ -69,6 +70,14 @@ func SetupVars() {
 		log.Fatal("please provide super_user_email in config")
 	}
 
+	if !viper.IsSet("keto_write_api_url") {
+		log.Fatal("please provide keto_write_api_url in config")
+	}
+
+	if !viper.IsSet("keto_read_api_url") {
+		log.Fatal("please provide keto_read_api_url in config")
+	}
+	
 	if Sqlite() {
 		if !viper.IsSet("sqlite_db_path") {
 			log.Fatal("please provide sqlite_db_path config param")

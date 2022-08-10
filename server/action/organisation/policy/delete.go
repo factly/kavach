@@ -1,13 +1,14 @@
 package policy
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -58,30 +59,65 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// getting policy name from policyID
-	policyName, err := util.GetOrganisationPolicyByID(uint(policyID))
+	policy := new(model.OrganisationPolicy)
+	err = model.DB.Where(&model.OrganisationPolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Roles").First(policy).Error
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	// ---------------- Delete policy from the keto server -----------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":") + *policyName
-	err = keto.DeletePolicy("/engines/acp/ory/regex/policies/" + id)
+	//------------- deleting from the kavachDB -------------
+	tx := model.DB.Begin()
+	err = model.DB.Delete(&model.OrganisationPolicy{}, policyID).Error
 	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	// ---------------- Delete policy from the keto server -----------------
+	var permissions []permission
+	err = json.Unmarshal(policy.Permissions.RawMessage, &permissions)
+	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	//------------- deleting from the kavachDB -------------
-	err = model.DB.Delete(&model.OrganisationPolicy{}, policyID).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
+	for _, role := range policy.Roles {
+		for _, permission := range permissions {
+			for _, action := range permission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:%s", orgID, permission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org%d", orgID),
+						Relation:  role.Name,
+					},
+				}
+
+				err = keto.DeleteRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
+		}
 	}
 	
+	tx.Commit()
 	// send JSON response
 	renderx.JSON(w, http.StatusOK, nil)
 

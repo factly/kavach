@@ -9,7 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -73,8 +73,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		Slug: organisationRole.Slug,
 	}).Count(&count).Error
-	fmt.Println("this is count", count)
-	fmt.Println("this is role", organisationRole)
+	
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -104,18 +103,25 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	// Creating role in keto
-	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":" + organisationRole.Name
-	reqRole.Description = organisationRole.Description
-	reqRole.Members = []string{fmt.Sprint(userID)}
 
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d", orgID),
+			Relation:  organisationRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, organisationRole)
 }

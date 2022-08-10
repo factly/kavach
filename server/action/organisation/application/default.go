@@ -2,12 +2,14 @@ package application
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -78,21 +80,49 @@ func defaults(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tx := model.DB.Begin()
 	user := model.User{}
 	user.ID = uint(uID)
-	model.DB.Model(&model.User{}).First(&user)
+	err = tx.Model(&model.User{}).First(&user).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 
 	for i := range applications {
 		applications[i].OrganisationID = uint(oID)
 		applications[i].Users = []model.User{user}
 	}
 
-	err = model.DB.Model(&model.Application{}).Create(&applications).Error
+	err = tx.Model(&model.Application{}).Create(&applications).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	// creating the application-role: owner, on the keto api
+	for _, app := range applications {
+		tuple := &model.KetoRelationTupleWithSubjectID{
+			KetoSubjectSet: model.KetoSubjectSet{
+				Namespace: namespace,
+				Object:    fmt.Sprintf("org:%d:app:%d", oID, app.ID),
+				Relation:  "owner",
+			},
+			SubjectID: fmt.Sprintf("%d", uID),
+		}
+	
+		err = keto.CreateRelationTupleWithSubjectID(tuple)
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+			return
+		}
+	}
+
+	tx.Commit()
 	renderx.JSON(w, http.StatusCreated, applications)
 }

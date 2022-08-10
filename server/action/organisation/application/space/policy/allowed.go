@@ -8,8 +8,8 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
+	"github.com/factly/kavach-server/util"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -36,7 +36,7 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get organisation ID path parameter
+	// Get organisation id from path
 	organisationID := chi.URLParam(r, "organisation_id")
 	orgID, err := strconv.Atoi(organisationID)
 	if err != nil {
@@ -45,16 +45,23 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get application id from path
-	applicationID := chi.URLParam(r, "application_id")
-	appID, err := strconv.Atoi(applicationID)
+	// Check if user is owner of organisation
+	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	// Get Application ID from the path
+	appID := chi.URLParam(r, "application_id")
+	applicationID, err := strconv.Atoi(appID)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
 
-	// Get space id from path
+	// Get Space ID from the path
 	sID := chi.URLParam(r, "space_id")
 	spaceID, err := strconv.Atoi(sID)
 	if err != nil {
@@ -63,11 +70,21 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, applicationID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -80,16 +97,16 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// -------------verifying whether a particular action is allowed on a resource or not ------------
-	policyObj := new(model.CheckKeto)
-	policyObj.Subject = fmt.Sprintf("roles:org:%d:app:%d:space:%d:%s", orgID, appID, spaceID, reqBody.Subject)
-	policyObj.Action = fmt.Sprintf("actions:org:%d:app:%d:space:%d:%s", orgID, appID, spaceID, reqBody.Action)
-	policyObj.Resource = fmt.Sprintf("resources:org:%d:app:%d:space:%d:%s", orgID, appID, spaceID, reqBody.Resource)
-
-	responseBody, err := keto.CheckKetoPermission(*policyObj)
+	// if the subject_type is id then it uses CheckKetoRelationTupleWithSubjectID function to validate the action
+	isAllowed, err := user.IsActionValid(namespace, fmt.Sprintf("resource:org:%d:app:%d:space:%d:%s", orgID, applicationID, spaceID,reqBody.Resource), reqBody.Subject, reqBody.Action, reqBody.SubjectType, fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, applicationID, spaceID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
+	}
+
+	responseBody := map[string]interface{}{
+		"allowed": isAllowed,
 	}
 
 	//render JSON

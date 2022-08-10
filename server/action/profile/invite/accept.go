@@ -8,7 +8,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -88,20 +88,24 @@ func accept(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 	}
 
-	if response.Role == "owner" {
-		/* creating policy for admins */
-		reqRole := &model.Role{}
-		reqRole.Members = []string{fmt.Sprint(userID)}
-
-		err = keto.UpdateRole("/engines/acp/ory/regex/roles/roles:org:"+fmt.Sprint(response.OrgID)+":admin/members", reqRole)
-
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
+	// creating a relation tuple for users which are owner in keto api
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: "organisations",
+			Object:    fmt.Sprintf("org:%d", response.OrgID),
+			Relation:  response.Role,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
 	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
 	// adding user to organisation
 	err = tx.Model(&model.OrganisationUser{}).Create(orgUser).Error
 	if err != nil {

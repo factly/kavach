@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
@@ -90,28 +90,31 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
-
-	tx := model.DB.Begin()
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d", orgID),
+			Relation:  result.Role, // relation is an empty string to avoid addition of the relation query parameter
+		},
+		SubjectID: fmt.Sprintf("%d", uID),
+	}
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 
 	deletePermission := &model.OrganisationUser{}
 	deletePermission.ID = result.ID
 
 	/* DELETE */
-	tx.Delete(&deletePermission)
-
-	/* delete policy for admins */
-	if result.Role == "owner" {
-		err = keto.Delete("/engines/acp/ory/regex/roles/roles:org:" + fmt.Sprint(orgID) + ":admin/members/" + fmt.Sprint(result.UserID))
-
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-			return
-		}
+	err = model.DB.Delete(&deletePermission).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
 	}
-
-	tx.Commit()
 
 	renderx.JSON(w, http.StatusOK, nil)
 }

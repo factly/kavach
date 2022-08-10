@@ -4,7 +4,7 @@ import (
 	"github.com/factly/kavach-server/action/organisation/application/roles/user"
 	"github.com/go-chi/chi"
 )
-
+const namespace string = "applications"
 // Organisation Role Router
 func Router() chi.Router {
 	r := chi.NewRouter()

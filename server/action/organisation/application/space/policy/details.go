@@ -2,11 +2,12 @@ package policy
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/space"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -32,6 +33,24 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get organisation ID path parameter
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	// Get application ID path parameter
+	applicationID := chi.URLParam(r, "application_id")
+	appID, err := strconv.Atoi(applicationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+	
 	// Get space ID path parameter
 	sID := chi.URLParam(r, "space_id")
 	spaceID, err := strconv.Atoi(sID)
@@ -50,10 +69,20 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user is part of application or not
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of space"))
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}

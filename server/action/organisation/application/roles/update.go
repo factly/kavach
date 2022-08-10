@@ -3,12 +3,13 @@ package roles
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -71,10 +72,19 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check whether user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
+	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -96,9 +106,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	updateMap := map[string]interface{}{
-		"name": appRole.Name,
+		"name":        appRole.Name,
 		"description": appRole.Description,
-	} 
+	}
 	//update the application role
 	err = model.DB.Model(&model.ApplicationRole{}).Where("application_id = ? AND id = ?", appID, roleIDInt).Updates(updateMap).Error
 	if err != nil {

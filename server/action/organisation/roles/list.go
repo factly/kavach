@@ -1,10 +1,13 @@
 package roles
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -42,15 +45,19 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	// initiating a transaction
 	tx := model.DB.Begin()
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = tx.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(userID),
-	}).First(permission).Error
+	// VERIFY WHETHER THE USER IS PART OF ORGANISATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		"organisations",
+		fmt.Sprintf("org:%d", orgID),
+		fmt.Sprintf("%d", userID),
+	)
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the organisation"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}

@@ -19,7 +19,8 @@ type application struct {
 }
 
 var userContext model.ContextKey = "application_user"
-
+const namespace string = "applications"
+const orgNamespace string ="organisations"
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()

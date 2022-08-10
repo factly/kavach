@@ -3,12 +3,14 @@ package user
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/space"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -46,6 +48,15 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Get application id from path
+	applicationID := chi.URLParam(r, "application_id")
+	appID, err := strconv.Atoi(applicationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	sID := chi.URLParam(r, "space_id")
 	spaceID, err := strconv.Atoi(sID)
 	if err != nil {
@@ -71,14 +82,23 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user if part of application or not
-	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
 	// decoding the requestBody
 	userReqModel := &requestModel{}
 	err = json.NewDecoder(r.Body).Decode(&userReqModel)
@@ -97,15 +117,17 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// getting the application role
+	tx := model.DB.Begin()
+	// getting the space role
 	spaceRole := new(model.SpaceRole)
-	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+	err = tx.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
 		Base: model.Base{
 			ID: uint(roleID),
 		},
 		SpaceID: uint(spaceID),
 	}).Preload("Users").Find(spaceRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -114,11 +136,30 @@ func create(w http.ResponseWriter, r *http.Request) {
 	users := make([]model.User, 0)
 	users = append(spaceRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	spaceRole.Users = users
-	if err = model.DB.Model(&spaceRole).Association("Users").Replace(&users); err != nil {
+	if err = tx.Model(&spaceRole).Association("Users").Replace(&users); err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, appID, spaceID),
+			Relation:  spaceRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userReqModel.UserID),
+	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

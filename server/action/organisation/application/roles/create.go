@@ -9,8 +9,8 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -55,6 +55,30 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if user is owner of organisation
+	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+	
+	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	// Bind application role
 	appRole := &model.ApplicationRole{}
 	if err := json.NewDecoder(r.Body).Decode(&appRole); err != nil {
@@ -86,21 +110,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is owner of organisation
-	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
-	// check if the user if part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
 	// Create application role
 	appRole.ApplicationID = uint(appID)
 	appRole.CreatedByID = uint(userID)
@@ -109,25 +118,32 @@ func create(w http.ResponseWriter, r *http.Request) {
 			ID: uint(userID),
 		},
 	})
-
-	err = model.DB.Model(&model.ApplicationRole{}).Create(appRole).Error
+	tx := model.DB.Begin()
+	err = tx.Model(&model.ApplicationRole{}).Create(appRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	// Creating role in keto
-	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(appID) + ":" + appRole.Name
-	reqRole.Description = appRole.Description
-	reqRole.Members = []string{fmt.Sprint(userID)}
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Relation:  appRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
 
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

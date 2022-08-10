@@ -8,8 +8,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -53,11 +52,20 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -69,19 +77,17 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	// -------------verifying whether a particular action is allowed on a resource or not ------------
-	policyObj := new(model.CheckKeto)
-	policyObj.Subject = fmt.Sprintf("roles:org:%d:app:%d:%s", orgID, appID, reqBody.Subject)
-	policyObj.Action = fmt.Sprintf("actions:org:%d:app:%d:%s", orgID, appID, reqBody.Action)
-	policyObj.Resource = fmt.Sprintf("resources:org:%d:app:%d:%s", orgID, appID, reqBody.Resource)
-
-	responseBody, err := keto.CheckKetoPermission(*policyObj)
+	// if the subject_type is id then it uses CheckKetoRelationTupleWithSubjectID function to validate the action
+	isAllowed, err := user.IsActionValid(namespace, fmt.Sprintf("resource:org:%d:app:%d:%s", orgID, appID, reqBody.Resource), reqBody.Subject, reqBody.Action, reqBody.SubjectType, fmt.Sprintf("roles:org:%d:app:%d", orgID, appID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
+	responseBody := map[string]interface{}{
+		"allowed": isAllowed,
+	}
 	//render JSON
 	renderx.JSON(w, http.StatusOK, responseBody)
 }

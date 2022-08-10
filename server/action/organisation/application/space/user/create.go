@@ -3,11 +3,14 @@ package user
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -48,6 +51,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	applicationID := chi.URLParam(r, "application_id")
+	appID, err := strconv.Atoi(applicationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	sID := chi.URLParam(r, "space_id")
 	spaceID, err := strconv.Atoi(sID)
 	if err != nil {
@@ -58,6 +69,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	// VERIFY WHETHER THE USER IS PART OF space OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID)
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		objectID,
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the space"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -76,7 +105,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, validationError)
 		return
 	}
-	// check if the user is part of space or not
+
 	tx := model.DB.Begin()
 	space := &model.Space{}
 	err = tx.Model(&model.Space{}).Where(&model.Space{
@@ -91,19 +120,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	flag := false
-	for _, user := range space.Users {
-		if user.ID == uint(userID) {
-			flag = true
-			break
-		}
-	}
-
-	if !flag {
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
 	users := make([]model.User, 0)
 	// append user to space_user association
 	users = append(space.Users, model.User{Base: model.Base{ID: uint(spaceUser.UserID)}})
@@ -112,6 +128,32 @@ func create(w http.ResponseWriter, r *http.Request) {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	orgRole, err := util.GetKavachRoleByID(uint(userID), uint(orgID))
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID),
+			Relation:  orgRole,
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
 

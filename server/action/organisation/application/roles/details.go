@@ -1,11 +1,13 @@
 package roles
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/application"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -57,25 +59,19 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// initiating a transaction
-	tx := model.DB.Begin()
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = tx.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(userID),
-	}).First(permission).Error
+	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
-
-	// Check if user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		tx.Rollback()
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -90,11 +86,9 @@ func details(w http.ResponseWriter, r *http.Request) {
 	}).First(role).Preload("Application").Preload("Users").Error
 
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, role)
 }

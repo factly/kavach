@@ -1,10 +1,14 @@
 package user
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -45,31 +49,52 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(userID),
-	}).First(permission).Error
-
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
 	if err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
-	result := &model.Application{}
-	result.ID = uint(appID)
-
-	err = model.DB.Model(&model.Application{}).Where(&model.Application{
-		OrganisationID: uint(orgID),
-	}).Preload("Users").First(&result).Error
-
+	
+	userIDs, err := keto.ListSubjectsByObjectID(namespace, "", fmt.Sprintf("org:%d:app:%d", orgID, appID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
-	renderx.JSON(w, http.StatusOK, result)
+	users := []model.User{}
+	for _, userID := range userIDs {
+		uID, err := strconv.Atoi(userID)
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+
+		var userModel model.User
+		err = model.DB.Model(&model.User{}).Where(&model.User{
+			Base: model.Base{
+				ID: uint(uID),
+			},
+		}).Preload("Medium").First(&userModel).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+		users = append(users, userModel)
+	}
+
+	renderx.JSON(w, http.StatusOK, users)
 }

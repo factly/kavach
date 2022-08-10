@@ -1,6 +1,7 @@
 package policy
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -8,8 +9,8 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -58,40 +59,80 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
+	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
-	// getting policy name from policyID
-	policyName, err := util.GetApplicationPolicyByID(uint(policyID))
+	tx := model.DB.Begin()
+	policy := new(model.ApplicationPolicy)
+	err = tx.Where(&model.ApplicationPolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Roles").First(policy).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
+	//------------- deleting from the kavachDB -------------
 
-	// Deleting the application policy from the kavachDB
-	tx := model.DB.Begin()
-	err = model.DB.Delete(&model.ApplicationPolicy{}, policyID).Error
+	err = tx.Delete(&model.ApplicationPolicy{}, policyID).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	
+
 	// ---------------- Delete policy from the keto server -----------------
-	id := "id" + fmt.Sprint(":org:", orgID, ":app:", appID, ":") + *policyName // the empty string will be name
-	err = keto.DeletePolicy("/engines/acp/ory/regex/policies/" + id)
+	var permissions []permission
+	err = json.Unmarshal(policy.Permissions.RawMessage, &permissions)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
+	}
+
+	for _, role := range policy.Roles {
+		for _, permission := range permissions {
+			for _, action := range permission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:app:%d:%s", orgID, appID, permission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org%d:app:%d", orgID, appID),
+						Relation:  role.Name,
+					},
+				}
+
+				err = keto.DeleteRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
+		}
 	}
 
 	tx.Commit() // commiting the transaction

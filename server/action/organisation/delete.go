@@ -1,10 +1,12 @@
 package organisation
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -57,7 +59,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -72,6 +74,22 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// delete
 	tx.Delete(&organisation)
+	// Deleting the all the relation tuple related to "orgnanisation" object 
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: "organisations",
+			Object:    fmt.Sprintf("org:%d", orgID),
+			Relation:  "", // relation is an empty string to avoid addition of the relation query parameter
+		},
+		SubjectID: "",
+	}
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 
 	tx.Commit()
 

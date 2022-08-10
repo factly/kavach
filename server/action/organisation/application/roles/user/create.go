@@ -3,12 +3,14 @@ package user
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -71,14 +73,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check if the user if part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
-		loggerx.Error(errors.New("user is not part of application"))
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
 	// decoding the requestBody
 	userReqModel := &requestModel{}
 	err = json.NewDecoder(r.Body).Decode(&userReqModel)
@@ -98,14 +108,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// getting the application role
+	tx := model.DB.Begin()
 	appRole := new(model.ApplicationRole)
-	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
+	err = tx.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		Base: model.Base{
 			ID: uint(roleID),
 		},
 		ApplicationID: uint(appID),
 	}).Preload("Users").Find(appRole).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -115,10 +127,29 @@ func create(w http.ResponseWriter, r *http.Request) {
 	users = append(appRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	appRole.Users = users
 	if err = model.DB.Model(&appRole).Association("Users").Replace(&users); err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Relation:  appRole.Name,
+		},
+		SubjectID: fmt.Sprintf("%d", userReqModel.UserID),
+	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

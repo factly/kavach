@@ -13,6 +13,7 @@ type policyReq struct {
 	Roles       []uint         `json:"roles"`
 }
 
+const namespace string = "spaces"
 type permission struct {
 	Resource string   `json:"resource"`
 	Actions  []string `json:"actions"`

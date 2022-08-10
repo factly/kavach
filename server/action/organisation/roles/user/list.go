@@ -1,10 +1,14 @@
 package user
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -43,33 +47,64 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(orgID),
-		UserID:         uint(userID),
-	}).First(permission).Error
 
+	roleName, err := util.GetOrganisationRoleByID(uint(roleID))
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
 
-	// get role using role id
-	orgRole := new(model.OrganisationRole)
-	err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
-		Base: model.Base{
-			ID: uint(roleID),
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d", orgID),
+			Relation:  *roleName,
 		},
-		OrganisationID: uint(orgID),
-	}).Preload("Users").Find(orgRole).Error
+		SubjectID: fmt.Sprintf("%d", userID),
+	}
+
+	flag, err := keto.CheckKetoRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !flag {
+		loggerx.Error(errors.New("user trying to list is not part of organisation role"))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 
+	userIDs, err := keto.ListSubjectsByObjectID(namespace, *roleName, fmt.Sprintf("roles:org:%d", orgID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
+	users := []model.User{}
+	for _, userID := range userIDs {
+		uID, err := strconv.Atoi(userID)
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+
+		var userModel model.User
+		err = model.DB.Model(&model.User{}).Where(&model.User{
+			Base: model.Base{
+				ID: uint(uID),
+			},
+		}).Preload("Medium").First(&userModel).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+		users = append(users, userModel)
+	}
 	// send JSON response
-	renderx.JSON(w, http.StatusAccepted, orgRole.Users)
+	renderx.JSON(w, http.StatusAccepted, users)
 }

@@ -1,14 +1,15 @@
 package roles
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -69,9 +70,26 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// check whether user is part of application or not
-	flag := application.CheckAuthorisation(uint(appID), uint(userID))
-	if !flag {
+	// Check if user is owner of organisation
+	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, appID),
+		fmt.Sprintf("%d", userID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -79,7 +97,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	tx := model.DB.Begin()
 	// getting the application role name using roleID
 	roleMap := make(map[string]interface{})
-	err = tx.Model(&model.ApplicationRole{}).Where(&model.Space{
+	err = tx.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		Base: model.Base{
 			ID: uint(roleIDInt),
 		},
@@ -105,13 +123,20 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// delete the role from keto server
-	ketoRoleID := "roles:org:" + fmt.Sprint(orgID) + ":app:" + fmt.Sprint(appID) + ":" + roleMap["name"].(string)
-	err = keto.DeleteRole("/engines/acp/ory/regex/roles", ketoRoleID)
+	// Deleting the all the relation tuple related to "orgnanisation-role"
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Relation:  roleMap["name"].(string),
+		},
+		SubjectID: "",
+	}
+	err = keto.DeleteRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
 

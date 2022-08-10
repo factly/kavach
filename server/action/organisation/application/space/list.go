@@ -1,10 +1,15 @@
 package space
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/factly/kavach-server/model"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -24,13 +29,6 @@ import (
 // @Failure 400 {array} string
 // @Router /organisations/{organisation_id}/applications/{application_id}/spaces/ [get]
 func list(w http.ResponseWriter, r *http.Request) {
-	organisationID := chi.URLParam(r, "organisation_id")
-	oID, err := strconv.Atoi(organisationID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		loggerx.Error(err)
@@ -38,41 +36,76 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-	}).First(permission).Error
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
 
+	applicationID := chi.URLParam(r, "application_id")
+	appID, err := strconv.Atoi(applicationID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	objectID := fmt.Sprintf("org:%d:app:%d", orgID, appID)
+	isAuthorised, err := user.IsUserAuthorised(
+		appNamespace,
+		objectID,
+		fmt.Sprintf("%d", uID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	objects, err := keto.ListObjectsBySubjectID(namespace, "", fmt.Sprintf("%d", uID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	applicationID := chi.URLParam(r, "application_id")
-	aID, err := strconv.ParseUint(applicationID, 10, 32)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-	appID := uint(aID)
-	spaces := make([]model.Space, 0)
-	err = model.DB.Model(&model.Space{}).Where(&model.Space{
-		ApplicationID:  appID,
-		OrganisationID: uint(oID),
-	}).Preload("Application").Preload("Logo").Preload("FavIcon").Preload("Users").Find(&spaces).Error
-	filteredSpaces := make([]model.Space, 0)
-
-	for _, space := range spaces {
-		for _, user := range space.Users {
-			if user.ID == uint(uID) {
-				filteredSpaces = append(filteredSpaces, space)
-				break
+	spaceIDs := []int{}
+	for _, object := range objects {
+		if object[:3] == "org" {
+			splittedObject := strings.Split(object, ":")
+			spaceID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			if err != nil {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+				return
 			}
+			spaceIDs = append(spaceIDs, spaceID)
 		}
+	}
+
+	spaces := make([]model.Space, 0)
+	for _, spaceID := range spaceIDs {
+		space := &model.Space{}
+		err = model.DB.Model(&model.Space{}).Where(&model.Space{
+			Base: model.Base{
+				ID: uint(spaceID),
+			},
+		}).Preload("Users").Preload("Logo").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").Preload("Tokens").
+			Find(&space).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		spaces = append(spaces, *space)
 	}
 
 	if err != nil {
@@ -80,5 +113,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	renderx.JSON(w, http.StatusOK, filteredSpaces)
+	
+	renderx.JSON(w, http.StatusOK, spaces)
 }
