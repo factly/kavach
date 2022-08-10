@@ -109,7 +109,9 @@ function NewUser() {
   const [form] = Form.useForm();
   const { orgID } = useParams();
   const addNewUsers = (values) => {
-    dispatch(addUser(values, history)).then(() => history.push(`/organisation/${orgID}/settings/users`));
+    dispatch(addUser(values, history)).then(() =>
+      history.push(`/organisation/${orgID}/settings/users`),
+    );
   };
 
   const { role, loading } = useSelector((state) => {

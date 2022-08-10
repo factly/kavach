@@ -11,12 +11,13 @@ function EditApplication() {
   const history = useHistory();
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { application, loadingApp, role, loadingRole } = useSelector((state) => {
+  const { application, loadingApp, role, loadingRole, orgID } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
       loadingApps: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
+      orgID: state.organisations.selected,
     };
   });
 
@@ -45,8 +46,19 @@ function EditApplication() {
   };
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <h2> Edit Application </h2>
-      <ApplicationEditForm data={application} onCreate={onUpdate} />
+      {orgID == 1 ? (
+        <div>
+          <h2> Edit Application </h2>
+          <ApplicationEditForm data={application} onCreate={onUpdate} />
+        </div>
+      ) : (
+        <ErrorComponent
+        status="403"
+        title="Sorry you are not authorised to access this page"
+        link="/applications"
+        message="Goto Applications"
+      />
+      )}
     </Space>
   );
 }

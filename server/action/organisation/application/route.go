@@ -16,22 +16,27 @@ type application struct {
 	Description string `json:"description"`
 	MediumID    uint   `json:"medium_id"`
 	URL         string `json:"url" validate:"required"`
+	IsDefault   bool   `json:"is_default"`
 }
 
 var userContext model.ContextKey = "application_user"
+
 const namespace string = "applications"
-const orgNamespace string ="organisations"
+const orgNamespace string = "organisations"
+
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
 
 	r.Post("/", create)
 	r.Get("/", list)
-	r.Post("/default", defaults)
+	r.Get("/default", listDefault)
 	r.Get("/{application_slug}/access", access)
 	r.Route("/{application_id}", func(r chi.Router) {
 		r.Get("/", details)
 		r.Put("/", update)
+		r.Post("/default", addDefault)
+		r.Delete("/default", deleteDefault)
 		r.Delete("/", delete)
 		r.Mount("/tokens", token.Router())
 		r.Mount("/users", user.Router())

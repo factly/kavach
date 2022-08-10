@@ -12,12 +12,14 @@ type OrganisationRole struct {
 
 type ApplicationRole struct {
 	Base
-	Name          string       `gorm:"column:name" json:"name"`
-	Description   string       `gorm:"column:description" json:"description"`
-	Slug          string       `gorm:"column:slug" json:"slug"`
-	ApplicationID uint         `gorm:"column:application_id" json:"application_id"`
-	Application   *Application `gorm:"foreignKey:application_id" json:"application,omitempty"`
-	Users         []User       `gorm:"many2many:application_roles_users;" json:"users"`
+	Name           string        `gorm:"column:name" json:"name"`
+	Description    string        `gorm:"column:description" json:"description"`
+	Slug           string        `gorm:"column:slug" json:"slug"`
+	ApplicationID  uint          `gorm:"column:application_id" json:"application_id"`
+	Application    *Application  `gorm:"foreignKey:application_id" json:"application,omitempty"`
+	OrganisationID uint          `gorm:"column:organisation_id" json:"organisation_id"`
+	Organisation   *Organisation `gorm:"foreignKey:organisation_id" json:"organisation"`
+	Users          []User        `gorm:"many2many:application_roles_users;" json:"users"`
 }
 
 type SpaceRole struct {

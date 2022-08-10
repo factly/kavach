@@ -38,7 +38,9 @@ const CreateOrganisationRoleForm = () => {
   }, [dispatch, orgID]);
 
   const onCreate = (values) => {
-    dispatch(createOrganisationRole(values)).then(() => history.push(`/organisation/${orgID}/settings/roles`));
+    dispatch(createOrganisationRole(values)).then(() =>
+      history.push(`/organisation/${orgID}/settings/roles`),
+    );
   };
 
   return (

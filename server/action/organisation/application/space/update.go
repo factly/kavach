@@ -133,5 +133,5 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit();
-	renderx.JSON(w, http.StatusOK, nil)
+	renderx.JSON(w, http.StatusOK, updateMap)
 }

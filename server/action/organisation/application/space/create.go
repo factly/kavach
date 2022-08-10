@@ -146,5 +146,5 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit()
-	renderx.JSON(w, http.StatusCreated, nil)
+	renderx.JSON(w, http.StatusCreated, space)
 }

@@ -53,6 +53,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = util.CheckOwner(uint(uID), uint(oID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	app := application{}
 	err = json.NewDecoder(r.Body).Decode(&app)
 	if err != nil {
@@ -81,14 +88,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
-
-	err = util.CheckOwner(uint(uID), uint(oID))
-
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 

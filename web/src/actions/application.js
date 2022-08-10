@@ -7,8 +7,10 @@ import {
   RESET_APPLICATIONS,
   APPLICATIONS_API,
   ADD_SPACE_IDS,
+  SET_DEFAULT_APPLICATION_LOADING,
+  GET_DEFAULT_APPLICATIONS,
 } from '../constants/application';
-import { ADD_APPLICATION_IDS } from '../constants/organisations';
+import { ADD_APPLICATION_IDS, ORGANISATIONS_API } from '../constants/organisations';
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
@@ -33,39 +35,67 @@ export const getApplications = () => {
   };
 };
 
-export const addDefaultApplications = () => {
+export const addDefaultApplication = (appID) => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
-      .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/default')
-      .then((response) => {
-        dispatch(
-          addMediaList(
-            response.data
-              .filter((application) => application.medium)
-              .map((application) => application.medium),
-          ),
-        );
-        dispatch(
-          addApplicationList(
-            response.data.map((application) => {
-              return { ...application, medium: application.medium?.id };
-            }),
-          ),
-        );
-        dispatch(
-          addApplicationsRequest({
-            data: response.data.map((item) => item.id),
-            total: response.data.total,
-          }),
-        );
-        dispatch(addSuccessNotification('Factly Applications Added'));
+      .post(
+        ORGANISATIONS_API +
+          '/' +
+          getState().organisations.selected +
+          '/applications/' +
+          appID +
+          '/default',
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('Application Added Successfully'));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopApplicationLoading());
+      });
+  };
+};
+
+export const removeDefaultApplication = (appID) => {
+  return (dispatch, getState) => {
+    dispatch(loadingApplications());
+    return axios
+      .delete(
+        ORGANISATIONS_API +
+          '/' +
+          getState().organisations.selected +
+          '/applications/' +
+          appID +
+          '/default',
+      )
+      .then(() => {
+        dispatch(addSuccessNotification('Application removed succesfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopApplicationLoading());
+      });
+  };
+};
+
+export const getDefaultApplications = () => {
+  return (dispatch, getState) => {
+    dispatch(setDefaultApplicationsLoading());
+    return axios
+      .get(ORGANISATIONS_API + '/' + getState().organisations.selected + '/applications/default')
+      .then((response) => {
+        dispatch(addDefaultApplicationsList(response.data));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopDefaultApplicationLoading());
       });
   };
 };
@@ -94,10 +124,11 @@ export const getApplication = (id) => {
 };
 
 export const createApplication = (data) => {
+  data.is_default = false;
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
-      .post(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications', data)
+      .post(ORGANISATIONS_API + '/' + getState().organisations.selected + '/applications', data)
       .then(() => {
         dispatch(resetApplications());
         dispatch(addSuccessNotification('Application Added'));
@@ -113,7 +144,7 @@ export const updateApplication = (data) => {
     dispatch(loadingApplications());
     return axios
       .put(
-        APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + data.id,
+        ORGANISATIONS_API + '/' + getState().organisations.selected + '/applications/' + data.id,
         data,
       )
       .then(() => {
@@ -132,7 +163,7 @@ export const deleteApplication = (id) => {
   return (dispatch, getState) => {
     dispatch(loadingApplications());
     return axios
-      .delete(APPLICATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
+      .delete(ORGANISATIONS_API + '/' + getState().organisations.selected + '/applications/' + id)
       .then(() => {
         dispatch(resetApplications());
         dispatch(addSuccessNotification('Application Deleted'));
@@ -224,4 +255,19 @@ export const addSpaceIDs = (appID, data) => ({
     appID: appID,
     data: data,
   },
+});
+
+export const setDefaultApplicationsLoading = () => ({
+  type: SET_DEFAULT_APPLICATION_LOADING,
+  payload: true,
+});
+
+export const stopDefaultApplicationLoading = () => ({
+  type: SET_DEFAULT_APPLICATION_LOADING,
+  payload: false,
+});
+
+export const addDefaultApplicationsList = (data) => ({
+  type: GET_DEFAULT_APPLICATIONS,
+  payload: data,
 });

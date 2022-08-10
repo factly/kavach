@@ -110,7 +110,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"description": appRole.Description,
 	}
 	//update the application role
-	err = model.DB.Model(&model.ApplicationRole{}).Where("application_id = ? AND id = ?", appID, roleIDInt).Updates(updateMap).Error
+	err = model.DB.Model(&model.ApplicationRole{}).Where("application_id = ? AND id = ? AND organisation_id = ?", appID, roleIDInt, orgID).Updates(updateMap).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

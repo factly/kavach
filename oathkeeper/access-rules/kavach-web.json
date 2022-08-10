@@ -32,7 +32,7 @@
       "url": "http://kavach-web:3000"
     },
     "match": {
-      "url": "http://127.0.0.1:4455/.factly/kavach/web<(/(organisation|organisation(/(\\d+/settings(/(tokens|roles|roles(/(\\d+/users|create))|policies|users))))|settings|password|profile|profile/invite|users|users(/new)|applications(/(create|\\d+/edit|\\d+/detail|\\d+/settings|\\d+/settings(/(users|tokens|tokens/create|roles|roles/create|policies|policies/create|spaces|spaces(/(create|\\d+/settings|\\d+/settings(/(tokens|roles|policies|users))))))))?))?/?>",
+      "url": "http://127.0.0.1:4455/.factly/kavach/web<(/(organisation|organisation(/(\\d+/settings(/(tokens|roles|roles(/(\\d+/users|create))|policies|users))))|settings|password|profile|profile/invite|users|users(/new)|applications(/(create|type|\\d+/edit|\\d+/detail|\\d+/settings|\\d+/settings(/(users|tokens|tokens/create|roles|roles/create|policies|policies/create|spaces|spaces(/(create|\\d+/settings|\\d+/settings(/(tokens|roles|policies|users))))))))?))?/?>",
       "methods": [
         "GET"
       ]

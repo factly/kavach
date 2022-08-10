@@ -22,7 +22,7 @@ export default function Spaces() {
   }, [appID, dispatch]);
 
   return (
-    <Space direction="vertical">      
+    <Space direction="vertical">
       <Link key="1" to={`/applications/${appID}/settings`}>
         <Button type="primary"> Goto Settings </Button>
       </Link>

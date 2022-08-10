@@ -61,7 +61,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	
+
 	// VERIFY WHETHER THE USER IS PART OF APPLICATION OR NOT
 	isAuthorised, err := user.IsUserAuthorised(
 		namespace,
@@ -111,6 +111,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Create application role
+	appRole.OrganisationID = uint(orgID)
 	appRole.ApplicationID = uint(appID)
 	appRole.CreatedByID = uint(userID)
 	appRole.Users = append(appRole.Users, model.User{

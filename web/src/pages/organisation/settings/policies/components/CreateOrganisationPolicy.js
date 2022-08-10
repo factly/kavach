@@ -47,7 +47,9 @@ export default function CreateOrganisationPolicyForm() {
   };
 
   const onCreate = (values) => {
-    dispatch(createOrganisationPolicy(values)).then(() => history.push(`/organisation/${orgID}/settings/policies`));
+    dispatch(createOrganisationPolicy(values)).then(() =>
+      history.push(`/organisation/${orgID}/settings/policies`),
+    );
   };
 
   React.useEffect(() => {

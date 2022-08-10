@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-func CheckKetoPermission(reqBody model.CheckKeto) (map[string]interface{} ,error){
+func CheckKetoPermission(reqBody model.CheckKeto) (map[string]interface{}, error) {
 	buf := new(bytes.Buffer)
 	err := json.NewEncoder(buf).Encode(&reqBody)
 	if err != nil {
@@ -29,7 +29,7 @@ func CheckKetoPermission(reqBody model.CheckKeto) (map[string]interface{} ,error
 	response := make(map[string]interface{})
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 	return response, nil
 }

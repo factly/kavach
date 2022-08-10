@@ -71,7 +71,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 	// ----------------listing organisation policies by ID from the kavachDB-------------
 	policies := make([]model.ApplicationPolicy, 0)
 	err = model.DB.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationPolicy{
-		ApplicationID: uint(appID),
+		ApplicationID:  uint(appID),
+		OrganisationID: uint(orgID),
 	}).Preload("Application").Preload("Roles").Find(&policies).Error
 	if err != nil {
 		loggerx.Error(err)

@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.css';
 import { Link } from 'react-router-dom';
-import { Input, Form, Button, Card, Row, Col, Alert } from 'antd';
+import { Input, Form, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';

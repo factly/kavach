@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 
 	"github.com/factly/kavach-server/model"
@@ -22,7 +23,6 @@ func CheckKetoRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubje
 	if err != nil {
 		return false, err
 	}
-
 	client := &http.Client{}
 	response, err := client.Do(req)
 	if err != nil {
@@ -36,7 +36,7 @@ func CheckKetoRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubje
 	}
 
 	if !(response.StatusCode == 200 || response.StatusCode == 403) {
-		loggerx.Error(errors.New(responseBody["message"].(string)))
+		log.Println("this is response body", responseBody)
 		return false, errors.New("error in checking the authorization the relation tuple")
 	}
 	return responseBody["allowed"].(bool), nil

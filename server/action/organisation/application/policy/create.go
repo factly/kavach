@@ -110,6 +110,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	policy.Description = reqBody.Description
 	policy.ApplicationID = uint(appID)
 	policy.Permissions = reqBody.Permissions
+	policy.OrganisationID = uint(orgID)
 	roles := make([]model.ApplicationRole, 0)
 	for _, each := range reqBody.Roles {
 		roles = append(roles, model.ApplicationRole{Base: model.Base{ID: each}})

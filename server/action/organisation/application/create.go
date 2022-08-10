@@ -82,15 +82,33 @@ func create(w http.ResponseWriter, r *http.Request) {
 		URL:            app.URL,
 		MediumID:       mediumID,
 		OrganisationID: uint(oID),
+		IsDefault:      false,
 	}
 
 	// Add current user in application_users
-	model.DB.Model(&model.User{}).Where(&model.User{
+	err = model.DB.Model(&model.User{}).Where(&model.User{
 		Base: model.Base{
 			ID: uint(uID),
 		},
-	}).Find(&result.Users)
+	}).Find(&result.Users).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	
+	// Add current organisation in application_organisations
+	err = model.DB.Model(&model.Organisation{}).Where(&model.Organisation{
+		Base: model.Base{
+			ID: uint(oID),
+		},
+	}).Find(&result.Organisations).Error
 
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
 
 	err = tx.Preload("Users").Create(&result).Error

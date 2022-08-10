@@ -1,10 +1,13 @@
 package token
 
 import (
+	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -13,7 +16,7 @@ import (
 
 type paging struct {
 	Nodes []applicationToken `json:"nodes"`
-	Total int64                    `json:"total"`
+	Total int64              `json:"total"`
 }
 
 // list - List application tokens
@@ -51,14 +54,19 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is part of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-	}).First(permission).Error
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", oID, appID),
+		fmt.Sprintf("%d", uID),
+	)
 	if err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	if !isAuthorised {
+		loggerx.Error(errors.New("user is not part of the application"))
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
@@ -68,7 +76,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	uintAppID := uint(appID)
 	model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
-		ApplicationID: uintAppID,
+		ApplicationID:  uintAppID,
+		OrganisationID: uint(oID),
 	}).Count(&result.Total).Find(&result.Nodes)
 
 	renderx.JSON(w, http.StatusOK, result)

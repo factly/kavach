@@ -74,6 +74,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		ApplicationID: uint(appID),
+		OrganisationID: uint(orgID),
 	}).Preload("Application").Preload("Users").Find(&roles).Error
 	if err != nil {
 		loggerx.Error(err)

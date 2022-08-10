@@ -37,7 +37,9 @@ const CreateApplicationRoleForm = () => {
   }, [dispatch, id]);
 
   const onCreate = (values) => {
-    dispatch(createApplicationRole(id, values)).then(() => history.push(`/applications/${id}/settings/roles/`));
+    dispatch(createApplicationRole(id, values)).then(() =>
+      history.push(`/applications/${id}/settings/roles/`),
+    );
   };
 
   return (

@@ -81,13 +81,21 @@ func list(w http.ResponseWriter, r *http.Request) {
 	for _, object := range objects {
 		if object[:3] == "org" {
 			splittedObject := strings.Split(object, ":")
-			spaceID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			ketoappID, err := strconv.Atoi(splittedObject[len(splittedObject)-3])
 			if err != nil {
 				loggerx.Error(err)
 				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 				return
 			}
-			spaceIDs = append(spaceIDs, spaceID)
+			if ketoappID == appID {
+				spaceID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+				if err != nil {
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+					return
+				}
+				spaceIDs = append(spaceIDs, spaceID)
+			}
 		}
 	}
 
@@ -113,6 +121,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	
+
 	renderx.JSON(w, http.StatusOK, spaces)
 }

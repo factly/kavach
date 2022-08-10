@@ -80,6 +80,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 	role := &model.ApplicationRole{}
 	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		ApplicationID: uint(appID),
+		OrganisationID: uint(orgID),
 		Base: model.Base{
 			ID: uint(roleIDInt),
 		},

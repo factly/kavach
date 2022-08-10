@@ -11,6 +11,7 @@ import spaces from './space';
 import tokens from './token';
 import roles from './roles';
 import policy from './policy';
+import defaultapplications from './defaultApplication';
 export default combineReducers({
   settings,
   organisations,
@@ -24,4 +25,5 @@ export default combineReducers({
   tokens,
   roles,
   policy,
+  defaultapplications,
 });

@@ -9,21 +9,13 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
-	"github.com/factly/x/requestx"
 	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
-	"github.com/spf13/viper"
 )
-
-type kratosIdentity struct {
-	ID     string `json:"id,omitempty"`
-	Traits struct {
-		Email string `json:"email,omitempty"`
-	} `json:"traits,omitempty"`
-}
 
 // create - Create application token by id
 // @Summary Show a application token by id
@@ -77,12 +69,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Preload("User").Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
+	err = util.CheckOwner(uint(uID), uint(oID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
@@ -92,48 +79,48 @@ func create(w http.ResponseWriter, r *http.Request) {
 	result := model.Application{}
 	result.ID = uint(appID)
 
-	// Check if application record exists
-	err = model.DB.Where(&model.Application{
-		OrganisationID: uint(oID),
-	}).First(&result).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d:app:%d", oID, appID),
+			Relation:  "owner",
+		},
+		SubjectID: fmt.Sprintf("%d", uID),
 	}
 
-	// Get user identity id from kratos
-	res, err := requestx.Request("GET", viper.GetString("kratos_admin_url")+"/identities", nil, nil)
+	isAllowed, err := keto.CheckKetoRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
 
-	var identities []kratosIdentity
-
-	if err = json.NewDecoder(res.Body).Decode(&identities); err != nil {
+	if !isAllowed {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
-	userEmail := permission.User.Email
-	var identity string
-
-	for _, id := range identities {
-		if id.Traits.Email == userEmail {
-			identity = id.ID
-		}
+	user := model.User{}
+	err = model.DB.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(uID),
+		},
+	}).Find(&user).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
 	}
 
-	token := util.GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", identity))
+	token := util.GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", user.KID))
 
 	err = model.DB.Create(&model.ApplicationToken{
-		Name:          appTok.Name,
-		Description:   appTok.Description,
-		Token:         token,
-		ApplicationID: result.ID,
+		Name:           appTok.Name,
+		Description:    appTok.Description,
+		Token:          token,
+		ApplicationID:  result.ID,
+		OrganisationID: uint(oID),
 	}).Error
 	if err != nil {
 		loggerx.Error(err)
@@ -142,9 +129,9 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := map[string]interface{}{
-		"name": appTok.Name,
+		"name":        appTok.Name,
 		"description": appTok.Description,
-		"token": token,
+		"token":       token,
 	}
 
 	renderx.JSON(w, http.StatusCreated, response)

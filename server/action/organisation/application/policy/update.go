@@ -82,6 +82,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.ApplicationID = uint(appID)
 	policy.Permissions = reqBody.Permissions
 	policy.Slug = reqBody.Slug
+	policy.OrganisationID = uint(orgID)
 	roles := make([]model.ApplicationRole, 0)
 	for _, each := range reqBody.Roles {
 		roles = append(roles, model.ApplicationRole{Base: model.Base{ID: each}})

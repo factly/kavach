@@ -9,7 +9,7 @@ type createAppToken struct {
 	Name        string `json:"name,omitempty" validate:"required"`
 	Description string `json:"description,omitempty"`
 }
-
+const namespace string = "applications"
 type applicationToken struct {
 	model.Base
 	Name          string             `gorm:"column:name" json:"name"`

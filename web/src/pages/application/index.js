@@ -16,13 +16,14 @@ function Application() {
     dispatch(getApplications());
   };
 
-  const { applicationData, loadingApps, role, loadingRole } = useSelector((state) => {
+  const { applicationData, loadingApps, role, loadingRole, orgID } = useSelector((state) => {
     const applicationIds = state.organisations.details[state.organisations.selected]?.applications;
     return {
       applicationData: applicationIds.map((id) => state.applications.details[id]),
       loadingApps: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
+      orgID: state.organisations.selected
     };
   });
 
@@ -34,22 +35,15 @@ function Application() {
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         {loadingRole ? (
           <Skeleton />
-        ) : role === 'owner' ? (
+        ) : role === 'owner' && orgID!==1 ? (
           loadingApps ? (
             <Skeleton />
-          ) : applicationData.length === 0 ? (
-            <div>
-              <Button onClick={addDefaultApps}>Add Factly Applications</Button>
-              <Link key="1" to="/applications/create">
-                <Button type="primary">New Application</Button>
-              </Link>
-            </div>
-          ) : (
-            <Link key="1" to="/applications/create">
+          ) : 
+            <Link key="1" to="/applications/type">
               <Button type="primary">New Application</Button>
             </Link>
           )
-        ) : null}
+         : null}
       </div>
       {loadingApps ? (
         <Skeleton />
