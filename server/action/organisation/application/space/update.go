@@ -44,7 +44,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	spaceID := chi.URLParam(r, "space_id")
+	sID, err := strconv.Atoi(spaceID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
 	space := &model.Space{}
+	space.ID = uint(sID)
 	err = json.NewDecoder(r.Body).Decode(space)
 	if err != nil {
 		loggerx.Error(err)
@@ -82,9 +90,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if count != 1 {
+	if count > 1 {
 		tx.Rollback()
-		loggerx.Error(errors.New("record not found"))
+		loggerx.Error(errors.New("space already exists"))
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
@@ -109,20 +117,28 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"analytics":          space.Analytics,
 	}
 	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
-	if *space.LogoID == 0 {
-		updateMap["logo_id"] = nil
+	if space.LogoID != nil {
+		if *space.LogoID == 0 {
+			updateMap["logo_id"] = nil
+		}
 	}
 
-	if *space.LogoMobileID == 0 {
-		updateMap["logo_mobile_id"] = nil
+	if space.FavIcon != nil {
+		if *space.FavIconID == 0 {
+			updateMap["fav_icon_id"] = nil
+		}
 	}
 
-	if *space.FavIconID == 0 {
-		updateMap["fav_icon_id"] = nil
+	if space.LogoMobileID != nil {
+		if *space.LogoMobileID == 0 {
+			updateMap["logo_mobile_id"] = nil
+		}
 	}
 
-	if *space.MobileIconID == 0 {
-		updateMap["mobile_icon_id"] = nil
+	if space.MobileIconID != nil {
+		if *space.MobileIconID == 0 {
+			updateMap["mobile_icon_id"] = nil
+		}
 	}
 
 	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
@@ -132,6 +148,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	tx.Commit();
+	tx.Commit()
 	renderx.JSON(w, http.StatusOK, updateMap)
 }
