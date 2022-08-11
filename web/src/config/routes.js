@@ -59,7 +59,6 @@ import SpaceLogoForm from '../pages/application/settings/spaces/components/edits
 import SpaceMetadata from '../pages/application/settings/spaces/components/editspace/components/SpaceMetadata';
 import SpaceContact from '../pages/application/settings/spaces/components/editspace/components/SpaceContact';
 import EditSpaceRole from '../pages/application/settings/spaces/settings/roles/components/EditRole';
-import ApplicationList from '../pages/application/components/ApplicationList';
 import { ApplicationType } from '../pages/application/components/ApplicationType';
 
 export default [

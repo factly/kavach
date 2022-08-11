@@ -3,7 +3,7 @@ import ApplicationList from './components/ApplicationList';
 import { Button, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addDefaultApplications, getApplications } from '../../actions/application';
+import { getApplications } from '../../actions/application';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 function Application() {
   const dispatch = useDispatch();
@@ -27,9 +27,6 @@ function Application() {
     };
   });
 
-  const addDefaultApps = () => {
-    dispatch(addDefaultApplications()).then(() => window.location.reload());
-  };
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'end' }}>

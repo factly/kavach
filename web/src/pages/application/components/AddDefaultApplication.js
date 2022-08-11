@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Skeleton, Avatar, Switch, Row, Col, List } from 'antd';
+import { Card, Skeleton, Avatar, Switch, Row, List } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getDefaultApplications,
@@ -16,7 +16,7 @@ export const AddDefaultApplication = () => {
     dispatch(getApplications());
   };
 
-  var { defaultApplications, loading, defaultApplicationActivated, loadingApps, orgID } =
+  var { defaultApplications, loading, defaultApplicationActivated, loadingApps } =
     useSelector((state) => {
       const defaultApplications = state.defaultapplications.applications;
       const defaultApplicationIds = getIds(defaultApplications);
@@ -27,18 +27,19 @@ export const AddDefaultApplication = () => {
         if (applicationIds.includes(appID)) {
           return appID;
         }
+        return 
       });
       return {
         defaultApplications: defaultApplications,
         loading: state.defaultapplications.loading,
         defaultApplicationActivated: defaultApplicationActivatedIds,
         loadingApps: state.applications.loading,
-        orgID: state.organisations.selected,
       };
     });
 
   React.useEffect(() => {
     fetchDefaultApplication();
+    //eslint-disable-next-line
   }, []);
 
   function AppItem({ appID, name, description, checked }) {
