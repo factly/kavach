@@ -50,6 +50,7 @@ func checkSuperOrg() (bool, error) {
 }
 
 func createSuperOrganisationInKeto(orgID uint) error {
+	log.Println("started creating super organisation in KETO")
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: "superorganisation",
@@ -64,10 +65,12 @@ func createSuperOrganisationInKeto(orgID uint) error {
 		loggerx.Error(err)
 		return err
 	}
+	log.Println("super organisation in KETO created successfully")
 	return nil
 }
 
 func createUserInKratos() (map[string]interface{}, error) {
+	log.Println("started creating user in KRATOS")
 	req, err := http.NewRequest(http.MethodGet, viper.GetString("kratos_public_url")+"/self-service/registration/api", nil)
 	if err != nil {
 		loggerx.Error(err)
@@ -81,6 +84,7 @@ func createUserInKratos() (map[string]interface{}, error) {
 		loggerx.Error(err)
 		return nil, err
 	}
+
 	defer resp.Body.Close()
 	var body map[string]interface{}
 
@@ -90,6 +94,10 @@ func createUserInKratos() (map[string]interface{}, error) {
 		return nil, err
 	}
 	// var actionURL string
+	if resp.StatusCode >= 299 {
+		loggerx.Error(errors.New("internal server error on kratos server"))
+		return nil, err
+	}
 	ui, ok := body["ui"].(map[string]interface{})
 	if !ok {
 		err = errors.New("cannot create user in kratos")
@@ -125,10 +133,15 @@ func createUserInKratos() (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return respBody["session"].(map[string]interface{}), nil
+	session, ok := respBody["session"].(map[string]interface{})
+	if !ok {
+		return nil, errors.New("session doesn't exist in kratos response")
+	}
+	return session, nil
 }
 
 func createUserInKavach(payload map[string]interface{}) (*model.User, error) {
+	log.Println("started creating user in KAVACH DB")
 	extra := payload["extra"].(map[string]interface{}) // exists is true if extra is a map[string]interface{}
 	identity := extra["identity"].(map[string]interface{})
 	traits := identity["traits"].(map[string]interface{})
@@ -145,11 +158,12 @@ func createUserInKavach(payload map[string]interface{}) (*model.User, error) {
 		loggerx.Error(err)
 		return nil, err
 	}
+	log.Println("user successfully created in KAVACHDB")
 	return user, nil
 }
 
 func createSuperOrganisation(userID uint) (*model.Organisation, error) {
-	log.Println("started creating super organisation")
+	log.Println("started creating super organisation in KAVACHDB")
 	organisation := &model.Organisation{
 		Base: model.Base{
 			ID:          1,
