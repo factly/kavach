@@ -154,7 +154,7 @@ export const getApplicationUsers = (appID) => {
           '/users',
       )
       .then((res) => {
-        dispatch(addUserIds(getIds(res.data.users), appID));
+        dispatch(addUserIds(getIds(res.data), appID));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

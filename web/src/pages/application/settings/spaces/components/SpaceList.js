@@ -8,11 +8,11 @@ import { Link } from 'react-router-dom';
 function SpaceList({ appID, role }) {
   const dispatch = useDispatch();
   const { spaces, loading } = useSelector((state) => {
-    const spaceIDs = state.applications.details[appID]?.spaces || [];
+    const spaceIDs = state.applications.details?.[appID]?.spaces || [];
     return {
       spaces: spaceIDs.map((id) => ({
-        ...state.spaces.details[id],
-        users: state.spaces.details[id]?.users.map((userID) => state.users.details[userID]),
+        ...state.spaces.details?.[id],
+        users: (state.spaces.details?.[id]?.users?.length) ? state.spaces.details?.[id]?.users.map((userID) => state.users.details[userID]): [],
       })),
       loading: state.spaces.loading,
     };
@@ -65,7 +65,7 @@ function SpaceList({ appID, role }) {
       render: (_, record) => {
         return (
           <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            {record.users.map((user) => {
+            {record.users?.map((user) => {
               return (
                 <Tooltip title={user.email} placement="top" key={record.id}>
                   <Avatar

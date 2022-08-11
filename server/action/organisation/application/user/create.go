@@ -131,7 +131,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 			Object:    fmt.Sprintf("org:%d:app:%d", orgID, appID),
 			Relation:  user.Role,
 		},
-		SubjectID: fmt.Sprintf("%d", userID),
+		SubjectID: fmt.Sprintf("%d", appUsers.UserID),
 	}
 
 	err = keto.CreateRelationTupleWithSubjectID(tuple)

@@ -32,16 +32,16 @@ export default function ApplicationSettings() {
         <Space direction="vertical" style={{ width: '100%' }}>
           <Descriptions title={<h2> Manage Application </h2>} bordered={true}>
             <Descriptions.Item label="Name" span={descriptionSpan}>
-              {application?.name}
+              {application.name}
             </Descriptions.Item>
             <Descriptions.Item label="Description" span={descriptionSpan}>
-              {application?.description}
+              {application.description}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Spaces" span={descriptionSpan}>
-              {application?.spaces?.length}
+              {(application?.spaces?.length) ? application?.spaces?.length : 0}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
-              {application?.tokens?.length}
+              {application?.tokens?.length ? application?.tokens?.length : 0}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
               <a href={`https://${application?.url}`}>{application?.url}</a>

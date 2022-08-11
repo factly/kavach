@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/application"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -88,7 +89,13 @@ func details(w http.ResponseWriter, r *http.Request) {
 
 	result.Organisation = *organisation
 	result.Permission = permission
-	result.Applications = applications
-
+	result.AllApplications = applications
+	defaultApps, err := application.GetDefaultApplicationByOrgID(uint(userID), uint(id))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	result.AllApplications = append(result.AllApplications, defaultApps...)
 	renderx.JSON(w, http.StatusOK, result)
 }

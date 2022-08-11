@@ -70,12 +70,18 @@ export const getOrganisations = () => {
       .get(ORGANISATIONS_API + '/my')
       .then((response) => {
         let roleMap = {};
-        response.data.forEach((organisation) => {
-          roleMap[organisation.id] = organisation.permission.role;
+        response.data.forEach((org) => {
+          roleMap[org.organisation.id] = org.permission.role;
         });
+        if(response.data?.length > 0){
+          var orgList = response.data.map((org) => ({...org.organisation, applications: org.applications}))
+          dispatch(addOrganisationsList(orgList));
+          dispatch(addOrganisationIds(getIds(orgList)));
+        }
         dispatch(addMyOrganisationRole(roleMap));
-        dispatch(addOrganisationsList(response.data));
-        dispatch(addOrganisationIds(getIds(response.data)));
+        
+
+
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -189,14 +195,19 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
     organisation.roles = {};
     if (organisation && organisation.organisation_users) {
       organisation.organisation_users.map((item) => {
-        users.push(item.user);
-        if (item.user.id === id) {
-          organisation.role = item.role;
+        if(item?.user){
+          users.push(item.user);
+          if (item.user.id === id) {
+            organisation.role = item.role;
+          }
+          organisation.roles[item.user.id] = item.role;
+        }else{
+          organisation.roles[item.user_id] = item.role
         }
-        organisation.roles[item.user.id] = item.role;
         return null;
       });
     }
+    
     dispatch(addUsersList(users));
     organisation.users = getIds(users);
     organisation.applications = getIds(organisation.applications);

@@ -10,12 +10,13 @@ import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 function OrganisationDetails() {
   const dispatch = useDispatch();
   const descriptionSpan = 3;
-  const { organisation, loading, selected, orgCount } = useSelector((state) => {
+  const { organisation, loading, selected, orgCount, role } = useSelector((state) => {
     return {
       organisation: state.organisations.details[state.organisations.selected],
       loading: state.organisations.loading,
       selected: state.organisations.selected,
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
+      role: state.profile.roles[state.organisations.selected]
     };
   });
 
@@ -55,7 +56,7 @@ function OrganisationDetails() {
               {organisation?.description}
             </Descriptions.Item>
             <Descriptions.Item label="Permissions" span={descriptionSpan}>
-              {organisation?.permission?.role}
+              {role}
             </Descriptions.Item>
             <Descriptions.Item label="Number of applications" span={descriptionSpan}>
               {organisation?.applications?.length}

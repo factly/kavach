@@ -22,6 +22,11 @@ export default function UserList({ spaceID, role }) {
     dispatch(getSpaces(appID));
   };
 
+  React.useEffect(() => {
+    fetchSpaces()
+    //eslint-disable-next-line
+  },[])
+
   const onDelete = (id) => {
     dispatch(deleteSpaceUser(appID, spaceID, id)).then(() => fetchSpaces(appID));
   };

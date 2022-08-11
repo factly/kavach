@@ -14,6 +14,7 @@ import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/obje
 import { addUsersList } from './users';
 import { addMediaList } from './media';
 import { addSpaceIDs } from './application';
+import Spaces from '../pages/application/settings/spaces';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
@@ -128,8 +129,8 @@ export const getSpaceByID = (appID, spaceID) => {
         }/applications/${appID}${SPACES_API}/${spaceID}`,
       ) // eslint-disable-next-line
       .then((response) => {
-        deleteKeys([response], ['application']);
-        dispatch(addSpaces([response]));
+        deleteKeys([response.data], ['application']);
+        dispatch(addSpaces([response.data]));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -148,6 +149,7 @@ export const addSpaces = (data) => (dispatch) => {
   dispatch(addUsersList(users));
   data.forEach((space) => {
     space.users = getIds(space.users);
+    space.tokens = (space.tokens?.length) ? getIds(space.tokens): []
   });
   dispatch({
     type: ADD_SPACES,

@@ -11,13 +11,13 @@ import (
 )
 
 type orgWithRole struct {
-	model.Organisation
+	Organisation model.Organisation `json:"organisation"`
 	Permission   model.OrganisationUser `json:"permission"`
-	Applications []model.Application    `json:"applications,omitempty"`
+	AllApplications []model.Application    `json:"applications,omitempty"`
 }
 
 var userContext model.ContextKey = "organisation_user"
-
+const namespace string = "organisations"
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()

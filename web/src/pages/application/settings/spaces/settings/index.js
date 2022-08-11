@@ -35,10 +35,10 @@ export default function SpaceSettings() {
               {space?.description}
             </Descriptions.Item>
             <Descriptions.Item label="Number of users" span={descriptionSpan}>
-              {space?.users?.length}
+              {(space?.users?.length) ? space?.users?.length : 0}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
-              <a href={`https://${space?.site_address}`}>{space?.site_address}</a>
+              {space?.tokens?.length ? space.tokens.length : 0}
             </Descriptions.Item>
           </Descriptions>
           <Divider> Space Settings</Divider>

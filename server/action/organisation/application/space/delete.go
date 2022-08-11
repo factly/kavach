@@ -109,7 +109,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// Deleting the all the relation tuple related to "space" object
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: "organisations",
+			Namespace: namespace,
 			Object:    objectID,
 			Relation:  "", // relation is an empty string to avoid addition of the relation query parameter
 		},

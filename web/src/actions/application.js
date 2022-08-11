@@ -112,7 +112,11 @@ export const getApplication = (id) => {
         deleteKeys([response.data], ['medium']);
         dispatch(addUsersList(response.data.users));
         response.data.users = getIds(response.data.users);
-        addApplication(response.data);
+        response.data.spaces = getIds(response.data.spaces)
+        response.data.tokens = getIds(response.data.tokens)
+        const spaces = getValues([response.data], 'spaces');
+        // dispatch(addSpaces(spaces));
+        dispatch(addApplication(response.data));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));

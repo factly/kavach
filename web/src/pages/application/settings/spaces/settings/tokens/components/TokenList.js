@@ -22,7 +22,7 @@ export default function TokenList({ appID, spaceID, role }) {
 
   const { tokens, loading } = useSelector((state) => {
     var tokenIDs = [];
-    tokenIDs = state.spaces.details[appID]?.tokens || [];
+    tokenIDs = state.spaces.details[spaceID]?.tokens || [];
     return {
       tokens: tokenIDs.map((id) => state.tokens?.space[spaceID]?.[id]),
       loading: state.tokens.loading,
