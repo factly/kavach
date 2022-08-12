@@ -133,6 +133,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for _, user := range spaceRole.Users {
+		if user.ID == uint(userID) {
+			tx.Rollback()
+			loggerx.Error(errors.New("user already exists in the role"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+			return
+		}
+	}
 	users := make([]model.User, 0)
 	users = append(spaceRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	spaceRole.Users = users

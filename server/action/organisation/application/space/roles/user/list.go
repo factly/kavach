@@ -84,7 +84,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	roleName, err := util.GetSpacePolicyByID(uint(roleID))
+	roleName, err := util.GetSpaceRoleByID(uint(roleID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))

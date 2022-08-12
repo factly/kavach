@@ -2,13 +2,14 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton } from 'antd';
 import { createSpaceRole } from '../../../../../../../actions/roles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { getSpaceByID } from '../../../../../../../actions/space';
 import { checker, maker } from '../../../../../../../utils/sluger';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
 
 const CreateSpaceRoleForm = () => {
   const dispatch = useDispatch();
+  const history = useHistory()
   const { appID, spaceID } = useParams();
   const [form] = Form.useForm();
   const { TextArea } = Input;
@@ -37,7 +38,7 @@ const CreateSpaceRoleForm = () => {
   }, [dispatch, appID, spaceID]);
 
   const onCreate = (values) => {
-    dispatch(createSpaceRole(appID, spaceID, values));
+    dispatch(createSpaceRole(appID, spaceID, values)).then(history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/roles/`));
   };
 
   return (
