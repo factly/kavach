@@ -59,24 +59,32 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	objects, err := keto.ListObjectsBySubjectID("applications", "", fmt.Sprintf("%d", uID))
+	objects, err := keto.ListObjectsBySubjectID(namespace, "", fmt.Sprintf("%d", uID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-
+	fmt.Println("this is objects", objects)
 	appIDs := []int{}
 	for _, object := range objects {
 		if object[:3] == "org" {
 			splittedObject := strings.Split(object, ":")
-			appID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			orgID, err := strconv.Atoi(splittedObject[len(splittedObject)-3])
 			if err != nil {
 				loggerx.Error(err)
 				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 				return
 			}
-			appIDs = append(appIDs, appID)
+			if orgID == oID {
+				appID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+				if err != nil {
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+					return
+				}
+				appIDs = append(appIDs, appID)
+			}
 		}
 	}
 	applications := make([]model.Application, 0)
