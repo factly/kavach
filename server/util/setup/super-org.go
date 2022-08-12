@@ -166,7 +166,6 @@ func createSuperOrganisation(userID uint) (*model.Organisation, error) {
 	log.Println("started creating super organisation in KAVACHDB")
 	organisation := &model.Organisation{
 		Base: model.Base{
-			ID:          1,
 			CreatedByID: userID,
 		},
 		Title: viper.GetString("default_organisation_name"),
