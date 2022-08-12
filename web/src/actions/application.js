@@ -14,6 +14,8 @@ import { ADD_APPLICATION_IDS, ORGANISATIONS_API } from '../constants/organisatio
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
+import { addApplicationPolicy } from './policy';
+import { addApplicationRoles } from './roles';
 import { addSpaces } from './space';
 import { addApplicationTokens } from './token';
 import { addUsersList } from './users';
@@ -109,13 +111,19 @@ export const getApplication = (id) => {
         if (response.data.medium_id) {
           dispatch(addMedia(response.data.medium));
         }
+        dispatch(addApplicationRoles(id, buildObjectOfItems(response.data?.roles || [])))
+        dispatch(addApplicationPolicy(id, buildObjectOfItems(response.data?.policies || [])))
+        response.data.roleIDs = getIds(response.data.roles)
+        response.data.policyIDs = getIds(response.data.policies)
+        delete response.data.roles
+        delete response.data.policies
         deleteKeys([response.data], ['medium']);
         dispatch(addUsersList(response.data.users));
         response.data.users = getIds(response.data.users);
-        response.data.spaces = getIds(response.data.spaces)
         response.data.tokens = getIds(response.data.tokens)
         const spaces = getValues([response.data], 'spaces');
-        // dispatch(addSpaces(spaces));
+        dispatch(addSpaces(spaces));
+        response.data.spaces = getIds(response.data.spaces)
         dispatch(addApplication(response.data));
       })
       .catch((error) => {
@@ -221,6 +229,12 @@ export const addApplicationList = (data) => (dispatch) => {
   dispatch(addSpaces(spaces));
 
   data.forEach((application) => {
+    // dispatch(addApplicationRoles(id, buildObjectOfItems(response.data?.roles || [])))
+    // dispatch(addApplicationPolicy(id, buildObjectOfItems(response.data?.policies || [])))
+    // response.data.roleIDs = getIds(response.data.roles)
+    // response.data.policyIDs = getIds(response.data.policies)
+    // delete response.data.roles
+    // delete response.data.policies
     application.spaces = getIds(application.spaces);
     application.users = getIds(application.users);
     dispatch(addApplicationTokens(application.id, application.tokens));

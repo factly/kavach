@@ -11,15 +11,16 @@ function SpaceRoleList({ appID, spaceID, role }) {
     var roleIDs = [];
     roleIDs = state.spaces.details[spaceID]?.roleIDs || [];
     return {
-      roles: roleIDs.map((id) => ({
+      roles: roleIDs.map((id) => {
+        // console.log(...state.roles.space[spaceID][id])
+        return ({
         ...state.roles.space[spaceID][id],
         users:
-          state.roles.space[spaceID][id]?.users.map((userID) => state.users.details[userID]) || [],
-      })),
+          state.roles.space[spaceID][id]?.users?.map((userID) => state.users.details[userID]) || [],
+      })}),
       loading: state.roles.loading,
     };
   });
-
   const columns = [
     {
       title: 'Name',

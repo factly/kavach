@@ -81,12 +81,29 @@ func details(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(sID),
 		},
-	}).Preload("Users").Preload("Logo").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").Preload("Tokens").Preload("Roles").Find(&space).Error
+	}).Preload("Users").Preload("Logo").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").Preload("Tokens").Find(&space).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
+	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+		SpaceID: uint(sID),
+	}).Find(&space.Roles).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = model.DB.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
+		SpaceID: uint(sID),
+	}).Find(&space.Policy).Preload("Roles").Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	renderx.JSON(w, http.StatusOK, space)
 }

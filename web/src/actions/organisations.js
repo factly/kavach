@@ -99,32 +99,38 @@ export const getOrganisation = (id) => {
     return axios
       .get(ORGANISATIONS_API + '/' + id)
       .then((response) => {
-        if (response.featured_medium_id) {
-          addMedia(response.data.medium);
+        if (response.data.organisation?.featured_medium_id) {
+          addMedia(response.data.organisation.medium);
         }
-        if (response.data.roles?.length) {
-          response.data.roles.forEach((role) => {
+        if (response.data.organisation.roles?.length) {
+          response.data.organisation.roles.forEach((role) => {
             dispatch(addUsersList(role.users));
             role.users = getIds(role.users);
           });
+          dispatch(addOrganisationRoles(id, buildObjectOfItems(response.data.organisation.roles)));
+          response.data.organisation.roleIDs = getIds(response.data.organisation.roles);
+          delete response.data.organisation.roles
         }
-        dispatch(addOrganisationRoles(id, buildObjectOfItems(response.data.roles)));
-        response.data.roleIDs = getIds(response.data.roles);
-        dispatch(addOrganisationPolicy(id, response.data.policies));
-        response.data.policyIDs = getIds(response.data.policies);
-        delete response.data.policies;
+        
+        if (response.data.organisation.policies?.length) {
+          dispatch(addOrganisationPolicy(id, response.data.organisation.policies));
+          response.data.policyIDs = getIds(response.data.organisation.policies);
+          delete response.data.organisation.policies;
+        }
+        
         let users = [];
-        response.data.roles = {};
-        response.data.organisation_users.map((item) => {
+        response.data.organisation.roles = {};
+        response.data.organisation.organisation_users.map((item) => {
           users.push(item.user);
-          response.data.roles[item.user.id] = item.role;
+          response.data.organisation.roles[item.user.id] = item.role;
           return null;
         });
-        response.data.role = response.data.permission.role;
-        deleteKeys([response.data], ['permission', 'organisation_users', 'medium']);
-        response.data.applications = getIds(response.data.applications);
-        response.data.users = getIds(users);
-        dispatch(addOrganisationByID(response.data));
+        response.data.organisation.role = response.data.permission.role;
+        deleteKeys([response.data.organisation], ['organisation_users', 'medium']);
+        response.data.applications = getIds(response.data.organisation.applications);
+        response.data.organisation.users = getIds(users);
+        dispatch(addUsersList(users))
+        dispatch(addOrganisationByID(response.data.organisation));
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -141,8 +147,8 @@ export const addOrganisation = (data) => {
     return axios
       .post(ORGANISATIONS_API, data)
       .then((response) => {
-        dispatch(addOrganisationByID(response.data));
-        dispatch(setSelectedOrganisation(response.data.id));
+        dispatch(addOrganisationByID(response.data.organisation));
+        dispatch(setSelectedOrganisation(response.data.organisation.id));
         dispatch(addSuccessNotification('Organisation added'));
       })
       .catch((error) => {

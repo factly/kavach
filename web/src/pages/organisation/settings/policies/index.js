@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getOrganisation } from '../../../../actions/organisations';
 import PolicyList from './components/PolicyList';
+import { getOrganisationRoles } from '../../../../actions/roles';
+import { getOrganisationPolicy } from '../../../../actions/policy';
 
 export default function OrganisationPolicies() {
   const { orgID } = useParams();
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getOrganisation(orgID));
+    dispatch(getOrganisationRoles())
+    dispatch(getOrganisationPolicy())
   }, [orgID, dispatch]);
 
   const { organisation, loadingOrg, role, loading } = useSelector((state) => {

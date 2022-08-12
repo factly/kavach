@@ -16,7 +16,7 @@ import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
 import { ADD_ORGANISATION_POLICY_IDS, ORGANISATIONS_API } from '../constants/organisations';
 import { ADD_APPLICATION_POLICY_IDS } from '../constants/application';
 import { ADD_SPACE_POLICY_IDS } from '../constants/space';
-import { addOrganisationRoles } from './roles';
+import { addApplicationRoleByID, addOrganisationRoles } from './roles';
 
 export const stopLoadingPolicy = () => ({
   type: POLICY_LOADING,
@@ -208,6 +208,7 @@ export const getApplicationPolicy = (appID) => {
       .then((res) => {
         deleteKeys(res.data, ['application']);
         res.data.forEach((policy) => {
+          dispatch(addApplicationRoleByID(appID))
           policy.roles = getIds(policy.roles);
         });
         dispatch(addApplicationPolicy(appID, buildObjectOfItems(res.data)));

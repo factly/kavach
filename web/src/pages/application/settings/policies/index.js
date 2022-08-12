@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getApplication } from '../../../../actions/application';
 import PolicyList from './components/PolicyList';
+import { getApplicationPolicy } from '../../../../actions/policy';
+import { getApplicationRoles } from '../../../../actions/roles';
 
 export default function ApplicationPolicies() {
   const { id } = useParams();
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getApplication(id));
+    dispatch(getApplicationRoles(id))
+    dispatch(getApplicationPolicy(id));
   }, [id, dispatch]);
 
   const { application, loadingApp, role, loading } = useSelector((state) => {

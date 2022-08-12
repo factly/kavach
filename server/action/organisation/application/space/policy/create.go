@@ -148,7 +148,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// ----------- Creating policy on the keto server ---------------
 	for _, role := range reqBody.Roles {
-		roleName, err := util.GetApplicationRoleByID(role)
+		roleName, err := util.GetSpaceRoleByID(role)
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)

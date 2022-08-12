@@ -11,10 +11,10 @@ function ApplicationRoleList({ appID, role }) {
     var roleIDs = [];
     roleIDs = state.applications.details[appID]?.roleIDs || [];
     return {
-      roles: roleIDs.map((id) => ({
+      roles: roleIDs?.map((id) => ({
         ...state.roles.application[appID][id],
         users:
-          state.roles.application[appID][id]?.users.map((userID) => state.users.details[userID]) ||
+          state.roles.application[appID][id]?.users?.map((userID) => state.users.details[userID]) ||
           [],
       })),
       loading: state.roles.loading,

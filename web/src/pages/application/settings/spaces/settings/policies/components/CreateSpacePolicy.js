@@ -138,7 +138,7 @@ export default function CreateSpacePolicyForm() {
                 optionLabelProp="label"
               >
                 {roles.map((role) => (
-                  <Select.Option value={role.id} key={role.id} label={role.name}>
+                  <Select.Option value={role?.id} key={role?.id} label={role?.name}>
                     {role.name}
                   </Select.Option>
                 ))}

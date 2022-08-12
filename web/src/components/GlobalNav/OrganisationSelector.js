@@ -6,6 +6,7 @@ import { setSelectedOrganisation } from './../../actions/organisations';
 function OrganisationSelector() {
   const { organisations, selectedOrg } = useSelector((state) => {
     const organisationIds = state.profile.details?.organisations || [];
+    // unique
     return {
       organisations: organisationIds?.map((id) => state.organisations.details[id]) || [],
       selectedOrg: state.organisations?.details[state.organisations?.selected]?.title,

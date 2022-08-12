@@ -72,7 +72,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(appID),
 		},
-	}).Preload("Users").Preload("Spaces").Preload("Tokens").Preload("Medium").Find(&app).Error
+	}).Preload("Users").Preload("Medium").Find(&app).Error
 
 	if err != nil {
 		loggerx.Error(err)
@@ -80,5 +80,44 @@ func details(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = model.DB.Model(&model.Space{}).Where(&model.Space{
+		ApplicationID:  uint(appID),
+		OrganisationID: uint(orgID),
+	}).Find(&app.Spaces).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
+		ApplicationID:  uint(appID),
+		OrganisationID: uint(orgID),
+	}).Find(&app.Tokens).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
+		ApplicationID:  uint(appID),
+		OrganisationID: uint(orgID),
+	}).Find(&app.Roles).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = model.DB.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationRole{
+		ApplicationID:  uint(appID),
+		OrganisationID: uint(orgID),
+	}).Find(&app.Policy).Preload("Roles").Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	renderx.JSON(w, http.StatusOK, app)
 }

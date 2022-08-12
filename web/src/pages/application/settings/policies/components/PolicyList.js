@@ -14,7 +14,7 @@ export default function PolicyList({ appID, role }) {
       policies: policyIDs.map((id) => ({
         ...state.policy.application[appID][id],
         roles:
-          state.policy.application[appID][id]?.roles.map((rId) => ({
+          state.policy.application[appID][id]?.roles?.map((rId) => ({
             ...state.roles.application[appID]?.[rId],
           })) || [],
       })),
@@ -23,11 +23,11 @@ export default function PolicyList({ appID, role }) {
   });
 
   const fetchPolicy = () => {
-    dispatch(getApplicationPolicy(appID));
+    // dispatch(getApplicationPolicy(appID));
   };
 
   const fetchRoles = () => {
-    dispatch(getApplicationRoles(appID));
+    // dispatch(getApplicationRoles(appID));
   };
 
   const onDelete = (id) => {
@@ -53,7 +53,7 @@ export default function PolicyList({ appID, role }) {
       key: 'roles',
       width: '30%',
       render: (_, record) => {
-        return record.roles.map((role) => {
+        return record.roles?.map((role) => {
           return (
             <Tag key={role.id} color="blue">
               {role.name}

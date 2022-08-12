@@ -9,20 +9,21 @@ import (
 // Application model defination
 type Application struct {
 	Base
-	Name           string             `gorm:"column:name" json:"name"`
-	Slug           string             `gorm:"column:slug" json:"slug"`
-	Description    string             `gorm:"column:description" json:"description"`
-	URL            string             `gorm:"column:url" json:"url"`
-	MediumID       *uint              `gorm:"column:medium_id;default:NULL" json:"medium_id"`
-	Medium         *Medium            `gorm:"foreignKey:medium_id" json:"medium"`
-	OrganisationID uint               `gorm:"column:organisation_id" json:"organisation_id"`
-	Organisation   *Organisation      `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
-	IsDefault      bool               `gorm:"column:is_default" json:"is_default,omitempty"`
-	Organisations  []Organisation     `gorm:"many2many:application_organisations" json:"organisations,omitempty"`
-	Spaces         []*Space           `gorm:"foreignKey:application_id" json:"spaces,omitempty"`
-	Users          []User             `gorm:"many2many:application_users;" json:"users"`
-	Tokens         []ApplicationToken `json:"tokens"`
-	Roles          []ApplicationRole  `gorm:"foreignKey:application_id" json:"application_role"`
+	Name           string              `gorm:"column:name" json:"name"`
+	Slug           string              `gorm:"column:slug" json:"slug"`
+	Description    string              `gorm:"column:description" json:"description"`
+	URL            string              `gorm:"column:url" json:"url"`
+	MediumID       *uint               `gorm:"column:medium_id;default:NULL" json:"medium_id"`
+	Medium         *Medium             `gorm:"foreignKey:medium_id" json:"medium"`
+	OrganisationID uint                `gorm:"column:organisation_id" json:"organisation_id"`
+	Organisation   *Organisation       `gorm:"foreignKey:organisation_id" json:"organisation,omitempty"`
+	IsDefault      bool                `gorm:"column:is_default" json:"is_default,omitempty"`
+	Organisations  []Organisation      `gorm:"many2many:application_organisations" json:"organisations,omitempty"`
+	Spaces         []*Space            `gorm:"foreignKey:application_id" json:"spaces,omitempty"`
+	Users          []User              `gorm:"many2many:application_users;" json:"users"`
+	Tokens         []ApplicationToken  `json:"tokens"`
+	Roles          []ApplicationRole   `gorm:"foreignKey:application_id" json:"roles"`
+	Policy         []ApplicationPolicy `json:"policies,omitempty"`
 }
 
 type ApplicationToken struct {

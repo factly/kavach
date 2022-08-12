@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import SpaceRoleList from './components/RoleList';
 import { getSpaceByID } from '../../../../../../actions/space';
+import { getSpaceRoles } from '../../../../../../actions/roles';
 
 export default function SpaceRoles() {
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(getSpaceByID(appID, spaceID));
+    dispatch(getSpaceRoles(appID, spaceID));
   }, [dispatch, appID, spaceID]);
 
   const { space, loadingSpace, role, loading } = useSelector((state) => {

@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import ApplicationRoleList from './components/RoleList';
 import { getApplication } from '../../../../actions/application';
+import { getApplicationRoles } from '../../../../actions/roles';
 
 function ApplicationRoles() {
   const { id } = useParams();
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getApplication(id));
+    dispatch(getApplicationRoles(id))
   }, [id, dispatch]);
 
   const { application, loadingApp, role, loading } = useSelector((state) => {

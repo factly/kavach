@@ -10,18 +10,19 @@ export default function PolicyList({ appID, spaceID, role }) {
   const dispatch = useDispatch();
   const { policies, loading } = useSelector((state) => {
     const policyIDs = state.spaces.details[spaceID]?.policyIDs || [];
+  
     return {
-      policies: policyIDs.map((id) => ({
-        ...state.policy.space[spaceID][id],
+      policies: policyIDs?.map((id) => {
+        return ({
+        ...state.policy.space?.[spaceID]?.[id],
         roles:
-          state.policy.space[spaceID][id]?.roles.map((rId) => ({
-            ...state.roles.space[spaceID]?.[rId],
+          state.policy.space[spaceID][id]?.roles?.map((rId) => ({
+            ...state.roles.space?.[spaceID]?.[rId],
           })) || [],
-      })),
+      })}),
       loading: state.policy.loading,
     };
   });
-
   const fetchPolicy = () => {
     dispatch(getSpacePolicy(appID, spaceID));
   };
@@ -55,10 +56,10 @@ export default function PolicyList({ appID, spaceID, role }) {
       key: 'roles',
       width: '30%',
       render: (_, record) => {
-        return record.roles.map((role) => {
+        return record.roles?.map((role) => {
           return (
             <Tag key={role.id} color="blue">
-              {role.name}
+              {role?.name}
             </Tag>
           );
         });

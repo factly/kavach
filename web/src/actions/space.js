@@ -14,7 +14,8 @@ import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/obje
 import { addUsersList } from './users';
 import { addMediaList } from './media';
 import { addSpaceIDs } from './application';
-import Spaces from '../pages/application/settings/spaces';
+import { addSpaceRoles } from './roles';
+import { addSpacePolicy } from './policy';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
@@ -51,7 +52,7 @@ export const getSpaces = (id) => {
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
       })
-      .finally(() => {
+      .then(() => {
         dispatch(stopLoadingSpaces());
       });
   };
@@ -130,6 +131,12 @@ export const getSpaceByID = (appID, spaceID) => {
       ) // eslint-disable-next-line
       .then((response) => {
         deleteKeys([response.data], ['application']);
+        dispatch(addSpaceRoles(spaceID, buildObjectOfItems(response.data.roles)))
+        dispatch(addSpacePolicy(spaceID, buildObjectOfItems(response.data.policies)))
+        response.data.roleIDs = getIds(response.data.roles)
+        response.data.policyIDs = getIds(response.data.policies)
+        delete response.data.roles
+        delete response.data.policies
         dispatch(addSpaces([response.data]));
       })
       .catch((error) => {

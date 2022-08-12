@@ -86,10 +86,29 @@ func list(w http.ResponseWriter, r *http.Request) {
 			Base: model.Base{
 				ID: uint(appID),
 			},
-		}).Preload("Users").Preload("Users.Medium").Preload("Medium").Preload("Tokens").Preload("Spaces").Preload("Spaces.Users").Find(&application).Error
+		}).Preload("Users").Preload("Users.Medium").Preload("Medium").Find(&application).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		err = model.DB.Model(&model.Space{}).Where(&model.Space{
+			ApplicationID:  uint(appID),
+			OrganisationID: uint(oID),
+		}).Preload("Users").Find(&application.Spaces).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+
+		err = model.DB.Model(&model.ApplicationToken{}).Where(&model.ApplicationToken{
+			ApplicationID:  uint(appID),
+			OrganisationID: uint(oID),
+		}).Find(&application.Tokens).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
 		applications = append(applications, *application)
