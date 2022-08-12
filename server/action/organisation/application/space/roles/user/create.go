@@ -134,7 +134,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, user := range spaceRole.Users {
-		if user.ID == uint(userID) {
+		if user.ID == uint(userReqModel.UserID) {
 			tx.Rollback()
 			loggerx.Error(errors.New("user already exists in the role"))
 			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))

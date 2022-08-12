@@ -111,7 +111,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	users := make([]model.User, 0)
-
+	for _, user := range app.Users {
+		if user.ID == uint(appUsers.UserID) {
+			tx.Rollback()
+			loggerx.Error(errors.New("user already exists in the application"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+			return
+		}
+	}
 	// append user to application_user association
 	users = append(app.Users, *user.User)
 	app.Users = users

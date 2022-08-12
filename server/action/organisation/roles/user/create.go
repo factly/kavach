@@ -98,6 +98,15 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	users := make([]model.User, 0)
+
+	for _, user := range orgRole.Users {
+		if user.ID == uint(userReqModel.UserID) {
+			tx.Rollback()
+			loggerx.Error(errors.New("user already exists in the organisation role"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+			return
+		}
+	}
 	users = append(orgRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
 	orgRole.Users = users
 	if err = tx.Model(&orgRole).Association("Users").Replace(&users); err != nil {

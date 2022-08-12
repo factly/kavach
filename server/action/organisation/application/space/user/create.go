@@ -119,8 +119,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-
 	users := make([]model.User, 0)
+	for _, user := range space.Users {
+		if user.ID == uint(spaceUser.UserID) {
+			tx.Rollback()
+			loggerx.Error(errors.New("user already exists in the space"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+			return
+		}
+	}
+
 	// append user to space_user association
 	users = append(space.Users, model.User{Base: model.Base{ID: uint(spaceUser.UserID)}})
 	space.Users = users
