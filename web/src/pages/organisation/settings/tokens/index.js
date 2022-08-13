@@ -22,7 +22,7 @@ export default function OrganisationTokens() {
       ) : (
         <Space direction="vertical">
           <Link key="1" to={`/organisation`}>
-            <Button type="primary"> Goto Settings </Button>
+            <Button type="primary"> Back to Settings </Button>
           </Link>
           <h2>Tokens in {organisation?.title}</h2>
           <Space direction="vertical">

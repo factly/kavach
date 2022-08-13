@@ -2,6 +2,7 @@ import React from 'react';
 import { Popconfirm, Button, Table } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrganisationTokens, deleteOrganisationToken } from '../../../../../actions/token';
+import { DeleteOutlined } from '@ant-design/icons';
 
 export default function TokenList({ orgID, role }) {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ export default function TokenList({ orgID, role }) {
       title: 'Action',
       dataIndex: 'operation',
       width: '35%',
+      align:'center',
       render: (_, record) => {
         return (
           <span>
@@ -52,7 +54,7 @@ export default function TokenList({ orgID, role }) {
               onConfirm={() => onDelete(record?.id)}
               key={record?.id}
             >
-              <Button type="danger" disabled={role !== 'owner'}>
+              <Button type="danger" disabled={role !== 'owner'} icon={<DeleteOutlined/>}>
                 Revoke
               </Button>
             </Popconfirm>

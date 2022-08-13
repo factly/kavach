@@ -24,9 +24,15 @@ export default function SpaceRoles() {
   });
 
   return (
-    <Space direction="vertical">
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
-        <Button type="primary"> Goto Settings </Button>
+        <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Roles in {space?.name}</h2>
       {loading && loadingSpace ? (
@@ -48,6 +54,6 @@ export default function SpaceRoles() {
           <SpaceRoleList appID={appID} role={role} spaceID={spaceID} />
         </Space>
       )}
-    </Space>
+    </div>
   );
 }

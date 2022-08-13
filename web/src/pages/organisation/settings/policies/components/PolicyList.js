@@ -2,21 +2,17 @@ import React from 'react';
 import { Table, Popconfirm, Button, Tag, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteOrganisationPolicy, getOrganisationPolicy } from '../../../../../actions/policy';
-import { getOrganisationRoles } from '../../../../../actions/roles';
 import { Link } from 'react-router-dom';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { MINIMUM_WIDTH_ACTION_BUTTONS } from '../../../../../constants/styles/width';
 
 export default function PolicyList({ orgID, role }) {
   const dispatch = useDispatch();
   const { policies, loading } = useSelector((state) => {
     var policyIDs = state.organisations.details[orgID]?.policyIDs || [];
     return {
-      policies: policyIDs.map((id) => ({
-        ...state.policy.organisation[orgID][id],
-        roles:
-          state.policy.organisation[orgID][id]?.roles.map((rId) => ({
-            ...state.roles.organisation[orgID]?.[rId],
-          })) || [],
+      policies: policyIDs?.map((id) => ({
+        ...state.policy.organisation?.[orgID]?.[id],
       })),
       loading: state.policy.loading,
     };
@@ -24,10 +20,6 @@ export default function PolicyList({ orgID, role }) {
 
   const fetchPolicy = () => {
     dispatch(getOrganisationPolicy());
-  };
-
-  const fetchRoles = () => {
-    dispatch(getOrganisationRoles());
   };
 
   const onDelete = (id) => {
@@ -45,48 +37,54 @@ export default function PolicyList({ orgID, role }) {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      width: '25%',
-    },
-    {
-      title: 'Roles',
-      dataIndex: 'roles',
-      key: 'roles',
-      width: '30%',
-      render: (_, record) => {
-        return record.roles.map((role) => {
-          return (
-            <Tag key={role.id} color="blue">
-              {role.name}
-            </Tag>
-          );
-        });
-      },
+      width: '40%',
     },
     {
       title: 'Action',
       dataIndex: 'operation',
-      width: '25%',
+      width: '40%',
+      align: 'center',
       render: (_, record) => {
         return (
-          <Space>
+          <Space key={`policy-${record.id}`}>
             <Link
               to={{
                 pathname: `/organisation/${orgID}/settings/policies/${record.id}/view`,
               }}
             >
-              <Button> View </Button>
+              <Button 
+                icon={<EyeOutlined />} 
+                style={{
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                }}
+              > 
+              View 
+              </Button>
             </Link>
             <Link
               to={{
                 pathname: `/organisation/${orgID}/settings/policies/${record.id}/edit`,
               }}
             >
-              <Button icon={<EditOutlined />} disabled={role !== 'owner'}>
+              <Button 
+                icon={<EditOutlined />} 
+                style={{
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                }}
+                disabled={role !== 'owner'}>
                 Edit
               </Button>
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-              <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} />
+              <Button 
+                type="danger" 
+                icon={<DeleteOutlined />} 
+                style={{
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                }}
+                disabled={role !== 'owner'}>
+                  Delete
+              </Button>
             </Popconfirm>
           </Space>
         );
@@ -96,7 +94,7 @@ export default function PolicyList({ orgID, role }) {
 
   React.useEffect(() => {
     fetchPolicy();
-    fetchRoles();
+    // fetchRoles();
     //eslint-disable-next-line
   }, [dispatch, orgID]);
 

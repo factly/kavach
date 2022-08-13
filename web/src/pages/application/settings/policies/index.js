@@ -28,7 +28,7 @@ export default function ApplicationPolicies() {
   return (
     <Space direction="vertical">
       <Link key="1" to={`/applications/${id}/settings`}>
-        <Button type="primary"> Goto Settings </Button>
+        <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Policies in {application.name}</h2>
       {loading && loadingApp ? (

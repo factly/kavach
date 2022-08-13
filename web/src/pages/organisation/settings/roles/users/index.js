@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space, Form, Button, Select, Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '../../../../../actions/users';
 import {
@@ -56,7 +56,16 @@ export default function OrganisationRoleUsers() {
     //eslint-disable-next-line
   }, [orgID, roleID, dispatch]);
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loading || loadingUserRole ? (
         <Skeleton />
       ) : userRole !== 'owner' ? (

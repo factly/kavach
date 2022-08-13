@@ -3,7 +3,7 @@ import { Descriptions, Tag, Table, Skeleton, Button } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import { getApplicationPolicyByID } from '../../../../../actions/policy';
 import { useSelector } from 'react-redux';
-import { BackwardOutlined } from '@ant-design/icons';
+
 export default function ViewApplicationPolicy() {
   const { policyID, appID } = useParams();
   const span = 2;
@@ -52,9 +52,15 @@ export default function ViewApplicationPolicy() {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
       <Link to={`/applications/${appID}/settings/policies`}>
-        <Button icon={<BackwardOutlined />} type="primary"></Button>
+        <Button type="primary">Back to Policies</Button>
       </Link>
       {loading ? (
         <Skeleton />

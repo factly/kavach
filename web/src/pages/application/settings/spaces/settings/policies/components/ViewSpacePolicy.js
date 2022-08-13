@@ -1,6 +1,6 @@
 import React from 'react';
-import { Descriptions, Tag, Table, Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Descriptions, Tag, Table, Skeleton, Button } from 'antd';
+import { Link, useParams } from 'react-router-dom';
 import { getSpacePolicyByID } from '../../../../../../../actions/policy';
 import { useSelector } from 'react-redux';
 
@@ -18,7 +18,7 @@ export default function ViewSpacePolicy() {
       dataIndex: 'action',
       key: 'action',
       render: (_, record) => {
-        return record.actions.map((action) => {
+        return record.actions?.map((action) => {
           return (
             <Tag key={action} color="blue">
               {action}
@@ -32,9 +32,9 @@ export default function ViewSpacePolicy() {
   const { policy, loading } = useSelector((state) => {
     return {
       policy: {
-        ...state.policy.space[spaceID][policyID],
+        ...state.policy.space?.[spaceID]?.[policyID],
         roles:
-          state.policy.space[spaceID][policyID]?.roles.map((rId) => ({
+          state.policy.space[spaceID][policyID]?.roles?.map((rId) => ({
             ...state.roles.space[spaceID]?.[rId],
           })) || [],
       },
@@ -52,7 +52,16 @@ export default function ViewSpacePolicy() {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loading ? (
         <Skeleton />
       ) : (

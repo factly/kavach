@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton, Modal } from 'antd';
 import { addSpaceToken } from '../../../../../../../actions/token';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getSpaceByID } from '../../../../../../../actions/space';
 import ClipBoardCopy from '../../../../../../../utils/clipboardClick';
@@ -49,7 +49,16 @@ const CreateSpaceTokenForm = () => {
   }, [dispatch, spaceID, appID]);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
+        <Button type="primary">Back to Tokens</Button>
+      </Link>
       {loadingRole || loadingSpace ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -59,7 +68,11 @@ const CreateSpaceTokenForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space Token - ${space?.name}`} style={{ width: '50%' }}>
+        <Card title={`Create Space Token - ${space?.name}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+            }}>
           <Form
             form={form}
             layout="vertical"
@@ -69,9 +82,6 @@ const CreateSpaceTokenForm = () => {
               onReset();
             }}
           >
-            {/* <Form.Item name="application_name" label="Application Name" initialValue={application.name}>
-            <Input disabled={true} />
-          </Form.Item> */}
             <h3> Space : {space?.name}</h3>
             <Form.Item
               name="name"

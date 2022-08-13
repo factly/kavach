@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSpaces, deleteSpace } from '../../../../../actions/space';
-import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
-import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
+import { Popconfirm, Button, Table, Space } from 'antd';
+import { DeleteOutlined, SettingOutlined, EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 function SpaceList({ appID, role }) {
@@ -12,7 +12,6 @@ function SpaceList({ appID, role }) {
     return {
       spaces: spaceIDs.map((id) => ({
         ...state.spaces.details?.[id],
-        users: (state.spaces.details?.[id]?.users?.length) ? state.spaces.details?.[id]?.users.map((userID) => state.users.details[userID]): [],
       })),
       loading: state.spaces.loading,
     };
@@ -36,7 +35,7 @@ function SpaceList({ appID, role }) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '16%',
+      width: '20%',
       render: (_, record) => {
         return (
           <div>
@@ -58,55 +57,27 @@ function SpaceList({ appID, role }) {
       },
     },
     {
-      title: 'Space users',
-      dataIndex: 'space_users',
-      key: 'space_users',
-      width: '24%',
-      render: (_, record) => {
-        return (
-          <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            {record.users?.map((user) => {
-              return (
-                <Tooltip title={user.email} placement="top" key={record.id}>
-                  <Avatar
-                    key={user.id}
-                    style={{
-                      backgroundColor:
-                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                    }}
-                  >
-                    {user.email.charAt(0)}
-                  </Avatar>
-                </Tooltip>
-              );
-            })}
-          </Avatar.Group>
-        );
-      },
-    },
-    {
-      title: 'Site Title',
-      dataIndex: 'site_title',
-      key: 'site_title',
-      width: '20%',
-    },
-    {
-      title: 'Tag line',
-      dataIndex: 'tag_line',
-      key: 'tag_line',
-      width: '20%',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+      width: '40%',
     },
     {
       title: 'Action',
       dataIndex: 'operation',
       fixed: 'right',
       align: 'center',
-      width: 150,
+      width: '40%',
       render: (_, record) => {
         return (
           <Space>
+            <Link to={`/applications/${appID}/settings/spaces/${record?.id}/edit`}>
+              <Button primary="true" icon={<EditOutlined />} style={{minWidth: '30%'}} disabled={role !== 'owner'}>
+                Edit
+              </Button>
+            </Link>
             <Link to={`/applications/${appID}/settings/spaces/${record.id}/settings`}>
-              <Button primary="true" icon={<SettingOutlined />}>
+              <Button primary="true" icon={<SettingOutlined />} style={{minWidth: '30%'}}>
                 Settings
               </Button>
             </Link>
@@ -115,7 +86,7 @@ function SpaceList({ appID, role }) {
               onConfirm={() => onDelete(appID, record?.id)}
               disabled={role !== 'owner'}
             >
-              <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'}>
+              <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} style={{minWidth: '30%'}}>
                 Delete
               </Button>
             </Popconfirm>

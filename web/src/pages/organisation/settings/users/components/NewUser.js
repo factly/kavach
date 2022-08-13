@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, Form, Input, Select, Button, Row, Col, Skeleton } from 'antd';
+import { Card, Form, Input, Select, Button, Row, Col, Skeleton, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../../../../../actions/users';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { CloseOutlined } from '@ant-design/icons';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 
@@ -121,7 +121,16 @@ function NewUser() {
     };
   });
   return (
-    <div className="content">
+    <div 
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+    }}
+      className="content">
+      <Link key="1" to={`/organisation/${orgID}/settings/users`}>
+        <Button type="primary">Back to Users List</Button>
+      </Link>
       {loading ? (
         <Skeleton />
       ) : role === 'owner' ? (

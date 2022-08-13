@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Form, Input, Card, Skeleton } from 'antd';
 import { maker } from '../../../../../utils/sluger';
 import SlugInput from '../../../../../components/FormItems/SlugInput';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { createSpace } from '../../../../../actions/space';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApplication } from '../../../../../actions/application';
@@ -39,7 +39,16 @@ export default function CreateSpace() {
   }, [dispatch, appID]);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces`}>
+        <Button type="primary">Back to Spaces</Button>
+      </Link>
       {loadingApp || loadingApp || loadingRole ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -49,7 +58,11 @@ export default function CreateSpace() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space in - ${application?.name}`} style={{ width: '50%' }}>
+        <Card title={`Create Space in - ${application?.name}`} 
+          style={{ 
+            width: '50%',
+            alignSelf: 'center'
+            }}>
           <Form
             name="space_create"
             layout="vertical"
@@ -72,17 +85,11 @@ export default function CreateSpace() {
                 { max: 50, message: 'Name must be maximum 50 characters.' },
               ]}
             >
-              <Input placeholder="Name" onChange={(e) => onNameChange(e.target.value)} />
+              <Input placeholder="enter a name for your space" onChange={(e) => onNameChange(e.target.value)} />
             </Form.Item>
             <SlugInput />
-            <Form.Item name="site_title" label="Site Title">
-              <Input placeholder="Site Title" />
-            </Form.Item>
-            <Form.Item name="site_addess" label="Website">
-              <Input placeholder="Site Address" />
-            </Form.Item>
-            <Form.Item name="tag_line" label="Tag Line">
-              <Input placeholder="Tag Line" />
+            <Form.Item name="description" label="Description">
+              <Input placeholder="enter a description for your space" />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>

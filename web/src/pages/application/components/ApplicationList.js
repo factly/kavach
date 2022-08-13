@@ -1,7 +1,7 @@
 import React from 'react';
 import { Popconfirm, Skeleton, Avatar, Card, Tooltip } from 'antd';
 import { ExportOutlined, EditOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
@@ -11,6 +11,13 @@ function ApplicationList({ applicationList, permission, loading }) {
   const fetchApplications = () => {
     dispatch(getApplications());
   };
+
+  const { orgID, loadingOrg } = useSelector((state) => {
+    return {
+      orgID: state.organisations.selected,
+      loadingOrg: state.organisations.loading
+    };
+  });
 
   const iconSize = '150%';
   const ApplicationCard = ({ application }) => {
@@ -48,7 +55,7 @@ function ApplicationList({ applicationList, permission, loading }) {
           >
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
-          permission ? (
+          permission && orgID === 1? (
             <Popconfirm
               title="Sure to Delete?"
               onConfirm={() =>
@@ -94,9 +101,12 @@ function ApplicationList({ applicationList, permission, loading }) {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
-      {applicationList.map((application, index) => (
+    {
+      loadingOrg ? <Skeleton/> :
+      applicationList.map((application, index) => (
         <ApplicationCard key={index} application={application}></ApplicationCard>
-      ))}
+      ))
+    }
     </div>
   );
 }

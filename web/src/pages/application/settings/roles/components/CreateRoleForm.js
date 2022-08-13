@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton } from 'antd';
 import { createApplicationRole } from '../../../../../actions/roles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getApplication } from '../../../../../actions/application';
 import { checker, maker } from '../../../../../utils/sluger';
@@ -43,7 +43,16 @@ const CreateApplicationRoleForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+    }}
+    >
+      <Link key="1" to={`/applications/${id}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loadingApp || loadingRole ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -53,7 +62,12 @@ const CreateApplicationRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Application Role - ${application?.name}`} style={{ width: '50%' }}>
+        <Card title={`Create Application Role - ${application?.name}`} 
+          style={
+            { 
+              width: '50%',
+              alignSelf:'center'
+            }}>
           <Form
             form={form}
             layout="vertical"

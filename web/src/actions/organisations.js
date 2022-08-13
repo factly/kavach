@@ -114,7 +114,7 @@ export const getOrganisation = (id) => {
         
         if (response.data.organisation.policies?.length) {
           dispatch(addOrganisationPolicy(id, response.data.organisation.policies));
-          response.data.policyIDs = getIds(response.data.organisation.policies);
+          response.data.organisation.policyIDs = getIds(response.data.organisation.policies);
           delete response.data.organisation.policies;
         }
         
@@ -217,6 +217,19 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
     dispatch(addUsersList(users));
     organisation.users = getIds(users);
     organisation.applications = getIds(organisation.applications);
+    if (organisation.roles?.length) {
+     organisation.roles.forEach((role) => {
+        role.users = getIds(role.users);
+      });
+      dispatch(addOrganisationRoles(id, buildObjectOfItems(organisation.roles)));
+      organisation.roleIDs = getIds(organisation.roles);
+      delete organisation.roles
+    }
+    if (organisation.policies?.length) {
+      dispatch(addOrganisationPolicy(id, organisation.policies));
+      organisation.policyIDs = getIds(organisation.policies);
+      delete organisation.policies;
+    }
     deleteKeys([organisation], ['organisation_users', 'medium']);
   });
   const ids = getIds(data);

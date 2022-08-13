@@ -36,7 +36,6 @@ func CheckKetoRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubje
 	}
 
 	if !(response.StatusCode == 200 || response.StatusCode == 403) {
-		log.Println("this is response body", responseBody)
 		return false, errors.New("error in checking the authorization the relation tuple")
 	}
 	return responseBody["allowed"].(bool), nil

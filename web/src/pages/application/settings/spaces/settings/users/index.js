@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Form, Button, Select } from 'antd';
+import { Form, Button, Select } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import UserList from './components/userList';
@@ -34,9 +34,15 @@ export default function SpaceUser() {
   };
 
   return (
-    <Space direction="vertical">
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
-        <Button type="primary"> Goto Settings </Button>
+        <Button type="primary"> Back to Settings </Button>
       </Link>
       <Form
         form={form}
@@ -61,6 +67,6 @@ export default function SpaceUser() {
         </Form.Item>
       </Form>
       <UserList spaceID={spaceID} role={role} />
-    </Space>
+    </div>
   );
 }

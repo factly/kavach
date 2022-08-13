@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton, Space, Button } from 'antd';
+import { Skeleton, Space, Button} from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getOrganisation } from '../../../../actions/organisations';
@@ -12,7 +12,7 @@ export default function OrganisationPolicies() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getOrganisation(orgID));
-    dispatch(getOrganisationRoles())
+    // dispatch(getOrganisationRoles())
     dispatch(getOrganisationPolicy())
   }, [orgID, dispatch]);
 
@@ -26,8 +26,15 @@ export default function OrganisationPolicies() {
   });
 
   return (
-    <div>
-      <h2>Policies in {organisation?.title}</h2>
+    <Space direction="vertical">
+      <Link key="1" to={`/organisation`}>
+        <Button type="primary"> Back to Settings </Button>
+      </Link>
+      <h2
+        style={{
+          marginTop: 20
+        }}
+        >Policies in {organisation?.title}</h2>
       {loading && loadingOrg ? (
         <Skeleton />
       ) : (
@@ -39,9 +46,9 @@ export default function OrganisationPolicies() {
               </Link>
             </div>
           ) : null}
-          <PolicyList orgID={orgID} role={role} />
+          <PolicyList orgID={orgID} role={role} key={`policyList-${orgID}`}/>
         </Space>
       )}
-    </div>
+    </Space>
   );
 }

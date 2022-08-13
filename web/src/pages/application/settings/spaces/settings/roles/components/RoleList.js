@@ -3,7 +3,7 @@ import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteSpaceRole, getSpaceRoles } from '../../../../../../../actions/roles';
 import { Link } from 'react-router-dom';
-import { UserAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { UserOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 function SpaceRoleList({ appID, spaceID, role }) {
   const dispatch = useDispatch();
@@ -12,11 +12,8 @@ function SpaceRoleList({ appID, spaceID, role }) {
     roleIDs = state.spaces.details[spaceID]?.roleIDs || [];
     return {
       roles: roleIDs.map((id) => {
-        // console.log(...state.roles.space[spaceID][id])
         return ({
         ...state.roles.space[spaceID][id],
-        users:
-          state.roles.space[spaceID][id]?.users?.map((userID) => state.users.details[userID]) || [],
       })}),
       loading: state.roles.loading,
     };
@@ -26,7 +23,7 @@ function SpaceRoleList({ appID, spaceID, role }) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '15%',
+      width: '20%',
       render: (_, record) => {
         return (
           <div key={record.id}>
@@ -53,43 +50,13 @@ function SpaceRoleList({ appID, spaceID, role }) {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      width: '15%',
-    },
-    {
-      title: 'Users',
-      dataIndex: 'users',
-      key: 'users',
-      width: '15%',
-      render: (_, record) => {
-        return (
-          <Avatar.Group
-            maxCount={3}
-            maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-            key={record.id}
-          >
-            {record?.users?.map((user) => {
-              return (
-                <Tooltip title={user?.email} placement="top" key={'role-' + user?.id}>
-                  <Avatar
-                    key={user?.id}
-                    style={{
-                      backgroundColor:
-                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                    }}
-                  >
-                    {user?.email?.charAt(0)}
-                  </Avatar>
-                </Tooltip>
-              );
-            })}
-          </Avatar.Group>
-        );
-      },
+      width: '40%',
     },
     {
       title: 'Action',
       dataIndex: 'operation',
-      width: '20%',
+      width: '40%',
+      align:'center',
       render: (_, record) => {
         return (
           <span>
@@ -100,18 +67,40 @@ function SpaceRoleList({ appID, spaceID, role }) {
                     pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/users`,
                   }}
                 >
-                  <Button icon={<UserAddOutlined />} primary="true">
-                    Add users
+                  <Button icon={<UserOutlined />} primary="true">
+                    Users
                   </Button>
                 </Link>
+                <Link
+                  key={record.id}
+                  style={{
+                    marginRight: 8,
+                  }}
+                  to={{
+                    pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/edit`,
+                  }}
+              >
+                  <Button icon={<EditOutlined/>} primary="true">
+                    Edit
+                  </Button>
+              </Link>
                 <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
                   <Button type="danger" icon={<DeleteOutlined />}>
-                    {' '}
                     Delete{' '}
                   </Button>
                 </Popconfirm>
               </Space>
-            ) : null}
+            ) : (
+            <Link
+              to={{
+                pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/users`,
+              }}
+            >
+              <Button icon={<UserOutlined />} primary="true">
+                Users
+              </Button>
+            </Link>
+            )}
           </span>
         );
       },

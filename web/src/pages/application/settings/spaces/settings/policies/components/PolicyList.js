@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { deleteSpacePolicy, getSpacePolicy } from '../../../../../../../actions/policy';
 import { getSpaceRoles } from '../../../../../../../actions/roles';
 import { Link } from 'react-router-dom';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { MINIMUM_WIDTH_ACTION_BUTTONS } from '../../../../../../../constants/styles/width';
 
 export default function PolicyList({ appID, spaceID, role }) {
   const dispatch = useDispatch();
@@ -51,24 +52,10 @@ export default function PolicyList({ appID, spaceID, role }) {
       width: '25%',
     },
     {
-      title: 'Roles',
-      dataIndex: 'roles',
-      key: 'roles',
-      width: '30%',
-      render: (_, record) => {
-        return record.roles?.map((role) => {
-          return (
-            <Tag key={role.id} color="blue">
-              {role?.name}
-            </Tag>
-          );
-        });
-      },
-    },
-    {
       title: 'Action',
       dataIndex: 'operation',
       width: '25%',
+      align:'center',
       render: (_, record) => {
         return (
           <Space>
@@ -77,19 +64,39 @@ export default function PolicyList({ appID, spaceID, role }) {
                 pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/policies/${record.id}/view`,
               }}
             >
-              <Button> View </Button>
+              <Button 
+                icon={<EyeOutlined />} 
+                style={{
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                }}
+              > 
+              View 
+              </Button>
             </Link>
             <Link
               to={{
                 pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/policies/${record.id}/edit`,
               }}
             >
-              <Button icon={<EditOutlined />} disabled={role !== 'owner'}>
+              <Button 
+                icon={<EditOutlined />} 
+                style={{
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                }}
+                disabled={role !== 'owner'}>
                 Edit
               </Button>
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-              <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} />
+              <Button 
+                  type="danger" 
+                  icon={<DeleteOutlined />} 
+                  style={{
+                    minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                  }}
+                  disabled={role !== 'owner'}>
+                    Delete
+                </Button>
             </Popconfirm>
           </Space>
         );

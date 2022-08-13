@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton } from 'antd';
 import { createOrganisationRole } from '../../../../../actions/roles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getOrganisation } from '../../../../../actions/organisations';
 import { checker, maker } from '../../../../../utils/sluger';
@@ -44,7 +44,15 @@ const CreateOrganisationRoleForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{ 
+      display:'flex',
+      flexDirection:'column',
+     }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -55,7 +63,13 @@ const CreateOrganisationRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Application Role - ${organisation?.title}`} style={{ width: '50%' }}>
+        <Card 
+          title={`Create Organisation Role - ${organisation?.title}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}
+          >
           <Form
             form={form}
             layout="vertical"
@@ -68,7 +82,6 @@ const CreateOrganisationRoleForm = () => {
             {/* <Form.Item name="organisation_name" label="Application Name" initialValue={organisation.name}>
 										<Input disabled={true} />
 									</Form.Item> */}
-            <h3> Organisation : {organisation?.title}</h3>
             <Form.Item
               name="name"
               label="Name"

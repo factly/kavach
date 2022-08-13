@@ -1,6 +1,6 @@
 import React from 'react';
-import { Descriptions, Tag, Table, Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Descriptions, Tag, Table, Skeleton, Button } from 'antd';
+import { Link, useParams } from 'react-router-dom';
 import { getOrganisationPolicyByID } from '../../../../../actions/policy';
 import { useSelector } from 'react-redux';
 
@@ -52,7 +52,16 @@ export default function ViewOrganisationPolicy() {
   }, []);
 
   return (
-    <div>
+    <div
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+    }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loading ? (
         <Skeleton />
       ) : (

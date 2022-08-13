@@ -1,18 +1,20 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getSpaceByID } from '../../../../../actions/space';
 import SettingsList from '../../../../../components/Settings';
-import { Descriptions, Divider, Space, Skeleton } from 'antd';
+import { Descriptions, Divider, Space, Skeleton, Button } from 'antd';
 
 export default function SpaceSettings() {
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
   const descriptionSpan = 3;
-  const { space, loadingSpace } = useSelector((state) => {
+  const { space, loadingSpace, role, loading } = useSelector((state) => {
     return {
       space: state.spaces.details[spaceID],
       loadingSpace: state.spaces.loading,
+      role: state.profile.roles[state.organisations.selected],
+      loading: state.profile.loading,
     };
   });
 
@@ -21,9 +23,19 @@ export default function SpaceSettings() {
     //eslint-disable-next-line
   }, [appID, spaceID]);
 
+
   return (
-    <div>
-      {loadingSpace ? (
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces`}>
+        <Button type="primary">Back to Spaces</Button>
+      </Link>
+      {loadingSpace || loading ? (
         <Skeleton />
       ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
@@ -42,7 +54,7 @@ export default function SpaceSettings() {
             </Descriptions.Item>
           </Descriptions>
           <Divider> Space Settings</Divider>
-          <SettingsList type="space" appID={appID} spaceID={spaceID} />
+          <SettingsList type="space" appID={appID} spaceID={spaceID} role={role}/>
         </Space>
       )}
     </div>

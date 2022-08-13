@@ -1,7 +1,7 @@
 import React from 'react';
 import UsersList from './components/usersList';
 import { Space, Form, Button, Select, Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addApplicationUser } from '../../../actions/applicationUsers';
 import { getUsers } from '../../../actions/users';
@@ -43,7 +43,16 @@ function ApplicationUser() {
 
   const remainingUsers = organisationUsers.filter((user) => !applicationUsers.includes(user));
   return (
-    <>
+    <div
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+    }}
+    >
+      <Link key="1" to={`/applications/${id}/settings/`}>
+        <Button type="primary">Back to Settings</Button>
+      </Link>
       {loading || loadingRole ? (
         <Skeleton />
       ) : (
@@ -88,7 +97,7 @@ function ApplicationUser() {
           />
         </Space>
       )}
-    </>
+    </div>
   );
 }
 

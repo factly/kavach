@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { updateOrganisationRole, getOrganisationRoleByID } from '../../../../../actions/roles';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getOrganisation } from '../../../../../actions/organisations';
@@ -29,7 +29,7 @@ export default function EditOrganisationRole() {
   const { role, loading, organisation, loadingOrg, userRole, loadingUserRole } = useSelector(
     (state) => {
       return {
-        role: state.roles.organisation[state.organisations.selected][roleID],
+        role: state.roles.organisation[state.organisations?.selected]?.[roleID],
         loading: state.roles.loading,
         organisation: state.organisations.details[state.organisations.selected],
         loadingApp: state.organisations.loading,
@@ -44,8 +44,8 @@ export default function EditOrganisationRole() {
   };
 
   React.useEffect(() => {
-    fetchRole();
     dispatch(getOrganisation(orgID));
+    fetchRole();
     //eslint-disable-next-line
   }, []);
 
@@ -63,11 +63,26 @@ export default function EditOrganisationRole() {
   }
 
   return (
-    <div>
+    <div
+    style={{ 
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+     }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loading || loadingOrg || loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Organisation Role - ${organisation?.title}`} style={{ width: '50%' }}>
+        <Card 
+          title={`Edit Organisation Role - ${organisation?.title}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}
+          >
           <Form
             form={form}
             layout="vertical"
@@ -82,7 +97,6 @@ export default function EditOrganisationRole() {
               description: role.description,
             }}
           >
-            <h3> Organisation : {organisation?.title}</h3>
             <Form.Item
               name="name"
               label="Name"

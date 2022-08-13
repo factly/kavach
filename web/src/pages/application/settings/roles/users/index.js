@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getApplicationUsers } from '../../../../../actions/applicationUsers';
 import { addApplicationRoleUserByID, getApplicationRoleUsers } from '../../../../../actions/roles';
 import UserList from './components/ApplicationRoleUserList';
+import { Link } from 'react-router-dom';
 
 export default function ApplicationRoleUsers() {
   const [form] = Form.useForm();
@@ -53,7 +54,16 @@ export default function ApplicationRoleUsers() {
   }, []);
 
   return (
-    <div>
+    <div
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+    }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loading && loadingUserRole ? (
         <Skeleton />
       ) : (

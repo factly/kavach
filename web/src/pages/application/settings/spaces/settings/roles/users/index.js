@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space, Form, Button, Select, Skeleton } from 'antd';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSpaceUsers } from '../../../../../../../actions/spaceUser';
 import { addSpaceRoleUserByID, getSpaceRoleUsers } from '../../../../../../../actions/roles';
@@ -55,7 +55,16 @@ export default function SpaceRoleUsers() {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loading && loadingUserRole ? (
         <Skeleton />
       ) : (

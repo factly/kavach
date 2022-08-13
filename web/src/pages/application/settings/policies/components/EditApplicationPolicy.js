@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { getApplicationPolicyByID, updateApplicationPolicy } from '../../../../../actions/policy';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -62,11 +62,25 @@ export default function EditApplicationPolicy() {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loading || loadingRole || loadingApp ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Application Policy - ${application?.name}`} style={{ width: '50%' }}>
+        <Card title={`Edit Application Policy - ${application?.name}`} 
+          style={
+            { 
+              width: '50%',
+              alignSelf:'center'
+            }}>
           <Form
             name="update-application-policy"
             layout="vertical"

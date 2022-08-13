@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { getSpacePolicyByID, updateSpacePolicy } from '../../../../../../../actions/policy';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../../../components/Policies';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -60,11 +60,25 @@ export default function EditSpacePolicy() {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loading || loadingRole || loadingSpace ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Space Policy - ${space?.name}`} style={{ width: '50%' }}>
+        <Card title={`Edit Space Policy - ${space?.name}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}
+        >
           <Form
             name="update-space-policy"
             layout="vertical"

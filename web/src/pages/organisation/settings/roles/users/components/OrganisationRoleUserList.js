@@ -45,6 +45,7 @@ export default function UserList({ users, roleID }) {
             >
               <Button type="danger">
                 <DeleteOutlined />
+                Delete
               </Button>
             </Popconfirm>
           </span>

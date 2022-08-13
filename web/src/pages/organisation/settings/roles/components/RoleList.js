@@ -3,7 +3,7 @@ import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteOrganisationRole, getOrganisationRoles } from '../../../../../actions/roles';
 import { Link } from 'react-router-dom';
-import { UserAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { UserOutlined, DeleteOutlined } from '@ant-design/icons';
 
 function OrganisationRoleList({ orgID, role }) {
   const dispatch = useDispatch();
@@ -13,10 +13,6 @@ function OrganisationRoleList({ orgID, role }) {
     return {
       roles: roleIDs.map((id) => ({
         ...state.roles.organisation[state.organisations.selected][id],
-        users:
-          state.roles.organisation[state.organisations.selected][id]?.users.map(
-            (userID) => state.users.details[userID],
-          ) || [],
       })),
       loading: state.roles.loading,
     };
@@ -27,7 +23,7 @@ function OrganisationRoleList({ orgID, role }) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '15%',
+      width: '20%',
       render: (_, record) => {
         return (
           <div>
@@ -53,39 +49,13 @@ function OrganisationRoleList({ orgID, role }) {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
-      width: '15%',
-    },
-    {
-      title: 'Users',
-      dataIndex: 'users',
-      key: 'users',
-      width: '15%',
-      render: (_, record) => {
-        return (
-          <Avatar.Group maxCount={3} maxStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            {record?.users?.map((user) => {
-              return (
-                <Tooltip title={user?.email} placement="top" key={'role-tooltip-' + user?.id}>
-                  <Avatar
-                    key={user?.id}
-                    style={{
-                      backgroundColor:
-                        '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0'),
-                    }}
-                  >
-                    {user?.email?.charAt(0)}
-                  </Avatar>
-                </Tooltip>
-              );
-            })}
-          </Avatar.Group>
-        );
-      },
+      width: '40%',
     },
     {
       title: 'Action',
       dataIndex: 'operation',
-      width: '20%',
+      width: '40%',
+      align: 'center',
       render: (_, record) => {
         return (
           <span>
@@ -96,8 +66,8 @@ function OrganisationRoleList({ orgID, role }) {
                     pathname: `/organisation/${orgID}/settings/roles/${record.id}/users`,
                   }}
                 >
-                  <Button icon={<UserAddOutlined />} primary="true">
-                    Add users
+                  <Button icon={<UserOutlined />} primary="true">
+                    View Users
                   </Button>
                 </Link>
                 <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>

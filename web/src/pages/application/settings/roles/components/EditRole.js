@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { updateApplicationRole, getApplicationRoleByID } from '../../../../../actions/roles';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getApplication } from '../../../../../actions/application';
@@ -63,11 +63,25 @@ export default function EditApplicationRole() {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loading && loadingApp && loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Application Role - ${application?.name}`} style={{ width: '50%' }}>
+        <Card title={`Edit Application Role - ${application?.name}`} 
+          style={
+            { 
+              width: '50%',
+              alignSelf:'center'
+           }}>
           <Form
             form={form}
             layout="vertical"

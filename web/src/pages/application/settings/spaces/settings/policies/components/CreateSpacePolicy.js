@@ -6,7 +6,7 @@ import { maker, checker } from '../../../../../../../utils/sluger';
 import { getSpaceRoles } from '../../../../../../../actions/roles';
 import { getSpaceByID } from '../../../../../../../actions/space';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { createSpacePolicy } from '../../../../../../../actions/policy';
 
 export default function CreateSpacePolicyForm() {
@@ -59,7 +59,16 @@ export default function CreateSpacePolicyForm() {
   }, [dispatch, appID, spaceID]);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loadingSpace || loadingRole || loadingRoles ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -69,7 +78,12 @@ export default function CreateSpacePolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space Policy - ${space?.name}`} style={{ width: '50%' }}>
+        <Card title={`Create Space Policy - ${space?.name}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}   
+          >
           <Form
             form={form}
             layout="vertical"

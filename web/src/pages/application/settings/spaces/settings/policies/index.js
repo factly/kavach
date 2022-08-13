@@ -5,12 +5,14 @@ import { Link, useParams } from 'react-router-dom';
 import { getSpaceByID } from '../../../../../../actions/space';
 import PolicyList from './components/PolicyList';
 import { getSpacePolicy } from '../../../../../../actions/policy';
+import { getSpaceRoles } from '../../../../../../actions/roles';
 
 export default function SpacePolicies() {
   const { appID, spaceID } = useParams();
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getSpacePolicy(appID, spaceID));
+    dispatch(getSpaceRoles(appID, spaceID))
     dispatch(getSpaceByID(appID, spaceID));
   }, [appID, spaceID, dispatch]);
 
@@ -26,7 +28,7 @@ export default function SpacePolicies() {
   return (
     <Space direction="vertical">
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>
-        <Button type="primary"> Goto Settings </Button>
+        <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Policies in {space?.name}</h2>
       {loading && loadingSpace ? (

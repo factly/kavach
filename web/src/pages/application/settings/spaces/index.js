@@ -24,7 +24,7 @@ export default function Spaces() {
   return (
     <Space direction="vertical">
       <Link key="1" to={`/applications/${appID}/settings`}>
-        <Button type="primary"> Goto Settings </Button>
+        <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Spaces in {application.name}</h2>
       {loading || loadingApp ? (

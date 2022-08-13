@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton, Modal } from 'antd';
 import { addOrganisationToken } from '../../../../../actions/token';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getOrganisation } from '../../../../../actions/organisations';
 import ClipBoardCopy from '../../../../../utils/clipboardClick';
@@ -47,11 +47,25 @@ const CreateOrganisationToken = () => {
   }, [dispatch, orgID]);
 
   return (
-    <div>
+    <div
+    style={{ 
+      display:'flex',
+      flexDirection:'column',
+     }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/tokens`}>
+        <Button type="primary">Back to Tokens</Button>
+      </Link>
       {loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role === 'owner' ? (
-        <Card title={`Create Organisation Token - ${organisation?.title}`} style={{ width: '50%' }}>
+        <Card 
+          title={`Create Organisation Token - ${organisation?.title}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+           }}
+          >
           <Form
             form={form}
             layout="vertical"
@@ -64,7 +78,6 @@ const CreateOrganisationToken = () => {
             {/* <Form.Item name="organisation_name" label="Organisation Name" initialValue={organisation.name}>
 								<Input disabled={true} />
 							</Form.Item> */}
-            <h3> Organisation : {organisation?.title}</h3>
             <Form.Item
               name="name"
               label="Name"

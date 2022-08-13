@@ -49,17 +49,6 @@ export default function ApplicationSettings() {
           </Descriptions>
           <Divider> Application Settings</Divider>
           <SettingsList type="application" appID={id} role={role} />
-          <Row style={{ marginTop: 16 }}>
-            <Col span={12}>
-              <Link to={`/applications/${id}/settings/spaces`}>
-                <SettingsCard
-                  icon={<ApartmentOutlined style={{ color: '#4E89FF' }} />}
-                  title="Spaces"
-                  description="Space Settings"
-                />
-              </Link>
-            </Col>
-          </Row>
         </Space>
       )}
     </div>

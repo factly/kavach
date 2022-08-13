@@ -22,11 +22,12 @@ function OrganisationRoles() {
   });
 
   return (
-    <Space direction="vertical">
+    <Space 
+      direction="vertical"
+      >
       <Link key="1" to={`/organisation`}>
-        <Button type="primary"> Goto Settings </Button>
+        <Button type="primary"> Back to Settings </Button>
       </Link>
-      <h2>Roles in {organisation?.title}</h2>
       {loading && loadingOrg ? (
         <Skeleton />
       ) : (

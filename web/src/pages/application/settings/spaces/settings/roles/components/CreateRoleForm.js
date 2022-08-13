@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button, Card, Skeleton } from 'antd';
 import { createSpaceRole } from '../../../../../../../actions/roles';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { getSpaceByID } from '../../../../../../../actions/space';
 import { checker, maker } from '../../../../../../../utils/sluger';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -42,7 +42,16 @@ const CreateSpaceRoleForm = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{ 
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`}>
+        <Button type="primary">Back to Roles</Button>
+      </Link>
       {loadingSpace || loadingRole ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -52,7 +61,11 @@ const CreateSpaceRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space Role - ${space?.name}`} style={{ width: '50%' }}>
+        <Card title={`Create Space Role - ${space?.name}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}>
           <Form
             form={form}
             layout="vertical"

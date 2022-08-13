@@ -6,7 +6,7 @@ import { maker, checker } from '../../../../../utils/sluger';
 import { getApplicationRoles } from '../../../../../actions/roles';
 import { getApplication } from '../../../../../actions/application';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { createApplicationPolicy } from '../../../../../actions/policy';
 
 export default function CreateApplicationPolicyForm() {
@@ -59,7 +59,16 @@ export default function CreateApplicationPolicyForm() {
   }, [dispatch, appID]);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/applications/${appID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loadingApp || loadingRole || loadingRoles ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -69,7 +78,12 @@ export default function CreateApplicationPolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Application Policy - ${application?.name}`} style={{ width: '50%' }}>
+        <Card title={`Create Application Policy - ${application?.name}`} 
+          style={
+              { 
+                width: '50%',
+                alignSelf:'center'
+                }}>
           <Form
             form={form}
             layout="vertical"
@@ -79,7 +93,6 @@ export default function CreateApplicationPolicyForm() {
               onReset();
             }}
           >
-            {/* <h3> Application : {application?.name}</h3> */}
             <Form.Item
               name="application_name"
               label="Application Name"

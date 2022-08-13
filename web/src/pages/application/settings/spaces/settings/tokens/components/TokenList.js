@@ -2,6 +2,7 @@ import React from 'react';
 import { Popconfirm, Button, Table } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSpaceTokens, deleteSpaceToken } from '../../../../../../../actions/token';
+import { DeleteOutlined } from '@ant-design/icons';
 
 export default function TokenList({ appID, spaceID, role }) {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export default function TokenList({ appID, spaceID, role }) {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      width: '25',
+      width: '30',
     },
     {
       title: 'Description',
@@ -45,12 +46,13 @@ export default function TokenList({ appID, spaceID, role }) {
     {
       title: 'Action',
       dataIndex: 'operation',
-      width: '35%',
+      width: '30%',
+      align:'center',
       render: (_, record) => {
         return (
           <span>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record?.id)}>
-              <Button type="danger" disabled={role !== 'owner'}>
+              <Button type="danger" disabled={role !== 'owner'} icon={<DeleteOutlined/>}>
                 Revoke
               </Button>
             </Popconfirm>
@@ -68,6 +70,7 @@ export default function TokenList({ appID, spaceID, role }) {
       rowKey={'id'}
       loading={loading}
       style={{ width: '78vw' }}
+      key={`space-${spaceID}`}
     />
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { getOrganisationPolicyByID, updateOrganisationPolicy } from '../../../../../actions/policy';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -49,7 +49,16 @@ export default function EditOrganisationPolicy() {
   }, []);
 
   return (
-    <div>
+    <div
+    style={{
+      display:'flex',
+      flexDirection:'column',
+      gap:'20px'
+    }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loading || loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -60,7 +69,11 @@ export default function EditOrganisationPolicy() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Edit Organisation Policy - ${organisation?.title}`} style={{ width: '50%' }}>
+        <Card title={`Edit Organisation Policy - ${organisation?.title}`} 
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}>
           <Form
             name="update-organisation-policy"
             layout="vertical"

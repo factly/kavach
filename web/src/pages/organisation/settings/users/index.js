@@ -77,7 +77,9 @@ function OrganisationUsers() {
             icon={<DeleteOutlined />}
             type="danger"
             disabled={!loadingRole ? (role === 'owner' ? false : true) : true}
-          />
+          >
+            Delete
+          </Button>
         </Popconfirm>
       ),
       width: '15%',
@@ -94,7 +96,7 @@ function OrganisationUsers() {
           }}
         >
           <Link key="1" to={`/organisation`} style={{ alignSelf: 'flex-start' }}>
-            <Button type="primary"> Goto Settings </Button>
+            <Button type="primary"> Back to Settings </Button>
           </Link>
           <Link
             key="2"

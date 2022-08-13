@@ -41,14 +41,17 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	for _, object := range objects {
 		splittedObject := strings.Split(object, ":")
-		orgID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
-		if err != nil {
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
-			return
+		if object[:3] == "org" {
+			orgID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			if err != nil {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+				return
+			}
+			orgIDs = append(orgIDs, orgID)
 		}
-		orgIDs = append(orgIDs, orgID)
 	}
+
 	allOrganisations := make([]orgWithRole, 0)
 	for _, orgID := range orgIDs {
 		org := orgWithRole{}
@@ -57,7 +60,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			Base: model.Base{
 				ID: uint(orgID),
 			},
-		}).Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").First(&org.Organisation).Error
+		}).Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))

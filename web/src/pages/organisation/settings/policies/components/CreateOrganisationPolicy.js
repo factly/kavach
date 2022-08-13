@@ -6,7 +6,7 @@ import { maker, checker } from '../../../../../utils/sluger';
 import { getOrganisationRoles } from '../../../../../actions/roles';
 import { getOrganisation } from '../../../../../actions/organisations';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { createOrganisationPolicy } from '../../../../../actions/policy';
 
 export default function CreateOrganisationPolicyForm() {
@@ -59,7 +59,16 @@ export default function CreateOrganisationPolicyForm() {
   }, [dispatch, orgID]);
 
   return (
-    <div>
+    <div
+      style={{
+        display:'flex',
+        flexDirection:'column',
+        gap:'20px'
+      }}
+    >
+      <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+        <Button type="primary">Back to Policies</Button>
+      </Link>
       {loadingOrg || loadingRole || loadingRoles ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -72,7 +81,10 @@ export default function CreateOrganisationPolicyForm() {
       ) : (
         <Card
           title={`Create Organisation Policy - ${organisation?.title}`}
-          style={{ width: '50%' }}
+          style={{ 
+            width: '50%',
+            alignSelf:'center'
+          }}
         >
           <Form
             form={form}
@@ -83,7 +95,6 @@ export default function CreateOrganisationPolicyForm() {
               onReset();
             }}
           >
-            <h3> Organisation : {organisation?.title}</h3>
             <Form.Item
               name="name"
               label="Name"
