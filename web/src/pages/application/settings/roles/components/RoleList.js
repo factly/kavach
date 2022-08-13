@@ -59,7 +59,6 @@ function ApplicationRoleList({ appID, role }) {
       render: (_, record) => {
         return (
           <span>
-            {role === 'owner' ? (
               <Space>
                 <Link
                   to={{
@@ -70,14 +69,13 @@ function ApplicationRoleList({ appID, role }) {
                     View Users
                   </Button>
                 </Link>
-                <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-                  <Button type="danger" icon={<DeleteOutlined />}>
+                <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)} disabled={role!=='owner'}>
+                  <Button type="danger" icon={<DeleteOutlined />} disabled={role!=='owner'}>
                     {' '}
                     Delete{' '}
                   </Button>
                 </Popconfirm>
               </Space>
-            ) : null}
           </span>
         );
       },

@@ -60,7 +60,6 @@ function SpaceRoleList({ appID, spaceID, role }) {
       render: (_, record) => {
         return (
           <span>
-            {role === 'owner' ? (
               <Space>
                 <Link
                   to={{
@@ -80,27 +79,16 @@ function SpaceRoleList({ appID, spaceID, role }) {
                     pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/edit`,
                   }}
               >
-                  <Button icon={<EditOutlined/>} primary="true">
+                  <Button icon={<EditOutlined/>} primary="true" disabled={role!=='owner'}>
                     Edit
                   </Button>
               </Link>
-                <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-                  <Button type="danger" icon={<DeleteOutlined />}>
-                    Delete{' '}
+                <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)} disabled={role!=='owner'}>
+                  <Button type="danger" icon={<DeleteOutlined />} disabled={role!=='owner'}>
+                    Delete
                   </Button>
                 </Popconfirm>
               </Space>
-            ) : (
-            <Link
-              to={{
-                pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/users`,
-              }}
-            >
-              <Button icon={<UserOutlined />} primary="true">
-                Users
-              </Button>
-            </Link>
-            )}
           </span>
         );
       },
