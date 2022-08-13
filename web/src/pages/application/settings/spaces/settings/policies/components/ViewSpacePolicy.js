@@ -1,5 +1,5 @@
 import React from 'react';
-import { Descriptions, Tag, Table, Skeleton, Button } from 'antd';
+import { Descriptions, Tag, Table, Skeleton, Button, Divider } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import { getSpacePolicyByID } from '../../../../../../../actions/policy';
 import { useSelector } from 'react-redux';
@@ -62,26 +62,17 @@ export default function ViewSpacePolicy() {
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
         <Button type="primary">Back to Policies</Button>
       </Link>
+      <h2> Policy Details </h2>
       {loading ? (
         <Skeleton />
       ) : (
-        <Descriptions title={`Policy detail`} bordered>
+        <Descriptions bordered>
           <Descriptions.Item label="Name" span={span}>
             {policy?.name}
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Description" span={span}>
             {policy?.description}
-          </Descriptions.Item>
-          <br />
-          <Descriptions.Item label="Permissions" span={span}>
-            <Table
-              bordered={false}
-              columns={nestedTableColumns}
-              dataSource={policy?.permissions}
-              rowKey={'id'}
-              pagination={false}
-            />
           </Descriptions.Item>
           <br />
           <Descriptions.Item label="Roles" span={span}>
@@ -95,6 +86,15 @@ export default function ViewSpacePolicy() {
           </Descriptions.Item>
         </Descriptions>
       )}
+      <Divider/>
+      <h3> Permissions </h3>
+      <Table
+        bordered={true}
+        columns={nestedTableColumns}
+        dataSource={policy?.permissions}
+        rowKey={'id'}
+        pagination={true}
+      />
     </div>
   );
 }
