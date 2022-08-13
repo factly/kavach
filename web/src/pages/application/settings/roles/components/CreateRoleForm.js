@@ -44,11 +44,11 @@ const CreateApplicationRoleForm = () => {
 
   return (
     <div
-    style={{
-      display:'flex',
-      flexDirection:'column',
-      gap:'20px'
-    }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+      }}
     >
       <Link key="1" to={`/applications/${id}/settings/roles`}>
         <Button type="primary">Back to Roles</Button>
@@ -62,12 +62,13 @@ const CreateApplicationRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Application Role - ${application?.name}`} 
-          style={
-            { 
-              width: '50%',
-              alignSelf:'center'
-            }}>
+        <Card
+          title={`Create Application Role - ${application?.name}`}
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

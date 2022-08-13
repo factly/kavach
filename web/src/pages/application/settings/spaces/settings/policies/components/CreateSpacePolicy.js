@@ -61,9 +61,9 @@ export default function CreateSpacePolicyForm() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
@@ -78,12 +78,13 @@ export default function CreateSpacePolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space Policy - ${space?.name}`} 
-          style={{ 
+        <Card
+          title={`Create Space Policy - ${space?.name}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
-          }}   
-          >
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

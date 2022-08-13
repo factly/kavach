@@ -62,10 +62,10 @@ export default function EditSpaceRole() {
 
   return (
     <div
-      style={{ 
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`}>
@@ -74,11 +74,13 @@ export default function EditSpaceRole() {
       {loading && loadingSpace && loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Space Role - ${space?.name}`} 
-          style={{ 
+        <Card
+          title={`Edit Space Role - ${space?.name}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
-            }}>
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

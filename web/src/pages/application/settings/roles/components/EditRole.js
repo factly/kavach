@@ -65,9 +65,9 @@ export default function EditApplicationRole() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/roles`}>
@@ -76,12 +76,13 @@ export default function EditApplicationRole() {
       {loading && loadingApp && loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Application Role - ${application?.name}`} 
-          style={
-            { 
-              width: '50%',
-              alignSelf:'center'
-           }}>
+        <Card
+          title={`Edit Application Role - ${application?.name}`}
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

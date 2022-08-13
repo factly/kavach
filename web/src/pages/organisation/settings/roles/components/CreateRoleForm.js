@@ -45,10 +45,10 @@ const CreateOrganisationRoleForm = () => {
 
   return (
     <div
-    style={{ 
-      display:'flex',
-      flexDirection:'column',
-     }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
         <Button type="primary">Back to Roles</Button>
@@ -63,13 +63,13 @@ const CreateOrganisationRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card 
-          title={`Create Organisation Role - ${organisation?.title}`} 
-          style={{ 
+        <Card
+          title={`Create Organisation Role - ${organisation?.title}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
+            alignSelf: 'center',
           }}
-          >
+        >
           <Form
             form={form}
             layout="vertical"

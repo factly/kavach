@@ -48,10 +48,10 @@ const CreateOrganisationToken = () => {
 
   return (
     <div
-    style={{ 
-      display:'flex',
-      flexDirection:'column',
-     }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/tokens`}>
         <Button type="primary">Back to Tokens</Button>
@@ -59,13 +59,13 @@ const CreateOrganisationToken = () => {
       {loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role === 'owner' ? (
-        <Card 
-          title={`Create Organisation Token - ${organisation?.title}`} 
-          style={{ 
+        <Card
+          title={`Create Organisation Token - ${organisation?.title}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
-           }}
-          >
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

@@ -23,13 +23,12 @@ export default function SpaceSettings() {
     //eslint-disable-next-line
   }, [appID, spaceID]);
 
-
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces`}>
@@ -47,14 +46,14 @@ export default function SpaceSettings() {
               {space?.description}
             </Descriptions.Item>
             <Descriptions.Item label="Number of users" span={descriptionSpan}>
-              {(space?.users?.length) ? space?.users?.length : 0}
+              {space?.users?.length ? space?.users?.length : 0}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
               {space?.tokens?.length ? space.tokens.length : 0}
             </Descriptions.Item>
           </Descriptions>
           <Divider> Space Settings</Divider>
-          <SettingsList type="space" appID={appID} spaceID={spaceID} role={role}/>
+          <SettingsList type="space" appID={appID} spaceID={spaceID} role={role} />
         </Space>
       )}
     </div>

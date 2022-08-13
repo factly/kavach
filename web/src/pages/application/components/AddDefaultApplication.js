@@ -16,8 +16,8 @@ export const AddDefaultApplication = () => {
     dispatch(getApplications());
   };
 
-  var { defaultApplications, loading, defaultApplicationActivated, loadingApps } =
-    useSelector((state) => {
+  var { defaultApplications, loading, defaultApplicationActivated, loadingApps } = useSelector(
+    (state) => {
       const defaultApplications = state.defaultapplications.applications;
       const defaultApplicationIds = getIds(defaultApplications);
       const applicationIds = state.organisations.details[state.organisations.selected]?.applications
@@ -27,7 +27,8 @@ export const AddDefaultApplication = () => {
         if (applicationIds.includes(appID)) {
           return appID;
         }
-        return 
+        //eslint-disable-next-line
+        return;
       });
       return {
         defaultApplications: defaultApplications,
@@ -35,7 +36,8 @@ export const AddDefaultApplication = () => {
         defaultApplicationActivated: defaultApplicationActivatedIds,
         loadingApps: state.applications.loading,
       };
-    });
+    },
+  );
 
   React.useEffect(() => {
     fetchDefaultApplication();

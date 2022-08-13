@@ -50,11 +50,11 @@ export default function EditOrganisationPolicy() {
 
   return (
     <div
-    style={{
-      display:'flex',
-      flexDirection:'column',
-      gap:'20px'
-    }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+      }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
         <Button type="primary">Back to Policies</Button>
@@ -69,11 +69,13 @@ export default function EditOrganisationPolicy() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Edit Organisation Policy - ${organisation?.title}`} 
-          style={{ 
+        <Card
+          title={`Edit Organisation Policy - ${organisation?.title}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
-          }}>
+            alignSelf: 'center',
+          }}
+        >
           <Form
             name="update-organisation-policy"
             layout="vertical"

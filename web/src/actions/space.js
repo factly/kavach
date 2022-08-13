@@ -131,12 +131,12 @@ export const getSpaceByID = (appID, spaceID) => {
       ) // eslint-disable-next-line
       .then((response) => {
         deleteKeys([response.data], ['application']);
-        dispatch(addSpaceRoles(spaceID, buildObjectOfItems(response.data.roles)))
-        dispatch(addSpacePolicy(spaceID, buildObjectOfItems(response.data.policies)))
-        response.data.roleIDs = getIds(response.data.roles)
-        response.data.policyIDs = getIds(response.data.policies)
-        delete response.data.roles
-        delete response.data.policies
+        dispatch(addSpaceRoles(spaceID, buildObjectOfItems(response.data.roles)));
+        dispatch(addSpacePolicy(spaceID, buildObjectOfItems(response.data.policies)));
+        response.data.roleIDs = getIds(response.data.roles);
+        response.data.policyIDs = getIds(response.data.policies);
+        delete response.data.roles;
+        delete response.data.policies;
         dispatch(addSpaces([response.data]));
       })
       .catch((error) => {
@@ -156,7 +156,7 @@ export const addSpaces = (data) => (dispatch) => {
   dispatch(addUsersList(users));
   data.forEach((space) => {
     space.users = getIds(space.users);
-    space.tokens = (space.tokens?.length) ? getIds(space.tokens): []
+    space.tokens = space.tokens?.length ? getIds(space.tokens) : [];
   });
   dispatch({
     type: ADD_SPACES,

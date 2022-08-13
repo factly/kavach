@@ -64,9 +64,9 @@ export default function EditApplicationPolicy() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/policies`}>
@@ -75,12 +75,13 @@ export default function EditApplicationPolicy() {
       {loading || loadingRole || loadingApp ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Application Policy - ${application?.name}`} 
-          style={
-            { 
-              width: '50%',
-              alignSelf:'center'
-            }}>
+        <Card
+          title={`Edit Application Policy - ${application?.name}`}
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+          }}
+        >
           <Form
             name="update-application-policy"
             layout="vertical"

@@ -54,9 +54,9 @@ export default function ViewApplicationPolicy() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link to={`/applications/${appID}/settings/policies`}>
@@ -86,7 +86,7 @@ export default function ViewApplicationPolicy() {
           </Descriptions.Item>
         </Descriptions>
       )}
-      <Divider/>
+      <Divider />
       <h3> Permissions </h3>
       <Table
         bordered={true}

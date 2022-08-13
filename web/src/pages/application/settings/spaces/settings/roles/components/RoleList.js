@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
+import { Popconfirm, Button, Table, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteSpaceRole, getSpaceRoles } from '../../../../../../../actions/roles';
 import { Link } from 'react-router-dom';
@@ -12,9 +12,10 @@ function SpaceRoleList({ appID, spaceID, role }) {
     roleIDs = state.spaces.details[spaceID]?.roleIDs || [];
     return {
       roles: roleIDs.map((id) => {
-        return ({
-        ...state.roles.space[spaceID][id],
-      })}),
+        return {
+          ...state.roles.space[spaceID][id],
+        };
+      }),
       loading: state.roles.loading,
     };
   });
@@ -56,39 +57,43 @@ function SpaceRoleList({ appID, spaceID, role }) {
       title: 'Action',
       dataIndex: 'operation',
       width: '40%',
-      align:'center',
+      align: 'center',
       render: (_, record) => {
         return (
           <span>
-              <Space>
-                <Link
-                  to={{
-                    pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/users`,
-                  }}
-                >
-                  <Button icon={<UserOutlined />} primary="true">
-                    Users
-                  </Button>
-                </Link>
-                <Link
-                  key={record.id}
-                  style={{
-                    marginRight: 8,
-                  }}
-                  to={{
-                    pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/edit`,
-                  }}
+            <Space>
+              <Link
+                to={{
+                  pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/users`,
+                }}
               >
-                  <Button icon={<EditOutlined/>} primary="true" disabled={role!=='owner'}>
-                    Edit
-                  </Button>
+                <Button icon={<UserOutlined />} primary="true">
+                  Users
+                </Button>
               </Link>
-                <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)} disabled={role!=='owner'}>
-                  <Button type="danger" icon={<DeleteOutlined />} disabled={role!=='owner'}>
-                    Delete
-                  </Button>
-                </Popconfirm>
-              </Space>
+              <Link
+                key={record.id}
+                style={{
+                  marginRight: 8,
+                }}
+                to={{
+                  pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/roles/${record.id}/edit`,
+                }}
+              >
+                <Button icon={<EditOutlined />} primary="true" disabled={role !== 'owner'}>
+                  Edit
+                </Button>
+              </Link>
+              <Popconfirm
+                title="Sure to Revoke?"
+                onConfirm={() => onDelete(record.id)}
+                disabled={role !== 'owner'}
+              >
+                <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'}>
+                  Delete
+                </Button>
+              </Popconfirm>
+            </Space>
           </span>
         );
       },

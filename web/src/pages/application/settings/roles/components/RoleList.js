@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
+import { Popconfirm, Button, Table, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteApplicationRole, getApplicationRoles } from '../../../../../actions/roles';
 import { Link } from 'react-router-dom';
@@ -55,27 +55,31 @@ function ApplicationRoleList({ appID, role }) {
       title: 'Action',
       dataIndex: 'operation',
       width: '40%',
-      align:'center',
+      align: 'center',
       render: (_, record) => {
         return (
           <span>
-              <Space>
-                <Link
-                  to={{
-                    pathname: `/applications/${appID}/settings/roles/${record.id}/users`,
-                  }}
-                >
-                  <Button icon={<UserOutlined />} primary="true">
-                    View Users
-                  </Button>
-                </Link>
-                <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)} disabled={role!=='owner'}>
-                  <Button type="danger" icon={<DeleteOutlined />} disabled={role!=='owner'}>
-                    {' '}
-                    Delete{' '}
-                  </Button>
-                </Popconfirm>
-              </Space>
+            <Space>
+              <Link
+                to={{
+                  pathname: `/applications/${appID}/settings/roles/${record.id}/users`,
+                }}
+              >
+                <Button icon={<UserOutlined />} primary="true">
+                  View Users
+                </Button>
+              </Link>
+              <Popconfirm
+                title="Sure to Revoke?"
+                onConfirm={() => onDelete(record.id)}
+                disabled={role !== 'owner'}
+              >
+                <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'}>
+                  {' '}
+                  Delete{' '}
+                </Button>
+              </Popconfirm>
+            </Space>
           </span>
         );
       },

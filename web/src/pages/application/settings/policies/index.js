@@ -12,7 +12,7 @@ export default function ApplicationPolicies() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getApplication(id));
-    dispatch(getApplicationRoles(id))
+    dispatch(getApplicationRoles(id));
     dispatch(getApplicationPolicy(id));
   }, [id, dispatch]);
 

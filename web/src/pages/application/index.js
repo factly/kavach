@@ -23,7 +23,7 @@ function Application() {
       loadingApps: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
-      orgID: state.organisations.selected
+      orgID: state.organisations.selected,
     };
   });
 
@@ -32,15 +32,15 @@ function Application() {
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         {loadingRole ? (
           <Skeleton />
-        ) : role === 'owner' && orgID!==1 ? (
+        ) : role === 'owner' && orgID !== 1 ? (
           loadingApps ? (
             <Skeleton />
-          ) : 
+          ) : (
             <Link key="1" to="/applications/type">
               <Button type="primary">New Application</Button>
             </Link>
           )
-         : null}
+        ) : null}
       </div>
       {loadingApps ? (
         <Skeleton />

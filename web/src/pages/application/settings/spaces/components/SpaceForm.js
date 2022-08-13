@@ -41,9 +41,9 @@ export default function CreateSpace() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces`}>
@@ -58,11 +58,13 @@ export default function CreateSpace() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space in - ${application?.name}`} 
-          style={{ 
+        <Card
+          title={`Create Space in - ${application?.name}`}
+          style={{
             width: '50%',
-            alignSelf: 'center'
-            }}>
+            alignSelf: 'center',
+          }}
+        >
           <Form
             name="space_create"
             layout="vertical"
@@ -85,7 +87,10 @@ export default function CreateSpace() {
                 { max: 50, message: 'Name must be maximum 50 characters.' },
               ]}
             >
-              <Input placeholder="enter a name for your space" onChange={(e) => onNameChange(e.target.value)} />
+              <Input
+                placeholder="enter a name for your space"
+                onChange={(e) => onNameChange(e.target.value)}
+              />
             </Form.Item>
             <SlugInput />
             <Form.Item name="description" label="Description">

@@ -44,11 +44,11 @@ function ApplicationUser() {
   const remainingUsers = organisationUsers.filter((user) => !applicationUsers.includes(user));
   return (
     <div
-    style={{
-      display:'flex',
-      flexDirection:'column',
-      gap:'20px'
-    }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+      }}
     >
       <Link key="1" to={`/applications/${id}/settings/`}>
         <Button type="primary">Back to Settings</Button>

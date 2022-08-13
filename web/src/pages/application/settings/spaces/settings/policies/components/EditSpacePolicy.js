@@ -62,9 +62,9 @@ export default function EditSpacePolicy() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
@@ -73,10 +73,11 @@ export default function EditSpacePolicy() {
       {loading || loadingRole || loadingSpace ? (
         <Skeleton />
       ) : (
-        <Card title={`Edit Space Policy - ${space?.name}`} 
-          style={{ 
+        <Card
+          title={`Edit Space Policy - ${space?.name}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
+            alignSelf: 'center',
           }}
         >
           <Form

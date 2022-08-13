@@ -49,9 +49,9 @@ const CreateApplicationTokenForm = () => {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${id}/settings/tokens`}>
@@ -67,10 +67,11 @@ const CreateApplicationTokenForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Application Token - ${application?.name}`} 
-          style={{ 
+        <Card
+          title={`Create Application Token - ${application?.name}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
+            alignSelf: 'center',
           }}
         >
           <Form

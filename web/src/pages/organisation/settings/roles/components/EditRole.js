@@ -64,11 +64,11 @@ export default function EditOrganisationRole() {
 
   return (
     <div
-    style={{ 
-      display:'flex',
-      flexDirection:'column',
-      gap:'20px'
-     }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+      }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
         <Button type="primary">Back to Roles</Button>
@@ -76,13 +76,13 @@ export default function EditOrganisationRole() {
       {loading || loadingOrg || loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card 
-          title={`Edit Organisation Role - ${organisation?.title}`} 
-          style={{ 
+        <Card
+          title={`Edit Organisation Role - ${organisation?.title}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
+            alignSelf: 'center',
           }}
-          >
+        >
           <Form
             form={form}
             layout="vertical"

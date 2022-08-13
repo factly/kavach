@@ -12,9 +12,8 @@ function OrganisationRoles() {
     dispatch(getOrganisation(orgID));
   }, [orgID, dispatch]);
 
-  const { organisation, loadingOrg, role, loading } = useSelector((state) => {
+  const { loadingOrg, role, loading } = useSelector((state) => {
     return {
-      organisation: state.organisations.details[orgID],
       loadingOrg: state.organisations.loading,
       role: state.profile.roles[state.organisations.selected],
       loading: state.profile.loading,
@@ -22,9 +21,7 @@ function OrganisationRoles() {
   });
 
   return (
-    <Space 
-      direction="vertical"
-      >
+    <Space direction="vertical">
       <Link key="1" to={`/organisation`}>
         <Button type="primary"> Back to Settings </Button>
       </Link>

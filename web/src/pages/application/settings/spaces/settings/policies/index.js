@@ -12,7 +12,7 @@ export default function SpacePolicies() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getSpacePolicy(appID, spaceID));
-    dispatch(getSpaceRoles(appID, spaceID))
+    dispatch(getSpaceRoles(appID, spaceID));
     dispatch(getSpaceByID(appID, spaceID));
   }, [appID, spaceID, dispatch]);
 

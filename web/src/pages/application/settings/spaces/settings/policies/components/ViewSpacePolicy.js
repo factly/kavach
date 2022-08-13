@@ -54,9 +54,9 @@ export default function ViewSpacePolicy() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`}>
@@ -86,7 +86,7 @@ export default function ViewSpacePolicy() {
           </Descriptions.Item>
         </Descriptions>
       )}
-      <Divider/>
+      <Divider />
       <h3> Permissions </h3>
       <Table
         bordered={true}

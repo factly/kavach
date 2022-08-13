@@ -58,9 +58,9 @@ export default function OrganisationRoleUsers() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/roles`}>

@@ -12,13 +12,13 @@ export default function ViewOrganisationPolicy() {
       title: 'Resource',
       dataIndex: 'resource',
       key: 'resource',
-      width:'30%',
+      width: '30%',
     },
     {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      width:'70%',
+      width: '70%',
       render: (_, record) => {
         return record.actions.map((action) => {
           return (
@@ -55,11 +55,11 @@ export default function ViewOrganisationPolicy() {
 
   return (
     <div
-    style={{
-      display:'flex',
-      flexDirection:'column',
-      gap:'20px'
-    }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+      }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
         <Button type="primary">Back to Policies</Button>
@@ -88,7 +88,7 @@ export default function ViewOrganisationPolicy() {
           </Descriptions.Item>
         </Descriptions>
       )}
-      <Divider/>
+      <Divider />
       <h3> Permissions </h3>
       <Table
         bordered={true}

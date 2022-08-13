@@ -11,7 +11,7 @@ function ApplicationRoles() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getApplication(id));
-    dispatch(getApplicationRoles(id))
+    dispatch(getApplicationRoles(id));
   }, [id, dispatch]);
 
   const { application, loadingApp, role, loading } = useSelector((state) => {

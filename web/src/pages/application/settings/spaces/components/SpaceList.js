@@ -72,12 +72,17 @@ function SpaceList({ appID, role }) {
         return (
           <Space>
             <Link to={`/applications/${appID}/settings/spaces/${record?.id}/edit`}>
-              <Button primary="true" icon={<EditOutlined />} style={{minWidth: '30%'}} disabled={role !== 'owner'}>
+              <Button
+                primary="true"
+                icon={<EditOutlined />}
+                style={{ minWidth: '30%' }}
+                disabled={role !== 'owner'}
+              >
                 Edit
               </Button>
             </Link>
             <Link to={`/applications/${appID}/settings/spaces/${record.id}/settings`}>
-              <Button primary="true" icon={<SettingOutlined />} style={{minWidth: '30%'}}>
+              <Button primary="true" icon={<SettingOutlined />} style={{ minWidth: '30%' }}>
                 Settings
               </Button>
             </Link>
@@ -86,7 +91,12 @@ function SpaceList({ appID, role }) {
               onConfirm={() => onDelete(appID, record?.id)}
               disabled={role !== 'owner'}
             >
-              <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'} style={{minWidth: '30%'}}>
+              <Button
+                type="danger"
+                icon={<DeleteOutlined />}
+                disabled={role !== 'owner'}
+                style={{ minWidth: '30%' }}
+              >
                 Delete
               </Button>
             </Popconfirm>

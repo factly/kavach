@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Button, Tag, Space } from 'antd';
+import { Table, Popconfirm, Button, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteSpacePolicy, getSpacePolicy } from '../../../../../../../actions/policy';
 import { getSpaceRoles } from '../../../../../../../actions/roles';
@@ -11,16 +11,17 @@ export default function PolicyList({ appID, spaceID, role }) {
   const dispatch = useDispatch();
   const { policies, loading } = useSelector((state) => {
     const policyIDs = state.spaces.details[spaceID]?.policyIDs || [];
-  
+
     return {
       policies: policyIDs?.map((id) => {
-        return ({
-        ...state.policy.space?.[spaceID]?.[id],
-        roles:
-          state.policy.space[spaceID][id]?.roles?.map((rId) => ({
-            ...state.roles.space?.[spaceID]?.[rId],
-          })) || [],
-      })}),
+        return {
+          ...state.policy.space?.[spaceID]?.[id],
+          roles:
+            state.policy.space[spaceID][id]?.roles?.map((rId) => ({
+              ...state.roles.space?.[spaceID]?.[rId],
+            })) || [],
+        };
+      }),
       loading: state.policy.loading,
     };
   });
@@ -55,7 +56,7 @@ export default function PolicyList({ appID, spaceID, role }) {
       title: 'Action',
       dataIndex: 'operation',
       width: '25%',
-      align:'center',
+      align: 'center',
       render: (_, record) => {
         return (
           <Space>
@@ -64,13 +65,13 @@ export default function PolicyList({ appID, spaceID, role }) {
                 pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/policies/${record.id}/view`,
               }}
             >
-              <Button 
-                icon={<EyeOutlined />} 
+              <Button
+                icon={<EyeOutlined />}
                 style={{
-                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS,
                 }}
-              > 
-              View 
+              >
+                View
               </Button>
             </Link>
             <Link
@@ -78,25 +79,27 @@ export default function PolicyList({ appID, spaceID, role }) {
                 pathname: `/applications/${appID}/settings/spaces/${spaceID}/settings/policies/${record.id}/edit`,
               }}
             >
-              <Button 
-                icon={<EditOutlined />} 
+              <Button
+                icon={<EditOutlined />}
                 style={{
-                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS,
                 }}
-                disabled={role !== 'owner'}>
+                disabled={role !== 'owner'}
+              >
                 Edit
               </Button>
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-              <Button 
-                  type="danger" 
-                  icon={<DeleteOutlined />} 
-                  style={{
-                    minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
-                  }}
-                  disabled={role !== 'owner'}>
-                    Delete
-                </Button>
+              <Button
+                type="danger"
+                icon={<DeleteOutlined />}
+                style={{
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS,
+                }}
+                disabled={role !== 'owner'}
+              >
+                Delete
+              </Button>
             </Popconfirm>
           </Space>
         );

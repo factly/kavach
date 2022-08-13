@@ -52,12 +52,12 @@ export default function SpaceContact() {
             name="space-contact-details"
             form={form}
             initialValues={{
-              telephone: space.contact_info.telephone,
-              mobile: space.contact_info.telephone,
-              facebook: space.social_media_urls.facebook,
-              instagram: space.social_media_urls.instagram,
-              twitter: space.social_media_urls.twitter,
-              slack: space.social_media_urls.slack,
+              telephone: space?.contact_info?.telephone,
+              mobile: space?.contact_info?.mobile,
+              facebook: space?.social_media_urls?.facebook,
+              instagram: space?.social_media_urls?.instagram,
+              twitter: space?.social_media_urls?.twitter,
+              slack: space?.social_media_urls?.slack,
             }}
             onFinish={handleSubmit}
           >

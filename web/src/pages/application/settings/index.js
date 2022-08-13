@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import SettingsList, { SettingsCard } from '../../../components/Settings';
-import { Col, Row, Skeleton, Descriptions, Divider, Space } from 'antd';
-import { ApartmentOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router-dom';
+import SettingsList from '../../../components/Settings';
+import { Skeleton, Descriptions, Divider, Space } from 'antd';
 import { getApplication } from '../../../actions/application';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -38,7 +37,7 @@ export default function ApplicationSettings() {
               {application.description}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Spaces" span={descriptionSpan}>
-              {(application?.spaces?.length) ? application?.spaces?.length : 0}
+              {application?.spaces?.length ? application?.spaces?.length : 0}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
               {application?.tokens?.length ? application?.tokens?.length : 0}

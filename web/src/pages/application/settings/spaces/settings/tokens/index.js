@@ -26,11 +26,11 @@ export default function SpaceTokens() {
     //eslint-disable-next-line
   }, []);
   return (
-    <div 
+    <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>

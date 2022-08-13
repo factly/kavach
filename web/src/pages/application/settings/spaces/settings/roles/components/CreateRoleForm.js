@@ -9,7 +9,7 @@ import ErrorComponent from '../../../../../../../components/ErrorsAndImage/Error
 
 const CreateSpaceRoleForm = () => {
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
   const { appID, spaceID } = useParams();
   const [form] = Form.useForm();
   const { TextArea } = Input;
@@ -38,15 +38,17 @@ const CreateSpaceRoleForm = () => {
   }, [dispatch, appID, spaceID]);
 
   const onCreate = (values) => {
-    dispatch(createSpaceRole(appID, spaceID, values)).then(history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/roles/`));
+    dispatch(createSpaceRole(appID, spaceID, values)).then(
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/roles/`),
+    );
   };
 
   return (
     <div
-      style={{ 
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`}>
@@ -61,11 +63,13 @@ const CreateSpaceRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Space Role - ${space?.name}`} 
-          style={{ 
+        <Card
+          title={`Create Space Role - ${space?.name}`}
+          style={{
             width: '50%',
-            alignSelf:'center'
-          }}>
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

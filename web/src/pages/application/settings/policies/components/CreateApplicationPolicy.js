@@ -61,9 +61,9 @@ export default function CreateApplicationPolicyForm() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/policies`}>
@@ -78,12 +78,13 @@ export default function CreateApplicationPolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card title={`Create Application Policy - ${application?.name}`} 
-          style={
-              { 
-                width: '50%',
-                alignSelf:'center'
-                }}>
+        <Card
+          title={`Create Application Policy - ${application?.name}`}
+          style={{
+            width: '50%',
+            alignSelf: 'center',
+          }}
+        >
           <Form
             form={form}
             layout="vertical"

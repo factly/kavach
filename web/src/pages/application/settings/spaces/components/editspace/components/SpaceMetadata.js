@@ -74,7 +74,7 @@ function SpaceMetadata() {
             form={form}
             initialValues={{
               ...space,
-              meta_fields: space.meta_fields ? JSON.stringify(space.meta_fields) : '',
+              meta_fields: space?.meta_fields ? JSON.stringify(space.meta_fields) : '',
             }}
             onFinish={handleSubmit}
           >
@@ -170,7 +170,7 @@ function SpaceMetadata() {
                   placeholder={modeMetaData === 'html' ? htmlSample : jsonSample}
                   height="100%"
                   theme={oneDark}
-                  extensions={[modeMetaData === 'json' ? jsonLanguage : htmlLanguage]}
+                  // extensions={[modeMetaData === 'json' ? jsonLanguage : htmlLanguage]}
                   autoFocus={true}
                 />
               </Form.Item>

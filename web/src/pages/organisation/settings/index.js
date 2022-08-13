@@ -11,9 +11,7 @@ export default function OrganisationSettings({ orgID }) {
   });
   return (
     <div>
-      {
-      (loading) ? <Skeleton/> :<SettingsList type="organisation" orgID={orgID} role={role}/>
-      }
+      {loading ? <Skeleton /> : <SettingsList type="organisation" orgID={orgID} role={role} />}
     </div>
   );
 }

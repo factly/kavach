@@ -5,7 +5,7 @@ import {
   EuroCircleOutlined,
   UsergroupAddOutlined,
   FileProtectOutlined,
-  ApartmentOutlined
+  ApartmentOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -68,8 +68,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
             />
           </Link>
         </Col>
-        {
-          role === 'owner' ?
+        {role === 'owner' ? (
           <Col span={12}>
             <Link to={`${baseLink}/tokens`}>
               <SettingsCard
@@ -78,23 +77,19 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
                 description="Token settings"
               />
             </Link>
-          </Col>:
-          null
-        }
-        {
-          (type === 'application') ?
-          (
-            <Col span={12}>
-              <Link to={`${baseLink}/spaces`}>
-                <SettingsCard
-                  icon={<ApartmentOutlined style={{ color: '#4E89FF' }} />}
-                  title="Spaces"
-                  description="Space Settings"
-                />
-              </Link>
-            </Col>
-          ): null
-        }
+          </Col>
+        ) : null}
+        {type === 'application' ? (
+          <Col span={12}>
+            <Link to={`${baseLink}/spaces`}>
+              <SettingsCard
+                icon={<ApartmentOutlined style={{ color: '#4E89FF' }} />}
+                title="Spaces"
+                description="Space Settings"
+              />
+            </Link>
+          </Col>
+        ) : null}
       </Row>
     </div>
   );

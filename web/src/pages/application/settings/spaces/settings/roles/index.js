@@ -3,7 +3,6 @@ import { Skeleton, Space, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import SpaceRoleList from './components/RoleList';
-import { getSpaceByID } from '../../../../../../actions/space';
 import { getSpaceRoles } from '../../../../../../actions/roles';
 
 export default function SpaceRoles() {
@@ -26,9 +25,9 @@ export default function SpaceRoles() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings`}>

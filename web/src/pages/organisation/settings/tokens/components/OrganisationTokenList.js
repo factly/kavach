@@ -45,7 +45,7 @@ export default function TokenList({ orgID, role }) {
       title: 'Action',
       dataIndex: 'operation',
       width: '35%',
-      align:'center',
+      align: 'center',
       render: (_, record) => {
         return (
           <span>
@@ -54,7 +54,7 @@ export default function TokenList({ orgID, role }) {
               onConfirm={() => onDelete(record?.id)}
               key={record?.id}
             >
-              <Button type="danger" disabled={role !== 'owner'} icon={<DeleteOutlined/>}>
+              <Button type="danger" disabled={role !== 'owner'} icon={<DeleteOutlined />}>
                 Revoke
               </Button>
             </Popconfirm>

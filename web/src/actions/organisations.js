@@ -73,15 +73,15 @@ export const getOrganisations = () => {
         response.data.forEach((org) => {
           roleMap[org.organisation.id] = org.permission.role;
         });
-        if(response.data?.length > 0){
-          var orgList = response.data.map((org) => ({...org.organisation, applications: org.applications}))
+        if (response.data?.length > 0) {
+          var orgList = response.data.map((org) => ({
+            ...org.organisation,
+            applications: org.applications,
+          }));
           dispatch(addOrganisationsList(orgList));
           dispatch(addOrganisationIds(getIds(orgList)));
         }
         dispatch(addMyOrganisationRole(roleMap));
-        
-
-
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -109,15 +109,15 @@ export const getOrganisation = (id) => {
           });
           dispatch(addOrganisationRoles(id, buildObjectOfItems(response.data.organisation.roles)));
           response.data.organisation.roleIDs = getIds(response.data.organisation.roles);
-          delete response.data.organisation.roles
+          delete response.data.organisation.roles;
         }
-        
+
         if (response.data.organisation.policies?.length) {
           dispatch(addOrganisationPolicy(id, response.data.organisation.policies));
           response.data.organisation.policyIDs = getIds(response.data.organisation.policies);
           delete response.data.organisation.policies;
         }
-        
+
         let users = [];
         response.data.organisation.roles = {};
         response.data.organisation.organisation_users.map((item) => {
@@ -129,7 +129,7 @@ export const getOrganisation = (id) => {
         deleteKeys([response.data.organisation], ['organisation_users', 'medium']);
         response.data.applications = getIds(response.data.organisation.applications);
         response.data.organisation.users = getIds(users);
-        dispatch(addUsersList(users))
+        dispatch(addUsersList(users));
         dispatch(addOrganisationByID(response.data.organisation));
       })
       .catch((error) => {
@@ -201,29 +201,29 @@ export const addOrganisationsList = (data, id) => (dispatch) => {
     organisation.roles = {};
     if (organisation && organisation.organisation_users) {
       organisation.organisation_users.map((item) => {
-        if(item?.user){
+        if (item?.user) {
           users.push(item.user);
           if (item.user.id === id) {
             organisation.role = item.role;
           }
           organisation.roles[item.user.id] = item.role;
-        }else{
-          organisation.roles[item.user_id] = item.role
+        } else {
+          organisation.roles[item.user_id] = item.role;
         }
         return null;
       });
     }
-    
+
     dispatch(addUsersList(users));
     organisation.users = getIds(users);
     organisation.applications = getIds(organisation.applications);
     if (organisation.roles?.length) {
-     organisation.roles.forEach((role) => {
+      organisation.roles.forEach((role) => {
         role.users = getIds(role.users);
       });
       dispatch(addOrganisationRoles(id, buildObjectOfItems(organisation.roles)));
       organisation.roleIDs = getIds(organisation.roles);
-      delete organisation.roles
+      delete organisation.roles;
     }
     if (organisation.policies?.length) {
       dispatch(addOrganisationPolicy(id, organisation.policies));

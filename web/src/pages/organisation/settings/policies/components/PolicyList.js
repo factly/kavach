@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Button, Tag, Space } from 'antd';
+import { Table, Popconfirm, Button, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteOrganisationPolicy, getOrganisationPolicy } from '../../../../../actions/policy';
 import { Link } from 'react-router-dom';
@@ -52,13 +52,13 @@ export default function PolicyList({ orgID, role }) {
                 pathname: `/organisation/${orgID}/settings/policies/${record.id}/view`,
               }}
             >
-              <Button 
-                icon={<EyeOutlined />} 
+              <Button
+                icon={<EyeOutlined />}
                 style={{
-                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS,
                 }}
-              > 
-              View 
+              >
+                View
               </Button>
             </Link>
             <Link
@@ -66,24 +66,26 @@ export default function PolicyList({ orgID, role }) {
                 pathname: `/organisation/${orgID}/settings/policies/${record.id}/edit`,
               }}
             >
-              <Button 
-                icon={<EditOutlined />} 
+              <Button
+                icon={<EditOutlined />}
                 style={{
-                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS,
                 }}
-                disabled={role !== 'owner'}>
+                disabled={role !== 'owner'}
+              >
                 Edit
               </Button>
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
-              <Button 
-                type="danger" 
-                icon={<DeleteOutlined />} 
+              <Button
+                type="danger"
+                icon={<DeleteOutlined />}
                 style={{
-                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS
+                  minWidth: MINIMUM_WIDTH_ACTION_BUTTONS,
                 }}
-                disabled={role !== 'owner'}>
-                  Delete
+                disabled={role !== 'owner'}
+              >
+                Delete
               </Button>
             </Popconfirm>
           </Space>

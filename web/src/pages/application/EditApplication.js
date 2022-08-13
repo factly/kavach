@@ -53,11 +53,11 @@ function EditApplication() {
         </div>
       ) : (
         <ErrorComponent
-        status="403"
-        title="Sorry you are not authorised to access this page"
-        link="/applications"
-        message="Goto Applications"
-      />
+          status="403"
+          title="Sorry you are not authorised to access this page"
+          link="/applications"
+          message="Goto Applications"
+        />
       )}
     </Space>
   );

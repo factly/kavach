@@ -15,7 +15,7 @@ function ApplicationList({ applicationList, permission, loading }) {
   const { orgID, loadingOrg } = useSelector((state) => {
     return {
       orgID: state.organisations.selected,
-      loadingOrg: state.organisations.loading
+      loadingOrg: state.organisations.loading,
     };
   });
 
@@ -55,7 +55,7 @@ function ApplicationList({ applicationList, permission, loading }) {
           >
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
-          permission && orgID === 1? (
+          permission && orgID === 1 ? (
             <Popconfirm
               title="Sure to Delete?"
               onConfirm={() =>
@@ -101,12 +101,13 @@ function ApplicationList({ applicationList, permission, loading }) {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
-    {
-      loadingOrg ? <Skeleton/> :
-      applicationList.map((application, index) => (
-        <ApplicationCard key={index} application={application}></ApplicationCard>
-      ))
-    }
+      {loadingOrg ? (
+        <Skeleton />
+      ) : (
+        applicationList.map((application, index) => (
+          <ApplicationCard key={index} application={application}></ApplicationCard>
+        ))
+      )}
     </div>
   );
 }

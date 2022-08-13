@@ -61,9 +61,9 @@ export default function CreateOrganisationPolicyForm() {
   return (
     <div
       style={{
-        display:'flex',
-        flexDirection:'column',
-        gap:'20px'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
       }}
     >
       <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
@@ -81,9 +81,9 @@ export default function CreateOrganisationPolicyForm() {
       ) : (
         <Card
           title={`Create Organisation Policy - ${organisation?.title}`}
-          style={{ 
+          style={{
             width: '50%',
-            alignSelf:'center'
+            alignSelf: 'center',
           }}
         >
           <Form

@@ -208,7 +208,7 @@ export const getApplicationPolicy = (appID) => {
       .then((res) => {
         deleteKeys(res.data, ['application']);
         res.data.forEach((policy) => {
-          dispatch(addApplicationRoleByID(appID))
+          dispatch(addApplicationRoleByID(appID));
           policy.roles = getIds(policy.roles);
         });
         dispatch(addApplicationPolicy(appID, buildObjectOfItems(res.data)));

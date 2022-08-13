@@ -1,5 +1,5 @@
 import React from 'react';
-import { Popconfirm, Button, Table, Avatar, Tooltip, Space } from 'antd';
+import { Popconfirm, Button, Table, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteOrganisationRole, getOrganisationRoles } from '../../../../../actions/roles';
 import { Link } from 'react-router-dom';

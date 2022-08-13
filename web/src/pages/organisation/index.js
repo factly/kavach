@@ -16,7 +16,7 @@ function OrganisationDetails() {
       loading: state.organisations.loading,
       selected: state.organisations.selected,
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
-      role: state.profile.roles[state.organisations.selected]
+      role: state.profile.roles[state.organisations.selected],
     };
   });
 
