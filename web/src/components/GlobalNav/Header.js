@@ -21,18 +21,18 @@ function Header() {
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
 
-          {window.REACT_APP_ENABLE_MULTITENANCY ? (
-            <div>
-              <Link to="/organisation">
-                <Button>New Organisation</Button>
-              </Link>
-              <OrganisationSelector />
-            </div>
-          ) : organisationCount < 1 ? (
+        {window.REACT_APP_ENABLE_MULTITENANCY ? (
+          <div>
             <Link to="/organisation">
               <Button>New Organisation</Button>
             </Link>
-          ) : null}
+            <OrganisationSelector />
+          </div>
+        ) : organisationCount < 1 ? (
+          <Link to="/organisation">
+            <Button>New Organisation</Button>
+          </Link>
+        ) : null}
         {apps.length > 0 ? (
           <>
             <Divider type="vertical" />

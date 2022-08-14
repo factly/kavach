@@ -21,9 +21,11 @@ function App() {
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') {
-      posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, { api_host: process.env.REACT_APP_POSTHOG_URL })
+      posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
+        api_host: process.env.REACT_APP_POSTHOG_URL,
+      });
     }
-  }, [])
+  }, []);
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
