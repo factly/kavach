@@ -85,6 +85,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		org.AllApplications = append(org.AllApplications, defaultApps...)
+		org.Organisation.Applications = org.AllApplications
 		allOrganisations = append(allOrganisations, org)
 	}
 
