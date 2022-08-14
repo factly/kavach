@@ -9,13 +9,15 @@ import kavach_logo from '../../assets/kavach_icon.png';
 import createForm from '../../utils/form';
 import MFA from './mfa';
 import passwordValidation from '../../utils/password-validation';
-
+import posthog from 'posthog-js'
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
   const logo = window.REACT_APP_LOGO_URL || kavach_logo;
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
-  var afterVerificationURL = localStorage.getItem('returnTo') || null;
+  var afterRegistrationReturnToURL = localStorage.getItem('returnTo')
+    ? localStorage.getItem('returnTo')
+    : null;
 
   React.useEffect(() => {
     var obj = {};
@@ -29,22 +31,26 @@ function Auth(props) {
       });
 
     const returnTo = obj['return_to'];
-    const selfServiceURL =
-      props.flow === 'login'
-        ? returnTo
-          ? window.REACT_APP_KRATOS_PUBLIC_URL +
-            '/self-service/' +
-            props.flow +
-            '/browser?return_to=' +
-            returnTo
-          : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser'
-        : afterVerificationURL
-        ? window.REACT_APP_KRATOS_PUBLIC_URL +
-          '/self-service/' +
-          props.flow +
-          '/browser?after_verification_return_to=' +
-          afterVerificationURL
-        : window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+
+    let selfServiceURL;
+    if (returnTo) {
+      selfServiceURL =
+        window.REACT_APP_KRATOS_PUBLIC_URL +
+        '/self-service/' +
+        props.flow +
+        '/browser?return_to=' +
+        returnTo;
+    } else if (afterRegistrationReturnToURL) {
+      selfServiceURL =
+        window.REACT_APP_KRATOS_PUBLIC_URL +
+        '/self-service/' +
+        props.flow +
+        '/browser?return_to=' +
+        afterRegistrationReturnToURL;
+    } else {
+      selfServiceURL =
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/' + props.flow + '/browser';
+    }
 
     if (!obj['flow']) {
       window.location.href = selfServiceURL;
@@ -70,7 +76,7 @@ function Auth(props) {
         .then((res) => {
           setUI(res.ui);
           setaal2(res.requested_aal === 'aal2');
-          if (props.flow === 'login') {
+          if (props.flow === 'login' && res.return_to) {
             localStorage.setItem('returnTo', res.return_to);
           }
         })
@@ -78,9 +84,10 @@ function Auth(props) {
           window.location.href = window.REACT_APP_PUBLIC_URL + '/error';
         });
     }
-  }, [props.flow, afterVerificationURL]);
+  }, [props.flow, afterRegistrationReturnToURL]);
 
   const withPassword = (values) => {
+    posthog.capture('Login Event', { 'email': values?.email })
     var authForm = createForm(ui.action, ui.method);
 
     var identifierInput = document.createElement('input');
@@ -142,7 +149,7 @@ function Auth(props) {
                 ))
               : null}
             <div style={{ marginBottom: '1rem', marginTop: '1rem' }}>
-              {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0
+              {ui?.nodes?.filter((each) => each.group === 'oidc').length > 0 && props.flow === 'login'
                 ? [<OIDC ui={ui} flow={props.flow} />]
                 : null}
             </div>

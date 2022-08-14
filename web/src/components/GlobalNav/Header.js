@@ -17,12 +17,11 @@ function Header() {
       organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
     };
   });
-
   return (
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
-        {window.REACT_APP_ENABLE_MULTITENANCY === true ? (
+        {window.REACT_APP_ENABLE_MULTITENANCY  ? (
           <div>
             <Link to="/organisation/create">
               <Button>New Organisation</Button>
@@ -58,7 +57,7 @@ function Header() {
                           <img alt="logo" className="menu-logo" src={item.medium.url.proxy} />
                         ) : (
                           <Avatar shape="square" size={35}>
-                            {item.name.charAt(0)}
+                            {item.name?.charAt(0)}
                           </Avatar>
                         )}
                         <p>{item.name}</p>

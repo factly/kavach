@@ -54,6 +54,22 @@ func SetupVars() {
 		log.Fatal("please provide domain name in config")
 	}
 
+	if !viper.IsSet("dynamic_from_email") {
+		log.Fatal("please provide dynamic_from_email in config")
+	}
+
+	if !viper.IsSet("mande_host") {
+		log.Fatal("please provide mande host in config")
+	}
+
+	if !viper.IsSet("dynamic_mande_template_id") {
+		log.Fatal("please provide dynamic mande template id in config")
+	}
+
+	if !viper.IsSet("dynamic_sendgrid_api_key") {
+		log.Fatal("please provide dynamic sendgrid api key in config")
+	}
+
 	if !viper.IsSet("kratos_admin_url") {
 		log.Fatal("please provide kratos_admin_url in config")
 	}

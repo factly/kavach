@@ -34,7 +34,7 @@ export default function ViewApplicationPolicy() {
       policy: {
         ...state.policy.application[appID][policyID],
         roles:
-          state.policy.application[appID][policyID]?.roles.map((rId) => ({
+          state.policy.application[appID]?.[policyID]?.roles?.map((rId) => ({
             ...state.roles.application[appID]?.[rId],
           })) || [],
       },

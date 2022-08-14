@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
+import posthog from 'posthog-js';
 //Routes
 import routes from './config/routes';
 import Recovery from './pages/recovery';
@@ -20,6 +21,11 @@ function App() {
     };
   });
 
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') {
+      posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, { api_host: process.env.REACT_APP_POSTHOG_URL })
+    }
+  }, [])
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
