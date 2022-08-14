@@ -81,7 +81,7 @@ func details(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(sID),
 		},
-	}).Preload("Users").Preload("Logo").Preload("FavIcon").Preload("MobileIcon").Preload("Organisation").Preload("Application").Preload("Tokens").Find(&space).Error
+	}).Preload("Users").Preload("Organisation").Preload("Application").Preload("Tokens").Find(&space).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))

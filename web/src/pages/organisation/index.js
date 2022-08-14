@@ -6,6 +6,7 @@ import OrganisationSettings from './settings';
 import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
+import Metric from '../../components/Settings/metric';
 
 function OrganisationDetails() {
   const dispatch = useDispatch();

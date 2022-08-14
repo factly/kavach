@@ -3,14 +3,15 @@ import { Button, Form, Input, Card, Skeleton } from 'antd';
 import { maker } from '../../../../../utils/sluger';
 import SlugInput from '../../../../../components/FormItems/SlugInput';
 import { useParams, useHistory, Link } from 'react-router-dom';
-import { createSpace } from '../../../../../actions/space';
+import { editSpace, getSpaceByID } from '../../../../../actions/space';
 import { useDispatch, useSelector } from 'react-redux';
-import { getApplication } from '../../../../../actions/application';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
+import { getApplication } from '../../../../../actions/application';
 
-export default function CreateSpace() {
+
+export default function EditSpaceForm() {
   const [form] = Form.useForm();
-  const { appID } = useParams();
+  const { appID, spaceID } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
   const onNameChange = (string) => {
@@ -19,25 +20,30 @@ export default function CreateSpace() {
     });
   };
 
-  const onSubmit = (values) => {
-    values.metadata = JSON.parse(values.metadata);
-    dispatch(createSpace(values, appID)).then(() => {
-      history.push(`/applications/${appID}/settings/spaces`);
-    });
-  };
+  React.useEffect(() => {
+    dispatch(getApplication(appID))
+    dispatch(getSpaceByID(appID, spaceID));
+    //eslint-disable-next-line
+  }, [appID, spaceID]);
 
-  const { application, loadingApp, role, loadingRole } = useSelector((state) => {
+  const { space, loading, application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
-      application: state.applications.details[appID] ? state.applications.details[appID] : null,
-      loadingApps: state.applications.loading,
+      space: state.spaces.details[spaceID],
+      loading: state.spaces.loading,
+      application: state.applications.details[appID],
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
   });
 
-  React.useEffect(() => {
-    dispatch(getApplication(appID));
-  }, [dispatch, appID]);
+  const handleSubmit = (data) => {
+    delete data.users;
+    data.metadata = data.metadata ? JSON.parse(data.metadata) : {};
+    dispatch(editSpace(spaceID, appID, data)).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/edit`),
+    );
+  };
 
   return (
     <div
@@ -50,8 +56,7 @@ export default function CreateSpace() {
       <Link key="1" to={`/applications/${appID}/settings/spaces`}>
         <Button type="primary">Back to Spaces</Button>
       </Link>
-      {loadingApp || loadingApp || loadingRole ? <Skeleton /> : null}
-      {role !== 'owner' ? (
+      {loading || loadingApp || loadingRole ? <Skeleton /> : role !== 'owner' ? (
         <ErrorComponent
           status="403"
           title="Sorry you are not authorised to access this page"
@@ -60,7 +65,7 @@ export default function CreateSpace() {
         />
       ) : (
         <Card
-          title={`Create Space in - ${application?.name}`}
+          title={`Edit Space in - ${application?.name}`}
           style={{
             width: '50%',
             alignSelf: 'center',
@@ -70,7 +75,11 @@ export default function CreateSpace() {
             name="space_create"
             layout="vertical"
             form={form}
-            onFinish={(values) => onSubmit(values)}
+            initialValues={{
+              ...space,
+              metadata: space?.metadata ? JSON.stringify(space.metadata) : '',
+            }}
+            onFinish={(values => handleSubmit(values))}
           >
             <Form.Item
               name="application_name"

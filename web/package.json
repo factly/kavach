@@ -95,6 +95,9 @@
       "!src/index.js"
     ]
   },
+  "overrides": {
+    "@codemirror/state": "6.0.1"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

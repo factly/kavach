@@ -98,49 +98,11 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	updateMap := map[string]interface{}{
-		"name":               space.Name,
-		"slug":               space.Slug,
-		"site_title":         space.SiteTitle,
-		"tag_line":           space.TagLine,
-		"site_address":       space.SiteAddress,
-		"description":        space.Description,
-		"logo_id":            space.LogoID,
-		"logo_mobile_id":     space.LogoMobileID,
-		"fav_icon_id":        space.FavIconID,
-		"mobile_icon_id":     space.MobileIconID,
-		"header_code":        space.HeaderCode,
-		"footer_code":        space.FooterCode,
-		"meta_fields":        space.MetaFields,
-		"verification_codes": space.VerificationCodes,
-		"social_media_urls":  space.SocialMediaURLs,
-		"contact_info":       space.ContactInfo,
-		"analytics":          space.Analytics,
+		"name":        space.Name,
+		"slug":        space.Slug,
+		"description": space.Description,
+		"metadata":    space.Metadata,
 	}
-	// check if the id for all the mediums in space is 0 or not if it is zero then make it null
-	if space.LogoID != nil {
-		if *space.LogoID == 0 {
-			updateMap["logo_id"] = nil
-		}
-	}
-
-	if space.FavIcon != nil {
-		if *space.FavIconID == 0 {
-			updateMap["fav_icon_id"] = nil
-		}
-	}
-
-	if space.LogoMobileID != nil {
-		if *space.LogoMobileID == 0 {
-			updateMap["logo_mobile_id"] = nil
-		}
-	}
-
-	if space.MobileIconID != nil {
-		if *space.MobileIconID == 0 {
-			updateMap["mobile_icon_id"] = nil
-		}
-	}
-
 	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
 	if err != nil {
 		tx.Rollback()

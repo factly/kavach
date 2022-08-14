@@ -53,13 +53,9 @@ import OrganisationRoles from '../pages/organisation/settings/roles';
 import CreateOrganisationRoleForm from '../pages/organisation/settings/roles/components/CreateRoleForm';
 import EditOrganisationRole from '../pages/organisation/settings/roles/components/EditRole';
 import OrganisationRoleUsers from '../pages/organisation/settings/roles/users';
-import EditSpace from '../pages/application/settings/spaces/components/editspace';
-import SpaceDetails from '../pages/application/settings/spaces/components/editspace/components/SpaceDetails';
-import SpaceLogoForm from '../pages/application/settings/spaces/components/editspace/components/SpaceLogoform';
-import SpaceMetadata from '../pages/application/settings/spaces/components/editspace/components/SpaceMetadata';
-import SpaceContact from '../pages/application/settings/spaces/components/editspace/components/SpaceContact';
 import EditSpaceRole from '../pages/application/settings/spaces/settings/roles/components/EditRole';
 import { ApplicationType } from '../pages/application/components/ApplicationType';
+import EditSpaceForm from '../pages/application/settings/spaces/components/SpaceEditForm';
 
 export default [
   {
@@ -265,39 +261,12 @@ export default [
   },
   {
     path: '/applications/:appID/settings/spaces/:spaceID/edit',
-    Component: EditSpace,
+    Component: EditSpaceForm,
     title: 'Edit space',
     enableNavigation: false,
     enableBreadcrumb: true,
   },
-  {
-    path: '/applications/:appID/settings/spaces/:spaceID/edit/details',
-    Component: SpaceDetails,
-    title: 'Edit Space Basic Details',
-    enableNavigation: false,
-    enableBreadcrumb: true,
-  },
-  {
-    path: '/applications/:appID/settings/spaces/:spaceID/edit/logos',
-    Component: SpaceLogoForm,
-    title: 'Edit Space Metadata Details',
-    enableNavigation: false,
-    enableBreadcrumb: true,
-  },
-  {
-    path: '/applications/:appID/settings/spaces/:spaceID/edit/metadata',
-    Component: SpaceMetadata,
-    title: 'Edit Space Basic Details',
-    enableNavigation: false,
-    enableBreadcrumb: true,
-  },
-  {
-    path: '/applications/:appID/settings/spaces/:spaceID/edit/contacts',
-    Component: SpaceContact,
-    title: 'Edit Contact Details',
-    enableNavigation: false,
-    enableBreadcrumb: true,
-  },
+
   {
     path: '/applications/:appID/settings/spaces/:spaceID/settings',
     Component: SpaceSettings,

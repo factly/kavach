@@ -36,14 +36,14 @@ export default function ApplicationSettings() {
             <Descriptions.Item label="Description" span={descriptionSpan}>
               {application.description}
             </Descriptions.Item>
+            <Descriptions.Item label="Application URL" span={descriptionSpan}>
+              <a href={`https://${application?.url}`}>{application?.url}</a>
+            </Descriptions.Item>
             <Descriptions.Item label="Number of Spaces" span={descriptionSpan}>
               {application?.spaces?.length ? application?.spaces?.length : 0}
             </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
               {application?.tokens?.length ? application?.tokens?.length : 0}
-            </Descriptions.Item>
-            <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
-              <a href={`https://${application?.url}`}>{application?.url}</a>
             </Descriptions.Item>
           </Descriptions>
           <Divider> Application Settings</Divider>
