@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Dataful",
+    "developmentURL":"http://127.0.0.1:4455/.factly/mande/web/",
+    "productionURL":"https://dataful.factly.in/"
+  },
+  {
+    "name": "Dega",
+    "developmentURL":"http://127.0.0.1:4455/.factly/dega/studio/",
+    "productionURL":"https://dega.factly.in/"
+  }
+]
