@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import 'antd/dist/antd.css';
 import BasicLayout from './layout/basic';
@@ -15,9 +15,12 @@ import KratosError from './pages/error';
 
 function App() {
   const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION || false;
-  const { orgCount } = useSelector((state) => {
+  const { orgCount, applications, loadingApp } = useSelector((state) => {
+    const applicationIds = state.organisations.details[state.organisations.selected]?.applications || [];
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
+      applications: applicationIds?.map((id) => state.applications.details?.[id]),
+      loadingApp: state.applications.loading
     };
   });
 
@@ -25,9 +28,21 @@ function App() {
     if (process.env.NODE_ENV !== 'development') {
       posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
         api_host: process.env.REACT_APP_POSTHOG_URL,
-      });
+      }); 
+      if(window.location.pathname==="/" && window.REDIRECT_SINGLE_APPLICATION_USERS && !loadingApp){
+        if(applications?.length === 1){
+          window.location.href = applications[0].url;
+        }
+      }
+    } else { 
+      if(window.location.pathname.replace("/.factly/kavach/web", "")==="/" && window.REDIRECT_SINGLE_APPLICATION_USERS && !loadingApp){
+        if(applications?.length === 1){
+          window.location.href = applications[0].url;
+        }
+      }
     }
-  }, []);
+  }, [applications, loadingApp]);
+
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
