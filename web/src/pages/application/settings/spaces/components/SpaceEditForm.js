@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getApplication } from '../../../../../actions/application';
 
-
 export default function EditSpaceForm() {
   const [form] = Form.useForm();
   const { appID, spaceID } = useParams();
@@ -21,7 +20,7 @@ export default function EditSpaceForm() {
   };
 
   React.useEffect(() => {
-    dispatch(getApplication(appID))
+    dispatch(getApplication(appID));
     dispatch(getSpaceByID(appID, spaceID));
     //eslint-disable-next-line
   }, [appID, spaceID]);
@@ -56,7 +55,9 @@ export default function EditSpaceForm() {
       <Link key="1" to={`/applications/${appID}/settings/spaces`}>
         <Button type="primary">Back to Spaces</Button>
       </Link>
-      {loading || loadingApp || loadingRole ? <Skeleton /> : role !== 'owner' ? (
+      {loading || loadingApp || loadingRole ? (
+        <Skeleton />
+      ) : role !== 'owner' ? (
         <ErrorComponent
           status="403"
           title="Sorry you are not authorised to access this page"
@@ -79,7 +80,7 @@ export default function EditSpaceForm() {
               ...space,
               metadata: space?.metadata ? JSON.stringify(space.metadata) : '',
             }}
-            onFinish={(values => handleSubmit(values))}
+            onFinish={(values) => handleSubmit(values)}
           >
             <Form.Item
               name="application_name"

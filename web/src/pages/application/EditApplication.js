@@ -46,7 +46,12 @@ function EditApplication() {
   };
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      {orgID === 1 ? (
+      {!application.is_default ? (
+        <div>
+          <h2> Edit Application </h2>
+          <ApplicationEditForm data={application} onCreate={onUpdate} />
+        </div>
+      ) : orgID === 1 ? (
         <div>
           <h2> Edit Application </h2>
           <ApplicationEditForm data={application} onCreate={onUpdate} />
