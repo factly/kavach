@@ -30,6 +30,11 @@ function App() {
       posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
         api_host: process.env.REACT_APP_POSTHOG_URL,
       });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') {
       if (
         window.location.pathname === '/' &&
         window.REDIRECT_SINGLE_APPLICATION_USERS &&
