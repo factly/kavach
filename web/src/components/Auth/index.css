@@ -1,6 +1,7 @@
 .auth {
-  width: 400px;
-  margin: 200px auto;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
 .header {
