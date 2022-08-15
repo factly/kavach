@@ -1,0 +1,16 @@
+[
+  {
+    "applicationName": "Dataful",
+    "applicationLogoURL": "https://dataful.factly.in/_next/static/media/logo.5abd4ad9.png",
+    "applicationURL": "http://127.0.0.1:4455/.factly/mande/web/",
+    "enableRegistration": true,
+    "loginMethod": "all"
+  },
+  {
+    "applicationName": "Dega",
+    "applicationURL": "http://127.0.0.1:4455/.factly/dega/studio/",
+    "applicationLogoURL": "https://dega.factlylabs.com/img/logo.svg",
+    "enableRegistration": true,
+    "loginMethod": "all"
+  }
+]

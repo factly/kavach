@@ -6,9 +6,9 @@ import GithubIcon from '../../assets/GitHub-Mark-120px-plus.png';
 import { Divider } from 'antd';
 import posthog from 'posthog-js';
 
-function OIDC({ ui, flow = 'login' }) {
+function OIDC({ ui, flow = 'login', loginMethod = 'all' }) {
   const withOIDC = (values) => {
-    posthog.identify()
+    posthog.identify();
     var oidcForm = createForm(ui.action, ui.method);
 
     var csrfInput = document.createElement('input');
@@ -70,7 +70,9 @@ function OIDC({ ui, flow = 'login' }) {
         <img src={GoogleIcon} alt="Continue with Google" style={{ height: '100%' }} />{' '}
         <span>Continue with Google</span>
       </Button>
-      <Divider plain>Or Sign {flow === 'registration' ? 'up' : 'in'} with Email</Divider>
+      {loginMethod === 'all' ? (
+        <Divider plain>Or Sign {flow === 'registration' ? 'up' : 'in'} with Email</Divider>
+      ) : null}
     </Button.Group>
   );
 }
