@@ -1,5 +1,5 @@
 import kavach_logo from '../assets/kavach.png';
-import applicationData from '../data/applicationData.json';
+import applicationData from '../data/application.json';
 
 const getApplicationSettings = (redirectURL) => {
   var matchedObject = applicationData.find(
