@@ -48,7 +48,7 @@ function App() {
       if (
         (window.location.pathname.replace('/.factly/kavach/web', '') === '/' ||
           window.location.pathname.replace('/.factly/kavach/web', '') === '') &&
-        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS &&
+        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === 'true' &&
         !loadingApp
       ) {
         if (applications?.length === 1) {
