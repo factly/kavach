@@ -145,6 +145,7 @@ func createUserInKratos() (map[string]interface{}, error) {
 	}
 	session, ok := respBody["session"].(map[string]interface{})
 	if !ok {
+		log.Println("session doesn't exist in the kratos response")
 		err = errors.New("session doesn't exist in kratos response")
 		loggerx.Error(err)
 		return nil, err
