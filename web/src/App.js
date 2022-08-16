@@ -14,7 +14,7 @@ import VerificationAfterRegistration from './pages/verification/after-regisratio
 import KratosError from './pages/error';
 
 function App() {
-  const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION || false;
+  const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION === 'true' || false;
   const { orgCount, applications, loadingApp } = useSelector((state) => {
     const applicationIds =
       state.organisations.details[state.organisations.selected]?.applications || [];
