@@ -15,7 +15,7 @@
   },
   {
     "applicationName": "Resource Pool",
-    "applicationURL": "https://resource-pool.factly.in/",
+    "applicationURL": "https://resource-pool.factly.in/home",
     "applicationLogoURL": "https://images.factly.in/login/applications/logos/resource-pool.png?rs:fill/h:300",
     "enableRegistration": true,
     "loginMethod": "oidc"

@@ -5,7 +5,6 @@ import { Input, Form, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
-import kavach_logo from '../../assets/kavach.png';
 import createForm from '../../utils/form';
 import MFA from './mfa';
 import passwordValidation from '../../utils/password-validation';
@@ -18,7 +17,7 @@ function Auth(props) {
   const [ui, setUI] = React.useState({});
   const [applicationSettings, setApplicationSettings] = useState({
     applicationName: 'Kavach',
-    applicationLogoURL: kavach_logo,
+    applicationLogoURL: window.REACT_APP_LOGO_URL,
     applicationURL: window.REACT_APP_PUBLIC_URL,
     loginMethod: 'all',
     enableRegistration: true,
@@ -29,6 +28,17 @@ function Auth(props) {
     ? localStorage.getItem('returnTo')
     : null;
 
+  React.useEffect(() => {
+    function checkApplicationSettings () {
+      const object = getApplicationSettings(localStorage.getItem('returnTo'));
+      setApplicationSettings(object);
+    }
+    window.addEventListener('storage', checkApplicationSettings)
+    return () => {
+      window.removeEventListener('storage', checkApplicationSettings)
+    }
+  }, []);
+  
   React.useEffect(() => {
     var obj = {};
 
@@ -88,6 +98,7 @@ function Auth(props) {
           setaal2(res.requested_aal === 'aal2');
           if (props.flow === 'login' && res.return_to) {
             localStorage.setItem('returnTo', res.return_to);
+            window.dispatchEvent(new Event('storage'))
           }
         })
         .catch((err) => {
@@ -96,10 +107,6 @@ function Auth(props) {
     }
   }, [props.flow, afterRegistrationReturnToURL]);
 
-  React.useEffect(() => {
-    const object = getApplicationSettings(afterRegistrationReturnToURL);
-    setApplicationSettings(object);
-  }, [afterRegistrationReturnToURL]);
 
   const handleClose = () => {
     if (afterRegistrationReturnToURL) {
@@ -152,7 +159,7 @@ function Auth(props) {
     document.body.appendChild(authForm);
     authForm.submit();
   };
-
+  console.log(applicationSettings)
   return (
     <div className="auth">
       <div
