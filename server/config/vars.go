@@ -70,6 +70,10 @@ func SetupVars() {
 		log.Fatal("please provide kratos_admin_url in config")
 	}
 
+	if !viper.IsSet("kratos_public_url") {
+		log.Fatal("please provide kratos_admin_url in config")
+	}
+
 	if !viper.IsSet("enable_multitenancy") {
 		log.Fatal("please provide enable_multitenancy in config")
 	}
