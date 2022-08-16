@@ -42,10 +42,6 @@ func SetupVars() {
 		log.Fatal("please provide database_ssl_mode config param")
 	}
 
-	if !viper.IsSet("keto_url") {
-		log.Fatal("please provide keto_url in config")
-	}
-
 	if !viper.IsSet("sendgrid_api_key") {
 		log.Fatal("please provide sendgrid api key in config")
 	}
