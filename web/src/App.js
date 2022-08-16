@@ -63,7 +63,7 @@ function App() {
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
-          {disableRegistration === false ? (
+          {(!disableRegistration) ? (
             <Route
               path="/auth/registration"
               component={(props) => <Auth {...props} flow={'registration'} />}
