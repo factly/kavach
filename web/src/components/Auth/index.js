@@ -160,7 +160,7 @@ function Auth(props) {
       >
         <Lottie
           options={{
-            loop: false,
+            loop: true,
             autoplay: true,
             animationData: animationData,
           }}
@@ -335,7 +335,7 @@ function Auth(props) {
                 {applicationSettings.loginMethod === 'all' ||
                 applicationSettings.loginMethod === 'password' ? (
                   <Form.Item>
-                    <Button size="large" form="auth" type="primary" htmlType="submit" block>
+                    <Button size="large" form="auth" type="primary" shape='round' htmlType="submit" block>
                       {props.flow === 'login' ? 'Login' : 'Register'}
                     </Button>
                   </Form.Item>
