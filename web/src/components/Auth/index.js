@@ -46,7 +46,7 @@ function Auth(props) {
   }, []);
 
   React.useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     var obj = {};
 
     window.location.search
@@ -112,9 +112,8 @@ function Auth(props) {
           window.location.href = window.REACT_APP_PUBLIC_URL + '/error';
         })
         .finally(() => {
-          setLoading(false)
-        })
-        ;
+          setLoading(false);
+        });
     }
   }, [props.flow, afterRegistrationReturnToURL]);
 
@@ -183,15 +182,15 @@ function Auth(props) {
         />
       </div>
       {loading ? (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          margin:"auto"
-        }}
-      >
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 64 }} spin />} />
-      </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            margin: 'auto',
+          }}
+        >
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 64 }} spin />} />
+        </div>
       ) : (
         <div
           style={{
