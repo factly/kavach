@@ -46,7 +46,8 @@ function App() {
       }
     } else {
       if (
-        (window.location.pathname.replace('/.factly/kavach/web', '') === '/' || window.location.pathname.replace('/.factly/kavach/web', '')==='') &&
+        (window.location.pathname.replace('/.factly/kavach/web', '') === '/' ||
+          window.location.pathname.replace('/.factly/kavach/web', '') === '') &&
         window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS &&
         !loadingApp
       ) {
