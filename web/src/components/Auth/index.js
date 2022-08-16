@@ -195,7 +195,7 @@ function Auth(props) {
                 alt="logo"
                 className="logo"
                 src={applicationSettings.applicationLogoURL}
-                style={{ maxWidth: '160px', height: 'auto' }}
+                style={{ maxWidth: '360px', height: 'auto' }}
               />
             ) : (
               <span className="title">{applicationSettings.applicationName}</span>

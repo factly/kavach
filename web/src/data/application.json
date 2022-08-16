@@ -1,15 +1,29 @@
 [
   {
     "applicationName": "Dataful",
-    "applicationLogoURL": "https://dataful.factly.in/_next/static/media/logo.5abd4ad9.png",
     "applicationURL": "http://127.0.0.1:4455/.factly/mande/web/",
+    "applicationLogoURL": "https://images.factly.in/login/applications/logos/dataful.png?rs:fill/h:35",
     "enableRegistration": true,
     "loginMethod": "all"
   },
   {
     "applicationName": "Dega",
     "applicationURL": "http://127.0.0.1:4455/.factly/dega/studio/",
-    "applicationLogoURL": "https://dega.factlylabs.com/img/logo.svg",
+    "applicationLogoURL": "https://images.factly.in/login/applications/logos/dega.png?rs:fill/h:35",
+    "enableRegistration": true,
+    "loginMethod": "all"
+  },
+  {
+    "applicationName": "Resource Pool",
+    "applicationURL": "https://resource-pool.factly.in/",
+    "applicationLogoURL": "https://images.factly.in/login/applications/logos/resource-pool.png?rs:fill/h:300",
+    "enableRegistration": true,
+    "loginMethod": "oidc"
+  },
+  {
+    "applicationName": "Sach",
+    "applicationURL": "https://sach.factly.in/",
+    "applicationLogoURL": "https://images.factly.in/login/applications/logos/sach.png?rs:fill/h:35",
     "enableRegistration": true,
     "loginMethod": "all"
   }
