@@ -186,7 +186,7 @@ function Auth(props) {
         >
           <CloseCircleOutlined style={{ fontSize: '36px' }} onClick={handleClose} />
         </div>
-        <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+        <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>x
           <div
             style={{ display: 'flex', alignItems: 'center', gap: '4px', justifyContent: 'center' }}
           >
@@ -248,12 +248,14 @@ function Auth(props) {
                       rules={[{ required: true, message: 'Please input your First Name!' }]}
                     >
                       <Input
+                        size='large'
                         prefix={<UserOutlined className="site-form-item-icon" />}
                         placeholder="First Name"
                       />
                     </Form.Item>
                     <Form.Item name="last_name">
                       <Input
+                        size='large'
                         prefix={<UserOutlined className="site-form-item-icon" />}
                         placeholder="Last Name"
                       />
@@ -271,6 +273,7 @@ function Auth(props) {
                       ]}
                     >
                       <Input
+                        size='large'
                         prefix={<UserOutlined className="site-form-item-icon" />}
                         placeholder="Email"
                       />
@@ -294,6 +297,7 @@ function Auth(props) {
                       }
                     >
                       <Input.Password
+                        size='large'
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
                         placeholder="Password"
@@ -321,6 +325,7 @@ function Auth(props) {
                     ]}
                   >
                     <Input.Password
+                      size='large'
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       type="password"
                       placeholder="Confirm Password"
@@ -330,7 +335,7 @@ function Auth(props) {
                 {applicationSettings.loginMethod === 'all' ||
                 applicationSettings.loginMethod === 'password' ? (
                   <Form.Item>
-                    <Button form="auth" type="primary" htmlType="submit" block>
+                    <Button size="large" form="auth" type="primary" htmlType="submit" block>
                       {props.flow === 'login' ? 'Login' : 'Register'}
                     </Button>
                   </Form.Item>
@@ -346,27 +351,37 @@ function Auth(props) {
                     </Form.Item>
                   ) : null
                 ) : null}
-                <Form.Item>
-                  {props.flow === 'login' ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      {applicationSettings.enableRegistration ? (
-                        <Link to={'/auth/registration'}>Register now!</Link>
-                      ) : null}
-                      <Link to={'/auth/recovery'}>Forgot Password?</Link>
-                    </div>
-                  ) : (
-                    <Link to={'/auth/login'}>Back to Login</Link>
-                  )}
-                </Form.Item>
               </Form>
             </div>
           )}
+          <div style={{
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center',
+            justifyContent:'center',
+            fontSize: '16px',
+            fontWeight: 1000
+          }}>
+            {
+              props.flow === 'login' ? (
+              <div 
+                style={{
+                  display:'flex',
+                  flexDirection:'column',
+                  alignItems:'center',
+                  gap:'4px'
+                }}
+              >
+                {
+                  applicationSettings.enableRegistration ? <Link to={'/auth/registration'} >Don't have an account yet? <u>Sign up</u></Link> : null
+                }
+                <Link to={'/auth/recovery'}>Forgot Password?</Link>
+              </div>) : 
+              (
+              <Link to={'/auth/login'}> Already have an account? <u>Log in</u> </Link>
+              )
+            }
+          </div>
         </div>
       </div>
     </div>
