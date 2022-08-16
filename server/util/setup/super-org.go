@@ -133,27 +133,71 @@ func createUserInKratos() (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if resp.StatusCode != 200 {
+		if resp.StatusCode == 400 {
+			ui := respBody["ui"].(map[string]interface{})
+			log.Println(ui["messages"].(map[string]interface{}))
+		} else {
+			log.Println("internal server error on kratos")
+		}
+		return nil, errors.New("complete registration request failed")
+	}
 	session, ok := respBody["session"].(map[string]interface{})
 	if !ok {
-		return nil, errors.New("session doesn't exist in kratos response")
+		err = errors.New("session doesn't exist in kratos response")
+		loggerx.Error(err)
+		return nil, err
 	}
+
+	log.Println("successfull created user in KRATOS")
 	return session, nil
 }
 
 func createUserInKavach(payload map[string]interface{}) (*model.User, error) {
 	log.Println("started creating user in KAVACH DB")
-	extra := payload["extra"].(map[string]interface{}) // exists is true if extra is a map[string]interface{}
-	identity := extra["identity"].(map[string]interface{})
-	traits := identity["traits"].(map[string]interface{})
-	user := &model.User{
-		Base: model.Base{
-			ID: 1,
-		},
-		Email: traits["email"].(string),
-		KID:   identity["id"].(string),
+	var err error
+	extra, ok := payload["extra"].(map[string]interface{}) // ok is true if extra is a map[string]interface{}
+	if !ok {
+		err = errors.New("extra doesn't exist in kratos payload")
+		loggerx.Error(err)
+		return nil, err
 	}
+	identity, ok := extra["identity"].(map[string]interface{})
+	if !ok {
+		err = errors.New("identity doesn't exist in kratos payload")
+		loggerx.Error(err)
+		return nil, err
+	}
+
+	traits, ok := identity["traits"].(map[string]interface{})
+	if !ok {
+		err = errors.New("traits doesn't exist in kratos payload")
+		loggerx.Error(err)
+		return nil, err
+	}
+
+	emailTrait, ok := traits["email"].(string)
+	if !ok {
+		err = errors.New("email doesn't exist in the kratos payload")
+		loggerx.Error(err)
+		return nil, err
+	}
+
+	kid, ok := identity["id"].(string)
+	if !ok {
+		err = errors.New("kratos id doesn't exist in the kratos payload")
+		loggerx.Error(err)
+		return nil, err
+	}
+
+	user := &model.User{
+		Email: emailTrait,
+		KID:   kid,
+	}
+
 	// create the user
-	err := model.DB.Model(&model.User{}).Create(user).Error
+	err = model.DB.Model(&model.User{}).Create(user).Error
 	if err != nil {
 		loggerx.Error(err)
 		return nil, err
