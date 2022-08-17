@@ -17,7 +17,7 @@ var superOrgCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		err := setup.CreateSuperOrg()
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	},
 }
