@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -31,7 +30,7 @@ type Traits struct {
 var dataFile = "./data/applications.json"
 
 func checkSuperOrg() (bool, error) {
-	log.Println("checking whether the super organisation exists or not...")
+	loggerx.Info("checking whether the super organisation exists or not...")
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: "superorganisation",
@@ -42,17 +41,17 @@ func checkSuperOrg() (bool, error) {
 	}
 	isSuperOrg, err := keto.CheckKetoRelationTupleWithSubjectID(tuple)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return false, err
 	}
 	if !isSuperOrg {
-		log.Println("super organisation does not exist")
+		loggerx.Warning("super organisation does not exist")
 	}
 	return isSuperOrg, nil
 }
 
 func createSuperOrganisationInKeto(orgID uint) error {
-	log.Println("started creating super organisation in KETO")
+	loggerx.Info("started creating super organisation in KETO")
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: "superorganisation",
@@ -64,18 +63,18 @@ func createSuperOrganisationInKeto(orgID uint) error {
 
 	err := keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return err
 	}
-	log.Println("super organisation in KETO created successfully")
+	loggerx.Info("super organisation in KETO created successfully")
 	return nil
 }
 
 func createUserInKratos() (map[string]interface{}, error) {
-	log.Println("started creating user in KRATOS")
+	loggerx.Info("started creating user in KRATOS")
 	req, err := http.NewRequest(http.MethodGet, viper.GetString("kratos_public_url")+"/self-service/registration/api", nil)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -83,7 +82,7 @@ func createUserInKratos() (map[string]interface{}, error) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
@@ -92,25 +91,25 @@ func createUserInKratos() (map[string]interface{}, error) {
 
 	err = json.NewDecoder(resp.Body).Decode(&body)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 	// var actionURL string
 	if resp.StatusCode >= 299 {
-		loggerx.Error(errors.New("internal server error on kratos server"))
+		loggerx.ErrorWithoutRequest(errors.New("internal server error on kratos server"))
 		return nil, err
 	}
 	ui, ok := body["ui"].(map[string]interface{})
 	if !ok {
 		err = errors.New("cannot create user in kratos")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
 	actionURL, ok := ui["action"].(string)
 	if !ok {
 		err = errors.New("action url is not there in the kratos response. hence, cannot create user in kratos")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 	splittedStrings := strings.Split(actionURL, "=")
@@ -136,60 +135,55 @@ func createUserInKratos() (map[string]interface{}, error) {
 		return nil, err
 	}
 	if sessionResp.StatusCode != 200 {
-		if sessionResp.StatusCode == 400 {
-			ui := respBody["ui"].(map[string]interface{})
-			log.Println(ui["messages"].(map[string]interface{}))
-		} else {
-			log.Println("internal server error on kratos")
-		}
+		loggerx.Warning("internal server error on kratos")
 		return nil, errors.New("complete registration request failed")
 	}
 	session, ok := respBody["session"].(map[string]interface{})
 	if !ok {
-		log.Println("session doesn't exist in the kratos response")
+		loggerx.Warning("session doesn't exist in the kratos response")
 		err = errors.New("session doesn't exist in kratos response")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
-	log.Println("successfull created user in KRATOS")
+	loggerx.Info("successfull created user in KRATOS")
 	return session, nil
 }
 
 func createUserInKavach(payload map[string]interface{}) (*model.User, error) {
-	log.Println("started creating user in KAVACH DB")
+	loggerx.Info("started creating user in KAVACH DB")
 	var err error
 	extra, ok := payload["extra"].(map[string]interface{}) // ok is true if extra is a map[string]interface{}
 	if !ok {
 		err = errors.New("extra doesn't exist in kratos payload")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 	identity, ok := extra["identity"].(map[string]interface{})
 	if !ok {
 		err = errors.New("identity doesn't exist in kratos payload")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
 	traits, ok := identity["traits"].(map[string]interface{})
 	if !ok {
 		err = errors.New("traits doesn't exist in kratos payload")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
 	emailTrait, ok := traits["email"].(string)
 	if !ok {
 		err = errors.New("email doesn't exist in the kratos payload")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
 	kid, ok := identity["id"].(string)
 	if !ok {
 		err = errors.New("kratos id doesn't exist in the kratos payload")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
@@ -201,15 +195,15 @@ func createUserInKavach(payload map[string]interface{}) (*model.User, error) {
 	// create the user
 	err = model.DB.Model(&model.User{}).Create(user).Error
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
-	log.Println("user successfully created in KAVACHDB")
+	loggerx.Info("user successfully created in KAVACHDB")
 	return user, nil
 }
 
 func createSuperOrganisation(userID uint) (*model.Organisation, error) {
-	log.Println("started creating super organisation in KAVACHDB")
+	loggerx.Info("started creating super organisation in KAVACHDB")
 	organisation := &model.Organisation{
 		Base: model.Base{
 			CreatedByID: userID,
@@ -237,18 +231,18 @@ func createSuperOrganisation(userID uint) (*model.Organisation, error) {
 
 	err := keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
-	log.Println("finished creating organisation")
+	loggerx.Info("finished creating organisation")
 	return organisation, nil
 }
 
 func createApplication(userID, orgID uint) error {
-	log.Println("started creating applications")
+	loggerx.Info("started creating applications")
 	jsonFile, err := os.Open(dataFile)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return err
 	}
 
@@ -258,7 +252,7 @@ func createApplication(userID, orgID uint) error {
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	err = json.Unmarshal(byteValue, &applications)
 	if err != nil {
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return err
 	}
 	for index, app := range applications {
@@ -271,7 +265,7 @@ func createApplication(userID, orgID uint) error {
 			},
 		}).Find(&org).Error
 		if err != nil {
-			loggerx.Error(err)
+			loggerx.ErrorWithoutRequest(err)
 			return err
 		}
 		app.Organisations = append(app.Organisations, *org)
@@ -280,7 +274,7 @@ func createApplication(userID, orgID uint) error {
 
 	err = model.DB.Model(&model.Application{}).Create(applications).Error
 	if err != nil {
-		log.Println(err)
+		loggerx.ErrorWithoutRequest(err)
 		return err
 	}
 
@@ -297,27 +291,27 @@ func createApplication(userID, orgID uint) error {
 
 		err = keto.CreateRelationTupleWithSubjectID(tuple)
 		if err != nil {
-			loggerx.Error(err)
+			loggerx.ErrorWithoutRequest(err)
 			return err
 		}
 	}
 
-	log.Println("Applications created successfully")
+	loggerx.Info("Applications created successfully")
 	return nil
 }
 
 func CreateSuperOrg() error {
+	loggerx.Init()
 	model.SetupDB()
 	flag, err := checkSuperOrg()
 	if err != nil {
-		log.Println("unable to create super organisation")
-		loggerx.Error(err)
+		loggerx.ErrorWithoutRequest(err)
 		return err
 	}
 	if !flag {
 		sessionMap, err := createUserInKratos()
 		if err != nil {
-			loggerx.Error(err)
+			loggerx.ErrorWithoutRequest(err)
 			return err
 		}
 
@@ -327,7 +321,7 @@ func CreateSuperOrg() error {
 		//create user in kavach database
 		user, err := createUserInKavach(kavachUserCheckers)
 		if err != nil {
-			loggerx.Error(err)
+			loggerx.ErrorWithoutRequest(err)
 			return err
 		}
 
@@ -344,9 +338,9 @@ func CreateSuperOrg() error {
 		if err != nil {
 			return err
 		}
-		log.Println("succesfully created super organisations with default applications")
+		loggerx.Info("succesfully created super organisations with default applications")
 	} else {
-		log.Println("Super organisation already exists")
+		loggerx.Info("Super organisation already exists")
 	}
 
 	return nil
