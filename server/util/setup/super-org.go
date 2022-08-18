@@ -28,6 +28,8 @@ type Traits struct {
 	Email string `json:"email"`
 }
 
+var dataFile = "./data/applications.json"
+
 func checkSuperOrg() (bool, error) {
 	log.Println("checking whether the super organisation exists or not...")
 	tuple := &model.KetoRelationTupleWithSubjectID{
@@ -133,8 +135,6 @@ func createUserInKratos() (map[string]interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Println("response status code", sessionResp.StatusCode);
-	log.Println("this is response body", respBody);
 	if sessionResp.StatusCode != 200 {
 		if sessionResp.StatusCode == 400 {
 			ui := respBody["ui"].(map[string]interface{})
@@ -246,7 +246,6 @@ func createSuperOrganisation(userID uint) (*model.Organisation, error) {
 
 func createApplication(userID, orgID uint) error {
 	log.Println("started creating applications")
-	dataFile := "/app/util/setup/applications.json"
 	jsonFile, err := os.Open(dataFile)
 	if err != nil {
 		loggerx.Error(err)
