@@ -2,7 +2,6 @@ package keto
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"net/url"
 
@@ -45,7 +44,6 @@ func ListSubjectsByObjectID(namespace, relation, object_id string) ([]string, er
 		loggerx.Error(errors.New(respBody["message"].(string)))
 		return nil, errors.New("error in expanding the relation tuple")
 	}
-	fmt.Println("this is response body", respBody["relation_tuples"])
 	// initialising the subject list
 	subjectList := []string{}
 	for _, eachRelationTuple := range respBody["relation_tuples"].([]interface{}) {

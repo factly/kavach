@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 
+	"github.com/factly/x/loggerx"
 	"github.com/spf13/viper"
 )
 
@@ -15,7 +16,7 @@ func SetupVars() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Println("config file not found...")
+		loggerx.Warning("config file not found...")
 	}
 
 	if !viper.IsSet("database_host") {
@@ -93,7 +94,7 @@ func SetupVars() {
 	if !viper.IsSet("keto_read_api_url") {
 		log.Fatal("please provide keto_read_api_url in config")
 	}
-	
+
 	if Sqlite() {
 		if !viper.IsSet("sqlite_db_path") {
 			log.Fatal("please provide sqlite_db_path config param")

@@ -1,7 +1,6 @@
 package application
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -26,7 +25,6 @@ import (
 // @Success 200 {array} []model.Application
 // @Router /organisations/{organisation_id}/applications/default [get]
 func listDefault(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("this is listing defalt applications")
 	organisationID := chi.URLParam(r, "organisation_id")
 	oID, err := strconv.Atoi(organisationID)
 	if err != nil {

@@ -2,9 +2,10 @@ package model
 
 import (
 	"errors"
-	"log"
+
 	emailPackage "github.com/factly/kavach-server/util/email"
 	"github.com/factly/kavach-server/util/kratos"
+	"github.com/factly/x/loggerx"
 	"github.com/spf13/viper"
 )
 
@@ -18,19 +19,19 @@ func CreateSuperUser() error {
 	tx := DB.Begin()
 	result := tx.Model(User{}).First(&user)
 	if result.RowsAffected > 0 {
-		log.Println("super user already exists")
+		loggerx.Warning("super user already exists")
 		return nil
 	}
 
 	kID, err := kratos.CreateKratosIdentity(email)
 	if err != nil {
-		log.Println(err)
+		loggerx.Error(err)
 		return err
 	}
 	var response *kratos.RecoveryResponse
 	response, err = kratos.CreateRecoveryLink("168h", kID)
 	if err != nil {
-		log.Println(err)
+		loggerx.Error(err)
 		return err
 	}
 
@@ -40,7 +41,7 @@ func CreateSuperUser() error {
 	}
 	err = tx.Model(User{}).Create(&user).Error
 	if err != nil {
-		log.Println(err)
+		loggerx.Error(err)
 		return err
 	}
 
@@ -51,8 +52,8 @@ func CreateSuperUser() error {
 	emailObj.Role = "Super User"
 	emailObj.InviteeName = ""
 	err = emailPackage.SendmailwithSendGrid(emailObj)
-	if err!=nil{
-		log.Println(err)
+	if err != nil {
+		loggerx.Error(err)
 		return err
 	}
 	tx.Commit()

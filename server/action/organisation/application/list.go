@@ -65,7 +65,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	fmt.Println("this is objects", objects)
 	appIDs := []int{}
 	for _, object := range objects {
 		if object[:3] == "org" {

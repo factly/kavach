@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"log"
-
 	setup "github.com/factly/kavach-server/util/setup"
+	"github.com/factly/x/loggerx"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +16,7 @@ var superOrgCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		err := setup.CreateSuperOrg()
 		if err != nil {
-			log.Println(err)
+			loggerx.Error(err)
 		}
 	},
 }

@@ -1,7 +1,6 @@
 package action
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/factly/kavach-server/util/keto"
@@ -35,7 +34,7 @@ func RegisterRoutes() http.Handler {
 
 	if viper.IsSet("mode") && viper.GetString("mode") == "development" {
 		r.Get("/swagger/*", httpSwagger.WrapHandler)
-		log.Printf("Swagger @ http://localhost:5000/swagger/index.html")
+		loggerx.Info("Swagger @ http://localhost:5000/swagger/index.html")
 	}
 
 	r.Mount("/organisations", organisation.Router())

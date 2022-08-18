@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/url"
 
@@ -91,7 +90,7 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	** check whether user is active or not and check host matches to mande
 	**/
 	if !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host") {
-		log.Println("start email request")
+		loggerx.Info("start email request")
 		//send registration mail
 		request := sendgrid.GetRequest(viper.GetString("dynamic_sendgrid_api_key"), "/v3/mail/send", "https://api.sendgrid.com")
 		request.Method = "POST"
@@ -118,15 +117,15 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		buf := new(bytes.Buffer)
 		reqErr := json.NewEncoder(buf).Encode(&reqBody)
 		if err != nil {
-			log.Println(reqErr)
+			loggerx.Error(reqErr)
 		}
 
 		request.Body = buf.Bytes()
 		_, reqErr = sendgrid.API(request)
 		if reqErr != nil {
-			log.Println(reqErr)
+			loggerx.Error(reqErr)
 		}
-		log.Println("end email request")
+		loggerx.Info("end email request")
 	}
 	if err != nil {
 		user.IsActive = true
