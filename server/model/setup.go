@@ -18,8 +18,8 @@ var DB *gorm.DB
 
 // SetupDB is database setuo
 func SetupDB() {
-
-	fmt.Println("connecting to database ...")
+	loggerx.Init()
+	loggerx.Info("connecting to database ...")
 
 	dbString := fmt.Sprint("host=", viper.GetString("database_host"), " ",
 		"user=", viper.GetString("database_user"), " ",
@@ -48,5 +48,5 @@ func SetupDB() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("connected to database ...")
+	loggerx.Info("connected to database ...")
 }

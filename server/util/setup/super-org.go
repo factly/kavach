@@ -45,7 +45,7 @@ func checkSuperOrg() (bool, error) {
 		return false, err
 	}
 	if !isSuperOrg {
-		loggerx.Info("super organisation does not exist")
+		loggerx.Warning("super organisation does not exist")
 	}
 	return isSuperOrg, nil
 }
@@ -135,12 +135,12 @@ func createUserInKratos() (map[string]interface{}, error) {
 		return nil, err
 	}
 	if sessionResp.StatusCode != 200 {
-		loggerx.Info("internal server error on kratos")
+		loggerx.Warning("internal server error on kratos")
 		return nil, errors.New("complete registration request failed")
 	}
 	session, ok := respBody["session"].(map[string]interface{})
 	if !ok {
-		loggerx.Info("session doesn't exist in the kratos response")
+		loggerx.Warning("session doesn't exist in the kratos response")
 		err = errors.New("session doesn't exist in kratos response")
 		loggerx.ErrorWithoutRequest(err)
 		return nil, err
