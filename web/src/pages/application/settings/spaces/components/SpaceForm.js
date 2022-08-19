@@ -20,7 +20,11 @@ export default function CreateSpace() {
   };
 
   const onSubmit = (values) => {
-    values.metadata = JSON.parse(values.metadata);
+    if (!values?.metadata || values.metadata==="") {
+      values.metadata = {}
+    }else {
+      values.metadata = JSON.parse(values.metadata);
+    }
     dispatch(createSpace(values, appID)).then(() => {
       history.push(`/applications/${appID}/settings/spaces`);
     });
@@ -97,7 +101,25 @@ export default function CreateSpace() {
             <Form.Item name="description" label="Description">
               <Input placeholder="enter a description for your space" />
             </Form.Item>
-            <Form.Item name="metadata" label="Meta">
+            <Form.Item 
+              name="metadata" 
+              label="Meta"
+              rules={[
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if(value==="" || value === undefined){
+                      return Promise.resolve();
+                    }
+                    try {
+                      JSON.parse(value);
+                      return Promise.resolve();
+                    } catch (error) {
+                      return Promise.reject('Invalid JSON format: ', error);
+                    }
+                  },
+                }),
+              ]}
+              >
               <Input.TextArea placeholder="enter metadata for your space" />
             </Form.Item>
             <Form.Item>
