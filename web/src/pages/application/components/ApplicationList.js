@@ -78,7 +78,7 @@ function ApplicationList({ applicationList, permission, loading }) {
               <DeleteOutlined style={{ fontSize: iconSize }} />
             </Tooltip>
           ),
-          <a href={application.url} target="_blank">
+          <a href={application.url} target="_blank" rel="noopener noreferrer">
             <ExportOutlined style={{ fontSize: iconSize }} />
           </a>,
           <Link to={`/applications/${application.id}/settings`} className="ant-dropdown-link">
