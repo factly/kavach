@@ -9,6 +9,7 @@ import (
 
 // SetupVars setups all the config variables to run application
 func SetupVars() {
+	loggerx.Init()
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config")
 	viper.SetEnvPrefix("kavach")
