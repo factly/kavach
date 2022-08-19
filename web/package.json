@@ -27,7 +27,7 @@
     "deep-equal": "^2.0.5",
     "js-cookie": "^2.2.1",
     "moment": "^2.29.2",
-    "posthog-js": "^1.28.0",
+    "posthog-js": "^1.29.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-lottie": "^1.2.3",
