@@ -37,7 +37,7 @@ export default function ApplicationSettings() {
               {application.description}
             </Descriptions.Item>
             <Descriptions.Item label="Application URL" span={descriptionSpan}>
-              <a href={`https://${application?.url}`} target="_blank" rel="noopener noreferrer">{application?.url}</a>
+              <a href={`${application?.url}`} target="_blank" rel="noopener noreferrer">{application?.url}</a>
             </Descriptions.Item>
             <Descriptions.Item label="Number of Spaces" span={descriptionSpan}>
               {application?.spaces?.length ? application?.spaces?.length : 0}
