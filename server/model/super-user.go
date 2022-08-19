@@ -19,7 +19,7 @@ func CreateSuperUser() error {
 	tx := DB.Begin()
 	result := tx.Model(User{}).First(&user)
 	if result.RowsAffected > 0 {
-		loggerx.Warning("super user already exists")
+		loggerx.Info("super user already exists")
 		return nil
 	}
 

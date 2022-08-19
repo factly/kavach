@@ -16,7 +16,7 @@ func SetupVars() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		loggerx.Warning("config file not found...")
+		loggerx.Info("config file not found...")
 	}
 
 	if !viper.IsSet("database_host") {
