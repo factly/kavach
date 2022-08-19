@@ -14,14 +14,14 @@ import createForm from '../../utils/form';
 import MFA from './mfa';
 import passwordValidation from '../../utils/password-validation';
 import posthog from 'posthog-js';
-import Lottie from 'react-lottie';
-import animationData from './login.json';
 import getApplicationSettings from '../../utils/getApplicationSettings';
+import BrandingComponent from '../Branding';
+import Loading from '../Loading';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
   const [applicationSettings, setApplicationSettings] = useState({
-    applicationName: 'Kavach',
+    applicationName: 'FACTLY',
     applicationLogoURL: window.REACT_APP_LOGO_URL,
     applicationURL: window.REACT_APP_PUBLIC_URL,
     loginMethod: 'all',
@@ -170,27 +170,9 @@ function Auth(props) {
   };
   return (
     <div className="auth">
-      <div
-        style={{ width: '50%', background: '#3A54AA', display: 'flex', justifyContent: 'center' }}
-      >
-        <Lottie
-          options={{
-            loop: true,
-            autoplay: true,
-            animationData: animationData,
-          }}
-        />
-      </div>
+      <BrandingComponent />
       {loading ? (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            margin: 'auto',
-          }}
-        >
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 64 }} spin />} />
-        </div>
+        <Loading />
       ) : (
         <div
           style={{
@@ -248,6 +230,7 @@ function Auth(props) {
                       applicationSettings.loginMethod === 'oidc')
                       ? [
                           <OIDC
+                            key={"oidc"}
                             ui={ui}
                             flow={props.flow}
                             loginMethod={applicationSettings.loginMethod}
@@ -378,17 +361,6 @@ function Auth(props) {
                       </Button>
                     </Form.Item>
                   ) : null}
-                  {ui && ui.messages ? (
-                    ui.messages[0].id === 4000010 ? (
-                      <Form.Item>
-                        <Link to={'/auth/verification'}>
-                          <Button type="primary" block>
-                            Verify your Email
-                          </Button>
-                        </Link>
-                      </Form.Item>
-                    ) : null
-                  ) : null}
                 </Form>
               </div>
             )}
@@ -411,6 +383,19 @@ function Auth(props) {
                     gap: '4px',
                   }}
                 >
+                  {ui && ui.messages ? (
+                    ui.messages[0].id === 4000010 ? (
+                      <Form.Item>
+                        <Link to={'/auth/verification'}
+                          style={{
+                            fontSize: '16px'
+                          }}
+                        >
+                            Verify your Email
+                        </Link>
+                      </Form.Item>
+                    ) : null
+                  ) : null}
                   {applicationSettings.enableRegistration ? (
                     <Link to={'/auth/registration'}>
                       Don't have an account yet? <u>Sign up</u>

@@ -52,7 +52,12 @@ function Header() {
                   dataSource={apps}
                   renderItem={(item) => (
                     <List.Item>
-                      <a href={item.url} style={{ textDecoration: 'none', color: 'inherit' }} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={item.url}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {item.medium && item.medium.url ? (
                           <img alt="logo" className="menu-logo" src={item.medium.url.proxy} />
                         ) : (
