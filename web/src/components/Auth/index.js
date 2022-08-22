@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './index.css';
 import { Link } from 'react-router-dom';
-import { Input, Form, Button, Alert, Spin } from 'antd';
+import { Input, Form, Button, Alert } from 'antd';
 import {
   UserOutlined,
   LockOutlined,
   CloseCircleOutlined,
-  LoadingOutlined,
 } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
