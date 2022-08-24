@@ -1,7 +1,6 @@
 package application
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -72,9 +71,9 @@ func access(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if !isAuthorised {
-		loggerx.Error(errors.New("user is not part of the application"))
+		loggerx.Warning("user is not part of the application")
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	renderx.JSON(w, http.StatusUnauthorized, nil)
+	renderx.JSON(w, http.StatusOK, nil)
 }
