@@ -98,7 +98,7 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 	}
 	// -------------verifying whether a particular action is allowed on a resource or not ------------
 	// if the subject_type is id then it uses CheckKetoRelationTupleWithSubjectID function to validate the action
-	isAllowed, err := user.IsActionValid(namespace, fmt.Sprintf("resource:org:%d:app:%d:space:%d:%s", orgID, applicationID, spaceID,reqBody.Resource), reqBody.Subject, reqBody.Action, reqBody.SubjectType, fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, applicationID, spaceID))
+	isAllowed, err := user.IsActionValid(namespace, fmt.Sprintf("resource:org:%d:app:%d:space:%d:%s", orgID, applicationID, spaceID, reqBody.Resource), reqBody.Subject, reqBody.Action, reqBody.SubjectType, fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, applicationID, spaceID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
@@ -110,5 +110,9 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//render JSON
+	if !isAllowed {
+		renderx.JSON(w, http.StatusForbidden, responseBody)
+		return
+	}
 	renderx.JSON(w, http.StatusOK, responseBody)
 }

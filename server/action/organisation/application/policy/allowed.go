@@ -88,6 +88,10 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 	responseBody := map[string]interface{}{
 		"allowed": isAllowed,
 	}
+	if !isAllowed {
+		renderx.JSON(w, http.StatusForbidden, responseBody)
+		return
+	}
 	//render JSON
 	renderx.JSON(w, http.StatusOK, responseBody)
 }
