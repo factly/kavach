@@ -1,4 +1,4 @@
-package user
+package util
 
 import (
 	"github.com/go-chi/chi"
@@ -7,9 +7,6 @@ import (
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
-
-	r.Post("/checker", checker)
-	r.Get("/application", list)
-
+	r.Get("/space/{space_id}/getOrganisation", getOrganisation)
 	return r
 }
