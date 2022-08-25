@@ -74,7 +74,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	validationError := validationx.Check(userReqModel)
-
 	if validationError != nil {
 		loggerx.Error(errors.New("validation error"))
 		errorx.Render(w, validationError)
@@ -107,7 +106,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	users = append(orgRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
+
+	var user model.User
+	err = tx.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(userReqModel.UserID),
+		},
+	}).Find(&user).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(errors.New("user does not exist"))
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	users = append(orgRole.Users, user)
 	orgRole.Users = users
 	if err = tx.Model(&orgRole).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()

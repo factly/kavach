@@ -3,13 +3,11 @@ package roles
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -67,21 +65,17 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.Begin()
 	// validating slug
 	var count int64
-	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+	err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		Slug: organisationRole.Slug,
 	}).Count(&count).Error
-	
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 	if count > 0 {
-		tx.Rollback()
 		loggerx.Error(errors.New("organisation role slug already exists"))
 		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
 		return
@@ -90,38 +84,13 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// Create organisation role
 	organisationRole.OrganisationID = uint(orgID)
 	organisationRole.CreatedByID = uint(userID)
-	organisationRole.Users = append(organisationRole.Users, model.User{
-		Base: model.Base{
-			ID: uint(userID),
-		},
-	})
 
-	err = tx.Model(&model.OrganisationRole{}).Create(organisationRole).Error
+	err = model.DB.Model(&model.OrganisationRole{}).Create(organisationRole).Error
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	// creating the association between user and role in the keto db
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: namespace,
-			Object:    fmt.Sprintf("roles:org:%d", orgID),
-			Relation:  organisationRole.Name,
-		},
-		SubjectID: fmt.Sprintf("%d", userID),
-	}
-
-	err = keto.CreateRelationTupleWithSubjectID(tuple)
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-		return
-	}
-
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, organisationRole)
 }

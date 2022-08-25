@@ -92,7 +92,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// Deleting the all the relation tuple related to "orgnanisation-role" 
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: "organisations",
+			Namespace: namespace,
 			Object:    fmt.Sprintf("roles:org:%d", orgID),
 			Relation:  roleMap["name"].(string),
 		},

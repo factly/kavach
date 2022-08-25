@@ -107,10 +107,17 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+	isOwner := true
+	err = util.CheckOwner(uint(userID), uint(orgID))
+	if err != nil {
+		isOwner = false
+	}
 	if !flag {
-		loggerx.Error(errors.New("user trying to list is not part of space role"))
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
+		if !isOwner {
+			loggerx.Error(errors.New("user trying to list is not part of space role"))
+			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+			return
+		}
 	}
 
 	// list of userIDs part of the spaceRole

@@ -141,8 +141,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	var user model.User
+	err = tx.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(userReqModel.UserID),
+		},
+	}).Find(&user).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(errors.New("user does not exist in the database"))
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	users := make([]model.User, 0)
-	users = append(spaceRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
+	users = append(spaceRole.Users, user)
 	spaceRole.Users = users
 	if err = tx.Model(&spaceRole).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()

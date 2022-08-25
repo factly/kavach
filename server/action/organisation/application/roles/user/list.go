@@ -96,10 +96,17 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+	isOwner := true
+	err = util.CheckOwner(uint(userID), uint(orgID))
+	if err != nil {
+		isOwner = false
+	}
 	if !flag {
-		loggerx.Error(errors.New("user trying to list is not part of application role"))
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
+		if !isOwner {
+			loggerx.Error(errors.New("user trying to list is not part of application role"))
+			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+			return
+		}
 	}
 
 	userIDs, err := keto.ListSubjectsByObjectID(namespace, *roleName, fmt.Sprintf("roles:org:%d:app:%d", orgID, appID))

@@ -9,7 +9,6 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -114,37 +113,13 @@ func create(w http.ResponseWriter, r *http.Request) {
 	appRole.OrganisationID = uint(orgID)
 	appRole.ApplicationID = uint(appID)
 	appRole.CreatedByID = uint(userID)
-	appRole.Users = append(appRole.Users, model.User{
-		Base: model.Base{
-			ID: uint(userID),
-		},
-	})
-	tx := model.DB.Begin()
-	err = tx.Model(&model.ApplicationRole{}).Create(appRole).Error
+
+	err = model.DB.Model(&model.ApplicationRole{}).Create(appRole).Error
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	// creating the association between user and role in the keto db
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: namespace,
-			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
-			Relation:  appRole.Name,
-		},
-		SubjectID: fmt.Sprintf("%d", userID),
-	}
-
-	err = keto.CreateRelationTupleWithSubjectID(tuple)
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-		return
-	}
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

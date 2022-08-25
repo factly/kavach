@@ -123,8 +123,30 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for _, user := range appRole.Users {
+		if user.ID == uint(userReqModel.UserID) {
+			tx.Rollback()
+			loggerx.Error(errors.New("user already exists in the role"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+			return
+		}
+	}
+
+	var user model.User
+	err = tx.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(userReqModel.UserID),
+		},
+	}).Find(&user).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(errors.New("user does not exist in the database"))
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
 	users := make([]model.User, 0)
-	users = append(appRole.Users, model.User{Base: model.Base{ID: uint(userReqModel.UserID)}})
+	users = append(appRole.Users, user)
 	appRole.Users = users
 	if err = model.DB.Model(&appRole).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()
