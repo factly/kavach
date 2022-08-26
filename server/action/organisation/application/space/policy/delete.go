@@ -9,7 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto/relationTuple"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"

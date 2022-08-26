@@ -116,7 +116,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// ----------- Delete roles from the keto server and kavach-database------------
 	//binding organisation role
-	spaceRole := model.SpaceRole{}
+	spaceRole := &model.SpaceRole{}
 	spaceRole.ID = uint(roleIDInt)
 
 	// delete the role from space
