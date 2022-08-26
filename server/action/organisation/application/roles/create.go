@@ -93,22 +93,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// validating slug
-	var count int64
-	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
-		Slug: appRole.Slug,
-	}).Count(&count).Error
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-	if count > 0 {
-		loggerx.Error(errors.New("application role slug already exists"))
-		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
-		return
-	}
-
 	// Create application role
 	appRole.OrganisationID = uint(orgID)
 	appRole.ApplicationID = uint(appID)
