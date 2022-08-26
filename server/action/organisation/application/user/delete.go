@@ -85,7 +85,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newUsers := make([]model.User, 0)
 	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
 	isAuthorised, err := user.IsUserAuthorised(
 		namespace,
@@ -105,6 +104,23 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	newUsers := make([]model.User, 0)
+	flag := false
+
+	for _, user := range result.Users {
+		if user.ID == uint(uID) {
+			flag = true
+		} else {
+			newUsers = append(newUsers, user)
+		}
+	}
+
+	if !flag {
+		tx.Rollback()
+		loggerx.Error(errors.New("unable to delete user of application"))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
 	// Check if the user to delete is not last user of application
 	if len(newUsers) < 1 {
 		tx.Rollback()

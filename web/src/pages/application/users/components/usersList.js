@@ -34,7 +34,9 @@ function UserList({ id, flag, users, total, role }) {
             <Popconfirm
               title="Sure to Delete?"
               onConfirm={() => {
-                dispatch(deleteApplication(id, record.id)).then(dispatch(getApplicationUsers(id)));
+                dispatch(deleteApplication(id, record.id)).then(() => {
+                  dispatch(getApplicationUsers(id))
+                });
               }}
             >
               <Link to="" className="ant-dropdown-link">
