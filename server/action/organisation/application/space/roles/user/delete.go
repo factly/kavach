@@ -138,14 +138,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if the user to delete is not last user of application
-	if len(users) < 1 {
-		tx.Rollback()
-		loggerx.Error(errors.New("cannot delete last user of organisation role"))
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
-		return
-	}
-
 	err = tx.Model(&spaceRole).Association("Users").Replace(&users)
 	if err != nil {
 		tx.Rollback()

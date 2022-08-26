@@ -91,7 +91,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 	// decoding the requestBody
 	userReqModel := &requestModel{}
-	err = json.NewDecoder(r.Body).Decode(&userReqModel)
+	err = json.NewDecoder(r.Body).Decode(userReqModel)
 
 	if err != nil {
 		loggerx.Error(err)

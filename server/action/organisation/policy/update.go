@@ -65,6 +65,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
 	}
 
 	// Binding reqBody to the OrganisationPolicy model
@@ -77,13 +78,32 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.Permissions = reqBody.Permissions
 	roles := make([]model.OrganisationRole, 0)
 	for _, each := range reqBody.Roles {
-		roles = append(roles, model.OrganisationRole{Base: model.Base{ID: each}})
+		organisationRole := model.OrganisationRole{}
+		err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+			Base: model.Base{
+				ID: each,
+			},
+		}).Find(&organisationRole).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		roles = append(roles, organisationRole)
 	}
 
 	policy.Roles = roles
 	tx := model.DB.Begin()
 	err = model.DB.Model(&model.OrganisationPolicy{}).Where("id = ?", policyID).Updates(policy).Error
 	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = tx.Model(&policy).Association("Roles").Replace(&roles)
+	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -98,14 +118,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// ----------- Creating policy on the keto server ---------------
-	for _, role := range reqBody.Roles {
-		roleName, err := util.GetOrganisationRoleByID(role)
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-			return
-		}
+	for _, role := range policy.Roles {
 
 		for _, permission := range permissions {
 			for _, action := range permission.Actions {
@@ -118,7 +131,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 					SubjectSet: model.KetoSubjectSet{
 						Namespace: namespace,
 						Object:    fmt.Sprintf("roles:org%d", orgID),
-						Relation:  *roleName,
+						Relation:  role.Name,
 					},
 				}
 
@@ -132,7 +145,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	
+
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, policy)
 }

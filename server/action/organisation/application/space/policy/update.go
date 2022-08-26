@@ -92,6 +92,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
 	}
 
 	// binding the policyReq to SpacePolicy model
@@ -104,7 +105,18 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.Permissions = reqBody.Permissions
 	roles := make([]model.SpaceRole, 0)
 	for _, each := range reqBody.Roles {
-		roles = append(roles, model.SpaceRole{Base: model.Base{ID: each}})
+		spaceRole := model.SpaceRole{}
+		err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+			Base: model.Base{
+				ID: each,
+			},
+		}).Find(&spaceRole).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		roles = append(roles, spaceRole)
 	}
 
 	policy.Roles = roles
@@ -112,6 +124,14 @@ func update(w http.ResponseWriter, r *http.Request) {
 	// updating the policy in the kavachDB
 	tx := model.DB.Begin()
 	err = tx.Model(&model.SpacePolicy{}).Where("id = ?", policyID).Updates(&policy).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = tx.Model(&policy).Association("Roles").Replace(&roles)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -129,15 +149,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// ----------- updating the policy on the keto server ---------------
-	for _, role := range reqBody.Roles {
-		roleName, err := util.GetSpacePolicyByID(role)
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-			return
-		}
-
+	for _, role := range policy.Roles {
 		for _, permission := range permissions {
 			for _, action := range permission.Actions {
 				tuple := &model.KetoRelationTupleWithSubjectSet{
@@ -149,7 +161,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 					SubjectSet: model.KetoSubjectSet{
 						Namespace: namespace,
 						Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, appID, spaceID),
-						Relation:  *roleName,
+						Relation:  role.Name,
 					},
 				}
 

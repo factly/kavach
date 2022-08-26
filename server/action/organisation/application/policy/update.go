@@ -10,7 +10,7 @@ import (
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/application"
-	"github.com/factly/kavach-server/util/keto/relationTuple"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -72,6 +72,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
 	}
 
 	// binding the policyReq to ApplicationPolicy model
@@ -85,7 +86,18 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.OrganisationID = uint(orgID)
 	roles := make([]model.ApplicationRole, 0)
 	for _, each := range reqBody.Roles {
-		roles = append(roles, model.ApplicationRole{Base: model.Base{ID: each}})
+		appRole := model.ApplicationRole{}
+		err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
+			Base: model.Base{
+				ID: each,
+			},
+		}).Find(&appRole).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			return
+		}
+		roles = append(roles, appRole)
 	}
 
 	policy.Roles = roles
@@ -93,6 +105,14 @@ func update(w http.ResponseWriter, r *http.Request) {
 	// updating the application policy on the kavachDB
 	tx := model.DB.Begin()
 	err = tx.Model(&model.ApplicationPolicy{}).Where("id = ?", policyID).Updates(&policy).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	err = tx.Model(&policy).Association("Roles").Replace(&roles)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -108,15 +128,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// ----------- Creating policy on the keto server ---------------
-	for _, role := range reqBody.Roles {
-		roleName, err := util.GetApplicationRoleByID(role)
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-			return
-		}
-
+	for _, role := range policy.Roles {
 		for _, permission := range permissions {
 			for _, action := range permission.Actions {
 				tuple := &model.KetoRelationTupleWithSubjectSet{
@@ -128,7 +140,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 					SubjectSet: model.KetoSubjectSet{
 						Namespace: namespace,
 						Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
-						Relation:  *roleName,
+						Relation:  role.Name,
 					},
 				}
 
