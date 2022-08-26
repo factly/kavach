@@ -55,7 +55,8 @@ function ApplicationList({ applicationList, permission, loading }) {
           >
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
-          permission && orgID === 1 ? (
+          permission  ? (
+            (application.is_default !== true) ?
             <Popconfirm
               title="Sure to Delete?"
               onConfirm={() =>
@@ -69,7 +70,32 @@ function ApplicationList({ applicationList, permission, loading }) {
                 <DeleteOutlined style={{ fontSize: iconSize }} />
               </Link>
             </Popconfirm>
-          ) : (
+            : (
+              (orgID === 1) ? (
+                <Popconfirm
+                title="Sure to Delete?"
+                onConfirm={() =>
+                  dispatch(deleteApplication(application.id)).then(() => {
+                    dispatch(getOrganisations());
+                    fetchApplications();
+                  })
+                }
+              >
+                <Link to="" className="ant-dropdown-link">
+                  <DeleteOutlined style={{ fontSize: iconSize }} />
+                </Link>
+              </Popconfirm>
+              ) : (
+                <Tooltip
+                title="You don't have permission to delete an application"
+                trigger="click"
+                color="red"
+              >
+                <DeleteOutlined style={{ fontSize: iconSize }} />
+              </Tooltip>
+              )
+            )
+          ): (
             <Tooltip
               title="You don't have permission to delete an application"
               trigger="click"
