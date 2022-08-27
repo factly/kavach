@@ -8,7 +8,6 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -42,13 +41,6 @@ func allowed(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
-	// Check if user is owner of organisation
-	if err := util.CheckOwner(uint(userID), uint(orgID)); err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
