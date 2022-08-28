@@ -113,6 +113,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 	policy.Roles = roles
 	// inserting space role to the kavachDB
 	tx := model.DB.Begin()
+
+	var count int64
+	err = tx.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
+		SpaceID: uint(spaceID),
+		Slug:    policy.Slug,
+	}).Count(&count).Error
+	if err != nil || count > 0 {
+		tx.Rollback()
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+		} else {
+			loggerx.Error(errors.New("slug already exists"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		}
+		return
+	}
+
 	err = tx.Model(&model.SpacePolicy{}).Create(&policy).Error
 	if err != nil {
 		tx.Rollback()

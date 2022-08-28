@@ -9,7 +9,7 @@ import (
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
-	"github.com/factly/kavach-server/util/keto/relationTuple"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -104,6 +104,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// inserting the application policy in the kavachDB
 	tx := model.DB.Begin()
+
+	var count int64
+	err = tx.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationPolicy{
+		ApplicationID: uint(appID),
+		Slug:          policy.Slug,
+	}).Count(&count).Error
+	if err != nil || count > 0 {
+		tx.Rollback()
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+		} else {
+			loggerx.Error(errors.New("slug already exists"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		}
+		return
+	}
+
 	err = tx.Model(&model.ApplicationPolicy{}).Create(&policy).Error
 	if err != nil {
 		tx.Rollback()

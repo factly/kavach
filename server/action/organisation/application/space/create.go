@@ -101,7 +101,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	var count int64
 	tx := model.DB.Begin()
-	err = tx.Model(&model.Space{}).Where("slug = ?", space.Slug).Count(&count).Error
+	err = tx.Model(&model.Space{}).Where(&model.Space{
+		ApplicationID: uint(aID),
+		Slug: space.Slug,
+	}).Count(&count).Error
 	if err != nil || count > 0 {
 		if err != nil {
 			tx.Rollback()

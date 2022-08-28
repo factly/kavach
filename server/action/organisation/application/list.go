@@ -67,25 +67,19 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}
 	appIDs := []int{}
 	for _, object := range objects {
-		if object[:3] == "org" {
+		objectID := fmt.Sprintf("org:%d:app:", oID)
+		if strings.HasPrefix(object, objectID) {
 			splittedObject := strings.Split(object, ":")
-			orgID, err := strconv.Atoi(splittedObject[len(splittedObject)-3])
+			appID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
 			if err != nil {
 				loggerx.Error(err)
 				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 				return
 			}
-			if orgID == oID {
-				appID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
-				if err != nil {
-					loggerx.Error(err)
-					errorx.Render(w, errorx.Parser(errorx.DecodeError()))
-					return
-				}
-				appIDs = append(appIDs, appID)
-			}
+			appIDs = append(appIDs, appID)
 		}
 	}
+
 	applications := make([]model.Application, 0)
 	for _, appID := range appIDs {
 		application := &model.Application{}
