@@ -400,11 +400,12 @@ function Auth(props) {
                       Don't have an account yet? <u>Sign up</u>
                     </Link>
                   ) : null}
-                  <Link to={'/auth/recovery'}>Forgot Password?</Link>
+                  {
+                    (applicationSettings.loginMethod !== 'oidc' ) ? (<Link to={'/auth/recovery'}>Forgot Password?</Link>) : null
+                  }
                 </div>
               ) : (
                 <Link to={'/auth/login'}>
-                  {' '}
                   Already have an account? <u>Log in</u>{' '}
                 </Link>
               )}
