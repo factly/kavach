@@ -2,6 +2,7 @@ package roles
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -94,10 +95,27 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var count int64
+	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+		SpaceID: uint(spaceID),
+		Slug:    spaceRole.Slug,
+	}).Count(&count).Error
+	if err != nil || count > 0 {
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+		} else {
+			loggerx.Error(errors.New("slug already exists"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		}
+		return
+	}
+
 	updateMap := map[string]interface{}{
-		"name": spaceRole.Name,
+		"name":        spaceRole.Name,
+		"slug":        spaceRole.Slug,
 		"description": spaceRole.Description,
-	} 
+	}
 
 	//update the application role
 	err = model.DB.Model(&model.SpaceRole{}).Where("space_id = ? AND id = ?", spaceID, roleIDInt).Updates(updateMap).Error

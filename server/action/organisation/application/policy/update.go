@@ -14,6 +14,7 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/slugx"
 	"github.com/go-chi/chi"
 )
 
@@ -82,8 +83,26 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.Description = reqBody.Description
 	policy.ApplicationID = uint(appID)
 	policy.Permissions = reqBody.Permissions
-	policy.Slug = reqBody.Slug
+	policy.Slug = slugx.Make(reqBody.Name)
 	policy.OrganisationID = uint(orgID)
+	tx := model.DB.Begin()
+	var count int64
+	err = tx.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationPolicy{
+		ApplicationID: uint(appID),
+		Slug:          policy.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count >= 1 {
+		tx.Rollback()
+		loggerx.Error(errors.New("slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
 	roles := make([]model.ApplicationRole, 0)
 	for _, each := range reqBody.Roles {
 		appRole := model.ApplicationRole{}
@@ -103,7 +122,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.Roles = roles
 
 	// updating the application policy on the kavachDB
-	tx := model.DB.Begin()
 	err = tx.Model(&model.ApplicationPolicy{}).Where("id = ?", policyID).Updates(&policy).Error
 	if err != nil {
 		tx.Rollback()

@@ -105,8 +105,25 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var count int64
+	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
+		ApplicationID: uint(appID),
+		Slug:    appRole.Slug,
+	}).Count(&count).Error
+	if err != nil || count > 0 {
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+		} else {
+			loggerx.Error(errors.New("slug already exists"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		}
+		return
+	}
+	
 	updateMap := map[string]interface{}{
 		"name":        appRole.Name,
+		"slug":        appRole.Slug,
 		"description": appRole.Description,
 	}
 	//update the application role

@@ -14,6 +14,7 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/slugx"
 	"github.com/go-chi/chi"
 )
 
@@ -100,7 +101,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// binding the policyReq to SpacePolicy model
 	var policy model.SpacePolicy
 	policy.CreatedByID = uint(userID)
-	policy.Slug = reqBody.Slug
+	policy.Slug = slugx.Make(reqBody.Name)
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.SpaceID = uint(spaceID)
@@ -113,21 +114,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 	policy.Roles = roles
 	// inserting space role to the kavachDB
 	tx := model.DB.Begin()
-
 	var count int64
 	err = tx.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
 		SpaceID: uint(spaceID),
 		Slug:    policy.Slug,
 	}).Count(&count).Error
-	if err != nil || count > 0 {
+	if err != nil {
 		tx.Rollback()
-		if err != nil {
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-		} else {
-			loggerx.Error(errors.New("slug already exists"))
-			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
-		}
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count >= 1 {
+		tx.Rollback()
+		loggerx.Error(errors.New("slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
 		return
 	}
 

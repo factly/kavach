@@ -14,6 +14,7 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/slugx"
 	"github.com/go-chi/chi"
 )
 
@@ -90,7 +91,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	var policy model.ApplicationPolicy
 	policy.CreatedByID = uint(userID)
 	policy.Name = reqBody.Name
-	policy.Slug = reqBody.Slug
+	policy.Slug = slugx.Make(reqBody.Name)
 	policy.Description = reqBody.Description
 	policy.ApplicationID = uint(appID)
 	policy.Permissions = reqBody.Permissions

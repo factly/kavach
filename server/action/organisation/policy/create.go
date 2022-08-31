@@ -12,6 +12,7 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/slugx"
 	"github.com/go-chi/chi"
 )
 
@@ -62,7 +63,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// binding policyReq to the model.OrganisationPolicy datamodel
 	var policy model.OrganisationPolicy
 	policy.CreatedByID = uint(userID)
-	policy.Slug = reqBody.Slug
+	policy.Slug = slugx.Make(reqBody.Name)
 	policy.Name = reqBody.Name
 	policy.Description = reqBody.Description
 	policy.OrganisationID = uint(orgID)

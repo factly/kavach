@@ -2,6 +2,7 @@ package roles
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -73,11 +74,27 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	updateMap := map[string]interface{}{
-		"name": organisationRole.Name,
-		"description": organisationRole.Description,
-	} 
+	var count int64
+	err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+		OrganisationID: uint(orgID),
+		Slug:    organisationRole.Slug,
+	}).Count(&count).Error
+	if err != nil || count > 0 {
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+		} else {
+			loggerx.Error(errors.New("slug already exists"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		}
+		return
+	}
 
+	updateMap := map[string]interface{}{
+		"name":        organisationRole.Name,
+		"slug":        organisationRole.Slug,
+		"description": organisationRole.Description,
+	}
 	//update the organisation role
 	err = model.DB.Model(&model.OrganisationRole{}).Where("organisation_id = ? AND id = ?", orgID, roleIDInt).Updates(updateMap).Error
 	if err != nil {

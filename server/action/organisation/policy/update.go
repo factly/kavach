@@ -2,6 +2,7 @@ package policy
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -12,6 +13,7 @@ import (
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
+	"github.com/factly/x/slugx"
 	"github.com/go-chi/chi"
 )
 
@@ -72,10 +74,28 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy := new(model.OrganisationPolicy)
 	policy.ID = uint(policyID)
 	policy.Name = reqBody.Name
-	policy.Slug = reqBody.Slug
+	policy.Slug = slugx.Make(reqBody.Name)
 	policy.Description = reqBody.Description
 	policy.OrganisationID = uint(orgID)
 	policy.Permissions = reqBody.Permissions
+	tx := model.DB.Begin()
+	var count int64
+	err = tx.Model(&model.OrganisationPolicy{}).Where(&model.OrganisationPolicy{
+		OrganisationID: uint(orgID),
+		Slug:           policy.Slug,
+	}).Count(&count).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if count >= 1 {
+		tx.Rollback()
+		loggerx.Error(errors.New("slug already exists"))
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
 	roles := make([]model.OrganisationRole, 0)
 	for _, each := range reqBody.Roles {
 		organisationRole := model.OrganisationRole{}
@@ -93,7 +113,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	policy.Roles = roles
-	tx := model.DB.Begin()
+
 	err = model.DB.Model(&model.OrganisationPolicy{}).Where("id = ?", policyID).Updates(policy).Error
 	if err != nil {
 		loggerx.Error(err)

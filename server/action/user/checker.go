@@ -130,11 +130,22 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		user.IsActive = true
 		// record does not exist so create new user
-		err = model.DB.Create(&user).Error
+		var count int64
+		err = model.DB.Model(&model.User{}).Where(&model.User{
+			Email: user.Email,
+		}).Count(&count).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
+		}
+		if count == 0 {
+			err = model.DB.Create(&user).Error
+			if err != nil {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DBError()))
+				return
+			}
 		}
 	}
 
