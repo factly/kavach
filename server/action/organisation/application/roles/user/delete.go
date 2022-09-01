@@ -134,7 +134,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: namespace,
-			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Object:    fmt.Sprintf("roles:org:%d:app:%d:%d", orgID, appID, roleID),
 			Relation:  appRole.Name,
 		},
 		SubjectID: fmt.Sprintf("%d", delUserID),

@@ -41,9 +41,6 @@ export default function ApplicationSettings() {
                 {application?.url}
               </a>
             </Descriptions.Item>
-            <Descriptions.Item label="Number of Spaces" span={descriptionSpan}>
-              {application?.spaces?.length ? application?.spaces?.length : 0}
-            </Descriptions.Item>
             <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
               {application?.tokens?.length ? application?.tokens?.length : 0}
             </Descriptions.Item>
