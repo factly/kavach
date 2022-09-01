@@ -168,7 +168,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: namespace,
-			Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, appID, spaceID),
+			Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d:%d", orgID, appID, spaceID, roleID),
 			Relation:  spaceRole.Name,
 		},
 		SubjectID: fmt.Sprintf("%d", userReqModel.UserID),
