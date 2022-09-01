@@ -69,13 +69,14 @@ function ApplicationUser() {
                   dispatch(getApplicationUsers(id));
                   setFlag((prev) => !prev);
                 });
+                form.resetFields()
               }}
               style={{ maxWidth: '100%' }}
             >
               <Form.Item name="user_id" label="Users">
                 <Select bordered listHeight={128} style={{ width: 200 }} placeholder="select user">
-                  {remainingUsers.map((user, index) => (
-                    <Select.Option value={user.id} key={index}>
+                  {remainingUsers?.map((user, index) => (
+                    <Select.Option value={user?.id} key={index}>
                       {user.email}
                     </Select.Option>
                   ))}

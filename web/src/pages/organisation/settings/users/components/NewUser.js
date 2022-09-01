@@ -109,8 +109,10 @@ function NewUser() {
   const { orgID } = useParams();
   const [form] = Form.useForm();
   const addNewUsers = (values) => {
-    dispatch(addUser(values, history)).then(() =>
-      history.push(`/organisation/${orgID}/settings/users`),
+    dispatch(addUser(values, history)).then(() => {
+      history.push(`/organisation/${orgID}/settings/users`);
+      form.resetFields()
+    }
     );
   };
 
