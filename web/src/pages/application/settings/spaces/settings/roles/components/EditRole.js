@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { updateSpaceRole, getSpaceRoleByID } from '../../../../../../../actions/roles';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSpaceByID } from '../../../../../../../actions/space';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -10,6 +10,7 @@ import { checker, maker } from '../../../../../../../utils/sluger';
 export default function EditSpaceRole() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const history = useHistory();
   const { appID, spaceID, roleID } = useParams();
   const { TextArea } = Input;
   const onReset = () => {
@@ -23,7 +24,7 @@ export default function EditSpaceRole() {
   };
 
   const onUpdate = (data) => {
-    dispatch(updateSpaceRole(roleID, appID, spaceID));
+    dispatch(updateSpaceRole(roleID, appID, spaceID, data)).then(() => history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`));
   };
 
   const { role, loading, space, loadingSpace, userRole, loadingUserRole } = useSelector((state) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { updateOrganisationRole, getOrganisationRoleByID } from '../../../../../actions/roles';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getOrganisation } from '../../../../../actions/organisations';
@@ -15,7 +15,7 @@ export default function EditOrganisationRole() {
   const onReset = () => {
     form.restFields();
   };
-
+  const history = useHistory();
   const onTitleChange = (string) => {
     form.setFieldsValue({
       slug: maker(string),
@@ -23,7 +23,7 @@ export default function EditOrganisationRole() {
   };
 
   const onUpdate = (data) => {
-    dispatch(updateOrganisationRole(roleID, data));
+    dispatch(updateOrganisationRole(roleID, data)).then(() => history.push(`/organisation/${orgID}/settings/roles`));
   };
 
   const { role, loading, organisation, loadingOrg, userRole, loadingUserRole } = useSelector(
@@ -40,7 +40,7 @@ export default function EditOrganisationRole() {
   );
 
   const fetchRole = () => {
-    dispatch(getOrganisationRoleByID(roleID));
+    dispatch(getOrganisationRoleByID(roleID))
   };
 
   React.useEffect(() => {

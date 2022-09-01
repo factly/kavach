@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { updateApplicationRole, getApplicationRoleByID } from '../../../../../actions/roles';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getApplication } from '../../../../../actions/application';
@@ -12,6 +12,7 @@ export default function EditApplicationRole() {
   const dispatch = useDispatch();
   const { appID, roleID } = useParams();
   const { TextArea } = Input;
+  const history = useHistory();
   const onReset = () => {
     form.resetFields();
   };
@@ -23,7 +24,7 @@ export default function EditApplicationRole() {
   };
 
   const onUpdate = (data) => {
-    dispatch(updateApplicationRole(roleID, appID, data));
+    dispatch(updateApplicationRole(roleID, appID, data)).then(() => history.push(`/applications/${appID}/settings/roles`));
   };
 
   const { role, loading, application, loadingApp, userRole, loadingUserRole } = useSelector(
