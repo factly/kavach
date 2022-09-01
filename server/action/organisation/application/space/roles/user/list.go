@@ -91,7 +91,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	spaceRoleObjectID := fmt.Sprintf("roles:org:%d:app:%d:space:%d:%d", orgID, appID, spaceID, roleID)
+	spaceRoleObjectID := fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, appID, spaceID)
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: namespace,
