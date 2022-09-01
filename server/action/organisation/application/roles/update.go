@@ -106,9 +106,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var count int64
-	err = model.DB.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
+	err = model.DB.Model(&model.ApplicationRole{}).Not("id = ?", roleIDInt).Where(&model.ApplicationRole{
 		ApplicationID: uint(appID),
-		Slug:    appRole.Slug,
+		Slug:          appRole.Slug,
 	}).Count(&count).Error
 	if err != nil || count > 0 {
 		if err != nil {
@@ -120,7 +120,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	
+
 	updateMap := map[string]interface{}{
 		"name":        appRole.Name,
 		"slug":        appRole.Slug,

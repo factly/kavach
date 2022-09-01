@@ -96,7 +96,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var count int64
-	err = model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
+	err = model.DB.Model(&model.SpaceRole{}).Not("id = ?", roleID).Where(&model.SpaceRole{
 		SpaceID: uint(spaceID),
 		Slug:    spaceRole.Slug,
 	}).Count(&count).Error

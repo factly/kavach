@@ -87,7 +87,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.OrganisationID = uint(orgID)
 	tx := model.DB.Begin()
 	var count int64
-	err = tx.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationPolicy{
+	err = tx.Model(&model.ApplicationPolicy{}).Not("id = ?", policyID).Where(&model.ApplicationPolicy{
 		ApplicationID: uint(appID),
 		Slug:          policy.Slug,
 	}).Count(&count).Error

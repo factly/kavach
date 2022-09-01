@@ -80,7 +80,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.Permissions = reqBody.Permissions
 	tx := model.DB.Begin()
 	var count int64
-	err = tx.Model(&model.OrganisationPolicy{}).Where(&model.OrganisationPolicy{
+	err = tx.Model(&model.OrganisationPolicy{}).Not("id = ?", policyID).Where(&model.OrganisationPolicy{
 		OrganisationID: uint(orgID),
 		Slug:           policy.Slug,
 	}).Count(&count).Error

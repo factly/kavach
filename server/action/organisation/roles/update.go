@@ -75,9 +75,9 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var count int64
-	err = model.DB.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+	err = model.DB.Model(&model.OrganisationRole{}).Not("id = ?", roleIDInt).Where(&model.OrganisationRole{
 		OrganisationID: uint(orgID),
-		Slug:    organisationRole.Slug,
+		Slug:           organisationRole.Slug,
 	}).Count(&count).Error
 	if err != nil || count > 0 {
 		if err != nil {
