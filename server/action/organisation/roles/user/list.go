@@ -58,7 +58,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: namespace,
-			Object:    fmt.Sprintf("roles:org:%d", orgID),
+			Object:    fmt.Sprintf("roles:org:%d:%d", orgID, roleID),
 			Relation:  *roleName,
 		},
 		SubjectID: fmt.Sprintf("%d", userID),
