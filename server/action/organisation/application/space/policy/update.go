@@ -140,6 +140,56 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	policy.Roles = roles
 
+	// policyBeforeUpdate : it is used to store a policy object which helps in deleting the relation tuples which are not needed after updating policy
+	policyBeforeUpdate := model.SpacePolicy{}
+	err = tx.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Roles").Find(&policyBeforeUpdate).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	var oldPermissions []permission
+	err = json.Unmarshal(policyBeforeUpdate.Permissions.RawMessage, &oldPermissions)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	for _, role := range policyBeforeUpdate.Roles {
+		for _, eachPermission := range oldPermissions {
+			for _, action := range eachPermission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:app:%d:space:%d:%s", orgID, appID, spaceID, eachPermission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org%d:app:%d:space:%d", orgID, appID, spaceID),
+						Relation:  role.Name,
+					},
+				}
+
+				err = keto.DeleteRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
+		}
+	}
+
 	// updating the policy in the kavachDB
 	err = tx.Model(&model.SpacePolicy{}).Where("id = ?", policyID).Updates(&policy).Error
 	if err != nil {

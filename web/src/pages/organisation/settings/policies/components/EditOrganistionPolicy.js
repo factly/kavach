@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { getOrganisationPolicyByID, updateOrganisationPolicy } from '../../../../../actions/policy';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -12,10 +12,10 @@ export default function EditOrganisationPolicy() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { orgID, policyID } = useParams();
-
+  const history = useHistory();
   const { policy, loading, role, loadingRole, organisation, loadingOrg } = useSelector((state) => {
     return {
-      policy: state.policy.organisation[orgID][policyID],
+      policy: state.policy.organisation?.[orgID]?.[policyID],
       loading: state.policy.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
@@ -25,7 +25,8 @@ export default function EditOrganisationPolicy() {
   });
 
   const onUpdate = (data) => {
-    dispatch(updateOrganisationPolicy(policyID, data));
+    dispatch(updateOrganisationPolicy(policyID, {...policy, ...data}))
+    .then(() => history.push(`/organisation/${orgID}/settings/policies`));
   };
 
   const onReset = () => {

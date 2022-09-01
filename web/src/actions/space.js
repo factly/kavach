@@ -131,10 +131,14 @@ export const getSpaceByID = (appID, spaceID) => {
       ) // eslint-disable-next-line
       .then((response) => {
         deleteKeys([response.data], ['application']);
-        dispatch(addSpaceRoles(spaceID, buildObjectOfItems(response.data.roles)));
-        dispatch(addSpacePolicy(spaceID, buildObjectOfItems(response.data.policies)));
-        response.data.roleIDs = getIds(response.data.roles);
-        response.data.policyIDs = getIds(response.data.policies);
+        if(response.data?.roles){
+          dispatch(addSpaceRoles(spaceID, buildObjectOfItems(response.data.roles)));
+          response.data.roleIDs = getIds(response.data?.roles);
+        }
+        if(response.data?.policies){
+          dispatch(addSpacePolicy(spaceID, buildObjectOfItems(response.data.policies)));
+          response.data.policyIDs = getIds(response.data.policies);
+        }
         delete response.data.roles;
         delete response.data.policies;
         dispatch(addSpaces([response.data]));

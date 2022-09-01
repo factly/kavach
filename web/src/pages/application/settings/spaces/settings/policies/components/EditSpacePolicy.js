@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Card, Form, Input, Skeleton } from 'antd';
 import { getSpacePolicyByID, updateSpacePolicy } from '../../../../../../../actions/policy';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../../../components/Policies';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -12,7 +12,7 @@ export default function EditSpacePolicy() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { appID, spaceID, policyID } = useParams();
-
+  const history = useHistory()
   const { policy, loading, role, loadingRole, space, loadingSpace } = useSelector((state) => {
     return {
       policy: state.policy.space[spaceID][policyID],
@@ -25,7 +25,8 @@ export default function EditSpacePolicy() {
   });
 
   const onUpdate = (data) => {
-    dispatch(updateSpacePolicy(policyID, appID, spaceID, data));
+    dispatch(updateSpacePolicy(policyID, appID, spaceID, { ...policy, ...data}))
+    .then(() => history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`));
   };
 
   const onReset = () => {
@@ -38,13 +39,8 @@ export default function EditSpacePolicy() {
     });
   };
 
-  const fetchPolicy = () => {
-    dispatch(getSpacePolicyByID(appID, spaceID, policyID));
-  };
-
   React.useEffect(() => {
-    fetchPolicy();
-    dispatch(getSpaceByID(appID, spaceID));
+    dispatch(getSpacePolicyByID(appID, spaceID, policyID));
     // eslint-disable-next-line
   }, []);
 

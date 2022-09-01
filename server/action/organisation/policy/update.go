@@ -114,8 +114,58 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	policy.Roles = roles
 
-	err = model.DB.Model(&model.OrganisationPolicy{}).Where("id = ?", policyID).Updates(policy).Error
+	// policyBeforeUpdate : it is used to store a policy object which helps in deleting the relation tuples which are not needed after updating policy
+	policyBeforeUpdate := model.OrganisationPolicy{}
+	err = tx.Model(&model.OrganisationPolicy{}).Where(&model.OrganisationPolicy{
+		Base: model.Base{
+			ID: uint(policyID),
+		},
+	}).Preload("Roles").Find(&policyBeforeUpdate).Error
 	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	var oldPermissions []permission
+	err = json.Unmarshal(policyBeforeUpdate.Permissions.RawMessage, &oldPermissions)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
+	for _, role := range policyBeforeUpdate.Roles {
+		for _, eachPermission := range oldPermissions {
+			for _, action := range eachPermission.Actions {
+				tuple := &model.KetoRelationTupleWithSubjectSet{
+					KetoSubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("resource:org:%d:%s", orgID, eachPermission.Resource),
+						Relation:  action,
+					},
+					SubjectSet: model.KetoSubjectSet{
+						Namespace: namespace,
+						Object:    fmt.Sprintf("roles:org:%d", orgID),
+						Relation:  role.Name,
+					},
+				}
+				err = keto.DeleteRelationTupleWithSubjectSet(tuple)
+				if err != nil {
+					tx.Rollback()
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+			}
+		}
+	}
+
+	err = tx.Model(&model.OrganisationPolicy{}).Where("id = ?", policyID).Updates(policy).Error
+	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
@@ -132,6 +182,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	var permissions []permission
 	err = json.Unmarshal(reqBody.Permissions.RawMessage, &permissions)
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
@@ -139,7 +190,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 
 	// ----------- Creating policy on the keto server ---------------
 	for _, role := range policy.Roles {
-
 		for _, permission := range permissions {
 			for _, action := range permission.Actions {
 				tuple := &model.KetoRelationTupleWithSubjectSet{
