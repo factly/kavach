@@ -5,7 +5,6 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../../../components/Policies';
 import ErrorComponent from '../../../../../../../components/ErrorsAndImage/ErrorComponent';
-import { getSpaceByID } from '../../../../../../../actions/space';
 import { checker, maker } from '../../../../../../../utils/sluger';
 
 export default function EditSpacePolicy() {
