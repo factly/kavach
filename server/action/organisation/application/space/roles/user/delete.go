@@ -49,7 +49,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-	
+
 	sID := chi.URLParam(r, "space_id")
 	spaceID, err := strconv.Atoi(sID)
 	if err != nil {
@@ -149,7 +149,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: namespace,
-			Object:    fmt.Sprintf("roles:org:%d:app:%d", orgID, appID),
+			Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d", orgID, appID, spaceID),
 			Relation:  spaceRole.Name,
 		},
 		SubjectID: fmt.Sprintf("%d", delUserID),
