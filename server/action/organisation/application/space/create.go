@@ -102,8 +102,9 @@ func create(w http.ResponseWriter, r *http.Request) {
 	var count int64
 	tx := model.DB.Begin()
 	err = tx.Model(&model.Space{}).Where(&model.Space{
-		ApplicationID: uint(aID),
-		Slug: space.Slug,
+		ApplicationID:  uint(aID),
+		Slug:           space.Slug,
+		OrganisationID: uint(oID),
 	}).Count(&count).Error
 	if err != nil || count > 0 {
 		if err != nil {
