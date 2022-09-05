@@ -37,7 +37,7 @@ function Application() {
             <Skeleton />
           ) : (
             <Link key="1" to="/applications/type">
-              <Button type="primary">New Application</Button>
+              <Button type="primary">Manage Application</Button>
             </Link>
           )
         ) : null}

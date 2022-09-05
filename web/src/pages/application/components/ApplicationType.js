@@ -21,7 +21,7 @@ export const ApplicationType = () => {
             <SettingsCard
               icon={<CloudDownloadOutlined style={{ color: '#4E89FF' }} />}
               title="Default Applications"
-              description="In this section you can add applications to your organisation which are managed by the admin."
+              description="In this section you can add and delete applications to your organisation which are managed by the admin."
             />
           </Link>
         </Col>
