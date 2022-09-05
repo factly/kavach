@@ -37,7 +37,7 @@ function App() {
     if (process.env.NODE_ENV !== 'development') {
       if (
         window.location.pathname === '/' &&
-        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS &&
+        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === "true" &&
         !loadingApp
       ) {
         if (applications?.length === 1) {
