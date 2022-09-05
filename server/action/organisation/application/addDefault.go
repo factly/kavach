@@ -92,7 +92,7 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(oID),
 		},
-	}).First(&org).Error
+	}).First(org).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
