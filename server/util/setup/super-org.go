@@ -135,6 +135,24 @@ func createUserInKratos() (map[string]interface{}, error) {
 		return nil, err
 	}
 	if sessionResp.StatusCode != 200 {
+		if sessionResp.StatusCode == 400 {
+			ui, ok := respBody["ui"].(map[string]interface{})
+			if ok {
+				messageObject, ok := ui["messages"].([]interface{})
+				if ok {
+					for _, msg := range messageObject {
+						msgMap, ok := msg.(map[string]interface{})
+						if ok {
+							msgID := int(msgMap["id"].(float64))
+							if msgID == 4000007 {
+								loggerx.Warning("email already exists")
+								return nil, errors.New("email already exists")
+							}
+						}
+					}
+				}
+			}
+		}
 		loggerx.Warning("internal server error on kratos")
 		return nil, errors.New("complete registration request failed")
 	}
