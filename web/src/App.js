@@ -32,6 +32,11 @@ function App() {
       });
     }
   }, []);
+  
+  console.log("window bool", window.location.pathname === '/')
+  console.log("window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS", window.location.pathname === '/')
+  console.log("application length bool", applications?.length === 1)
+  console.log("loading app", loadingApp)
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') {
