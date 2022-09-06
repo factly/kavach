@@ -14,31 +14,31 @@ func GetDefaultApplicationByOrgID(userID, orgID uint) ([]model.Application, erro
 	if orgID == 1 {
 		return []model.Application{}, nil
 	}
-	appIDs := []uint{1, 2, 3, 4}
-	apps := []model.Application{}
-	for _, appID := range appIDs {
+
+	apps := make([]model.Application, 0)
+	err := model.DB.Model(&model.Application{}).Where(&model.Application{
+		IsDefault: true,
+	}).Find(&apps).Error
+	if err != nil {
+		return nil, err
+	}
+
+	filteredApps := make([]model.Application, 0)
+
+	for _, app := range apps {
 		isAuthorised, err := user.IsUserAuthorised(
 			namespace,
-			fmt.Sprintf("org:%d:app:%d", orgID, appID),
+			fmt.Sprintf("org:%d:app:%d", orgID, app.ID),
 			fmt.Sprintf("%d", userID),
 		)
 		if err != nil {
 			return nil, err
 		}
-
 		if isAuthorised {
-			app := model.Application{}
-			err := model.DB.Model(&model.Application{}).Where(&model.Application{
-				Base: model.Base{
-					ID: appID,
-				},
-			}).First(&app).Error
-			if err != nil {
-				return nil, err
-			}
-
-			apps = append(apps, app)
+			filteredApps = append(filteredApps, app)
 		}
 	}
-	return apps, nil
+	
+	return filteredApps, nil
 }
+
