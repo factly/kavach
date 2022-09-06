@@ -14,9 +14,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-type ValidationBody struct {
-	Token string `json:"token" validate:"required"`
-}
+
 
 func Validate(w http.ResponseWriter, r *http.Request) {
 	sID := chi.URLParam(r, "space_id")
@@ -27,7 +25,7 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenBody := ValidationBody{}
+	tokenBody := model.ValidationBody{}
 	err = json.NewDecoder(r.Body).Decode(&tokenBody)
 	if err != nil {
 		loggerx.Error(err)
