@@ -1,7 +1,6 @@
 package user
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -89,7 +88,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	app := &model.Application{}
 	app.ID = uint(appID)
 
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
+	tx := model.DB.Begin()
 
 	// Check if application exist
 	err = tx.Model(&model.Application{}).Preload("Users").First(&app).Error
