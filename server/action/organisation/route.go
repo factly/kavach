@@ -24,7 +24,7 @@ func Router() chi.Router {
 
 	r.Get("/my", list)
 	r.Post("/", create)
-	r.Get("/", all)
+	// r.Get("/", all)
 	r.Route("/{organisation_id}", func(r chi.Router) {
 		r.Get("/", details)
 		r.Put("/", update)
