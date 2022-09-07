@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/url"
 	"strings"
 
@@ -79,7 +80,7 @@ func (media *Medium) AfterFind(tx *gorm.DB) (err error) {
 			urlObj, _ := url.Parse(rawURL.(string))
 			bucket_name := ""
 			if viper.IsSet("bucket_name") {
-				bucket_name = viper.GetString("bucket_name")
+				bucket_name = fmt.Sprint(viper.GetString("bucket_name"), "/")
 			}
 			resurl["proxy"] = strings.Replace(viper.GetString("imageproxy_url")+urlObj.Path, bucket_name, "", 1)
 
