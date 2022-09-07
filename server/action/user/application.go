@@ -10,7 +10,7 @@ import (
 	"github.com/factly/x/renderx"
 )
 
-type paging struct {
+type Paging struct {
 	Nodes []model.User `json:"nodes"`
 	Total int          `json:"total"`
 }
@@ -65,7 +65,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 		OrganisationID: uint(orgID),
 	}).Preload("Users").Preload("Users.Medium").First(&app)
 
-	result := paging{}
+	result := Paging{}
 
 	result.Nodes = app.Users
 	result.Total = len(app.Users)
