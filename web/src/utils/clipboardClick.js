@@ -22,7 +22,7 @@ function ClipBoardCopy({ text }) {
         setIsCopied(true);
         setTimeout(() => {
           setIsCopied(false);
-        }, 1500);
+        }, 5000);
       })
       .catch((err) => {
         dispatch(addErrorNotification('Could not copy token'));
@@ -43,8 +43,8 @@ function ClipBoardCopy({ text }) {
         </Button>
       </div>
       <Alert
-        type="error"
-        description="Make sure to copy your personal access token now. You won’t be able to see it again!"
+        type={ isCopied ? 'success': 'error'}
+        description={"Make sure to copy your personal access token now. You won’t be able to see it again!"}
       />
     </Space>
   );
