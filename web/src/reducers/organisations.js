@@ -4,6 +4,12 @@ import {
   SET_ORGANISATIONS_LOADING,
   RESET_ORGANISATIONS,
   SET_SELECTED_ORGANISATION,
+  ADD_ORGANISATION_USERS,
+  ADD_APPLICATION_IDS,
+  ADD_ORGANISATION_ROLE,
+  ADD_ORGANISATION_ROLE_IDS,
+  ADD_ORGANISATION_POLICY_IDS,
+  ADD_ORGANISATION_TOKEN_IDS,
 } from '../constants/organisations';
 
 const initialState = {
@@ -11,7 +17,6 @@ const initialState = {
   details: {},
   loading: true,
   selected: 0,
-  role: 'member',
 };
 
 export default function tagsReducer(state = initialState, action = {}) {
@@ -24,7 +29,6 @@ export default function tagsReducer(state = initialState, action = {}) {
         details: {},
         loading: true,
         selected: 0,
-        role: 'member',
       };
     case SET_ORGANISATIONS_LOADING:
       return {
@@ -32,12 +36,13 @@ export default function tagsReducer(state = initialState, action = {}) {
         loading: payload,
       };
     case ADD_ORGANISATIONS:
+      const organisationData = { ...state.details, ...payload.data };
+      const { selected } = { ...state };
       return {
         ...state,
-        ids: payload.map((item) => item.id),
-        details: payload.reduce((obj, item) => Object.assign(obj, { [item.id]: item }), {}),
-        selected: payload[0].id,
-        role: payload[0].permission.role,
+        ids: payload.ids,
+        details: organisationData,
+        selected: selected === 0 ? payload.ids[0] : selected,
       };
     case ADD_ORGANISATION:
       return {
@@ -45,14 +50,79 @@ export default function tagsReducer(state = initialState, action = {}) {
         ids: state.ids.includes(payload.id) ? state.ids : state.ids.concat([payload.id]),
         details: {
           ...state.details,
-          [payload.id]: payload,
+          [payload.id]: payload.data,
+        },
+      };
+    case ADD_ORGANISATION_USERS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            users: payload,
+          },
         },
       };
     case SET_SELECTED_ORGANISATION:
       return {
         ...state,
         selected: payload,
-        role: state.details[payload].permission.role,
+      };
+    case ADD_APPLICATION_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            applications: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_ROLE:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            roles: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_ROLE_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            roleIDs: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_POLICY_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            policyIDs: payload,
+          },
+        },
+      };
+    case ADD_ORGANISATION_TOKEN_IDS:
+      return {
+        ...state,
+        details: {
+          ...state.details,
+          [state.selected]: {
+            ...state.details[state.selected],
+            tokens: payload,
+          },
+        },
       };
     default:
       return state;

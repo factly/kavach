@@ -1,4 +1,7 @@
 import React from 'react';
+import Lottie from 'react-lottie';
+import { Link } from 'react-router-dom';
+import animationData from './email-sent.json';
 
 function VerificationAfterRegistration() {
   return (
@@ -11,16 +14,26 @@ function VerificationAfterRegistration() {
         height: '100vh',
       }}
     >
-      <img
-        src={require('../../assets/email-verification.svg')}
-        width={200}
-        alt="verification"
-        style={{ marginBottom: 10 }}
+     <Lottie
+        width={'40%'}
+        height={'40%'}
+        options={{
+          loop: true,
+          autoplay: true,
+          animationData: animationData,
+        }}
       />
       <h2>Verify your email address.</h2>
-      <p style={{ width: '250px' }}>
+      <p style={{ fontSize:'16px' }}>
         An email containing a verification link has been sent to your email address.
       </p>
+      <Link to={'/auth/login'} style={
+              {
+                fontSize:'16px'
+              }
+            }> 
+              Go back to login
+      </Link>
     </div>
   );
 }

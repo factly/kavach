@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/keto"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -66,7 +66,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
-	if !viper.GetBool("enable_multitenancy"){
+	if !viper.GetBool("enable_multitenancy") {
 		var organisation model.Organisation
 		result := tx.Model(&model.Organisation{}).First(&organisation)
 		if result.RowsAffected != 0 {
@@ -113,34 +113,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 	result.Organisation = *organisation
 	result.Permission = permission
 
-	/* creating role of admins */
-	reqRole := &model.Role{}
-	reqRole.ID = "roles:org:" + fmt.Sprint(organisation.ID) + ":admin"
-	reqRole.Members = []string{fmt.Sprint(userID)}
-
-	err = keto.UpdateRole("/engines/acp/ory/regex/roles", reqRole)
-
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
-		return
+	// creating the organisation-role: owner, on the keto api
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: "organisations",
+			Object:    fmt.Sprintf("org:%d", organisation.ID),
+			Relation:  "owner",
+		},
+		SubjectID: fmt.Sprintf("%d", userID),
 	}
 
-	/* creating policy for admins */
-	reqPolicy := &model.Policy{}
-	reqPolicy.ID = "org:" + fmt.Sprint(organisation.ID) + ":admins"
-	reqPolicy.Subjects = []string{reqRole.ID}
-	reqPolicy.Resources = []string{"resources:org:" + fmt.Sprint(organisation.ID) + ":<.*>"}
-	reqPolicy.Actions = []string{"actions:org:" + fmt.Sprint(organisation.ID) + ":<.*>"}
-	reqPolicy.Effect = "allow"
-
-	err = keto.UpdatePolicy("/engines/acp/ory/regex/policies", reqPolicy)
-
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.NetworkError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
 

@@ -12,27 +12,75 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
+
 function App() {
-  const { orgCount } = useSelector((state) => {
+  const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION === 'true' || false;
+  const { orgCount, applications, loadingApp } = useSelector((state) => {
+    const applicationIds =
+      state.organisations.details[state.organisations.selected]?.applications || [];
     return {
       orgCount: state.organisations && state.organisations.ids ? state.organisations.ids.length : 0,
+      applications: applicationIds?.map((id) => state.applications.details?.[id]),
+      loadingApp: state.applications.loading,
     };
   });
 
   useEffect(() => {
     if (process.env.NODE_ENV !== 'development') {
-      posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, { api_host: process.env.REACT_APP_POSTHOG_URL })
+      posthog.init(process.env.REACT_APP_POSTHOG_API_KEY, {
+        api_host: process.env.REACT_APP_POSTHOG_URL,
+      });
     }
-  }, [])
+  }, []);
+  
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') {
+      if (
+        window.location.pathname === '/' &&
+        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === "true" &&
+        !loadingApp
+      ) {
+        if (applications?.length === 1) {
+          window.location.href = applications[0].url;
+        }
+      }
+    } else {
+      if (
+        (window.location.pathname.replace('/.factly/kavach/web', '') === '/' ||
+          window.location.pathname.replace('/.factly/kavach/web', '') === '') &&
+        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === 'true' &&
+        !loadingApp
+      ) {
+        if (applications?.length === 1) {
+          window.location.href = applications[0].url;
+        }
+      }
+    }
+  }, [applications, loadingApp]);
+
   return (
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
-          <Route
-            path="/auth/registration"
-            component={(props) => <Auth {...props} flow={'registration'} />}
-          />
+          {!disableRegistration ? (
+            <Route
+              path="/auth/registration"
+              component={(props) => <Auth {...props} flow={'registration'} />}
+            />
+          ) : (
+            <Route
+              path="/auth/registration"
+              component={() => (
+                <ErrorComponent
+                  status="404"
+                  title="Sorry, the page you visited does not exist."
+                  link="/auth/login"
+                  message="Goto login!"
+                />
+              )}
+            />
+          )}
           <Route path="/auth/recovery" component={() => <Recovery />} />
           <Route path="/auth/verification" component={() => <Verification />} />
           <Route path="/verification" component={() => <VerificationAfterRegistration />} />
@@ -51,7 +99,8 @@ function App() {
                         : route.path === '/password' ||
                           route.path === '/profile' ||
                           route.path === '/organisation' ||
-                          route.path === '/profile/invite'
+                          route.path === '/profile/invite' ||
+                          route.path === '/organisation/create'
                         ? route.Component
                         : () =>
                             ErrorComponent({
@@ -66,6 +115,18 @@ function App() {
               })}
             </Switch>
           </BasicLayout>
+          <Route
+            path="*"
+            exact={true}
+            component={() => (
+              <ErrorComponent
+                status="404"
+                title="Sorry, the page you visited does not exist."
+                link="/auth/login"
+                message="Goto login!"
+              />
+            )}
+          />
         </Switch>
       </Router>
     </div>

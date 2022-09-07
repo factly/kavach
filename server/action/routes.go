@@ -1,7 +1,6 @@
 package action
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/factly/kavach-server/util/keto"
@@ -9,9 +8,10 @@ import (
 
 	"github.com/factly/kavach-server/action/medium"
 	"github.com/factly/kavach-server/action/organisation"
-	"github.com/factly/kavach-server/action/organisation/application/token"
+	"github.com/factly/kavach-server/action/organisation/application/space/token"
 	"github.com/factly/kavach-server/action/profile"
 	"github.com/factly/kavach-server/action/user"
+	"github.com/factly/kavach-server/action/util"
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
@@ -35,14 +35,15 @@ func RegisterRoutes() http.Handler {
 
 	if viper.IsSet("mode") && viper.GetString("mode") == "development" {
 		r.Get("/swagger/*", httpSwagger.WrapHandler)
-		log.Printf("Swagger @ http://localhost:5000/swagger/index.html")
+		loggerx.Info("Swagger @ http://localhost:5001/swagger/index.html")
 	}
 
 	r.Mount("/organisations", organisation.Router())
 	r.Mount("/users", user.Router())
 	r.Mount("/profile", profile.Router())
 	r.Mount("/media", medium.Router())
-	r.Post("/applications/{application_slug}/validateToken", token.Validate)
+	r.Mount("/util", util.Router())
+	r.Post("/spaces/{space_id}/validateToken", token.Validate)
 
 	sqlDB, _ := model.DB.DB()
 

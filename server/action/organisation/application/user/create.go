@@ -1,14 +1,15 @@
 package user
 
 import (
-	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -87,7 +88,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	app := &model.Application{}
 	app.ID = uint(appID)
 
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
+	tx := model.DB.Begin()
 
 	// Check if application exist
 	err = tx.Model(&model.Application{}).Preload("Users").First(&app).Error
@@ -109,7 +110,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	users := make([]model.User, 0)
-
+	for _, user := range app.Users {
+		if user.ID == uint(appUsers.UserID) {
+			tx.Rollback()
+			loggerx.Error(errors.New("user already exists in the application"))
+			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+			return
+		}
+	}
 	// append user to application_user association
 	users = append(app.Users, *user.User)
 	app.Users = users
@@ -122,5 +130,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	tx.Commit()
 
+	// creating the association between user and role in the keto db
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d:app:%d", orgID, appID),
+			Relation:  user.Role,
+		},
+		SubjectID: fmt.Sprintf("%d", appUsers.UserID),
+	}
+
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	tx.Commit()
 	renderx.JSON(w, http.StatusCreated, app)
 }

@@ -1,10 +1,16 @@
 package organisation
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/application"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/x/errorx"
+	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 )
 
@@ -18,51 +24,70 @@ import (
 // @Success 200 {array} []orgWithRole
 // @Router /organisations/my [get]
 func list(w http.ResponseWriter, r *http.Request) {
-	organisationUser := make([]model.OrganisationUser, 0)
-
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
-
 	if err != nil {
 		renderx.JSON(w, http.StatusBadRequest, nil)
 		return
 	}
 
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		UserID: uint(userID),
-	}).Preload("Organisation").Preload("Organisation.Medium").Find(&organisationUser)
-
-	orgIDs := make([]uint, 0)
-	for _, ou := range organisationUser {
-		orgIDs = append(orgIDs, ou.OrganisationID)
+	objects, err := keto.ListObjectsBySubjectID(namespace, "", fmt.Sprintf("%d", userID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
 	}
 
-	applicationList := make([]model.Application, 0)
-	model.DB.Model(&model.Application{}).Preload("Medium").Where("organisation_id IN (?)", orgIDs).Find(&applicationList)
+	orgIDs := []int{}
 
-	appMap := make(map[uint][]model.Application)
-
-	for _, app := range applicationList {
-		if _, found := appMap[app.OrganisationID]; !found {
-			appMap[app.OrganisationID] = make([]model.Application, 0)
+	for _, object := range objects {
+		splittedObject := strings.Split(object, ":")
+		if object[:3] == "org" {
+			orgID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			if err != nil {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+				return
+			}
+			orgIDs = append(orgIDs, orgID)
 		}
-		appMap[app.OrganisationID] = append(appMap[app.OrganisationID], app)
 	}
 
-	result := make([]orgWithRole, 0)
-
-	for _, each := range organisationUser {
-		if each.Organisation != nil {
-			eachOrg := orgWithRole{}
-			eachOrg.Organisation = *each.Organisation
-			eachOrg.Permission = each
-			eachOrg.Applications = appMap[each.OrganisationID]
-
-			eachOrg.Permission.Organisation = nil
-
-			result = append(result, eachOrg)
+	allOrganisations := make([]orgWithRole, 0)
+	for _, orgID := range orgIDs {
+		org := orgWithRole{}
+		org.Organisation.ID = uint(orgID)
+		err = model.DB.Model(&model.Organisation{}).Where(&model.Organisation{
+			Base: model.Base{
+				ID: uint(orgID),
+			},
+		}).Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+			return
 		}
 
+		err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
+			OrganisationID: uint(orgID),
+			UserID:         uint(userID),
+		}).First(&org.Permission).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+			return
+		}
+
+		org.AllApplications = org.Organisation.Applications
+		defaultApps, err := application.GetDefaultApplicationByOrgID(uint(userID), uint(orgID))
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+			return
+		}
+		org.AllApplications = append(org.AllApplications, defaultApps...)
+		org.Organisation.Applications = org.AllApplications
+		allOrganisations = append(allOrganisations, org)
 	}
 
-	renderx.JSON(w, http.StatusOK, result)
+	renderx.JSON(w, http.StatusOK, allOrganisations)
 }

@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -52,6 +53,13 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = util.CheckOwner(uint(uID), uint(oID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	app := application{}
 	err = json.NewDecoder(r.Body).Decode(&app)
 	if err != nil {
@@ -71,26 +79,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 	result.ID = uint(appID)
 	// Check if record exist or not
 	err = model.DB.Model(&model.Application{}).Where(&model.Application{
+		Base: model.Base{
+			ID: uint(appID),
+		},
 		OrganisationID: uint(oID),
 	}).First(&result).Error
 
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
-
-	// Check if the user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
-
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
@@ -109,14 +106,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	err = tx.Model(&result).Updates(model.Application{
-		Base:        model.Base{UpdatedByID: uint(uID)},
-		Name:        app.Name,
-		Slug:        app.Slug,
-		Description: app.Description,
-		URL:         app.URL,
-		MediumID:    mediumID,
-	}).Preload("Medium").First(&result).Error
+	appMap := map[string]interface{}{
+		"updated_by_id": uint(uID),
+		"name":          app.Name,
+		"slug":          app.Slug,
+		"description":   app.Description,
+		"url":           app.URL,
+		"medium_id":     mediumID,
+	}
+	err = tx.Model(&result).Updates(&appMap).Preload("Medium").Preload("Users").First(&result).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)

@@ -1,27 +1,26 @@
 [
     {
-        "name": "Bindu",
-        "slug": "bindu",
-        "url": "http://127.0.0.1:4455/.factly/bindu/studio/"
-    },
-    {
-        "name": "Kavach",
-        "slug": "kavach",
-        "url": "http://127.0.0.1:4455/.factly/kavach/web/"
-    },
-    {
         "name": "Dega",
         "slug": "dega",
-        "url": "http://127.0.0.1:4455/.factly/dega/studio/"
+        "url": "https://dega.factly.in/",
+        "is_default": true
     },
     {
-        "name": "Vidcheck",
-        "slug": "vidcheck",
-        "url": "http://127.0.0.1:4455/.factly/vidcheck/web/"
+        "name": "Dataful",
+        "slug": "dataful",
+        "url": "https://dataful.factly.in/",
+        "is_default": true
     },
     {
-        "name": "MandE",
-        "slug": "mande",
-        "url": "http://127.0.0.1:4455/.factly/mande/web/home"
+        "name": "Resource Pool",
+        "slug": "resource-pool",
+        "url": "https://resource-pool.factly.in/",
+        "is_default": true
+    },
+    {
+        "name": "Sach",
+        "slug": "sach",
+        "url": "https://sach.factly.in/",
+        "is_default": true
     }
 ]

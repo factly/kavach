@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, Form, Input, Button, Space, Alert, Switch, Row, List, Col, Skeleton } from 'antd';
 import { LockOutlined } from '@ant-design/icons';
 import createForm from '../../utils/form';
+import passwordValidation from '../../utils/password-validation';
+
 function Password() {
   const cardStyle = {
     width: 400,
@@ -181,13 +183,26 @@ function Password() {
       {ui && ui.messages ? (
         <Alert message={ui.messages[0].text} type={state === 'success' ? state : 'error'}></Alert>
       ) : null}
+      {
+        ui.nodes?.length ? (ui.nodes.filter((node) => node.group === 'password')[0]?.messages?.length) ?<Alert message={ui.nodes.filter((node) => node.group === 'password')[0]?.messages?.[0].text} type={'error'}></Alert> : null : null 
+      }
       {ui && ui.nodes ? (
         <div>
           <Card title="Update password" style={{ width: cardStyle.width }}>
             <Form name="update_password" onFinish={changePassword}>
               <Form.Item
                 name="password"
-                rules={[{ required: true, message: 'Please input your Password!' }]}
+                rules={[
+                  { required: true, message: 'Please input your Password!' },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (passwordValidation(value) !== null) {
+                        return Promise.reject(passwordValidation(value));
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                ]}
               >
                 <Input.Password
                   prefix={<LockOutlined className="site-form-item-icon" />}

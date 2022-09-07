@@ -3,7 +3,7 @@ import ApplicationList from './components/ApplicationList';
 import { Button, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { addDefaultApplications, getApplications } from '../../actions/application';
+import { getApplications } from '../../actions/application';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 function Application() {
   const dispatch = useDispatch();
@@ -16,45 +16,39 @@ function Application() {
     dispatch(getApplications());
   };
 
-  const { applicationData, role, loadingRole } = useSelector((state) => {
+  const { applicationData, loadingApps, role, loadingRole, orgID } = useSelector((state) => {
+    const applicationIds = state.organisations.details[state.organisations.selected]?.applications;
     return {
-      applicationData: state.applications,
-      role: state.organisations.role,
-      loadingRole: state.organisations.loading,
+      applicationData: applicationIds.map((id) => state.applications.details[id]),
+      loadingApps: state.applications.loading,
+      role: state.profile.roles[state.organisations.selected],
+      loadingRole: state.profile.loading,
+      orgID: state.organisations.selected,
     };
   });
 
-  const addDefaultApps = () => {
-    dispatch(addDefaultApplications()).then(() => window.location.reload());
-  };
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         {loadingRole ? (
           <Skeleton />
-        ) : role === 'owner' ? (
-          applicationData.loading ? (
+        ) : role === 'owner' && orgID !== 1 ? (
+          loadingApps ? (
             <Skeleton />
-          ) : applicationData.req[0].data.length === 0 ? (
-            <div>
-              <Button onClick={addDefaultApps}>Add Factly Applications</Button>
-              <Link key="1" to="/applications/create">
-                <Button type="primary">New Application</Button>
-              </Link>
-            </div>
           ) : (
-            <Link key="1" to="/applications/create">
-              <Button type="primary">New Application</Button>
+            <Link key="1" to="/applications/type">
+              <Button type="primary">Manage Application</Button>
             </Link>
           )
         ) : null}
       </div>
-      {applicationData.loading ? (
+      {loadingApps ? (
         <Skeleton />
-      ) : applicationData.req[0].data.length ? (
+      ) : applicationData.length ? (
         <ApplicationList
           applicationList={applicationData}
           permission={loadingRole ? false : role === 'owner'}
+          loading={loadingApps}
         />
       ) : (
         <ErrorComponent title="You have 0 applications" link="/organisation" message="Go Home" />

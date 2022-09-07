@@ -3,11 +3,13 @@ package config
 import (
 	"log"
 
+	"github.com/factly/x/loggerx"
 	"github.com/spf13/viper"
 )
 
 // SetupVars setups all the config variables to run application
 func SetupVars() {
+	loggerx.Init()
 	viper.AddConfigPath(".")
 	viper.SetConfigName("config")
 	viper.SetEnvPrefix("kavach")
@@ -15,7 +17,7 @@ func SetupVars() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Println("config file not found...")
+		loggerx.Info("config file not found...")
 	}
 
 	if !viper.IsSet("database_host") {
@@ -40,10 +42,6 @@ func SetupVars() {
 
 	if !viper.IsSet("database_ssl_mode") {
 		log.Fatal("please provide database_ssl_mode config param")
-	}
-
-	if !viper.IsSet("keto_url") {
-		log.Fatal("please provide keto_url in config")
 	}
 
 	if !viper.IsSet("sendgrid_api_key") {
@@ -74,8 +72,28 @@ func SetupVars() {
 		log.Fatal("please provide kratos_admin_url in config")
 	}
 
+	if !viper.IsSet("kratos_public_url") {
+		log.Fatal("please provide kratos_admin_url in config")
+	}
+
 	if !viper.IsSet("enable_multitenancy") {
 		log.Fatal("please provide enable_multitenancy in config")
+	}
+
+	if !viper.IsSet("disable_registration") {
+		log.Fatal("please provide disable_registration in config")
+	}
+
+	if !viper.IsSet("super_user_email") {
+		log.Fatal("please provide super_user_email in config")
+	}
+
+	if !viper.IsSet("keto_write_api_url") {
+		log.Fatal("please provide keto_write_api_url in config")
+	}
+
+	if !viper.IsSet("keto_read_api_url") {
+		log.Fatal("please provide keto_read_api_url in config")
 	}
 
 	if Sqlite() {

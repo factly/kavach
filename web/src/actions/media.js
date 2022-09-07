@@ -7,6 +7,8 @@ import {
   RESET_MEDIA,
   MEDIA_API,
 } from '../constants/media';
+import { buildObjectOfItems } from '../utils/objects';
+
 import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getMedia = (query) => {
@@ -96,7 +98,7 @@ export const deleteMedium = (id) => {
 
 export const addMedia = (media) => {
   return (dispatch) => {
-    dispatch(addMediaList(media));
+    dispatch(addMediaList([media]));
   };
 };
 
@@ -115,10 +117,12 @@ export const getMediumByID = (data) => ({
   payload: data,
 });
 
-export const addMediaList = (data) => ({
-  type: ADD_MEDIA,
-  payload: data,
-});
+export const addMediaList = (data) => (dispatch) => {
+  dispatch({
+    type: ADD_MEDIA,
+    payload: buildObjectOfItems(data),
+  });
+};
 
 export const addMediaRequest = (data) => ({
   type: ADD_MEDIA_REQUEST,

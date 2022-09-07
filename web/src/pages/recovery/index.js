@@ -1,13 +1,37 @@
-import React from 'react';
-import { Card, Form, Input, Button, notification, Row, Col } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { Form, Input, Button, notification } from 'antd';
+import { MailOutlined } from '@ant-design/icons';
 import './index.css';
 import { Link } from 'react-router-dom';
+import BrandingComponent from '../../components/Branding';
+import getApplicationSettings from '../../utils/getApplicationSettings';
+import Loading from '../../components/Loading';
 
 function Recovery() {
   const [ui, setUI] = React.useState({});
-  const title = window.REACT_APP_KAVACH_TITLE || 'Kavach';
+  const [applicationSettings, setApplicationSettings] = useState({
+    applicationName: 'FACTLY',
+    applicationLogoURL: window.REACT_APP_LOGO_URL,
+    applicationURL: window.REACT_APP_PUBLIC_URL,
+    loginMethod: 'all',
+    enableRegistration: true,
+  });
+
+  const [loading, setLoading] = useState(true);
+
   React.useEffect(() => {
+    function checkApplicationSettings() {
+      const object = getApplicationSettings(localStorage.getItem('returnTo'));
+      setApplicationSettings(object);
+    }
+    window.addEventListener('storage', checkApplicationSettings);
+    return () => {
+      window.removeEventListener('storage', checkApplicationSettings);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    setLoading(true);
     var obj = {};
     window.location.search
       .split('?')
@@ -50,7 +74,8 @@ function Recovery() {
           message: 'Error',
           description: 'unable to proceed further!',
         });
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const withEmail = (values) => {
@@ -85,42 +110,74 @@ function Recovery() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-      }}
-    >
-      <Row className="header">
-        <Col span={6}>
-          <img alt="logo" className="logo" src={require('../../assets/kavach_icon.png')} />
-        </Col>
-        <Col span={18}>
-          <span className="title">{title}</span>
-        </Col>
-      </Row>
-      <Card title="Recover your account " style={{ width: 400 }}>
-        <Form name="recovery_email" onFinish={withEmail}>
-          <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
-            <Input prefix={<UserOutlined />} type="email" placeholder="Email" />
-          </Form.Item>
-          <Form.Item>
-            <Button form="recovery_email" type="primary" htmlType="submit" block>
-              Send recovery link
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <Link to={'/auth/login'}>
-              <Button type="primary" block>
-                Go back
-              </Button>
+    <div className="auth">
+      <BrandingComponent />
+      {loading ? (
+        <Loading />
+      ) : (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            width: '50%',
+          }}
+        >
+          <div style={
+            { 
+              marginTop: 'auto', 
+              marginBottom: 'auto',
+              display:'flex',
+              flexDirection:'column',
+              alignItems:'center',
+              gap:'8px' 
+            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                justifyContent: 'center',
+              }}
+            >
+              {applicationSettings?.applicationLogoURL ? (
+                <img
+                  alt="logo"
+                  className="logo"
+                  src={applicationSettings.applicationLogoURL}
+                  style={{ maxWidth: '360px', height: 'auto' }}
+                />
+              ) : (
+                <span className="title">{applicationSettings.applicationName}</span>
+              )}
+            </div>
+            <h2 style={{
+              fontSize:'32px'
+            }}>Reset your Password</h2>
+            <Form name="recovery_email" onFinish={withEmail}>
+              <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
+                <Input prefix={<MailOutlined />} type="email" placeholder="Please enter your email" size="large" 
+                style={{
+                  width:'480px',
+                }}/>
+              </Form.Item>
+              <Form.Item>
+                <Button form="recovery_email" size="large" type="primary" htmlType="submit" shape="round" block>
+                  Send recovery link
+                </Button>
+              </Form.Item>
+            </Form>
+            <Link to={'/auth/login'} style={
+              {
+                fontSize:'16px'
+              }
+            }> 
+              Go back to login
             </Link>
-          </Form.Item>
-        </Form>
-      </Card>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -25,6 +25,7 @@ type User struct {
 	Description      string         `gorm:"column:description" json:"description"`
 	Meta             postgres.Jsonb `gorm:"column:meta" json:"meta" swaggertype:"primitive,string"`
 	IsActive         bool           `gorm:"column:is_active" json:"is_active" `
+	Organisations    []Organisation `gorm:"many2many:organisation_users;" json:"organisations"`
 }
 
 // BeforeUpdate - validation for medium

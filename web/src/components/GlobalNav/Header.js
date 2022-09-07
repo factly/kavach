@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom';
 
 function Header() {
   const { apps, organisationCount } = useSelector((state) => {
+    const appIDs = state.organisations.details[state.organisations.selected]?.applications || [];
     return {
       apps:
         state.organisations.selected > 0
-          ? state.organisations.details[state.organisations.selected].applications || []
+          ? appIDs.map((id) => state?.applications?.details[id])
           : [],
       organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
     };
@@ -20,19 +21,18 @@ function Header() {
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         <Divider type="vertical" />
-
-          {window.REACT_APP_ENABLE_MULTITENANCY ? (
-            <div>
-              <Link to="/organisation">
-                <Button>New Organisation</Button>
-              </Link>
-              <OrganisationSelector />
-            </div>
-          ) : organisationCount < 1 ? (
-            <Link to="/organisation">
+        {window.REACT_APP_ENABLE_MULTITENANCY ? (
+          <div>
+            <Link to="/organisation/create">
               <Button>New Organisation</Button>
             </Link>
-          ) : null}
+            <OrganisationSelector />
+          </div>
+        ) : organisationCount < 1 ? (
+          <Link to="/organisation/create">
+            <Button>New Organisation</Button>
+          </Link>
+        ) : null}
         {apps.length > 0 ? (
           <>
             <Divider type="vertical" />
@@ -52,12 +52,17 @@ function Header() {
                   dataSource={apps}
                   renderItem={(item) => (
                     <List.Item>
-                      <a href={item.url} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <a
+                        href={item.url}
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {item.medium && item.medium.url ? (
                           <img alt="logo" className="menu-logo" src={item.medium.url.proxy} />
                         ) : (
                           <Avatar shape="square" size={35}>
-                            {item.name.charAt(0)}
+                            {item.name?.charAt(0)}
                           </Avatar>
                         )}
                         <p>{item.name}</p>

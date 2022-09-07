@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -38,7 +39,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-	
+
 	orgnaisationID := chi.URLParam(r, "organisation_id")
 	oID, err := strconv.Atoi(orgnaisationID)
 	if err != nil {
@@ -55,12 +56,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if user is owner of organisation
-	permission := &model.OrganisationUser{}
-	err = model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		OrganisationID: uint(oID),
-		UserID:         uint(uID),
-		Role:           "owner",
-	}).First(permission).Error
+	err = util.CheckOwner(uint(uID), uint(oID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
@@ -73,7 +69,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Check if application token record exists
 	err = model.DB.Where(&model.ApplicationToken{
-		ApplicationID: &uintAppID,
+		ApplicationID:  uintAppID,
+		OrganisationID: uint(oID),
 	}).First(&result).Error
 	if err != nil {
 		loggerx.Error(err)

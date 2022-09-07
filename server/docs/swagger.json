@@ -263,7 +263,9 @@
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -491,7 +493,212 @@
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/application/{application_id}/roles": {
+            "post": {
+                "description": "Create role for an application using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisationroles"
+                ],
+                "summary": "Create role for an application using organisation_id",
+                "operationId": "create-application-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ApplicationRole"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete role for an application using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisationroles"
+                ],
+                "summary": "Delete role for an application using organisation_id",
+                "operationId": "delete-application-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/application/{application_id}/space/{space_id}/roles": {
+            "post": {
+                "description": "Create role for an space using space_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceRoles"
+                ],
+                "summary": "Create role for an space using space_id",
+                "operationId": "create-space-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "space_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "SpaceRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/application/{application_id}/spaces/{space_id}/roles": {
+            "delete": {
+                "description": "Delete role for an space using space_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceRoles"
+                ],
+                "summary": "Delete role for an space using space_id",
+                "operationId": "delete-space-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Space role Body",
+                        "name": "SpaceRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
                 }
             }
         },
@@ -546,7 +753,7 @@
                     "OrganisationApplications"
                 ],
                 "summary": "Create organisation application",
-                "operationId": "add-organisation-application",
+                "operationId": "add-space",
                 "parameters": [
                     {
                         "type": "string",
@@ -764,7 +971,1244 @@
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/policy": {
+            "get": {
+                "description": "get policy for an application using application_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "get policy for an application using application_id",
+                "operationId": "list-application-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.ApplicationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/policy/allowed": {
+            "post": {
+                "description": "check if a user has permission to perform an action on a resource",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "check if a user has permission to perform an action on a resource",
+                "operationId": "check-application-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/policy/{policy_id}": {
+            "get": {
+                "description": "get policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "get policy for an organisation using organisation_id",
+                "operationId": "get-application-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/role/{role_id}": {
+            "get": {
+                "description": "Get OrganisationRole by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Spaces"
+                ],
+                "summary": "Show a OrganisationROle by id",
+                "operationId": "get-application-role-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/roles": {
+            "post": {
+                "description": "Create policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Create policy for an organisation using organisation_id",
+                "operationId": "create-application-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Delete policy for an organisation using organisation_id",
+                "operationId": "delete-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/roles/{role_id}": {
+            "put": {
+                "description": "Update role for an organisation using application_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoles"
+                ],
+                "summary": "Update role for an organisation using application_id",
+                "operationId": "update-application-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/roles/{role_id}/users": {
+            "get": {
+                "description": "Get all application role users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "Show all application role users",
+                "operationId": "get-all-application-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/model.User"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create organisation role user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "add a user to the organisation role",
+                "operationId": "create-a-application-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/roles/{role_id}/users/{user_id}": {
+            "post": {
+                "description": "create organisation role user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "add a user to the organisation role",
+                "operationId": "delete-a-application-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/space/{space_id}/users": {
+            "post": {
+                "description": "Create space user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceUser"
+                ],
+                "summary": "Create space user",
+                "operationId": "add-space-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User ID Object",
+                        "name": "User",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/user.applicationUsers"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces": {
+            "post": {
+                "description": "Create organisation application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Create organisation application",
+                "operationId": "add-organisation-application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Application Object",
+                        "name": "Application",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/": {
+            "get": {
+                "description": "Create organisation application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Create organisation application",
+                "operationId": "list-space",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}": {
+            "get": {
+                "description": "Get space by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Spaces"
+                ],
+                "summary": "Show a space by id",
+                "operationId": "get-organisation-application-space-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Space"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create organisation application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationApplications"
+                ],
+                "summary": "Create organisation application",
+                "operationId": "add-organisation-application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Application Object",
+                        "name": "Application",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/policy": {
+            "get": {
+                "description": "get policy for an application using application_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "get policy for an application using application_id",
+                "operationId": "create-space-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Create policy for an organisation using organisation_id",
+                "operationId": "create-space-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/policy/allowed": {
+            "post": {
+                "description": "check if a user has permission to perform an action on a resource",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpacePolicy"
+                ],
+                "summary": "check if a user has permission to perform an action on a resource",
+                "operationId": "check-space-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/policy/{policy_id}": {
+            "get": {
+                "description": "get policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "get policy for an organisation using organisation_id",
+                "operationId": "get-space-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "description": "Update policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Update policy for an organisation using organisation_id",
+                "operationId": "update-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/role/{role_id}": {
+            "get": {
+                "description": "Get SpaceRole by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Spaces"
+                ],
+                "summary": "Show a SpaceRole by id",
+                "operationId": "get-space-role-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "space_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/roles": {
+            "get": {
+                "description": "List role for an application using space_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceRoles"
+                ],
+                "summary": "List role for an application using space_id",
+                "operationId": "get-space-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "space_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Space role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/roles/{role_id}": {
+            "put": {
+                "description": "Update role for an space using space_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceRoles"
+                ],
+                "summary": "Update role for an space using space_id",
+                "operationId": "update-space-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.SpaceRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/roles/{role_id}/users": {
+            "get": {
+                "description": "Get all application role users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "Show all application role users",
+                "operationId": "get-all-space-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/model.User"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create organisation role user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "add a user to the organisation role",
+                "operationId": "create-a-space-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/roles/{role_id}/users/{user_id}": {
+            "delete": {
+                "description": "create organisation role user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceRoleUsers"
+                ],
+                "summary": "add a user to the organisation role",
+                "operationId": "delete-a-space-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/applications/{application_id}/spaces/{space_id}/tokens": {
+            "post": {
+                "description": "Create token for an space using space_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SpaceTokens"
+                ],
+                "summary": "Create token for an space using space_id",
+                "operationId": "create-space-token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application ID",
+                        "name": "application_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Space ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation Token Body",
+                        "name": "OrganisationTokenBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationToken"
+                        }
+                    }
                 }
             }
         },
@@ -902,7 +2346,9 @@
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -995,7 +2441,9 @@
                     }
                 ],
                 "responses": {
-                    "201": {},
+                    "201": {
+                        "description": ""
+                    },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
@@ -1047,7 +2495,9 @@
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -1086,8 +2536,638 @@
                     }
                 ],
                 "responses": {
-                    "200": {},
-                    "401": {}
+                    "200": {
+                        "description": ""
+                    },
+                    "401": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/policy": {
+            "get": {
+                "description": "get policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "get policy for an organisation using organisation_id",
+                "operationId": "list-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Create policy for an organisation using organisation_id",
+                "operationId": "create-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/policy/allowed": {
+            "post": {
+                "description": "check if a user has permission to perform an action on a resource",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "check if a user has permission to perform an action on a resource",
+                "operationId": "check-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/policy/{policy_id}": {
+            "get": {
+                "description": "get policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "get policy for an organisation using organisation_id",
+                "operationId": "get-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "description": "Update policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Update policy for an organisation using organisation_id",
+                "operationId": "update-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Policy",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Policy"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete policy for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationPolicy"
+                ],
+                "summary": "Delete policy for an organisation using organisation_id",
+                "operationId": "delete-organisation-policy",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/role/{role_id}": {
+            "get": {
+                "description": "Get OrganisationRole by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Spaces"
+                ],
+                "summary": "Show a OrganisationROle by id",
+                "operationId": "get-organisation-role-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/roles": {
+            "post": {
+                "description": "Create role for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisationroles"
+                ],
+                "summary": "Create role for an organisation using organisation_id",
+                "operationId": "create-organisation-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/roles/{role_id}": {
+            "put": {
+                "description": "Update role for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisationroles"
+                ],
+                "summary": "Update role for an organisation using organisation_id",
+                "operationId": "update-organisation-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete role for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Organisationroles"
+                ],
+                "summary": "Delete role for an organisation using organisation_id",
+                "operationId": "delete-organisation-role",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation role Body",
+                        "name": "OrganisationRoleBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationRole"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/roles/{role_id}/users": {
+            "get": {
+                "description": "Get all role users",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationRoleUsers"
+                ],
+                "summary": "Show all role users",
+                "operationId": "get-all-organisation-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.OrganisationRole"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create organisation role user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "add a user to the organisation role",
+                "operationId": "create-a-organisation-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/roles/{role_id}/users/{user_id}": {
+            "delete": {
+                "description": "create organisation role user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ApplicationRoleUsers"
+                ],
+                "summary": "add a user to the organisation role",
+                "operationId": "delete-a-organisation-role-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/tokens": {
+            "get": {
+                "description": "Show a organisation tokens",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationTokens"
+                ],
+                "summary": "List organisation tokens",
+                "operationId": "get-organisation-tokens",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.OrganisationToken"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create token for an organisation using organisation_id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OrganisationTokens"
+                ],
+                "summary": "Create token for an organisation using organisation_id",
+                "operationId": "create-organisation-token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Organisation Token Body",
+                        "name": "OrganisationTokenBody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.OrganisationToken"
+                        }
+                    }
+                }
+            }
+        },
+        "/organisations/{organisation_id}/tokens/{token_id}": {
+            "delete": {
+                "description": "Delete organisation token by ID",
+                "tags": [
+                    "OrganisationTokens"
+                ],
+                "summary": "Delete a organisation token",
+                "operationId": "delete-organisation-token-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Organisation ID",
+                        "name": "organisation_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Token ID",
+                        "name": "token_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -1222,7 +3302,9 @@
                     }
                 ],
                 "responses": {
-                    "200": {}
+                    "200": {
+                        "description": ""
+                    }
                 }
             }
         },
@@ -1280,6 +3362,36 @@
                         "schema": {
                             "$ref": "#/definitions/profile.user"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/details": {
+            "get": {
+                "description": "Get logged in user details including organisations, applications and spaces",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get logged in user details including organisations, applications and spaces",
+                "operationId": "get-logged-in-user-details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1421,6 +3533,52 @@
                 }
             }
         },
+        "/spaces/{space_id}/applications": {
+            "post": {
+                "description": "Create space application",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "spaceApplications"
+                ],
+                "summary": "Create space application",
+                "operationId": "add-space-application",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "X-User",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "space ID",
+                        "name": "space_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Application"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/application": {
             "get": {
                 "description": "Get list of users for application",
@@ -1509,6 +3667,12 @@
         "invite.invitationData": {
             "type": "object",
             "properties": {
+                "applications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Application"
+                    }
+                },
                 "birth_date": {
                     "type": "string"
                 },
@@ -1555,14 +3719,31 @@
                     "type": "string"
                 },
                 "medium": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "organisation_id": {
                     "type": "integer"
                 },
+                "organisation_users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrganisationUser"
+                    }
+                },
+                "organisations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Organisation"
+                    }
+                },
                 "role": {
                     "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrganisationRole"
+                    }
                 },
                 "slug": {
                     "type": "string"
@@ -1642,6 +3823,12 @@
         "model.Application": {
             "type": "object",
             "properties": {
+                "application_role": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ApplicationRole"
+                    }
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -1658,7 +3845,6 @@
                     "type": "integer"
                 },
                 "medium": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
                 "medium_id": {
@@ -1668,7 +3854,6 @@
                     "type": "string"
                 },
                 "organisation": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -1676,6 +3861,12 @@
                 },
                 "slug": {
                     "type": "string"
+                },
+                "spaces": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Space"
+                    }
                 },
                 "tokens": {
                     "type": "array",
@@ -1700,11 +3891,54 @@
                 }
             }
         },
+        "model.ApplicationRole": {
+            "type": "object",
+            "properties": {
+                "application": {
+                    "$ref": "#/definitions/model.Application"
+                },
+                "application_id": {
+                    "type": "integer"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
+                }
+            }
+        },
         "model.ApplicationToken": {
             "type": "object",
             "properties": {
                 "application": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Application"
                 },
                 "application_id": {
@@ -1798,6 +4032,12 @@
         "model.Organisation": {
             "type": "object",
             "properties": {
+                "applications": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Application"
+                    }
+                },
                 "created_at": {
                     "type": "string"
                 },
@@ -1817,13 +4057,106 @@
                     "type": "integer"
                 },
                 "medium": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
+                },
+                "organisation_users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrganisationUser"
+                    }
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrganisationRole"
+                    }
                 },
                 "slug": {
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.OrganisationRole": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organisation": {
+                    "$ref": "#/definitions/model.Organisation"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
+                }
+            }
+        },
+        "model.OrganisationToken": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organisation": {
+                    "$ref": "#/definitions/model.Organisation"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "token": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -1850,7 +4183,6 @@
                     "type": "integer"
                 },
                 "organisation": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Organisation"
                 },
                 "organisation_id": {
@@ -1866,11 +4198,196 @@
                     "type": "integer"
                 },
                 "user": {
-                    "type": "object",
                     "$ref": "#/definitions/model.User"
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.Policy": {
+            "type": "object",
+            "properties": {
+                "actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effect": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "resources": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "subjects": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "model.Space": {
+            "type": "object",
+            "properties": {
+                "analytics": {
+                    "type": "string"
+                },
+                "application": {
+                    "$ref": "#/definitions/model.Application"
+                },
+                "application_id": {
+                    "type": "integer"
+                },
+                "contact_info": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "fav_icon": {
+                    "$ref": "#/definitions/model.Medium"
+                },
+                "fav_icon_id": {
+                    "type": "integer"
+                },
+                "footer_code": {
+                    "type": "string"
+                },
+                "header_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "logo": {
+                    "$ref": "#/definitions/model.Medium"
+                },
+                "logo_id": {
+                    "type": "integer"
+                },
+                "logo_mobile": {
+                    "$ref": "#/definitions/model.Medium"
+                },
+                "logo_mobile_id": {
+                    "type": "integer"
+                },
+                "meta_fields": {
+                    "type": "string"
+                },
+                "mobile_icon": {
+                    "$ref": "#/definitions/model.Medium"
+                },
+                "mobile_icon_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "organisation": {
+                    "$ref": "#/definitions/model.Organisation"
+                },
+                "organisation_id": {
+                    "type": "integer"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.SpaceRole"
+                    }
+                },
+                "site_address": {
+                    "type": "string"
+                },
+                "site_title": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "social_media_urls": {
+                    "type": "string"
+                },
+                "tag_line": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
+                },
+                "verification_codes": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.SpaceRole": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "created_by_id": {
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "space": {
+                    "$ref": "#/definitions/model.Space"
+                },
+                "space_id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "updated_by_id": {
+                    "type": "integer"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.User"
+                    }
                 }
             }
         },
@@ -1917,8 +4434,13 @@
                     "type": "string"
                 },
                 "medium": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
+                },
+                "organisations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Organisation"
+                    }
                 },
                 "slug": {
                     "type": "string"
@@ -1962,12 +4484,22 @@
                     "type": "integer"
                 },
                 "medium": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
+                "organisation_users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrganisationUser"
+                    }
+                },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.OrganisationRole"
+                    }
                 },
                 "slug": {
                     "type": "string"
@@ -2175,11 +4707,15 @@
                     "type": "string"
                 },
                 "medium": {
-                    "type": "object",
                     "$ref": "#/definitions/model.Medium"
                 },
+                "organisations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Organisation"
+                    }
+                },
                 "permission": {
-                    "type": "object",
                     "$ref": "#/definitions/model.OrganisationUser"
                 },
                 "slug": {

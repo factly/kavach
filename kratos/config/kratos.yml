@@ -11,7 +11,7 @@ serve:
     base_url: http://kratos:4434/
 
 selfservice:
-  default_browser_return_url: http://127.0.0.1:4455/.factly/kavach/web/organisation
+  default_browser_return_url: http://127.0.0.1:4455/.factly/kavach/web/
   whitelisted_return_urls:
     - http://127.0.0.1:4455
     - http://127.0.0.1:4455/.factly/dega/studio/
@@ -22,6 +22,27 @@ selfservice:
   methods:
     password:
       enabled: true
+      
+    oidc:
+      enabled: true
+      config:
+        providers:
+          - id: github
+            provider: github 
+            client_id: 123abc
+            client_secret: 123abc
+            mapper_url: file:///etc/config/kratos/oidc.github.jsonnet
+            scope:
+              - user:email
+
+          - id: google 
+            provider: google
+            client_id: 123abc
+            client_secret: 123abc
+            mapper_url: file:///etc/config/kratos/oidc.google.jsonnet
+            scope:
+              - email
+              - profile
       
     link: 
       enabled: true
@@ -39,7 +60,7 @@ selfservice:
 
     settings:
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/password
-      privileged_session_max_age: 15m
+      privileged_session_max_age: 1m
       required_aal: highest_available
 
     logout:
@@ -54,14 +75,14 @@ selfservice:
           hooks:
             - hook: require_verified_address
 
-    # verification:
-    #   enabled: true
-    #   ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/verification
+    verification:
+      enabled: true
+      ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/verification
       
 
     registration:
       after:
-        default_browser_return_url: http://127.0.0.1:4455/.factly/kavach/web/auth/login
+        default_browser_return_url: http://127.0.0.1:4455/.factly/kavach/web/verification
       lifespan: 10m
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/registration
 

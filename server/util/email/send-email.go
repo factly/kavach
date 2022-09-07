@@ -4,10 +4,11 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"log"
-	"github.com/spf13/viper"
+
+	"github.com/factly/x/loggerx"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
+	"github.com/spf13/viper"
 )
 
 type MailReceiver struct {
@@ -30,7 +31,7 @@ func SendmailwithSendGrid(data MailReceiver) error {
 	}
 	buf := new(bytes.Buffer)
 	if err = body.Execute(buf, data); err != nil {
-		log.Println(err)
+		loggerx.Error(err)
 		return err
 	}
 	htmlContent := buf.String()
@@ -38,7 +39,7 @@ func SendmailwithSendGrid(data MailReceiver) error {
 	client := sendgrid.NewSendClient(viper.GetString("sendgrid_api_key"))
 	_, err = client.Send(message)
 	if err != nil {
-		log.Println(err)
+		loggerx.Error(err)
 		return err
 	}
 	return nil

@@ -1,33 +1,29 @@
 import React from 'react';
 import ApplicationEditForm from './components/ApplicationForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { Skeleton, Space, Collapse } from 'antd';
-import { updateApplication, getApplication } from '../../actions/application';
-import { getOrganisations } from '../../actions/organisations';
+import { Skeleton, Space } from 'antd';
+import { updateApplication, getApplication, getApplications } from '../../actions/application';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import GetApplication from './GetApplication';
-import ApplicationUsers from './users/index';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 
 function EditApplication() {
   const history = useHistory();
   const { id } = useParams();
-  const { Panel } = Collapse;
   const dispatch = useDispatch();
-  const [tokenFlag, setTokenFlag] = React.useState(false);
-  const { application, loadingApp, role, loadingRole } = useSelector((state) => {
+  const { application, loadingApp, role, loadingRole, orgID } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
       loadingApps: state.applications.loading,
-      role: state.organisations.role,
-      loadingRole: state.organisations.loading,
+      role: state.profile.roles[state.organisations.selected],
+      loadingRole: state.profile.loading,
+      orgID: state.organisations.selected,
     };
   });
 
   React.useEffect(() => {
     dispatch(getApplication(id));
-  }, [dispatch, id, tokenFlag]);
+  }, [dispatch, id]);
 
   if (loadingApp || loadingRole) return <Skeleton />;
 
@@ -44,27 +40,30 @@ function EditApplication() {
 
   const onUpdate = (values) => {
     dispatch(updateApplication({ ...application, ...values })).then(() => {
-      dispatch(getOrganisations());
+      dispatch(getApplications());
       history.push('/applications');
     });
   };
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-      <Collapse defaultActiveKey="1">
-        <Panel header="Application Details" key="1">
+      {!application.is_default ? (
+        <div>
+          <h2> Edit Application </h2>
           <ApplicationEditForm data={application} onCreate={onUpdate} />
-        </Panel>
-      </Collapse>
-      <Collapse defaultActiveKey="3">
-        <Panel header="Users" key="3">
-          <ApplicationUsers id={id} />
-        </Panel>
-      </Collapse>
-      <Collapse defaultActiveKey="2">
-        <Panel header="Tokens" key="2">
-          <GetApplication setTokenFlag={setTokenFlag} data={application} />
-        </Panel>
-      </Collapse>
+        </div>
+      ) : orgID === 1 ? (
+        <div>
+          <h2> Edit Application </h2>
+          <ApplicationEditForm data={application} onCreate={onUpdate} />
+        </div>
+      ) : (
+        <ErrorComponent
+          status="403"
+          title="Sorry you are not authorised to access this page"
+          link="/applications"
+          message="Goto Applications"
+        />
+      )}
     </Space>
   );
 }

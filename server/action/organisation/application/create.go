@@ -4,11 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
+	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -20,7 +22,7 @@ import (
 // @Summary Create organisation application
 // @Description Create organisation application
 // @Tags OrganisationApplications
-// @ID add-organisation-application
+// @ID add-space
 // @Consume json
 // @Produce json
 // @Param X-User header string true "User ID"
@@ -45,6 +47,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if user is owner of organisation
+	err = util.CheckOwner(uint(uID), uint(oID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+
 	app := application{}
 	err = json.NewDecoder(r.Body).Decode(&app)
 	if err != nil {
@@ -60,14 +70,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Check if user is owner of organisation
-	err = util.CheckOwner(uint(uID), uint(oID))
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
 	mediumID := &app.MediumID
 	if app.MediumID == 0 {
 		mediumID = nil
@@ -80,15 +82,33 @@ func create(w http.ResponseWriter, r *http.Request) {
 		URL:            app.URL,
 		MediumID:       mediumID,
 		OrganisationID: uint(oID),
+		IsDefault:      false,
 	}
 
 	// Add current user in application_users
-	model.DB.Model(&model.User{}).Where(&model.User{
+	err = model.DB.Model(&model.User{}).Where(&model.User{
 		Base: model.Base{
 			ID: uint(uID),
 		},
-	}).Find(&result.Users)
+	}).Find(&result.Users).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	
+	// Add current organisation in application_organisations
+	err = model.DB.Model(&model.Organisation{}).Where(&model.Organisation{
+		Base: model.Base{
+			ID: uint(oID),
+		},
+	}).Find(&result.Organisations).Error
 
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
 
 	err = tx.Preload("Users").Create(&result).Error
@@ -99,7 +119,23 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+	// making the user who created application, owner of it
+	tuple := &model.KetoRelationTupleWithSubjectID{
+		KetoSubjectSet: model.KetoSubjectSet{
+			Namespace: namespace,
+			Object:    fmt.Sprintf("org:%d:app:%d", oID, result.ID),
+			Relation:  "owner",
+		},
+		SubjectID: fmt.Sprintf("%d", uID),
+	}
 
+	err = keto.CreateRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	tx.Commit()
 
 	renderx.JSON(w, http.StatusCreated, result)

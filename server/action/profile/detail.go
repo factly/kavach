@@ -58,3 +58,37 @@ func detail(w http.ResponseWriter, r *http.Request) {
 
 	renderx.JSON(w, http.StatusOK, response)
 }
+
+// profileDetail - Get logged in user details including organisations, applications and spaces
+// @Summary Get logged in user details including organisations, applications and spaces
+// @Description Get logged in user details including organisations, applications and spaces
+// @Tags Profile
+// @ID get-logged-in-user-details
+// @Produce json
+// @Param X-User header string true "User ID"
+// @Success 200 {object} model.User
+// @Router /profile/details [get]
+func profileDetail(w http.ResponseWriter, r *http.Request) {
+
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
+	me := &model.User{}
+	me.ID = uint(userID)
+
+	err = model.DB.Model(&model.User{}).
+		Preload("Medium").Preload("Organisations").Preload("Organisations.Medium").Preload("Organisations.OrganisationUsers").Preload("Organisations.OrganisationUsers.User").Preload("Organisations.Applications").Preload("Organisations.Applications.Users").Preload("Organisations.Applications.Spaces").Preload("Organisations.Applications.Spaces.Users").Preload("Organisations.Applications.Spaces.Logo").Preload("Organisations.Applications.Spaces.FavIcon").Preload("Organisations.Applications.Spaces.MobileIcon").Preload("Organisations.Applications.Spaces.LogoMobile").
+		First(&me).Error
+
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
+	renderx.JSON(w, http.StatusOK, me)
+}

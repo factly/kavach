@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { ADD_ORGANISATION_USERS } from '../constants/organisations';
+import { ADD_ORGANISATION_USERS, ADD_ORGANISATION_ROLE } from '../constants/organisations';
 import { ADD_USERS, SET_USERS_LOADING, RESET_USERS, USERS_API } from '../constants/users';
+import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
+import { addMedia } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 
 export const getUsers = () => {
@@ -9,16 +11,28 @@ export const getUsers = () => {
     return axios
       .get(USERS_API + '/' + getState().organisations.selected + '/users')
       .then((response) => {
+        dispatch(addOrganisationUsers(response.data));
+        if (response.data.length > 0) {
+          response.data.forEach((user) => {
+            if (user.featured_medium_id) {
+              addMedia(user.medium);
+            }
+          });
+        }
+        dispatch(addOrganisationRole(response.data));
+        deleteKeys(response.data, ['permission', 'medium']);
         dispatch(addUsersList(response.data));
-        dispatch(stopUsersLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
+      })
+      .finally(() => {
+        dispatch(stopUsersLoading());
       });
   };
 };
 
-export const addUser = (data, history) => {
+export const addUser = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingUsers());
     return axios
@@ -27,26 +41,6 @@ export const addUser = (data, history) => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());
         dispatch(addSuccessNotification('Users added'));
-        history.push('/users');
-      })
-      .catch((error) => {
-        dispatch(addErrorNotification(error.message));
-      });
-  };
-};
-
-export const getAllUsers = () => {
-  return (dispatch, getState) => {
-    return axios
-      .get(`/organisations/${getState().organisations.selected}/users`)
-      .then((res) => {
-        dispatch(
-          addOrganisationUsersList({
-            users: res.data,
-            org_id: getState().organisations.selected,
-          }),
-        );
-        dispatch(stopUsersLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -80,10 +74,12 @@ export const stopUsersLoading = () => ({
   payload: false,
 });
 
-export const addUsersList = (data) => ({
-  type: ADD_USERS,
-  payload: data,
-});
+export const addUsersList = (data) => (dispatch) => {
+  dispatch({
+    type: ADD_USERS,
+    payload: buildObjectOfItems(data),
+  });
+};
 
 export const addOrganisationUsersList = (data) => ({
   type: ADD_ORGANISATION_USERS,
@@ -92,4 +88,21 @@ export const addOrganisationUsersList = (data) => ({
 
 export const resetUsers = () => ({
   type: RESET_USERS,
+});
+
+export const addOrganisationRole = (data) => (dispatch) => {
+  const orgRole = {};
+  data.map((user) => {
+    orgRole[user.id] = user.permission.role;
+    return null;
+  });
+  dispatch({
+    type: ADD_ORGANISATION_ROLE,
+    payload: orgRole,
+  });
+};
+
+export const addOrganisationUsers = (data) => ({
+  type: ADD_ORGANISATION_USERS,
+  payload: getIds(data),
 });

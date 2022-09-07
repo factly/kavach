@@ -1,10 +1,12 @@
 package application
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -31,6 +33,15 @@ func access(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	organisationID := chi.URLParam(r, "organisation_id")
+	orgID, err := strconv.Atoi(organisationID)
+
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
+	}
+
 	uID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
 		loggerx.Error(err)
@@ -38,37 +49,31 @@ func access(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	organisationUser := make([]model.OrganisationUser, 0)
-
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		UserID: uint(uID),
-	}).Preload("Organisation").Find(&organisationUser)
-
-	orgIDs := make([]uint, 0)
-	for _, ou := range organisationUser {
-		orgIDs = append(orgIDs, ou.OrganisationID)
-	}
-
-	applicationList := make([]model.Application, 0)
-	err = model.DB.Model(&model.Application{}).Where("organisation_id IN (?)", orgIDs).Where(&model.Application{
+	app := new(model.Application)
+	err = model.DB.Model(&model.Application{}).Where(&model.Application{
 		Slug: appSlug,
-	}).Preload("Users").Find(&applicationList).Error
-
+	}).First(app).Error
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	for _, app := range applicationList {
-		for _, usr := range app.Users {
-			if usr.ID == uint(uID) {
-				renderx.JSON(w, http.StatusOK, nil)
-				return
-			}
-		}
-
+	// VERIFY WHETHER THE USER IS PART OF Application OR NOT
+	isAuthorised, err := user.IsUserAuthorised(
+		namespace,
+		fmt.Sprintf("org:%d:app:%d", orgID, app.ID),
+		fmt.Sprintf("%d", uID),
+	)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+		return
 	}
-
-	renderx.JSON(w, http.StatusUnauthorized, nil)
+	if !isAuthorised {
+		loggerx.Warning("user is not part of the application")
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
+	renderx.JSON(w, http.StatusOK, nil)
 }
