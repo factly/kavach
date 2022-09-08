@@ -10,5 +10,6 @@ func Router() chi.Router {
 	r.Get("/space/{space_id}/getOrganisation", getOrganisation)
 	r.Get("/application/{application_slug}", getApplication)
 	r.Get("/space/{space_id}/getOrganisationUsingToken", getOrganisationUsingToken)
+	r.Get("/space/{space_id}/details", getSpaceDetailsUsingToken)
 	return r
 }
