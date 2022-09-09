@@ -19,7 +19,7 @@ func CreateKratosIdentity(email string) (string, error) {
     }`, email)
 
 	req := strings.NewReader(reqBody)
-	response, err := http.Post(viper.GetString("kratos_admin_url")+"/identities", "application/json", req)
+	response, err := http.Post(viper.GetString("kratos_admin_url")+"/admin/identities", "application/json", req)
 	if err != nil {
 		return "", err
 	}

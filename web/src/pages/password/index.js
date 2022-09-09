@@ -87,7 +87,7 @@ function Password() {
     var updatePasswordForm = createForm(ui.action, ui.method);
 
     var emailInput = document.createElement('input');
-    emailInput.name = 'password_identifier';
+    emailInput.name = 'identifier';
     emailInput.value = ui.nodes[1].attributes.value;
 
     var passwordInput = document.createElement('input');

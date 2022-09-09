@@ -29,12 +29,28 @@ function Auth(props) {
 
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
   const [loading, setLoading] = useState(true);
+  const [closeButtonVisibility, setCloseButtonVisibility] =  useState(false)
   var afterRegistrationReturnToURL = localStorage.getItem('returnTo')
     ? localStorage.getItem('returnTo')
     : null;
 
   React.useEffect(() => {
     function checkApplicationSettings() {
+      const returnTo = localStorage.getItem('returnTo')
+      const url =  new URL(returnTo)
+      if(process.env.NODE_ENV === 'development'){
+        if(url?.pathname.includes('kavach')){
+          setCloseButtonVisibility(false)
+        } else {
+          setCloseButtonVisibility(returnTo ? true : false)
+        }
+      }else{
+        if(url?.hostname.includes('login')){
+          setCloseButtonVisibility(false)
+        }else {
+          setCloseButtonVisibility(returnTo ? true : false)
+        }
+      }
       const object = getApplicationSettings(localStorage.getItem('returnTo'));
       setApplicationSettings(object);
     }
@@ -127,7 +143,7 @@ function Auth(props) {
     var authForm = createForm(ui.action, ui.method);
 
     var identifierInput = document.createElement('input');
-    identifierInput.name = props.flow === 'login' ? 'password_identifier' : 'traits.email';
+    identifierInput.name = props.flow === 'login' ? 'identifier' : 'traits.email';
     identifierInput.value = values.email;
 
     var passwordInput = document.createElement('input');
@@ -182,17 +198,21 @@ function Auth(props) {
             width: '50%',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-              justifyContent: 'flex-end',
-              marginTop: '10px',
-              marginRight: '20px',
-            }}
-          >
-            <CloseCircleOutlined style={{ fontSize: '36px' }} onClick={handleClose} />
-          </div>
+          {
+            (closeButtonVisibility) ? (
+              <div
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'flex-end',
+                  marginTop: '10px',
+                  marginRight: '20px',
+                }}
+              >
+                <CloseCircleOutlined style={{ fontSize: '36px' }} onClick={handleClose} />
+              </div>
+            ): null
+          }
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
             <div
               style={{
