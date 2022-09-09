@@ -117,7 +117,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// append user to application_user association
-	if !flag{
+	if !flag {
 		users = append(app.Users, *user.User)
 		app.Users = users
 		if err = tx.Model(&app).Association("Users").Replace(&users); err != nil {
@@ -138,6 +138,21 @@ func create(w http.ResponseWriter, r *http.Request) {
 		SubjectID: fmt.Sprintf("%d", appUsers.UserID),
 	}
 
+	userPartofApplication, err := keto.CheckKetoRelationTupleWithSubjectID(tuple)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	if userPartofApplication {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
+	
 	err = keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		tx.Rollback()
