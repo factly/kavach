@@ -110,25 +110,23 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	users := make([]model.User, 0)
+	flag := false
 	for _, user := range app.Users {
 		if user.ID == uint(appUsers.UserID) {
-			tx.Rollback()
-			loggerx.Error(errors.New("user already exists in the application"))
-			errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
-			return
+			flag = true
 		}
 	}
 	// append user to application_user association
-	users = append(app.Users, *user.User)
-	app.Users = users
-	if err = tx.Model(&app).Association("Users").Replace(&users); err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
+	if !flag{
+		users = append(app.Users, *user.User)
+		app.Users = users
+		if err = tx.Model(&app).Association("Users").Replace(&users); err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
 	}
-
-	tx.Commit()
 
 	// creating the association between user and role in the keto db
 	tuple := &model.KetoRelationTupleWithSubjectID{
