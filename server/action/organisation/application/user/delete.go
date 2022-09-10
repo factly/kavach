@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
@@ -103,36 +104,54 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	newUsers := make([]model.User, 0)
-	flag := false
+	objects, err := keto.ListObjectsBySubjectID(namespace, "", fmt.Sprintf("%d", uID))
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		return
+	}
 
-	for _, user := range result.Users {
-		if user.ID == uint(uID) {
-			flag = true
-		} else {
-			newUsers = append(newUsers, user)
+	var count int
+	for _, object := range objects {
+		objectID := fmt.Sprintf(":app:%d", appID)
+		if strings.Contains(object, objectID){
+			count += 1
 		}
 	}
 
-	if !flag {
-		tx.Rollback()
-		loggerx.Error(errors.New("unable to delete user of application"))
-		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
-		return
-	}
-	// Check if the user to delete is not last user of application
-	if len(newUsers) < 1 {
-		tx.Rollback()
-		loggerx.Error(errors.New("cannot delete last user of application"))
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
-		return
-	}
-
-	if err = tx.Model(&result).Association("Users").Replace(&newUsers); err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
+	if count == 1 {
+		newUsers := make([]model.User, 0)
+		flag := false
+	
+		for _, user := range result.Users {
+			if user.ID == uint(uID) {
+				flag = true
+			} else {
+				newUsers = append(newUsers, user)
+			}
+		}
+	
+		if !flag {
+			tx.Rollback()
+			loggerx.Error(errors.New("unable to delete user of application"))
+			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+			return
+		}
+		// Check if the user to delete is not last user of application
+		if len(newUsers) < 1 {
+			tx.Rollback()
+			loggerx.Error(errors.New("cannot delete last user of application"))
+			errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+			return
+		}
+	
+		if err = tx.Model(&result).Association("Users").Replace(&newUsers); err != nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
 	}
 
 	kavachRole, err := util.GetKavachRoleByID(uint(uID), uint(orgID))
