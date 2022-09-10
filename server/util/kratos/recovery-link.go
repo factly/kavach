@@ -20,7 +20,7 @@ func CreateRecoveryLink(minTime string, id string)(*RecoveryResponse ,error){
 	"identity_id": "%s"
   	}`, minTime, id)
 	req := strings.NewReader(requestBody)
-	response, err := http.Post(viper.GetString("kratos_admin_url")+"/recovery/link", "application/json", req)
+	response, err := http.Post(viper.GetString("kratos_admin_url")+"/admin/recovery/link", "application/json", req)
 	if err != nil {
 		return nil, err
 	}
