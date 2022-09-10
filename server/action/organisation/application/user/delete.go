@@ -112,10 +112,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for index, obj := range objects {
-		fmt.Println(index ,obj)
-	}
-
 	var count int
 	for _, object := range objects {
 		objectID := fmt.Sprintf(":app:%d", appID)
