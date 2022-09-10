@@ -58,6 +58,12 @@ function Profile() {
           }}
         >
           <Form.Item
+            label="Email"
+            name="email"
+          >
+            <Input placeholder="Email" disabled={true}/>
+          </Form.Item>
+          <Form.Item
             label="First Name"
             name="first_name"
             rules={[{ required: true, message: 'Please input your first name!' }]}
