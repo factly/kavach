@@ -156,28 +156,22 @@ func createUserInKratos() (map[string]interface{}, error) {
 		loggerx.Warning("internal server error on kratos")
 		return nil, errors.New("complete registration request failed")
 	}
-	session, ok := respBody["session"].(map[string]interface{})
+	identity, ok := respBody["identity"].(map[string]interface{})
 	if !ok {
-		loggerx.Warning("session doesn't exist in the kratos response")
-		err = errors.New("session doesn't exist in kratos response")
+		loggerx.Warning("identity doesn't exist in the kratos response")
+		err = errors.New("identity doesn't exist in kratos response")
 		loggerx.ErrorWithoutRequest(err)
 		return nil, err
 	}
 
 	loggerx.Info("successfull created user in KRATOS")
-	return session, nil
+	return identity, nil
 }
 
 func createUserInKavach(payload map[string]interface{}) (*model.User, error) {
 	loggerx.Info("started creating user in KAVACH DB")
 	var err error
-	extra, ok := payload["extra"].(map[string]interface{}) // ok is true if extra is a map[string]interface{}
-	if !ok {
-		err = errors.New("extra doesn't exist in kratos payload")
-		loggerx.ErrorWithoutRequest(err)
-		return nil, err
-	}
-	identity, ok := extra["identity"].(map[string]interface{})
+	identity, ok := payload["identity"].(map[string]interface{})
 	if !ok {
 		err = errors.New("identity doesn't exist in kratos payload")
 		loggerx.ErrorWithoutRequest(err)
@@ -327,14 +321,14 @@ func CreateSuperOrg() error {
 		return err
 	}
 	if !flag {
-		sessionMap, err := createUserInKratos()
+		identityMap, err := createUserInKratos()
 		if err != nil {
 			loggerx.ErrorWithoutRequest(err)
 			return err
 		}
 
 		kavachUserCheckers := map[string]interface{}{
-			"extra": sessionMap,
+			"identity": identityMap,
 		}
 		//create user in kavach database
 		user, err := createUserInKavach(kavachUserCheckers)
