@@ -1,0 +1,12 @@
+dsn: sqlite:///var/lib/sqlite/keto-db.sqlite?_fk=true&mode=rwc
+version: v0.9.0-alpha.0
+namespaces:
+  - id: 0
+    name: organisations
+  - id: 1
+    name: applications
+  - id: 2
+    name: spaces
+  - id: 3
+    name: superorganisation
+
