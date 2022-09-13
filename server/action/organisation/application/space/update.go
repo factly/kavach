@@ -104,7 +104,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"metadata":    space.Metadata,
 	}
 	updatedSpace := new(model.Space)
-	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).First(&updatedSpace).Error
+	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).First(updatedSpace).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
