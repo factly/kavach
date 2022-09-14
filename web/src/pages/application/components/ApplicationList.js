@@ -42,7 +42,7 @@ function ApplicationList({ applicationList, permission, loading }) {
               style={{ width: '100%', objectFit: 'cover' }}
               src={
                 application?.medium && application.medium_id
-                  ? application.medium?.url?.proxy
+                  ? (window.ENABLE_IMGPROXY) ? application?.medium?.url?.proxy : application.medium?.url?.raw
                   : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
             ></Avatar>

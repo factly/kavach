@@ -69,7 +69,7 @@ function MediaList({ onSelect, selected, onUnselect }) {
                   }}
                   shape="square"
                   size={174}
-                  src={item.url?.proxy}
+                  src={(window.ENABLE_IMGPROXY) ? item.url?.proxy : item.url?.raw}
                   style={{ opacity: '0.7', padding: '0.5rem', border: '2px solid #1890ff' }}
                 />
                 <CheckCircleTwoTone
@@ -82,7 +82,7 @@ function MediaList({ onSelect, selected, onUnselect }) {
                 onClick={() => onSelect(item)}
                 shape="square"
                 size={174}
-                src={item.url?.proxy}
+                src={(window.ENABLE_IMGPROXY) ? item.url?.proxy : item.url?.raw}
               />
             )}
           </List.Item>

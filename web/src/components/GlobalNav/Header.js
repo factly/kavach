@@ -59,7 +59,7 @@ function Header() {
                         rel="noopener noreferrer"
                       >
                         {item.medium && item.medium.url ? (
-                          <img alt="logo" className="menu-logo" src={item.medium.url.proxy} />
+                          <img alt="logo" className="menu-logo" src={(window.ENABLE_IMGPROXY) ? item.medium.url.proxy : item.medium.url?.raw} />
                         ) : (
                           <Avatar shape="square" size={35}>
                             {item.name?.charAt(0)}
