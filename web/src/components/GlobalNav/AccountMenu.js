@@ -20,6 +20,7 @@ const AccountMenu = () => {
       loading: state.profile.loading,
     };
   });
+
   React.useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);

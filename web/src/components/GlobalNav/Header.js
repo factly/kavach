@@ -12,7 +12,7 @@ function Header() {
     return {
       apps:
         state.organisations.selected > 0
-          ? appIDs.map((id) => state?.applications?.details[id])
+          ? appIDs.map((id) => ({...state.applications.details[id], medium: state.media.details?.[state.applications.details[id]?.medium_id]}))
           : [],
       organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
     };
