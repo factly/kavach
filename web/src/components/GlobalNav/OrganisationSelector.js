@@ -34,7 +34,7 @@ function OrganisationSelector() {
         return (
         <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
           {(organisation?.medium) ? (
-            <Avatar size="small" src={(window.ENABLE_IMGPROXY) ? organisation?.medium?.url?.proxy : organisation?.medium?.url?.raw} />
+            <Avatar size="small" src={(window.REACT_APP_ENABLE_IMGPROXY) ? organisation?.medium?.url?.proxy : organisation?.medium?.url?.raw} />
           ) : (
             <Avatar size="small">{getInitial(organisation.title)}</Avatar>
           )}{' '}

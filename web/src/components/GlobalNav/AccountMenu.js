@@ -54,7 +54,7 @@ const AccountMenu = () => {
         title={
           <>
             {!loading && profile && profile.medium ? (
-              <Avatar size="small" src={(window.ENABLE_IMGPROXY) ? profile.medium.url?.proxy : profile.medium.url?.raw} />
+              <Avatar size="small" src={(window.REACT_APP_ENABLE_IMGPROXY) ? profile.medium.url?.proxy : profile.medium.url?.raw} />
             ) : (
               <UserOutlined />
             )}
