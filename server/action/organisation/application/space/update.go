@@ -103,7 +103,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"description": space.Description,
 		"metadata":    space.Metadata,
 	}
-	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).Error
+	updatedSpace := new(model.Space)
+	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).First(updatedSpace).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -111,5 +112,5 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx.Commit()
-	renderx.JSON(w, http.StatusOK, updateMap)
+	renderx.JSON(w, http.StatusOK, updatedSpace)
 }

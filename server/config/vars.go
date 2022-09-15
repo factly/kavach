@@ -20,7 +20,11 @@ func SetupVars() {
 		loggerx.Info("config file not found...")
 	}
 
-	if !Sqlite(){
+	if Sqlite() {
+		if !viper.IsSet("sqlite_db_path") {
+			log.Fatal("please provide sqlite_db_path config param")
+		}
+	} else {
 		if !viper.IsSet("database_host") {
 			log.Fatal("please provide database_host config param")
 		}
@@ -43,15 +47,11 @@ func SetupVars() {
 	
 		if !viper.IsSet("database_ssl_mode") {
 			log.Fatal("please provide database_ssl_mode config param")
-		}
-	}	else {
-		if !viper.IsSet("sqlite_db_path") {
-			log.Fatal("please provide sqlite_db_path config param")
-		}
+		}	
 	}
 
 	if !viper.IsSet("domain_name") {
-		log.Fatal("please provide domain name in config")
+		log.Fatal("please provide domain_name in config")
 	}
 
 	if !viper.IsSet("dynamic_from_email") {
@@ -59,15 +59,15 @@ func SetupVars() {
 	}
 
 	if !viper.IsSet("mande_host") {
-		log.Fatal("please provide mande host in config")
+		log.Fatal("please provide mande_host in config")
 	}
 
 	if !viper.IsSet("dynamic_mande_template_id") {
-		log.Fatal("please provide dynamic mande template id in config")
+		log.Fatal("please provide dynamic_mande_template id in config")
 	}
 
 	if !viper.IsSet("dynamic_sendgrid_api_key") {
-		log.Fatal("please provide dynamic sendgrid api key in config")
+		log.Fatal("please provide dynamic_sendgrid_api key in config")
 	}
 
 	if !viper.IsSet("kratos_admin_url") {

@@ -60,7 +60,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			Base: model.Base{
 				ID: uint(orgID),
 			},
-		}).Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
+		}).Preload("Medium").Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))

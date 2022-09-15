@@ -12,7 +12,7 @@ function Header() {
     return {
       apps:
         state.organisations.selected > 0
-          ? appIDs.map((id) => state?.applications?.details[id])
+          ? appIDs.map((id) => ({...state.applications.details[id], medium: state.media.details?.[state.applications.details[id]?.medium_id]}))
           : [],
       organisationCount: state.organisations.ids ? state.organisations.ids.length : 0,
     };
@@ -59,7 +59,7 @@ function Header() {
                         rel="noopener noreferrer"
                       >
                         {item.medium && item.medium.url ? (
-                          <img alt="logo" className="menu-logo" src={item.medium.url.proxy} />
+                          <img alt="logo" className="menu-logo" src={(window.REACT_APP_ENABLE_IMGPROXY) ? item.medium.url.proxy : item.medium.url?.raw} />
                         ) : (
                           <Avatar shape="square" size={35}>
                             {item.name?.charAt(0)}
