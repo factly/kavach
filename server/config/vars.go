@@ -86,6 +86,22 @@ func SetupVars() {
 		log.Fatal("please provide disable_registration in config")
 	}
 
+	if !viper.IsSet("default_user_email") {
+		log.Fatal("please provide default_user_email in config")
+	}
+
+	if !viper.IsSet("default_user_password") {
+		log.Fatal("please provide default_user_password in config")
+	}
+
+	if !viper.IsSet("application_name") {
+		log.Fatal("please provide application_name in config")
+	}
+
+	if !viper.IsSet("default_organisation_name") {
+		log.Fatal("please provide default_user_email in config")
+	}
+
 	if !viper.IsSet("keto_write_api_url") {
 		log.Fatal("please provide keto_write_api_url in config")
 	}
