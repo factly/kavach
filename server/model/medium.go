@@ -53,7 +53,10 @@ func (media *Medium) BeforeCreate(tx *gorm.DB) error {
 func (media *Medium) AfterCreate(tx *gorm.DB) (err error) {
 	resurl := map[string]interface{}{}
 	if viper.IsSet("imageproxy_url") && media.URL.RawMessage != nil {
-		_ = json.Unmarshal(media.URL.RawMessage, &resurl)
+		err = json.Unmarshal(media.URL.RawMessage, &resurl)
+		if err != nil {
+			return err
+		}
 		if rawURL, found := resurl["raw"]; found {
 			urlObj, _ := url.Parse(rawURL.(string))
 			bucket_name := ""
@@ -75,7 +78,10 @@ func (media *Medium) AfterCreate(tx *gorm.DB) (err error) {
 func (media *Medium) AfterFind(tx *gorm.DB) (err error) {
 	resurl := map[string]interface{}{}
 	if viper.IsSet("imageproxy_url") && media.URL.RawMessage != nil {
-		_ = json.Unmarshal(media.URL.RawMessage, &resurl)
+		err = json.Unmarshal(media.URL.RawMessage, &resurl)
+		if err != nil {
+			return err
+		}
 		if rawURL, found := resurl["raw"]; found {
 			urlObj, _ := url.Parse(rawURL.(string))
 			bucket_name := ""

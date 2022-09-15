@@ -102,7 +102,7 @@ function MediaSelector({
               onClick={() => setShow(true)}
             >
               {medium ? (
-                <img src={medium.url?.proxy} alt={medium.alt_text} width="100%" />
+                <img src={(window.REACT_APP_ENABLE_IMGPROXY) ? medium.url?.proxy : medium.url?.raw} alt={medium.alt_text} width="100%" />
               ) : (
                 <ImagePlaceholder maxWidth={maxWidth} />
               )}

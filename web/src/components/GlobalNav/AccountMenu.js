@@ -20,6 +20,7 @@ const AccountMenu = () => {
       loading: state.profile.loading,
     };
   });
+
   React.useEffect(() => {
     dispatch(getUserProfile());
   }, [dispatch]);
@@ -53,7 +54,7 @@ const AccountMenu = () => {
         title={
           <>
             {!loading && profile && profile.medium ? (
-              <Avatar size="small" src={profile.medium.url?.proxy} />
+              <Avatar size="small" src={(window.REACT_APP_ENABLE_IMGPROXY) ? profile.medium.url?.proxy : profile.medium.url?.raw} />
             ) : (
               <UserOutlined />
             )}
