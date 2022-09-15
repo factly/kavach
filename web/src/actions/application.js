@@ -112,7 +112,6 @@ export const getApplication = (id) => {
           dispatch(addMedia(response.data.medium));
         }
         dispatch(addApplicationRoles(id, buildObjectOfItems(response.data?.roles || [])));
-        dispatch(addApplicationPolicy(id, buildObjectOfItems(response.data?.policies || [])));
         response.data.roleIDs = getIds(response.data.roles);
         response.data.policyIDs = getIds(response.data.policies);
         delete response.data.roles;

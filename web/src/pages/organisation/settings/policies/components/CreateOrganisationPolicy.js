@@ -43,7 +43,7 @@ export default function CreateOrganisationPolicyForm() {
   };
 
   const fetchRoles = () => {
-    dispatch(getOrganisationRoles());
+    dispatch(getOrganisationRoles(orgID));
   };
 
   const onCreate = (values) => {
