@@ -20,32 +20,34 @@ func SetupVars() {
 		loggerx.Info("config file not found...")
 	}
 
-	if !viper.IsSet("database_host") {
-		log.Fatal("please provide database_host config param")
-	}
-
-	if !viper.IsSet("database_user") {
-		log.Fatal("please provide database_user config param")
-	}
-
-	if !viper.IsSet("database_name") {
-		log.Fatal("please provide database_name config param")
-	}
-
-	if !viper.IsSet("database_password") {
-		log.Fatal("please provide database_password config param")
-	}
-
-	if !viper.IsSet("database_port") {
-		log.Fatal("please provide database_port config param")
-	}
-
-	if !viper.IsSet("database_ssl_mode") {
-		log.Fatal("please provide database_ssl_mode config param")
-	}
-
-	if !viper.IsSet("sendgrid_api_key") {
-		log.Fatal("please provide sendgrid api key in config")
+	if Sqlite() {
+		if !viper.IsSet("sqlite_db_path") {
+			log.Fatal("please provide sqlite_db_path config param")
+		}
+	} else {
+		if !viper.IsSet("database_host") {
+			log.Fatal("please provide database_host config param")
+		}
+	
+		if !viper.IsSet("database_user") {
+			log.Fatal("please provide database_user config param")
+		}
+	
+		if !viper.IsSet("database_name") {
+			log.Fatal("please provide database_name config param")
+		}
+	
+		if !viper.IsSet("database_password") {
+			log.Fatal("please provide database_password config param")
+		}
+	
+		if !viper.IsSet("database_port") {
+			log.Fatal("please provide database_port config param")
+		}
+	
+		if !viper.IsSet("database_ssl_mode") {
+			log.Fatal("please provide database_ssl_mode config param")
+		}	
 	}
 
 	if !viper.IsSet("domain_name") {
@@ -84,10 +86,6 @@ func SetupVars() {
 		log.Fatal("please provide disable_registration in config")
 	}
 
-	if !viper.IsSet("super_user_email") {
-		log.Fatal("please provide super_user_email in config")
-	}
-
 	if !viper.IsSet("keto_write_api_url") {
 		log.Fatal("please provide keto_write_api_url in config")
 	}
@@ -96,11 +94,6 @@ func SetupVars() {
 		log.Fatal("please provide keto_read_api_url in config")
 	}
 
-	if Sqlite() {
-		if !viper.IsSet("sqlite_db_path") {
-			log.Fatal("please provide sqlite_db_path config param")
-		}
-	}
 }
 
 func Sqlite() bool {
