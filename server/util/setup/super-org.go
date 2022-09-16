@@ -280,7 +280,18 @@ func createApplication(userID, orgID uint) error {
 			loggerx.ErrorWithoutRequest(err)
 			return err
 		}
+		user := new(model.User)
+		err = model.DB.Model(&model.User{}).Where(&model.User{
+			Base: model.Base{
+				ID: userID,
+			},
+		}).Find(user).Error
+		if err != nil {
+			loggerx.ErrorWithoutRequest(err)
+			return err
+		}
 		app.Organisations = append(app.Organisations, *org)
+		app.Users = append(app.Users, *user)
 		applications[index] = app
 	}
 
