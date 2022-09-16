@@ -34,7 +34,7 @@ node_modules
 bower_components
 
 *.sublime*
-
+volumes
 psd
 thumb
 sketch

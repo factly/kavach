@@ -20,36 +20,38 @@ func SetupVars() {
 		loggerx.Info("config file not found...")
 	}
 
-	if !viper.IsSet("database_host") {
-		log.Fatal("please provide database_host config param")
-	}
-
-	if !viper.IsSet("database_user") {
-		log.Fatal("please provide database_user config param")
-	}
-
-	if !viper.IsSet("database_name") {
-		log.Fatal("please provide database_name config param")
-	}
-
-	if !viper.IsSet("database_password") {
-		log.Fatal("please provide database_password config param")
-	}
-
-	if !viper.IsSet("database_port") {
-		log.Fatal("please provide database_port config param")
-	}
-
-	if !viper.IsSet("database_ssl_mode") {
-		log.Fatal("please provide database_ssl_mode config param")
-	}
-
-	if !viper.IsSet("sendgrid_api_key") {
-		log.Fatal("please provide sendgrid api key in config")
+	if Sqlite() {
+		if !viper.IsSet("sqlite_db_path") {
+			log.Fatal("please provide sqlite_db_path config param")
+		}
+	} else {
+		if !viper.IsSet("database_host") {
+			log.Fatal("please provide database_host config param")
+		}
+	
+		if !viper.IsSet("database_user") {
+			log.Fatal("please provide database_user config param")
+		}
+	
+		if !viper.IsSet("database_name") {
+			log.Fatal("please provide database_name config param")
+		}
+	
+		if !viper.IsSet("database_password") {
+			log.Fatal("please provide database_password config param")
+		}
+	
+		if !viper.IsSet("database_port") {
+			log.Fatal("please provide database_port config param")
+		}
+	
+		if !viper.IsSet("database_ssl_mode") {
+			log.Fatal("please provide database_ssl_mode config param")
+		}	
 	}
 
 	if !viper.IsSet("domain_name") {
-		log.Fatal("please provide domain name in config")
+		log.Fatal("please provide domain_name in config")
 	}
 
 	if !viper.IsSet("dynamic_from_email") {
@@ -57,15 +59,15 @@ func SetupVars() {
 	}
 
 	if !viper.IsSet("mande_host") {
-		log.Fatal("please provide mande host in config")
+		log.Fatal("please provide mande_host in config")
 	}
 
 	if !viper.IsSet("dynamic_mande_template_id") {
-		log.Fatal("please provide dynamic mande template id in config")
+		log.Fatal("please provide dynamic_mande_template id in config")
 	}
 
 	if !viper.IsSet("dynamic_sendgrid_api_key") {
-		log.Fatal("please provide dynamic sendgrid api key in config")
+		log.Fatal("please provide dynamic_sendgrid_api key in config")
 	}
 
 	if !viper.IsSet("kratos_admin_url") {
@@ -84,8 +86,20 @@ func SetupVars() {
 		log.Fatal("please provide disable_registration in config")
 	}
 
-	if !viper.IsSet("super_user_email") {
-		log.Fatal("please provide super_user_email in config")
+	if !viper.IsSet("default_user_email") {
+		log.Fatal("please provide default_user_email in config")
+	}
+
+	if !viper.IsSet("default_user_password") {
+		log.Fatal("please provide default_user_password in config")
+	}
+
+	if !viper.IsSet("application_name") {
+		log.Fatal("please provide application_name in config")
+	}
+
+	if !viper.IsSet("default_organisation_name") {
+		log.Fatal("please provide default_user_email in config")
 	}
 
 	if !viper.IsSet("keto_write_api_url") {
@@ -96,11 +110,6 @@ func SetupVars() {
 		log.Fatal("please provide keto_read_api_url in config")
 	}
 
-	if Sqlite() {
-		if !viper.IsSet("sqlite_db_path") {
-			log.Fatal("please provide sqlite_db_path config param")
-		}
-	}
 }
 
 func Sqlite() bool {
