@@ -30,7 +30,7 @@ export default function rolesReducer(state = initialState, action = {}) {
         ...state,
         organisation: {
           ...state.organisation,
-          [action.payload.id]: {...action.payload.data, ...state.organisation[action.payload.id]},
+          [action.payload.id]: {...state.organisation[action.payload.id], ...action.payload.data },
         },
       };
     case ADD_APPLICATION_ROLES:
@@ -38,7 +38,7 @@ export default function rolesReducer(state = initialState, action = {}) {
         ...state,
         application: {
           ...state.application,
-          [action.payload.id]: {...action.payload.data, ...state.application[action.payload.id]},
+          [action.payload.id]: {...state.application[action.payload.id], ...action.payload.data},
         },
       };
     case ADD_SPACE_ROLES:
@@ -46,7 +46,7 @@ export default function rolesReducer(state = initialState, action = {}) {
         ...state,
         space: {
           ...state.space,
-          [action.payload.id]: {...action.payload.data, ...state.space[action.payload.id]},
+          [action.payload.id]: {...state.space[action.payload.id], ...action.payload.data},
         },
       };
     case ADD_ORGANISATION_ROLE_BY_ID:

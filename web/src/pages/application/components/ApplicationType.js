@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import { UserOutlined, CloudDownloadOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -14,6 +14,9 @@ export const ApplicationType = () => {
         flexDirection: 'column',
       }}
     >
+      <Link key="1" to={`/applications`}>
+        <Button type="primary"> Back to Settings </Button>
+      </Link>
       <h2>Choose Application Type</h2>
       <Row gutter={[16, 16]}>
         <Col span={12}>
