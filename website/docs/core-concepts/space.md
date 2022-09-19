@@ -4,8 +4,7 @@ sidebar_position: 4
 
 # Space
 
-Space is the lowest level entity in Kavach. As of now, space is created with a view to manage website entities. It has attributes like site title, site description, site URL and meta data related to the site. Along with this a user can also add scripts in the space in the form of header and footer code. 
-
+Space is the lowest level entity in Kavach. It acts as a multitenancy component in application. You can divide the application into multiple spaces.
 #### Similar to Application, Space also has following entities:
 - **Users**
 - **Tokens**
