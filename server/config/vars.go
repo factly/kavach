@@ -28,47 +28,51 @@ func SetupVars() {
 		if !viper.IsSet("database_host") {
 			log.Fatal("please provide database_host config param")
 		}
-	
+
 		if !viper.IsSet("database_user") {
 			log.Fatal("please provide database_user config param")
 		}
-	
+
 		if !viper.IsSet("database_name") {
 			log.Fatal("please provide database_name config param")
 		}
-	
+
 		if !viper.IsSet("database_password") {
 			log.Fatal("please provide database_password config param")
 		}
-	
+
 		if !viper.IsSet("database_port") {
 			log.Fatal("please provide database_port config param")
 		}
-	
+
 		if !viper.IsSet("database_ssl_mode") {
 			log.Fatal("please provide database_ssl_mode config param")
-		}	
+		}
 	}
 
 	if !viper.IsSet("domain_name") {
 		log.Fatal("please provide domain_name in config")
 	}
+	
+	if viper.IsSet("dynamic_email_enabled") {
+		if !viper.IsSet("dynamic_from_email") {
+			log.Fatal("please provide dynamic_from_email in config")
+		}
 
-	if !viper.IsSet("dynamic_from_email") {
-		log.Fatal("please provide dynamic_from_email in config")
-	}
+		if !viper.IsSet("mande_host") {
+			log.Fatal("please provide mande_host in config")
+		}
 
-	if !viper.IsSet("mande_host") {
-		log.Fatal("please provide mande_host in config")
-	}
+		if !viper.IsSet("dynamic_mande_template_id") {
+			log.Fatal("please provide dynamic_mande_template id in config")
+		}
 
-	if !viper.IsSet("dynamic_mande_template_id") {
-		log.Fatal("please provide dynamic_mande_template id in config")
-	}
-
-	if !viper.IsSet("dynamic_sendgrid_api_key") {
-		log.Fatal("please provide dynamic_sendgrid_api key in config")
-	}
+		if !viper.IsSet("dynamic_sendgrid_api_key") {
+			log.Fatal("please provide dynamic_sendgrid_api key in config")
+		}
+	} else {
+		log.Fatal("please provide dynamic_email_enabled key in config")
+	} 
 
 	if !viper.IsSet("kratos_admin_url") {
 		log.Fatal("please provide kratos_admin_url in config")
