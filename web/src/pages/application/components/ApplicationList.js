@@ -2,7 +2,11 @@ import React from 'react';
 import { Popconfirm, Skeleton, Avatar, Card, Tooltip } from 'antd';
 import { ExportOutlined, EditOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { getApplications, deleteApplication } from '../../../actions/application';
+import {
+  getApplications,
+  deleteApplication,
+  removeDefaultApplication,
+} from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
 
@@ -18,7 +22,13 @@ function ApplicationList({ applicationList, permission, loading }) {
       loadingOrg: state.organisations.loading,
     };
   });
-
+  const deleteApp = (application) => {
+    if (orgID === 1) {
+      return deleteApplication(application.id);
+    } else {
+      return removeDefaultApplication(application.id);
+    }
+  };
   const iconSize = '150%';
   const ApplicationCard = ({ application }) => {
     return (
@@ -42,7 +52,9 @@ function ApplicationList({ applicationList, permission, loading }) {
               style={{ width: '100%', objectFit: 'cover' }}
               src={
                 application?.medium && application.medium_id
-                  ? (window.REACT_APP_ENABLE_IMGPROXY) ? application?.medium?.url?.proxy : application.medium?.url?.raw
+                  ? window.REACT_APP_ENABLE_IMGPROXY
+                    ? application?.medium?.url?.proxy
+                    : application.medium?.url?.raw
                   : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
             ></Avatar>
@@ -55,24 +67,9 @@ function ApplicationList({ applicationList, permission, loading }) {
           >
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
-          permission  ? (
-            (application.is_default !== true) ?
-            <Popconfirm
-              title="Sure to Delete?"
-              onConfirm={() =>
-                dispatch(deleteApplication(application.id)).then(() => {
-                  dispatch(getOrganisations());
-                  fetchApplications();
-                })
-              }
-            >
-              <Link to="" className="ant-dropdown-link">
-                <DeleteOutlined style={{ fontSize: iconSize }} />
-              </Link>
-            </Popconfirm>
-            : (
-              (orgID === 1) ? (
-                <Popconfirm
+          permission ? (
+            application.is_default !== true ? (
+              <Popconfirm
                 title="Sure to Delete?"
                 onConfirm={() =>
                   dispatch(deleteApplication(application.id)).then(() => {
@@ -85,17 +82,22 @@ function ApplicationList({ applicationList, permission, loading }) {
                   <DeleteOutlined style={{ fontSize: iconSize }} />
                 </Link>
               </Popconfirm>
-              ) : (
-                <Tooltip
-                title="You don't have permission to delete an application"
-                trigger="click"
-                color="red"
+            ) : (
+              <Popconfirm
+                title="Sure to Delete?"
+                onConfirm={() =>
+                  dispatch(deleteApp(application)).then(() => {
+                    dispatch(getOrganisations());
+                    fetchApplications();
+                  })
+                }
               >
-                <DeleteOutlined style={{ fontSize: iconSize }} />
-              </Tooltip>
-              )
+                <Link to="" className="ant-dropdown-link">
+                  <DeleteOutlined style={{ fontSize: iconSize }} />
+                </Link>
+              </Popconfirm>
             )
-          ): (
+          ) : (
             <Tooltip
               title="You don't have permission to delete an application"
               trigger="click"
