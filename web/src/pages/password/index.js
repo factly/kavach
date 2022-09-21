@@ -183,9 +183,14 @@ function Password() {
       {ui && ui.messages ? (
         <Alert message={ui.messages[0].text} type={state === 'success' ? state : 'error'}></Alert>
       ) : null}
-      {
-        ui.nodes?.length ? (ui.nodes.filter((node) => node.group === 'password')[0]?.messages?.length) ?<Alert message={ui.nodes.filter((node) => node.group === 'password')[0]?.messages?.[0].text} type={'error'}></Alert> : null : null 
-      }
+      {ui.nodes?.length ? (
+        ui.nodes.filter((node) => node.group === 'password')[0]?.messages?.length ? (
+          <Alert
+            message={ui.nodes.filter((node) => node.group === 'password')[0]?.messages?.[0].text}
+            type={'error'}
+          ></Alert>
+        ) : null
+      ) : null}
       {ui && ui.nodes ? (
         <div>
           <Card title="Update password" style={{ width: cardStyle.width }}>

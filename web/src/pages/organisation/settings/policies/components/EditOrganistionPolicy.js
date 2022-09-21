@@ -25,8 +25,9 @@ export default function EditOrganisationPolicy() {
   });
 
   const onUpdate = (data) => {
-    dispatch(updateOrganisationPolicy(policyID, {...policy, ...data}))
-    .then(() => history.push(`/organisation/${orgID}/settings/policies`));
+    dispatch(updateOrganisationPolicy(policyID, { ...policy, ...data })).then(() =>
+      history.push(`/organisation/${orgID}/settings/policies`),
+    );
   };
 
   const onReset = () => {

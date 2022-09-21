@@ -57,11 +57,8 @@ function Profile() {
             setValueChange(true);
           }}
         >
-          <Form.Item
-            label="Email"
-            name="email"
-          >
-            <Input placeholder="Email" disabled={true}/>
+          <Form.Item label="Email" name="email">
+            <Input placeholder="Email" disabled={true} />
           </Form.Item>
           <Form.Item
             label="First Name"

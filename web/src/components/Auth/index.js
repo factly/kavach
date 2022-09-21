@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import './index.css';
 import { Link } from 'react-router-dom';
 import { Input, Form, Button, Alert } from 'antd';
-import {
-  UserOutlined,
-  LockOutlined,
-  CloseCircleOutlined,
-} from '@ant-design/icons';
+import { UserOutlined, LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
 import OIDC from './oidc';
 import createForm from '../../utils/form';
@@ -29,26 +25,26 @@ function Auth(props) {
 
   const [aal2, setaal2] = React.useState(false); // aal stands for authenticator assurance level
   const [loading, setLoading] = useState(true);
-  const [closeButtonVisibility, setCloseButtonVisibility] =  useState(false)
+  const [closeButtonVisibility, setCloseButtonVisibility] = useState(false);
   var afterRegistrationReturnToURL = localStorage.getItem('returnTo')
     ? localStorage.getItem('returnTo')
     : null;
 
   React.useEffect(() => {
     function checkApplicationSettings() {
-      const returnTo = localStorage.getItem('returnTo')
-      const url =  new URL(returnTo)
-      if(process.env.NODE_ENV === 'development'){
-        if(url?.pathname.includes('kavach')){
-          setCloseButtonVisibility(false)
+      const returnTo = localStorage.getItem('returnTo');
+      const url = new URL(returnTo);
+      if (process.env.NODE_ENV === 'development') {
+        if (url?.pathname.includes('kavach')) {
+          setCloseButtonVisibility(false);
         } else {
-          setCloseButtonVisibility(returnTo ? true : false)
+          setCloseButtonVisibility(returnTo ? true : false);
         }
-      }else{
-        if(url?.hostname.includes('login')){
-          setCloseButtonVisibility(false)
-        }else {
-          setCloseButtonVisibility(returnTo ? true : false)
+      } else {
+        if (url?.hostname.includes('login')) {
+          setCloseButtonVisibility(false);
+        } else {
+          setCloseButtonVisibility(returnTo ? true : false);
         }
       }
       const object = getApplicationSettings(localStorage.getItem('returnTo'));
@@ -198,21 +194,19 @@ function Auth(props) {
             width: '50%',
           }}
         >
-          {
-            (closeButtonVisibility) ? (
-              <div
-                style={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'flex-end',
-                  marginTop: '10px',
-                  marginRight: '20px',
-                }}
-              >
-                <CloseCircleOutlined style={{ fontSize: '36px' }} onClick={handleClose} />
-              </div>
-            ): null
-          }
+          {closeButtonVisibility ? (
+            <div
+              style={{
+                display: 'flex',
+                width: '100%',
+                justifyContent: 'flex-end',
+                marginTop: '10px',
+                marginRight: '20px',
+              }}
+            >
+              <CloseCircleOutlined style={{ fontSize: '36px' }} onClick={handleClose} />
+            </div>
+          ) : null}
           <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
             <div
               style={{
@@ -249,7 +243,7 @@ function Auth(props) {
                       applicationSettings.loginMethod === 'oidc')
                       ? [
                           <OIDC
-                            key={"oidc"}
+                            key={'oidc'}
                             ui={ui}
                             flow={props.flow}
                             loginMethod={applicationSettings.loginMethod}
@@ -405,12 +399,13 @@ function Auth(props) {
                   {ui && ui.messages ? (
                     ui.messages[0].id === 4000010 ? (
                       <Form.Item>
-                        <Link to={'/auth/verification'}
+                        <Link
+                          to={'/auth/verification'}
                           style={{
-                            fontSize: '16px'
+                            fontSize: '16px',
                           }}
                         >
-                            Verify your Email
+                          Verify your Email
                         </Link>
                       </Form.Item>
                     ) : null
@@ -420,9 +415,9 @@ function Auth(props) {
                       Don't have an account yet? <u>Sign up</u>
                     </Link>
                   ) : null}
-                  {
-                    (applicationSettings.loginMethod !== 'oidc' ) ? (<Link to={'/auth/recovery'}>Forgot Password?</Link>) : null
-                  }
+                  {applicationSettings.loginMethod !== 'oidc' ? (
+                    <Link to={'/auth/recovery'}>Forgot Password?</Link>
+                  ) : null}
                 </div>
               ) : (
                 <Link to={'/auth/login'}>

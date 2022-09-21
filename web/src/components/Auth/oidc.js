@@ -34,42 +34,51 @@ function OIDC({ ui, flow = 'login', loginMethod = 'all' }) {
 
     oidcForm.submit();
   };
-
+  console.log(ui?.nodes
+    ?.filter((each) => each.group === 'oidc'))
   return (
     <Button.Group
       className="oidc"
       style={{ display: 'flex', justifyContent: 'center', gap: '4px', flexDirection: 'column' }}
     >
-      <Button
-        onClick={() => withOIDC('github')}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '48px',
-          fontWeight: 'bold',
-        }}
-      >
-        <img
-          src={GithubIcon}
-          alt="Continue with Google"
-          style={{ height: '100%', padding: '9px' }}
-        />{' '}
-        <span>Continue with Github</span>
-      </Button>
-      <Button
-        onClick={() => withOIDC('google')}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '48px',
-          fontWeight: 'bold',
-        }}
-      >
-        <img src={GoogleIcon} alt="Continue with Google" style={{ height: '100%' }} />{' '}
-        <span>Continue with Google</span>
-      </Button>
+      {ui?.nodes
+        ?.filter((each) => each.group === 'oidc')
+        ?.filter((oidcNode) => oidcNode?.attributes.value === 'github')?.length > 0 ? (
+          <Button
+          onClick={() => withOIDC('github')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '48px',
+            fontWeight: 'bold',
+          }}
+        >
+          <img
+            src={GithubIcon}
+            alt="Continue with Github"
+            style={{ height: '100%', padding: '9px' }}
+          />{' '}
+          <span>Continue with Github</span>
+        </Button>
+      ) : null}
+      {ui?.nodes
+        ?.filter((each) => each.group === 'oidc')
+        ?.filter((oidcNode) => oidcNode?.attributes.value === 'google')?.length > 0 ? (
+        <Button
+          onClick={() => withOIDC('google')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '48px',
+            fontWeight: 'bold',
+          }}
+        >
+          <img src={GoogleIcon} alt="Continue with Google" style={{ height: '100%' }} />{' '}
+          <span>Continue with Google</span>
+        </Button>
+      ) : null}
       {loginMethod === 'all' ? (
         <Divider plain>Or Sign {flow === 'registration' ? 'up' : 'in'} with Email</Divider>
       ) : null}

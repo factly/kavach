@@ -42,7 +42,9 @@ function ApplicationList({ applicationList, permission, loading }) {
               style={{ width: '100%', objectFit: 'cover' }}
               src={
                 application?.medium && application.medium_id
-                  ? (window.REACT_APP_ENABLE_IMGPROXY) ? application?.medium?.url?.proxy : application.medium?.url?.raw
+                  ? window.REACT_APP_ENABLE_IMGPROXY
+                    ? application?.medium?.url?.proxy
+                    : application.medium?.url?.raw
                   : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
               }
             ></Avatar>
@@ -55,24 +57,9 @@ function ApplicationList({ applicationList, permission, loading }) {
           >
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
-          permission  ? (
-            (application.is_default !== true) ?
-            <Popconfirm
-              title="Sure to Delete?"
-              onConfirm={() =>
-                dispatch(deleteApplication(application.id)).then(() => {
-                  dispatch(getOrganisations());
-                  fetchApplications();
-                })
-              }
-            >
-              <Link to="" className="ant-dropdown-link">
-                <DeleteOutlined style={{ fontSize: iconSize }} />
-              </Link>
-            </Popconfirm>
-            : (
-              (orgID === 1) ? (
-                <Popconfirm
+          permission ? (
+            application.is_default !== true ? (
+              <Popconfirm
                 title="Sure to Delete?"
                 onConfirm={() =>
                   dispatch(deleteApplication(application.id)).then(() => {
@@ -85,17 +72,30 @@ function ApplicationList({ applicationList, permission, loading }) {
                   <DeleteOutlined style={{ fontSize: iconSize }} />
                 </Link>
               </Popconfirm>
-              ) : (
-                <Tooltip
+            ) : orgID === 1 ? (
+              <Popconfirm
+                title="Sure to Delete?"
+                onConfirm={() =>
+                  dispatch(deleteApplication(application.id)).then(() => {
+                    dispatch(getOrganisations());
+                    fetchApplications();
+                  })
+                }
+              >
+                <Link to="" className="ant-dropdown-link">
+                  <DeleteOutlined style={{ fontSize: iconSize }} />
+                </Link>
+              </Popconfirm>
+            ) : (
+              <Tooltip
                 title="You don't have permission to delete an application"
                 trigger="click"
                 color="red"
               >
                 <DeleteOutlined style={{ fontSize: iconSize }} />
               </Tooltip>
-              )
             )
-          ): (
+          ) : (
             <Tooltip
               title="You don't have permission to delete an application"
               trigger="click"

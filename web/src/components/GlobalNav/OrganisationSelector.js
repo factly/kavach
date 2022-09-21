@@ -7,7 +7,11 @@ function OrganisationSelector() {
   const { organisations, selectedOrg } = useSelector((state) => {
     const organisationIds = state.profile.details?.organisations || [];
     return {
-      organisations: organisationIds?.map((id) => ({...state.organisations.details[id], medium: state.media.details?.[state.organisations.details[id].featured_medium_id]})) || [],
+      organisations:
+        organisationIds?.map((id) => ({
+          ...state.organisations.details[id],
+          medium: state.media.details?.[state.organisations.details[id].featured_medium_id],
+        })) || [],
       selectedOrg: state.organisations?.details[state.organisations?.selected]?.title,
     };
   });
@@ -32,15 +36,23 @@ function OrganisationSelector() {
     >
       {organisations.map((organisation) => {
         return (
-        <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
-          {(organisation?.medium) ? (
-            <Avatar size="small" src={(window.REACT_APP_ENABLE_IMGPROXY) ? organisation?.medium?.url?.proxy : organisation?.medium?.url?.raw} />
-          ) : (
-            <Avatar size="small">{getInitial(organisation.title)}</Avatar>
-          )}{' '}
-          {organisation.title}
-        </Select.Option>
-      )})}
+          <Select.Option key={'organisation-' + organisation.id} value={organisation.id}>
+            {organisation?.medium ? (
+              <Avatar
+                size="small"
+                src={
+                  window.REACT_APP_ENABLE_IMGPROXY
+                    ? organisation?.medium?.url?.proxy
+                    : organisation?.medium?.url?.raw
+                }
+              />
+            ) : (
+              <Avatar size="small">{getInitial(organisation.title)}</Avatar>
+            )}{' '}
+            {organisation.title}
+          </Select.Option>
+        );
+      })}
     </Select>
   ) : null;
 }

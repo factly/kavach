@@ -104,7 +104,7 @@ function Verification() {
     recoverPasswordForm.submit();
   };
 
-  return(
+  return (
     <div className="auth">
       <BrandingComponent />
       {loading ? (
@@ -119,15 +119,16 @@ function Verification() {
             width: '50%',
           }}
         >
-          <div style={
-            { 
-              marginTop: 'auto', 
+          <div
+            style={{
+              marginTop: 'auto',
               marginBottom: 'auto',
-              display:'flex',
-              flexDirection:'column',
-              alignItems:'center',
-              gap:'8px' 
-            }}>
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
             <div
               style={{
                 display: 'flex',
@@ -147,34 +148,54 @@ function Verification() {
                 <span className="title">{applicationSettings.applicationName}</span>
               )}
             </div>
-            <h2 style={{
-              fontSize:'32px'
-            }}>Verify your email</h2>
+            <h2
+              style={{
+                fontSize: '32px',
+              }}
+            >
+              Verify your email
+            </h2>
             <Form name="verification_email" onFinish={withEmail}>
-              <Form.Item name="email" rules={[{ required: true, message: 'Please input your Email!' }]}>
-                <Input prefix={<MailOutlined />} type="email" placeholder="Please enter your email" size="large" 
-                style={{
-                  width:'480px',
-                }}/>
+              <Form.Item
+                name="email"
+                rules={[{ required: true, message: 'Please input your Email!' }]}
+              >
+                <Input
+                  prefix={<MailOutlined />}
+                  type="email"
+                  placeholder="Please enter your email"
+                  size="large"
+                  style={{
+                    width: '480px',
+                  }}
+                />
               </Form.Item>
               <Form.Item>
-                <Button form="verification_email" size="large" type="primary" htmlType="submit" shape="round" block>
+                <Button
+                  form="verification_email"
+                  size="large"
+                  type="primary"
+                  htmlType="submit"
+                  shape="round"
+                  block
+                >
                   Send verification link
                 </Button>
               </Form.Item>
             </Form>
-            <Link to={'/auth/login'} style={
-              {
-                fontSize:'16px'
-              }
-            }> 
+            <Link
+              to={'/auth/login'}
+              style={{
+                fontSize: '16px',
+              }}
+            >
               Go back to login
             </Link>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default Verification;
