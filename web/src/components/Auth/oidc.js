@@ -34,8 +34,7 @@ function OIDC({ ui, flow = 'login', loginMethod = 'all' }) {
 
     oidcForm.submit();
   };
-  console.log(ui?.nodes
-    ?.filter((each) => each.group === 'oidc'))
+
   return (
     <Button.Group
       className="oidc"
