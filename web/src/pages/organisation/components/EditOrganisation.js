@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Space, Divider, Modal, message, Card } from 'antd';
+import { Button, Form, Input, Space, Divider, Modal, message, Card, Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -90,7 +90,7 @@ function OrganisationEdit() {
               width: '400px',
             }}
           >
-            <Form.Item name="title" label="Title">
+            <Form.Item name="title" label="Title" required={true}>
               <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
             </Form.Item>
             <Form.Item
@@ -111,6 +111,16 @@ function OrganisationEdit() {
             </Form.Item>
             <Form.Item name="description" label="Description">
               <Input.TextArea placeholder="Description" />
+            </Form.Item>
+            <Form.Item
+              required={true}
+              name="is_individual"
+              label="Type"
+            >
+              <Select>
+                <Select.Option value={true}>Individual</Select.Option>
+                <Select.Option value={false}>Group</Select.Option>
+              </Select>
             </Form.Item>
             <Form.Item label="Logo" name="featured_medium_id">
               <MediaSelector />
