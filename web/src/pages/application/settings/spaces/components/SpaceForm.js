@@ -20,10 +20,10 @@ export default function CreateSpace() {
   };
 
   const onSubmit = (values) => {
-    if (!values?.metadata || values.metadata === '') {
-      values.metadata = {};
+    if (!values?.meta_fields || values.meta_fields === '') {
+      values.meta_fields = {};
     } else {
-      values.metadata = JSON.parse(values.metadata);
+      values.meta_fields = JSON.parse(values.meta_fields);
     }
     dispatch(createSpace(values, appID)).then(() => {
       history.push(`/applications/${appID}/settings/spaces`);
@@ -102,7 +102,7 @@ export default function CreateSpace() {
               <Input placeholder="enter a description for your space" />
             </Form.Item>
             <Form.Item
-              name="metadata"
+              name="meta_fields"
               label="Meta"
               rules={[
                 ({ getFieldValue }) => ({
@@ -120,7 +120,7 @@ export default function CreateSpace() {
                 }),
               ]}
             >
-              <Input.TextArea placeholder="enter metadata for your space" />
+              <Input.TextArea placeholder="enter meta_fields for your space" />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>

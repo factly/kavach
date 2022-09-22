@@ -10,7 +10,7 @@ type Space struct {
 	Name           string         `gorm:"column:name" json:"name"`
 	Slug           string         `gorm:"column:slug" json:"slug"`
 	Description    string         `gorm:"description" json:"description"`
-	Metadata       postgres.Jsonb `gorm:"column:metadata" json:"metadata" swaggertype:"primitive,string"`
+	Metadata       postgres.Jsonb `gorm:"column:metadata" json:"meta_fields" swaggertype:"primitive,string"`
 	OrganisationID uint           `gorm:"column:organisation_id" json:"organisation_id"`
 	Organisation   *Organisation  `gorm:"foreignKey:organisation_id" json:"organisation"`
 	ApplicationID  uint           `gorm:"column:application_id" json:"application_id"`
