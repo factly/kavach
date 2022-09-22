@@ -11,7 +11,7 @@ export default function EditSpacePolicy() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { appID, spaceID, policyID } = useParams();
-  const history = useHistory()
+  const history = useHistory();
   const { policy, loading, role, loadingRole, space, loadingSpace } = useSelector((state) => {
     return {
       policy: state.policy.space[spaceID][policyID],
@@ -24,8 +24,9 @@ export default function EditSpacePolicy() {
   });
 
   const onUpdate = (data) => {
-    dispatch(updateSpacePolicy(policyID, appID, spaceID, { ...policy, ...data}))
-    .then(() => history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`));
+    dispatch(updateSpacePolicy(policyID, appID, spaceID, { ...policy, ...data })).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`),
+    );
   };
 
   const onReset = () => {

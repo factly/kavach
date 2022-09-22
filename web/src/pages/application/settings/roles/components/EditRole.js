@@ -24,7 +24,9 @@ export default function EditApplicationRole() {
   };
 
   const onUpdate = (data) => {
-    dispatch(updateApplicationRole(roleID, appID, data)).then(() => history.push(`/applications/${appID}/settings/roles`));
+    dispatch(updateApplicationRole(roleID, appID, data)).then(() =>
+      history.push(`/applications/${appID}/settings/roles`),
+    );
   };
 
   const { role, loading, application, loadingApp, userRole, loadingUserRole } = useSelector(
