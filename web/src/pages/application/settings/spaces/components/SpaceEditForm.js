@@ -38,7 +38,7 @@ export default function EditSpaceForm() {
 
   const handleSubmit = (data) => {
     delete data.users;
-    data.metadata = data.metadata ? JSON.parse(data.metadata) : {};
+    data.meta_fields = data.meta_fields ? JSON.parse(data.meta_fields) : {};
     dispatch(editSpace(spaceID, appID, data)).then(() =>
       history.push(`/applications/${appID}/settings/spaces/${spaceID}/edit`),
     );
@@ -78,7 +78,7 @@ export default function EditSpaceForm() {
             form={form}
             initialValues={{
               ...space,
-              metadata: space?.metadata ? JSON.stringify(space.metadata) : '',
+              meta_fields: space?.meta_fields ? JSON.stringify(space.meta_fields) : '',
             }}
             onFinish={(values) => handleSubmit(values)}
           >
@@ -107,8 +107,8 @@ export default function EditSpaceForm() {
             <Form.Item name="description" label="Description">
               <Input placeholder="enter a description for your space" />
             </Form.Item>
-            <Form.Item name="metadata" label="Meta">
-              <Input.TextArea placeholder="enter metadata for your space" />
+            <Form.Item name="meta_fields" label="Meta">
+              <Input.TextArea placeholder="enter meta_fields for your space" />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block>

@@ -101,7 +101,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"name":        space.Name,
 		"slug":        space.Slug,
 		"description": space.Description,
-		"metadata":    space.Metadata,
+		"meta_fields":    space.MetaFields,
 	}
 	updatedSpace := new(model.Space)
 	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).First(updatedSpace).Error
