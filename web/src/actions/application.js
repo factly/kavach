@@ -14,7 +14,6 @@ import { ADD_APPLICATION_IDS, ORGANISATIONS_API } from '../constants/organisatio
 import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
 import { addMedia, addMediaList } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
-import { addApplicationPolicy } from './policy';
 import { addApplicationRoles } from './roles';
 import { addSpaces } from './space';
 import { addApplicationTokens } from './token';
@@ -112,7 +111,6 @@ export const getApplication = (id) => {
           dispatch(addMedia(response.data.medium));
         }
         dispatch(addApplicationRoles(id, buildObjectOfItems(response.data?.roles || [])));
-        dispatch(addApplicationPolicy(id, buildObjectOfItems(response.data?.policies || [])));
         response.data.roleIDs = getIds(response.data.roles);
         response.data.policyIDs = getIds(response.data.policies);
         delete response.data.roles;

@@ -48,13 +48,14 @@ export const addOrganisationPolicy = (orgID, data) => (dispatch) => {
   });
 };
 
-export const addApplicationPolicy = (appID, data) => ({
+export const addApplicationPolicy = (appID, data) => {
+  return ({
   type: ADD_APPLICATION_POLICY,
   payload: {
     id: appID,
     data: data,
   },
-});
+})};
 
 export const addSpacePolicy = (spaceID, data) => ({
   type: ADD_SPACE_POLICY,

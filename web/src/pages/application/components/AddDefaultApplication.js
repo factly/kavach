@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Skeleton, Avatar, Switch, Row, List } from 'antd';
+import { Card, Skeleton, Avatar, Switch, Row, List, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getDefaultApplications,
@@ -8,6 +8,7 @@ import {
   removeDefaultApplication,
 } from '../../../actions/application';
 import { getIds } from '../../../utils/objects';
+import { Link } from 'react-router-dom';
 
 export const AddDefaultApplication = () => {
   const dispatch = useDispatch();

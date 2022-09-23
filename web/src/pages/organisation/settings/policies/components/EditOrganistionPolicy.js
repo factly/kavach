@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Form, Input, Skeleton } from 'antd';
+import { Button, Card, Form, Input, Select, Skeleton } from 'antd';
 import { getOrganisationPolicyByID, updateOrganisationPolicy } from '../../../../../actions/policy';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,20 +7,25 @@ import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getOrganisation } from '../../../../../actions/organisations';
 import { checker, maker } from '../../../../../utils/sluger';
+import { getIds } from '../../../../../utils/objects';
 
 export default function EditOrganisationPolicy() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { orgID, policyID } = useParams();
   const history = useHistory();
-  const { policy, loading, role, loadingRole, organisation, loadingOrg } = useSelector((state) => {
-    return {
-      policy: state.policy.organisation?.[orgID]?.[policyID],
+
+  const { policy, loading, role, loadingRole, organisation, loadingOrg, roles } = useSelector((state) => {
+    var roleIDs = state.organisations.details[orgID]?.roleIDs || [];
+    return { 
+      policy: {...state.policy.organisation?.[orgID]?.[policyID], roles: state.policy.organisation?.[orgID]?.[policyID]?.roles.map((rID) => state.roles.organisation?.[orgID]?.[rID])},
       loading: state.policy.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
       organisation: state.organisations.details[orgID],
       loadingOrg: state.organisations.loading,
+      roles: roleIDs.map((id) => state.roles.organisation[orgID][id]),
+      loadingRoles: state.roles.loading,
     };
   });
 
@@ -61,7 +66,7 @@ export default function EditOrganisationPolicy() {
       <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
         <Button type="primary">Back to Policies</Button>
       </Link>
-      {loading || loadingOrg || loadingRole ? (
+      {loading || loadingOrg || loadingRole  ? (
         <Skeleton />
       ) : role !== 'owner' ? (
         <ErrorComponent
@@ -83,7 +88,7 @@ export default function EditOrganisationPolicy() {
             layout="vertical"
             onFinish={(values) => onUpdate(values).then(() => onReset())}
             form={form}
-            initialValues={policy}
+            initialValues={{...policy, roles: getIds(policy?.roles)}}
           >
             <Form.Item
               name="name"
@@ -126,6 +131,29 @@ export default function EditOrganisationPolicy() {
               <Input.TextArea />
             </Form.Item>
             <DynamicPermissionField type="update" />
+            <Form.Item
+              name="roles"
+              labels="Roles"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please chose the roles',
+                },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                style={{ width: '100%' }}
+                placeholder="select role"
+                optionLabelProp="label"
+              >
+                {roles?.map((role) => (
+                  <Select.Option value={role.id} key={role.id} label={role.name}>
+                    {role.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block form="update-organisation-policy">
                 Update Policy

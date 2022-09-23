@@ -9,10 +9,10 @@ import { MINIMUM_WIDTH_ACTION_BUTTONS } from '../../../../../constants/styles/wi
 export default function PolicyList({ appID, role }) {
   const dispatch = useDispatch();
   const { policies, loading } = useSelector((state) => {
-    var policyIDs = state.applications.details[appID]?.policyIDs || [];
+    var policyIDs = state.applications.details?.[appID]?.policyIDs || [];
     return {
-      policies: policyIDs.map((id) => ({
-        ...state.policy.application[appID][id],
+      policies: policyIDs?.map((id) => ({
+        ...state.policy?.application?.[appID]?.[id],
       })),
       loading: state.policy.loading,
     };

@@ -1,25 +1,29 @@
 import React from 'react';
-import { Button, Card, Form, Input, Skeleton } from 'antd';
+import { Button, Card, Form, Input, Select, Skeleton } from 'antd';
 import { getApplicationPolicyByID, updateApplicationPolicy } from '../../../../../actions/policy';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { checker, maker } from '../../../../../utils/sluger';
+import { getIds } from '../../../../../utils/objects';
 
 export default function EditApplicationPolicy() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { appID, policyID } = useParams();
   const history = useHistory();
-  const { policy, loading, role, loadingRole, application, loadingApp } = useSelector((state) => {
+  const { policy, loading, role, loadingRole, application, loadingApp, roles } = useSelector((state) => {
+    var roleIDs = state.applications.details[appID]?.roleIDs || [];
     return {
-      policy: state.policy.application[appID][policyID],
+      policy: {...state.policy?.application?.[appID]?.[policyID], roles: state.policy.application?.[appID]?.[policyID]?.roles?.map((rID) => state.roles.application[appID][rID])},
       loading: state.policy.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
       application: state.applications.details[appID],
       loadingApp: state.applications.loading,
+      roles: roleIDs.map((id) => state.roles.application[appID][id]),
+      loadingRoles: state.roles.loading,
     };
   });
 
@@ -85,7 +89,7 @@ export default function EditApplicationPolicy() {
             layout="vertical"
             onFinish={(values) => onUpdate(values).then(() => onReset())}
             form={form}
-            initialValues={policy}
+            initialValues={{...policy, roles: getIds(policy?.roles)}}
           >
             <Form.Item
               name="application_name"
@@ -135,6 +139,29 @@ export default function EditApplicationPolicy() {
               <Input.TextArea />
             </Form.Item>
             <DynamicPermissionField type="update" />
+            <Form.Item
+              name="roles"
+              labels="Roles"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please chose the roles',
+                },
+              ]}
+            >
+              <Select
+                mode="multiple"
+                style={{ width: '100%' }}
+                placeholder="select role"
+                optionLabelProp="label"
+              >
+                {roles?.map((role) => (
+                  <Select.Option value={role.id} key={role.id} label={role.name}>
+                    {role.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" block form="update-application-policy">
                 Update Policy
