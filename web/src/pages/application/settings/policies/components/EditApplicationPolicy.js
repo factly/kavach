@@ -28,7 +28,7 @@ export default function EditApplicationPolicy() {
   });
 
   const onUpdate = (data) => {
-    dispatch(updateApplicationPolicy(appID, policyID, {...policy, ...data})).then(() =>
+    dispatch(updateApplicationPolicy(appID, policyID, { ...policy, ...data })).then(() =>
       history.push(`/applications/${appID}/settings/policies`),
     );
   };

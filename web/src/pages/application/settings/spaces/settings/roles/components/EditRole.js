@@ -24,7 +24,9 @@ export default function EditSpaceRole() {
   };
 
   const onUpdate = (data) => {
-    dispatch(updateSpaceRole(roleID, appID, spaceID, data)).then(() => history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`));
+    dispatch(updateSpaceRole(roleID, appID, spaceID, data)).then(() =>
+      history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`),
+    );
   };
 
   const { role, loading, space, loadingSpace, userRole, loadingUserRole } = useSelector((state) => {

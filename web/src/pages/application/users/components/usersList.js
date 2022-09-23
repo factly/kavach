@@ -35,7 +35,7 @@ function UserList({ id, flag, users, total, role }) {
               title="Sure to Delete?"
               onConfirm={() => {
                 dispatch(deleteApplication(id, record.id)).then(() => {
-                  dispatch(getApplicationUsers(id))
+                  dispatch(getApplicationUsers(id));
                 });
               }}
             >

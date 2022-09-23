@@ -69,7 +69,7 @@ function ApplicationUser() {
                   dispatch(getApplicationUsers(id));
                   setFlag((prev) => !prev);
                 });
-                form.resetFields()
+                form.resetFields();
               }}
               style={{ maxWidth: '100%' }}
             >

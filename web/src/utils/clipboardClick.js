@@ -43,8 +43,10 @@ function ClipBoardCopy({ text }) {
         </Button>
       </div>
       <Alert
-        type={ isCopied ? 'success': 'error'}
-        description={"Make sure to copy your personal access token now. You won’t be able to see it again!"}
+        type={isCopied ? 'success' : 'error'}
+        description={
+          'Make sure to copy your personal access token now. You won’t be able to see it again!'
+        }
       />
     </Space>
   );

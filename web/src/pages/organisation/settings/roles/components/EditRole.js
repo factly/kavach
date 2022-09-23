@@ -23,7 +23,9 @@ export default function EditOrganisationRole() {
   };
 
   const onUpdate = (data) => {
-    dispatch(updateOrganisationRole(roleID, data)).then(() => history.push(`/organisation/${orgID}/settings/roles`));
+    dispatch(updateOrganisationRole(roleID, data)).then(() =>
+      history.push(`/organisation/${orgID}/settings/roles`),
+    );
   };
 
   const { role, loading, organisation, loadingOrg, userRole, loadingUserRole } = useSelector(
@@ -40,7 +42,7 @@ export default function EditOrganisationRole() {
   );
 
   const fetchRole = () => {
-    dispatch(getOrganisationRoleByID(roleID))
+    dispatch(getOrganisationRoleByID(roleID));
   };
 
   React.useEffect(() => {

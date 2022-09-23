@@ -14,7 +14,7 @@ function VerificationAfterRegistration() {
         height: '100vh',
       }}
     >
-     <Lottie
+      <Lottie
         width={'40%'}
         height={'40%'}
         options={{
@@ -24,15 +24,16 @@ function VerificationAfterRegistration() {
         }}
       />
       <h2>Verify your email address.</h2>
-      <p style={{ fontSize:'16px' }}>
+      <p style={{ fontSize: '16px' }}>
         An email containing a verification link has been sent to your email address.
       </p>
-      <Link to={'/auth/login'} style={
-              {
-                fontSize:'16px'
-              }
-            }> 
-              Go back to login
+      <Link
+        to={'/auth/login'}
+        style={{
+          fontSize: '16px',
+        }}
+      >
+        Go back to login
       </Link>
     </div>
   );

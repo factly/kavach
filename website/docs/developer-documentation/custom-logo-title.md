@@ -10,7 +10,7 @@ Open docker-compose.yml in the root folder of the project and add the following 
 ...
   kavach-web:
     environment:
-      - REACT_APP_KAVACH_LOGO={IMAGE_PATH} # Example: /src/assets/kavach.png
+      - REACT_APP_LOGO_URL={IMAGE_PATH} # Example: /src/assets/kavach.png
 ...
 ```
 ## For custom title

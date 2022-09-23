@@ -111,9 +111,8 @@ function NewUser() {
   const addNewUsers = (values) => {
     dispatch(addUser(values, history)).then(() => {
       history.push(`/organisation/${orgID}/settings/users`);
-      form.resetFields()
-    }
-    );
+      form.resetFields();
+    });
   };
 
   const { role, loading } = useSelector((state) => {
