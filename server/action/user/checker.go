@@ -1,7 +1,6 @@
 package user
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -12,8 +11,6 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/slugx"
-	"github.com/sendgrid/sendgrid-go"
-	"github.com/spf13/viper"
 )
 
 type authenticationSession struct {
@@ -89,44 +86,44 @@ func checker(w http.ResponseWriter, r *http.Request) {
 	/**
 	** check whether user is active or not and check host matches to mande
 	**/
-	if !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host") {
-		loggerx.Info("start email request")
-		//send registration mail
-		request := sendgrid.GetRequest(viper.GetString("dynamic_sendgrid_api_key"), "/v3/mail/send", "https://api.sendgrid.com")
-		request.Method = "POST"
+	// if !user.IsActive && payload.MatchContext.URL.Host == viper.GetString("mande_host") {
+	// 	loggerx.Info("start email request")
+	// 	//send registration mail
+	// 	request := sendgrid.GetRequest(viper.GetString("dynamic_sendgrid_api_key"), "/v3/mail/send", "https://api.sendgrid.com")
+	// 	request.Method = "POST"
 
-		var reqBody templateContent
+	// 	var reqBody templateContent
 
-		reqBody.From = map[string]interface{}{
-			"email": viper.GetString("dynamic_from_email"),
-		}
+	// 	reqBody.From = map[string]interface{}{
+	// 		"email": viper.GetString("dynamic_from_email"),
+	// 	}
 
-		reqBody.Personalizations = append(reqBody.Personalizations, map[string]interface{}{
-			"to": []interface{}{
-				map[string]interface{}{
-					"email": user.Email,
-				},
-			},
-			"dynamic_template_data": map[string]interface{}{
-				"name": displayName,
-			},
-		})
+	// 	reqBody.Personalizations = append(reqBody.Personalizations, map[string]interface{}{
+	// 		"to": []interface{}{
+	// 			map[string]interface{}{
+	// 				"email": user.Email,
+	// 			},
+	// 		},
+	// 		"dynamic_template_data": map[string]interface{}{
+	// 			"name": displayName,
+	// 		},
+	// 	})
 
-		reqBody.TemplateID = viper.GetString("dynamic_mande_template_id")
+	// 	reqBody.TemplateID = viper.GetString("dynamic_mande_template_id")
 
-		buf := new(bytes.Buffer)
-		reqErr := json.NewEncoder(buf).Encode(&reqBody)
-		if err != nil {
-			loggerx.Error(reqErr)
-		}
+	// 	buf := new(bytes.Buffer)
+	// 	reqErr := json.NewEncoder(buf).Encode(&reqBody)
+	// 	if err != nil {
+	// 		loggerx.Error(reqErr)
+	// 	}
 
-		request.Body = buf.Bytes()
-		_, reqErr = sendgrid.API(request)
-		if reqErr != nil {
-			loggerx.Error(reqErr)
-		}
-		loggerx.Info("end email request")
-	}
+	// 	request.Body = buf.Bytes()
+	// 	_, reqErr = sendgrid.API(request)
+	// 	if reqErr != nil {
+	// 		loggerx.Error(reqErr)
+	// 	}
+	// 	loggerx.Info("end email request")
+	// }
 	if err != nil {
 		user.IsActive = true
 		// record does not exist so create new user
