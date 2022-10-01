@@ -54,7 +54,7 @@ func SetupVars() {
 		log.Fatal("please provide domain_name in config")
 	}
 	
-	if viper.IsSet("dynamic_email_enabled") {
+	if viper.IsSet("dynamic_email_enabled") && viper.GetBool("dynamic_email_enabled"){
 		if !viper.IsSet("dynamic_from_email") {
 			log.Fatal("please provide dynamic_from_email in config")
 		}
