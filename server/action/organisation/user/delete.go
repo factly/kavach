@@ -3,10 +3,13 @@ package user
 import (
 	"errors"
 	"fmt"
+
+	//"fmt"
 	"net/http"
 	"strconv"
 
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/user"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
@@ -90,15 +93,26 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 		return
 	}
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: namespace,
-			Object:    fmt.Sprintf("org:%d", orgID),
-			Relation:  result.Role, // relation is an empty string to avoid addition of the relation query parameter
-		},
-		SubjectID: fmt.Sprintf("%d", uID),
+	err = user.DeleteUserFromOrganisationRoles(uint(orgID), result.UserID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
 	}
-	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	err = user.DeleteUserFromApplications(uint(orgID), result.UserID)
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, userID, fmt.Sprintf("org:%d", orgID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace("applications", userID, fmt.Sprintf("org:%d", orgID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace("spaces", userID, fmt.Sprintf("org:%d", orgID))
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
