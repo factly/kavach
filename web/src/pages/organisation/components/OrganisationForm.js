@@ -62,16 +62,6 @@ function OrganisationCreate() {
             <Form.Item name="description" label="Description">
               <Input.TextArea placeholder="Description" />
             </Form.Item>
-            <Form.Item
-              required={true}
-              name="is_individual"
-              label="Type"
-            >
-              <Select placeholder="Select Organisation Type">
-                <Select.Option value={true}>Individual</Select.Option>
-                <Select.Option value={false}>Group</Select.Option>
-              </Select>
-            </Form.Item>
             <Form.Item label="Upload Image" name="featured_medium_id">
               <MediaSelector />
             </Form.Item>
