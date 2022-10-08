@@ -94,6 +94,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"slug":               req.Slug,
 		"description":        req.Description,
 		"featured_medium_id": mediumID,
+		"is_individual":      req.IsIndividual,
 	}
 
 	err = tx.Model(&organisation).Updates(&updateMap).Preload("Medium").First(&organisation).Error

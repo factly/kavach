@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Skeleton } from 'antd';
+import { Button, Form, Input, Select, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addOrganisation, getOrganisations } from './../../../actions/organisations';
 import { useHistory } from 'react-router-dom';
@@ -40,7 +40,7 @@ function OrganisationCreate() {
               width: '400px',
             }}
           >
-            <Form.Item name="title" label="Title">
+            <Form.Item name="title" label="Title" required={true}>
               <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
             </Form.Item>
             <Form.Item
@@ -61,6 +61,16 @@ function OrganisationCreate() {
             </Form.Item>
             <Form.Item name="description" label="Description">
               <Input.TextArea placeholder="Description" />
+            </Form.Item>
+            <Form.Item
+              required={true}
+              name="is_individual"
+              label="Type"
+            >
+              <Select placeholder="Select Organisation Type">
+                <Select.Option value={true}>Individual</Select.Option>
+                <Select.Option value={false}>Group</Select.Option>
+              </Select>
             </Form.Item>
             <Form.Item label="Upload Image" name="featured_medium_id">
               <MediaSelector />

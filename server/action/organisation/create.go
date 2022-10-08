@@ -22,6 +22,7 @@ type organisation struct {
 	Slug             string `json:"slug"`
 	Description      string `json:"description"`
 	FeaturedMediumID uint   `json:"featured_medium_id"`
+	IsIndividual     bool   `json:"is_individual"`
 }
 
 // create - Create organisation
@@ -82,6 +83,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		Slug:             org.Slug,
 		Description:      org.Description,
 		FeaturedMediumID: mediumID,
+		IsIndividual:     org.IsIndividual,
 	}
 
 	err = tx.Model(&model.Organisation{}).Create(&organisation).Error

@@ -14,6 +14,7 @@ type Organisation struct {
 	Description       string               `gorm:"column:description" json:"description"`
 	FeaturedMediumID  *uint                `gorm:"column:featured_medium_id;default:NULL" json:"featured_medium_id"`
 	Medium            *Medium              `gorm:"foreignKey:featured_medium_id" json:"medium"`
+	IsIndividual      bool                 `gorm:"column:is_individual;default:false" json:"is_individual"`
 	Applications      []Application        `gorm:"foreignKey:organisation_id" json:"applications"`
 	OrganisationUsers []OrganisationUser   `gorm:"foreignKey:organisation_id" json:"organisation_users"`
 	Roles             []OrganisationRole   `gorm:"foreignKey:organisation_id" json:"roles"`
