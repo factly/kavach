@@ -112,16 +112,6 @@ function OrganisationEdit() {
             <Form.Item name="description" label="Description">
               <Input.TextArea placeholder="Description" />
             </Form.Item>
-            <Form.Item
-              required={true}
-              name="is_individual"
-              label="Type"
-            >
-              <Select>
-                <Select.Option value={true}>Individual</Select.Option>
-                <Select.Option value={false}>Group</Select.Option>
-              </Select>
-            </Form.Item>
             <Form.Item label="Logo" name="featured_medium_id">
               <MediaSelector />
             </Form.Item>
