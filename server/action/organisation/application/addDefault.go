@@ -71,7 +71,7 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 		Base: model.Base{
 			ID: uint(appID),
 		},
-	}).Preload("Organisations").First(&app).Error
+	}).Preload("Organisations").Preload("Users").First(&app).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -102,6 +102,27 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 	newOrganisations := make([]model.Organisation, 0)
 	newOrganisations = append(app.Organisations, *org)
 	err = tx.Model(&app).Association("Organisations").Replace(&newOrganisations)
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	// Add current user in application_users
+	newUsers := app.Users
+	newUser := model.User{}
+	err = model.DB.Model(&model.User{}).Where(&model.User{
+		Base: model.Base{
+			ID: uint(uID),
+		},
+	}).Find(&newUser).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	newUsers = append(newUsers, newUser)
+	err = tx.Model(&app).Association("Users").Replace(&newUsers)
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
