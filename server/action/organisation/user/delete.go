@@ -100,6 +100,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = user.DeleteUserFromApplications(uint(orgID), result.UserID)
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, userID, fmt.Sprintf("org:%d", orgID))
 	if err != nil {
 		loggerx.Error(err)
