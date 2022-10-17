@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Layout, Menu, Button, Avatar } from 'antd';
 import routes from '../../config/routes';
 import { setCollapse } from './../../actions/sidebar';
@@ -10,6 +10,7 @@ const { Sider } = Layout;
 function Sidebar() {
   const { navTheme } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+  const location = useLocation();
   const { collapsed } = useSelector((state) => state.sidebar);
   const onCollapse = (collapsed) => {
     collapsed ? dispatch(setCollapse(true)) : dispatch(setCollapse(false));
@@ -65,13 +66,14 @@ function Sidebar() {
         mode="inline"
         className="slider-menu"
         style={{ background: '#f0f2f5' }}
+        selectedKeys={location.pathname.split('/').filter((i) => i)[0]}
       >
         {routes
           .filter((each) => each.enableNavigation === true)
           .map((route, index) => {
             const { Icon } = route;
             return (
-              <Menu.Item key={index}>
+              <Menu.Item key={route.path.split('/').filter((i) => i)[0]}>
                 <Link to={route.path}>
                   <Icon></Icon>
                   <span>{route.title}</span>

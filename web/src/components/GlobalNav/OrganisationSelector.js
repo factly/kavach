@@ -1,9 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {useHistory,useLocation} from 'react-router-dom';
 import { Select, Avatar } from 'antd';
 import { setSelectedOrganisation } from './../../actions/organisations';
 
 function OrganisationSelector() {
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const pathSnippets = location.pathname.split('/').filter((i) => i);
   const { organisations, selectedOrg } = useSelector((state) => {
     const organisationIds = state.profile.details?.organisations || [];
     return {
@@ -15,13 +20,15 @@ function OrganisationSelector() {
       selectedOrg: state.organisations?.details[state.organisations?.selected]?.title,
     };
   });
+ 
 
   React.useEffect(() => {}, []);
 
-  const dispatch = useDispatch();
+  
 
   const handleOrganisationChange = (id) => {
     dispatch(setSelectedOrganisation(id));
+    if(pathSnippets.includes('edit')){history.push('/organisation')}
   };
   const getInitial = (title) => {
     return title?.charAt(0);
