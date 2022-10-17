@@ -115,7 +115,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	var count int
 	for _, object := range objects {
 		objectID := fmt.Sprintf(":app:%d", appID)
-		if strings.Contains(object, objectID){
+		if strings.Contains(object, objectID) {
 			count += 1
 		}
 	}
@@ -123,7 +123,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	if count == 1 {
 		newUsers := make([]model.User, 0)
 		flag := false
-	
+
 		for _, user := range result.Users {
 			if user.ID == uint(uID) {
 				flag = true
@@ -131,7 +131,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 				newUsers = append(newUsers, user)
 			}
 		}
-	
+
 		if !flag {
 			tx.Rollback()
 			loggerx.Error(errors.New("unable to delete user of application"))
@@ -145,7 +145,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
 			return
 		}
-	
+
 		if err = tx.Model(&result).Association("Users").Replace(&newUsers); err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
@@ -153,31 +153,27 @@ func delete(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-
-	kavachRole, err := util.GetKavachRoleByID(uint(uID), uint(orgID))
+	err = user.DeleteUserFromApplicationRoles(uint(orgID), uint(appID), uint(uID))
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
-
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: namespace,
-			Object:    fmt.Sprintf("org:%d:app:%d", orgID, appID),
-			Relation:  kavachRole, // relation is an empty string to avoid addition of the relation query parameter
-		},
-		SubjectID: fmt.Sprintf("%d", uID),
-	}
-	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	err = user.DeleteUserFromSpaces(uint(orgID), uint(appID), uint(uID))
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, userID, fmt.Sprintf("org:%d:app:%d", orgID, appID))
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
-
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace("spaces", userID, fmt.Sprintf("org:%d:app:%d", orgID, appID))
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }

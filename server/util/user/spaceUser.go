@@ -7,14 +7,39 @@ import (
 	"strings"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util"
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/loggerx"
 )
 
 var spaceNameSpace string = "spaces"
 
-func DeleteSpaceUser(spaceID, userID uint) error {
+func DeleteUserFromSpaces(orgID, appID, userID uint) error {
+	spaceObjects, err := keto.ListObjectsBySubjectID(spaceNameSpace, "", fmt.Sprintf("%d", userID))
+	if err != nil {
+		return err
+	}
+	spaceIDs := make([]uint, 0)
+	for _, object := range spaceObjects {
+		objectID := fmt.Sprintf("org:%d:app:%d:", orgID, appID)
+		if strings.HasPrefix(object, objectID) {
+			splittedObject := strings.Split(object, ":")
+			spaceID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+			if err != nil {
+				return err
+			}
+			spaceIDs = append(spaceIDs, uint(spaceID))
+		}
+	}
+	for _, spaceID := range spaceIDs {
+		err = DeleteUserFromSpace(spaceID, userID)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func DeleteUserFromSpace(spaceID, userID uint) error {
 	tx := model.DB.Begin()
 	space := model.Space{}
 	err := tx.Model(&model.Space{}).Where(&model.Space{
@@ -54,43 +79,10 @@ func DeleteSpaceUser(spaceID, userID uint) error {
 		tx.Rollback()
 		return err
 	}
-
-	err = DeleteSpaceUserInKeto(space, userID)
-	if err != nil {
-		return err
-	}
-
-	err = DeleteUserFromSpaceRoles(space, userID)
-	if err != nil {
-		return err
-	}
 	tx.Commit()
 	return nil
 }
-
-func DeleteSpaceUserInKeto(space model.Space, userID uint) error {
-	kavachRole, err := util.GetKavachRoleByID(userID, space.OrganisationID)
-	if err != nil {
-		return err
-	}
-
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: spaceNameSpace,
-			Object:    fmt.Sprintf("org:%d:app:%d:space:%d", space.OrganisationID, space.ApplicationID, space.ID),
-			Relation:  kavachRole, // relation is an empty string to avoid addition of the relation query parameter
-		},
-		SubjectID: fmt.Sprintf("%d", userID),
-	}
-
-	err = keto.DeleteRelationTupleWithSubjectID(tuple)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func DeleteUserFromSpaceRoles(space model.Space, userID uint) error {
+func DeleteUserFromSpaceRoles(orgID uint, appID uint, spaceID uint, userID uint) error {
 	objects, err := keto.ListObjectsBySubjectID(spaceNameSpace, "", fmt.Sprintf("%d", userID))
 	if err != nil {
 		return err
@@ -98,7 +90,7 @@ func DeleteUserFromSpaceRoles(space model.Space, userID uint) error {
 
 	roleIDs := make([]uint, 0)
 	for _, object := range objects {
-		objectID := fmt.Sprintf("roles:org:%d:app:%d:space:%d:", space.OrganisationID, space.ApplicationID, space.ID)
+		objectID := fmt.Sprintf("roles:org:%d:app:%d:space:%d:", orgID, appID, spaceID)
 		if strings.HasPrefix(object, objectID) {
 			splittedObject := strings.Split(object, ":")
 			roleID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
@@ -110,7 +102,7 @@ func DeleteUserFromSpaceRoles(space model.Space, userID uint) error {
 	}
 
 	for _, roleID := range roleIDs {
-		err = DeleteUserFromSpaceRole(space, roleID, userID)
+		err = DeleteUserFromSpaceRole(roleID, userID)
 		if err != nil {
 			return err
 		}
@@ -118,18 +110,13 @@ func DeleteUserFromSpaceRoles(space model.Space, userID uint) error {
 	return nil
 }
 
-func DeleteUserFromSpaceRole(space model.Space, roleID, userID uint) error {
-	spaceRole := model.SpaceRole{}
+func DeleteUserFromSpaceRole(roleID, userID uint) error {
+	spaceRole := new(model.SpaceRole)
 	err := model.DB.Model(&model.SpaceRole{}).Where(&model.SpaceRole{
 		Base: model.Base{
 			ID: roleID,
 		},
-	}).Preload("Users").Find(&spaceRole).Error
-	if err != nil {
-		return err
-	}
-
-	err = DeleteUserFromSpaceRoleKeto(space, spaceRole, userID)
+	}).Preload("Users").Find(spaceRole).Error
 	if err != nil {
 		return err
 	}
@@ -140,26 +127,8 @@ func DeleteUserFromSpaceRole(space model.Space, roleID, userID uint) error {
 			users = append(users, user)
 		}
 	}
-
-	err = model.DB.Model(&spaceRole).Association("Users").Replace(&users)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func DeleteUserFromSpaceRoleKeto(space model.Space, spaceRole model.SpaceRole, userID uint) error {
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: spaceNameSpace,
-			Object:    fmt.Sprintf("roles:org:%d:app:%d:space:%d:%d", space.OrganisationID, space.OrganisationID, space.ID, spaceRole.ID),
-			Relation:  spaceRole.Name,
-		},
-		SubjectID: fmt.Sprintf("%d", userID),
-	}
-
-	err := keto.DeleteRelationTupleWithSubjectID(tuple)
+	spaceRole.ID = roleID
+	err = model.DB.Model(spaceRole).Association("Users").Replace(&users)
 	if err != nil {
 		return err
 	}

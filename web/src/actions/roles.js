@@ -102,11 +102,11 @@ export const addSpaceRoleByID = (spaceID, roleID, data) => ({
     data: data,
   },
 });
-export const getOrganisationRoles = () => {
+export const getOrganisationRoles = (orgID) => {
   return (dispatch, getState) => {
     dispatch(startLoadingRoles());
     return axios
-      .get(`${ORGANISATIONS_API}/${getState().organisations.selected}${ROLES_API}`)
+      .get(`${ORGANISATIONS_API}/${orgID}${ROLES_API}`)
       .then((res) => {
         deleteKeys(res.data, ['organisation']);
         res.data.forEach((role) => {
@@ -114,7 +114,7 @@ export const getOrganisationRoles = () => {
           role.users = getIds(role.users);
         });
         dispatch(
-          addOrganisationRoles(getState().organisations.selected, buildObjectOfItems(res.data)),
+          addOrganisationRoles(orgID, buildObjectOfItems(res.data)),
         );
         const roleIDs = getIds(res.data);
         dispatch(addOrganisationRoleIDs(roleIDs));

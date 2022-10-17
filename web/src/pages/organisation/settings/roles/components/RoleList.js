@@ -84,11 +84,11 @@ function OrganisationRoleList({ orgID, role }) {
   ];
 
   const fetchRoles = () => {
-    dispatch(getOrganisationRoles());
+    dispatch(getOrganisationRoles(orgID));
   };
 
   const onDelete = (id) => {
-    dispatch(deleteOrganisationRole(id)).then(() => dispatch(getOrganisationRoles()));
+    dispatch(deleteOrganisationRole(id)).then(() => dispatch(getOrganisationRoles(orgID)));
   };
 
   React.useEffect(() => {

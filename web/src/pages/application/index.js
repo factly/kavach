@@ -16,7 +16,7 @@ function Application() {
     dispatch(getApplications());
   };
 
-  const { applicationData, loadingApps, role, loadingRole, orgID } = useSelector((state) => {
+  const { applicationData, loadingApps, role, loadingRole } = useSelector((state) => {
     const applicationIds = state.organisations.details[state.organisations.selected]?.applications;
     return {
       applicationData: applicationIds.map((id) => ({
@@ -26,7 +26,6 @@ function Application() {
       loadingApps: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
-      orgID: state.organisations.selected,
     };
   });
 
@@ -35,7 +34,7 @@ function Application() {
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         {loadingRole ? (
           <Skeleton />
-        ) : role === 'owner' && orgID !== 1 ? (
+        ) : role === 'owner' ? (
           loadingApps ? (
             <Skeleton />
           ) : (

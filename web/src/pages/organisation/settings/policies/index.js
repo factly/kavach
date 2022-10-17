@@ -11,7 +11,6 @@ export default function OrganisationPolicies() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(getOrganisation(orgID));
-    // dispatch(getOrganisationRoles())
     dispatch(getOrganisationPolicy());
   }, [orgID, dispatch]);
 

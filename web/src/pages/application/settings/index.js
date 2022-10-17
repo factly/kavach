@@ -29,7 +29,7 @@ export default function ApplicationSettings() {
         <Skeleton />
       ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Descriptions title={<h2> Manage Application </h2>} bordered={true}>
+          <Descriptions title={<h2> Application Settings </h2>} bordered={true}>
             <Descriptions.Item label="Name" span={descriptionSpan}>
               {application.name}
             </Descriptions.Item>
