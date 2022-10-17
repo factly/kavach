@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/factly/kavach-server/model"
-	"github.com/factly/kavach-server/util/application"
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -51,7 +50,11 @@ func list(w http.ResponseWriter, r *http.Request) {
 			orgIDs = append(orgIDs, orgID)
 		}
 	}
-
+	appObjects, err := keto.ListObjectsBySubjectID("applications", "", fmt.Sprintf("%d", userID))
+	if err != nil {
+		loggerx.Error(err)
+		return
+	}
 	allOrganisations := make([]orgWithRole, 0)
 	for _, orgID := range orgIDs {
 		org := orgWithRole{}
@@ -60,7 +63,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			Base: model.Base{
 				ID: uint(orgID),
 			},
-		}).Preload("Medium").Preload("Applications").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
+		}).Preload("Medium").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
@@ -76,16 +79,37 @@ func list(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 			return
 		}
-
-		org.AllApplications = org.Organisation.Applications
-		defaultApps, err := application.GetDefaultApplicationByOrgID(uint(userID), uint(orgID))
-		if err != nil {
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-			return
+		appIDs := make([]uint, 0)
+		for _, object := range appObjects {
+			objectID := fmt.Sprintf("org:%d:", orgID)
+			if strings.HasPrefix(object, objectID) {
+				splittedObject := strings.Split(object, ":")
+				appID, err := strconv.Atoi(splittedObject[len(splittedObject)-1])
+				if err != nil {
+					loggerx.Error(err)
+					errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					return
+				}
+				appIDs = append(appIDs, uint(appID))
+			}
 		}
-		org.AllApplications = append(org.AllApplications, defaultApps...)
-		org.Organisation.Applications = org.AllApplications
+		allApplications := make([]model.Application, 0)
+		for _, appID := range appIDs {
+			app := model.Application{}
+			err = model.DB.Model(&model.Application{}).Where(&model.Application{
+				Base: model.Base{
+					ID: appID,
+				},
+			}).Preload("Medium").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&app).Error
+			if err != nil {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DBError()))
+				return
+			}
+			allApplications = append(allApplications, app)
+		}
+		org.AllApplications = allApplications
+		org.Organisation.Applications = allApplications
 		allOrganisations = append(allOrganisations, org)
 	}
 
