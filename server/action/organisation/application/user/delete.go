@@ -160,6 +160,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = user.DeleteUserFromSpaces(uint(orgID), uint(appID), uint(uID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, userID, fmt.Sprintf("org:%d:app:%d", orgID, appID))
 	if err != nil {
 		tx.Rollback()
