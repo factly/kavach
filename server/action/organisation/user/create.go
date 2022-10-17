@@ -116,10 +116,15 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}
 
 		var invitationCount int64
-		tx.Model(&model.Invitation{}).Where(&model.Invitation{
-			InviteeID:      uint(invitation.InviteeID),
-			OrganisationID: uint(invitation.OrganisationID),
-		}).Count(&invitationCount)
+		err = tx.Model(&model.Invitation{}).
+				Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
+				Count(&invitationCount).Error
+			
+		if err!=nil {
+			tx.Rollback()
+			loggerx.Error(err)
+			return
+		}
 
 		if invitationCount > 0 {
 			loggerx.Error(err)
