@@ -80,7 +80,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
-	
+
 	tx := model.DB.Begin()
 	space := &model.Space{}
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
@@ -138,31 +138,19 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-
-	kavachRole, err := util.GetKavachRoleByID(uint(userID), uint(orgID))
+	err = user.DeleteUserFromSpaceRoles(uint(orgID), uint(appID), space.ID, uint(userID))
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
-
-	tuple := &model.KetoRelationTupleWithSubjectID{
-		KetoSubjectSet: model.KetoSubjectSet{
-			Namespace: namespace,
-			Object:    fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID),
-			Relation:  kavachRole, // relation is an empty string to avoid addition of the relation query parameter
-		},
-		SubjectID: fmt.Sprintf("%d", userID),
-	}
-	err = keto.DeleteRelationTupleWithSubjectID(tuple)
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, uID, fmt.Sprintf("org:%d:app:%d:space:%d", orgID, appID, spaceID))
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
-
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }
