@@ -1,0 +1,26 @@
+[
+  {
+    "id":"ory:keto:read",
+    "upstream":{
+      "preserve_host": false,
+      "url":"http://keto:4466"
+    },
+    "match": {
+      "url": "http://127.0.0.1:4466/{relation-tuples*}",
+      "methods": ["GET", "POST"]
+    },
+    "authenticators": [
+      {
+        "handler": "cookie_session"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "noop"
+      }
+    ]
+  }
+]

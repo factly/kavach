@@ -50,6 +50,9 @@ access_rules:
     - file:///etc/config/oathkeeper/access-rules/kavach-studio.json
     - file:///etc/config/oathkeeper/access-rules/kavach-server.json
     - file:///etc/config/oathkeeper/access-rules/kratos.json
+    - file:///etc/config/oathkeeper/access-rules/keto-read.json
+    - file:///etc/config/oathkeeper/access-rules/keto-write.json
+    - file:///etc/config/oathkeeper/access-rules/keto-metadata.json
 
 authenticators:
   anonymous:

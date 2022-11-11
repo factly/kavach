@@ -10,7 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - ./pg-init-scripts:/docker-entrypoint-initdb.d
-      - ~/factly/kavach/postgresql:/var/lib/postgresql/data/
+      - ./volumes/postgresql:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -62,8 +62,8 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - ~/factly/kavach/minio/data:/export
-      - ~/factly/kavach/minio/config:/root/.minio
+      - ./volumes/minio/data:/export
+      - ./volumes/minio/config:/root/.minio
     environment:
       - MINIO_ACCESS_KEY=miniokey
       - MINIO_SECRET_KEY=miniosecret

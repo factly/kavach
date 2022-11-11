@@ -1,0 +1,26 @@
+[
+  {
+    "id":"ory:keto:write",
+    "upstream":{
+      "preserve_host": false,
+      "url":"http://keto:4467"
+    },
+    "match": {
+      "url": "http://keto:4467/{admin*}",
+      "methods": ["PUT", "DELETE"]
+    },
+    "authenticators": [
+      {
+        "handler": "cookie_session"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "noop"
+      }
+    ]
+  }
+]

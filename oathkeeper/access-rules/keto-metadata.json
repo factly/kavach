@@ -1,0 +1,26 @@
+[
+  {
+    "id": "ory:keto:metadata",
+    "upstream": {
+      "preserve_host": false,
+      "url":"http://keto:4466"
+    },
+    "match": {
+      "url": "http://keto:4466/<(health/ready|health/alive|version)>",
+      "methods": ["GET", "POST"]
+    },
+    "authenticators": [
+      {
+        "handler": "noop"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "noop"
+      }
+    ]
+  }
+]

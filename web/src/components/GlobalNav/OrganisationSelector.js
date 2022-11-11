@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {useHistory,useLocation} from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Select, Avatar } from 'antd';
 import { setSelectedOrganisation } from './../../actions/organisations';
 
@@ -20,15 +20,14 @@ function OrganisationSelector() {
       selectedOrg: state.organisations?.details[state.organisations?.selected]?.title,
     };
   });
- 
 
   React.useEffect(() => {}, []);
 
-  
-
   const handleOrganisationChange = (id) => {
     dispatch(setSelectedOrganisation(id));
-    if(pathSnippets.includes('edit')){history.push('/organisation')}
+    if (pathSnippets.includes('edit')) {
+      history.push('/organisation');
+    }
   };
   const getInitial = (title) => {
     return title?.charAt(0);
