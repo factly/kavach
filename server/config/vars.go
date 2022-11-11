@@ -54,7 +54,11 @@ func SetupVars() {
 		log.Fatal("please provide domain_name in config")
 	}
 	
-	if viper.IsSet("dynamic_email_enabled") && viper.GetBool("dynamic_email_enabled"){
+	if !viper.IsSet("dynamic_email_enabled") {
+                log.Fatal("please provide dynamic_email_enabled key in config")
+        } 
+       
+        if viper.GetBool("dynamic_email_enabled") {
 		if !viper.IsSet("dynamic_from_email") {
 			log.Fatal("please provide dynamic_from_email in config")
 		}
@@ -70,9 +74,7 @@ func SetupVars() {
 		if !viper.IsSet("dynamic_sendgrid_api_key") {
 			log.Fatal("please provide dynamic_sendgrid_api key in config")
 		}
-	} else {
-		log.Fatal("please provide dynamic_email_enabled key in config")
-	} 
+	}
 
 	if !viper.IsSet("kratos_admin_url") {
 		log.Fatal("please provide kratos_admin_url in config")
