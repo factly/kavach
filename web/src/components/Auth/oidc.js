@@ -4,13 +4,13 @@ import createForm from '../../utils/form';
 import GoogleIcon from '../../assets/btn_google_light_normal_ios.svg';
 import GithubIcon from '../../assets/GitHub-Mark-120px-plus.png';
 import { Divider } from 'antd';
-import posthog from 'posthog-js';
+import { dispatchPosthogEvent } from '../../utils/posthog';
+import { capitalizeFirstLetter } from '../../utils/strings';
 
 function OIDC({ ui, flow = 'login', loginMethod = 'all' }) {
   const withOIDC = (values) => {
-    posthog.identify();
     var oidcForm = createForm(ui.action, ui.method);
-
+    dispatchPosthogEvent(capitalizeFirstLetter(flow), {})
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
     csrfInput.type = 'hidden';
