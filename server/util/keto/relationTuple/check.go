@@ -29,10 +29,10 @@ func CheckKetoRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubje
 	}
 
 	responseBody := make(map[string]interface{})
-	if !(response.StatusCode == 200 || response.StatusCode == 403) {
+	if !(response.StatusCode == 200 || response.StatusCode == 403 || response.StatusCode == 404) {
 		return false, errors.New("error in checking the authorization the relation tuple")
 	}
-	
+
 	err = json.NewDecoder(response.Body).Decode(&responseBody)
 	if err != nil {
 		return false, err
