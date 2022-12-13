@@ -1,15 +1,16 @@
 package util
 
 import (
-	"log"
+	"github.com/factly/x/loggerx"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // GenerateSecretToken generates secret token for application
-func GenerateSecretToken(str string) string {
+func GenerateSecretToken(str string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.DefaultCost)
 	if err != nil {
-		log.Fatal(err)
+		loggerx.Error(err)
+		return "", err
 	}
-	return string(hash)
+	return string(hash), nil
 }
