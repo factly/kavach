@@ -16,7 +16,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//create - Create token for an organisation using organisation_id
+// create - Create token for an organisation using organisation_id
 // @Summary Create token for an organisation using organisation_id
 // @Description Create token for an organisation using organisation_id
 // @Tags OrganisationTokens
@@ -94,7 +94,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	organisationToken.OrganisationID = uint(oID)
-	organisationToken.Token = util.GenerateSecretToken(fmt.Sprint(oID, ":", orgMap["slug"].(string), ":", user.KID))
+	organisationToken.Token, err = util.GenerateSecretToken(fmt.Sprint(oID, ":", orgMap["slug"].(string), ":", user.KID))
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	organisationToken.CreatedByID = uint(uID)
 	err = model.DB.Model(&model.OrganisationToken{}).Create(&organisationToken).Error
 	if err != nil {

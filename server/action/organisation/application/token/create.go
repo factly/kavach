@@ -113,8 +113,12 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := util.GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", user.KID))
-
+	token, err := util.GenerateSecretToken(fmt.Sprint(result.ID, ":", result.Slug, ":", user.KID))
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+	
 	err = model.DB.Create(&model.ApplicationToken{
 		Name:           appTok.Name,
 		Description:    appTok.Description,
