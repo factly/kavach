@@ -113,7 +113,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token := util.GenerateSecretToken()
+	token, err := util.GenerateSecretToken()
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return

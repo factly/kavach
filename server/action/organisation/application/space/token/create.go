@@ -15,7 +15,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//create - Create token for an space using space_id
+// create - Create token for an space using space_id
 // @Summary Create token for an space using space_id
 // @Description Create token for an space using space_id
 // @Tags SpaceTokens
@@ -129,7 +129,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	spaceToken.SpaceID = uint(spaceID)
-	spaceToken.Token = util.GenerateSecretToken()
+	spaceToken.Token, err = util.GenerateSecretToken()
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return

@@ -93,7 +93,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	organisationToken.OrganisationID = uint(oID)
-	organisationToken.Token = util.GenerateSecretToken()
+	organisationToken.Token, err = util.GenerateSecretToken()
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
