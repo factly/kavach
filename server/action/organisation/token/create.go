@@ -3,7 +3,6 @@ package token
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -94,7 +93,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	organisationToken.OrganisationID = uint(oID)
-	organisationToken.Token = util.GenerateSecretToken(fmt.Sprint(oID, ":", orgMap["slug"].(string), ":", user.KID))
+	organisationToken.Token = util.GenerateSecretToken()
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	organisationToken.CreatedByID = uint(uID)
 	err = model.DB.Model(&model.OrganisationToken{}).Create(&organisationToken).Error
 	if err != nil {

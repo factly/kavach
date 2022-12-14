@@ -3,7 +3,6 @@ package token
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -130,7 +129,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	spaceToken.SpaceID = uint(spaceID)
-	spaceToken.Token = util.GenerateSecretToken(fmt.Sprint(spaceID, ":", spaceMap["slug"].(string), ":", user.KID))
+	spaceToken.Token = util.GenerateSecretToken()
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	spaceToken.CreatedByID = uint(userID)
 	err = model.DB.Model(&model.SpaceToken{}).Create(&spaceToken).Error
 	if err != nil {
