@@ -100,7 +100,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 				Base: model.Base{
 					ID: appID,
 				},
-			}).Preload("Medium").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&app).Error
+			}).Preload("Medium").Preload("Roles").Preload("Roles.Users").Preload("Policy").Preload("Policy.Roles").First(&app).Error
 			if err != nil {
 				loggerx.Error(err)
 				errorx.Render(w, errorx.Parser(errorx.DBError()))
