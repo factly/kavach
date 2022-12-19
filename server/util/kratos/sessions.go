@@ -26,6 +26,13 @@ func GetActiveSessionByKratosID(kratosID string) ([]interface{}, error) {
 	}
 	defer response.Body.Close()
 	if response.StatusCode != 200 {
+		var errMap map[string]interface{}
+		err = json.NewDecoder(response.Body).Decode(&errMap)
+		if err != nil {
+			loggerx.Error(err)
+			return nil, ErrGettingKratosSessions
+		}
+		loggerx.Warning(fmt.Sprintln("response status code = ", response.StatusCode, errMap))
 		loggerx.Error(ErrGettingKratosSessions)
 		return nil, ErrGettingKratosSessions
 	}
