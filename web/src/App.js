@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {ConfigProvider} from 'antd';
 import { useSelector } from 'react-redux';
-import 'antd/dist/antd.css';
+import 'antd/dist/reset.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
 import posthog from 'posthog-js';
@@ -12,6 +13,7 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
+import antdConfig from './antdConfig';
 
 function App() {
   const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION === 'true' || false;
@@ -59,6 +61,9 @@ function App() {
   }, [applications, loadingApp]);
 
   return (
+    <ConfigProvider
+    //  theme={antdConfig}
+    >
     <div className="App">
       <Router basename={process.env.PUBLIC_URL}>
         <Switch>
@@ -130,6 +135,7 @@ function App() {
         </Switch>
       </Router>
     </div>
+   </ConfigProvider>
   );
 }
 
