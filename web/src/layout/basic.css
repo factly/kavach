@@ -32,7 +32,7 @@
 }
 
 .layout-header {
-  background-color: #ffffff;
+  background-color: #ffffff !important;
   padding-left: 16px;
 }
 
