@@ -15,19 +15,26 @@ export default function EditOrganisationPolicy() {
   const { orgID, policyID } = useParams();
   const history = useHistory();
 
-  const { policy, loading, role, loadingRole, organisation, loadingOrg, roles } = useSelector((state) => {
-    var roleIDs = state.organisations.details[orgID]?.roleIDs || [];
-    return { 
-      policy: {...state.policy.organisation?.[orgID]?.[policyID], roles: state.policy.organisation?.[orgID]?.[policyID]?.roles.map((rID) => state.roles.organisation?.[orgID]?.[rID])},
-      loading: state.policy.loading,
-      role: state.profile.roles[state.organisations.selected],
-      loadingRole: state.profile.loading,
-      organisation: state.organisations.details[orgID],
-      loadingOrg: state.organisations.loading,
-      roles: roleIDs.map((id) => state.roles.organisation[orgID][id]),
-      loadingRoles: state.roles.loading,
-    };
-  });
+  const { policy, loading, role, loadingRole, organisation, loadingOrg, roles } = useSelector(
+    (state) => {
+      var roleIDs = state.organisations.details[orgID]?.roleIDs || [];
+      return {
+        policy: {
+          ...state.policy.organisation?.[orgID]?.[policyID],
+          roles: state.policy.organisation?.[orgID]?.[policyID]?.roles.map(
+            (rID) => state.roles.organisation?.[orgID]?.[rID],
+          ),
+        },
+        loading: state.policy.loading,
+        role: state.profile.roles[state.organisations.selected],
+        loadingRole: state.profile.loading,
+        organisation: state.organisations.details[orgID],
+        loadingOrg: state.organisations.loading,
+        roles: roleIDs.map((id) => state.roles.organisation[orgID][id]),
+        loadingRoles: state.roles.loading,
+      };
+    },
+  );
 
   const onUpdate = (data) => {
     dispatch(updateOrganisationPolicy(policyID, { ...policy, ...data })).then(() =>
@@ -66,7 +73,7 @@ export default function EditOrganisationPolicy() {
       <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
         <Button type="primary">Back to Policies</Button>
       </Link>
-      {loading || loadingOrg || loadingRole  ? (
+      {loading || loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
         <ErrorComponent
@@ -88,7 +95,7 @@ export default function EditOrganisationPolicy() {
             layout="vertical"
             onFinish={(values) => onUpdate(values).then(() => onReset())}
             form={form}
-            initialValues={{...policy, roles: getIds(policy?.roles)}}
+            initialValues={{ ...policy, roles: getIds(policy?.roles) }}
           >
             <Form.Item
               name="name"

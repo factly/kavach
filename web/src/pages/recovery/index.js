@@ -16,7 +16,7 @@ function Recovery() {
     loginMethod: 'all',
     enableRegistration: true,
   });
-  const history=useHistory()
+  const history = useHistory();
   const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
@@ -183,16 +183,15 @@ function Recovery() {
                   htmlType="submit"
                   shape="round"
                   block
-                  style={{width:"100%"}}
+                  style={{ width: '100%' }}
                 >
                   Send recovery link
                 </Button>
               </Form.Item>
             </Form>
-            <Button type='link' size='large'  onClick={()=>history.push('/auth/login')} 
-                >
-                 Go back to login
-                </Button>
+            <Button type="link" size="large" onClick={() => history.push('/auth/login')}>
+              Go back to login
+            </Button>
           </div>
         </div>
       )}

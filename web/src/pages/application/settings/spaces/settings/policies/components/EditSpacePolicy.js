@@ -13,20 +13,27 @@ export default function EditSpacePolicy() {
   const dispatch = useDispatch();
   const { appID, spaceID, policyID } = useParams();
 
-  const history = useHistory()
-  const { policy, loading, role, loadingRole, space, loadingSpace, roles } = useSelector((state) => {
-    var roleIDs = state.spaces.details[spaceID]?.roleIDs || [];
-    return {
-      policy: {...state.policy.space?.[spaceID]?.[policyID], roles: state.policy.space?.[spaceID]?.[policyID]?.roles.map((rID) => state.roles.space?.[spaceID]?.[rID])},
-      loading: state.policy.loading,
-      role: state.profile.roles[state.organisations.selected],
-      loadingRole: state.profile.loading,
-      space: state.spaces.details[spaceID],
-      loadingSpace: state.spaces.loading,
-      roles: roleIDs?.map((id) => state.roles.space[spaceID][id]),
-      loadingRoles: state.roles.loading,
-    };
-  });
+  const history = useHistory();
+  const { policy, loading, role, loadingRole, space, loadingSpace, roles } = useSelector(
+    (state) => {
+      var roleIDs = state.spaces.details[spaceID]?.roleIDs || [];
+      return {
+        policy: {
+          ...state.policy.space?.[spaceID]?.[policyID],
+          roles: state.policy.space?.[spaceID]?.[policyID]?.roles.map(
+            (rID) => state.roles.space?.[spaceID]?.[rID],
+          ),
+        },
+        loading: state.policy.loading,
+        role: state.profile.roles[state.organisations.selected],
+        loadingRole: state.profile.loading,
+        space: state.spaces.details[spaceID],
+        loadingSpace: state.spaces.loading,
+        roles: roleIDs?.map((id) => state.roles.space[spaceID][id]),
+        loadingRoles: state.roles.loading,
+      };
+    },
+  );
 
   const onUpdate = (data) => {
     dispatch(updateSpacePolicy(policyID, appID, spaceID, { ...policy, ...data })).then(() =>
@@ -86,7 +93,7 @@ export default function EditSpacePolicy() {
             layout="vertical"
             onFinish={(values) => onUpdate(values).then(() => onReset())}
             form={form}
-            initialValues={{...policy, roles: getIds(policy.roles)}}
+            initialValues={{ ...policy, roles: getIds(policy.roles) }}
           >
             <Form.Item
               name="name"

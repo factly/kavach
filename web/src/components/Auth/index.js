@@ -15,7 +15,7 @@ import Loading from '../Loading';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
-  const history = useHistory()
+  const history = useHistory();
   const [applicationSettings, setApplicationSettings] = useState({
     applicationName: 'FACTLY',
     applicationLogoURL: window.REACT_APP_LOGO_URL,
@@ -366,7 +366,7 @@ function Auth(props) {
                       <Button
                         size="large"
                         form="auth"
-                        style={{width:"100%"}}
+                        style={{ width: '100%' }}
                         type="primary"
                         shape="round"
                         htmlType="submit"
@@ -413,20 +413,22 @@ function Auth(props) {
                     ) : null
                   ) : null}
                   {applicationSettings.enableRegistration ? (
-                    <Button type='link' size='large' 
-                    onClick={()=>history.push('/auth/registration') }
+                    <Button
+                      type="link"
+                      size="large"
+                      onClick={() => history.push('/auth/registration')}
                     >
                       Don't have an account yet? <u>Sign up</u>
                     </Button>
                   ) : null}
                   {applicationSettings.loginMethod !== 'oidc' ? (
-                  <Button type='link' size='large'  onClick={()=>history.push('/auth/recovery')}
-                  >Forgot Password?</Button>
+                    <Button type="link" size="large" onClick={() => history.push('/auth/recovery')}>
+                      Forgot Password?
+                    </Button>
                   ) : null}
                 </div>
               ) : (
-                <Button type='link' size='large'  onClick={()=>history.push('/auth/login')} 
-                >
+                <Button type="link" size="large" onClick={() => history.push('/auth/login')}>
                   Already have an account? <u>Log in</u>{' '}
                 </Button>
               )}
