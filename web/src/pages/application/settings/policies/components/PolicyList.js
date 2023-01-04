@@ -75,7 +75,7 @@ export default function PolicyList({ appID, role }) {
             </Link>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
               <Button
-                type="danger"
+                danger
                 icon={<DeleteOutlined />}
                 disabled={role !== 'owner'}
                 style={{

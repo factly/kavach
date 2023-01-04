@@ -125,11 +125,11 @@ function OrganisationEdit() {
             <Divider style={{ color: 'red' }} orientation="left">
               Danger zone
             </Divider>
-            <Button onClick={showModal} type="danger">
+            <Button onClick={showModal} danger>
               <DeleteOutlined /> Delete
             </Button>
           </div>
-          <Modal visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+          <Modal open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
             <h3>Delete Organisation</h3>
             <Form form={form} name="organisation_delete">
               <Form.Item name="organisationName">
