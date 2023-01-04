@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, notification } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import './index.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import BrandingComponent from '../../components/Branding';
 import getApplicationSettings from '../../utils/getApplicationSettings';
 import Loading from '../../components/Loading';
@@ -16,7 +16,7 @@ function Recovery() {
     loginMethod: 'all',
     enableRegistration: true,
   });
-
+  const history=useHistory()
   const [loading, setLoading] = useState(true);
 
   React.useEffect(() => {
@@ -183,19 +183,16 @@ function Recovery() {
                   htmlType="submit"
                   shape="round"
                   block
+                  style={{width:"100%"}}
                 >
                   Send recovery link
                 </Button>
               </Form.Item>
             </Form>
-            <Link
-              to={'/auth/login'}
-              style={{
-                fontSize: '16px',
-              }}
-            >
-              Go back to login
-            </Link>
+            <Button type='link' size='large'  onClick={()=>history.push('/auth/login')} 
+                >
+                 Go back to login
+                </Button>
           </div>
         </div>
       )}

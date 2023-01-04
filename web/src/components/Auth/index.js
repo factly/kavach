@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './index.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Input, Form, Button, Alert } from 'antd';
 import { UserOutlined, LockOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { getErrorMsgByCode } from '../../utils/errorcode';
@@ -15,6 +15,7 @@ import Loading from '../Loading';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
+  const history = useHistory()
   const [applicationSettings, setApplicationSettings] = useState({
     applicationName: 'FACTLY',
     applicationLogoURL: window.REACT_APP_LOGO_URL,
@@ -365,6 +366,7 @@ function Auth(props) {
                       <Button
                         size="large"
                         form="auth"
+                        style={{width:"100%"}}
                         type="primary"
                         shape="round"
                         htmlType="submit"
@@ -411,18 +413,22 @@ function Auth(props) {
                     ) : null
                   ) : null}
                   {applicationSettings.enableRegistration ? (
-                    <Link to={'/auth/registration'}>
+                    <Button type='link' size='large' 
+                    onClick={()=>history.push('/auth/registration') }
+                    >
                       Don't have an account yet? <u>Sign up</u>
-                    </Link>
+                    </Button>
                   ) : null}
                   {applicationSettings.loginMethod !== 'oidc' ? (
-                    <Link to={'/auth/recovery'}>Forgot Password?</Link>
+                  <Button type='link' size='large'  onClick={()=>history.push('/auth/recovery')}
+                  >Forgot Password?</Button>
                   ) : null}
                 </div>
               ) : (
-                <Link to={'/auth/login'}>
+                <Button type='link' size='large'  onClick={()=>history.push('/auth/login')} 
+                >
                   Already have an account? <u>Log in</u>{' '}
-                </Link>
+                </Button>
               )}
             </div>
           </div>
