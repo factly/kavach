@@ -5,16 +5,21 @@ services:
   #######                  DB SERVICES                                #######
   ###########################################################################
   postgres:
-    image: postgres:11.7-alpine
+    image: postgres:14.2-alpine
     ports:
       - "5432:5432"
     volumes:
       - ./pg-init-scripts:/docker-entrypoint-initdb.d
-      - ~/factly/kavach/postgresql:/var/lib/postgresql/data/
+      - ./volumes/kavach/postgresql:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_MULTIPLE_DATABASES=kratos,keto,kavach
+    healthcheck: 
+      interval: 10s
+      retries: 10
+      test: "pg_isready -U \"$$POSTGRES_USER\" -d \"kavach\""
+      timeout: 2s      
     networks:
       - kavach
 
@@ -62,8 +67,8 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - ~/factly/kavach/minio/data:/export
-      - ~/factly/kavach/minio/config:/root/.minio
+      - ./volumes/kavach/minio/data:/export
+      - ./volumes/kavach/minio/config:/root/.minio
     environment:
       - MINIO_ACCESS_KEY=miniokey
       - MINIO_SECRET_KEY=miniosecret
@@ -104,7 +109,8 @@ services:
   ###########################################################################
   kratos-migrate:
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     image: oryd/kratos:v0.11.0
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
@@ -142,7 +148,8 @@ services:
       - DSN=postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
       - LOG_LEVEL=debug
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:                    
       - type: bind
         source: ./keto          
@@ -163,6 +170,7 @@ services:
       - "4468:4468" # metric
     environment:
       - LOG_LEVEL=debug
+      - DSN=postgres://postgres:postgres@postgres:5432/keto?sslmode=disable
     volumes:
       - type: bind
         source: ./keto
@@ -194,12 +202,9 @@ services:
   ###########################################################################
   kavach-server:
     depends_on:
-      - postgres
-      - keto
-      - kratos
       - kavach-migrate
     ports:
-      - 5001:8000
+      - 8000:8000
     build:
       context: ./server
       dockerfile: Dockerfile.dev
@@ -221,7 +226,6 @@ services:
 
   kavach-migrate:
     depends_on:
-      - postgres
       - keto
       - kratos
     build:
