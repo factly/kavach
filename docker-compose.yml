@@ -204,22 +204,15 @@ services:
     depends_on:
       - kavach-migrate
     ports:
-      - 8000:8000
+      - 5001:8000
     build:
       context: ./server
       dockerfile: Dockerfile.dev
-    environment:
-      - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
+    # environment:
+    #   - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
     volumes:
-      - type: bind
-        source: ./server
-        target: /app
-      - type: bind
-        source: ./config.env
-        target: /app/config.env
-    #     - type: bind
-    #       source: ./kavach.db
-    #        target: /app/kavach.db
+      - ./server:/app
+      - ./config.env:/app/config.env
     restart: unless-stopped
     networks:
       - kavach
@@ -231,18 +224,11 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile.migrate
-    environment:
-      - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
+    # environment:
+    #   - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
     volumes:
-      - type: bind
-        source: ./server
-        target: /app
-      - type: bind
-        source: ./config.env
-        target: /app/config.env
-    #      - type: bind
-    #        source: ./kavach.db
-    #       target: /app/kavach.db
+      - ./server:/app
+      - ./config.env:/app/config.env    
     networks:
       - kavach
 
