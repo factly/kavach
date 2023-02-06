@@ -56,7 +56,7 @@ services:
     ports:
       - "3020:3020"
     env_file:
-      - ./companion/.env
+      - ./config/companion/.env
 
   ###########################################################################
   #######                        MINIO                                #######
@@ -212,7 +212,7 @@ services:
     #   - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
     volumes:
       - ./server:/app
-      - ./config.env:/app/config.env
+      - ./config/config.env:/app/config.env
     restart: unless-stopped
     networks:
       - kavach
@@ -228,7 +228,7 @@ services:
     #   - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
     volumes:
       - ./server:/app
-      - ./config.env:/app/config.env    
+      - ./config/config.env:/app/config.env    
     networks:
       - kavach
 
