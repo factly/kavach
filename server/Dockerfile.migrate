@@ -7,8 +7,4 @@ COPY . .
 RUN apk add gcc musl-dev
 RUN go mod download
 
-# Following lines provides ability to add WAIT_HOSTS in docker-compose to wait for other hosts to start
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
-RUN chmod +x /wait
-
-ENTRYPOINT /wait && go build main.go && ./main migrate  && ./main create-super-org
+ENTRYPOINT go build main.go && ./main migrate  && ./main create-super-org
