@@ -13,19 +13,26 @@ export default function EditApplicationPolicy() {
   const dispatch = useDispatch();
   const { appID, policyID } = useParams();
   const history = useHistory();
-  const { policy, loading, role, loadingRole, application, loadingApp, roles } = useSelector((state) => {
-    var roleIDs = state.applications.details[appID]?.roleIDs || [];
-    return {
-      policy: {...state.policy?.application?.[appID]?.[policyID], roles: state.policy.application?.[appID]?.[policyID]?.roles?.map((rID) => state.roles.application[appID][rID])},
-      loading: state.policy.loading,
-      role: state.profile.roles[state.organisations.selected],
-      loadingRole: state.profile.loading,
-      application: state.applications.details[appID],
-      loadingApp: state.applications.loading,
-      roles: roleIDs.map((id) => state.roles.application[appID][id]),
-      loadingRoles: state.roles.loading,
-    };
-  });
+  const { policy, loading, role, loadingRole, application, loadingApp, roles } = useSelector(
+    (state) => {
+      var roleIDs = state.applications.details[appID]?.roleIDs || [];
+      return {
+        policy: {
+          ...state.policy?.application?.[appID]?.[policyID],
+          roles: state.policy.application?.[appID]?.[policyID]?.roles?.map(
+            (rID) => state.roles.application[appID][rID],
+          ),
+        },
+        loading: state.policy.loading,
+        role: state.profile.roles[state.organisations.selected],
+        loadingRole: state.profile.loading,
+        application: state.applications.details[appID],
+        loadingApp: state.applications.loading,
+        roles: roleIDs.map((id) => state.roles.application[appID][id]),
+        loadingRoles: state.roles.loading,
+      };
+    },
+  );
 
   const onUpdate = (data) => {
     dispatch(updateApplicationPolicy(appID, policyID, { ...policy, ...data })).then(() =>
@@ -89,7 +96,7 @@ export default function EditApplicationPolicy() {
             layout="vertical"
             onFinish={(values) => onUpdate(values).then(() => onReset())}
             form={form}
-            initialValues={{...policy, roles: getIds(policy?.roles)}}
+            initialValues={{ ...policy, roles: getIds(policy?.roles) }}
           >
             <Form.Item
               name="application_name"

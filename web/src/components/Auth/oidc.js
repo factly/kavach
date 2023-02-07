@@ -43,7 +43,7 @@ function OIDC({ ui, flow = 'login', loginMethod = 'all' }) {
       {ui?.nodes
         ?.filter((each) => each.group === 'oidc')
         ?.filter((oidcNode) => oidcNode?.attributes.value === 'github')?.length > 0 ? (
-          <Button
+        <Button
           onClick={() => withOIDC('github')}
           style={{
             display: 'flex',

@@ -113,9 +113,7 @@ export const getOrganisationRoles = (orgID) => {
           dispatch(addUsersList(role.users));
           role.users = getIds(role.users);
         });
-        dispatch(
-          addOrganisationRoles(orgID, buildObjectOfItems(res.data)),
-        );
+        dispatch(addOrganisationRoles(orgID, buildObjectOfItems(res.data)));
         const roleIDs = getIds(res.data);
         dispatch(addOrganisationRoleIDs(roleIDs));
       })
