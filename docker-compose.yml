@@ -111,7 +111,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    image: oryd/kratos:v0.11.0
+    image: oryd/kratos:v0.11.1
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
     volumes:
