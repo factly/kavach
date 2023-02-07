@@ -126,7 +126,7 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v0.11.0
+    image: oryd/kratos:v0.11.1
     ports:
       - "4433:4433" # public
       - "4434:4434" # admin
