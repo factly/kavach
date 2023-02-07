@@ -1,7 +1,7 @@
 # List the start up tasks. Learn more: https://www.gitpod.io/docs/configure/workspaces/tasks
 tasks:
   - name: Start Application with Docker Compose
-    init: sh scripts/prebulid.sh # Setup the environment
+    init: sh scripts/prebuild.sh # Setup the environment
     command: docker-compose up # Start the application
 
 # List the ports to expose. Learn more: https://www.gitpod.io/docs/configure/workspaces/ports
@@ -25,7 +25,7 @@ ports:
     description: Expose Port 9000 for Minio API
     port: 9000      
     onOpen: ignore  
-  - name: Minio API
+  - name: Minio Dashboard
     description: Expose Port 9001 for Minio Console
     port: 9001     
   - name: Mailslurper Dashboard

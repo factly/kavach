@@ -27,7 +27,7 @@ else
 fi
 
 # Build Docker images as a prebuild step
-# docker-compose build 
+docker-compose build 
 
 # Pull the Docker images as a prebuild step
-# docker-compose pull
+docker-compose pull
