@@ -25,7 +25,7 @@ ports:
     description: Expose Port 9000 for Minio API
     port: 9000      
     onOpen: ignore  
-  - name: Minio API
+  - name: Minio Dashboard
     description: Expose Port 9001 for Minio Console
     port: 9001     
   - name: Mailslurper Dashboard
