@@ -1,4 +1,4 @@
-version: v0.11.0
+version: v0.11.1
 
 dsn: postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
 
