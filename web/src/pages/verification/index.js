@@ -225,8 +225,8 @@ function Verification() {
             </h2>
             {state === 'sent_email' && (
               <Alert
-                message={ui?.messages[0]?.text}
-                type={(ui?.messages[0]?.type !== 'error') ? "success": 'error'}
+                message={ui?.messages?.[0]?.text}
+                type={(ui?.messages?.[0]?.type !== 'error') ? "success": 'error'}
                 style={{
                   width: '480px',
                 }}
