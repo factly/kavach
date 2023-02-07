@@ -225,10 +225,10 @@ function Verification() {
             </h2>
             {state === 'sent_email' && (
               <Alert
-                message="An email containing a verification code has been sent to the email address you provided."
-                type="success"
+                message={ui?.messages[0]?.text}
+                type={(ui?.messages[0]?.type !== 'error') ? "success": 'error'}
                 style={{
-                  width: '82%',
+                  width: '480px',
                 }}
               />
             )}
