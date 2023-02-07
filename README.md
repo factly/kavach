@@ -5,9 +5,9 @@
 
 ### Setting up the ENV & Config files
 
-- Create config file with name config (and extension .env, .yml, .json) in root folder and add config variables (see config/config.env.example for reference)
-- Create a folder `companion` in root and create `.env` file inside companion and add config variables (see config/companion.env.example for reference)
-- Create a `config.js` file in `web/public` (see config/web/config.js for reference)
+- Copy the `config/config.env.example` to `config/config.env` and change the relevant values as needed.
+- Copy the `config/companion/env.example` to `config/companion/env` and change the relevant values as needed.
+- Copy the `config/web/config.js` to `web/public` and change the relevant values as needed.
 
 ### Starting the application
 
