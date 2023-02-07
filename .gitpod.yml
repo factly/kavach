@@ -61,7 +61,11 @@ ports:
   - name: Oathkeeper API
     description: Expose Port 4456 for Oathkeeper Poxy
     port: 4456          
-    onOpen: ignore                   
+    onOpen: ignore     
+  - name: Kavach Server
+    description: Expose Port 5001 for Kavach Server
+    port: 5001          
+    onOpen: ignore                      
 
 
 github:
