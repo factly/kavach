@@ -907,11 +907,59 @@ describe('roles actions', () => {
 	it(testDescription + 'getSpaceRoles success', () => { });
 	it(testDescription + 'getSpaceRoles failure', () => { });
 	// TODO ###################### UPDATE ACTIONS WITH API #######################
-	it(testDescription + 'updateSpaceRoles success', () => { });
-	it(testDescription + 'updateSpaceRoles failure', () => { });
+	it(testDescription + 'updateSpaceRoles success', () => {
+		const appId = '1';
+		const orgID = '1';
+		const spaceId = '1';
+		const role = {id: '1', name: 'test'};
+		const roleId = role.id;
+
+		axios.put.mockResolvedValue({data: role});
+
+		const expectedActions = [
+			{type: ROLES_LOADING, payload: true},
+			{
+				type: ADD_NOTIFICATION,
+				payload: {
+					message: 'Role Updated Successfully',
+					type: 'success',
+					title: 'Success',
+					time: Date.now(),
+				}
+			},
+			{type: ROLES_LOADING, payload: false},
+		];
+
+		store.dispatch(actions.updateSpaceRole(roleId, appId, spaceId, role)).then(() => {
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+
+		expect(axios.put).toHaveBeenCalledWith(`${ORGANISATIONS_API}/${orgID}/applications/${appId}/spaces/${spaceId}/roles/${roleId}`, role);
+	});
+	it(testDescription + 'updateSpaceRoles failure', () => {
+		const appId = '1';
+		const orgID = '1';
+		const spaceId = '1';
+		const role = {id: '1', name: 'test'};
+		const roleId = role.id;
+
+		axios.put.mockRejectedValue(new Error(errorMsg));
+
+		const expectedActions = [
+			{type: ROLES_LOADING, payload: true},
+			{...errorAction},
+			{type: ROLES_LOADING, payload: false},
+		];
+
+		store.dispatch(actions.updateSpaceRole(roleId, appId, spaceId, role)).then(() => {
+			expect(store.getActions()).toEqual(expectedActions);
+		}) ;
+
+		expect(axios.put).toHaveBeenCalledWith(`${ORGANISATIONS_API}/${orgID}/applications/${appId}/spaces/${spaceId}/roles/${roleId}`, role);
+	});
+
 
 	//?  ###################### CREATE ACTIONS WITH API #######################
-
 	it(testDescription + 'createSpaceRole success', () => {
 		const orgID = 1;
 		const appID = 1;
