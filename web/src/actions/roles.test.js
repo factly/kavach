@@ -31,10 +31,12 @@ const initialState = {
 	details: {},
 	loading: true,
 };
+const errorMsg = 'Error Happened';
+
 
 describe('roles actions', () => {
 	let store;
-	let fixedTime;
+	let errorAction;
 	let testDescription = 'should create actions for function ';
 	beforeEach(() => {
 		store = mockStore({
@@ -47,6 +49,15 @@ describe('roles actions', () => {
 			},
 		});
 		Date.now = jest.fn(() => '2019-04-01T10:20:30.000Z');
+		errorAction = {
+			type: ADD_NOTIFICATION,
+			payload: {
+				message: errorMsg,
+				type: 'error',
+				title: 'Error',
+				time: Date.now(),
+			},
+		}
 	});
 
 	//! ######################################################################
@@ -762,20 +773,11 @@ describe('roles actions', () => {
 		const orgID = 1;
 		const appID = 1;
 		const role = { id: 1, name: 'test' };
-		const errorMsg = 'error';
 
 		axios.post.mockRejectedValue(new Error(errorMsg));
 		const expectedActions = [
 			{ type: ROLES_LOADING, payload: true },
-			{
-				type: ADD_NOTIFICATION,
-				payload: {
-					message: errorMsg,
-					type: 'error',
-					title: 'Error',
-					time: Date.now(),
-				},
-			},
+			{ ...errorAction },
 			{ type: ROLES_LOADING, payload: false },
 		];
 
@@ -826,19 +828,10 @@ describe('roles actions', () => {
 		const role = { id: 1, name: 'test' };
 		const roleID = role.id;
 
-		const errorMsg = 'error';
 		axios.put.mockRejectedValue(new Error(errorMsg));
 		const expectedActions = [
 			{ type: ROLES_LOADING, payload: true },
-			{
-				type: ADD_NOTIFICATION,
-				payload: {
-					message: errorMsg,
-					type: 'error',
-					title: 'Error',
-					time: Date.now(),
-				},
-			},
+			{ ...errorAction },
 			{ type: ROLES_LOADING, payload: false },
 		];
 
@@ -885,20 +878,11 @@ describe('roles actions', () => {
 		const appID = 1;
 		const orgID = 1;
 		const roleID = 1;
-		const errorMsg = 'Error deleting role';
 
 		axios.delete.mockRejectedValueOnce(new Error(errorMsg));
 		const expectedActions = [
 			{ type: ROLES_LOADING, payload: true },
-			{
-				type: ADD_NOTIFICATION,
-				payload: {
-					message: errorMsg,
-					type: 'error',
-					title: 'Error',
-					time: Date.now(),
-				},
-			},
+			{ ...errorAction },
 			{ type: ROLES_LOADING, payload: false },
 		];
 
@@ -910,4 +894,116 @@ describe('roles actions', () => {
 			`${ORGANISATIONS_API}/${orgID}/applications/${appID}/roles/${roleID}`,
 		);
 	});
+
+	// ! ################################################################
+	// ! ###################### SPACE ROLES ACTIONS ###########################
+	// ! ################################################################
+
+	//TODO ###################### GET ACTIONS WITH API #######################
+	it(testDescription + 'getSpaceRoles success', () => { });
+	it(testDescription + 'getSpacesRoles failure', () => { });
+
+	// TODO ###################### GET BY ID ACTIONS WITH API #######################
+	it(testDescription + 'getSpaceRoles success', () => { });
+	it(testDescription + 'getSpaceRoles failure', () => { });
+	// TODO ###################### UPDATE ACTIONS WITH API #######################
+	it(testDescription + 'updateSpaceRoles success', () => { });
+	it(testDescription + 'updateSpaceRoles failure', () => { });
+
+	//?  ###################### CREATE ACTIONS WITH API #######################
+
+	it(testDescription + 'createSpaceRole success', () => {
+		const orgID = 1;
+		const appID = 1;
+		const spaceID = 1;
+		const role = { id: 1, name: 'test' };
+
+		axios.post.mockResolvedValue({ data: role });
+		const expectedActions = [
+			{ type: ROLES_LOADING, payload: true },
+			{
+				type: ADD_NOTIFICATION,
+				payload: {
+					message: 'Role Added Successfully',
+					type: 'success',
+					title: 'Success',
+					time: Date.now(),
+				},
+			},
+			{ type: ROLES_LOADING, payload: false },
+		];
+
+		store.dispatch(actions.createSpaceRole(appID, spaceID, role)).then(() => {
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+
+		expect(axios.post).toHaveBeenCalledWith(`${ORGANISATIONS_API}/${orgID}/applications/${appID}/spaces/${spaceID}/roles`, role);
+	});
+	it(testDescription + 'createSpaceRole failure', () => {
+		const orgID = 1;
+		const appID = 1;
+		const spaceID = 1;
+		const role = { id: 1, name: 'test' };
+
+		axios.post.mockRejectedValue(new Error(errorMsg));
+		const expectedActions = [
+			{ type: ROLES_LOADING, payload: true },
+			{ ...errorAction },
+			{ type: ROLES_LOADING, payload: false },
+		];
+
+		store.dispatch(actions.createSpaceRole(appID, spaceID, role)).then(() => {
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+		expect(axios.post).toHaveBeenCalledWith(`${ORGANISATIONS_API}/${orgID}/applications/${appID}/spaces/${spaceID}/roles`, role);
+	});
+
+	// ? ###################### DELETE ACTIONS WITH API #######################
+	it(testDescription + 'deleteSpaceRoles success', () => {
+		const orgID = 1;
+		const appID = 1;
+		const spaceID = 1;
+		const roleID = 1;
+
+		axios.delete.mockResolvedValueOnce({ data: {} });
+		const expectedActions = [
+			{ type: ROLES_LOADING, payload: true },
+			{
+				type: ADD_NOTIFICATION,
+				payload: {
+					message: 'Role Deleted Successfully',
+					type: 'success',
+					title: 'Success',
+					time: Date.now(),
+				},
+			},
+			{ type: ROLES_LOADING, payload: false },
+		];
+
+		store.dispatch(actions.deleteSpaceRole(appID, spaceID, roleID)).then(() => {
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+
+		expect(axios.delete).toHaveBeenCalledWith(`${ORGANISATIONS_API}/${orgID}/applications/${appID}/spaces/${spaceID}/roles/${roleID}`);
+	});
+	it(testDescription + 'deleteSpaceRoles failure', () => {
+		const orgID = 1;
+		const appID = 1;
+		const spaceID = 1;
+		const roleID = 1;
+
+		axios.delete.mockRejectedValueOnce(new Error(errorMsg));
+		const expectedActions = [
+			{ type: ROLES_LOADING, payload: true },
+			{ ...errorAction },
+			{ type: ROLES_LOADING, payload: false },
+		];
+
+		store.dispatch(actions.deleteSpaceRole(appID, spaceID, roleID)).then(() => {
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+
+		expect(axios.delete).toHaveBeenCalledWith(`${ORGANISATIONS_API}/${orgID}/applications/${appID}/spaces/${spaceID}/roles/${roleID}`);
+	});
+
 });
