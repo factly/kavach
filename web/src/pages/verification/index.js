@@ -14,7 +14,7 @@ function Verification() {
   const [isResendVisible, setIsResendVisible] = useState(false);
 
   // code controls the initial value for the code field in verification flow
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState('');
   const [applicationSettings, setApplicationSettings] = useState({
     applicationName: 'FACTLY',
     applicationLogoURL: window.REACT_APP_LOGO_URL,
@@ -66,8 +66,11 @@ function Verification() {
           setIsResendVisible(true);
         }
 
-        if(res?.ui?.nodes?.[0]?.attributes?.value && res?.ui?.nodes?.[0]?.attributes?.name === 'code'){
-          setCode(res?.ui?.nodes?.[0]?.attributes?.value)
+        if (
+          res?.ui?.nodes?.[0]?.attributes?.value &&
+          res?.ui?.nodes?.[0]?.attributes?.name === 'code'
+        ) {
+          setCode(res?.ui?.nodes?.[0]?.attributes?.value);
         }
 
         if (res && res.state === 'passed_challenge') {
@@ -76,7 +79,7 @@ function Verification() {
           });
           setTimeout(() => {
             window.location.href = window.REACT_APP_PUBLIC_URL + '/auth/login';
-          }, 500)
+          }, 500);
         }
       })
       .catch(() => {
@@ -226,7 +229,7 @@ function Verification() {
             {state === 'sent_email' && (
               <Alert
                 message={ui?.messages?.[0]?.text}
-                type={(ui?.messages?.[0]?.type !== 'error') ? "success": 'error'}
+                type={ui?.messages?.[0]?.type !== 'error' ? 'success' : 'error'}
                 style={{
                   width: '480px',
                 }}
@@ -271,7 +274,7 @@ function Verification() {
                   <Form.Item
                     name={'code'}
                     rules={[{ required: true, message: 'Please input your verification code!' }]}
-                    initialValue={code !== '' ? code: ''}
+                    initialValue={code !== '' ? code : ''}
                   >
                     <Input
                       prefix={<SafetyOutlined />}

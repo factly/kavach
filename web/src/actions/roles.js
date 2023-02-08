@@ -20,6 +20,7 @@ import { ADD_ORGANISATION_ROLE_IDS, ORGANISATIONS_API } from '../constants/organ
 import { ADD_APPLICATION_ROLE_IDS } from '../constants/application';
 import { ADD_SPACE_ROLE_IDS } from '../constants/space';
 import { addUsersList } from './users';
+import { ADD_NOTIFICATION } from '../constants/notifications';
 
 export const stopLoadingRoles = () => ({
   type: ROLES_LOADING,
@@ -102,6 +103,7 @@ export const addSpaceRoleByID = (spaceID, roleID, data) => ({
     data: data,
   },
 });
+
 export const getOrganisationRoles = (orgID) => {
   return (dispatch, getState) => {
     dispatch(startLoadingRoles());
@@ -110,8 +112,10 @@ export const getOrganisationRoles = (orgID) => {
       .then((res) => {
         deleteKeys(res.data, ['organisation']);
         res.data.forEach((role) => {
-          dispatch(addUsersList(role.users));
-          role.users = getIds(role.users);
+          if (role.users?.length > 0) {
+            dispatch(addUsersList(role.users));
+            role.users = getIds(role.users);
+          }
         });
         dispatch(addOrganisationRoles(orgID, buildObjectOfItems(res.data)));
         const roleIDs = getIds(res.data);
@@ -204,11 +208,16 @@ export const getApplicationRoles = (appID) => {
       .then((res) => {
         deleteKeys(res.data, ['application']);
         res.data.forEach((role) => {
-          role.users = getIds(role.users);
+          if (role.users?.length > 0) {
+            role.users = getIds(role.users);
+          }
         });
         dispatch(addApplicationRoles(appID, buildObjectOfItems(res.data)));
         const roleIDs = getIds(res.data);
         dispatch(addApplicationRoleIDs(appID, roleIDs));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopLoadingRoles());
@@ -268,7 +277,9 @@ export const getApplicationRoleByID = (appID, roleID) => {
       )
       .then((res) => {
         deleteKeys([res.data], ['application']);
-        res.data.users = getIds(res.data.users);
+        if (res.data.users?.length > 0) {
+          res.data.users = getIds(res.data.users);
+        }
         dispatch(addApplicationRoleByID(appID, roleID, res.data));
       })
       .catch((error) => {
