@@ -92,10 +92,12 @@ export const resetUsers = () => ({
 
 export const addOrganisationRole = (data) => (dispatch) => {
   const orgRole = {};
-  data.map((user) => {
-    orgRole[user.id] = user.permission.role;
-    return null;
+  data.forEach((user) => {
+    if (user.permission?.role) {
+      orgRole[user.id] = user.permission?.role;
+    }
   });
+
   dispatch({
     type: ADD_ORGANISATION_ROLE,
     payload: orgRole,

@@ -250,7 +250,8 @@ export const deleteApplicationRole = (appID, roleID) => {
     dispatch(startLoadingRoles());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/roles/${roleID}`,
       )
       .then(() => {
@@ -270,7 +271,8 @@ export const getApplicationRoleByID = (appID, roleID) => {
     dispatch(startLoadingRoles());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/roles/${roleID}`,
       )
       .then((res) => {
@@ -294,7 +296,8 @@ export const updateApplicationRole = (id, appID, data) => {
     dispatch(startLoadingRoles());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/roles/${id}`,
         data,
       )
@@ -315,17 +318,23 @@ export const getSpaceRoles = (appID, spaceID) => {
     dispatch(startLoadingRoles());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles`,
       )
       .then((res) => {
         deleteKeys(res.data, ['space']);
         res.data.forEach((role) => {
-          role.users = getIds(role.users);
+          if (role.users?.length > 0) {
+            role.users = getIds(role.users);
+          }
         });
         dispatch(addSpaceRoles(spaceID, buildObjectOfItems(res.data)));
         const roleIDs = getIds(res.data);
         dispatch(addSpaceRoleIDs(spaceID, roleIDs));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopLoadingRoles());
@@ -338,7 +347,8 @@ export const createSpaceRole = (appID, spaceID, data) => {
     dispatch(startLoadingRoles());
     return axios
       .post(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles`,
         data,
       )
@@ -359,7 +369,8 @@ export const deleteSpaceRole = (appID, spaceID, roleID) => {
     dispatch(startLoadingRoles());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles/${roleID}`,
       )
       .then(() => {
@@ -379,12 +390,13 @@ export const getSpaceRoleByID = (appID, spaceID, roleID) => {
     dispatch(startLoadingRoles());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles/${roleID}`,
       )
       .then((res) => {
         deleteKeys([res.data], ['space']);
-        res.data.users = getIds(res.data.users);
+        if (res.data.users?.length > 0) res.data.users = getIds(res.data.users);
         dispatch(addSpaceRoleByID(spaceID, roleID, res.data));
       })
       .catch((error) => {
@@ -401,7 +413,8 @@ export const updateSpaceRole = (id, appID, spaceID, data) => {
     dispatch(startLoadingRoles());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles/${id}`,
         data,
       )
@@ -441,7 +454,8 @@ export const deleteApplicationRoleUserByID = (appID, roleID, userID) => {
     dispatch(startLoadingRoles());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/roles/${roleID}/users/${userID}`,
       )
       .then(() => {
@@ -461,7 +475,8 @@ export const deleteSpaceRoleUserByID = (appID, spaceID, roleID, userID) => {
     dispatch(startLoadingRoles());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles/${roleID}/users/${userID}`,
       )
       .then(() => {
@@ -500,7 +515,8 @@ export const addApplicationRoleUserByID = (appID, roleID, userID) => {
     dispatch(startLoadingRoles());
     return axios
       .post(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/roles/${roleID}/users`,
         { user_id: userID },
       )
@@ -521,7 +537,8 @@ export const addSpaceRoleUserByID = (appID, spaceID, roleID, userID) => {
     dispatch(startLoadingRoles());
     return axios
       .post(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles/${roleID}/users`,
         { user_id: userID },
       )
@@ -589,7 +606,8 @@ export const getApplicationRoleUsers = (appID, roleID) => {
     dispatch(startLoadingRoles());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/roles/${roleID}/users`,
       )
       .then((res) => {
@@ -609,7 +627,8 @@ export const getSpaceRoleUsers = (appID, spaceID, roleID) => {
     dispatch(startLoadingRoles());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/roles/${roleID}/users`,
       )
       .then((res) => {
