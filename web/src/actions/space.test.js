@@ -477,19 +477,194 @@ describe('Space User Actions', () => {
   });
 
   // update space
-  it('should create actions for update space success', () => {});
-  it('should create actions for update space failure', () => {});
+  it('should create actions for update space success', () => {
+    const appID = 1;
+    const id = 1;
+    const space = { id: 1, name: 'test' };
+
+    axios.put.mockResolvedValue({ data: space });
+    const expectedActions = [
+      { type: types.SET_SPACES_LOADING, payload: true },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          message: 'Space updated successfully',
+          type: 'success',
+          time: fixedDate,
+          title: 'Success',
+        },
+      },
+      { type: types.STOP_SPACES_LOADING, payload: false },
+    ];
+
+    store.dispatch(actions.editSpace(id, appID, space)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    expect(axios.put).toHaveBeenCalledWith(`${ORGANISATIONS_API}/1/applications/1/spaces/1`, space);
+  });
+
+  it('should create actions for update space failure', () => {
+    const appID = 1;
+    const id = 1;
+    const space = { id: 1, name: 'test' };
+    const error = 'Error occurred';
+    axios.put.mockRejectedValueOnce(new Error(error));
+
+    const expectedActions = [
+      { type: types.SET_SPACES_LOADING, payload: true },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          message: error,
+          title: 'Error',
+          time: fixedDate,
+        },
+      },
+      { type: types.STOP_SPACES_LOADING, payload: false },
+    ];
+
+    store.dispatch(actions.editSpace(id, appID, space)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    expect(axios.put).toHaveBeenCalledWith(`${ORGANISATIONS_API}/1/applications/1/spaces/1`, space);
+  });
 
   // delete space
-  it('should create actions for delete space success', () => {});
-  it('should create actions for delete space failure', () => {});
+
+  it('should create actions for delete space success', () => {
+    const spaceID = 1;
+    const appID = 1;
+
+    axios.delete.mockResolvedValue({});
+    const expectedActions = [
+      {
+        type: types.SET_SPACES_LOADING,
+        payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          message: 'Space deleted successfully',
+          type: 'success',
+          title: 'Success',
+          time: fixedDate,
+        },
+      },
+      {
+        type: types.STOP_SPACES_LOADING,
+        payload: false,
+      },
+    ];
+    store.dispatch(actions.deleteSpace(appID, spaceID)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    expect(axios.delete).toHaveBeenCalledWith(`${ORGANISATIONS_API}/1/applications/1/spaces/1`);
+  });
+  it('should create actions for delete space failure', () => {
+    const spaceID = 1;
+    const appID = 1;
+
+    axios.delete.mockRejectedValue(new Error('error'));
+    const expectedActions = [
+      {
+        type: types.SET_SPACES_LOADING,
+        payload: true,
+      },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          message: 'error',
+          type: 'error',
+          title: 'Error',
+          time: fixedDate,
+        },
+      },
+      {
+        type: types.STOP_SPACES_LOADING,
+        payload: false,
+      },
+    ];
+    store.dispatch(actions.deleteSpace(appID, spaceID)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    expect(axios.delete).toHaveBeenCalledWith(`${ORGANISATIONS_API}/1/applications/1/spaces/1`);
+  });
+
 
   // add spaces
-  it('should create actions for add spaces', () => {});
+  it('should create actions for add spaces', () => { });
+  it('should create actions for add spaces', () => {
+    const media = {
+      logo: { id: 8, name: 'link' },
+      logo_mobile: { id: 5, name: 'link' },
+      fav_icon: { id: 6, name: 'link' },
+      mobile_icon: { id: 7, name: 'link' },
+    };
+    const users = [{ id: 1, name: 'user1' }, { id: 2, name: 'user2' }];
+    const tokens = [{ id: 1, name: 'token1' }, { id: 2, name: 'token2' }];
+    const spaces = [{ id: 1, name: 'space1', ...media }, { id: 2, name: 'space2', users, tokens }];
+    const mediaList = [];
+    ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon'].forEach((key) => {
+      spaces.forEach((space) => {
+        if (space[key]) {
+          mediaList.push(space[key]);
+        }
+      });
+    });
 
+    const resultedSpaces = [];
+    spaces.forEach((space) => {
+      resultedSpaces.push({
+        ...space,
+        users: getIds(space.users),
+        tokens: getIds(space.tokens),
+      });
+    });
+    deleteKeys(resultedSpaces, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon', 'application']);
+
+    const expectedActions = [
+      {
+        type: 'ADD_MEDIA',
+        payload: buildObjectOfItems(mediaList),
+      },
+      { type: 'ADD_USERS', payload: buildObjectOfItems(users) },
+      { type: 'ADD_SPACES', payload: buildObjectOfItems(resultedSpaces) }
+    ];
+
+    store.dispatch(actions.addSpaces(spaces));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
   // add space
-  it('should create actions for add space', () => {});
+  it('should create actions for add space', () => {
+    const space = { id: 1, name: 'test' };
+    const expectedActions = [
+      {
+        type: types.ADD_SPACE,
+        payload: space,
+      },
+    ];
+
+    store.dispatch(actions.addSpace(space));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
 
   // add space token ids
-  it('should create actions for add space token ids', () => {});
+  it('should create actions for add space token ids', () => {
+    const spaceID = 1;
+    const tokenIDs = [1, 2];
+    const expectedActions = [
+      {
+        type: types.ADD_SPACE_TOKEN_IDS,
+        payload: { spaceID: 1, data: tokenIDs },
+      },
+    ];
+
+    store.dispatch(actions.addSpaceTokenIDs(spaceID, tokenIDs));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
 });

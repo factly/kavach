@@ -16,6 +16,7 @@ import { addMediaList } from './media';
 import { addSpaceIDs } from './application';
 import { addSpaceRoles } from './roles';
 import { addSpacePolicy } from './policy';
+import { ADD_NOTIFICATION } from '../constants/notifications';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
@@ -63,8 +64,7 @@ export const editSpace = (id, appID, data) => {
     dispatch(loadingSpaces());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}${SPACES_API}/${id}`,
         data,
       )
@@ -79,13 +79,15 @@ export const editSpace = (id, appID, data) => {
   };
 };
 
+it('should create actions for update space failure', () => { });
+
+
 export const deleteSpace = (appID, id) => {
   return (dispatch, getState) => {
     dispatch(loadingSpaces());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}${SPACES_API}/${id}`,
       )
       .then(() => {
@@ -125,8 +127,7 @@ export const getSpaceByID = (appID, spaceID) => {
     dispatch(loadingSpaces());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}${SPACES_API}/${spaceID}`,
       ) // eslint-disable-next-line
       .then((response) => {
@@ -175,6 +176,8 @@ export const addSpaces = (data) => (dispatch) => {
     payload: buildObjectOfItems(data),
   });
 };
+
+
 
 export const addSpace = (data) => {
   return {
