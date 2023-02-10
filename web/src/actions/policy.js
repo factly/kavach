@@ -252,7 +252,8 @@ export const deleteApplicationPolicy = (appID, roleID) => {
     dispatch(startLoadingPolicy());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/policy/${roleID}`,
       )
       .then(() => {
@@ -272,7 +273,8 @@ export const getApplicationPolicyByID = (appID, policyID) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/policy/${policyID}`,
       )
       .then((res) => {
@@ -294,7 +296,8 @@ export const updateApplicationPolicy = (appID, policyID, data) => {
     dispatch(startLoadingPolicy());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/policy/${policyID}`,
         data,
       )
@@ -315,7 +318,8 @@ export const getSpacePolicy = (appID, spaceID) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy`,
       )
       .then((res) => {
@@ -341,7 +345,8 @@ export const createSpacePolicy = (appID, spaceID, data) => {
     dispatch(startLoadingPolicy());
     return axios
       .post(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy`,
         data,
       )
@@ -362,7 +367,8 @@ export const deleteSpacePolicy = (appID, spaceID, roleID) => {
     dispatch(startLoadingPolicy());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy/${roleID}`,
       )
       .then(() => {
@@ -382,7 +388,8 @@ export const getSpacePolicyByID = (appID, spaceID, policyID) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy/${policyID}`,
       )
       .then((res) => {
@@ -404,7 +411,8 @@ export const updateSpacePolicy = (id, appID, spaceID, data) => {
     dispatch(startLoadingPolicy());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${getState().organisations.selected
+        `${ORGANISATIONS_API}/${
+          getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy/${id}`,
         data,
       )

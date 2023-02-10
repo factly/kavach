@@ -1,7 +1,7 @@
 import axios from 'axios';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { buildObjectOfItems } from '../utils/objects';
+import { buildObjectOfItems, getIds } from '../utils/objects';
 import * as actions from '../actions/users';
 import * as types from '../constants/users';
 import { ADD_NOTIFICATION } from '../constants/notifications';
@@ -340,4 +340,45 @@ describe('users actions', () => {
       .then(() => expect(store.getActions()).toEqual(expectedActions));
     expect(axios.get).toHaveBeenCalledWith(`/organisations/1/users`);
   });
+  it('should create actions to add users list to organisation', () => {
+    const data = [
+      { id: 1, name: 'User' },
+      { id: 2, name: 'User2' },
+    ];
+
+    const expectedAction = {
+      type: ADD_ORGANISATION_USERS,
+      payload: data,
+    };
+    expect(actions.addOrganisationUsersList(data)).toEqual(expectedAction);
+  });
+  it('should create actions to add user ids to organisation', () => {
+    const data = [
+      { id: 1, name: 'User' },
+      { id: 2, name: 'User2' },
+    ];
+
+    const expectedAction = {
+      type: ADD_ORGANISATION_USERS,
+      payload: getIds(data),
+    };
+    expect(actions.addOrganisationUsers(data)).toEqual(expectedAction);
+  });
+  it('should create actions to add user role to organisation', () => {
+    const data = [
+      { id: 1, name: 'User', permission: { role: 'admin' } },
+      { id: 2, name: 'User2', permission: { role: 'member' } },
+    ];
+    const orgRole = { 1: 'admin', 2: 'member' };
+
+    const expectedAction = {
+      type: 'ADD_ORGANISATION_ROLE',
+      payload: orgRole,
+    };
+    store.dispatch(actions.addOrganisationRole(data));
+    expect(store.getActions()).toEqual([expectedAction]);
+  });
 });
+
+// addOrganisationRole
+// addOrganisationUsers

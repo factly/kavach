@@ -595,9 +595,8 @@ describe('Space User Actions', () => {
     expect(axios.delete).toHaveBeenCalledWith(`${ORGANISATIONS_API}/1/applications/1/spaces/1`);
   });
 
-
   // add spaces
-  it('should create actions for add spaces', () => { });
+  it('should create actions for add spaces', () => {});
   it('should create actions for add spaces', () => {
     const media = {
       logo: { id: 8, name: 'link' },
@@ -605,9 +604,18 @@ describe('Space User Actions', () => {
       fav_icon: { id: 6, name: 'link' },
       mobile_icon: { id: 7, name: 'link' },
     };
-    const users = [{ id: 1, name: 'user1' }, { id: 2, name: 'user2' }];
-    const tokens = [{ id: 1, name: 'token1' }, { id: 2, name: 'token2' }];
-    const spaces = [{ id: 1, name: 'space1', ...media }, { id: 2, name: 'space2', users, tokens }];
+    const users = [
+      { id: 1, name: 'user1' },
+      { id: 2, name: 'user2' },
+    ];
+    const tokens = [
+      { id: 1, name: 'token1' },
+      { id: 2, name: 'token2' },
+    ];
+    const spaces = [
+      { id: 1, name: 'space1', ...media },
+      { id: 2, name: 'space2', users, tokens },
+    ];
     const mediaList = [];
     ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon'].forEach((key) => {
       spaces.forEach((space) => {
@@ -633,7 +641,7 @@ describe('Space User Actions', () => {
         payload: buildObjectOfItems(mediaList),
       },
       { type: 'ADD_USERS', payload: buildObjectOfItems(users) },
-      { type: 'ADD_SPACES', payload: buildObjectOfItems(resultedSpaces) }
+      { type: 'ADD_SPACES', payload: buildObjectOfItems(resultedSpaces) },
     ];
 
     store.dispatch(actions.addSpaces(spaces));

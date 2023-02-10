@@ -78,7 +78,6 @@ export const addProfileDetails = () => {
   };
 };
 
-
 export const getInvitation = () => {
   return (dispatch, getState) => {
     dispatch(loadingProfile());

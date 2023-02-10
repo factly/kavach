@@ -148,7 +148,7 @@ describe('profile actions', () => {
       { type: types.SET_PROFILE_LOADING, payload: true },
       {
         type: types.ADD_INVITE,
-        payload: [{ id: 1, organisation: { id: 1, name: 'Test' } }]
+        payload: [{ id: 1, organisation: { id: 1, name: 'Test' } }],
       },
 
       { type: types.SET_PROFILE_LOADING, payload: false },
@@ -167,7 +167,7 @@ describe('profile actions', () => {
         type: types.SET_PROFILE_LOADING,
         payload: true,
       },
-      { ...errorAction }
+      { ...errorAction },
     ];
     store
       .dispatch(actions.getInvitation())
@@ -179,8 +179,8 @@ describe('profile actions', () => {
   //TODO ################# ACTIONS WITH POST API CALLS ########################
   //TODO ######################################################################
   // ? ################# PROFILE ###############################
-  it('should create actions to add user profile details success', () => { });
-  it('should create actions to add user profile details failure', () => { });
+  it('should create actions to add user profile details success', () => {});
+  it('should create actions to add user profile details failure', () => {});
 
   //! ######################################################################
   //! ################# ACTIONS WITH PUT API CALLS #########################
@@ -275,7 +275,10 @@ describe('profile actions', () => {
         expect(store.getActions()).toContainEqual(action);
       });
     });
-    expect(axios.put).toHaveBeenCalledWith(types.PROFILE_API + '/invite/' + invitation.id, invitation);
+    expect(axios.put).toHaveBeenCalledWith(
+      types.PROFILE_API + '/invite/' + invitation.id,
+      invitation,
+    );
   });
   it('should create actions to accept invitation failure', () => {
     const invitation = { id: 1, organisation: { id: 1, name: 'Test' } };
@@ -286,12 +289,15 @@ describe('profile actions', () => {
         type: types.SET_PROFILE_LOADING,
         payload: true,
       },
-      { ...errorAction }
+      { ...errorAction },
     ];
     store
       .dispatch(actions.acceptInvitation(invitation.id, invitation))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.put).toHaveBeenCalledWith(types.PROFILE_API + '/invite/' + invitation.id, invitation);
+    expect(axios.put).toHaveBeenCalledWith(
+      types.PROFILE_API + '/invite/' + invitation.id,
+      invitation,
+    );
   });
 
   //! ######################################################################
@@ -334,7 +340,7 @@ describe('profile actions', () => {
         type: types.SET_PROFILE_LOADING,
         payload: true,
       },
-      { ...errorAction }
+      { ...errorAction },
     ];
     store
       .dispatch(actions.deleteInvitation(1))
