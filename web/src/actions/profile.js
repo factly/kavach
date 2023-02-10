@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ADD_MEDIA } from '../constants/media';
 import {
   SET_PROFILE_LOADING,
   ADD_PROFILE,
@@ -10,6 +11,21 @@ import { deleteKeys, getIds } from '../utils/objects';
 import { addMedia } from './media';
 import { addErrorNotification, addSuccessNotification } from './notifications';
 import { addOrganisationsList, getOrganisations } from './organisations';
+
+export const loadingProfile = () => ({
+  type: SET_PROFILE_LOADING,
+  payload: true,
+});
+
+export const stopProfileLoading = () => ({
+  type: SET_PROFILE_LOADING,
+  payload: false,
+});
+
+export const addProfile = (data) => ({
+  type: ADD_PROFILE,
+  payload: data,
+});
 
 export const getUserProfile = () => {
   return (dispatch, getState) => {
@@ -25,6 +41,7 @@ export const getUserProfile = () => {
       });
   };
 };
+
 export const updateProfile = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingProfile());
@@ -34,54 +51,6 @@ export const updateProfile = (data) => {
         dispatch(addProfile(response.data));
         dispatch(stopProfileLoading());
         dispatch(addSuccessNotification('Profile Updated'));
-      })
-      .catch((error) => {
-        dispatch(addErrorNotification(error.message));
-      });
-  };
-};
-
-export const getInvitation = () => {
-  return (dispatch, getState) => {
-    dispatch(loadingProfile);
-    return axios
-      .get(PROFILE_API + '/invite')
-      .then((response) => {
-        dispatch(getInvite(response.data));
-        dispatch(stopProfileLoading());
-      })
-      .catch((error) => {
-        dispatch(addErrorNotification(error.message));
-      });
-  };
-};
-
-export const deleteInvitation = (id) => {
-  return (dispatch, getState) => {
-    dispatch(loadingProfile);
-    return axios
-      .delete(PROFILE_API + '/invite/' + id)
-      .then(() => {
-        dispatch(deleteInvite(id));
-        dispatch(stopProfileLoading());
-        dispatch(addSuccessNotification('Request declined successfully'));
-      })
-      .catch((error) => {
-        dispatch(addErrorNotification(error.message));
-      });
-  };
-};
-
-export const acceptInvitation = (id, data) => {
-  return (dispatch, getState) => {
-    dispatch(loadingProfile);
-    return axios
-      .put(PROFILE_API + '/invite/' + id, data)
-      .then(() => {
-        dispatch(deleteInvite(id));
-        dispatch(getOrganisations());
-        dispatch(addSuccessNotification('Request accepted successfully'));
-        dispatch(stopProfileLoading());
       })
       .catch((error) => {
         dispatch(addErrorNotification(error.message));
@@ -109,20 +78,54 @@ export const addProfileDetails = () => {
   };
 };
 
-export const loadingProfile = () => ({
-  type: SET_PROFILE_LOADING,
-  payload: true,
-});
 
-export const stopProfileLoading = () => ({
-  type: SET_PROFILE_LOADING,
-  payload: false,
-});
+export const getInvitation = () => {
+  return (dispatch, getState) => {
+    dispatch(loadingProfile());
+    return axios
+      .get(PROFILE_API + '/invite')
+      .then((response) => {
+        dispatch(getInvite(response.data));
+        dispatch(stopProfileLoading());
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
+  };
+};
 
-export const addProfile = (data) => ({
-  type: ADD_PROFILE,
-  payload: data,
-});
+export const deleteInvitation = (id) => {
+  return (dispatch, getState) => {
+    dispatch(loadingProfile());
+    return axios
+      .delete(PROFILE_API + '/invite/' + id)
+      .then(() => {
+        dispatch(deleteInvite(id));
+        dispatch(stopProfileLoading());
+        dispatch(addSuccessNotification('Request declined successfully'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
+  };
+};
+
+export const acceptInvitation = (id, data) => {
+  return (dispatch, getState) => {
+    dispatch(loadingProfile());
+    return axios
+      .put(PROFILE_API + '/invite/' + id, data)
+      .then(() => {
+        dispatch(deleteInvite(id));
+        dispatch(getOrganisations());
+        dispatch(addSuccessNotification('Request accepted successfully'));
+        dispatch(stopProfileLoading());
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
+  };
+};
 
 export const getInvite = (data) => ({
   type: ADD_INVITE,
