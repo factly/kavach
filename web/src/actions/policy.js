@@ -210,12 +210,16 @@ export const getApplicationPolicy = (appID) => {
       .then((res) => {
         deleteKeys(res.data, ['application']);
         res.data.forEach((policy) => {
-          dispatch(addApplicationRoleByID(appID));
+          // !this must be added by mistake addApplicationRoleByID function is expects 3 arguments passed only 1
+          // dispatch(addApplicationRoleByID(appID));
           policy.roles = getIds(policy.roles);
         });
         dispatch(addApplicationPolicy(appID, buildObjectOfItems(res.data)));
         const policyIDs = getIds(res.data);
         dispatch(addApplicationPolicyIDs(appID, policyIDs));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopLoadingPolicy());
@@ -248,8 +252,7 @@ export const deleteApplicationPolicy = (appID, roleID) => {
     dispatch(startLoadingPolicy());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/policy/${roleID}`,
       )
       .then(() => {
@@ -269,8 +272,7 @@ export const getApplicationPolicyByID = (appID, policyID) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/policy/${policyID}`,
       )
       .then((res) => {
@@ -292,8 +294,7 @@ export const updateApplicationPolicy = (appID, policyID, data) => {
     dispatch(startLoadingPolicy());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/policy/${policyID}`,
         data,
       )
@@ -314,8 +315,7 @@ export const getSpacePolicy = (appID, spaceID) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy`,
       )
       .then((res) => {
@@ -326,6 +326,9 @@ export const getSpacePolicy = (appID, spaceID) => {
         dispatch(addSpacePolicy(spaceID, buildObjectOfItems(res.data)));
         const policyIDs = getIds(res.data);
         dispatch(addSpacePolicyIDs(spaceID, policyIDs));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopLoadingPolicy());
@@ -338,8 +341,7 @@ export const createSpacePolicy = (appID, spaceID, data) => {
     dispatch(startLoadingPolicy());
     return axios
       .post(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy`,
         data,
       )
@@ -360,8 +362,7 @@ export const deleteSpacePolicy = (appID, spaceID, roleID) => {
     dispatch(startLoadingPolicy());
     return axios
       .delete(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy/${roleID}`,
       )
       .then(() => {
@@ -381,8 +382,7 @@ export const getSpacePolicyByID = (appID, spaceID, policyID) => {
     dispatch(startLoadingPolicy());
     return axios
       .get(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy/${policyID}`,
       )
       .then((res) => {
@@ -404,8 +404,7 @@ export const updateSpacePolicy = (id, appID, spaceID, data) => {
     dispatch(startLoadingPolicy());
     return axios
       .put(
-        `${ORGANISATIONS_API}/${
-          getState().organisations.selected
+        `${ORGANISATIONS_API}/${getState().organisations.selected
         }/applications/${appID}/spaces/${spaceID}/policy/${id}`,
         data,
       )
