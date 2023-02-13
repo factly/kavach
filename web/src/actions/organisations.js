@@ -100,7 +100,7 @@ export const getOrganisation = (id) => {
       .get(ORGANISATIONS_API + '/' + id)
       .then((response) => {
         if (response.data.organisation?.featured_medium_id) {
-          addMedia(response.data.organisation.medium);
+          dispatch(addMedia(response.data.organisation.medium));
         }
         if (response.data.organisation.roles?.length) {
           response.data.organisation.roles.forEach((role) => {
@@ -111,7 +111,6 @@ export const getOrganisation = (id) => {
           response.data.organisation.roleIDs = getIds(response.data.organisation.roles);
           delete response.data.organisation.roles;
         }
-
         if (response.data.organisation.policies?.length) {
           dispatch(addOrganisationPolicy(id, response.data.organisation.policies));
           response.data.organisation.policyIDs = getIds(response.data.organisation.policies);
