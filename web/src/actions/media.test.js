@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import * as actions from '../actions/media';
 import * as types from '../constants/media';
 import { ADD_NOTIFICATION } from '../constants/notifications';
+import { buildObjectOfItems } from '../utils/objects';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -20,7 +21,11 @@ describe('media actions', () => {
   let store;
   beforeEach(() => {
     store = mockStore({ initialState });
+    Date.now = jest.fn(() => 1487076708000);
   });
+  // ###########################################################
+  // ####################  NO API CALLS  #######################
+  // ###########################################################
   it('should create actions to set loading to true', () => {
     const startLoadingAction = {
       type: types.SET_MEDIA_LOADING,
@@ -42,9 +47,10 @@ describe('media actions', () => {
     ];
     const addMediasAction = {
       type: types.ADD_MEDIA,
-      payload: data,
+      payload: buildObjectOfItems(data),
     };
-    expect(actions.addMediaList(data)).toEqual(addMediasAction);
+    store.dispatch(actions.addMediaList(data));
+    expect(store.getActions()).toEqual([addMediasAction]);
   });
   it('should create an action to reset media', () => {
     const resetMediaAction = {
@@ -68,6 +74,20 @@ describe('media actions', () => {
     };
     expect(actions.addMediaRequest(data)).toEqual(addMediaRequestAction);
   });
+  it('should create action to addMediaList', () => {
+    const media = [{ id: 1, medium: 'Medium' }];
+    const expectedActions = [
+      {
+        type: types.ADD_MEDIA,
+        payload: buildObjectOfItems(media),
+      },
+    ];
+    store.dispatch(actions.addMedia(media));
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+  // ###########################################################
+  // ####################  API CALLS  #########################
+  // ###########################################################
   it('should create actions to to fetch media success', () => {
     const query = { page: 1, limit: 5 };
     const media = [{ id: 1, medium: 'Medium' }];
@@ -80,7 +100,7 @@ describe('media actions', () => {
       },
       {
         type: types.ADD_MEDIA,
-        payload: [{ id: 1, medium: 'Medium' }],
+        payload: buildObjectOfItems([{ id: 1, medium: 'Medium' }]),
       },
       {
         type: types.ADD_MEDIA_REQUEST,
@@ -117,6 +137,7 @@ describe('media actions', () => {
           type: 'error',
           title: 'Error',
           message: errorMessage,
+          time: Date.now(),
         },
       },
     ];
@@ -164,6 +185,7 @@ describe('media actions', () => {
           type: 'error',
           title: 'Error',
           message: errorMessage,
+          time: Date.now(),
         },
       },
     ];
@@ -189,6 +211,7 @@ describe('media actions', () => {
           type: 'success',
           title: 'Success',
           message: 'Media Added',
+          time: Date.now(),
         },
       },
     ];
@@ -212,6 +235,7 @@ describe('media actions', () => {
           type: 'error',
           title: 'Error',
           message: errorMessage,
+          time: Date.now(),
         },
       },
     ];
@@ -242,6 +266,7 @@ describe('media actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
+          time: Date.now(),
           message: 'Media Updated',
         },
       },
@@ -265,6 +290,7 @@ describe('media actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -289,6 +315,7 @@ describe('media actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
+          time: Date.now(),
           message: 'Media Deleted',
         },
       },
@@ -311,6 +338,7 @@ describe('media actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -319,16 +347,5 @@ describe('media actions', () => {
       .dispatch(actions.deleteMedium(1))
       .then(() => expect(store.getActions()).toEqual(expectedActions));
     expect(axios.delete).toHaveBeenCalledWith(types.MEDIA_API + '/1');
-  });
-  it('should create action to addMediaList', () => {
-    const media = [{ id: 1, medium: 'Medium' }];
-    const expectedActions = [
-      {
-        type: types.ADD_MEDIA,
-        payload: media,
-      },
-    ];
-    store.dispatch(actions.addMedia(media));
-    expect(store.getActions()).toEqual(expectedActions);
   });
 });
