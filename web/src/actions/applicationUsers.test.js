@@ -6,6 +6,7 @@ import * as actions from '../actions/applicationUsers';
 import * as types from '../constants/applicationUser';
 import { ADD_MEDIA } from '../constants/media';
 import { ADD_NOTIFICATION } from '../constants/notifications';
+import { buildObjectOfItems, getIds } from '../utils/objects';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -28,6 +29,7 @@ describe('Application User actions', () => {
         selected: 1,
       },
     });
+    Date.now = jest.fn(() => 123);
   });
   it('should create an action to set loading to true', () => {
     const startLoadingAction = {
@@ -52,7 +54,7 @@ describe('Application User actions', () => {
       type: types.ADD_APPLICATION_USERS,
       payload: data,
     };
-    expect(actions.addApplicationsList(data)).toEqual(addApplicationUsersAction);
+    expect(actions.addApplicationList(data)).toEqual(addApplicationUsersAction);
   });
   it('should create an action to add single applicationUser', () => {
     const data = { id: 1, application_id: '1', user_id: '1' };
@@ -120,6 +122,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -143,7 +146,7 @@ describe('Application User actions', () => {
       },
       {
         type: ADD_MEDIA,
-        payload: [medium],
+        payload: buildObjectOfItems([medium]),
       },
       {
         type: types.ADD_APPLICATION_USER,
@@ -174,6 +177,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -227,6 +231,7 @@ describe('Application User actions', () => {
         type: ADD_NOTIFICATION,
         payload: {
           type: 'success',
+          time: Date.now(),
           title: 'Success',
           message: 'Application User Added',
         },
@@ -255,6 +260,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -280,7 +286,7 @@ describe('Application User actions', () => {
       },
       {
         type: ADD_MEDIA,
-        payload: [medium],
+        payload: buildObjectOfItems([medium]),
       },
       {
         type: types.ADD_APPLICATION_USER,
@@ -295,6 +301,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
+          time: Date.now(),
           message: 'Application Updated',
         },
       },
@@ -330,6 +337,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
+          time: Date.now(),
           message: 'Application Updated',
         },
       },
@@ -358,6 +366,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -386,6 +395,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'success',
           title: 'Success',
+          time: Date.now(),
           message: 'Application User Deleted',
         },
       },
@@ -411,6 +421,7 @@ describe('Application User actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
       },
@@ -423,20 +434,26 @@ describe('Application User actions', () => {
     );
   });
   it('should create action to getApplicationUser success', () => {
-    const application = { id: 1, name: 'ApplicationUser 1' };
-    const resp = { data: { users: application } };
+    const data = [
+      { id: 1, name: 'Name' },
+      { id: 2, name: 'Name' },
+    ];
+    const resp = { data: data };
     axios.get.mockResolvedValue(resp);
     const expectedActions = [
       {
-        type: types.SET_APPLICATION_USERS_LOADING,
+        type: 'SET_USERS_LOADING',
         payload: true,
       },
       {
-        type: types.ADD_APPLICATION_USERS,
-        payload: { users: { id: 1, name: 'ApplicationUser 1' }, id: 1 },
+        type: types.ADD_USER_IDS,
+        payload: {
+          id: 1,
+          data: getIds(data),
+        },
       },
       {
-        type: types.SET_APPLICATION_USERS_LOADING,
+        type: 'SET_USERS_LOADING',
         payload: false,
       },
     ];
@@ -452,7 +469,7 @@ describe('Application User actions', () => {
     axios.get.mockRejectedValue(new Error(errorMessage));
     const expectedActions = [
       {
-        type: types.SET_APPLICATION_USERS_LOADING,
+        type: 'SET_USERS_LOADING',
         payload: true,
       },
       {
@@ -460,8 +477,13 @@ describe('Application User actions', () => {
         payload: {
           type: 'error',
           title: 'Error',
+          time: Date.now(),
           message: errorMessage,
         },
+      },
+      {
+        type: 'SET_USERS_LOADING',
+        payload: false,
       },
     ];
     store
@@ -477,7 +499,7 @@ describe('Application User actions', () => {
     const expectedActions = [
       {
         type: ADD_MEDIA,
-        payload: [medium],
+        payload: buildObjectOfItems([medium]),
       },
       {
         type: types.ADD_APPLICATION_USERS,

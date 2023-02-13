@@ -633,7 +633,6 @@ describe('profile actions', () => {
     ];
 
     store.dispatch(actions.getApplicationPolicy(appID)).then(() => {
-      console.log(store.getActions());
       expect(store.getActions()).toEqual(expectedActions);
     });
 

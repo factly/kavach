@@ -9,6 +9,7 @@ describe('notification actions', () => {
       payload: {
         type: 'error',
         title: 'Error',
+        time: Date.now(),
         message: errorMessage,
       },
     };
@@ -21,6 +22,7 @@ describe('notification actions', () => {
       payload: {
         type: 'success',
         title: 'Success',
+        time: Date.now(),
         message: successMessage,
       },
     };
