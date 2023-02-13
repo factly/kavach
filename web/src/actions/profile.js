@@ -60,7 +60,7 @@ export const updateProfile = (data) => {
 
 export const addProfileDetails = () => {
   return (dispatch, getState) => {
-    dispatch(loadingProfile);
+    dispatch(loadingProfile());
     return axios
       .get(PROFILE_API + '/details')
       .then((response) => {
@@ -71,6 +71,9 @@ export const addProfileDetails = () => {
         dispatch(addOrganisationsList(response.data.organisations, response.data.id));
         response.data.organisations = getIds(response.data.organisations);
         dispatch(addProfile(response.data));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopProfileLoading());

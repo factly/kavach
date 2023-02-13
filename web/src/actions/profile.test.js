@@ -5,6 +5,8 @@ import thunk from 'redux-thunk';
 import * as actions from '../actions/profile';
 import * as types from '../constants/profile';
 import { ADD_NOTIFICATION } from '../constants/notifications';
+import { ADD_MEDIA } from '../constants/media';
+import { buildObjectOfItems } from '../utils/objects';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -179,8 +181,94 @@ describe('profile actions', () => {
   //TODO ################# ACTIONS WITH POST API CALLS ########################
   //TODO ######################################################################
   // ? ################# PROFILE ###############################
-  it('should create actions to add user profile details success', () => {});
-  it('should create actions to add user profile details failure', () => {});
+  it('should create actions to add user profile details success', () => {
+    const profile = {
+      id: 1, featured_medium_id: 1,
+      medium: { id: 1 },
+      name: 'Profile',
+      organisations: [{ id: 1, name: 'Test' }],
+    };
+    const module = require('../actions/organisations');
+    module.addOrganisationsList = jest.fn(() => ({
+      type: 'ADD_ORGANISATIONS',
+      payload: "mock payload"
+    }));
+    axios.get.mockResolvedValue({ data: profile });
+
+    const expectedActions = [
+      { type: types.SET_PROFILE_LOADING, payload: true },
+      {
+        type: ADD_MEDIA,
+        payload: buildObjectOfItems([profile.medium]),
+      },
+      {
+        type: 'ADD_ORGANISATIONS',
+        payload: "mock payload"
+      },
+      {
+        type: types.ADD_PROFILE,
+        payload: profile,
+      },
+      { type: types.SET_PROFILE_LOADING, payload: false },
+    ];
+
+    store
+      .dispatch(actions.addProfileDetails())
+      .then(() =>{
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(module.addOrganisationsList).toHaveBeenCalledWith([{ id: 1, name: 'Test' }],profile.id);
+      });
+    expect(axios.get).toHaveBeenCalledWith(types.PROFILE_API + '/details');
+  });
+  it('should create actions to add user profile details without medium success', () => {
+    const profile = {
+      id: 1,
+      name: 'Profile',
+      organisations: [{ id: 1, name: 'Test' }],
+    };
+    const module = require('../actions/organisations');
+    module.addOrganisationsList = jest.fn(() => ({
+      type: 'ADD_ORGANISATIONS',
+      payload: "mock payload"
+    }));
+    axios.get.mockResolvedValue({ data: profile });
+
+    const expectedActions = [
+      { type: types.SET_PROFILE_LOADING, payload: true },
+      {
+        type: 'ADD_ORGANISATIONS',
+        payload: "mock payload"
+      },
+      {
+        type: types.ADD_PROFILE,
+        payload: profile,
+      },
+      { type: types.SET_PROFILE_LOADING, payload: false },
+    ];
+
+    store
+      .dispatch(actions.addProfileDetails())
+      .then(() =>{
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(module.addOrganisationsList).toHaveBeenCalledWith([{ id: 1, name: 'Test' }],profile.id);
+      });
+    expect(axios.get).toHaveBeenCalledWith(types.PROFILE_API + '/details');
+  });
+
+  it('should create actions to add user profile details failure', () => {
+    axios.get.mockRejectedValue(new Error(errorMsg));
+
+    const expectedActions = [
+      { type: types.SET_PROFILE_LOADING, payload: true },
+      { ...errorAction },
+      { type: types.SET_PROFILE_LOADING, payload: false },
+    ];
+
+    store
+      .dispatch(actions.addProfileDetails())
+      .then(() => expect(store.getActions()).toEqual(expectedActions));
+    expect(axios.get).toHaveBeenCalledWith(types.PROFILE_API + '/details');
+  });
 
   //! ######################################################################
   //! ################# ACTIONS WITH PUT API CALLS #########################
