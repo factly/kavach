@@ -5,7 +5,12 @@ import thunk from 'redux-thunk';
 import * as actions from '../actions/organisations';
 import * as types from '../constants/organisations';
 import { ADD_NOTIFICATION } from '../constants/notifications';
-import { buildObjectOfItems, deleteKeys, getIds } from '../utils/objects';
+import { buildObjectOfItems, deleteKeys, getIds, getValues } from '../utils/objects';
+import { ADD_MEDIA } from '../constants/media';
+import { ADD_APPLICATIONS } from '../constants/application';
+import { ADD_USERS } from '../constants/users';
+import { ADD_ORGANISATION_ROLES } from '../constants/roles';
+import { ADD_ORGANISATION_POLICY } from '../constants/policy';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -44,17 +49,93 @@ describe('organisations actions', () => {
     expect(actions.stopOrganisationsLoading()).toEqual(stopLoadingAction);
   });
   // !!!!!!!!!
-  xit('should create an action to add organisations list', () => {
+  it('should create an action to add organisations list', () => {
+
     const data = [
-      { id: 1, name: 'organisation 1' },
-      { id: 2, name: 'organisation 2' },
+      {
+        id: 1,
+        name: 'Organisation 1',
+        medium: [{ id: 1, name: 'Medium 1' }, { id: 2, name: 'Medium 2' }],
+        applications: [
+          { id: 1, name: 'Application 1' },
+          { id: 2, name: 'Application 2' }
+        ],
+        organisation_users: [
+          { user: { id: 1, name: 'User 1' }, role: { id: 1, name: 'Role 1' } },
+          { user: { id: 2, name: 'User 2' }, role: { id: 2, name: 'Role 2' } }
+        ],
+        policies: [
+          { id: 1, name: 'Policy 1' }, { id: 2, name: 'Policy 2' }
+        ]
+      },
+      {
+        id: 2,
+        name: 'Organisation 2',
+        medium: [{ id: 3, name: 'Medium 3' }, { id: 4, name: 'Medium 4' }
+        ],
+        applications: [
+          { id: 3, name: 'Application 3' },
+          { id: 4, name: 'Application 4' }
+        ],
+        organisation_users: [
+          { user: { id: 3, name: 'User 3' }, role: { id: 3, name: 'Role 3' } },
+          { user: { id: 4, name: 'User 4' }, role: { id: 4, name: 'Role 4' } }
+        ],
+        policies: [{ id: 3, name: 'Policy 3' }, { id: 4, name: 'Policy 4' }]
+      }
     ];
 
-    const addOrganisationsAction = {
-      type: types.ADD_ORGANISATIONS,
-      payload: data,
-    };
-    expect(actions.addOrganisationsList(data)).toEqual(addOrganisationsAction);
+    const module1 = require('../actions/application')
+    module1.addApplicationList = jest.fn(() => ({
+      type: 'ADD_APPLICATIONS',
+      payload: "mock payload"
+    }));
+
+    const module2 = require('../actions/policy')
+    module2.addOrganisationPolicy = jest.fn(() => ({
+      type: 'ADD_ORGANISATION_POLICY',
+      payload: 'mock payload'
+    }));
+
+    const expectedActions = [
+      {
+        type: 'ADD_MEDIA',
+        payload: buildObjectOfItems(getValues(data, 'medium'))
+      },
+      { type: 'ADD_APPLICATIONS', payload: 'mock payload' },
+      { type: 'ADD_USERS', payload: { '1': { id: 1, name: 'User 1' }, '2': { id: 2, name: 'User 2' }, } },
+      { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
+      { type: 'ADD_USERS', payload: { '3': { id: 3, name: 'User 3' }, '4': { id: 4, name: 'User 4' } } },
+      { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
+      {
+        type: 'ADD_ORGANISATIONS',
+        payload: {
+          data: {
+            '1': {
+              id: 1,
+              name: 'Organisation 1',
+              applications: [1, 2],
+              roles: { '1': { id: 1, name: 'Role 1' }, '2': { id: 2, name: 'Role 2' } },
+              role: { id: 1, name: 'Role 1' },
+              users: [1, 2],
+              policyIDs: [1, 2]
+            },
+            '2': {
+              id: 2,
+              name: 'Organisation 2',
+              applications: [3, 4],
+              roles: { '3': { id: 3, name: 'Role 3' }, '4': { id: 4, name: 'Role 4' } },
+              users: [3, 4],
+              policyIDs: [3, 4]
+            }
+          },
+          ids: [1, 2]
+        }
+      }
+    ];
+
+    store.dispatch(actions.addOrganisationsList(data, 1));
+    expect(store.getActions()).toEqual(expectedActions);
   });
   it('should create an action to reset organisations', () => {
     const resetOrganisationsRequestAction = {
@@ -232,117 +313,94 @@ describe('organisations actions', () => {
       .then(() => expect(store.getActions()).toEqual(expectedActions));
     expect(axios.get).toHaveBeenCalledWith(`${types.ORGANISATIONS_API}/my`);
   });
-  xit('should create actions to get organisation by id success', () => {
-    const organisation = {
-      organisation: {
-        id: 1,
-        name: 'Test Organisation',
-        featured_medium_id: 2,
-        medium: {
-          id: 2,
-          url: 'https://medium.com/test-image.jpg',
-        },
-        roles: [
-          {
-            id: 1,
-            name: 'Test Role',
-            users: [
-              {
-                id: 1,
-                name: 'Test User',
-              },
-            ],
-          },
-        ],
-        policies: [
-          {
-            id: 1,
-            name: 'Test Policy',
-          },
-        ],
-        organisation_users: [
-          {
-            id: 1,
-            user: {
-              id: 1,
-              name: 'Test User',
+  it('should create actions to get organisation by id success', () => {
+    const resp = {
+      data: {
+        organisation: {
+          id: 123,
+          name: 'Mock Organisation',
+          featured_medium_id: 456,
+          roles: [
+            {
+              id: 789,
+              name: 'Mock Role',
+              users: [
+                { id: 111, name: 'User 1' },
+                { id: 222, name: 'User 2' },
+              ],
             },
-            role: 'Test Role',
-          },
-        ],
-        applications: [
-          {
-            id: 1,
-            name: 'Test Application',
-          },
-        ],
-      },
-      permission: {
-        role: 'Test Role',
+          ],
+          policies: [
+            { id: 333, name: 'Policy 1' },
+            { id: 444, name: 'Policy 2' },
+          ],
+          organisation_users: [
+            { user: { id: 111, name: 'User 1' }, role: 'Mock Role' },
+            { user: { id: 222, name: 'User 2' }, role: 'Mock Role' },
+          ],
+          applications: [
+            { id: 555, name: 'Application 1' },
+            { id: 666, name: 'Application 2' },
+          ],
+        },
+        permission: { role: 'Mock Role' },
       },
     };
+
     const orgID = 1;
-    const resp = { data: organisation };
     axios.get.mockResolvedValue(resp);
 
     const expectedActions = [
+      { type: 'SET_ORGANISATIONS_LOADING', payload: true },
+      { type: 'ADD_MEDIA', payload: {} },
       {
-        type: types.SET_ORGANISATIONS_LOADING,
-        payload: true,
-      },
-      {
-        type: 'ADD_MEDIA',
-        payload: buildObjectOfItems([organisation.organisation.medium]),
-      },
-      {
-        type: 'ADD_USERS',
-        payload: buildObjectOfItems(
-          organisation.organisation.roles.map((role) => role.users).flat(),
-        ),
+        type: 'ADD_USERS', payload: {
+          '111': { id: 111, name: 'User 1' },
+          '222': { id: 222, name: 'User 2' }
+        }
       },
       {
         type: 'ADD_ORGANISATION_ROLES',
         payload: {
-          id: organisation.organisation.id,
-          data: buildObjectOfItems(organisation.organisation.roles),
-        },
+          id: 1,
+          data: {
+            '789': { id: 789, name: 'Mock Role', users: [111, 222] }
+          }
+        }
+      },
+      { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
+      {
+        type: 'ADD_USERS', payload: {
+          '111': { id: 111, name: 'User 1' },
+          '222': { id: 222, name: 'User 2' }
+        }
       },
       {
-        type: 'ADD_ORGANISATION_ROLES',
-        payload: {
-          id: orgID,
-          data: {},
-        },
+        type: 'ADD_ORGANISATION', payload: {
+          id: 123, data: {
+            id: 123,
+            name: 'Mock Organisation',
+            featured_medium_id: 456,
+            applications: [
+              { id: 555, name: 'Application 1' },
+              { id: 666, name: 'Application 2' }
+            ],
+            roleIDs: [789],
+            policyIDs: [333, 444],
+            roles: { '111': 'Mock Role', '222': 'Mock Role' },
+            role: 'Mock Role',
+            users: [111, 222],
+          }
+        }
       },
-      {
-        type: 'ADD_ORGANISATION_POLICY',
-        payload: {
-          id: orgID,
-          data: buildObjectOfItems(organisation.organisation.policies),
-        },
-      },
-      {
-        type: 'ADD_USERS',
-        payload: buildObjectOfItems(
-          organisation.organisation.organisation_users.map((ou) => ou.user),
-        ),
-      },
-      {
-        type: types.ADD_ORGANISATION,
-        payload: {
-          id: orgID,
-          data: organisation.organisation,
-        },
-      },
-      {
-        type: types.SET_ORGANISATIONS_LOADING,
-        payload: false,
-      },
+      { type: 'SET_ORGANISATIONS_LOADING', payload: false }
     ];
 
     store
       .dispatch(actions.getOrganisation(1))
-      .then(() => expect(store.getActions()).toEqual(expectedActions));
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      });
     expect(axios.get).toHaveBeenCalledWith(`${types.ORGANISATIONS_API}/1`);
   });
   it('should create actions to get organisation by id failure', () => {
