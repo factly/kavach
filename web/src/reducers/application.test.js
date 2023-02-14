@@ -1,8 +1,8 @@
 import reducer from './application';
 import * as types from '../constants/application';
+import { ADD_USER_IDS } from '../constants/applicationUser';
 
 const initialState = {
-  req: [],
   details: {},
   loading: true,
 };
@@ -45,7 +45,6 @@ describe('application reducer', () => {
         payload: true,
       }),
     ).toEqual({
-      req: [],
       details: {},
       loading: true,
     });
@@ -55,7 +54,6 @@ describe('application reducer', () => {
         payload: false,
       }),
     ).toEqual({
-      req: [],
       details: {},
       loading: false,
     });
@@ -71,7 +69,6 @@ describe('application reducer', () => {
         },
       }),
     ).toEqual({
-      req: [{ data: [1, 2, 3], query: { page: 1, limit: 5 }, total: 3 }],
       details: {},
       loading: true,
     });
@@ -80,7 +77,6 @@ describe('application reducer', () => {
     expect(
       reducer(
         {
-          req: [{ data: [1, 2], query: { page: 1, limit: 5 }, total: 2 }],
           details: {},
           loading: true,
         },
@@ -94,7 +90,6 @@ describe('application reducer', () => {
         },
       ),
     ).toEqual({
-      req: [{ data: [1, 2, 3], query: { page: 1, limit: 5 }, total: 3 }],
       details: {},
       loading: true,
     });
@@ -103,13 +98,12 @@ describe('application reducer', () => {
     expect(
       reducer(initialState, {
         type: types.ADD_APPLICATIONS,
-        payload: [
-          { id: 1, name: 'Application 1' },
-          { id: 2, name: 'Application 2' },
-        ],
+        payload: {
+          1: { id: 1, name: 'Application 1' },
+          2: { id: 2, name: 'Application 2' },
+        },
       }),
     ).toEqual({
-      req: [],
       details: { 1: { id: 1, name: 'Application 1' }, 2: { id: 2, name: 'Application 2' } },
       loading: true,
     });
@@ -121,7 +115,6 @@ describe('application reducer', () => {
         payload: [],
       }),
     ).toEqual({
-      req: [],
       details: {},
       loading: true,
     });
@@ -133,7 +126,6 @@ describe('application reducer', () => {
         payload: { id: 1, name: 'new application' },
       }),
     ).toEqual({
-      req: [],
       details: { 1: { id: 1, name: 'new application' } },
       loading: true,
     });
@@ -142,7 +134,6 @@ describe('application reducer', () => {
     expect(
       reducer(
         {
-          req: [],
           details: { 1: { id: 1, name: 'existing application' } },
           loading: false,
         },
@@ -152,7 +143,6 @@ describe('application reducer', () => {
         },
       ),
     ).toEqual({
-      req: [],
       details: {
         1: { id: 1, name: 'existing application' },
         2: { id: 2, name: 'new application' },
@@ -164,7 +154,6 @@ describe('application reducer', () => {
     expect(
       reducer(
         {
-          req: [],
           details: {
             1: { id: 1, name: 'existing application' },
             2: { id: 2, name: 'new application' },
@@ -177,12 +166,91 @@ describe('application reducer', () => {
         },
       ),
     ).toEqual({
-      req: [],
       details: {
         1: { id: 1, name: 'existing application' },
         2: { id: 2, name: 'updated application' },
       },
       loading: false,
     });
+  });
+  it('should handle ADD_SPACE_IDS', () => {
+    expect(
+      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
+        type: types.ADD_SPACE_IDS,
+        payload: {
+          appID: 1,
+          data: [1, 2, 3],
+        }
+      })
+    ).toEqual({
+      ...initialState,
+      details: {
+        1: { id: 1, name: 'Application 1', spaces: [1, 2, 3] }
+      }
+    })
+  });
+  it('should handle ADD_USER_IDS', () => {
+    expect(
+      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
+        type: ADD_USER_IDS,
+        payload: {
+          id: 1,
+          data: [1, 2, 3],
+        }
+      })
+    ).toEqual({
+      ...initialState,
+      details: {
+        1: { id: 1, name: 'Application 1', users: [1, 2, 3] }
+      }
+    })
+  });
+  it('should handle ADD_APPLICATION_TOKEN_IDS', () => {
+    expect(
+      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
+        type: types.ADD_APPLICATION_TOKEN_IDS,
+        payload: {
+          id: 1,
+          data: [1, 2, 3],
+        }
+      })
+    ).toEqual({
+      ...initialState,
+      details: {
+        1: { id: 1, name: 'Application 1', tokens: [1, 2, 3] }
+      }
+    })
+  });
+  it('should handle ADD_APPLICATION_ROLE_IDS', () => {
+    expect(
+      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
+        type: types.ADD_APPLICATION_ROLE_IDS,
+        payload: {
+          id: 1,
+          data: [1, 2, 3],
+        }
+      })
+    ).toEqual({
+      ...initialState,
+      details: {
+        1: { id: 1, name: 'Application 1', roleIDs: [1, 2, 3] }
+      }
+    })
+  });
+  it('should handle ADD_APPLICATION_POLICY_IDS', () => {
+    expect(
+      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
+        type: types.ADD_APPLICATION_POLICY_IDS,
+        payload: {
+          id: 1,
+          data: [1, 2, 3],
+        }
+      })
+    ).toEqual({
+      ...initialState,
+      details: {
+        1: { id: 1, name: 'Application 1', policyIDs: [1, 2, 3] }
+      }
+    })
   });
 });
