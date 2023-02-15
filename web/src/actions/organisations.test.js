@@ -73,15 +73,6 @@ describe('organisations actions', () => {
         name: 'Organisation 2',
         medium: [{ id: 3, name: 'Medium 3' }, { id: 4, name: 'Medium 4' }
         ],
-        applications: [
-          { id: 3, name: 'Application 3' },
-          { id: 4, name: 'Application 4' }
-        ],
-        organisation_users: [
-          { user: { id: 3, name: 'User 3' }, role: { id: 3, name: 'Role 3' } },
-          { user: { id: 4, name: 'User 4' }, role: { id: 4, name: 'Role 4' } }
-        ],
-        policies: [{ id: 3, name: 'Policy 3' }, { id: 4, name: 'Policy 4' }]
       }
     ];
 
@@ -105,8 +96,7 @@ describe('organisations actions', () => {
       { type: 'ADD_APPLICATIONS', payload: 'mock payload' },
       { type: 'ADD_USERS', payload: { '1': { id: 1, name: 'User 1' }, '2': { id: 2, name: 'User 2' }, } },
       { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
-      { type: 'ADD_USERS', payload: { '3': { id: 3, name: 'User 3' }, '4': { id: 4, name: 'User 4' } } },
-      { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
+      { type: 'ADD_USERS', payload: {} },
       {
         type: 'ADD_ORGANISATIONS',
         payload: {
@@ -123,10 +113,9 @@ describe('organisations actions', () => {
             '2': {
               id: 2,
               name: 'Organisation 2',
-              applications: [3, 4],
-              roles: { '3': { id: 3, name: 'Role 3' }, '4': { id: 4, name: 'Role 4' } },
-              users: [3, 4],
-              policyIDs: [3, 4]
+              roles: {},
+              users: [],
+              applications: []
             }
           },
           ids: [1, 2]
