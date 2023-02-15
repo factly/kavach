@@ -80,8 +80,6 @@ export const editSpace = (id, appID, data) => {
   };
 };
 
-it('should create actions for update space failure', () => {});
-
 export const deleteSpace = (appID, id) => {
   return (dispatch, getState) => {
     dispatch(loadingSpaces());
