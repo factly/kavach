@@ -96,6 +96,7 @@ describe('users reducer', () => {
       loading: false,
     });
   });
+  console.log("last test in users reducer is skipped because it is not handeled in reducer")
   xit('should handle ADD_ORGANISATION_USERS ', () => {
     expect(
       reducer(initialState, {

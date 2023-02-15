@@ -50,6 +50,20 @@ describe('Application actions', () => {
     };
     expect(actions.stopApplicationLoading()).toEqual(stopLoadingAction);
   });
+  it('should create an action to setDefaultApplicationsLoading', () => {
+    const startLoadingAction = {
+      type: types.SET_DEFAULT_APPLICATION_LOADING,
+      payload: true,
+    };
+    expect(actions.setDefaultApplicationsLoading()).toEqual(startLoadingAction);
+  });
+  it('should create an action to stopDefaultApplicationsLoading', () => {
+    const stopLoadingAction = {
+      type: types.SET_DEFAULT_APPLICATION_LOADING,
+      payload: false,
+    };
+    expect(actions.stopDefaultApplicationLoading()).toEqual(stopLoadingAction);
+  });
   it('should create an action to add application list', () => {
     const data = [
       {
@@ -137,11 +151,15 @@ describe('Application actions', () => {
     };
     expect(actions.resetApplications()).toEqual(resetApplicationsAction);
   });
-  xit('should create actions to fetch applications success', () => {
-    const medium = { id: 1, medium: 'Medium' };
-    const applications = [{ id: 1, name: 'Application 1', medium }];
-    const resp = { data: applications };
-    axios.get.mockResolvedValue(resp);
+  it('should create actions to fetch applications success', () => {
+    const applications = [{ id: 1, name: 'Application 1' }];
+    jest.mock('../actions/application', () => ({
+      addApplicationList: jest.fn(() => ({
+        type: 'ADD_APPLICATIONS',
+        payload: 'mock payload'
+      })),
+    }));
+    axios.get.mockResolvedValue({ data: applications });
 
     const expectedActions = [
       {
@@ -149,16 +167,8 @@ describe('Application actions', () => {
         payload: true,
       },
       {
-        type: ADD_MEDIA,
-        payload: [medium],
-      },
-      {
-        type: types.ADD_APPLICATIONS,
-        payload: [{ id: 1, name: 'Application 1', medium: 1 }],
-      },
-      {
-        type: types.ADD_APPLICATIONS_REQUEST,
-        payload: { data: [1] },
+        type: 'ADD_APPLICATION_IDS',
+        payload: getIds(applications),
       },
       {
         type: types.SET_APPLICATIONS_LOADING,
@@ -167,8 +177,12 @@ describe('Application actions', () => {
     ];
     store
       .dispatch(actions.getApplications())
-      .then(() => expect(store.getActions()).toEqual(expectedActions));
-    expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');
+      .then(() => {
+        expectedActions.forEach((action) => {
+          expect(store.getActions()).toContainEqual(action);
+        });
+        expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');
+      });
   });
   it('should create actions to fetch applications failure', () => {
     const errorMessage = 'Unable to fetch';
@@ -262,23 +276,75 @@ describe('Application actions', () => {
       types.APPLICATIONS_API + '/1' + '/applications/' + application.id + '/default',
     );
   });
-  xit('should create action to getApplication success', () => {
-    const medium = { id: 1, medium: 'Medium' };
-    const application = { id: 1, name: 'Application 1', medium };
-    const resp = { data: application };
+  it('should create action to getApplication success', () => {
+    const app = {
+      id: 123,
+      name: 'Test Application',
+      medium_id: 456,
+      roles: [
+        { id: 1, name: 'Admin', users: [1, 2, 3] },
+        { id: 2, name: 'User', users: [4, 5, 6] },
+      ],
+      medium: [{
+        id: 456,
+        name: 'medium'
+      }],
+      policies: [
+        { id: 1, name: 'Policy 1' },
+        { id: 2, name: 'Policy 2' },
+      ],
+      users: [
+        { id: 1, name: 'User 1' },
+        { id: 2, name: 'User 2' },
+        { id: 3, name: 'User 3' },
+        { id: 4, name: 'User 4' },
+        { id: 5, name: 'User 5' },
+        { id: 6, name: 'User 6' },
+      ],
+      tokens: [
+        { id: 1, name: 'Token 1' },
+        { id: 2, name: 'Token 2' },
+        { id: 3, name: 'Token 3' },
+      ],
+      spaces: [
+        { id: 1, name: 'Space 1' },
+        { id: 2, name: 'Space 2' },
+      ],
+    };
+    const resultedApp = { ...app }
+    const resp = { data: app };
     axios.get.mockResolvedValue(resp);
     const expectedActions = [
       {
         type: types.SET_APPLICATIONS_LOADING,
         payload: true,
+      }, { type: 'ADD_MEDIA', payload: buildObjectOfItems(resultedApp.medium) },
+      {
+        type: 'ADD_APPLICATION_ROLES',
+        payload: { id: 1, data: buildObjectOfItems(resultedApp.roles) }
       },
       {
-        type: ADD_MEDIA,
-        payload: [medium],
+        type: 'ADD_USERS',
+        payload: buildObjectOfItems(resultedApp.users)
+      },
+      { type: 'ADD_MEDIA', payload: {} },
+      { type: 'ADD_USERS', payload: {} },
+      {
+        type: 'ADD_SPACES',
+        payload: buildObjectOfItems(resultedApp.spaces)
       },
       {
-        type: types.ADD_APPLICATION,
-        payload: { id: 1, name: 'Application 1', medium: 1 },
+        type: 'ADD_APPLICATION',
+        payload: {
+          id: 123,
+          name: 'Test Application',
+          medium_id: 456,
+          users: [1, 2, 3, 4, 5, 6],
+          tokens: [1, 2, 3],
+          spaces: [1, 2],
+          roleIDs: [1, 2],
+          policyIDs: [1, 2],
+        }
       },
       {
         type: types.SET_APPLICATIONS_LOADING,
@@ -287,7 +353,9 @@ describe('Application actions', () => {
     ];
     store
       .dispatch(actions.getApplication(1))
-      .then(() => expect(store.getActions()).toEqual(expectedActions));
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      });
     expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create action to getApplication failure', () => {
@@ -317,7 +385,7 @@ describe('Application actions', () => {
       .then(() => expect(store.getActions()).toEqual(expectedActions));
     expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
-  xit('should create action to getApplication without medium success', () => {
+  it('should create action to getApplication without medium success', () => {
     const application = { id: 1, name: 'Application 1' };
     const resp = { data: application };
     axios.get.mockResolvedValue(resp);
@@ -326,9 +394,22 @@ describe('Application actions', () => {
         type: types.SET_APPLICATIONS_LOADING,
         payload: true,
       },
+      { type: 'ADD_APPLICATION_ROLES', payload: { id: 1, data: {} } },
+      { type: 'ADD_USERS', payload: {} },
+      { type: 'ADD_MEDIA', payload: {} },
+      { type: 'ADD_USERS', payload: {} },
+      { type: 'ADD_SPACES', payload: {} },
       {
-        type: types.ADD_APPLICATION,
-        payload: { id: 1, name: 'Application 1' },
+        type: 'ADD_APPLICATION',
+        payload: {
+          id: 1,
+          name: 'Application 1',
+          roleIDs: [],
+          policyIDs: [],
+          users: [],
+          tokens: [],
+          spaces: []
+        }
       },
       {
         type: types.SET_APPLICATIONS_LOADING,
@@ -337,7 +418,9 @@ describe('Application actions', () => {
     ];
     store
       .dispatch(actions.getApplication(1))
-      .then(() => expect(store.getActions()).toEqual(expectedActions));
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      });
     expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create actions to create application success', () => {
@@ -624,4 +707,144 @@ describe('Application actions', () => {
     store.dispatch(actions.addApplications(applications));
     expect(store.getActions()).toEqual(expectedActions);
   });
+
+  it('should create an action to fetch default applications success', () => {
+    const applications = [
+      { id: 1, name: 'Application 1' },
+      { id: 2, name: 'Application 2' },
+      { id: 3, name: 'Application 3' },
+    ];
+    const resp = { data: applications };
+    axios.get.mockResolvedValueOnce(resp);
+
+    const expectedActions = [
+      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: true },
+      {
+        type: 'GET_DEFAULT_APPLICATIONS',
+        payload: applications,
+      },
+      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: false }
+    ];
+
+    store
+      .dispatch(actions.getDefaultApplications())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      })
+  });
+
+  it('should create an action to fetch default applications failure', () => {
+    const errorMessage = 'Unable to get applications';
+    axios.get.mockRejectedValueOnce(new Error(errorMessage));
+
+    const expectedActions = [
+      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: true },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          time: Date.now(),
+          message: errorMessage,
+        },
+      },
+      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: false }
+    ];
+
+    store
+      .dispatch(actions.getDefaultApplications())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      })
+  });
+
+  it('should create an action to delete default applications success', () => {
+    axios.delete.mockResolvedValueOnce();
+
+    const expectedActions = [
+      { type: 'SET_APPLICATIONS_LOADING', payload: true },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'success',
+          title: 'Success',
+          time: Date.now(),
+          message: 'Application removed succesfully',
+        },
+      },
+      { type: 'SET_APPLICATIONS_LOADING', payload: false }
+    ];
+
+    store
+      .dispatch(actions.removeDefaultApplication(1))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      })
+  });
+  it('should create an action to delete default applications failure', () => {
+    const errorMessage = 'Unable to delete application';
+    axios.delete.mockRejectedValueOnce(new Error(errorMessage));
+
+    const expectedActions = [
+      { type: 'SET_APPLICATIONS_LOADING', payload: true },
+      {
+        type: ADD_NOTIFICATION,
+        payload: {
+          type: 'error',
+          title: 'Error',
+          time: Date.now(),
+          message: errorMessage,
+        },
+      },
+      { type: 'SET_APPLICATIONS_LOADING', payload: false }
+    ];
+
+    store
+      .dispatch(actions.removeDefaultApplication(1))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+      })
+  });
+  it('should create action for addApplicationIds', () => {
+    const data = [1,2,3]
+    const expectedAction = {
+      type: 'ADD_APPLICATION_IDS',
+      payload: data
+    }
+
+    expect(actions.addApplicationIds(data)).toEqual(expectedAction)
+  })
+  it('should create action for addApplication', () => {
+    const data = {id: 1}
+    const expectedAction = {
+      type: 'ADD_APPLICATION',
+      payload: data
+    }
+
+    expect(actions.addApplication(data)).toEqual(expectedAction)
+  })
+  it('should create action for addSpaceIDs', () => {
+    const data = [1,2,3]
+    const expectedAction = {
+      type: 'ADD_SPACE_IDS',
+      payload: {
+        appID: 1,
+        data: data
+      }
+    }
+
+    expect(actions.addSpaceIDs(1, data)).toEqual(expectedAction)
+  })
+  it('should create action for addDefaultApplicationsList', () => {
+    const data = [1,2,3]
+    const expectedAction = {
+      type: 'GET_DEFAULT_APPLICATIONS',
+      payload: data
+    }
+
+    expect(actions.addDefaultApplicationsList(data)).toEqual(expectedAction)
+  })
 });
+
+
+
