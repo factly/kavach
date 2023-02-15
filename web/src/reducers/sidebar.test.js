@@ -8,7 +8,9 @@ describe('sidebar reducer', () => {
 	it('should return the initial state', () => {
 		expect(sidebarReducer(undefined, {})).toEqual(initialState);
 	});
-
+	it('should handle case when no state and action is passed is passed', () => {
+		expect(sidebarReducer()).toEqual(initialState)
+	});
 	it('should handle default case', () => {
 		expect(
 			sidebarReducer(initialState, {

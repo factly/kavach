@@ -22,6 +22,9 @@ describe('roles Reducer', () => {
 	it('should return the initial state', () => {
 		expect(reducer(undefined, {})).toEqual(initialState);
 	});
+	it('should handle case when no state and action is passed is passed', () => {
+		expect(reducer()).toEqual(initialState)
+	});
 	it('should return default state', () => {
 		expect(reducer(initialState, { type: 'UNKNOWN' })).toEqual(initialState);
 	});

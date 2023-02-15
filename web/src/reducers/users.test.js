@@ -27,6 +27,9 @@ describe('users reducer', () => {
       ),
     ).toEqual(initialState);
   });
+  it('should handle case when no state and action is passed is passed', () => {
+    expect(reducer()).toEqual(initialState);
+  });
   it('should handle SET_USERS_LOADING', () => {
     expect(
       reducer(initialState, {
