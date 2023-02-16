@@ -24,8 +24,10 @@ describe('getValues', () => {
 	it('returns an empty array if objectsList is empty or undefined', () => {
 		const result1 = getValues([], 'key');
 		const result2 = getValues(undefined, 'key');
+		const result3 = getValues(null);
 		expect(result1).toEqual([]);
 		expect(result2).toEqual([]);
+		expect(result3).toEqual([]);
 	});
 
 	it('returns an array of values even if some objects do not have the key or the key value is falsy', () => {
@@ -52,8 +54,10 @@ describe('getIds', () => {
 	it('returns an empty array if objectsList is empty or undefined', () => {
 		const result1 = getIds([]);
 		const result2 = getIds(undefined);
+		const result3 = getIds(null);
 		expect(result1).toEqual([]);
 		expect(result2).toEqual([]);
+		expect(result3).toEqual([]);
 	});
 
 	it('returns an array of ids even if some objects do not have an id or the id value is falsy', () => {
@@ -99,9 +103,11 @@ describe('deleteKeys', () => {
 
 	it('returns an empty array if objectsList is empty or undefined', () => {
 		const result1 = deleteKeys([], ['key']);
-		const result2 = deleteKeys(undefined, ['key']);
+		const result2 = deleteKeys(undefined, undefined);
+		const result3 = deleteKeys(null, null);
 		expect(result1).toEqual([]);
 		expect(result2).toEqual([]);
+		expect(result3).toEqual([]);
 	});
 
 	it('returns an array of objects even if some objects do not have the key or the key value is falsy', () => {
@@ -138,8 +144,10 @@ describe('unique', () => {
 	it('returns an empty array if values is empty or undefined', () => {
 		const result1 = unique([]);
 		const result2 = unique(undefined);
+		const result3 = unique(null);
 		expect(result1).toEqual([]);
 		expect(result2).toEqual([]);
+		expect(result3).toEqual([]);
 	});
 });
 
@@ -179,5 +187,11 @@ describe('buildObjectOfItems', () => {
 		};
 
 		expect(buildObjectOfItems(objectsList)).toEqual(expected);
+	});
+
+	it('should return empty obj when object list is empty, null or undefined', () => {
+		expect(buildObjectOfItems([])).toEqual({});
+		expect(buildObjectOfItems(null)).toEqual({});
+		expect(buildObjectOfItems(undefined)).toEqual({});
 	});
 });
