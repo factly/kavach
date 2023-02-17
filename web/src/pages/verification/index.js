@@ -226,7 +226,7 @@ function Verification() {
             >
               Verify your email
             </h2>
-            {state === 'sent_email' && ui?.messages?.[0]?.text (
+            {state === 'sent_email' && ui?.messages?.[0]?.text && (
               <Alert
                 message={ui?.messages?.[0]?.text}
                 type={ui?.messages?.[0]?.type !== 'error' ? 'success' : 'error'}
