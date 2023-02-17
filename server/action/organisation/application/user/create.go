@@ -89,7 +89,6 @@ func create(w http.ResponseWriter, r *http.Request) {
 	app := &model.Application{}
 	app.ID = uint(appID)
 
-	var userContext model.ContextKey = "application_user"
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
 	// Check if application exist

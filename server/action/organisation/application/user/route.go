@@ -1,10 +1,13 @@
 package user
 
 import (
+	"github.com/factly/kavach-server/model"
 	"github.com/go-chi/chi"
 )
 
 const namespace string = "applications"
+
+var userContext model.ContextKey = "application_user"
 
 // Router organisation
 func Router() chi.Router {
