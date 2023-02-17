@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlaceholderImage should render the component 1`] = `
+<Fragment>
+  <img
+    alt=""
+    height="auto"
+    src="placeholderImage.svg"
+    style={
+      Object {
+        "maxWidth": "240px",
+        "objectFit": "contain",
+        "padding": "1rem",
+      }
+    }
+    width="100%"
+  />
+</Fragment>
+`;
+
+exports[`PlaceholderImage should render the component when maxWidth undefined 1`] = `
+<img
+  alt=""
+  height="auto"
+  src="placeholderImage.svg"
+  style="object-fit:contain;padding:1rem;max-width:240px"
+  width="100%"
+/>
+`;

@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 
 import '../../matchMedia.mock';
 import OrganisationSelector from './OrganisationSelector';
@@ -77,7 +77,7 @@ describe('OrganisationSelector component', () => {
       const push = jest.fn();
       useHistory.mockReturnValueOnce({ push });
 
-      wrapper = mount(
+      wrapper = shallow(
         <Provider store={store}>
           <OrganisationSelector />
         </Provider>,

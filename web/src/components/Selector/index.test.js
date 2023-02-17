@@ -2,9 +2,9 @@ import React from 'react';
 import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
+import { render } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-
+import { Select } from 'antd';
 import '../../matchMedia.mock';
 import Selector from './index';
 import { mount } from 'enzyme';
@@ -133,4 +133,70 @@ describe('Categories List component', () => {
       expect(onChange).toHaveBeenCalledWith(2);
     });
   });
+
+  describe('functional testing', () => {
+    let wrapper;
+    beforeEach(() => {
+      jest.clearAllMocks();
+      mockedDispatch = jest.fn(() => new Promise((resolve) => resolve(true)));
+      useDispatch.mockReturnValue(mockedDispatch);
+    });
+    afterEach(() => {
+      wrapper.unmount();
+    });
+    it('should display options containing input text', () => {
+      store = mockStore({
+        ...state,
+        users: {
+          ids: [1, 2],
+          organisations: {
+            1: [1, 2],
+          },
+          details: {
+            1: {
+              id: 1,
+              created_at: '2020-07-17T10:14:44.251814Z',
+              updated_at: '2020-07-17T10:14:44.251814Z',
+              deleted_at: null,
+              first_name: 'User-1',
+              last_name: 'lastname-1',
+              email: 'user1@gmail.com',
+            },
+            2: {
+              id: 2,
+              created_at: '2020-07-17T10:14:44.251814Z',
+              updated_at: '2020-07-17T10:14:44.251814Z',
+              deleted_at: null,
+              first_name: 'User-1',
+              last_name: 'lastname-2',
+              email: 'user2@gmail.com',
+            },
+          },
+          loading: false,
+        },
+      })
+      const onChange = jest.fn();
+      wrapper = mount(
+        <Provider store={store}>
+          <Selector onChange={onChange} value={1} />
+        </Provider>,
+      );
+      const input = wrapper.find('input');
+      input.simulate('change', { target: { value: 'user' } });
+      wrapper.update();
+      const options = wrapper.find( { role: 'option' });
+      expect(options.length).toEqual(2);
+
+      input.simulate('change', { target: { value: 'user1' } });
+      wrapper.update();
+      const options2 = wrapper.find( { role: 'option' });
+      expect(options2.length).toEqual(1);
+
+      input.simulate('change', { target: { value: 'user3' } });
+      wrapper.update();
+      const options3 = wrapper.find( { role: 'option' });
+      expect(options3.length).toEqual(0);
+    });
+  });
 });
+

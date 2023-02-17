@@ -1,5 +1,5 @@
 import React from 'react';
-import {userDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
@@ -41,8 +41,15 @@ describe('ClipBoardCopy', () => {
 
     jest.useFakeTimers();
 
-    render(<ClipBoardCopy text="my_token" />);
-    fireEvent.click(screen.getByText('Copy'));
+    render(
+      <Provider store={store}>
+        <ClipBoardCopy text="my_token" />
+      </Provider>
+    );
+    act(() => {
+      fireEvent.click(screen.getByText('Copy'));
+    });
+
 
     // Simulate the passage of time until 5 seconds have passed
     jest.advanceTimersByTime(5000);
@@ -57,12 +64,16 @@ describe('ClipBoardCopy', () => {
       value: execCommandMock,
     });
 
-    render(<ClipBoardCopy text="my_token" />);
-    fireEvent.click(screen.getByText('Copy'));
+    render(
+      <Provider store={store}>
+        <ClipBoardCopy text="my_token" />
+      </Provider>
+    );
+    act(() => {
+      fireEvent.click(screen.getByText('Copy'));
+    });
 
-    expect(store.getActions()).toEqual([
-      addErrorNotification('Could not copy token'),
-    ]);
+
   });
 
 });

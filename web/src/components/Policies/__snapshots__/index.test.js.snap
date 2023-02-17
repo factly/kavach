@@ -1,0 +1,3275 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DynamicPermissionField renders and matches snapshot 1`] = `
+<DynamicPermissionField
+  type="create"
+>
+  <FormList
+    name="permissions"
+  >
+    <List
+      name="permissions"
+    >
+      <WrapperField
+        isList={true}
+        name={Array []}
+        shouldUpdate={[Function]}
+      >
+        <Field
+          fieldContext={
+            Object {
+              "getFieldError": [Function],
+              "getFieldValue": [Function],
+              "getFieldWarning": [Function],
+              "getFieldsError": [Function],
+              "getFieldsValue": [Function],
+              "getInternalHooks": [Function],
+              "isFieldTouched": [Function],
+              "isFieldValidating": [Function],
+              "isFieldsTouched": [Function],
+              "isFieldsValidating": [Function],
+              "prefixName": Array [
+                "permissions",
+              ],
+              "resetFields": [Function],
+              "setFieldValue": [Function],
+              "setFields": [Function],
+              "setFieldsValue": [Function],
+              "submit": [Function],
+              "validateFields": [Function],
+            }
+          }
+          isList={true}
+          key="_"
+          name={Array []}
+          shouldUpdate={[Function]}
+          trigger="onChange"
+          valuePropName="value"
+        >
+          <div>
+            <PermissionForm
+              index={0}
+              key="0"
+            >
+              <Row
+                align="middle"
+                gutter={
+                  Array [
+                    10,
+                    0,
+                  ]
+                }
+                justify="center"
+                key="0"
+              >
+                <div
+                  className="ant-row ant-row-center ant-row-middle"
+                  style={
+                    Object {
+                      "marginLeft": -5,
+                      "marginRight": -5,
+                    }
+                  }
+                >
+                  <Col
+                    span={9}
+                  >
+                    <div
+                      className="ant-col ant-col-9"
+                      style={
+                        Object {
+                          "paddingLeft": 5,
+                          "paddingRight": 5,
+                        }
+                      }
+                    >
+                      <InternalFormItem
+                        label="Resource"
+                        name={
+                          Array [
+                            0,
+                            "resource",
+                          ]
+                        }
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please input resource",
+                              "required": true,
+                            },
+                          ]
+                        }
+                      >
+                        <WrapperField
+                          label="Resource"
+                          messageVariables={
+                            Object {
+                              "label": "Resource",
+                            }
+                          }
+                          name={
+                            Array [
+                              0,
+                              "resource",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please input resource",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          trigger="onChange"
+                        >
+                          <Field
+                            fieldContext={
+                              Object {
+                                "getFieldError": [Function],
+                                "getFieldValue": [Function],
+                                "getFieldWarning": [Function],
+                                "getFieldsError": [Function],
+                                "getFieldsValue": [Function],
+                                "getInternalHooks": [Function],
+                                "isFieldTouched": [Function],
+                                "isFieldValidating": [Function],
+                                "isFieldsTouched": [Function],
+                                "isFieldsValidating": [Function],
+                                "prefixName": Array [
+                                  "permissions",
+                                ],
+                                "resetFields": [Function],
+                                "setFieldValue": [Function],
+                                "setFields": [Function],
+                                "setFieldsValue": [Function],
+                                "submit": [Function],
+                                "validateFields": [Function],
+                              }
+                            }
+                            key="_0_resource"
+                            label="Resource"
+                            messageVariables={
+                              Object {
+                                "label": "Resource",
+                              }
+                            }
+                            name={
+                              Array [
+                                0,
+                                "resource",
+                              ]
+                            }
+                            onMetaChange={[Function]}
+                            rules={
+                              Array [
+                                Object {
+                                  "message": "Please input resource",
+                                  "required": true,
+                                },
+                              ]
+                            }
+                            trigger="onChange"
+                            valuePropName="value"
+                          >
+                            <ItemHolder
+                              errors={Array []}
+                              fieldId="permissions_0_resource"
+                              isRequired={true}
+                              key="row"
+                              label="Resource"
+                              meta={
+                                Object {
+                                  "errors": Array [],
+                                  "name": Array [],
+                                  "touched": false,
+                                  "validating": false,
+                                  "warnings": Array [],
+                                }
+                              }
+                              name={
+                                Array [
+                                  0,
+                                  "resource",
+                                ]
+                              }
+                              onSubItemMetaChange={[Function]}
+                              prefixCls="ant-form"
+                              rules={
+                                Array [
+                                  Object {
+                                    "message": "Please input resource",
+                                    "required": true,
+                                  },
+                                ]
+                              }
+                              warnings={Array []}
+                            >
+                              <div
+                                className="ant-form-item"
+                              >
+                                <Row
+                                  className="ant-form-item-row"
+                                >
+                                  <div
+                                    className="ant-row ant-form-item-row"
+                                    style={Object {}}
+                                  >
+                                    <FormItemLabel
+                                      errors={Array []}
+                                      fieldId="permissions_0_resource"
+                                      htmlFor="permissions_0_resource"
+                                      isRequired={true}
+                                      label="Resource"
+                                      meta={
+                                        Object {
+                                          "errors": Array [],
+                                          "name": Array [],
+                                          "touched": false,
+                                          "validating": false,
+                                          "warnings": Array [],
+                                        }
+                                      }
+                                      name={
+                                        Array [
+                                          0,
+                                          "resource",
+                                        ]
+                                      }
+                                      onSubItemMetaChange={[Function]}
+                                      prefixCls="ant-form"
+                                      required={true}
+                                      rules={
+                                        Array [
+                                          Object {
+                                            "message": "Please input resource",
+                                            "required": true,
+                                          },
+                                        ]
+                                      }
+                                      warnings={Array []}
+                                    >
+                                      <Col
+                                        className="ant-form-item-label"
+                                      >
+                                        <div
+                                          className="ant-col ant-form-item-label"
+                                          style={Object {}}
+                                        >
+                                          <label
+                                            className="ant-form-item-required"
+                                            htmlFor="permissions_0_resource"
+                                            title="Resource"
+                                          >
+                                            Resource
+                                          </label>
+                                        </div>
+                                      </Col>
+                                    </FormItemLabel>
+                                    <FormItemInput
+                                      errors={Array []}
+                                      fieldId="permissions_0_resource"
+                                      isRequired={true}
+                                      label="Resource"
+                                      marginBottom={null}
+                                      meta={
+                                        Object {
+                                          "errors": Array [],
+                                          "name": Array [],
+                                          "touched": false,
+                                          "validating": false,
+                                          "warnings": Array [],
+                                        }
+                                      }
+                                      name={Array []}
+                                      onErrorVisibleChanged={[Function]}
+                                      onSubItemMetaChange={[Function]}
+                                      prefixCls="ant-form"
+                                      rules={
+                                        Array [
+                                          Object {
+                                            "message": "Please input resource",
+                                            "required": true,
+                                          },
+                                        ]
+                                      }
+                                      status=""
+                                      touched={false}
+                                      validating={false}
+                                      warnings={Array []}
+                                    >
+                                      <Col
+                                        className="ant-form-item-control"
+                                      >
+                                        <div
+                                          className="ant-col ant-form-item-control"
+                                          style={Object {}}
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input"
+                                          >
+                                            <div
+                                              className="ant-form-item-control-input-content"
+                                            >
+                                              <Component
+                                                childProps={
+                                                  Array [
+                                                    "true",
+                                                    undefined,
+                                                    undefined,
+                                                  ]
+                                                }
+                                                update={
+                                                  <ForwardRef
+                                                    placeholder="enter resource"
+                                                  />
+                                                }
+                                              >
+                                                <ForwardRef
+                                                  aria-required="true"
+                                                  id="permissions_0_resource"
+                                                  onChange={[Function]}
+                                                  placeholder="enter resource"
+                                                >
+                                                  <ForwardRef
+                                                    affixWrapperClassName=""
+                                                    aria-required="true"
+                                                    className=""
+                                                    groupClassName=""
+                                                    id="permissions_0_resource"
+                                                    inputClassName=""
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onFocus={[Function]}
+                                                    placeholder="enter resource"
+                                                    prefixCls="ant-input"
+                                                    wrapperClassName=""
+                                                  >
+                                                    <BaseInput
+                                                      affixWrapperClassName=""
+                                                      aria-required="true"
+                                                      className=""
+                                                      focused={false}
+                                                      groupClassName=""
+                                                      handleReset={[Function]}
+                                                      id="permissions_0_resource"
+                                                      inputElement={
+                                                        <input
+                                                          aria-required="true"
+                                                          className="ant-input"
+                                                          id="permissions_0_resource"
+                                                          onBlur={[Function]}
+                                                          onChange={[Function]}
+                                                          onFocus={[Function]}
+                                                          onKeyDown={[Function]}
+                                                          placeholder="enter resource"
+                                                          type="text"
+                                                        />
+                                                      }
+                                                      placeholder="enter resource"
+                                                      prefixCls="ant-input"
+                                                      suffix={null}
+                                                      triggerFocus={[Function]}
+                                                      value=""
+                                                      wrapperClassName=""
+                                                    >
+                                                      <input
+                                                        aria-required="true"
+                                                        className="ant-input"
+                                                        id="permissions_0_resource"
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onFocus={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        placeholder="enter resource"
+                                                        type="text"
+                                                        value=""
+                                                      />
+                                                    </BaseInput>
+                                                  </ForwardRef>
+                                                </ForwardRef>
+                                              </Component>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </Col>
+                                    </FormItemInput>
+                                  </div>
+                                </Row>
+                              </div>
+                            </ItemHolder>
+                          </Field>
+                        </WrapperField>
+                      </InternalFormItem>
+                    </div>
+                  </Col>
+                  <Col
+                    span={9}
+                  >
+                    <div
+                      className="ant-col ant-col-9"
+                      style={
+                        Object {
+                          "paddingLeft": 5,
+                          "paddingRight": 5,
+                        }
+                      }
+                    >
+                      <InternalFormItem
+                        label="Action"
+                        name={
+                          Array [
+                            0,
+                            "actions",
+                          ]
+                        }
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please input action",
+                              "required": true,
+                            },
+                          ]
+                        }
+                      >
+                        <WrapperField
+                          label="Action"
+                          messageVariables={
+                            Object {
+                              "label": "Action",
+                            }
+                          }
+                          name={
+                            Array [
+                              0,
+                              "actions",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please input action",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          trigger="onChange"
+                        >
+                          <Field
+                            fieldContext={
+                              Object {
+                                "getFieldError": [Function],
+                                "getFieldValue": [Function],
+                                "getFieldWarning": [Function],
+                                "getFieldsError": [Function],
+                                "getFieldsValue": [Function],
+                                "getInternalHooks": [Function],
+                                "isFieldTouched": [Function],
+                                "isFieldValidating": [Function],
+                                "isFieldsTouched": [Function],
+                                "isFieldsValidating": [Function],
+                                "prefixName": Array [
+                                  "permissions",
+                                ],
+                                "resetFields": [Function],
+                                "setFieldValue": [Function],
+                                "setFields": [Function],
+                                "setFieldsValue": [Function],
+                                "submit": [Function],
+                                "validateFields": [Function],
+                              }
+                            }
+                            key="_0_actions"
+                            label="Action"
+                            messageVariables={
+                              Object {
+                                "label": "Action",
+                              }
+                            }
+                            name={
+                              Array [
+                                0,
+                                "actions",
+                              ]
+                            }
+                            onMetaChange={[Function]}
+                            rules={
+                              Array [
+                                Object {
+                                  "message": "Please input action",
+                                  "required": true,
+                                },
+                              ]
+                            }
+                            trigger="onChange"
+                            valuePropName="value"
+                          >
+                            <ItemHolder
+                              errors={Array []}
+                              fieldId="permissions_0_actions"
+                              isRequired={true}
+                              key="row"
+                              label="Action"
+                              meta={
+                                Object {
+                                  "errors": Array [],
+                                  "name": Array [],
+                                  "touched": false,
+                                  "validating": false,
+                                  "warnings": Array [],
+                                }
+                              }
+                              name={
+                                Array [
+                                  0,
+                                  "actions",
+                                ]
+                              }
+                              onSubItemMetaChange={[Function]}
+                              prefixCls="ant-form"
+                              rules={
+                                Array [
+                                  Object {
+                                    "message": "Please input action",
+                                    "required": true,
+                                  },
+                                ]
+                              }
+                              warnings={Array []}
+                            >
+                              <div
+                                className="ant-form-item"
+                              >
+                                <Row
+                                  className="ant-form-item-row"
+                                >
+                                  <div
+                                    className="ant-row ant-form-item-row"
+                                    style={Object {}}
+                                  >
+                                    <FormItemLabel
+                                      errors={Array []}
+                                      fieldId="permissions_0_actions"
+                                      htmlFor="permissions_0_actions"
+                                      isRequired={true}
+                                      label="Action"
+                                      meta={
+                                        Object {
+                                          "errors": Array [],
+                                          "name": Array [],
+                                          "touched": false,
+                                          "validating": false,
+                                          "warnings": Array [],
+                                        }
+                                      }
+                                      name={
+                                        Array [
+                                          0,
+                                          "actions",
+                                        ]
+                                      }
+                                      onSubItemMetaChange={[Function]}
+                                      prefixCls="ant-form"
+                                      required={true}
+                                      rules={
+                                        Array [
+                                          Object {
+                                            "message": "Please input action",
+                                            "required": true,
+                                          },
+                                        ]
+                                      }
+                                      warnings={Array []}
+                                    >
+                                      <Col
+                                        className="ant-form-item-label"
+                                      >
+                                        <div
+                                          className="ant-col ant-form-item-label"
+                                          style={Object {}}
+                                        >
+                                          <label
+                                            className="ant-form-item-required"
+                                            htmlFor="permissions_0_actions"
+                                            title="Action"
+                                          >
+                                            Action
+                                          </label>
+                                        </div>
+                                      </Col>
+                                    </FormItemLabel>
+                                    <FormItemInput
+                                      errors={Array []}
+                                      fieldId="permissions_0_actions"
+                                      isRequired={true}
+                                      label="Action"
+                                      marginBottom={null}
+                                      meta={
+                                        Object {
+                                          "errors": Array [],
+                                          "name": Array [],
+                                          "touched": false,
+                                          "validating": false,
+                                          "warnings": Array [],
+                                        }
+                                      }
+                                      name={Array []}
+                                      onErrorVisibleChanged={[Function]}
+                                      onSubItemMetaChange={[Function]}
+                                      prefixCls="ant-form"
+                                      rules={
+                                        Array [
+                                          Object {
+                                            "message": "Please input action",
+                                            "required": true,
+                                          },
+                                        ]
+                                      }
+                                      status=""
+                                      touched={false}
+                                      validating={false}
+                                      warnings={Array []}
+                                    >
+                                      <Col
+                                        className="ant-form-item-control"
+                                      >
+                                        <div
+                                          className="ant-col ant-form-item-control"
+                                          style={Object {}}
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input"
+                                          >
+                                            <div
+                                              className="ant-form-item-control-input-content"
+                                            >
+                                              <Component
+                                                childProps={
+                                                  Array [
+                                                    "true",
+                                                    undefined,
+                                                    undefined,
+                                                  ]
+                                                }
+                                                update={
+                                                  <ForwardRef(InternalSelect)
+                                                    mode="tags"
+                                                    placeholder="select action"
+                                                  />
+                                                }
+                                              >
+                                                <ForwardRef(InternalSelect)
+                                                  aria-required="true"
+                                                  id="permissions_0_actions"
+                                                  mode="tags"
+                                                  onChange={[Function]}
+                                                  placeholder="select action"
+                                                >
+                                                  <Select
+                                                    aria-required="true"
+                                                    className="ant-select-in-form-item"
+                                                    clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                                    disabled={false}
+                                                    dropdownClassName=""
+                                                    id="permissions_0_actions"
+                                                    inputIcon={[Function]}
+                                                    listHeight={256}
+                                                    listItemHeight={24}
+                                                    menuItemSelectedIcon={<ForwardRef(CheckOutlined) />}
+                                                    mode="tags"
+                                                    notFoundContent={
+                                                      <Context.Consumer>
+                                                        [Function]
+                                                      </Context.Consumer>
+                                                    }
+                                                    onChange={[Function]}
+                                                    placeholder="select action"
+                                                    placement="bottomLeft"
+                                                    prefixCls="ant-select"
+                                                    removeIcon={<ForwardRef(CloseOutlined) />}
+                                                    transitionName="ant-slide-up"
+                                                  >
+                                                    <BaseSelect
+                                                      OptionList={
+                                                        Object {
+                                                          "$$typeof": Symbol(react.forward_ref),
+                                                          "displayName": "OptionList",
+                                                          "render": [Function],
+                                                        }
+                                                      }
+                                                      activeDescendantId="permissions_0_actions_list_0"
+                                                      activeValue={null}
+                                                      aria-required="true"
+                                                      autoClearSearchValue={true}
+                                                      className="ant-select-in-form-item"
+                                                      clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                                      disabled={false}
+                                                      displayValues={Array []}
+                                                      dropdownClassName=""
+                                                      dropdownMatchSelectWidth={true}
+                                                      emptyOptions={true}
+                                                      id="permissions_0_actions"
+                                                      inputIcon={[Function]}
+                                                      mode="tags"
+                                                      notFoundContent={
+                                                        <Context.Consumer>
+                                                          [Function]
+                                                        </Context.Consumer>
+                                                      }
+                                                      omitDomProps={
+                                                        Array [
+                                                          "inputValue",
+                                                        ]
+                                                      }
+                                                      onDisplayValuesChange={[Function]}
+                                                      onSearch={[Function]}
+                                                      onSearchSplit={[Function]}
+                                                      placeholder="select action"
+                                                      placement="bottomLeft"
+                                                      prefixCls="ant-select"
+                                                      removeIcon={<ForwardRef(CloseOutlined) />}
+                                                      searchValue=""
+                                                      transitionName="ant-slide-up"
+                                                    >
+                                                      <div
+                                                        aria-required="true"
+                                                        className="ant-select ant-select-in-form-item ant-select-multiple ant-select-show-search"
+                                                        onBlur={[Function]}
+                                                        onFocus={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
+                                                        onMouseDown={[Function]}
+                                                      >
+                                                        <SelectTrigger
+                                                          containerWidth={null}
+                                                          disabled={false}
+                                                          dropdownClassName=""
+                                                          dropdownMatchSelectWidth={true}
+                                                          empty={true}
+                                                          getTriggerDOMNode={[Function]}
+                                                          onPopupMouseEnter={[Function]}
+                                                          placement="bottomLeft"
+                                                          popupElement={<ForwardRef(OptionList) />}
+                                                          prefixCls="ant-select"
+                                                          transitionName="ant-slide-up"
+                                                        >
+                                                          <Trigger
+                                                            action={Array []}
+                                                            afterPopupVisibleChange={[Function]}
+                                                            autoDestroy={false}
+                                                            blurDelay={0.15}
+                                                            builtinPlacements={
+                                                              Object {
+                                                                "bottomLeft": Object {
+                                                                  "offset": Array [
+                                                                    0,
+                                                                    4,
+                                                                  ],
+                                                                  "overflow": Object {
+                                                                    "adjustX": 0,
+                                                                    "adjustY": 1,
+                                                                  },
+                                                                  "points": Array [
+                                                                    "tl",
+                                                                    "bl",
+                                                                  ],
+                                                                },
+                                                                "bottomRight": Object {
+                                                                  "offset": Array [
+                                                                    0,
+                                                                    4,
+                                                                  ],
+                                                                  "overflow": Object {
+                                                                    "adjustX": 0,
+                                                                    "adjustY": 1,
+                                                                  },
+                                                                  "points": Array [
+                                                                    "tr",
+                                                                    "br",
+                                                                  ],
+                                                                },
+                                                                "topLeft": Object {
+                                                                  "offset": Array [
+                                                                    0,
+                                                                    -4,
+                                                                  ],
+                                                                  "overflow": Object {
+                                                                    "adjustX": 0,
+                                                                    "adjustY": 1,
+                                                                  },
+                                                                  "points": Array [
+                                                                    "bl",
+                                                                    "tl",
+                                                                  ],
+                                                                },
+                                                                "topRight": Object {
+                                                                  "offset": Array [
+                                                                    0,
+                                                                    -4,
+                                                                  ],
+                                                                  "overflow": Object {
+                                                                    "adjustX": 0,
+                                                                    "adjustY": 1,
+                                                                  },
+                                                                  "points": Array [
+                                                                    "br",
+                                                                    "tr",
+                                                                  ],
+                                                                },
+                                                              }
+                                                            }
+                                                            defaultPopupVisible={false}
+                                                            destroyPopupOnHide={false}
+                                                            focusDelay={0}
+                                                            getDocument={[Function]}
+                                                            getPopupClassNameFromAlign={[Function]}
+                                                            getTriggerDOMNode={[Function]}
+                                                            hideAction={Array []}
+                                                            mask={false}
+                                                            maskClosable={true}
+                                                            mouseEnterDelay={0}
+                                                            mouseLeaveDelay={0.1}
+                                                            onPopupAlign={[Function]}
+                                                            onPopupVisibleChange={[Function]}
+                                                            popup={
+                                                              <div
+                                                                onMouseEnter={[Function]}
+                                                              >
+                                                                <ForwardRef(OptionList) />
+                                                              </div>
+                                                            }
+                                                            popupAlign={Object {}}
+                                                            popupClassName="ant-select-dropdown-empty"
+                                                            popupPlacement="bottomLeft"
+                                                            popupStyle={
+                                                              Object {
+                                                                "minWidth": null,
+                                                                "width": null,
+                                                              }
+                                                            }
+                                                            popupTransitionName="ant-slide-up"
+                                                            prefixCls="ant-select-dropdown"
+                                                            showAction={Array []}
+                                                          >
+                                                            <Selector
+                                                              OptionList={
+                                                                Object {
+                                                                  "$$typeof": Symbol(react.forward_ref),
+                                                                  "displayName": "OptionList",
+                                                                  "render": [Function],
+                                                                }
+                                                              }
+                                                              activeDescendantId="permissions_0_actions_list_0"
+                                                              activeValue={null}
+                                                              aria-required="true"
+                                                              autoClearSearchValue={true}
+                                                              className="ant-select-in-form-item"
+                                                              clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                                              disabled={false}
+                                                              displayValues={Array []}
+                                                              domRef={
+                                                                Object {
+                                                                  "current": <div
+                                                                    class="ant-select-selector"
+                                                                  >
+                                                                    <div
+                                                                      class="ant-select-selection-overflow"
+                                                                    >
+                                                                      <div
+                                                                        class="ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix"
+                                                                        style="opacity: 1;"
+                                                                      >
+                                                                        <div
+                                                                          class="ant-select-selection-search"
+                                                                          style="width: 0px;"
+                                                                        >
+                                                                          <input
+                                                                            aria-activedescendant="permissions_0_actions_list_0"
+                                                                            aria-autocomplete="list"
+                                                                            aria-controls="permissions_0_actions_list"
+                                                                            aria-haspopup="listbox"
+                                                                            aria-owns="permissions_0_actions_list"
+                                                                            aria-required="true"
+                                                                            autocomplete="off"
+                                                                            class="ant-select-selection-search-input"
+                                                                            id="permissions_0_actions"
+                                                                            role="combobox"
+                                                                            type="search"
+                                                                            value=""
+                                                                          />
+                                                                          <span
+                                                                            aria-hidden="true"
+                                                                            class="ant-select-selection-search-mirror"
+                                                                          >
+                                                                            
+                                                                             
+                                                                          </span>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <span
+                                                                      class="ant-select-selection-placeholder"
+                                                                    >
+                                                                      select action
+                                                                    </span>
+                                                                  </div>,
+                                                                }
+                                                              }
+                                                              dropdownClassName=""
+                                                              dropdownMatchSelectWidth={true}
+                                                              emptyOptions={true}
+                                                              id="permissions_0_actions"
+                                                              inputElement={null}
+                                                              inputIcon={[Function]}
+                                                              key="trigger"
+                                                              mode="tags"
+                                                              notFoundContent={
+                                                                <Context.Consumer>
+                                                                  [Function]
+                                                                </Context.Consumer>
+                                                              }
+                                                              omitDomProps={
+                                                                Array [
+                                                                  "inputValue",
+                                                                ]
+                                                              }
+                                                              onDisplayValuesChange={[Function]}
+                                                              onRemove={[Function]}
+                                                              onSearch={[Function]}
+                                                              onSearchSplit={[Function]}
+                                                              onSearchSubmit={[Function]}
+                                                              onToggleOpen={[Function]}
+                                                              placeholder="select action"
+                                                              placement="bottomLeft"
+                                                              prefixCls="ant-select"
+                                                              removeIcon={<ForwardRef(CloseOutlined) />}
+                                                              searchValue=""
+                                                              showSearch={true}
+                                                              tokenWithEnter={false}
+                                                              transitionName="ant-slide-up"
+                                                              values={Array []}
+                                                            >
+                                                              <div
+                                                                className="ant-select-selector"
+                                                                onClick={[Function]}
+                                                                onMouseDown={[Function]}
+                                                              >
+                                                                <SelectSelector
+                                                                  OptionList={
+                                                                    Object {
+                                                                      "$$typeof": Symbol(react.forward_ref),
+                                                                      "displayName": "OptionList",
+                                                                      "render": [Function],
+                                                                    }
+                                                                  }
+                                                                  activeDescendantId="permissions_0_actions_list_0"
+                                                                  activeValue={null}
+                                                                  aria-required="true"
+                                                                  autoClearSearchValue={true}
+                                                                  className="ant-select-in-form-item"
+                                                                  clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                                                  disabled={false}
+                                                                  displayValues={Array []}
+                                                                  domRef={
+                                                                    Object {
+                                                                      "current": <div
+                                                                        class="ant-select-selector"
+                                                                      >
+                                                                        <div
+                                                                          class="ant-select-selection-overflow"
+                                                                        >
+                                                                          <div
+                                                                            class="ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix"
+                                                                            style="opacity: 1;"
+                                                                          >
+                                                                            <div
+                                                                              class="ant-select-selection-search"
+                                                                              style="width: 0px;"
+                                                                            >
+                                                                              <input
+                                                                                aria-activedescendant="permissions_0_actions_list_0"
+                                                                                aria-autocomplete="list"
+                                                                                aria-controls="permissions_0_actions_list"
+                                                                                aria-haspopup="listbox"
+                                                                                aria-owns="permissions_0_actions_list"
+                                                                                aria-required="true"
+                                                                                autocomplete="off"
+                                                                                class="ant-select-selection-search-input"
+                                                                                id="permissions_0_actions"
+                                                                                role="combobox"
+                                                                                type="search"
+                                                                                value=""
+                                                                              />
+                                                                              <span
+                                                                                aria-hidden="true"
+                                                                                class="ant-select-selection-search-mirror"
+                                                                              >
+                                                                                
+                                                                                 
+                                                                              </span>
+                                                                            </div>
+                                                                          </div>
+                                                                        </div>
+                                                                        <span
+                                                                          class="ant-select-selection-placeholder"
+                                                                        >
+                                                                          select action
+                                                                        </span>
+                                                                      </div>,
+                                                                    }
+                                                                  }
+                                                                  dropdownClassName=""
+                                                                  dropdownMatchSelectWidth={true}
+                                                                  emptyOptions={true}
+                                                                  id="permissions_0_actions"
+                                                                  inputElement={null}
+                                                                  inputIcon={[Function]}
+                                                                  inputRef={
+                                                                    Object {
+                                                                      "current": <input
+                                                                        aria-activedescendant="permissions_0_actions_list_0"
+                                                                        aria-autocomplete="list"
+                                                                        aria-controls="permissions_0_actions_list"
+                                                                        aria-haspopup="listbox"
+                                                                        aria-owns="permissions_0_actions_list"
+                                                                        aria-required="true"
+                                                                        autocomplete="off"
+                                                                        class="ant-select-selection-search-input"
+                                                                        id="permissions_0_actions"
+                                                                        role="combobox"
+                                                                        type="search"
+                                                                        value=""
+                                                                      />,
+                                                                    }
+                                                                  }
+                                                                  mode="tags"
+                                                                  notFoundContent={
+                                                                    <Context.Consumer>
+                                                                      [Function]
+                                                                    </Context.Consumer>
+                                                                  }
+                                                                  omitDomProps={
+                                                                    Array [
+                                                                      "inputValue",
+                                                                    ]
+                                                                  }
+                                                                  onDisplayValuesChange={[Function]}
+                                                                  onInputChange={[Function]}
+                                                                  onInputCompositionEnd={[Function]}
+                                                                  onInputCompositionStart={[Function]}
+                                                                  onInputKeyDown={[Function]}
+                                                                  onInputMouseDown={[Function]}
+                                                                  onInputPaste={[Function]}
+                                                                  onRemove={[Function]}
+                                                                  onSearch={[Function]}
+                                                                  onSearchSplit={[Function]}
+                                                                  onSearchSubmit={[Function]}
+                                                                  onToggleOpen={[Function]}
+                                                                  placeholder="select action"
+                                                                  placement="bottomLeft"
+                                                                  prefixCls="ant-select"
+                                                                  removeIcon={<ForwardRef(CloseOutlined) />}
+                                                                  searchValue=""
+                                                                  showSearch={true}
+                                                                  tokenWithEnter={false}
+                                                                  transitionName="ant-slide-up"
+                                                                  values={Array []}
+                                                                >
+                                                                  <Overflow
+                                                                    data={Array []}
+                                                                    itemKey={[Function]}
+                                                                    prefixCls="ant-select-selection-overflow"
+                                                                    renderItem={[Function]}
+                                                                    renderRest={[Function]}
+                                                                    suffix={
+                                                                      <div
+                                                                        className="ant-select-selection-search"
+                                                                        onBlur={[Function]}
+                                                                        onFocus={[Function]}
+                                                                        style={
+                                                                          Object {
+                                                                            "width": 0,
+                                                                          }
+                                                                        }
+                                                                      >
+                                                                        <ForwardRef(Input)
+                                                                          activeDescendantId="permissions_0_actions_list_0"
+                                                                          attrs={
+                                                                            Object {
+                                                                              "aria-required": "true",
+                                                                            }
+                                                                          }
+                                                                          disabled={false}
+                                                                          editable={true}
+                                                                          id="permissions_0_actions"
+                                                                          inputElement={null}
+                                                                          onChange={[Function]}
+                                                                          onCompositionEnd={[Function]}
+                                                                          onCompositionStart={[Function]}
+                                                                          onKeyDown={[Function]}
+                                                                          onMouseDown={[Function]}
+                                                                          onPaste={[Function]}
+                                                                          prefixCls="ant-select"
+                                                                          value=""
+                                                                        />
+                                                                        <span
+                                                                          aria-hidden={true}
+                                                                          className="ant-select-selection-search-mirror"
+                                                                        >
+                                                                          
+                                                                           
+                                                                        </span>
+                                                                      </div>
+                                                                    }
+                                                                  >
+                                                                    <div
+                                                                      className="ant-select-selection-overflow"
+                                                                    >
+                                                                      <Item
+                                                                        className="ant-select-selection-overflow-item-suffix"
+                                                                        display={true}
+                                                                        invalidate={false}
+                                                                        order={0}
+                                                                        prefixCls="ant-select-selection-overflow-item"
+                                                                        registerSize={[Function]}
+                                                                        responsive={false}
+                                                                        responsiveDisabled={true}
+                                                                        style={Object {}}
+                                                                      >
+                                                                        <div
+                                                                          className="ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix"
+                                                                          style={
+                                                                            Object {
+                                                                              "height": undefined,
+                                                                              "opacity": 1,
+                                                                              "order": undefined,
+                                                                              "overflowY": undefined,
+                                                                              "pointerEvents": undefined,
+                                                                              "position": undefined,
+                                                                            }
+                                                                          }
+                                                                        >
+                                                                          <div
+                                                                            className="ant-select-selection-search"
+                                                                            onBlur={[Function]}
+                                                                            onFocus={[Function]}
+                                                                            style={
+                                                                              Object {
+                                                                                "width": 0,
+                                                                              }
+                                                                            }
+                                                                          >
+                                                                            <Input
+                                                                              activeDescendantId="permissions_0_actions_list_0"
+                                                                              attrs={
+                                                                                Object {
+                                                                                  "aria-required": "true",
+                                                                                }
+                                                                              }
+                                                                              disabled={false}
+                                                                              editable={true}
+                                                                              id="permissions_0_actions"
+                                                                              inputElement={null}
+                                                                              onChange={[Function]}
+                                                                              onCompositionEnd={[Function]}
+                                                                              onCompositionStart={[Function]}
+                                                                              onKeyDown={[Function]}
+                                                                              onMouseDown={[Function]}
+                                                                              onPaste={[Function]}
+                                                                              prefixCls="ant-select"
+                                                                              value=""
+                                                                            >
+                                                                              <input
+                                                                                aria-activedescendant="permissions_0_actions_list_0"
+                                                                                aria-autocomplete="list"
+                                                                                aria-controls="permissions_0_actions_list"
+                                                                                aria-haspopup="listbox"
+                                                                                aria-owns="permissions_0_actions_list"
+                                                                                aria-required="true"
+                                                                                autoComplete="off"
+                                                                                className="ant-select-selection-search-input"
+                                                                                disabled={false}
+                                                                                id="permissions_0_actions"
+                                                                                onChange={[Function]}
+                                                                                onCompositionEnd={[Function]}
+                                                                                onCompositionStart={[Function]}
+                                                                                onKeyDown={[Function]}
+                                                                                onMouseDown={[Function]}
+                                                                                onPaste={[Function]}
+                                                                                readOnly={false}
+                                                                                role="combobox"
+                                                                                style={
+                                                                                  Object {
+                                                                                    "opacity": null,
+                                                                                  }
+                                                                                }
+                                                                                type="search"
+                                                                                unselectable={null}
+                                                                                value=""
+                                                                              />
+                                                                            </Input>
+                                                                            <span
+                                                                              aria-hidden={true}
+                                                                              className="ant-select-selection-search-mirror"
+                                                                            >
+                                                                               
+                                                                            </span>
+                                                                          </div>
+                                                                        </div>
+                                                                      </Item>
+                                                                    </div>
+                                                                  </Overflow>
+                                                                  <span
+                                                                    className="ant-select-selection-placeholder"
+                                                                  >
+                                                                    select action
+                                                                  </span>
+                                                                </SelectSelector>
+                                                              </div>
+                                                            </Selector>
+                                                          </Trigger>
+                                                        </SelectTrigger>
+                                                      </div>
+                                                    </BaseSelect>
+                                                  </Select>
+                                                </ForwardRef(InternalSelect)>
+                                              </Component>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </Col>
+                                    </FormItemInput>
+                                  </div>
+                                </Row>
+                              </div>
+                            </ItemHolder>
+                          </Field>
+                        </WrapperField>
+                      </InternalFormItem>
+                    </div>
+                  </Col>
+                  <Col
+                    span={6}
+                    style={true}
+                  >
+                    <div
+                      className="ant-col ant-col-6"
+                      style={
+                        Object {
+                          "paddingLeft": 5,
+                          "paddingRight": 5,
+                        }
+                      }
+                    >
+                      <Button
+                        hidden={true}
+                        icon={<ForwardRef(MinusCircleOutlined) />}
+                        onClick={[Function]}
+                        type="danger"
+                      >
+                        <Wave
+                          disabled={false}
+                        >
+                          <button
+                            className="ant-btn ant-btn-danger ant-btn-icon-only"
+                            disabled={false}
+                            hidden={true}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <ForwardRef(MinusCircleOutlined)>
+                              <AntdIcon
+                                icon={
+                                  Object {
+                                    "icon": Object {
+                                      "attrs": Object {
+                                        "focusable": "false",
+                                        "viewBox": "64 64 896 896",
+                                      },
+                                      "children": Array [
+                                        Object {
+                                          "attrs": Object {
+                                            "d": "M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z",
+                                          },
+                                          "tag": "path",
+                                        },
+                                        Object {
+                                          "attrs": Object {
+                                            "d": "M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z",
+                                          },
+                                          "tag": "path",
+                                        },
+                                      ],
+                                      "tag": "svg",
+                                    },
+                                    "name": "minus-circle",
+                                    "theme": "outlined",
+                                  }
+                                }
+                              >
+                                <span
+                                  aria-label="minus-circle"
+                                  className="anticon anticon-minus-circle"
+                                  role="img"
+                                >
+                                  <IconReact
+                                    icon={
+                                      Object {
+                                        "icon": Object {
+                                          "attrs": Object {
+                                            "focusable": "false",
+                                            "viewBox": "64 64 896 896",
+                                          },
+                                          "children": Array [
+                                            Object {
+                                              "attrs": Object {
+                                                "d": "M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z",
+                                              },
+                                              "tag": "path",
+                                            },
+                                            Object {
+                                              "attrs": Object {
+                                                "d": "M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z",
+                                              },
+                                              "tag": "path",
+                                            },
+                                          ],
+                                          "tag": "svg",
+                                        },
+                                        "name": "minus-circle",
+                                        "theme": "outlined",
+                                      }
+                                    }
+                                  >
+                                    <svg
+                                      aria-hidden="true"
+                                      data-icon="minus-circle"
+                                      fill="currentColor"
+                                      focusable="false"
+                                      height="1em"
+                                      key="svg-minus-circle"
+                                      viewBox="64 64 896 896"
+                                      width="1em"
+                                    >
+                                      <path
+                                        d="M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"
+                                        key="svg-minus-circle-svg-0"
+                                      />
+                                      <path
+                                        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+                                        key="svg-minus-circle-svg-1"
+                                      />
+                                    </svg>
+                                  </IconReact>
+                                </span>
+                              </AntdIcon>
+                            </ForwardRef(MinusCircleOutlined)>
+                          </button>
+                        </Wave>
+                      </Button>
+                    </div>
+                  </Col>
+                </div>
+              </Row>
+            </PermissionForm>
+            <InternalFormItem>
+              <ItemHolder
+                errors={Array []}
+                key="row"
+                meta={
+                  Object {
+                    "errors": Array [],
+                    "name": Array [],
+                    "touched": false,
+                    "validating": false,
+                    "warnings": Array [],
+                  }
+                }
+                onSubItemMetaChange={[Function]}
+                prefixCls="ant-form"
+                warnings={Array []}
+              >
+                <div
+                  className="ant-form-item"
+                >
+                  <Row
+                    className="ant-form-item-row"
+                  >
+                    <div
+                      className="ant-row ant-form-item-row"
+                      style={Object {}}
+                    >
+                      <FormItemLabel
+                        errors={Array []}
+                        meta={
+                          Object {
+                            "errors": Array [],
+                            "name": Array [],
+                            "touched": false,
+                            "validating": false,
+                            "warnings": Array [],
+                          }
+                        }
+                        onSubItemMetaChange={[Function]}
+                        prefixCls="ant-form"
+                        warnings={Array []}
+                      />
+                      <FormItemInput
+                        errors={Array []}
+                        marginBottom={null}
+                        meta={
+                          Object {
+                            "errors": Array [],
+                            "name": Array [],
+                            "touched": false,
+                            "validating": false,
+                            "warnings": Array [],
+                          }
+                        }
+                        name={Array []}
+                        onErrorVisibleChanged={[Function]}
+                        onSubItemMetaChange={[Function]}
+                        prefixCls="ant-form"
+                        status=""
+                        touched={false}
+                        validating={false}
+                        warnings={Array []}
+                      >
+                        <Col
+                          className="ant-form-item-control"
+                        >
+                          <div
+                            className="ant-col ant-form-item-control"
+                            style={Object {}}
+                          >
+                            <div
+                              className="ant-form-item-control-input"
+                            >
+                              <div
+                                className="ant-form-item-control-input-content"
+                              >
+                                <Button
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "width": "60%",
+                                    }
+                                  }
+                                  type="dashed"
+                                >
+                                  <Wave
+                                    disabled={false}
+                                  >
+                                    <button
+                                      className="ant-btn ant-btn-dashed"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      style={
+                                        Object {
+                                          "width": "60%",
+                                        }
+                                      }
+                                      type="button"
+                                    >
+                                      <LoadingIcon
+                                        existIcon={false}
+                                        loading={false}
+                                        prefixCls="ant-btn"
+                                      >
+                                        <CSSMotion
+                                          motionName="ant-btn-loading-icon-motion"
+                                          onAppearActive={[Function]}
+                                          onAppearStart={[Function]}
+                                          onEnterActive={[Function]}
+                                          onEnterStart={[Function]}
+                                          onLeaveActive={[Function]}
+                                          onLeaveStart={[Function]}
+                                          removeOnLeave={true}
+                                          visible={false}
+                                        >
+                                          <DomWrapper />
+                                        </CSSMotion>
+                                      </LoadingIcon>
+                                      <ForwardRef(PlusOutlined)
+                                        key=".0"
+                                      >
+                                        <AntdIcon
+                                          icon={
+                                            Object {
+                                              "icon": Object {
+                                                "attrs": Object {
+                                                  "focusable": "false",
+                                                  "viewBox": "64 64 896 896",
+                                                },
+                                                "children": Array [
+                                                  Object {
+                                                    "attrs": Object {},
+                                                    "children": Array [
+                                                      Object {
+                                                        "attrs": Object {},
+                                                        "tag": "style",
+                                                      },
+                                                    ],
+                                                    "tag": "defs",
+                                                  },
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                ],
+                                                "tag": "svg",
+                                              },
+                                              "name": "plus",
+                                              "theme": "outlined",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            aria-label="plus"
+                                            className="anticon anticon-plus"
+                                            role="img"
+                                          >
+                                            <IconReact
+                                              icon={
+                                                Object {
+                                                  "icon": Object {
+                                                    "attrs": Object {
+                                                      "focusable": "false",
+                                                      "viewBox": "64 64 896 896",
+                                                    },
+                                                    "children": Array [
+                                                      Object {
+                                                        "attrs": Object {},
+                                                        "children": Array [
+                                                          Object {
+                                                            "attrs": Object {},
+                                                            "tag": "style",
+                                                          },
+                                                        ],
+                                                        "tag": "defs",
+                                                      },
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                    ],
+                                                    "tag": "svg",
+                                                  },
+                                                  "name": "plus",
+                                                  "theme": "outlined",
+                                                }
+                                              }
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                data-icon="plus"
+                                                fill="currentColor"
+                                                focusable="false"
+                                                height="1em"
+                                                key="svg-plus"
+                                                viewBox="64 64 896 896"
+                                                width="1em"
+                                              >
+                                                <defs
+                                                  key="svg-plus-svg-0"
+                                                >
+                                                  <style
+                                                    key="svg-plus-svg-0-defs-0"
+                                                  />
+                                                </defs>
+                                                <path
+                                                  d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+                                                  key="svg-plus-svg-1"
+                                                />
+                                                <path
+                                                  d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z"
+                                                  key="svg-plus-svg-2"
+                                                />
+                                              </svg>
+                                            </IconReact>
+                                          </span>
+                                        </AntdIcon>
+                                      </ForwardRef(PlusOutlined)>
+                                      <span
+                                        key=".1"
+                                      >
+                                         Add Resource
+                                      </span>
+                                    </button>
+                                  </Wave>
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </FormItemInput>
+                    </div>
+                  </Row>
+                </div>
+              </ItemHolder>
+            </InternalFormItem>
+          </div>
+        </Field>
+      </WrapperField>
+    </List>
+  </FormList>
+</DynamicPermissionField>
+`;
+
+exports[`DynamicPermissionField renders and matches snapshot 2`] = `
+<DynamicPermissionField
+  type="edit"
+>
+  <FormList
+    name="permissions"
+  >
+    <List
+      name="permissions"
+    >
+      <WrapperField
+        isList={true}
+        name={Array []}
+        shouldUpdate={[Function]}
+      >
+        <Field
+          fieldContext={
+            Object {
+              "getFieldError": [Function],
+              "getFieldValue": [Function],
+              "getFieldWarning": [Function],
+              "getFieldsError": [Function],
+              "getFieldsValue": [Function],
+              "getInternalHooks": [Function],
+              "isFieldTouched": [Function],
+              "isFieldValidating": [Function],
+              "isFieldsTouched": [Function],
+              "isFieldsValidating": [Function],
+              "prefixName": Array [
+                "permissions",
+              ],
+              "resetFields": [Function],
+              "setFieldValue": [Function],
+              "setFields": [Function],
+              "setFieldsValue": [Function],
+              "submit": [Function],
+              "validateFields": [Function],
+            }
+          }
+          isList={true}
+          key="_"
+          name={Array []}
+          shouldUpdate={[Function]}
+          trigger="onChange"
+          valuePropName="value"
+        >
+          <div>
+            <InternalFormItem>
+              <ItemHolder
+                errors={Array []}
+                key="row"
+                meta={
+                  Object {
+                    "errors": Array [],
+                    "name": Array [],
+                    "touched": false,
+                    "validating": false,
+                    "warnings": Array [],
+                  }
+                }
+                onSubItemMetaChange={[Function]}
+                prefixCls="ant-form"
+                warnings={Array []}
+              >
+                <div
+                  className="ant-form-item"
+                >
+                  <Row
+                    className="ant-form-item-row"
+                  >
+                    <div
+                      className="ant-row ant-form-item-row"
+                      style={Object {}}
+                    >
+                      <FormItemLabel
+                        errors={Array []}
+                        meta={
+                          Object {
+                            "errors": Array [],
+                            "name": Array [],
+                            "touched": false,
+                            "validating": false,
+                            "warnings": Array [],
+                          }
+                        }
+                        onSubItemMetaChange={[Function]}
+                        prefixCls="ant-form"
+                        warnings={Array []}
+                      />
+                      <FormItemInput
+                        errors={Array []}
+                        marginBottom={null}
+                        meta={
+                          Object {
+                            "errors": Array [],
+                            "name": Array [],
+                            "touched": false,
+                            "validating": false,
+                            "warnings": Array [],
+                          }
+                        }
+                        name={Array []}
+                        onErrorVisibleChanged={[Function]}
+                        onSubItemMetaChange={[Function]}
+                        prefixCls="ant-form"
+                        status=""
+                        touched={false}
+                        validating={false}
+                        warnings={Array []}
+                      >
+                        <Col
+                          className="ant-form-item-control"
+                        >
+                          <div
+                            className="ant-col ant-form-item-control"
+                            style={Object {}}
+                          >
+                            <div
+                              className="ant-form-item-control-input"
+                            >
+                              <div
+                                className="ant-form-item-control-input-content"
+                              >
+                                <Button
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "width": "60%",
+                                    }
+                                  }
+                                  type="dashed"
+                                >
+                                  <Wave
+                                    disabled={false}
+                                  >
+                                    <button
+                                      className="ant-btn ant-btn-dashed"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      style={
+                                        Object {
+                                          "width": "60%",
+                                        }
+                                      }
+                                      type="button"
+                                    >
+                                      <LoadingIcon
+                                        existIcon={false}
+                                        loading={false}
+                                        prefixCls="ant-btn"
+                                      >
+                                        <CSSMotion
+                                          motionName="ant-btn-loading-icon-motion"
+                                          onAppearActive={[Function]}
+                                          onAppearStart={[Function]}
+                                          onEnterActive={[Function]}
+                                          onEnterStart={[Function]}
+                                          onLeaveActive={[Function]}
+                                          onLeaveStart={[Function]}
+                                          removeOnLeave={true}
+                                          visible={false}
+                                        >
+                                          <DomWrapper />
+                                        </CSSMotion>
+                                      </LoadingIcon>
+                                      <ForwardRef(PlusOutlined)
+                                        key=".0"
+                                      >
+                                        <AntdIcon
+                                          icon={
+                                            Object {
+                                              "icon": Object {
+                                                "attrs": Object {
+                                                  "focusable": "false",
+                                                  "viewBox": "64 64 896 896",
+                                                },
+                                                "children": Array [
+                                                  Object {
+                                                    "attrs": Object {},
+                                                    "children": Array [
+                                                      Object {
+                                                        "attrs": Object {},
+                                                        "tag": "style",
+                                                      },
+                                                    ],
+                                                    "tag": "defs",
+                                                  },
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                ],
+                                                "tag": "svg",
+                                              },
+                                              "name": "plus",
+                                              "theme": "outlined",
+                                            }
+                                          }
+                                        >
+                                          <span
+                                            aria-label="plus"
+                                            className="anticon anticon-plus"
+                                            role="img"
+                                          >
+                                            <IconReact
+                                              icon={
+                                                Object {
+                                                  "icon": Object {
+                                                    "attrs": Object {
+                                                      "focusable": "false",
+                                                      "viewBox": "64 64 896 896",
+                                                    },
+                                                    "children": Array [
+                                                      Object {
+                                                        "attrs": Object {},
+                                                        "children": Array [
+                                                          Object {
+                                                            "attrs": Object {},
+                                                            "tag": "style",
+                                                          },
+                                                        ],
+                                                        "tag": "defs",
+                                                      },
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                    ],
+                                                    "tag": "svg",
+                                                  },
+                                                  "name": "plus",
+                                                  "theme": "outlined",
+                                                }
+                                              }
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                data-icon="plus"
+                                                fill="currentColor"
+                                                focusable="false"
+                                                height="1em"
+                                                key="svg-plus"
+                                                viewBox="64 64 896 896"
+                                                width="1em"
+                                              >
+                                                <defs
+                                                  key="svg-plus-svg-0"
+                                                >
+                                                  <style
+                                                    key="svg-plus-svg-0-defs-0"
+                                                  />
+                                                </defs>
+                                                <path
+                                                  d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+                                                  key="svg-plus-svg-1"
+                                                />
+                                                <path
+                                                  d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z"
+                                                  key="svg-plus-svg-2"
+                                                />
+                                              </svg>
+                                            </IconReact>
+                                          </span>
+                                        </AntdIcon>
+                                      </ForwardRef(PlusOutlined)>
+                                      <span
+                                        key=".1"
+                                      >
+                                         Add Resource
+                                      </span>
+                                    </button>
+                                  </Wave>
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </FormItemInput>
+                    </div>
+                  </Row>
+                </div>
+              </ItemHolder>
+            </InternalFormItem>
+          </div>
+        </Field>
+      </WrapperField>
+    </List>
+  </FormList>
+</DynamicPermissionField>
+`;
+
+exports[`PermissionForm renders and matches snapshot 1`] = `
+<PermissionForm
+  index={0}
+  permission={
+    Object {
+      "actions": Array [
+        "read",
+        "write",
+      ],
+      "name": "test",
+    }
+  }
+  remove={[MockFunction]}
+>
+  <Row
+    align="middle"
+    gutter={
+      Array [
+        10,
+        0,
+      ]
+    }
+    justify="center"
+    key="0"
+  >
+    <div
+      className="ant-row ant-row-center ant-row-middle"
+      style={
+        Object {
+          "marginLeft": -5,
+          "marginRight": -5,
+        }
+      }
+    >
+      <Col
+        span={9}
+      >
+        <div
+          className="ant-col ant-col-9"
+          style={
+            Object {
+              "paddingLeft": 5,
+              "paddingRight": 5,
+            }
+          }
+        >
+          <InternalFormItem
+            label="Resource"
+            name={
+              Array [
+                0,
+                "resource",
+              ]
+            }
+            rules={
+              Array [
+                Object {
+                  "message": "Please input resource",
+                  "required": true,
+                },
+              ]
+            }
+          >
+            <WrapperField
+              label="Resource"
+              messageVariables={
+                Object {
+                  "label": "Resource",
+                }
+              }
+              name={
+                Array [
+                  0,
+                  "resource",
+                ]
+              }
+              onMetaChange={[Function]}
+              rules={
+                Array [
+                  Object {
+                    "message": "Please input resource",
+                    "required": true,
+                  },
+                ]
+              }
+              trigger="onChange"
+            >
+              <Field
+                fieldContext={
+                  Object {
+                    "getFieldError": [Function],
+                    "getFieldValue": [Function],
+                    "getFieldWarning": [Function],
+                    "getFieldsError": [Function],
+                    "getFieldsValue": [Function],
+                    "getInternalHooks": [Function],
+                    "isFieldTouched": [Function],
+                    "isFieldValidating": [Function],
+                    "isFieldsTouched": [Function],
+                    "isFieldsValidating": [Function],
+                    "resetFields": [Function],
+                    "setFieldValue": [Function],
+                    "setFields": [Function],
+                    "setFieldsValue": [Function],
+                    "submit": [Function],
+                    "validateFields": [Function],
+                  }
+                }
+                key="_0_resource"
+                label="Resource"
+                messageVariables={
+                  Object {
+                    "label": "Resource",
+                  }
+                }
+                name={
+                  Array [
+                    0,
+                    "resource",
+                  ]
+                }
+                onMetaChange={[Function]}
+                rules={
+                  Array [
+                    Object {
+                      "message": "Please input resource",
+                      "required": true,
+                    },
+                  ]
+                }
+                trigger="onChange"
+                valuePropName="value"
+              >
+                <ItemHolder
+                  errors={Array []}
+                  fieldId="0_resource"
+                  isRequired={true}
+                  key="row"
+                  label="Resource"
+                  meta={
+                    Object {
+                      "errors": Array [],
+                      "name": Array [],
+                      "touched": false,
+                      "validating": false,
+                      "warnings": Array [],
+                    }
+                  }
+                  name={
+                    Array [
+                      0,
+                      "resource",
+                    ]
+                  }
+                  onSubItemMetaChange={[Function]}
+                  prefixCls="ant-form"
+                  rules={
+                    Array [
+                      Object {
+                        "message": "Please input resource",
+                        "required": true,
+                      },
+                    ]
+                  }
+                  warnings={Array []}
+                >
+                  <div
+                    className="ant-form-item"
+                  >
+                    <Row
+                      className="ant-form-item-row"
+                    >
+                      <div
+                        className="ant-row ant-form-item-row"
+                        style={Object {}}
+                      >
+                        <FormItemLabel
+                          errors={Array []}
+                          fieldId="0_resource"
+                          htmlFor="0_resource"
+                          isRequired={true}
+                          label="Resource"
+                          meta={
+                            Object {
+                              "errors": Array [],
+                              "name": Array [],
+                              "touched": false,
+                              "validating": false,
+                              "warnings": Array [],
+                            }
+                          }
+                          name={
+                            Array [
+                              0,
+                              "resource",
+                            ]
+                          }
+                          onSubItemMetaChange={[Function]}
+                          prefixCls="ant-form"
+                          required={true}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please input resource",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          warnings={Array []}
+                        >
+                          <Col
+                            className="ant-form-item-label"
+                          >
+                            <div
+                              className="ant-col ant-form-item-label"
+                              style={Object {}}
+                            >
+                              <label
+                                className="ant-form-item-required"
+                                htmlFor="0_resource"
+                                title="Resource"
+                              >
+                                Resource
+                              </label>
+                            </div>
+                          </Col>
+                        </FormItemLabel>
+                        <FormItemInput
+                          errors={Array []}
+                          fieldId="0_resource"
+                          isRequired={true}
+                          label="Resource"
+                          marginBottom={null}
+                          meta={
+                            Object {
+                              "errors": Array [],
+                              "name": Array [],
+                              "touched": false,
+                              "validating": false,
+                              "warnings": Array [],
+                            }
+                          }
+                          name={Array []}
+                          onErrorVisibleChanged={[Function]}
+                          onSubItemMetaChange={[Function]}
+                          prefixCls="ant-form"
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please input resource",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          status=""
+                          touched={false}
+                          validating={false}
+                          warnings={Array []}
+                        >
+                          <Col
+                            className="ant-form-item-control"
+                          >
+                            <div
+                              className="ant-col ant-form-item-control"
+                              style={Object {}}
+                            >
+                              <div
+                                className="ant-form-item-control-input"
+                              >
+                                <div
+                                  className="ant-form-item-control-input-content"
+                                >
+                                  <Component
+                                    childProps={
+                                      Array [
+                                        "true",
+                                        undefined,
+                                        undefined,
+                                      ]
+                                    }
+                                    update={
+                                      <ForwardRef
+                                        placeholder="enter resource"
+                                      />
+                                    }
+                                  >
+                                    <ForwardRef
+                                      aria-required="true"
+                                      id="0_resource"
+                                      onChange={[Function]}
+                                      placeholder="enter resource"
+                                    >
+                                      <ForwardRef
+                                        affixWrapperClassName=""
+                                        aria-required="true"
+                                        className=""
+                                        groupClassName=""
+                                        id="0_resource"
+                                        inputClassName=""
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onFocus={[Function]}
+                                        placeholder="enter resource"
+                                        prefixCls="ant-input"
+                                        wrapperClassName=""
+                                      >
+                                        <BaseInput
+                                          affixWrapperClassName=""
+                                          aria-required="true"
+                                          className=""
+                                          focused={false}
+                                          groupClassName=""
+                                          handleReset={[Function]}
+                                          id="0_resource"
+                                          inputElement={
+                                            <input
+                                              aria-required="true"
+                                              className="ant-input"
+                                              id="0_resource"
+                                              onBlur={[Function]}
+                                              onChange={[Function]}
+                                              onFocus={[Function]}
+                                              onKeyDown={[Function]}
+                                              placeholder="enter resource"
+                                              type="text"
+                                            />
+                                          }
+                                          placeholder="enter resource"
+                                          prefixCls="ant-input"
+                                          suffix={null}
+                                          triggerFocus={[Function]}
+                                          value=""
+                                          wrapperClassName=""
+                                        >
+                                          <input
+                                            aria-required="true"
+                                            className="ant-input"
+                                            id="0_resource"
+                                            onBlur={[Function]}
+                                            onChange={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            placeholder="enter resource"
+                                            type="text"
+                                            value=""
+                                          />
+                                        </BaseInput>
+                                      </ForwardRef>
+                                    </ForwardRef>
+                                  </Component>
+                                </div>
+                              </div>
+                            </div>
+                          </Col>
+                        </FormItemInput>
+                      </div>
+                    </Row>
+                  </div>
+                </ItemHolder>
+              </Field>
+            </WrapperField>
+          </InternalFormItem>
+        </div>
+      </Col>
+      <Col
+        span={9}
+      >
+        <div
+          className="ant-col ant-col-9"
+          style={
+            Object {
+              "paddingLeft": 5,
+              "paddingRight": 5,
+            }
+          }
+        >
+          <InternalFormItem
+            label="Action"
+            name={
+              Array [
+                0,
+                "actions",
+              ]
+            }
+            rules={
+              Array [
+                Object {
+                  "message": "Please input action",
+                  "required": true,
+                },
+              ]
+            }
+          >
+            <WrapperField
+              label="Action"
+              messageVariables={
+                Object {
+                  "label": "Action",
+                }
+              }
+              name={
+                Array [
+                  0,
+                  "actions",
+                ]
+              }
+              onMetaChange={[Function]}
+              rules={
+                Array [
+                  Object {
+                    "message": "Please input action",
+                    "required": true,
+                  },
+                ]
+              }
+              trigger="onChange"
+            >
+              <Field
+                fieldContext={
+                  Object {
+                    "getFieldError": [Function],
+                    "getFieldValue": [Function],
+                    "getFieldWarning": [Function],
+                    "getFieldsError": [Function],
+                    "getFieldsValue": [Function],
+                    "getInternalHooks": [Function],
+                    "isFieldTouched": [Function],
+                    "isFieldValidating": [Function],
+                    "isFieldsTouched": [Function],
+                    "isFieldsValidating": [Function],
+                    "resetFields": [Function],
+                    "setFieldValue": [Function],
+                    "setFields": [Function],
+                    "setFieldsValue": [Function],
+                    "submit": [Function],
+                    "validateFields": [Function],
+                  }
+                }
+                key="_0_actions"
+                label="Action"
+                messageVariables={
+                  Object {
+                    "label": "Action",
+                  }
+                }
+                name={
+                  Array [
+                    0,
+                    "actions",
+                  ]
+                }
+                onMetaChange={[Function]}
+                rules={
+                  Array [
+                    Object {
+                      "message": "Please input action",
+                      "required": true,
+                    },
+                  ]
+                }
+                trigger="onChange"
+                valuePropName="value"
+              >
+                <ItemHolder
+                  errors={Array []}
+                  fieldId="0_actions"
+                  isRequired={true}
+                  key="row"
+                  label="Action"
+                  meta={
+                    Object {
+                      "errors": Array [],
+                      "name": Array [],
+                      "touched": false,
+                      "validating": false,
+                      "warnings": Array [],
+                    }
+                  }
+                  name={
+                    Array [
+                      0,
+                      "actions",
+                    ]
+                  }
+                  onSubItemMetaChange={[Function]}
+                  prefixCls="ant-form"
+                  rules={
+                    Array [
+                      Object {
+                        "message": "Please input action",
+                        "required": true,
+                      },
+                    ]
+                  }
+                  warnings={Array []}
+                >
+                  <div
+                    className="ant-form-item"
+                  >
+                    <Row
+                      className="ant-form-item-row"
+                    >
+                      <div
+                        className="ant-row ant-form-item-row"
+                        style={Object {}}
+                      >
+                        <FormItemLabel
+                          errors={Array []}
+                          fieldId="0_actions"
+                          htmlFor="0_actions"
+                          isRequired={true}
+                          label="Action"
+                          meta={
+                            Object {
+                              "errors": Array [],
+                              "name": Array [],
+                              "touched": false,
+                              "validating": false,
+                              "warnings": Array [],
+                            }
+                          }
+                          name={
+                            Array [
+                              0,
+                              "actions",
+                            ]
+                          }
+                          onSubItemMetaChange={[Function]}
+                          prefixCls="ant-form"
+                          required={true}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please input action",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          warnings={Array []}
+                        >
+                          <Col
+                            className="ant-form-item-label"
+                          >
+                            <div
+                              className="ant-col ant-form-item-label"
+                              style={Object {}}
+                            >
+                              <label
+                                className="ant-form-item-required"
+                                htmlFor="0_actions"
+                                title="Action"
+                              >
+                                Action
+                              </label>
+                            </div>
+                          </Col>
+                        </FormItemLabel>
+                        <FormItemInput
+                          errors={Array []}
+                          fieldId="0_actions"
+                          isRequired={true}
+                          label="Action"
+                          marginBottom={null}
+                          meta={
+                            Object {
+                              "errors": Array [],
+                              "name": Array [],
+                              "touched": false,
+                              "validating": false,
+                              "warnings": Array [],
+                            }
+                          }
+                          name={Array []}
+                          onErrorVisibleChanged={[Function]}
+                          onSubItemMetaChange={[Function]}
+                          prefixCls="ant-form"
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please input action",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          status=""
+                          touched={false}
+                          validating={false}
+                          warnings={Array []}
+                        >
+                          <Col
+                            className="ant-form-item-control"
+                          >
+                            <div
+                              className="ant-col ant-form-item-control"
+                              style={Object {}}
+                            >
+                              <div
+                                className="ant-form-item-control-input"
+                              >
+                                <div
+                                  className="ant-form-item-control-input-content"
+                                >
+                                  <Component
+                                    childProps={
+                                      Array [
+                                        "true",
+                                        undefined,
+                                        undefined,
+                                      ]
+                                    }
+                                    update={
+                                      <ForwardRef(InternalSelect)
+                                        mode="tags"
+                                        placeholder="select action"
+                                      />
+                                    }
+                                  >
+                                    <ForwardRef(InternalSelect)
+                                      aria-required="true"
+                                      id="0_actions"
+                                      mode="tags"
+                                      onChange={[Function]}
+                                      placeholder="select action"
+                                    >
+                                      <Select
+                                        aria-required="true"
+                                        className="ant-select-in-form-item"
+                                        clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                        disabled={false}
+                                        dropdownClassName=""
+                                        id="0_actions"
+                                        inputIcon={[Function]}
+                                        listHeight={256}
+                                        listItemHeight={24}
+                                        menuItemSelectedIcon={<ForwardRef(CheckOutlined) />}
+                                        mode="tags"
+                                        notFoundContent={
+                                          <Context.Consumer>
+                                            [Function]
+                                          </Context.Consumer>
+                                        }
+                                        onChange={[Function]}
+                                        placeholder="select action"
+                                        placement="bottomLeft"
+                                        prefixCls="ant-select"
+                                        removeIcon={<ForwardRef(CloseOutlined) />}
+                                        transitionName="ant-slide-up"
+                                      >
+                                        <BaseSelect
+                                          OptionList={
+                                            Object {
+                                              "$$typeof": Symbol(react.forward_ref),
+                                              "displayName": "OptionList",
+                                              "render": [Function],
+                                            }
+                                          }
+                                          activeDescendantId="0_actions_list_0"
+                                          activeValue={null}
+                                          aria-required="true"
+                                          autoClearSearchValue={true}
+                                          className="ant-select-in-form-item"
+                                          clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                          disabled={false}
+                                          displayValues={Array []}
+                                          dropdownClassName=""
+                                          dropdownMatchSelectWidth={true}
+                                          emptyOptions={true}
+                                          id="0_actions"
+                                          inputIcon={[Function]}
+                                          mode="tags"
+                                          notFoundContent={
+                                            <Context.Consumer>
+                                              [Function]
+                                            </Context.Consumer>
+                                          }
+                                          omitDomProps={
+                                            Array [
+                                              "inputValue",
+                                            ]
+                                          }
+                                          onDisplayValuesChange={[Function]}
+                                          onSearch={[Function]}
+                                          onSearchSplit={[Function]}
+                                          placeholder="select action"
+                                          placement="bottomLeft"
+                                          prefixCls="ant-select"
+                                          removeIcon={<ForwardRef(CloseOutlined) />}
+                                          searchValue=""
+                                          transitionName="ant-slide-up"
+                                        >
+                                          <div
+                                            aria-required="true"
+                                            className="ant-select ant-select-in-form-item ant-select-multiple ant-select-show-search"
+                                            onBlur={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            onKeyUp={[Function]}
+                                            onMouseDown={[Function]}
+                                          >
+                                            <SelectTrigger
+                                              containerWidth={null}
+                                              disabled={false}
+                                              dropdownClassName=""
+                                              dropdownMatchSelectWidth={true}
+                                              empty={true}
+                                              getTriggerDOMNode={[Function]}
+                                              onPopupMouseEnter={[Function]}
+                                              placement="bottomLeft"
+                                              popupElement={<ForwardRef(OptionList) />}
+                                              prefixCls="ant-select"
+                                              transitionName="ant-slide-up"
+                                            >
+                                              <Trigger
+                                                action={Array []}
+                                                afterPopupVisibleChange={[Function]}
+                                                autoDestroy={false}
+                                                blurDelay={0.15}
+                                                builtinPlacements={
+                                                  Object {
+                                                    "bottomLeft": Object {
+                                                      "offset": Array [
+                                                        0,
+                                                        4,
+                                                      ],
+                                                      "overflow": Object {
+                                                        "adjustX": 0,
+                                                        "adjustY": 1,
+                                                      },
+                                                      "points": Array [
+                                                        "tl",
+                                                        "bl",
+                                                      ],
+                                                    },
+                                                    "bottomRight": Object {
+                                                      "offset": Array [
+                                                        0,
+                                                        4,
+                                                      ],
+                                                      "overflow": Object {
+                                                        "adjustX": 0,
+                                                        "adjustY": 1,
+                                                      },
+                                                      "points": Array [
+                                                        "tr",
+                                                        "br",
+                                                      ],
+                                                    },
+                                                    "topLeft": Object {
+                                                      "offset": Array [
+                                                        0,
+                                                        -4,
+                                                      ],
+                                                      "overflow": Object {
+                                                        "adjustX": 0,
+                                                        "adjustY": 1,
+                                                      },
+                                                      "points": Array [
+                                                        "bl",
+                                                        "tl",
+                                                      ],
+                                                    },
+                                                    "topRight": Object {
+                                                      "offset": Array [
+                                                        0,
+                                                        -4,
+                                                      ],
+                                                      "overflow": Object {
+                                                        "adjustX": 0,
+                                                        "adjustY": 1,
+                                                      },
+                                                      "points": Array [
+                                                        "br",
+                                                        "tr",
+                                                      ],
+                                                    },
+                                                  }
+                                                }
+                                                defaultPopupVisible={false}
+                                                destroyPopupOnHide={false}
+                                                focusDelay={0}
+                                                getDocument={[Function]}
+                                                getPopupClassNameFromAlign={[Function]}
+                                                getTriggerDOMNode={[Function]}
+                                                hideAction={Array []}
+                                                mask={false}
+                                                maskClosable={true}
+                                                mouseEnterDelay={0}
+                                                mouseLeaveDelay={0.1}
+                                                onPopupAlign={[Function]}
+                                                onPopupVisibleChange={[Function]}
+                                                popup={
+                                                  <div
+                                                    onMouseEnter={[Function]}
+                                                  >
+                                                    <ForwardRef(OptionList) />
+                                                  </div>
+                                                }
+                                                popupAlign={Object {}}
+                                                popupClassName="ant-select-dropdown-empty"
+                                                popupPlacement="bottomLeft"
+                                                popupStyle={
+                                                  Object {
+                                                    "minWidth": null,
+                                                    "width": null,
+                                                  }
+                                                }
+                                                popupTransitionName="ant-slide-up"
+                                                prefixCls="ant-select-dropdown"
+                                                showAction={Array []}
+                                              >
+                                                <Selector
+                                                  OptionList={
+                                                    Object {
+                                                      "$$typeof": Symbol(react.forward_ref),
+                                                      "displayName": "OptionList",
+                                                      "render": [Function],
+                                                    }
+                                                  }
+                                                  activeDescendantId="0_actions_list_0"
+                                                  activeValue={null}
+                                                  aria-required="true"
+                                                  autoClearSearchValue={true}
+                                                  className="ant-select-in-form-item"
+                                                  clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                                  disabled={false}
+                                                  displayValues={Array []}
+                                                  domRef={
+                                                    Object {
+                                                      "current": <div
+                                                        class="ant-select-selector"
+                                                      >
+                                                        <div
+                                                          class="ant-select-selection-overflow"
+                                                        >
+                                                          <div
+                                                            class="ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix"
+                                                            style="opacity: 1;"
+                                                          >
+                                                            <div
+                                                              class="ant-select-selection-search"
+                                                              style="width: 0px;"
+                                                            >
+                                                              <input
+                                                                aria-activedescendant="0_actions_list_0"
+                                                                aria-autocomplete="list"
+                                                                aria-controls="0_actions_list"
+                                                                aria-haspopup="listbox"
+                                                                aria-owns="0_actions_list"
+                                                                aria-required="true"
+                                                                autocomplete="off"
+                                                                class="ant-select-selection-search-input"
+                                                                id="0_actions"
+                                                                role="combobox"
+                                                                type="search"
+                                                                value=""
+                                                              />
+                                                              <span
+                                                                aria-hidden="true"
+                                                                class="ant-select-selection-search-mirror"
+                                                              >
+                                                                
+                                                                 
+                                                              </span>
+                                                            </div>
+                                                          </div>
+                                                        </div>
+                                                        <span
+                                                          class="ant-select-selection-placeholder"
+                                                        >
+                                                          select action
+                                                        </span>
+                                                      </div>,
+                                                    }
+                                                  }
+                                                  dropdownClassName=""
+                                                  dropdownMatchSelectWidth={true}
+                                                  emptyOptions={true}
+                                                  id="0_actions"
+                                                  inputElement={null}
+                                                  inputIcon={[Function]}
+                                                  key="trigger"
+                                                  mode="tags"
+                                                  notFoundContent={
+                                                    <Context.Consumer>
+                                                      [Function]
+                                                    </Context.Consumer>
+                                                  }
+                                                  omitDomProps={
+                                                    Array [
+                                                      "inputValue",
+                                                    ]
+                                                  }
+                                                  onDisplayValuesChange={[Function]}
+                                                  onRemove={[Function]}
+                                                  onSearch={[Function]}
+                                                  onSearchSplit={[Function]}
+                                                  onSearchSubmit={[Function]}
+                                                  onToggleOpen={[Function]}
+                                                  placeholder="select action"
+                                                  placement="bottomLeft"
+                                                  prefixCls="ant-select"
+                                                  removeIcon={<ForwardRef(CloseOutlined) />}
+                                                  searchValue=""
+                                                  showSearch={true}
+                                                  tokenWithEnter={false}
+                                                  transitionName="ant-slide-up"
+                                                  values={Array []}
+                                                >
+                                                  <div
+                                                    className="ant-select-selector"
+                                                    onClick={[Function]}
+                                                    onMouseDown={[Function]}
+                                                  >
+                                                    <SelectSelector
+                                                      OptionList={
+                                                        Object {
+                                                          "$$typeof": Symbol(react.forward_ref),
+                                                          "displayName": "OptionList",
+                                                          "render": [Function],
+                                                        }
+                                                      }
+                                                      activeDescendantId="0_actions_list_0"
+                                                      activeValue={null}
+                                                      aria-required="true"
+                                                      autoClearSearchValue={true}
+                                                      className="ant-select-in-form-item"
+                                                      clearIcon={<ForwardRef(CloseCircleFilled) />}
+                                                      disabled={false}
+                                                      displayValues={Array []}
+                                                      domRef={
+                                                        Object {
+                                                          "current": <div
+                                                            class="ant-select-selector"
+                                                          >
+                                                            <div
+                                                              class="ant-select-selection-overflow"
+                                                            >
+                                                              <div
+                                                                class="ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix"
+                                                                style="opacity: 1;"
+                                                              >
+                                                                <div
+                                                                  class="ant-select-selection-search"
+                                                                  style="width: 0px;"
+                                                                >
+                                                                  <input
+                                                                    aria-activedescendant="0_actions_list_0"
+                                                                    aria-autocomplete="list"
+                                                                    aria-controls="0_actions_list"
+                                                                    aria-haspopup="listbox"
+                                                                    aria-owns="0_actions_list"
+                                                                    aria-required="true"
+                                                                    autocomplete="off"
+                                                                    class="ant-select-selection-search-input"
+                                                                    id="0_actions"
+                                                                    role="combobox"
+                                                                    type="search"
+                                                                    value=""
+                                                                  />
+                                                                  <span
+                                                                    aria-hidden="true"
+                                                                    class="ant-select-selection-search-mirror"
+                                                                  >
+                                                                    
+                                                                     
+                                                                  </span>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <span
+                                                              class="ant-select-selection-placeholder"
+                                                            >
+                                                              select action
+                                                            </span>
+                                                          </div>,
+                                                        }
+                                                      }
+                                                      dropdownClassName=""
+                                                      dropdownMatchSelectWidth={true}
+                                                      emptyOptions={true}
+                                                      id="0_actions"
+                                                      inputElement={null}
+                                                      inputIcon={[Function]}
+                                                      inputRef={
+                                                        Object {
+                                                          "current": <input
+                                                            aria-activedescendant="0_actions_list_0"
+                                                            aria-autocomplete="list"
+                                                            aria-controls="0_actions_list"
+                                                            aria-haspopup="listbox"
+                                                            aria-owns="0_actions_list"
+                                                            aria-required="true"
+                                                            autocomplete="off"
+                                                            class="ant-select-selection-search-input"
+                                                            id="0_actions"
+                                                            role="combobox"
+                                                            type="search"
+                                                            value=""
+                                                          />,
+                                                        }
+                                                      }
+                                                      mode="tags"
+                                                      notFoundContent={
+                                                        <Context.Consumer>
+                                                          [Function]
+                                                        </Context.Consumer>
+                                                      }
+                                                      omitDomProps={
+                                                        Array [
+                                                          "inputValue",
+                                                        ]
+                                                      }
+                                                      onDisplayValuesChange={[Function]}
+                                                      onInputChange={[Function]}
+                                                      onInputCompositionEnd={[Function]}
+                                                      onInputCompositionStart={[Function]}
+                                                      onInputKeyDown={[Function]}
+                                                      onInputMouseDown={[Function]}
+                                                      onInputPaste={[Function]}
+                                                      onRemove={[Function]}
+                                                      onSearch={[Function]}
+                                                      onSearchSplit={[Function]}
+                                                      onSearchSubmit={[Function]}
+                                                      onToggleOpen={[Function]}
+                                                      placeholder="select action"
+                                                      placement="bottomLeft"
+                                                      prefixCls="ant-select"
+                                                      removeIcon={<ForwardRef(CloseOutlined) />}
+                                                      searchValue=""
+                                                      showSearch={true}
+                                                      tokenWithEnter={false}
+                                                      transitionName="ant-slide-up"
+                                                      values={Array []}
+                                                    >
+                                                      <Overflow
+                                                        data={Array []}
+                                                        itemKey={[Function]}
+                                                        prefixCls="ant-select-selection-overflow"
+                                                        renderItem={[Function]}
+                                                        renderRest={[Function]}
+                                                        suffix={
+                                                          <div
+                                                            className="ant-select-selection-search"
+                                                            onBlur={[Function]}
+                                                            onFocus={[Function]}
+                                                            style={
+                                                              Object {
+                                                                "width": 0,
+                                                              }
+                                                            }
+                                                          >
+                                                            <ForwardRef(Input)
+                                                              activeDescendantId="0_actions_list_0"
+                                                              attrs={
+                                                                Object {
+                                                                  "aria-required": "true",
+                                                                }
+                                                              }
+                                                              disabled={false}
+                                                              editable={true}
+                                                              id="0_actions"
+                                                              inputElement={null}
+                                                              onChange={[Function]}
+                                                              onCompositionEnd={[Function]}
+                                                              onCompositionStart={[Function]}
+                                                              onKeyDown={[Function]}
+                                                              onMouseDown={[Function]}
+                                                              onPaste={[Function]}
+                                                              prefixCls="ant-select"
+                                                              value=""
+                                                            />
+                                                            <span
+                                                              aria-hidden={true}
+                                                              className="ant-select-selection-search-mirror"
+                                                            >
+                                                              
+                                                               
+                                                            </span>
+                                                          </div>
+                                                        }
+                                                      >
+                                                        <div
+                                                          className="ant-select-selection-overflow"
+                                                        >
+                                                          <Item
+                                                            className="ant-select-selection-overflow-item-suffix"
+                                                            display={true}
+                                                            invalidate={false}
+                                                            order={0}
+                                                            prefixCls="ant-select-selection-overflow-item"
+                                                            registerSize={[Function]}
+                                                            responsive={false}
+                                                            responsiveDisabled={true}
+                                                            style={Object {}}
+                                                          >
+                                                            <div
+                                                              className="ant-select-selection-overflow-item ant-select-selection-overflow-item-suffix"
+                                                              style={
+                                                                Object {
+                                                                  "height": undefined,
+                                                                  "opacity": 1,
+                                                                  "order": undefined,
+                                                                  "overflowY": undefined,
+                                                                  "pointerEvents": undefined,
+                                                                  "position": undefined,
+                                                                }
+                                                              }
+                                                            >
+                                                              <div
+                                                                className="ant-select-selection-search"
+                                                                onBlur={[Function]}
+                                                                onFocus={[Function]}
+                                                                style={
+                                                                  Object {
+                                                                    "width": 0,
+                                                                  }
+                                                                }
+                                                              >
+                                                                <Input
+                                                                  activeDescendantId="0_actions_list_0"
+                                                                  attrs={
+                                                                    Object {
+                                                                      "aria-required": "true",
+                                                                    }
+                                                                  }
+                                                                  disabled={false}
+                                                                  editable={true}
+                                                                  id="0_actions"
+                                                                  inputElement={null}
+                                                                  onChange={[Function]}
+                                                                  onCompositionEnd={[Function]}
+                                                                  onCompositionStart={[Function]}
+                                                                  onKeyDown={[Function]}
+                                                                  onMouseDown={[Function]}
+                                                                  onPaste={[Function]}
+                                                                  prefixCls="ant-select"
+                                                                  value=""
+                                                                >
+                                                                  <input
+                                                                    aria-activedescendant="0_actions_list_0"
+                                                                    aria-autocomplete="list"
+                                                                    aria-controls="0_actions_list"
+                                                                    aria-haspopup="listbox"
+                                                                    aria-owns="0_actions_list"
+                                                                    aria-required="true"
+                                                                    autoComplete="off"
+                                                                    className="ant-select-selection-search-input"
+                                                                    disabled={false}
+                                                                    id="0_actions"
+                                                                    onChange={[Function]}
+                                                                    onCompositionEnd={[Function]}
+                                                                    onCompositionStart={[Function]}
+                                                                    onKeyDown={[Function]}
+                                                                    onMouseDown={[Function]}
+                                                                    onPaste={[Function]}
+                                                                    readOnly={false}
+                                                                    role="combobox"
+                                                                    style={
+                                                                      Object {
+                                                                        "opacity": null,
+                                                                      }
+                                                                    }
+                                                                    type="search"
+                                                                    unselectable={null}
+                                                                    value=""
+                                                                  />
+                                                                </Input>
+                                                                <span
+                                                                  aria-hidden={true}
+                                                                  className="ant-select-selection-search-mirror"
+                                                                >
+                                                                   
+                                                                </span>
+                                                              </div>
+                                                            </div>
+                                                          </Item>
+                                                        </div>
+                                                      </Overflow>
+                                                      <span
+                                                        className="ant-select-selection-placeholder"
+                                                      >
+                                                        select action
+                                                      </span>
+                                                    </SelectSelector>
+                                                  </div>
+                                                </Selector>
+                                              </Trigger>
+                                            </SelectTrigger>
+                                          </div>
+                                        </BaseSelect>
+                                      </Select>
+                                    </ForwardRef(InternalSelect)>
+                                  </Component>
+                                </div>
+                              </div>
+                            </div>
+                          </Col>
+                        </FormItemInput>
+                      </div>
+                    </Row>
+                  </div>
+                </ItemHolder>
+              </Field>
+            </WrapperField>
+          </InternalFormItem>
+        </div>
+      </Col>
+      <Col
+        span={6}
+        style={true}
+      >
+        <div
+          className="ant-col ant-col-6"
+          style={
+            Object {
+              "paddingLeft": 5,
+              "paddingRight": 5,
+            }
+          }
+        >
+          <Button
+            hidden={true}
+            icon={<ForwardRef(MinusCircleOutlined) />}
+            onClick={[Function]}
+            type="danger"
+          >
+            <Wave
+              disabled={false}
+            >
+              <button
+                className="ant-btn ant-btn-danger ant-btn-icon-only"
+                disabled={false}
+                hidden={true}
+                onClick={[Function]}
+                type="button"
+              >
+                <ForwardRef(MinusCircleOutlined)>
+                  <AntdIcon
+                    icon={
+                      Object {
+                        "icon": Object {
+                          "attrs": Object {
+                            "focusable": "false",
+                            "viewBox": "64 64 896 896",
+                          },
+                          "children": Array [
+                            Object {
+                              "attrs": Object {
+                                "d": "M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z",
+                              },
+                              "tag": "path",
+                            },
+                            Object {
+                              "attrs": Object {
+                                "d": "M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z",
+                              },
+                              "tag": "path",
+                            },
+                          ],
+                          "tag": "svg",
+                        },
+                        "name": "minus-circle",
+                        "theme": "outlined",
+                      }
+                    }
+                  >
+                    <span
+                      aria-label="minus-circle"
+                      className="anticon anticon-minus-circle"
+                      role="img"
+                    >
+                      <IconReact
+                        icon={
+                          Object {
+                            "icon": Object {
+                              "attrs": Object {
+                                "focusable": "false",
+                                "viewBox": "64 64 896 896",
+                              },
+                              "children": Array [
+                                Object {
+                                  "attrs": Object {
+                                    "d": "M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z",
+                                  },
+                                  "tag": "path",
+                                },
+                                Object {
+                                  "attrs": Object {
+                                    "d": "M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z",
+                                  },
+                                  "tag": "path",
+                                },
+                              ],
+                              "tag": "svg",
+                            },
+                            "name": "minus-circle",
+                            "theme": "outlined",
+                          }
+                        }
+                      >
+                        <svg
+                          aria-hidden="true"
+                          data-icon="minus-circle"
+                          fill="currentColor"
+                          focusable="false"
+                          height="1em"
+                          key="svg-minus-circle"
+                          viewBox="64 64 896 896"
+                          width="1em"
+                        >
+                          <path
+                            d="M696 480H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h368c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8z"
+                            key="svg-minus-circle-svg-0"
+                          />
+                          <path
+                            d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+                            key="svg-minus-circle-svg-1"
+                          />
+                        </svg>
+                      </IconReact>
+                    </span>
+                  </AntdIcon>
+                </ForwardRef(MinusCircleOutlined)>
+              </button>
+            </Wave>
+          </Button>
+        </div>
+      </Col>
+    </div>
+  </Row>
+</PermissionForm>
+`;
