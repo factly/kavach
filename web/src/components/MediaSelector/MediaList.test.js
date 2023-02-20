@@ -99,6 +99,92 @@ describe('Media List component', () => {
       expect(updatedTable.props().pagination.current).toEqual(2);
       expect(actions.getMedia).toHaveBeenCalledWith({ page: 1, limit: 8 });
     });
+    test('should handle rendering avatar when IMGPROXY is enabled', () => {
+      store = mockStore({
+        ...state,
+        media: {
+          ...state.media,
+          details: {
+            1: {
+              id: 1,
+              name: 'Medium -1',
+              url: {
+                proxy: "example proxy url",
+                raw:  "example raw url",
+              },
+              file_size: 'file_size',
+              caption: 'caption',
+              description: 'description',
+            },
+            2: {
+              id: 2,
+              name: 'Medium - 2',
+              url: {
+                proxy: "example proxy url",
+                raw:  "example raw url",
+              },
+              file_size: 'file_size',
+              caption: 'caption',
+              description: 'description',
+            },
+          },
+        },
+      });
+      window.REACT_APP_ENABLE_IMGPROXY = true;
+      act(() => {
+        wrapper = mount(
+          <Provider store={store}>
+            <MediaList />
+          </Provider>,
+        );
+      });
+      expect(wrapper.find('Avatar').length).toBe(2);
+      expect(wrapper.find('Avatar').at(0).props().src).toBe('example proxy url');
+      expect(wrapper.find('Avatar').at(1).props().src).toBe('example proxy url');
+    });
+    test('should handle rendering avatar when IMGPROXY is disabled', () => {
+      store = mockStore({
+        ...state,
+        media: {
+          ...state.media,
+          details: {
+            1: {
+              id: 1,
+              name: 'Medium -1',
+              url: {
+                proxy: "example proxy url",
+                raw:  "example raw url",
+              },
+              file_size: 'file_size',
+              caption: 'caption',
+              description: 'description',
+            },
+            2: {
+              id: 2,
+              name: 'Medium - 2',
+              url: {
+                proxy: "example proxy url",
+                raw:  "example raw url",
+              },
+              file_size: 'file_size',
+              caption: 'caption',
+              description: 'description',
+            },
+          },
+        },
+      });
+      window.REACT_APP_ENABLE_IMGPROXY = false;
+      act(() => {
+        wrapper = mount(
+          <Provider store={store}>
+            <MediaList />
+          </Provider>,
+        );
+      });
+      expect(wrapper.find('Avatar').length).toBe(2);
+      expect(wrapper.find('Avatar').at(0).props().src).toBe('example raw url');
+      expect(wrapper.find('Avatar').at(1).props().src).toBe('example raw url');
+    });
     it('should handle image selection', () => {
       store = mockStore(state);
       const onSelect = jest.fn();
@@ -110,7 +196,9 @@ describe('Media List component', () => {
         );
       });
       act(() => {
-        wrapper.find('Input').simulate('change', { target: { value: 'Medium -1' } });
+        // wrapper.find('Input').simulate('change', { target: { value: '' } });
+        const Input = wrapper.find('input');
+        Input.simulate('change', { target: { value: 'Medium -1' } });
       });
       wrapper.find('Avatar').at(0).simulate('click');
       expect(onSelect).toHaveBeenCalledWith({
@@ -147,10 +235,13 @@ describe('Media List component', () => {
         );
       });
       act(() => {
-        wrapper.find('Input').simulate('change', { target: { value: '' } });
+        // wrapper.find('Input').simulate('change', { target: { value: '' } });
+        const Input = wrapper.find('input');
+        Input.simulate('change', { target: { value: '' } });
       });
       wrapper.find('Avatar').at(0).simulate('click');
       expect(onSelect).toHaveBeenCalledWith(null);
     });
   });
+
 });

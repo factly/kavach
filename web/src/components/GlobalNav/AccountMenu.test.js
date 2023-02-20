@@ -7,6 +7,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import '../../matchMedia.mock';
+import { notification } from 'antd';
 import { shallow, mount } from 'enzyme';
 import AccountMenu from './AccountMenu';
 import { act } from 'react-dom/test-utils';
@@ -30,6 +31,7 @@ let state = {
       medium: {
         url: {
           proxy: 'imageUrl',
+          raw: 'rawUrl',
         },
       },
       description: 'Description',
@@ -70,6 +72,30 @@ describe('Account Menu component', () => {
       });
       expect(wrapper.find(UserOutlined).length).toBe(0);
     });
+    it('should display User profile with default User Icon when IMG PROXY IS DISABLED', () => {
+      store = mockStore(state);
+      window.REACT_APP_ENABLE_IMGPROXY = false;
+      act(() => {
+        wrapper = mount(
+          <Provider store={store}>
+            <AccountMenu />
+          </Provider>,
+        );
+      });
+      expect(wrapper.find('SubMenu').get(4).props.title.props.children.props.children.props.src).toBe('rawUrl');
+    });
+    it('should display User profile with default User Icon when IMG PROXY IS Enable', () => {
+      store = mockStore(state);
+      window.REACT_APP_ENABLE_IMGPROXY = true;
+      act(() => {
+        wrapper = mount(
+          <Provider store={store}>
+            <AccountMenu />
+          </Provider>,
+        );
+      });
+      expect(wrapper.find('SubMenu').get(4).props.title.props.children.props.children.props.src).toBe('imageUrl');
+    });
     it('should display User profile with default User Icon when no medium', () => {
       const state2 = { ...state };
       state2.profile.details = {
@@ -108,19 +134,57 @@ describe('Account Menu component', () => {
   });
   describe('func. testing', () => {
     let wrapper;
-    it('should call logout API and remove local storage item on logout click', () => {
-      // const mockFetch = jest.fn();
-      // global.fetch = mockFetch;
-      // const mockNotification = jest.fn();
-      // const mockRemoveItem = jest.fn();
-      // Object.defineProperty(window, 'localStorage', {
-      //   value: { removeItem: mockRemoveItem },
-      //   writable: true,
-      // });
-      // Object.defineProperty(window, 'notification', {
-      //   value: { error: mockNotification },
-      //   writable: true,
-      // });
+    it('should call logout API and remove local storage item on logout click', async () => {
+      const mockRemoveItem = jest.fn();
+      Object.defineProperty(window, 'localStorage', {
+        value: { removeItem: mockRemoveItem },
+        writable: true,
+      });
+      const mockData = { logout_url: 'http://localhost/' };
+
+      const mockFetch = jest.fn(() => Promise.resolve({
+        json: () => Promise.resolve(mockData),
+        status: 200,
+      }));
+
+      global.fetch = mockFetch;
+
+      store = mockStore(state);
+      await act(async () => {
+        wrapper = mount(
+          <Provider store={store}>
+            <AccountMenu />
+          </Provider>,
+        );
+      });
+      wrapper.find('SubMenu').get(4).props.children[2].props.onClick();
+      expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
+        credentials: 'include',
+      });
+
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(mockRemoveItem).toHaveBeenCalledWith('returnTo');
+          expect(window.location.href).toEqual(mockData.logout_url);
+          resolve();
+        }, 1000);
+      });
+    });
+    it('should throw error when responese status is not 200', () => {
+      const mockNotification = jest.fn();
+      const mockRemoveItem = jest.fn();
+      Object.defineProperty(window, 'localStorage', {
+        value: { removeItem: mockRemoveItem },
+        writable: true,
+      });
+      const mockData = { logout_url: 'http://localhost/' };
+
+      const mockFetch = jest.fn(() => Promise.resolve({
+        json: () => Promise.resolve(mockData),
+        status: 500,
+      }));
+
+      global.fetch = mockFetch;
 
       store = mockStore(state);
       act(() => {
@@ -130,60 +194,45 @@ describe('Account Menu component', () => {
           </Provider>,
         );
       });
-      // console.log(wrapper.debug());
-      // console.log(wrapper.debug())
-      console.log(wrapper.find({ icon: <LogoutOutlined /> }).debug())
-
-
-      // const logoutButton = wrapper.find({ icon: <LogoutOutlined /> })
-      // how to find the logout button and click it
-
-      // expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
-      //   credentials: 'include',
-      // });
-
-      // const mockResponse = { logout_url: 'http://example.com/logout' };
-      // const mockJsonPromise = Promise.resolve(mockResponse); // A promise that resolves to a mocked JSON response
-      // const mockFetchPromise = Promise.resolve({
-      //   json: () => mockJsonPromise,
-      //   status: 200,
-      // }); // A promise that resolves to a mocked fetch response with 200 status code
-      // mockFetch.mockReturnValueOnce(mockFetchPromise);
-
-      // return mockFetchPromise.then(() => {
-      //   expect(window.location.href).toEqual(mockResponse.logout_url);
-      //   expect(mockRemoveItem).toHaveBeenCalledWith('returnTo');
-      //   expect(mockNotification).not.toHaveBeenCalled();
-      // });
-    });
-
-    xit('should show error notification on logout API failure', () => {
-      const store = mockStore(state)
-      const mockFetch = jest.fn();
-      global.fetch = mockFetch;
-      const mockNotification = jest.fn();
-      Object.defineProperty(window, 'notification', {
-        value: { error: mockNotification },
-        writable: true,
-      });
-
-      const wrapper = mount(<Provider store={store}>
-        <AccountMenu />
-      </Provider>,);
+      wrapper.find('SubMenu').get(4).props.children[2].props.onClick();
       expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
         credentials: 'include',
       });
 
-      const mockFetchPromise = Promise.reject(new Error(500)); // A promise that rejects with an error object
-      mockFetch.mockReturnValueOnce(mockFetchPromise);
-
-      return mockFetchPromise.catch(() => {
-        expect(window.location.href).not.toBeDefined();
-        expect(mockNotification).toHaveBeenCalledWith({
-          message: 'Error',
-          description: 'Unable to logout',
-        });
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(mockRemoveItem).not.toHaveBeenCalled();
+          resolve();
+        }, 1000);
       });
     });
+
+    it('should show error notification on logout API failure', () => {
+      notification.error = jest.fn();
+      const store = mockStore(state);
+      const mockFetch = jest.fn();
+      global.fetch = mockFetch;
+      const mockFetchPromise = Promise.reject(new Error(500)); // A promise that rejects with an error object
+      mockFetch.mockReturnValueOnce(mockFetchPromise);
+      const wrapper = mount(<Provider store={store}>
+        <AccountMenu />
+      </Provider>);
+
+      wrapper.find('SubMenu').get(4).props.children[2].props.onClick();
+      expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
+        credentials: 'include',
+      });
+
+      return new Promise(resolve => {
+        setTimeout(() => {
+          expect(notification.error).toHaveBeenCalledWith({
+            message: 'Error',
+            description: 'Unable to logout',
+          });
+          resolve();
+        }, 1000);
+      });
+    });
+
   });
 });

@@ -1,7 +1,6 @@
 import React from "react";
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import { render } from "@testing-library/react";
-
 import { PermissionForm } from "./index";
 import DynamicPermissionField from "./index";
 
@@ -86,6 +85,5 @@ describe("DynamicPermissionField", () => {
 		expect(wrapper.find("button").length).toEqual(2);
 	});
 
-	test.todo("when permission length is not 0 it should render component")
-
+	test.todo('should render component when permissions are present');
 });

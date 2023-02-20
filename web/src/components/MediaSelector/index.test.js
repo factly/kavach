@@ -65,7 +65,7 @@ describe('MediaSelector component', () => {
 
   describe('snapshot testing', () => {
     beforeEach(() => {
-      store = mockStore(() => {});
+      store = mockStore(() => { });
       store.dispatch = jest.fn();
       mockedDispatch = jest.fn();
       useDispatch.mockReturnValue(mockedDispatch);
@@ -101,11 +101,13 @@ describe('MediaSelector component', () => {
         );
       });
       const selectButton = wrapper.find('Button').at(0);
-      expect(selectButton.text()).toBe(' Select');
+      expect(selectButton.children().find('img').length).toBe(1);
+      expect(selectButton.children().find('img').props().src).toBe("placeholderImage.svg");
+
       selectButton.simulate('click');
       expect(wrapper.find('Modal').props().visible).toBe(true);
       const closeButton = wrapper.find('Button').at(0);
-      expect(closeButton.text()).toBe('Return');
+      expect(closeButton.text()).toBe('Cancel');
       closeButton.simulate('click');
       expect(wrapper.find('Modal').props().visible).toBe(false);
     });
@@ -119,13 +121,28 @@ describe('MediaSelector component', () => {
         );
       });
       const selectButton = wrapper.find('Button').at(0);
-      expect(selectButton.text()).toBe(' Select');
+      expect(selectButton.children().find('img').length).toBe(1);
+
       selectButton.simulate('click');
       wrapper.find('Avatar').at(1).simulate('click');
       const okButton = wrapper.find('Button').at(1);
-      expect(okButton.text()).toBe('Ok');
+      expect(okButton.text()).toBe('Confirm');
       okButton.simulate('click');
       expect(onChange).toHaveBeenCalledWith(2);
+    });
+    it('should handle delete button click', () => {
+      const onChange = jest.fn();
+      act(() => {
+        wrapper = mount(
+          <Provider store={store}>
+            <MediaSelector value={1} onChange={onChange} />
+          </Provider>,
+        );
+      });
+      const deleteButton = wrapper.find('Button').at(1);
+      expect(deleteButton.children().find('svg').length).toBe(1);
+      deleteButton.simulate('click');
+      expect(onChange).toHaveBeenCalledWith(null);
     });
     it('should handle Tab change and unselect image', () => {
       const onChange = jest.fn();
@@ -138,7 +155,7 @@ describe('MediaSelector component', () => {
         );
       });
       const selectButton = wrapper.find('Button').at(0);
-      expect(selectButton.text()).toBe(' Select');
+      expect(selectButton.children().find('img').length).toBe(1);
       selectButton.simulate('click');
       wrapper.find('Avatar').at(0).simulate('click');
       wrapper
@@ -159,7 +176,8 @@ describe('MediaSelector component', () => {
         );
       });
       const selectButton = wrapper.find('Button').at(0);
-      expect(selectButton.text()).toBe(' Select');
+      expect(selectButton.children().find('img').length).toBe(1);
+      expect(selectButton.children().find('img').props().src).toBe("placeholderImage.svg");
       selectButton.simulate('click');
       wrapper
         .find(Radio.Group)
@@ -167,7 +185,7 @@ describe('MediaSelector component', () => {
         .props()
         .onChange({ target: { value: 'invalid' } });
       const okButton = wrapper.find('Button').at(1);
-      expect(okButton.text()).toBe('Ok');
+      expect(okButton.text()).toBe('Confirm');
       okButton.simulate('click');
       expect(onChange).toHaveBeenCalledWith(null);
     });

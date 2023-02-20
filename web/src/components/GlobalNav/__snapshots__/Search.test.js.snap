@@ -2248,7 +2248,7 @@ exports[`Account Menu component should call onSearch 1`] = `
 </Provider>
 `;
 
-exports[`Account Menu component should call onSearch with empty string 1`] = `
+exports[`Account Menu component should call onSearch with undefined val 1`] = `
 <Provider
   store={
     Object {

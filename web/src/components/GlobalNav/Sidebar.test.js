@@ -73,7 +73,7 @@ describe('Sidebar component', () => {
           loading: false,
         },
       }));
-      
+
       const tree = shallow(
         <Provider store={store}>
           <Router>
@@ -83,7 +83,6 @@ describe('Sidebar component', () => {
       );
       expect(tree).toMatchSnapshot();
     });
-
   });
   describe('state testing', () => {
     it('should render the component with collapsed state', () => {
@@ -117,6 +116,36 @@ describe('Sidebar component', () => {
         </Provider>,
       );
       expect(tree.find(Sider).props().collapsed).toBe(false);
+    });
+    it('should render the component when loading is true', () => {
+      store = mockStore(() => ({
+        ...state,
+        profile: {
+          invitations: [],
+          loading: true,
+        },
+      }));
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      const invitationLinks = tree.find('Link').filterWhere((link) => link.props().to === '/profile/invite');
+      expect(invitationLinks.find('Avatar').length).toBe(0);
+    });
+    it('should render the component when loading is false', () => {
+      store = mockStore(() => (state))
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      const invitationLinks = tree.find('Link').filterWhere((link) => link.props().to === '/profile/invite');
+      expect(invitationLinks.find('Avatar').length).toBe(1);
     });
   });
 

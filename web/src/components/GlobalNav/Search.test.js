@@ -31,14 +31,14 @@ describe('Account Menu component', () => {
     expect(component).toMatchSnapshot();
   });
 
-  it('should call onSearch with empty string', () => {
+  it('should call onSearch with undefined val', () => {
     let store = mockStore({});
     let component = mount(
       <Provider store={store}>
         <Search />
       </Provider>,
     );
-    component.find('input').simulate('change', { target: { value: '' } });
+    component.find('input').simulate('change', { target: { value: undefined } });
     expect(component).toMatchSnapshot();
   });
 
