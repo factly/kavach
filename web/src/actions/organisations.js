@@ -141,6 +141,7 @@ export const getOrganisation = (id) => {
 };
 
 export const addOrganisation = (data) => {
+  console.log ('addOrganisation', data);
   return (dispatch, getState) => {
     dispatch(loadingOrganisations());
     return axios

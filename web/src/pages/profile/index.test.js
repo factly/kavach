@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker, Radio } from 'antd';
+import { DatePicker } from 'antd';
 import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -99,7 +99,7 @@ describe('Profiles index component', () => {
           display_name: 'abc',
           slug: 'abc',
           email: 'abc@gmail.com',
-          birth_date: birthDate,
+          birth_date: undefined,
           social_media_urls: {
             facebook: 'facebook/abc',
             twitter: 'twitter/abc',
@@ -130,56 +130,91 @@ describe('Profiles index component', () => {
       wrapper.unmount();
     });
     it('should submit form with data', (done) => {
+      const date = Date.now()
       act(() => {
+        // console.log(wrapper.find('input').debug());
         wrapper
-          .find('FormItem')
+          .find('input')
           .at(1)
-          .find('Input')
           .simulate('change', { target: { value: 'firstname' } });
         wrapper
-          .find('FormItem')
+          .find('input')
           .at(2)
-          .find('Input')
           .simulate('change', { target: { value: 'lastname' } });
         wrapper
-          .find('FormItem')
+          .find('input')
           .at(3)
-          .find('Input')
           .simulate('change', { target: { value: 'new Display Name' } });
-        wrapper
-          .find('FormItem')
-          .at(5)
-          .find(DatePicker)
-          .at(0)
+        wrapper.find(DatePicker)
           .props()
           .onChange({
-            target: { value: moment('10 Oct 2020 00:00:00 IST') },
+            target: { value: undefined },
+          });
+        wrapper.find(DatePicker)
+          .props()
+          .onChange({
+            target: { value: moment(date) },
           });
         wrapper
-          .find('FormItem')
+          .find('input')
           .at(6)
-          .find(Radio.Group)
-          .at(0)
           .props()
           .onChange({ target: { value: 'male' } });
 
         const updateButtom = wrapper.find('Button').at(1);
+        // console.log(updateButtom.debug());
         expect(updateButtom.text()).toBe('Update');
         updateButtom.simulate('submit');
       });
 
       wrapper.update();
-
+      const expectedParams =
+      {
+        email: 'abc@gmail.com',
+        first_name: 'firstname',
+        last_name: 'lastname',
+        display_name: 'new Display Name',
+        slug: 'new-display-name',
+        birth_date: moment(date),
+        social_media_urls: {
+          facebook: 'facebook/abc',
+          twitter: 'twitter/abc',
+          linkedin: 'linkedin/abc',
+          instagram: 'instagram/abc',
+        },
+        description: 'Description',
+        featured_medium_id: undefined,
+        gender: 'male',
+      }
+      const updateButtom = wrapper.find('Button').at(1);
       setTimeout(() => {
         expect(getUserProfile).toHaveBeenCalled();
         expect(updateProfile).toHaveBeenCalledTimes(1);
-        expect(wrapper.find('FormItem').at(12).find('Button').props().disabled).toBe(false);
+        expect(updateButtom.props().disabled).toBe(false);
+        expect(updateProfile).toHaveBeenCalledWith(expectedParams);
+        done();
+      });
+    });
+    it('should submit form with date as null', (done) => {
+      act(() => {
+        wrapper.find(DatePicker)
+          .props()
+          .onChange({
+            target: { value: undefined },
+          });
+        const updateButtom = wrapper.find('Button').at(1);
+        updateButtom.simulate('submit');
+      });
+      wrapper.update();
+      setTimeout(() => {
         expect(updateProfile).toHaveBeenCalledWith({
-          first_name: 'firstname',
-          last_name: 'lastname',
-          display_name: 'new Display Name',
-          slug: 'new-display-name',
-          birth_date: moment('10 Oct 2020 00:00:00 IST').format('YYYY-MM-DDTHH:mm:ssZ'),
+          email: 'abc@gmail.com',
+          first_name: "abc",
+          gender: undefined,
+          last_name: "xyz",
+          slug: "abc",
+          birth_date: null,
+          display_name: "abc",
           social_media_urls: {
             facebook: 'facebook/abc',
             twitter: 'twitter/abc',
@@ -188,7 +223,7 @@ describe('Profiles index component', () => {
           },
           description: 'Description',
           featured_medium_id: undefined,
-          gender: 'male',
+          gender: undefined,
         });
         done();
       });
@@ -201,7 +236,7 @@ describe('Profiles index component', () => {
           </Provider>,
         );
       });
-      expect(wrapper.find('FormItem').at(12).find('Button').props().disabled).toBe(true);
+      expect(wrapper.find('Button').at(1).props().disabled).toBe(true);
     });
   });
 });

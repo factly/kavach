@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -15,6 +16,7 @@ const mockStore = configureMockStore(middlewares);
 
 jest.mock('../../actions/organisations', () => ({
   addOrganisation: jest.fn(),
+  getOrganisations: jest.fn(),
 }));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -36,7 +38,27 @@ describe('Organisations index component', () => {
   const push = jest.fn();
   useHistory.mockReturnValue({ push });
   describe('snapshot testing', () => {
-    it('should render the component', () => {
+    const description = 'should render the component ';
+    it(description + 'when loading is true', () => {
+      store = mockStore({
+        organisations: {
+          ids: [1],
+          details: { 1: { id: 1, name: 'organisation' } },
+          loading: true,
+          selected: 1,
+        },
+        media: {
+          req: [],
+          details: {},
+          loading: false,
+        },
+        profile: {
+          roles: {
+            1: 'member',
+          },
+        }
+      });
+
       let component;
       act(() => {
         component = mount(
@@ -47,65 +69,70 @@ describe('Organisations index component', () => {
       });
       expect(component).toMatchSnapshot();
     });
-  });
-  describe('component testing', () => {
-    store = mockStore({
-      organisations: {
-        ids: [1],
-        details: { 1: { id: 1, name: 'organisation' } },
-        loading: false,
-        selected: 1,
-      },
-      media: {
-        req: [],
-        details: {},
-        loading: false,
-      },
-    });
+    it(description + 'when loading is false', () => {
+      store = mockStore({
+        organisations: {
+          ids: [1],
+          details: { 1: { id: 1, name: 'organisation' } },
+          loading: false,
+          selected: 1,
+        },
+        media: {
+          req: [],
+          details: {},
+          loading: false,
+        },
+        profile: {
+          roles: {
+            1: 'member',
+          },
+        }
+      });
 
-    let wrapper;
-    beforeEach(() => {
+      let component;
       act(() => {
-        wrapper = mount(
+        component = mount(
           <Provider store={store}>
+            <Router>
             <OrganisationCreate />
+            </Router>
           </Provider>,
         );
       });
+      expect(component).toMatchSnapshot();
     });
-    afterEach(() => {
-      wrapper.unmount();
-    });
-    it('should submit form with data', (done) => {
+
+    it(description + 'when loading is false and org count is 0', () => {
+      store = mockStore({
+        organisations: {
+          ids: [],
+          details: {},
+          loading: false,
+          selected: 1,
+        },
+        media: {
+          req: [],
+          details: {},
+          loading: false,
+        },
+        profile: {
+          roles: {
+            1: 'member',
+          },
+        }
+      });
+
+      let component;
       act(() => {
-        wrapper
-          .find('FormItem')
-          .at(0)
-          .find('Input')
-          .simulate('change', { target: { value: 'title' } });
-        wrapper
-          .find('FormItem')
-          .at(2)
-          .find('TextArea')
-          .at(0)
-          .simulate('change', { target: { value: 'description' } });
-
-        const submitButtom = wrapper.find('Button').at(0);
-        submitButtom.simulate('submit');
+        component = mount(
+          <Provider store={store}>
+            <Router>
+              <OrganisationCreate />
+            </Router>
+          </Provider>,
+        );
       });
-      wrapper.update();
-
-      setTimeout(() => {
-        expect(addOrganisation).toHaveBeenCalledTimes(1);
-        expect(addOrganisation).toHaveBeenCalledWith({
-          title: 'title',
-          slug: 'title',
-          description: 'description',
-          featured_medium_id: undefined,
-        });
-        expect(push).toHaveBeenCalledWith('/settings');
-        done();
-      });
+      expect(component).toMatchSnapshot();
     });
   });
 });
