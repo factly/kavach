@@ -52,6 +52,11 @@ export default function CreateOrganisationPolicyForm() {
     );
   };
 
+  const onFinish = (values) => {
+      onCreate(values);
+      onReset();
+  };
+
   React.useEffect(() => {
     dispatch(getOrganisation(orgID));
     fetchRoles();
@@ -90,10 +95,7 @@ export default function CreateOrganisationPolicyForm() {
             form={form}
             layout="vertical"
             name="create-organisation-policy"
-            onFinish={(values) => {
-              onCreate(values);
-              onReset();
-            }}
+            onFinish={onFinish}
           >
             <Form.Item
               name="name"

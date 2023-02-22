@@ -1,4 +1,5 @@
 import React from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from '@testing-library/react';
 import { mount } from 'enzyme';
 import '../../matchMedia.mock';
@@ -37,29 +38,63 @@ describe('OIDC component', () => {
       });
       expect(component).toMatchSnapshot();
     });
+
+    it('should render the component when flow and loginmethod are not default', () => {
+      let component;
+      act(() => {
+        component = mount(<OIDC config={config} flow="registration" loginMethod="oidc" />);
+      });
+      expect(component).toMatchSnapshot();
+    });
   });
   describe('component testing', () => {
-    let wrapper;
-    afterEach(() => {
-      act(() => {
-        wrapper.unmount();
-      });
+    it('renders a Github button when the UI object contains a Github node', () => {
+      const ui = {
+        action: '/',
+        method: 'POST',
+        nodes: [{ group: 'oidc', attributes: { value: 'github' } }]
+      };
+      render(<OIDC ui={ui} />);
+      const githubButton = screen.getByText(/continue with github/i);
+      expect(githubButton).toBeInTheDocument();
     });
-    it('should handle github', () => {
-      act(() => {
-        wrapper = mount(<OIDC config={config} />);
-      });
-      const githubBtn = wrapper.find('Button').at(0);
-      expect(githubBtn.text()).toBe('Github');
-      githubBtn.simulate('click');
+    it('renders a Google button when the UI object contains a Google node', () => {
+      const ui = {
+        action: '/',
+        method: 'POST',
+        nodes: [{ group: 'oidc', attributes: { value: 'google' } }]
+      };
+      render(<OIDC ui={ui} />);
+      const googleButton = screen.getByText(/continue with google/i);
+      expect(googleButton).toBeInTheDocument();
     });
-    it('should handle google', () => {
-      act(() => {
-        wrapper = mount(<OIDC config={config} />);
-      });
-      const githubBtn = wrapper.find('Button').at(1);
-      expect(githubBtn.text()).toBe('Google');
-      githubBtn.simulate('click');
+    it('calls withOIDC with the value "github" when the Github button is clicked', () => {
+      const ui = {
+        action: '/',
+        method: 'POST',
+        nodes: [{ group: 'oidc', attributes: { value: 'github', name: "csrf_token" } },]
+      };
+      const submitSpy = jest.spyOn(window.HTMLFormElement.prototype, 'submit');
+
+      const wrapper = mount(<OIDC ui={ui} />);
+      const githubButton = wrapper.find('button').at(0);
+      githubButton.simulate('click');
+      expect(submitSpy).toHaveBeenCalled();
+      submitSpy.mockRestore();
+    });
+    it('calls withOIDC with the value "google" when the Google button is clicked', () => {
+      const ui = {
+        action: '/',
+        method: 'POST',
+        nodes: [{ group: 'oidc', attributes: { value: 'google', name: "csrf_token" } },]
+      };
+      const submitSpy = jest.spyOn(window.HTMLFormElement.prototype, 'submit');
+
+      const wrapper = mount(<OIDC ui={ui} />);
+      const githubButton = wrapper.find('button').at(0);
+      githubButton.simulate('click');
+      expect(submitSpy).toHaveBeenCalled();
+      submitSpy.mockRestore();
     });
   });
 });

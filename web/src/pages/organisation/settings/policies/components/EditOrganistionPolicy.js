@@ -35,10 +35,9 @@ export default function EditOrganisationPolicy() {
       };
     },
   );
-
   const onUpdate = (data) => {
     dispatch(updateOrganisationPolicy(policyID, { ...policy, ...data })).then(() =>
-      history.push(`/organisation/${orgID}/settings/policies`),
+    history.push(`/organisation/${orgID}/settings/policies`),
     );
   };
 
@@ -54,6 +53,12 @@ export default function EditOrganisationPolicy() {
 
   const fetchPolicy = () => {
     dispatch(getOrganisationPolicyByID(policyID));
+  };
+
+  const onFinish =  (values) => {
+    onUpdate(values)
+
+    onReset();
   };
 
   React.useEffect(() => {
@@ -93,7 +98,7 @@ export default function EditOrganisationPolicy() {
           <Form
             name="update-organisation-policy"
             layout="vertical"
-            onFinish={(values) => onUpdate(values).then(() => onReset())}
+            onFinish={onFinish}
             form={form}
             initialValues={{ ...policy, roles: getIds(policy?.roles) }}
           >

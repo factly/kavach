@@ -18,19 +18,33 @@ const state = {
 		},
 	},
 };
+
+jest.mock('@uppy/core', () => {
+	return jest.fn().mockImplementation(() => {
+		return {
+			use: jest.fn(),
+			on: jest.fn(),
+			off: jest.fn(),
+			upload: jest.fn(),
+			getFile: jest.fn(),
+			getFi
+		};
+	});
+});
+
 describe('UppyUploader', () => {
 
 	const store = mockStore(state);
-		xit('renders the component without crashing', () => {
-			const component = render(
-				<Provider store={store}>
-					<UppyUploader />
-				</Provider >
-			);
+	it('renders the component without crashing', () => {
+		const component = render(
+			<Provider store={store}>
+				<UppyUploader />
+			</Provider >
+		);
 
-			expect(component).toBeTruthy();
-			expect(component).toMatchSnapshot();
-		});
+		expect(component).toBeTruthy();
+		expect(component).toMatchSnapshot();
+	});
 
 	xit('uploads a file when the upload button is clicked', async () => {
 		const onUpload = jest.fn();

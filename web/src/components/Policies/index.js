@@ -40,7 +40,6 @@ export default function DynamicPermissionField({ type }) {
   return (
     <Form.List name="permissions">
       {(permissions, { add, remove }) => {
-        console.log(permissions);
         return (
           <div>
             {type === 'create' ? <PermissionForm key={0} index={0} /> : null}

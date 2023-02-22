@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Alert, Card, Form, Input, Space } from 'antd';
 import createForm from '../../utils/form';
 
+
 export default function MFA({ ui }) {
   const withTOTP = (values) => {
     var totpForm = createForm(ui.action, ui.method);
@@ -31,7 +32,7 @@ export default function MFA({ ui }) {
   return (
     <Card title="Two Factor Authenticator" style={{ width: 400 }}>
       <Space direction="vertical">
-        {ui !== {} ? (
+        {Object.entries(ui).length > 0 ? (
           <Alert type={ui.messages[0].type} message={ui.messages[0].text}></Alert>
         ) : null}
         <Form name="mfa_authentication" onFinish={withTOTP}>

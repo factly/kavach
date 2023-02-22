@@ -22,7 +22,7 @@ export default function OrganisationPolicies() {
       loading: state.profile.loading,
     };
   });
-
+  console.log(role);
   return (
     <Space direction="vertical">
       <Link key="1" to={`/organisation`}>

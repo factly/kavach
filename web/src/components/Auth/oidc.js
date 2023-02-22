@@ -7,6 +7,7 @@ import { Divider } from 'antd';
 import posthog from 'posthog-js';
 
 function OIDC({ ui, flow = 'login', loginMethod = 'all' }) {
+
   const withOIDC = (values) => {
     posthog.identify();
     var oidcForm = createForm(ui.action, ui.method);
