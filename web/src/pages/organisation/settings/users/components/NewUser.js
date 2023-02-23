@@ -87,7 +87,9 @@ function FormList() {
               </div>
             ))}
             <Row style={{ display: 'flex', fontWeight: fontWeight }}>
-              <Button onClick={() => add()}>Add another...</Button>
+              <Button onClick={() => {
+                return add()
+              }}>Add another...</Button>
               <Button
                 type="primary"
                 style={{ fontWeight: fontWeight, marginLeft: 'auto', marginRight: 115 }}
@@ -109,7 +111,8 @@ function NewUser() {
   const { orgID } = useParams();
   const [form] = Form.useForm();
   const addNewUsers = (values) => {
-    dispatch(addUser(values, history)).then(() => {
+    dispatch(addUser(values, history))
+    .then(() => {
       history.push(`/organisation/${orgID}/settings/users`);
       form.resetFields();
     });
@@ -118,7 +121,7 @@ function NewUser() {
   const { role, loading } = useSelector((state) => {
     return {
       role: state.profile.roles[state.organisations.selected],
-      loading: state.profile.loading,
+      loading: state.profile.loading
     };
   });
   return (

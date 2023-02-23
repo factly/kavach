@@ -6,13 +6,19 @@ import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useHistory, useParams } from 'react-router-dom';
+import '../../../../matchMedia.mock.js'
 import { act } from "react-dom/test-utils";
-import { getOrganisation } from '../../../../actions/organisations';
-import { getOrganisationPolicy } from '../../../../actions/policy';
 
-import OrganisationPolicies from "./index";
 
-import "../../../../matchMedia.mock.js"
+import OrganisationTokens from "./index";
+
+jest.mock("./components/OrganisationTokenList", () => {
+	return {
+		__esModule: true,
+		default: () => <div>Mocked Token List</div>,
+	}
+});
+
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
@@ -26,35 +32,20 @@ jest.mock('react-router-dom', () => ({
 	useHistory: jest.fn(),
 	useParams: jest.fn(() => ({
 		orgID: 1,
+		policyID: 1,
 	})),
 }));
 
-jest.mock('../../../../actions/organisations', () => ({
-	getOrganisation: jest.fn(),
-}));
-
-jest.mock('../../../../actions/policy', () => ({
-	getOrganisationPolicy: jest.fn(),
-}));
-
-jest.mock('./components/PolicyList', () => {
-	return {
-		__esModule: true,
-		default: (props) => {
-			return <div id="policyList" onClick={props.onChange} />
-		}
-	}
-});
 
 let state = {
 	organisations: {
 		details: {
 			1: {
-				id: 1, name: "test", roleIDs: [1, 2, 3],
-			},
+				id: 1, name: "test organisation", tokens: [1, 2, 3],
+			}
 		},
-		loading: false,
 		selected: 1,
+		loading: false,
 	},
 	profile: {
 		roles: {
@@ -62,9 +53,9 @@ let state = {
 		},
 		loading: false,
 	},
-}
+};
 
-describe("OrganisationPolicies component", () => {
+describe("Organisation Token List component", () => {
 	let store;
 	const mockedDispatch = jest.fn();
 	mockedDispatch.mockReturnValue(Promise.resolve());
@@ -73,15 +64,29 @@ describe("OrganisationPolicies component", () => {
 	store.dispatch = jest.fn(() => ({}));
 	const push = jest.fn();
 	useHistory.mockReturnValue({ push });
-	const description = "should render the OrganisationPolicies component"
-	describe("snapshot testing", () => {
-		it(description + " when loadingorg", () => {
+
+	describe('snapshots', () => {
+		it("should render while loadingorg is true", () => {
 			store = mockStore({
 				...state,
 				organisations: {
 					...state.organisations,
 					loading: true,
 				},
+			});
+			const tree = mount(
+				<Provider store={store}>
+					<Router>
+						<OrganisationTokens />
+					</Router>
+				</Provider>
+			);
+			expect(tree).toMatchSnapshot();
+			expect(tree.find("Skeleton").length).toBe(1);
+		})
+		it("should render while loading is true", () => {
+			store = mockStore({
+				...state,
 				profile: {
 					...state.profile,
 					loading: true,
@@ -90,61 +95,57 @@ describe("OrganisationPolicies component", () => {
 			const tree = mount(
 				<Provider store={store}>
 					<Router>
-						<OrganisationPolicies />
+						<OrganisationTokens />
 					</Router>
 				</Provider>
-			)
-			expect(tree).toMatchSnapshot()
+			);
+			expect(tree).toMatchSnapshot();
+			expect(tree.find("Skeleton").length).toBe(1);
 		})
 
-		it(description + " when role is not owner", () => {
+		it("should render while role is not owner", () => {
 			store = mockStore({
 				...state,
 				profile: {
 					...state.profile,
 					roles: {
-						1: "member",
+						1: "admin",
 					},
 				},
 			});
 			const tree = mount(
 				<Provider store={store}>
 					<Router>
-						<OrganisationPolicies />
+						<OrganisationTokens />
 					</Router>
 				</Provider>
-			)
-			expect(tree).toMatchSnapshot()
+			);
+			expect(tree).toMatchSnapshot();
+			const btn = tree.find("Button");
+			expect(btn.length).toBe(1);
 		})
-		it(description + " when role is owner", () => {
+
+		it("should render while role is owner", () => {
 			store = mockStore({
 				...state,
+				profile: {
+					...state.profile,
+					roles: {
+						1: "owner",
+					},
+				},
 			});
 			const tree = mount(
 				<Provider store={store}>
 					<Router>
-						<OrganisationPolicies />
+						<OrganisationTokens />
 					</Router>
 				</Provider>
-			)
-			expect(tree).toMatchSnapshot()
-		})
-	})
-
-	describe("function testing", () => {
-		it("should call getOrganisation and getOrganisationPolicy om render", () => {
-			store = mockStore({
-				...state,
-			});
-			mount(
-				<Provider store={store}>
-					<Router>
-						<OrganisationPolicies />
-					</Router>
-				</Provider>
-			)
-			expect(getOrganisation).toHaveBeenCalledWith(1)
-			expect(getOrganisationPolicy).toHaveBeenCalledWith()
-		})
-	})
+			);
+			expect(tree).toMatchSnapshot();
+			const btn = tree.find("Button");
+			expect(btn.length).toBe(2);
+			expect(btn.at(1).text()).toBe(" Generate new tokens ");
+		});
+	});
 })
