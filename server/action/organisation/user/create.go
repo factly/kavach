@@ -53,7 +53,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-
+	// get return_to from query params
+	return_to := r.URL.Query().Get("return_to")
+	// return error if return_to is empty
+	if return_to == "" {
+		loggerx.Error(errors.New("return_to is empty"))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	var currentUID int
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
@@ -193,18 +200,18 @@ func create(w http.ResponseWriter, r *http.Request) {
 				// return
 			}
 		} else {
-			domainName := viper.GetString("domain_name")
+			//domainName := viper.GetString("domain_name")
 			receiver := email.MailReceiver{
 				InviteeName:      user.FirstName + " " + user.LastName,
 				InviteeEmail:     user.Email,
 				Role:             user.Role,
 				OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
 			}
-			if count == 0 {
-				receiver.ActionURL = domainName + "/auth/registration"
-			} else {
-				receiver.ActionURL = domainName + "/web/profile/invite"
-			}
+			// if count == 0 {
+			receiver.ActionURL = return_to
+			// } else {
+			// 	receiver.ActionURL = return_to
+			// }
 			err = email.SendmailwithSendGrid(receiver)
 			if err != nil {
 				// tx.Rollback()
