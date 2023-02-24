@@ -25,7 +25,7 @@ function OrganisationRoles() {
       <Link key="1" to={`/organisation`}>
         <Button type="primary"> Back to Settings </Button>
       </Link>
-      {loading && loadingOrg ? (
+      {loading || loadingOrg ? (
         <Skeleton />
       ) : (
         <Space direction="vertical">

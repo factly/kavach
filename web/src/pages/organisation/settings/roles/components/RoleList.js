@@ -17,7 +17,6 @@ function OrganisationRoleList({ orgID, role }) {
       loading: state.roles.loading,
     };
   });
-
   const columns = [
     {
       title: 'Name',
