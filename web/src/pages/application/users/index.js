@@ -42,6 +42,7 @@ function ApplicationUser() {
   }, [dispatch]);
 
   const remainingUsers = organisationUsers.filter((user) => !applicationUsers.includes(user));
+  // console.log(remainingUsers);
   return (
     <div
       style={{
