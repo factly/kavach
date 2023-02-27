@@ -86,7 +86,6 @@ describe('Application List component', () => {
             created_at: '2020-09-09T06:49:36.566567Z',
             updated_at: '2020-09-09T06:49:36.566567Z',
             name: 'Application1',
-            description: 'description',
             url: 'url1',
             is_default: true,
           },
@@ -98,6 +97,13 @@ describe('Application List component', () => {
             description: 'description',
             url: 'url2',
             is_default: false,
+            medium: {
+              url: {
+                raw: 'rawurl',
+                proxy: 'proxyurl',
+              }
+            },
+            medium_id: 1,
           }
         ],
         permission: true,
@@ -136,7 +142,7 @@ describe('Application List component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList {...props} />
+            <ApplicationList {...props} loading={false}/>
           </Router>
         </Provider>,
       );
@@ -167,6 +173,44 @@ describe('Application List component', () => {
       );
       expect(tree).toMatchSnapshot();
       expect(tree.find("ApplicationCard").length).toBe(2);
+    });
+    it('should render when REACT_APP_ENABLE_IMGPROXY is false', () => {
+      window.REACT_APP_ENABLE_IMGPROXY = false;
+      store = mockStore(state);
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList
+              {...props}
+              loading={false}
+            />
+          </Router>
+        </Provider>,
+      );
+      expect(tree.find("ApplicationCard").length).toBe(2);
+
+      // Avatar
+      expect(tree.find("Avatar").at(0).prop('src')).toEqual('https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg');
+      expect(tree.find("Avatar").at(1).prop('src')).toEqual('rawurl');
+    });
+    it('should render when REACT_APP_ENABLE_IMGPROXY is true', () => {
+      window.REACT_APP_ENABLE_IMGPROXY = true;
+      store = mockStore(state);
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList
+              {...props}
+              loading={false}
+            />
+          </Router>
+        </Provider>,
+      );
+      expect(tree.find("ApplicationCard").length).toBe(2);
+
+      // Avatar
+      expect(tree.find("Avatar").at(0).prop('src')).toEqual('https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg');
+      expect(tree.find("Avatar").at(1).prop('src')).toEqual('proxyurl');
     });
     it('should match component with no data', () => {
       store = mockStore({

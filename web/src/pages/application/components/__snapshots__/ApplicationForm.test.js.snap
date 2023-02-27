@@ -1,5 +1,2079 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Application create form component snapshot testing should render the component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "undefined",
+            "search": "?is_default=falseundefined",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ApplicationForm
+        data={
+          Object {
+            "description": "description",
+            "name": "name",
+            "url": "url",
+          }
+        }
+        onCreate={[MockFunction]}
+      >
+        <div>
+          <Link
+            key="1"
+            to="/applications/type"
+          >
+            <LinkAnchor
+              href="/applications/type"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications/type"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                         Back to manage applications
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <ForwardRef(InternalForm)
+            form={
+              Object {
+                "__INTERNAL__": Object {
+                  "itemRef": [Function],
+                  "name": "create-application",
+                },
+                "_init": true,
+                "getFieldError": [Function],
+                "getFieldInstance": [Function],
+                "getFieldValue": [Function],
+                "getFieldWarning": [Function],
+                "getFieldsError": [Function],
+                "getFieldsValue": [Function],
+                "getInternalHooks": [Function],
+                "isFieldTouched": [Function],
+                "isFieldValidating": [Function],
+                "isFieldsTouched": [Function],
+                "isFieldsValidating": [Function],
+                "resetFields": [Function],
+                "scrollToField": [Function],
+                "setFieldValue": [Function],
+                "setFields": [Function],
+                "setFieldsValue": [Function],
+                "submit": [Function],
+                "validateFields": [Function],
+              }
+            }
+            initialValues={
+              Object {
+                "description": "description",
+                "name": "name",
+                "url": "url",
+              }
+            }
+            labelCol={
+              Object {
+                "span": 7,
+              }
+            }
+            name="create-application"
+            onFinish={[Function]}
+            wrapperCol={
+              Object {
+                "span": 12,
+              }
+            }
+          >
+            <DisabledContextProvider
+              disabled={false}
+            >
+              <SizeContextProvider>
+                <ForwardRef(Form)
+                  className="ant-form ant-form-horizontal"
+                  form={
+                    Object {
+                      "__INTERNAL__": Object {
+                        "itemRef": [Function],
+                        "name": "create-application",
+                      },
+                      "_init": true,
+                      "getFieldError": [Function],
+                      "getFieldInstance": [Function],
+                      "getFieldValue": [Function],
+                      "getFieldWarning": [Function],
+                      "getFieldsError": [Function],
+                      "getFieldsValue": [Function],
+                      "getInternalHooks": [Function],
+                      "isFieldTouched": [Function],
+                      "isFieldValidating": [Function],
+                      "isFieldsTouched": [Function],
+                      "isFieldsValidating": [Function],
+                      "resetFields": [Function],
+                      "scrollToField": [Function],
+                      "setFieldValue": [Function],
+                      "setFields": [Function],
+                      "setFieldsValue": [Function],
+                      "submit": [Function],
+                      "validateFields": [Function],
+                    }
+                  }
+                  id="create-application"
+                  initialValues={
+                    Object {
+                      "description": "description",
+                      "name": "name",
+                      "url": "url",
+                    }
+                  }
+                  name="create-application"
+                  onFinish={[Function]}
+                  onFinishFailed={[Function]}
+                >
+                  <form
+                    className="ant-form ant-form-horizontal"
+                    id="create-application"
+                    onReset={[Function]}
+                    onSubmit={[Function]}
+                  >
+                    <InternalFormItem
+                      label="Name"
+                      name="name"
+                      rules={
+                        Array [
+                          Object {
+                            "message": "Please enter the name!",
+                            "required": true,
+                          },
+                          Object {
+                            "message": "Name must be minimum 3 characters.",
+                            "min": 3,
+                          },
+                          Object {
+                            "max": 50,
+                            "message": "Name must be maximum 50 characters.",
+                          },
+                        ]
+                      }
+                    >
+                      <WrapperField
+                        label="Name"
+                        messageVariables={
+                          Object {
+                            "label": "Name",
+                          }
+                        }
+                        name="name"
+                        onMetaChange={[Function]}
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please enter the name!",
+                              "required": true,
+                            },
+                            Object {
+                              "message": "Name must be minimum 3 characters.",
+                              "min": 3,
+                            },
+                            Object {
+                              "max": 50,
+                              "message": "Name must be maximum 50 characters.",
+                            },
+                          ]
+                        }
+                        trigger="onChange"
+                        validateTrigger="onChange"
+                      >
+                        <Field
+                          fieldContext={
+                            Object {
+                              "__INTERNAL__": Object {
+                                "itemRef": [Function],
+                                "name": "create-application",
+                              },
+                              "_init": true,
+                              "getFieldError": [Function],
+                              "getFieldInstance": [Function],
+                              "getFieldValue": [Function],
+                              "getFieldWarning": [Function],
+                              "getFieldsError": [Function],
+                              "getFieldsValue": [Function],
+                              "getInternalHooks": [Function],
+                              "isFieldTouched": [Function],
+                              "isFieldValidating": [Function],
+                              "isFieldsTouched": [Function],
+                              "isFieldsValidating": [Function],
+                              "resetFields": [Function],
+                              "scrollToField": [Function],
+                              "setFieldValue": [Function],
+                              "setFields": [Function],
+                              "setFieldsValue": [Function],
+                              "submit": [Function],
+                              "validateFields": [Function],
+                              "validateTrigger": "onChange",
+                            }
+                          }
+                          key="_name"
+                          label="Name"
+                          messageVariables={
+                            Object {
+                              "label": "Name",
+                            }
+                          }
+                          name={
+                            Array [
+                              "name",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please enter the name!",
+                                "required": true,
+                              },
+                              Object {
+                                "message": "Name must be minimum 3 characters.",
+                                "min": 3,
+                              },
+                              Object {
+                                "max": 50,
+                                "message": "Name must be maximum 50 characters.",
+                              },
+                            ]
+                          }
+                          trigger="onChange"
+                          validateTrigger="onChange"
+                          valuePropName="value"
+                        >
+                          <ItemHolder
+                            errors={Array []}
+                            fieldId="create-application_name"
+                            isRequired={true}
+                            key="row"
+                            label="Name"
+                            meta={
+                              Object {
+                                "errors": Array [],
+                                "name": Array [],
+                                "touched": false,
+                                "validating": false,
+                                "warnings": Array [],
+                              }
+                            }
+                            name="name"
+                            onSubItemMetaChange={[Function]}
+                            prefixCls="ant-form"
+                            rules={
+                              Array [
+                                Object {
+                                  "message": "Please enter the name!",
+                                  "required": true,
+                                },
+                                Object {
+                                  "message": "Name must be minimum 3 characters.",
+                                  "min": 3,
+                                },
+                                Object {
+                                  "max": 50,
+                                  "message": "Name must be maximum 50 characters.",
+                                },
+                              ]
+                            }
+                            warnings={Array []}
+                          >
+                            <div
+                              className="ant-form-item"
+                            >
+                              <Row
+                                className="ant-form-item-row"
+                              >
+                                <div
+                                  className="ant-row ant-form-item-row"
+                                  style={Object {}}
+                                >
+                                  <FormItemLabel
+                                    errors={Array []}
+                                    fieldId="create-application_name"
+                                    htmlFor="create-application_name"
+                                    isRequired={true}
+                                    label="Name"
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name="name"
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    required={true}
+                                    requiredMark={true}
+                                    rules={
+                                      Array [
+                                        Object {
+                                          "message": "Please enter the name!",
+                                          "required": true,
+                                        },
+                                        Object {
+                                          "message": "Name must be minimum 3 characters.",
+                                          "min": 3,
+                                        },
+                                        Object {
+                                          "max": 50,
+                                          "message": "Name must be maximum 50 characters.",
+                                        },
+                                      ]
+                                    }
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-label"
+                                      span={7}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-7 ant-form-item-label"
+                                        style={Object {}}
+                                      >
+                                        <label
+                                          className="ant-form-item-required"
+                                          htmlFor="create-application_name"
+                                          title="Name"
+                                        >
+                                          Name
+                                        </label>
+                                      </div>
+                                    </Col>
+                                  </FormItemLabel>
+                                  <FormItemInput
+                                    errors={Array []}
+                                    fieldId="create-application_name"
+                                    isRequired={true}
+                                    label="Name"
+                                    marginBottom={null}
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name={Array []}
+                                    onErrorVisibleChanged={[Function]}
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    rules={
+                                      Array [
+                                        Object {
+                                          "message": "Please enter the name!",
+                                          "required": true,
+                                        },
+                                        Object {
+                                          "message": "Name must be minimum 3 characters.",
+                                          "min": 3,
+                                        },
+                                        Object {
+                                          "max": 50,
+                                          "message": "Name must be maximum 50 characters.",
+                                        },
+                                      ]
+                                    }
+                                    status=""
+                                    touched={false}
+                                    validating={false}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-control"
+                                      span={12}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-12 ant-form-item-control"
+                                        style={Object {}}
+                                      >
+                                        <div
+                                          className="ant-form-item-control-input"
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input-content"
+                                          >
+                                            <Component
+                                              childProps={
+                                                Array [
+                                                  "true",
+                                                  undefined,
+                                                  undefined,
+                                                ]
+                                              }
+                                              update={
+                                                <ForwardRef
+                                                  onChange={[Function]}
+                                                />
+                                              }
+                                              value="name"
+                                            >
+                                              <ForwardRef
+                                                aria-required="true"
+                                                id="create-application_name"
+                                                onChange={[Function]}
+                                                value="name"
+                                              >
+                                                <ForwardRef
+                                                  affixWrapperClassName=""
+                                                  aria-required="true"
+                                                  className=""
+                                                  groupClassName=""
+                                                  id="create-application_name"
+                                                  inputClassName=""
+                                                  onBlur={[Function]}
+                                                  onChange={[Function]}
+                                                  onFocus={[Function]}
+                                                  prefixCls="ant-input"
+                                                  value="name"
+                                                  wrapperClassName=""
+                                                >
+                                                  <BaseInput
+                                                    affixWrapperClassName=""
+                                                    aria-required="true"
+                                                    className=""
+                                                    focused={false}
+                                                    groupClassName=""
+                                                    handleReset={[Function]}
+                                                    id="create-application_name"
+                                                    inputElement={
+                                                      <input
+                                                        aria-required="true"
+                                                        className="ant-input"
+                                                        id="create-application_name"
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onFocus={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        type="text"
+                                                        value="name"
+                                                      />
+                                                    }
+                                                    prefixCls="ant-input"
+                                                    suffix={null}
+                                                    triggerFocus={[Function]}
+                                                    value="name"
+                                                    wrapperClassName=""
+                                                  >
+                                                    <input
+                                                      aria-required="true"
+                                                      className="ant-input"
+                                                      id="create-application_name"
+                                                      onBlur={[Function]}
+                                                      onChange={[Function]}
+                                                      onFocus={[Function]}
+                                                      onKeyDown={[Function]}
+                                                      type="text"
+                                                      value="name"
+                                                    />
+                                                  </BaseInput>
+                                                </ForwardRef>
+                                              </ForwardRef>
+                                            </Component>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  </FormItemInput>
+                                </div>
+                              </Row>
+                            </div>
+                          </ItemHolder>
+                        </Field>
+                      </WrapperField>
+                    </InternalFormItem>
+                    <InternalFormItem
+                      label="Slug"
+                      name="slug"
+                      rules={
+                        Array [
+                          Object {
+                            "message": "Please enter the name!",
+                            "required": true,
+                          },
+                          Object {
+                            "message": "Please enter valid slug!",
+                            "pattern": /\\^\\[a-z0-9\\]\\+\\(\\?:-\\[a-z0-9\\]\\+\\)\\*\\$/,
+                          },
+                        ]
+                      }
+                    >
+                      <WrapperField
+                        label="Slug"
+                        messageVariables={
+                          Object {
+                            "label": "Slug",
+                          }
+                        }
+                        name="slug"
+                        onMetaChange={[Function]}
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please enter the name!",
+                              "required": true,
+                            },
+                            Object {
+                              "message": "Please enter valid slug!",
+                              "pattern": /\\^\\[a-z0-9\\]\\+\\(\\?:-\\[a-z0-9\\]\\+\\)\\*\\$/,
+                            },
+                          ]
+                        }
+                        trigger="onChange"
+                        validateTrigger="onChange"
+                      >
+                        <Field
+                          fieldContext={
+                            Object {
+                              "__INTERNAL__": Object {
+                                "itemRef": [Function],
+                                "name": "create-application",
+                              },
+                              "_init": true,
+                              "getFieldError": [Function],
+                              "getFieldInstance": [Function],
+                              "getFieldValue": [Function],
+                              "getFieldWarning": [Function],
+                              "getFieldsError": [Function],
+                              "getFieldsValue": [Function],
+                              "getInternalHooks": [Function],
+                              "isFieldTouched": [Function],
+                              "isFieldValidating": [Function],
+                              "isFieldsTouched": [Function],
+                              "isFieldsValidating": [Function],
+                              "resetFields": [Function],
+                              "scrollToField": [Function],
+                              "setFieldValue": [Function],
+                              "setFields": [Function],
+                              "setFieldsValue": [Function],
+                              "submit": [Function],
+                              "validateFields": [Function],
+                              "validateTrigger": "onChange",
+                            }
+                          }
+                          key="_slug"
+                          label="Slug"
+                          messageVariables={
+                            Object {
+                              "label": "Slug",
+                            }
+                          }
+                          name={
+                            Array [
+                              "slug",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please enter the name!",
+                                "required": true,
+                              },
+                              Object {
+                                "message": "Please enter valid slug!",
+                                "pattern": /\\^\\[a-z0-9\\]\\+\\(\\?:-\\[a-z0-9\\]\\+\\)\\*\\$/,
+                              },
+                            ]
+                          }
+                          trigger="onChange"
+                          validateTrigger="onChange"
+                          valuePropName="value"
+                        >
+                          <ItemHolder
+                            errors={Array []}
+                            fieldId="create-application_slug"
+                            isRequired={true}
+                            key="row"
+                            label="Slug"
+                            meta={
+                              Object {
+                                "errors": Array [],
+                                "name": Array [],
+                                "touched": false,
+                                "validating": false,
+                                "warnings": Array [],
+                              }
+                            }
+                            name="slug"
+                            onSubItemMetaChange={[Function]}
+                            prefixCls="ant-form"
+                            rules={
+                              Array [
+                                Object {
+                                  "message": "Please enter the name!",
+                                  "required": true,
+                                },
+                                Object {
+                                  "message": "Please enter valid slug!",
+                                  "pattern": /\\^\\[a-z0-9\\]\\+\\(\\?:-\\[a-z0-9\\]\\+\\)\\*\\$/,
+                                },
+                              ]
+                            }
+                            warnings={Array []}
+                          >
+                            <div
+                              className="ant-form-item"
+                            >
+                              <Row
+                                className="ant-form-item-row"
+                              >
+                                <div
+                                  className="ant-row ant-form-item-row"
+                                  style={Object {}}
+                                >
+                                  <FormItemLabel
+                                    errors={Array []}
+                                    fieldId="create-application_slug"
+                                    htmlFor="create-application_slug"
+                                    isRequired={true}
+                                    label="Slug"
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name="slug"
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    required={true}
+                                    requiredMark={true}
+                                    rules={
+                                      Array [
+                                        Object {
+                                          "message": "Please enter the name!",
+                                          "required": true,
+                                        },
+                                        Object {
+                                          "message": "Please enter valid slug!",
+                                          "pattern": /\\^\\[a-z0-9\\]\\+\\(\\?:-\\[a-z0-9\\]\\+\\)\\*\\$/,
+                                        },
+                                      ]
+                                    }
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-label"
+                                      span={7}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-7 ant-form-item-label"
+                                        style={Object {}}
+                                      >
+                                        <label
+                                          className="ant-form-item-required"
+                                          htmlFor="create-application_slug"
+                                          title="Slug"
+                                        >
+                                          Slug
+                                        </label>
+                                      </div>
+                                    </Col>
+                                  </FormItemLabel>
+                                  <FormItemInput
+                                    errors={Array []}
+                                    fieldId="create-application_slug"
+                                    isRequired={true}
+                                    label="Slug"
+                                    marginBottom={null}
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name={Array []}
+                                    onErrorVisibleChanged={[Function]}
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    rules={
+                                      Array [
+                                        Object {
+                                          "message": "Please enter the name!",
+                                          "required": true,
+                                        },
+                                        Object {
+                                          "message": "Please enter valid slug!",
+                                          "pattern": /\\^\\[a-z0-9\\]\\+\\(\\?:-\\[a-z0-9\\]\\+\\)\\*\\$/,
+                                        },
+                                      ]
+                                    }
+                                    status=""
+                                    touched={false}
+                                    validating={false}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-control"
+                                      span={12}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-12 ant-form-item-control"
+                                        style={Object {}}
+                                      >
+                                        <div
+                                          className="ant-form-item-control-input"
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input-content"
+                                          >
+                                            <Component
+                                              childProps={
+                                                Array [
+                                                  "true",
+                                                  undefined,
+                                                  undefined,
+                                                ]
+                                              }
+                                              update={<ForwardRef />}
+                                            >
+                                              <ForwardRef
+                                                aria-required="true"
+                                                id="create-application_slug"
+                                                onChange={[Function]}
+                                              >
+                                                <ForwardRef
+                                                  affixWrapperClassName=""
+                                                  aria-required="true"
+                                                  className=""
+                                                  groupClassName=""
+                                                  id="create-application_slug"
+                                                  inputClassName=""
+                                                  onBlur={[Function]}
+                                                  onChange={[Function]}
+                                                  onFocus={[Function]}
+                                                  prefixCls="ant-input"
+                                                  wrapperClassName=""
+                                                >
+                                                  <BaseInput
+                                                    affixWrapperClassName=""
+                                                    aria-required="true"
+                                                    className=""
+                                                    focused={false}
+                                                    groupClassName=""
+                                                    handleReset={[Function]}
+                                                    id="create-application_slug"
+                                                    inputElement={
+                                                      <input
+                                                        aria-required="true"
+                                                        className="ant-input"
+                                                        id="create-application_slug"
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onFocus={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        type="text"
+                                                      />
+                                                    }
+                                                    prefixCls="ant-input"
+                                                    suffix={null}
+                                                    triggerFocus={[Function]}
+                                                    value=""
+                                                    wrapperClassName=""
+                                                  >
+                                                    <input
+                                                      aria-required="true"
+                                                      className="ant-input"
+                                                      id="create-application_slug"
+                                                      onBlur={[Function]}
+                                                      onChange={[Function]}
+                                                      onFocus={[Function]}
+                                                      onKeyDown={[Function]}
+                                                      type="text"
+                                                      value=""
+                                                    />
+                                                  </BaseInput>
+                                                </ForwardRef>
+                                              </ForwardRef>
+                                            </Component>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  </FormItemInput>
+                                </div>
+                              </Row>
+                            </div>
+                          </ItemHolder>
+                        </Field>
+                      </WrapperField>
+                    </InternalFormItem>
+                    <InternalFormItem
+                      label="Logo"
+                      name="medium_id"
+                    >
+                      <WrapperField
+                        label="Logo"
+                        messageVariables={
+                          Object {
+                            "label": "Logo",
+                          }
+                        }
+                        name="medium_id"
+                        onMetaChange={[Function]}
+                        trigger="onChange"
+                        validateTrigger="onChange"
+                      >
+                        <Field
+                          fieldContext={
+                            Object {
+                              "__INTERNAL__": Object {
+                                "itemRef": [Function],
+                                "name": "create-application",
+                              },
+                              "_init": true,
+                              "getFieldError": [Function],
+                              "getFieldInstance": [Function],
+                              "getFieldValue": [Function],
+                              "getFieldWarning": [Function],
+                              "getFieldsError": [Function],
+                              "getFieldsValue": [Function],
+                              "getInternalHooks": [Function],
+                              "isFieldTouched": [Function],
+                              "isFieldValidating": [Function],
+                              "isFieldsTouched": [Function],
+                              "isFieldsValidating": [Function],
+                              "resetFields": [Function],
+                              "scrollToField": [Function],
+                              "setFieldValue": [Function],
+                              "setFields": [Function],
+                              "setFieldsValue": [Function],
+                              "submit": [Function],
+                              "validateFields": [Function],
+                              "validateTrigger": "onChange",
+                            }
+                          }
+                          key="_medium_id"
+                          label="Logo"
+                          messageVariables={
+                            Object {
+                              "label": "Logo",
+                            }
+                          }
+                          name={
+                            Array [
+                              "medium_id",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          trigger="onChange"
+                          validateTrigger="onChange"
+                          valuePropName="value"
+                        >
+                          <ItemHolder
+                            errors={Array []}
+                            fieldId="create-application_medium_id"
+                            isRequired={false}
+                            key="row"
+                            label="Logo"
+                            meta={
+                              Object {
+                                "errors": Array [],
+                                "name": Array [],
+                                "touched": false,
+                                "validating": false,
+                                "warnings": Array [],
+                              }
+                            }
+                            name="medium_id"
+                            onSubItemMetaChange={[Function]}
+                            prefixCls="ant-form"
+                            warnings={Array []}
+                          >
+                            <div
+                              className="ant-form-item"
+                            >
+                              <Row
+                                className="ant-form-item-row"
+                              >
+                                <div
+                                  className="ant-row ant-form-item-row"
+                                  style={Object {}}
+                                >
+                                  <FormItemLabel
+                                    errors={Array []}
+                                    fieldId="create-application_medium_id"
+                                    htmlFor="create-application_medium_id"
+                                    isRequired={false}
+                                    label="Logo"
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name="medium_id"
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    required={false}
+                                    requiredMark={true}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-label"
+                                      span={7}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-7 ant-form-item-label"
+                                        style={Object {}}
+                                      >
+                                        <label
+                                          className=""
+                                          htmlFor="create-application_medium_id"
+                                          title="Logo"
+                                        >
+                                          Logo
+                                        </label>
+                                      </div>
+                                    </Col>
+                                  </FormItemLabel>
+                                  <FormItemInput
+                                    errors={Array []}
+                                    fieldId="create-application_medium_id"
+                                    isRequired={false}
+                                    label="Logo"
+                                    marginBottom={null}
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name={Array []}
+                                    onErrorVisibleChanged={[Function]}
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    status=""
+                                    touched={false}
+                                    validating={false}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-control"
+                                      span={12}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-12 ant-form-item-control"
+                                        style={Object {}}
+                                      >
+                                        <div
+                                          className="ant-form-item-control-input"
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input-content"
+                                          >
+                                            <Component
+                                              childProps={
+                                                Array [
+                                                  undefined,
+                                                  undefined,
+                                                  undefined,
+                                                ]
+                                              }
+                                              update={<MediaSelector />}
+                                            >
+                                              <MediaSelector
+                                                id="create-application_medium_id"
+                                                onChange={[Function]}
+                                              >
+                                                <Modal
+                                                  closable={false}
+                                                  footer={
+                                                    Array [
+                                                      <ForwardRef(InternalButton)
+                                                        onClick={[Function]}
+                                                      >
+                                                        Cancel
+                                                      </ForwardRef(InternalButton)>,
+                                                      <ForwardRef(InternalButton)
+                                                        onClick={[Function]}
+                                                        type="primary"
+                                                      >
+                                                        Confirm
+                                                      </ForwardRef(InternalButton)>,
+                                                    ]
+                                                  }
+                                                  onCancel={[Function]}
+                                                  visible={false}
+                                                  width="800px"
+                                                >
+                                                  <NoCompactStyle>
+                                                    <NoFormStyle
+                                                      override={true}
+                                                      status={true}
+                                                    >
+                                                      <Dialog
+                                                        closable={false}
+                                                        closeIcon={
+                                                          <span
+                                                            className="ant-modal-close-x"
+                                                          >
+                                                            <ForwardRef(CloseOutlined)
+                                                              className="ant-modal-close-icon"
+                                                            />
+                                                          </span>
+                                                        }
+                                                        focusTriggerAfterClose={true}
+                                                        footer={
+                                                          Array [
+                                                            <ForwardRef(InternalButton)
+                                                              onClick={[Function]}
+                                                            >
+                                                              Cancel
+                                                            </ForwardRef(InternalButton)>,
+                                                            <ForwardRef(InternalButton)
+                                                              onClick={[Function]}
+                                                              type="primary"
+                                                            >
+                                                              Confirm
+                                                            </ForwardRef(InternalButton)>,
+                                                          ]
+                                                        }
+                                                        maskTransitionName="ant-fade"
+                                                        onCancel={[Function]}
+                                                        onClose={[Function]}
+                                                        prefixCls="ant-modal"
+                                                        transitionName="ant-zoom"
+                                                        visible={false}
+                                                        width="800px"
+                                                        wrapClassName=""
+                                                      >
+                                                        <Portal
+                                                          autoDestroy={false}
+                                                          autoLock={false}
+                                                          open={false}
+                                                        />
+                                                      </Dialog>
+                                                    </NoFormStyle>
+                                                  </NoCompactStyle>
+                                                </Modal>
+                                                <Space
+                                                  direction="vertical"
+                                                >
+                                                  <div
+                                                    className="ant-space ant-space-vertical"
+                                                    style={Object {}}
+                                                  >
+                                                    <Item
+                                                      className="ant-space-item"
+                                                      direction="vertical"
+                                                      index={0}
+                                                      key="ant-space-item-0"
+                                                      marginDirection="marginRight"
+                                                      wrap={false}
+                                                    >
+                                                      <div
+                                                        className="ant-space-item"
+                                                        style={Object {}}
+                                                      >
+                                                        <div
+                                                          style={
+                                                            Object {
+                                                              "alignItems": "center",
+                                                              "display": "flex",
+                                                              "justifyContent": "center",
+                                                            }
+                                                          }
+                                                        >
+                                                          <div
+                                                            style={
+                                                              Object {
+                                                                "position": "relative",
+                                                              }
+                                                            }
+                                                          >
+                                                            <Button
+                                                              onClick={[Function]}
+                                                              style={
+                                                                Object {
+                                                                  "background": "transparent",
+                                                                  "borderStyle": "dashed",
+                                                                  "display": "block",
+                                                                  "height": "auto",
+                                                                }
+                                                              }
+                                                            >
+                                                              <Wave
+                                                                disabled={false}
+                                                              >
+                                                                <button
+                                                                  className="ant-btn ant-btn-default"
+                                                                  disabled={false}
+                                                                  onClick={[Function]}
+                                                                  style={
+                                                                    Object {
+                                                                      "background": "transparent",
+                                                                      "borderStyle": "dashed",
+                                                                      "display": "block",
+                                                                      "height": "auto",
+                                                                    }
+                                                                  }
+                                                                  type="button"
+                                                                >
+                                                                  <LoadingIcon
+                                                                    existIcon={false}
+                                                                    loading={false}
+                                                                    prefixCls="ant-btn"
+                                                                  >
+                                                                    <CSSMotion
+                                                                      motionName="ant-btn-loading-icon-motion"
+                                                                      onAppearActive={[Function]}
+                                                                      onAppearStart={[Function]}
+                                                                      onEnterActive={[Function]}
+                                                                      onEnterStart={[Function]}
+                                                                      onLeaveActive={[Function]}
+                                                                      onLeaveStart={[Function]}
+                                                                      removeOnLeave={true}
+                                                                      visible={false}
+                                                                    >
+                                                                      <DomWrapper />
+                                                                    </CSSMotion>
+                                                                  </LoadingIcon>
+                                                                  <PlaceholderImage
+                                                                    height="auto"
+                                                                    key=".0"
+                                                                    width="100%"
+                                                                  >
+                                                                    <img
+                                                                      alt=""
+                                                                      height="auto"
+                                                                      src="placeholderImage.svg"
+                                                                      style={
+                                                                        Object {
+                                                                          "maxWidth": "240px",
+                                                                          "objectFit": "contain",
+                                                                          "padding": "1rem",
+                                                                        }
+                                                                      }
+                                                                      width="100%"
+                                                                    />
+                                                                  </PlaceholderImage>
+                                                                </button>
+                                                              </Wave>
+                                                            </Button>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </Item>
+                                                  </div>
+                                                </Space>
+                                              </MediaSelector>
+                                            </Component>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  </FormItemInput>
+                                </div>
+                              </Row>
+                            </div>
+                          </ItemHolder>
+                        </Field>
+                      </WrapperField>
+                    </InternalFormItem>
+                    <InternalFormItem
+                      label="Description"
+                      name="description"
+                    >
+                      <WrapperField
+                        label="Description"
+                        messageVariables={
+                          Object {
+                            "label": "Description",
+                          }
+                        }
+                        name="description"
+                        onMetaChange={[Function]}
+                        trigger="onChange"
+                        validateTrigger="onChange"
+                      >
+                        <Field
+                          fieldContext={
+                            Object {
+                              "__INTERNAL__": Object {
+                                "itemRef": [Function],
+                                "name": "create-application",
+                              },
+                              "_init": true,
+                              "getFieldError": [Function],
+                              "getFieldInstance": [Function],
+                              "getFieldValue": [Function],
+                              "getFieldWarning": [Function],
+                              "getFieldsError": [Function],
+                              "getFieldsValue": [Function],
+                              "getInternalHooks": [Function],
+                              "isFieldTouched": [Function],
+                              "isFieldValidating": [Function],
+                              "isFieldsTouched": [Function],
+                              "isFieldsValidating": [Function],
+                              "resetFields": [Function],
+                              "scrollToField": [Function],
+                              "setFieldValue": [Function],
+                              "setFields": [Function],
+                              "setFieldsValue": [Function],
+                              "submit": [Function],
+                              "validateFields": [Function],
+                              "validateTrigger": "onChange",
+                            }
+                          }
+                          key="_description"
+                          label="Description"
+                          messageVariables={
+                            Object {
+                              "label": "Description",
+                            }
+                          }
+                          name={
+                            Array [
+                              "description",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          trigger="onChange"
+                          validateTrigger="onChange"
+                          valuePropName="value"
+                        >
+                          <ItemHolder
+                            errors={Array []}
+                            fieldId="create-application_description"
+                            isRequired={false}
+                            key="row"
+                            label="Description"
+                            meta={
+                              Object {
+                                "errors": Array [],
+                                "name": Array [],
+                                "touched": false,
+                                "validating": false,
+                                "warnings": Array [],
+                              }
+                            }
+                            name="description"
+                            onSubItemMetaChange={[Function]}
+                            prefixCls="ant-form"
+                            warnings={Array []}
+                          >
+                            <div
+                              className="ant-form-item"
+                            >
+                              <Row
+                                className="ant-form-item-row"
+                              >
+                                <div
+                                  className="ant-row ant-form-item-row"
+                                  style={Object {}}
+                                >
+                                  <FormItemLabel
+                                    errors={Array []}
+                                    fieldId="create-application_description"
+                                    htmlFor="create-application_description"
+                                    isRequired={false}
+                                    label="Description"
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name="description"
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    required={false}
+                                    requiredMark={true}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-label"
+                                      span={7}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-7 ant-form-item-label"
+                                        style={Object {}}
+                                      >
+                                        <label
+                                          className=""
+                                          htmlFor="create-application_description"
+                                          title="Description"
+                                        >
+                                          Description
+                                        </label>
+                                      </div>
+                                    </Col>
+                                  </FormItemLabel>
+                                  <FormItemInput
+                                    errors={Array []}
+                                    fieldId="create-application_description"
+                                    isRequired={false}
+                                    label="Description"
+                                    marginBottom={null}
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name={Array []}
+                                    onErrorVisibleChanged={[Function]}
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    status=""
+                                    touched={false}
+                                    validating={false}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-control"
+                                      span={12}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-12 ant-form-item-control"
+                                        style={Object {}}
+                                      >
+                                        <div
+                                          className="ant-form-item-control-input"
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input-content"
+                                          >
+                                            <Component
+                                              childProps={
+                                                Array [
+                                                  undefined,
+                                                  undefined,
+                                                  undefined,
+                                                ]
+                                              }
+                                              update={<ForwardRef />}
+                                              value="description"
+                                            >
+                                              <ForwardRef
+                                                id="create-application_description"
+                                                onChange={[Function]}
+                                                value="description"
+                                              >
+                                                <ClearableLabeledInput
+                                                  bordered={true}
+                                                  disabled={false}
+                                                  element={
+                                                    <TextArea
+                                                      className=""
+                                                      disabled={false}
+                                                      id="create-application_description"
+                                                      onChange={[Function]}
+                                                      onCompositionEnd={[Function]}
+                                                      onCompositionStart={[Function]}
+                                                      prefixCls="ant-input"
+                                                      value="description"
+                                                    />
+                                                  }
+                                                  handleReset={[Function]}
+                                                  id="create-application_description"
+                                                  inputType="text"
+                                                  prefixCls="ant-input"
+                                                  value="description"
+                                                >
+                                                  <TextArea
+                                                    className=""
+                                                    disabled={false}
+                                                    id="create-application_description"
+                                                    onChange={[Function]}
+                                                    onCompositionEnd={[Function]}
+                                                    onCompositionStart={[Function]}
+                                                    prefixCls="ant-input"
+                                                    value="description"
+                                                  >
+                                                    <ForwardRef
+                                                      className=""
+                                                      disabled={false}
+                                                      id="create-application_description"
+                                                      onChange={[Function]}
+                                                      onCompositionEnd={[Function]}
+                                                      onCompositionStart={[Function]}
+                                                      onKeyDown={[Function]}
+                                                      prefixCls="ant-input"
+                                                      value="description"
+                                                    >
+                                                      <ResizeObserver
+                                                        disabled={true}
+                                                        onResize={[Function]}
+                                                      >
+                                                        <SingleObserver
+                                                          disabled={true}
+                                                          key="rc-observer-key-0"
+                                                          onResize={[Function]}
+                                                        >
+                                                          <DomWrapper>
+                                                            <textarea
+                                                              className="ant-input"
+                                                              disabled={false}
+                                                              id="create-application_description"
+                                                              onChange={[Function]}
+                                                              onCompositionEnd={[Function]}
+                                                              onCompositionStart={[Function]}
+                                                              onKeyDown={[Function]}
+                                                              style={Object {}}
+                                                              value="description"
+                                                            />
+                                                          </DomWrapper>
+                                                        </SingleObserver>
+                                                      </ResizeObserver>
+                                                    </ForwardRef>
+                                                  </TextArea>
+                                                </ClearableLabeledInput>
+                                              </ForwardRef>
+                                            </Component>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  </FormItemInput>
+                                </div>
+                              </Row>
+                            </div>
+                          </ItemHolder>
+                        </Field>
+                      </WrapperField>
+                    </InternalFormItem>
+                    <InternalFormItem
+                      label="URL"
+                      name="url"
+                      rules={
+                        Array [
+                          Object {
+                            "message": "Please enter the URL!",
+                            "required": true,
+                          },
+                        ]
+                      }
+                    >
+                      <WrapperField
+                        label="URL"
+                        messageVariables={
+                          Object {
+                            "label": "URL",
+                          }
+                        }
+                        name="url"
+                        onMetaChange={[Function]}
+                        rules={
+                          Array [
+                            Object {
+                              "message": "Please enter the URL!",
+                              "required": true,
+                            },
+                          ]
+                        }
+                        trigger="onChange"
+                        validateTrigger="onChange"
+                      >
+                        <Field
+                          fieldContext={
+                            Object {
+                              "__INTERNAL__": Object {
+                                "itemRef": [Function],
+                                "name": "create-application",
+                              },
+                              "_init": true,
+                              "getFieldError": [Function],
+                              "getFieldInstance": [Function],
+                              "getFieldValue": [Function],
+                              "getFieldWarning": [Function],
+                              "getFieldsError": [Function],
+                              "getFieldsValue": [Function],
+                              "getInternalHooks": [Function],
+                              "isFieldTouched": [Function],
+                              "isFieldValidating": [Function],
+                              "isFieldsTouched": [Function],
+                              "isFieldsValidating": [Function],
+                              "resetFields": [Function],
+                              "scrollToField": [Function],
+                              "setFieldValue": [Function],
+                              "setFields": [Function],
+                              "setFieldsValue": [Function],
+                              "submit": [Function],
+                              "validateFields": [Function],
+                              "validateTrigger": "onChange",
+                            }
+                          }
+                          key="_url"
+                          label="URL"
+                          messageVariables={
+                            Object {
+                              "label": "URL",
+                            }
+                          }
+                          name={
+                            Array [
+                              "url",
+                            ]
+                          }
+                          onMetaChange={[Function]}
+                          rules={
+                            Array [
+                              Object {
+                                "message": "Please enter the URL!",
+                                "required": true,
+                              },
+                            ]
+                          }
+                          trigger="onChange"
+                          validateTrigger="onChange"
+                          valuePropName="value"
+                        >
+                          <ItemHolder
+                            errors={Array []}
+                            fieldId="create-application_url"
+                            isRequired={true}
+                            key="row"
+                            label="URL"
+                            meta={
+                              Object {
+                                "errors": Array [],
+                                "name": Array [],
+                                "touched": false,
+                                "validating": false,
+                                "warnings": Array [],
+                              }
+                            }
+                            name="url"
+                            onSubItemMetaChange={[Function]}
+                            prefixCls="ant-form"
+                            rules={
+                              Array [
+                                Object {
+                                  "message": "Please enter the URL!",
+                                  "required": true,
+                                },
+                              ]
+                            }
+                            warnings={Array []}
+                          >
+                            <div
+                              className="ant-form-item"
+                            >
+                              <Row
+                                className="ant-form-item-row"
+                              >
+                                <div
+                                  className="ant-row ant-form-item-row"
+                                  style={Object {}}
+                                >
+                                  <FormItemLabel
+                                    errors={Array []}
+                                    fieldId="create-application_url"
+                                    htmlFor="create-application_url"
+                                    isRequired={true}
+                                    label="URL"
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name="url"
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    required={true}
+                                    requiredMark={true}
+                                    rules={
+                                      Array [
+                                        Object {
+                                          "message": "Please enter the URL!",
+                                          "required": true,
+                                        },
+                                      ]
+                                    }
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-label"
+                                      span={7}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-7 ant-form-item-label"
+                                        style={Object {}}
+                                      >
+                                        <label
+                                          className="ant-form-item-required"
+                                          htmlFor="create-application_url"
+                                          title="URL"
+                                        >
+                                          URL
+                                        </label>
+                                      </div>
+                                    </Col>
+                                  </FormItemLabel>
+                                  <FormItemInput
+                                    errors={Array []}
+                                    fieldId="create-application_url"
+                                    isRequired={true}
+                                    label="URL"
+                                    marginBottom={null}
+                                    meta={
+                                      Object {
+                                        "errors": Array [],
+                                        "name": Array [],
+                                        "touched": false,
+                                        "validating": false,
+                                        "warnings": Array [],
+                                      }
+                                    }
+                                    name={Array []}
+                                    onErrorVisibleChanged={[Function]}
+                                    onSubItemMetaChange={[Function]}
+                                    prefixCls="ant-form"
+                                    rules={
+                                      Array [
+                                        Object {
+                                          "message": "Please enter the URL!",
+                                          "required": true,
+                                        },
+                                      ]
+                                    }
+                                    status=""
+                                    touched={false}
+                                    validating={false}
+                                    warnings={Array []}
+                                  >
+                                    <Col
+                                      className="ant-form-item-control"
+                                      span={12}
+                                    >
+                                      <div
+                                        className="ant-col ant-col-12 ant-form-item-control"
+                                        style={Object {}}
+                                      >
+                                        <div
+                                          className="ant-form-item-control-input"
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input-content"
+                                          >
+                                            <Component
+                                              childProps={
+                                                Array [
+                                                  "true",
+                                                  undefined,
+                                                  undefined,
+                                                ]
+                                              }
+                                              update={<ForwardRef />}
+                                              value="url"
+                                            >
+                                              <ForwardRef
+                                                aria-required="true"
+                                                id="create-application_url"
+                                                onChange={[Function]}
+                                                value="url"
+                                              >
+                                                <ForwardRef
+                                                  affixWrapperClassName=""
+                                                  aria-required="true"
+                                                  className=""
+                                                  groupClassName=""
+                                                  id="create-application_url"
+                                                  inputClassName=""
+                                                  onBlur={[Function]}
+                                                  onChange={[Function]}
+                                                  onFocus={[Function]}
+                                                  prefixCls="ant-input"
+                                                  value="url"
+                                                  wrapperClassName=""
+                                                >
+                                                  <BaseInput
+                                                    affixWrapperClassName=""
+                                                    aria-required="true"
+                                                    className=""
+                                                    focused={false}
+                                                    groupClassName=""
+                                                    handleReset={[Function]}
+                                                    id="create-application_url"
+                                                    inputElement={
+                                                      <input
+                                                        aria-required="true"
+                                                        className="ant-input"
+                                                        id="create-application_url"
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onFocus={[Function]}
+                                                        onKeyDown={[Function]}
+                                                        type="text"
+                                                        value="url"
+                                                      />
+                                                    }
+                                                    prefixCls="ant-input"
+                                                    suffix={null}
+                                                    triggerFocus={[Function]}
+                                                    value="url"
+                                                    wrapperClassName=""
+                                                  >
+                                                    <input
+                                                      aria-required="true"
+                                                      className="ant-input"
+                                                      id="create-application_url"
+                                                      onBlur={[Function]}
+                                                      onChange={[Function]}
+                                                      onFocus={[Function]}
+                                                      onKeyDown={[Function]}
+                                                      type="text"
+                                                      value="url"
+                                                    />
+                                                  </BaseInput>
+                                                </ForwardRef>
+                                              </ForwardRef>
+                                            </Component>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </Col>
+                                  </FormItemInput>
+                                </div>
+                              </Row>
+                            </div>
+                          </ItemHolder>
+                        </Field>
+                      </WrapperField>
+                    </InternalFormItem>
+                    <InternalFormItem
+                      wrapperCol={
+                        Object {
+                          "offset": 10,
+                          "span": 14,
+                        }
+                      }
+                    >
+                      <ItemHolder
+                        errors={Array []}
+                        key="row"
+                        meta={
+                          Object {
+                            "errors": Array [],
+                            "name": Array [],
+                            "touched": false,
+                            "validating": false,
+                            "warnings": Array [],
+                          }
+                        }
+                        onSubItemMetaChange={[Function]}
+                        prefixCls="ant-form"
+                        warnings={Array []}
+                        wrapperCol={
+                          Object {
+                            "offset": 10,
+                            "span": 14,
+                          }
+                        }
+                      >
+                        <div
+                          className="ant-form-item"
+                        >
+                          <Row
+                            className="ant-form-item-row"
+                          >
+                            <div
+                              className="ant-row ant-form-item-row"
+                              style={Object {}}
+                            >
+                              <FormItemLabel
+                                errors={Array []}
+                                meta={
+                                  Object {
+                                    "errors": Array [],
+                                    "name": Array [],
+                                    "touched": false,
+                                    "validating": false,
+                                    "warnings": Array [],
+                                  }
+                                }
+                                onSubItemMetaChange={[Function]}
+                                prefixCls="ant-form"
+                                requiredMark={true}
+                                warnings={Array []}
+                                wrapperCol={
+                                  Object {
+                                    "offset": 10,
+                                    "span": 14,
+                                  }
+                                }
+                              />
+                              <FormItemInput
+                                errors={Array []}
+                                marginBottom={null}
+                                meta={
+                                  Object {
+                                    "errors": Array [],
+                                    "name": Array [],
+                                    "touched": false,
+                                    "validating": false,
+                                    "warnings": Array [],
+                                  }
+                                }
+                                name={Array []}
+                                onErrorVisibleChanged={[Function]}
+                                onSubItemMetaChange={[Function]}
+                                prefixCls="ant-form"
+                                status=""
+                                touched={false}
+                                validating={false}
+                                warnings={Array []}
+                                wrapperCol={
+                                  Object {
+                                    "offset": 10,
+                                    "span": 14,
+                                  }
+                                }
+                              >
+                                <Col
+                                  className="ant-form-item-control"
+                                  offset={10}
+                                  span={14}
+                                >
+                                  <div
+                                    className="ant-col ant-col-14 ant-col-offset-10 ant-form-item-control"
+                                    style={Object {}}
+                                  >
+                                    <div
+                                      className="ant-form-item-control-input"
+                                    >
+                                      <div
+                                        className="ant-form-item-control-input-content"
+                                      >
+                                        <Space>
+                                          <div
+                                            className="ant-space ant-space-horizontal ant-space-align-center"
+                                            style={Object {}}
+                                          >
+                                            <Item
+                                              className="ant-space-item"
+                                              direction="horizontal"
+                                              index={0}
+                                              key="ant-space-item-0"
+                                              marginDirection="marginRight"
+                                              wrap={false}
+                                            >
+                                              <div
+                                                className="ant-space-item"
+                                                style={
+                                                  Object {
+                                                    "marginRight": 8,
+                                                  }
+                                                }
+                                              >
+                                                <Button
+                                                  htmlType="submit"
+                                                  type="primary"
+                                                >
+                                                  <Wave
+                                                    disabled={false}
+                                                  >
+                                                    <button
+                                                      className="ant-btn ant-btn-primary"
+                                                      disabled={false}
+                                                      onClick={[Function]}
+                                                      type="submit"
+                                                    >
+                                                      <LoadingIcon
+                                                        existIcon={false}
+                                                        loading={false}
+                                                        prefixCls="ant-btn"
+                                                      >
+                                                        <CSSMotion
+                                                          motionName="ant-btn-loading-icon-motion"
+                                                          onAppearActive={[Function]}
+                                                          onAppearStart={[Function]}
+                                                          onEnterActive={[Function]}
+                                                          onEnterStart={[Function]}
+                                                          onLeaveActive={[Function]}
+                                                          onLeaveStart={[Function]}
+                                                          removeOnLeave={true}
+                                                          visible={false}
+                                                        >
+                                                          <DomWrapper />
+                                                        </CSSMotion>
+                                                      </LoadingIcon>
+                                                      <span
+                                                        key=".0"
+                                                      >
+                                                        Submit
+                                                      </span>
+                                                    </button>
+                                                  </Wave>
+                                                </Button>
+                                              </div>
+                                            </Item>
+                                            <Item
+                                              className="ant-space-item"
+                                              direction="horizontal"
+                                              index={1}
+                                              key="ant-space-item-1"
+                                              marginDirection="marginRight"
+                                              wrap={false}
+                                            >
+                                              <div
+                                                className="ant-space-item"
+                                                style={Object {}}
+                                              >
+                                                <Button
+                                                  htmlType="button"
+                                                  onClick={[Function]}
+                                                >
+                                                  <Wave
+                                                    disabled={false}
+                                                  >
+                                                    <button
+                                                      className="ant-btn ant-btn-default"
+                                                      disabled={false}
+                                                      onClick={[Function]}
+                                                      type="button"
+                                                    >
+                                                      <LoadingIcon
+                                                        existIcon={false}
+                                                        loading={false}
+                                                        prefixCls="ant-btn"
+                                                      >
+                                                        <CSSMotion
+                                                          motionName="ant-btn-loading-icon-motion"
+                                                          onAppearActive={[Function]}
+                                                          onAppearStart={[Function]}
+                                                          onEnterActive={[Function]}
+                                                          onEnterStart={[Function]}
+                                                          onLeaveActive={[Function]}
+                                                          onLeaveStart={[Function]}
+                                                          removeOnLeave={true}
+                                                          visible={false}
+                                                        >
+                                                          <DomWrapper />
+                                                        </CSSMotion>
+                                                      </LoadingIcon>
+                                                      <span
+                                                        key=".0"
+                                                      >
+                                                        Reset
+                                                      </span>
+                                                    </button>
+                                                  </Wave>
+                                                </Button>
+                                              </div>
+                                            </Item>
+                                          </div>
+                                        </Space>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Col>
+                              </FormItemInput>
+                            </div>
+                          </Row>
+                        </div>
+                      </ItemHolder>
+                    </InternalFormItem>
+                  </form>
+                </ForwardRef(Form)>
+              </SizeContextProvider>
+            </DisabledContextProvider>
+          </ForwardRef(InternalForm)>
+        </div>
+      </ApplicationForm>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
 exports[`Application create form component snapshot testing should render the component with data 1`] = `
 <Provider
   store={

@@ -26,7 +26,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
   const [form] = Form.useForm();
   const urlParams = new URLSearchParams(window.location.search);
   const isDefault = urlParams.get('is_default');
-  console.log(isDefault);
   const onReset = () => {
     form.resetFields();
   };
@@ -36,6 +35,7 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
       slug: maker(string),
     });
   };
+
 
   return (
     <div>

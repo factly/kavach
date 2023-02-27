@@ -33,26 +33,22 @@ function ApplicationList({ applicationList, permission, loading }) {
           justifyContent: 'space-between',
         }}
         cover={
-          loading ? (
-            <Card loading={true}></Card>
-          ) : (
-            <Avatar
-              shape="square"
-              size={200}
-              style={{ width: '100%', objectFit: 'cover' }}
-              src={
-                application?.medium && application.medium_id
-                  ? window.REACT_APP_ENABLE_IMGPROXY
-                    ? application?.medium?.url?.proxy
-                    : application.medium?.url?.raw
-                  : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
-              }
-            ></Avatar>
-          )
+          <Avatar
+            shape="square"
+            size={200}
+            style={{ width: '100%', objectFit: 'cover' }}
+            src={
+              application?.medium && application.medium_id
+                ? window.REACT_APP_ENABLE_IMGPROXY
+                  ? application?.medium?.url?.proxy
+                  : application.medium?.url?.raw
+                : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
+            }
+          ></Avatar>
         }
         actions={[
           <Link
-            to={loading ? '' : `/applications/${application.id}/edit`}
+            to={`/applications/${application.id}/edit`}
             className="ant-dropdown-link"
           >
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
@@ -60,14 +56,14 @@ function ApplicationList({ applicationList, permission, loading }) {
           permission ? (
             application.is_default !== true ? (
               <Popconfirm
-              title="Sure to Delete?"
-              onConfirm={() =>
+                title="Sure to Delete?"
+                onConfirm={() =>
                   dispatch(deleteApplication(application.id)).then(() => {
                     dispatch(getOrganisations());
                     fetchApplications();
                   })
                 }
-                >
+              >
                 <Link to="" className="ant-dropdown-link">
                   <DeleteOutlined style={{ fontSize: iconSize }} />
                 </Link>
@@ -114,9 +110,12 @@ function ApplicationList({ applicationList, permission, loading }) {
           </Link>,
         ]}
       >
+        {/* this is modified as if the loading is true
+          component will not be rendered
+         */}
         <Card.Meta
-          title={loading ? '' : application.name}
-          description={loading ? '' : application.description || <div> </div>}
+          title={application.name}
+          description={application.description || <div> </div>}
           style={{ textAlign: 'center' }}
         />
       </Card>

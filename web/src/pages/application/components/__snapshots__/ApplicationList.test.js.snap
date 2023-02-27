@@ -41,7 +41,6 @@ exports[`Application List component snapshot testing should match component when
           Array [
             Object {
               "created_at": "2020-09-09T06:49:36.566567Z",
-              "description": "description",
               "id": 1,
               "is_default": true,
               "name": "Application1",
@@ -53,6 +52,13 @@ exports[`Application List component snapshot testing should match component when
               "description": "description",
               "id": 2,
               "is_default": false,
+              "medium": Object {
+                "url": Object {
+                  "proxy": "proxyurl",
+                  "raw": "rawurl",
+                },
+              },
+              "medium_id": 1,
               "name": "Application2",
               "updated_at": "2020-09-09T06:49:54.027402Z",
               "url": "url2",
@@ -166,7 +172,6 @@ exports[`Application List component snapshot testing should match component when
           Array [
             Object {
               "created_at": "2020-09-09T06:49:36.566567Z",
-              "description": "description",
               "id": 1,
               "is_default": true,
               "name": "Application1",
@@ -178,72 +183,89 @@ exports[`Application List component snapshot testing should match component when
               "description": "description",
               "id": 2,
               "is_default": false,
+              "medium": Object {
+                "url": Object {
+                  "proxy": "proxyurl",
+                  "raw": "rawurl",
+                },
+              },
+              "medium_id": 1,
               "name": "Application2",
               "updated_at": "2020-09-09T06:49:54.027402Z",
               "url": "url2",
             },
           ]
         }
-        loading={true}
+        loading={false}
         permission={true}
       >
-        <Skeleton>
-          <div
-            className="ant-skeleton"
-          >
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexWrap": "wrap",
+              "gap": "2rem",
+            }
+          }
+        >
+          <Skeleton>
             <div
-              className="ant-skeleton-content"
+              className="ant-skeleton"
             >
-              <Title
-                prefixCls="ant-skeleton-title"
-                width="38%"
+              <div
+                className="ant-skeleton-content"
               >
-                <h3
-                  className="ant-skeleton-title"
-                  style={
-                    Object {
-                      "width": "38%",
-                    }
-                  }
-                />
-              </Title>
-              <Paragraph
-                prefixCls="ant-skeleton-paragraph"
-                rows={3}
-                width="61%"
-              >
-                <ul
-                  className="ant-skeleton-paragraph"
+                <Title
+                  prefixCls="ant-skeleton-title"
+                  width="38%"
                 >
-                  <li
-                    key="0"
+                  <h3
+                    className="ant-skeleton-title"
                     style={
                       Object {
-                        "width": undefined,
+                        "width": "38%",
                       }
                     }
                   />
-                  <li
-                    key="1"
-                    style={
-                      Object {
-                        "width": undefined,
+                </Title>
+                <Paragraph
+                  prefixCls="ant-skeleton-paragraph"
+                  rows={3}
+                  width="61%"
+                >
+                  <ul
+                    className="ant-skeleton-paragraph"
+                  >
+                    <li
+                      key="0"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
                       }
-                    }
-                  />
-                  <li
-                    key="2"
-                    style={
-                      Object {
-                        "width": "61%",
+                    />
+                    <li
+                      key="1"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
                       }
-                    }
-                  />
-                </ul>
-              </Paragraph>
+                    />
+                    <li
+                      key="2"
+                      style={
+                        Object {
+                          "width": "61%",
+                        }
+                      }
+                    />
+                  </ul>
+                </Paragraph>
+              </div>
             </div>
-          </div>
-        </Skeleton>
+          </Skeleton>
+        </div>
       </ApplicationList>
     </Router>
   </BrowserRouter>
@@ -291,7 +313,6 @@ exports[`Application List component snapshot testing should match component with
           Array [
             Object {
               "created_at": "2020-09-09T06:49:36.566567Z",
-              "description": "description",
               "id": 1,
               "is_default": true,
               "name": "Application1",
@@ -303,6 +324,13 @@ exports[`Application List component snapshot testing should match component with
               "description": "description",
               "id": 2,
               "is_default": false,
+              "medium": Object {
+                "url": Object {
+                  "proxy": "proxyurl",
+                  "raw": "rawurl",
+                },
+              },
+              "medium_id": 1,
               "name": "Application2",
               "updated_at": "2020-09-09T06:49:54.027402Z",
               "url": "url2",
@@ -325,7 +353,6 @@ exports[`Application List component snapshot testing should match component with
             application={
               Object {
                 "created_at": "2020-09-09T06:49:36.566567Z",
-                "description": "description",
                 "id": 1,
                 "is_default": true,
                 "name": "Application1",
@@ -469,7 +496,11 @@ exports[`Application List component snapshot testing should match component with
                   style={Object {}}
                 >
                   <Meta
-                    description="description"
+                    description={
+                      <div>
+                         
+                      </div>
+                    }
                     style={
                       Object {
                         "textAlign": "center",
@@ -496,7 +527,9 @@ exports[`Application List component snapshot testing should match component with
                         <div
                           className="ant-card-meta-description"
                         >
-                          description
+                          <div>
+                             
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1611,6 +1644,13 @@ exports[`Application List component snapshot testing should match component with
                 "description": "description",
                 "id": 2,
                 "is_default": false,
+                "medium": Object {
+                  "url": Object {
+                    "proxy": "proxyurl",
+                    "raw": "rawurl",
+                  },
+                },
+                "medium_id": 1,
                 "name": "Application2",
                 "updated_at": "2020-09-09T06:49:54.027402Z",
                 "url": "url2",
@@ -1681,7 +1721,7 @@ exports[`Application List component snapshot testing should match component with
                 <ForwardRef(InternalAvatar)
                   shape="square"
                   size={200}
-                  src="https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg"
+                  src="rawurl"
                   style={
                     Object {
                       "objectFit": "cover",
@@ -1720,7 +1760,7 @@ exports[`Application List component snapshot testing should match component with
                   <Avatar
                     shape="square"
                     size={200}
-                    src="https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg"
+                    src="rawurl"
                     style={
                       Object {
                         "objectFit": "cover",
@@ -1742,7 +1782,7 @@ exports[`Application List component snapshot testing should match component with
                     >
                       <img
                         onError={[Function]}
-                        src="https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg"
+                        src="rawurl"
                       />
                     </span>
                   </Avatar>
