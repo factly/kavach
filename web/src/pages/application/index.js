@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplications } from '../../actions/application';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
+import EditApplication from './EditApplication';
 function Application() {
   const dispatch = useDispatch();
   React.useEffect(() => {

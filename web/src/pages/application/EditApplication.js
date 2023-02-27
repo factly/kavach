@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ApplicationEditForm from './components/ApplicationForm';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,13 +15,12 @@ function EditApplication() {
   const { application, loadingApp, role, loadingRole, orgID } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
       orgID: state.organisations.selected,
     };
   });
-
   React.useEffect(() => {
     dispatch(getApplication(id));
   }, [dispatch, id]);
@@ -44,11 +44,13 @@ function EditApplication() {
       history.push('/applications');
     });
   };
+
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       {!application.is_default ? (
         <div>
           <h2> Edit Application </h2>
+
           <ApplicationEditForm data={application} onCreate={onUpdate} />
         </div>
       ) : orgID === 1 ? (
@@ -57,12 +59,14 @@ function EditApplication() {
           <ApplicationEditForm data={application} onCreate={onUpdate} />
         </div>
       ) : (
-        <ErrorComponent
-          status="403"
-          title="Sorry you are not authorised to access this page"
-          link="/applications"
-          message="Goto Applications"
-        />
+        <>
+          <ErrorComponent
+            status="403"
+            title="Sorry you are not authorised to access this page"
+            link="/applications"
+            message="Goto Applications"
+          />
+        </>
       )}
     </Space>
   );
