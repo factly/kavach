@@ -5,7 +5,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
-import { Popconfirm, Button, Table } from 'antd';
+import { Popconfirm, Button, Table, Skeleton, Tooltip } from 'antd';
 
 import '../../../matchMedia.mock';
 import ApplicationList from './ApplicationList';
@@ -26,6 +26,18 @@ jest.mock('../../../actions/application', () => ({
 let mockedDispatch, store;
 
 let state = {
+  organisations: {
+    selected: 1,
+    details: {
+      1: {
+        id: 1,
+        name: 'Organisation 1',
+        slug: 'organisation-1',
+        applications: [1, 2],
+      }
+    },
+    loading: false,
+  },
   applications: {
     req: [
       {
@@ -60,50 +72,138 @@ let state = {
 };
 
 describe('Application List component', () => {
+  let props;
   describe('snapshot testing', () => {
     beforeEach(() => {
       store = mockStore({});
       store.dispatch = jest.fn();
       mockedDispatch = jest.fn();
       useDispatch.mockReturnValue(mockedDispatch);
-    });
-    it('should render the component', () => {
-      store = mockStore(state);
-      const tree = mount(
-        <Provider store={store}>
-          <Router>
-            <ApplicationList />
-          </Router>
-        </Provider>,
-      );
-      expect(tree).toMatchSnapshot();
+      props = {
+        applicationList: [
+          {
+            id: 1,
+            created_at: '2020-09-09T06:49:36.566567Z',
+            updated_at: '2020-09-09T06:49:36.566567Z',
+            name: 'Application1',
+            description: 'description',
+            url: 'url1',
+            is_default: true,
+          },
+          {
+            id: 2,
+            created_at: '2020-09-09T06:49:54.027402Z',
+            updated_at: '2020-09-09T06:49:54.027402Z',
+            name: 'Application2',
+            description: 'description',
+            url: 'url2',
+            is_default: false,
+          }
+        ],
+        permission: true,
+        loading: true,
+      }
     });
     it('should match component when loading', () => {
-      state.applications.loading = true;
-      store = mockStore(state);
-      const tree = mount(
-        <Provider store={store}>
-          <Router>
-            <ApplicationList />
-          </Router>
-        </Provider>,
-      );
-      expect(tree).toMatchSnapshot();
-    });
-    it('should match component with categories', () => {
-      state.applications.loading = false;
-      store = mockStore(state);
-      const tree = mount(
-        <Provider store={store}>
-          <Router>
-            <ApplicationList />
-          </Router>
-        </Provider>,
-      );
-      expect(tree).toMatchSnapshot();
-      expect(mockedDispatch).toHaveBeenCalledTimes(1);
+      store = mockStore({
+        ...state,
+        applications: {
+          ...state.applications,
+          loading: true,
+        },
+      });
 
-      expect(getApplications).toHaveBeenCalledWith();
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList {...props} />
+          </Router>
+        </Provider>,
+      );
+      expect(tree).toMatchSnapshot();
+      expect(tree.find(Skeleton).length).toBe(1);
+    });
+
+    it('should match component when org is loading', () => {
+      store = mockStore({
+        ...state,
+        organisations: {
+          ...state.organisations,
+          loading: true,
+        },
+      });
+
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList {...props} />
+          </Router>
+        </Provider>,
+      );
+      expect(tree).toMatchSnapshot();
+      expect(tree.find(Skeleton).length).toBe(1);
+    });
+    it('should match component with all data', () => {
+      store = mockStore({
+        ...state,
+        applications: {
+          ...state.applications,
+          loading: false,
+        },
+        organisations: {
+          ...state.organisations,
+          loading: false,
+        },
+      });
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList
+              {...props}
+              loading={false}
+            />
+          </Router>
+        </Provider>,
+      );
+      expect(tree).toMatchSnapshot();
+      expect(tree.find("ApplicationCard").length).toBe(2);
+    });
+    it('should match component with no data', () => {
+      store = mockStore({
+        ...state,
+        applications: {
+          ...state.applications,
+          loading: false,
+          req: [
+            {
+              data: [],
+              query: {
+                page: 1,
+                limit: 5,
+              },
+              total: 0,
+            },
+          ],
+          details: {},
+        },
+        organisations: {
+          ...state.organisations,
+          loading: false,
+        },
+      });
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList
+              {...props}
+              applicationList={[]}
+              loading={false}
+            />
+          </Router>
+        </Provider>,
+      );
+      expect(tree).toMatchSnapshot();
+      expect(tree.find("ApplicationCard").length).toBe(0);
     });
   });
   describe('component testing', () => {
@@ -112,24 +212,6 @@ describe('Application List component', () => {
       mockedDispatch = jest.fn(() => new Promise((resolve) => resolve(true)));
       useDispatch.mockReturnValue(mockedDispatch);
     });
-    it('should change the page', () => {
-      store = mockStore(state);
-      let wrapper;
-      act(() => {
-        wrapper = mount(
-          <Provider store={store}>
-            <Router>
-              <ApplicationList />
-            </Router>
-          </Provider>,
-        );
-      });
-      const table = wrapper.find(Table);
-      table.props().pagination.onChange(3);
-      wrapper.update();
-      const updatedTable = wrapper.find(Table);
-      expect(updatedTable.props().pagination.current).toEqual(3);
-    });
     it('should delete application', () => {
       store = mockStore(state);
       let wrapper;
@@ -137,69 +219,47 @@ describe('Application List component', () => {
         wrapper = mount(
           <Provider store={store}>
             <Router>
-              <ApplicationList />
-            </Router>
-          </Provider>,
-        );
-      });
-      const button = wrapper.find(Button).at(1);
-      expect(button.text()).toEqual('Delete');
-
-      button.simulate('click');
-      const popconfirm = wrapper.find(Popconfirm);
-      popconfirm
-        .findWhere((item) => item.type() === 'button' && item.text() === 'OK')
-        .simulate('click');
-      expect(deleteApplication).toHaveBeenCalled();
-      expect(deleteApplication).toHaveBeenCalledWith(1);
-      expect(getApplications).toHaveBeenCalledWith();
-    });
-    it('should edit application', () => {
-      const state2 = { ...state };
-      state2.applications.details[1] = {
-        id: 1,
-        created_at: '2020-09-09T06:49:36.566567Z',
-        updated_at: '2020-09-09T06:49:36.566567Z',
-        name: 'Application1',
-        description: 'description',
-        url: 'url1',
-        users: [{ id: 1, email: 'user@gmail.com' }],
-      };
-      store = mockStore(state2);
-      let wrapper;
-      act(() => {
-        wrapper = mount(
-          <Provider store={store}>
-            <Router>
-              <ApplicationList />
+              <ApplicationList {...props} permission={true} loading={false}
+              />
             </Router>
           </Provider>,
         );
       });
       const link = wrapper.find(Link).at(0);
-      const button = link.find(Button).at(0);
-      expect(button.text()).toEqual('Edit');
       expect(link.prop('to')).toEqual('/applications/1/edit');
+      const link2 = wrapper.find(Link).at(1);
+      link2.simulate('click');
+      wrapper.find(Popconfirm).at(0).props().onConfirm();
+      expect(deleteApplication).toBeCalled();
+      expect(deleteApplication).toBeCalledWith(1);
+      wrapper.find(Popconfirm).at(1).props().onConfirm();
+      expect(deleteApplication).toBeCalled();
+      expect(deleteApplication).toBeCalledWith(2);
     });
-    it('should have no delete and edit buttons', () => {
-      store = mockStore({
-        applications: {
-          req: [],
-        },
-      });
-      let wrapper;
-      act(() => {
-        wrapper = mount(
-          <Provider store={store}>
-            <Router>
-              <ApplicationList />
-            </Router>
-          </Provider>,
-        );
-      });
+  });
+  it('should not allow to delete application when application is not default and org id is not 1', () => {
+    store = mockStore({
+      ...state,
+      organisations: {
+        ...state.organisations,
+        selected: 2,
+      },
+    });
+    let wrapper;
+    act(() => {
+      wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationList {...props} permission={true} loading={false}
+            />
+          </Router>
+        </Provider>,
+      );
+    });
+    const link = wrapper.find(Link).at(0);
+    expect(link.prop('to')).toEqual('/applications/1/edit');
+    const link2 = wrapper.find(Tooltip).at(0);
 
-      const button = wrapper.find(Button);
-      expect(button.length).toEqual(0);
-    });
+    expect(link2.prop('title')).toEqual("You don't have permission to delete an application");
   });
 });

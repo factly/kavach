@@ -60,14 +60,14 @@ function ApplicationList({ applicationList, permission, loading }) {
           permission ? (
             application.is_default !== true ? (
               <Popconfirm
-                title="Sure to Delete?"
-                onConfirm={() =>
+              title="Sure to Delete?"
+              onConfirm={() =>
                   dispatch(deleteApplication(application.id)).then(() => {
                     dispatch(getOrganisations());
                     fetchApplications();
                   })
                 }
-              >
+                >
                 <Link to="" className="ant-dropdown-link">
                   <DeleteOutlined style={{ fontSize: iconSize }} />
                 </Link>
@@ -82,6 +82,7 @@ function ApplicationList({ applicationList, permission, loading }) {
                   })
                 }
               >
+
                 <Link to="" className="ant-dropdown-link">
                   <DeleteOutlined style={{ fontSize: iconSize }} />
                 </Link>
@@ -101,6 +102,7 @@ function ApplicationList({ applicationList, permission, loading }) {
               trigger="click"
               color="red"
             >
+              {console.log("okkk")}
               <DeleteOutlined style={{ fontSize: iconSize }} />
             </Tooltip>
           ),
