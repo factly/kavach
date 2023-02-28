@@ -36,7 +36,7 @@ const CreateApplicationTokenForm = () => {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
@@ -45,7 +45,6 @@ const CreateApplicationTokenForm = () => {
   React.useEffect(() => {
     dispatch(getApplication(id));
   }, [dispatch, id]);
-
   return (
     <div
       style={{
@@ -86,7 +85,7 @@ const CreateApplicationTokenForm = () => {
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>
