@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 
@@ -124,10 +125,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		var invitationCount int64
 		err = tx.Model(&model.Invitation{}).
-				Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
-				Count(&invitationCount).Error
-			
-		if err!=nil {
+			Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
+			Count(&invitationCount).Error
+
+		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
 			return
@@ -208,6 +209,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 				OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
 			}
 			// if count == 0 {
+			return_to, err := decodeURLIfNeeded(return_to)
+			if err != nil {
+				loggerx.Error(errors.New("decode error"))
+			}
 			receiver.ActionURL = return_to
 			// } else {
 			// 	receiver.ActionURL = return_to
@@ -223,4 +228,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 		tx.Commit()
 	}
 	renderx.JSON(w, http.StatusOK, nil)
+}
+
+func decodeURLIfNeeded(urlString string) (string, error) {
+	u, err := url.Parse(urlString)
+	if err != nil {
+		return "", err
+	}
+
+	// Check if the URL is encoded
+	if u.RawQuery != "" || u.Fragment != "" {
+		// Decode the URL
+		decodedURL, err := url.QueryUnescape(urlString)
+		if err != nil {
+			return "", err
+		}
+		return decodedURL, nil
+	}
+
+	// The URL is not encoded, return the original URL string
+	return urlString, nil
 }
