@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
 
 import '../../../../../matchMedia.mock';
-import { Popconfirm, Button, Table } from 'antd';
+import { Popconfirm } from 'antd';
 
 import { deleteApplicationToken } from '../../../../../actions/token';
 

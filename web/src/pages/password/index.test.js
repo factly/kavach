@@ -7,6 +7,8 @@ import Password from './index';
 import {Form, Input, Button} from 'antd';
 global.fetch = jest.fn();
 
+import resolvedResp from './resolvedResp';
+
 describe('password component', () => {
   describe('snapshot component', () => {
     xit('should render the component', () => {
@@ -169,66 +171,29 @@ describe('password component', () => {
         Promise.resolve({
           status: 200,
           json: () =>
-            Promise.resolve({
-              expires_at: '2021-03-04T07:15:55.052524Z',
-              id: '8060d57f-5c69-402f-9ecd-073e283f632a',
-              identity: {
-                id: '74ae7ba9-312e-4efe-85e7-61ab4bcd00d4',
-                schema_id: 'default',
-                schema_url: '',
-                traits: {
-                  email: 'mona@gmail.com',
-                },
-              },
-              issued_at: '2021-03-04T06:15:55.052524Z',
-              messages: null,
-              update_successful: true,
-              methods: {
-                oidc: {},
-                password: {
-                  config: {
-                    action:
-                      'http://127.0.0.1:4455/.ory/kratos/public/self-service/settings/methods/password?flow=8060d57f-5c69-402f-9ecd-073e283f632a',
-                    method: 'POST',
-                    fields: [
-                      { name: Input.Password, type: Input.Password, required: true },
-                      {
-                        name: 'csrf_token',
-                        required: true,
-                        type: 'hidden',
-                        value:
-                          'hEfSSfeFIGFe3Nf7t6a/QqBVJa8RrHFnMLvRMOQrNioSPn8bOsYEoRU++s2XzWbNYeru/3rcr+ExpCGVcZP8pQ==',
-                      },
-                    ],
-                  },
-                  method: Input.Password,
-                },
-                profile: {},
-                request_url: 'http://127.0.0.1:4455/self-service/settings/browse',
-                state: 'show_form',
-                type: 'browser',
-              },
-            }),
+            Promise.resolve(resolvedResp)
         }),
       );
       await act(async () => {
         wrapper = mount(<Password />);
       });
       await act(async () => {
+        wrapper.update();
+
         wrapper
-          .find(Form.Item)
+        .find(Form.Item)
           .at(0)
-          .find("input[type='password']")
+          .find("input")
           .props()
-          .onChange({ target: { value: 'new@123password#456' } });
+          .onChange({ target: { value: 'neW@123password#456' } });
         wrapper
           .find(Form.Item)
           .at(1)
           .find("input[type='password']")
           .props()
-          .onChange({ target: { value: 'new@123password#456' } });
+          .onChange({ target: { value: 'neW@123password#456' } });
 
-        const updateButton = wrapper.find('Button');
+        const updateButton = wrapper.find('Button').at(0);
         updateButton.simulate('submit');
         wrapper.update();
       });
@@ -256,65 +221,29 @@ describe('password component', () => {
         Promise.resolve({
           status: 200,
           json: () =>
-            Promise.resolve({
-              expires_at: '2021-03-04T07:15:55.052524Z',
-              id: '8060d57f-5c69-402f-9ecd-073e283f632a',
-              identity: {
-                id: '74ae7ba9-312e-4efe-85e7-61ab4bcd00d4',
-                schema_id: 'default',
-                schema_url: '',
-                traits: {
-                  email: 'mona@gmail.com',
-                },
-              },
-              issued_at: '2021-03-04T06:15:55.052524Z',
-              messages: null,
-              methods: {
-                oidc: {},
-                password: {
-                  config: {
-                    action:
-                      'http://127.0.0.1:4455/.ory/kratos/public/self-service/settings/methods/password?flow=8060d57f-5c69-402f-9ecd-073e283f632a',
-                    method: 'POST',
-                    fields: [
-                      { name: Input.Password, type: Input.Password, required: true },
-                      {
-                        name: 'csrf_token',
-                        required: true,
-                        type: 'hidden',
-                        value:
-                          'hEfSSfeFIGFe3Nf7t6a/QqBVJa8RrHFnMLvRMOQrNioSPn8bOsYEoRU++s2XzWbNYeru/3rcr+ExpCGVcZP8pQ==',
-                      },
-                    ],
-                  },
-                  method: Input.Password,
-                },
-                profile: {},
-                request_url: 'http://127.0.0.1:4455/self-service/settings/browse',
-                state: 'show_form',
-                type: 'browser',
-              },
-            }),
+            Promise.resolve(resolvedResp),
         }),
       );
       await act(async () => {
         wrapper = mount(<Password />);
       });
       await act(async () => {
+        wrapper.update()
+        // console.log(wrapper.debug())
         wrapper
           .find(Form.Item)
           .at(0)
           .find("input[type='password']")
           .props()
-          .onChange({ target: { value: 'new@123password#456' } });
+          .onChange({ target: { value: 'new@123pasword#456' } });
         wrapper
           .find(Form.Item)
           .at(1)
           .find("input[type='password']")
           .props()
-          .onChange({ target: { value: 'new@123password#456' } });
+          .onChange({ target: { value: 'new@123password#456' } });``
 
-        const updateButton = wrapper.find('Button');
+        const updateButton = wrapper.find('Button').at(0);
         updateButton.simulate('submit');
         wrapper.update();
       });
@@ -324,6 +253,9 @@ describe('password component', () => {
             window.REACT_APP_KRATOS_PUBLIC_URL +
             '/self-service/settings/flows?id=' +
             '8060d57f-5c69-402f-9ecd-073e283f632a',
+            {
+              "credentials": "include",
+            },
           ],
         ]);
         done();

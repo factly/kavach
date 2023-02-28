@@ -18,12 +18,11 @@ export default function CreateApplicationPolicyForm() {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[appID] ? state.applications.details[appID] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
   });
-
   const { roles, loadingRoles } = useSelector((state) => {
     var roleIDs = state.applications.details[appID]?.roleIDs || [];
     return {
@@ -97,7 +96,7 @@ export default function CreateApplicationPolicyForm() {
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>

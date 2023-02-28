@@ -228,6 +228,7 @@ export const getApplicationPolicy = (appID) => {
 };
 
 export const createApplicationPolicy = (appID, data) => {
+  console.log("callled")
   return (dispatch, getState) => {
     dispatch(startLoadingPolicy());
     return axios
