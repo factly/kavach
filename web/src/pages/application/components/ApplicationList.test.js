@@ -34,7 +34,7 @@ let state = {
         name: 'Organisation 1',
         slug: 'organisation-1',
         applications: [1, 2],
-      }
+      },
     },
     loading: false,
   },
@@ -101,14 +101,14 @@ describe('Application List component', () => {
               url: {
                 raw: 'rawurl',
                 proxy: 'proxyurl',
-              }
+              },
             },
             medium_id: 1,
-          }
+          },
         ],
         permission: true,
         loading: true,
-      }
+      };
     });
     it('should match component when loading', () => {
       store = mockStore({
@@ -142,7 +142,7 @@ describe('Application List component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList {...props} loading={false}/>
+            <ApplicationList {...props} loading={false} />
           </Router>
         </Provider>,
       );
@@ -164,15 +164,12 @@ describe('Application List component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList
-              {...props}
-              loading={false}
-            />
+            <ApplicationList {...props} loading={false} />
           </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("ApplicationCard").length).toBe(2);
+      expect(tree.find('ApplicationCard').length).toBe(2);
     });
     it('should render when REACT_APP_ENABLE_IMGPROXY is false', () => {
       window.REACT_APP_ENABLE_IMGPROXY = false;
@@ -180,18 +177,17 @@ describe('Application List component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList
-              {...props}
-              loading={false}
-            />
+            <ApplicationList {...props} loading={false} />
           </Router>
         </Provider>,
       );
-      expect(tree.find("ApplicationCard").length).toBe(2);
+      expect(tree.find('ApplicationCard').length).toBe(2);
 
       // Avatar
-      expect(tree.find("Avatar").at(0).prop('src')).toEqual('https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg');
-      expect(tree.find("Avatar").at(1).prop('src')).toEqual('rawurl');
+      expect(tree.find('Avatar').at(0).prop('src')).toEqual(
+        'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg',
+      );
+      expect(tree.find('Avatar').at(1).prop('src')).toEqual('rawurl');
     });
     it('should render when REACT_APP_ENABLE_IMGPROXY is true', () => {
       window.REACT_APP_ENABLE_IMGPROXY = true;
@@ -199,18 +195,17 @@ describe('Application List component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList
-              {...props}
-              loading={false}
-            />
+            <ApplicationList {...props} loading={false} />
           </Router>
         </Provider>,
       );
-      expect(tree.find("ApplicationCard").length).toBe(2);
+      expect(tree.find('ApplicationCard').length).toBe(2);
 
       // Avatar
-      expect(tree.find("Avatar").at(0).prop('src')).toEqual('https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg');
-      expect(tree.find("Avatar").at(1).prop('src')).toEqual('proxyurl');
+      expect(tree.find('Avatar').at(0).prop('src')).toEqual(
+        'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg',
+      );
+      expect(tree.find('Avatar').at(1).prop('src')).toEqual('proxyurl');
     });
     it('should match component with no data', () => {
       store = mockStore({
@@ -238,16 +233,12 @@ describe('Application List component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList
-              {...props}
-              applicationList={[]}
-              loading={false}
-            />
+            <ApplicationList {...props} applicationList={[]} loading={false} />
           </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("ApplicationCard").length).toBe(0);
+      expect(tree.find('ApplicationCard').length).toBe(0);
     });
   });
   describe('component testing', () => {
@@ -263,8 +254,7 @@ describe('Application List component', () => {
         wrapper = mount(
           <Provider store={store}>
             <Router>
-              <ApplicationList {...props} permission={true} loading={false}
-              />
+              <ApplicationList {...props} permission={true} loading={false} />
             </Router>
           </Provider>,
         );
@@ -294,8 +284,7 @@ describe('Application List component', () => {
       wrapper = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationList {...props} permission={true} loading={false}
-            />
+            <ApplicationList {...props} permission={true} loading={false} />
           </Router>
         </Provider>,
       );

@@ -22,7 +22,7 @@ describe('ClipBoardCopy', () => {
     let component = shallow(
       <Provider store={store}>
         <ClipBoardCopy text="my_token" />
-      </Provider>
+      </Provider>,
     );
     expect(component).toMatchSnapshot();
   });
@@ -44,19 +44,17 @@ describe('ClipBoardCopy', () => {
     render(
       <Provider store={store}>
         <ClipBoardCopy text="my_token" />
-      </Provider>
+      </Provider>,
     );
     act(() => {
       fireEvent.click(screen.getByText('Copy'));
     });
-
 
     // Simulate the passage of time until 5 seconds have passed
     jest.advanceTimersByTime(5000);
 
     expect(writeTextMock).toHaveBeenCalledWith('my_token');
   });
-
 
   it('displays an error message if the token could not be copied', async () => {
     const execCommandMock = jest.fn(() => false);
@@ -67,13 +65,10 @@ describe('ClipBoardCopy', () => {
     render(
       <Provider store={store}>
         <ClipBoardCopy text="my_token" />
-      </Provider>
+      </Provider>,
     );
     act(() => {
       fireEvent.click(screen.getByText('Copy'));
     });
-
-
   });
-
 });

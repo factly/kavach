@@ -174,7 +174,7 @@ describe('Categories List component', () => {
           },
           loading: false,
         },
-      })
+      });
       const onChange = jest.fn();
       wrapper = mount(
         <Provider store={store}>
@@ -184,19 +184,18 @@ describe('Categories List component', () => {
       const input = wrapper.find('input');
       input.simulate('change', { target: { value: 'user' } });
       wrapper.update();
-      const options = wrapper.find( { role: 'option' });
+      const options = wrapper.find({ role: 'option' });
       expect(options.length).toEqual(2);
 
       input.simulate('change', { target: { value: 'user1' } });
       wrapper.update();
-      const options2 = wrapper.find( { role: 'option' });
+      const options2 = wrapper.find({ role: 'option' });
       expect(options2.length).toEqual(1);
 
       input.simulate('change', { target: { value: 'user3' } });
       wrapper.update();
-      const options3 = wrapper.find( { role: 'option' });
+      const options3 = wrapper.find({ role: 'option' });
       expect(options3.length).toEqual(0);
     });
   });
 });
-

@@ -109,8 +109,8 @@ describe('Media List component', () => {
               id: 1,
               name: 'Medium -1',
               url: {
-                proxy: "example proxy url",
-                raw:  "example raw url",
+                proxy: 'example proxy url',
+                raw: 'example raw url',
               },
               file_size: 'file_size',
               caption: 'caption',
@@ -120,8 +120,8 @@ describe('Media List component', () => {
               id: 2,
               name: 'Medium - 2',
               url: {
-                proxy: "example proxy url",
-                raw:  "example raw url",
+                proxy: 'example proxy url',
+                raw: 'example raw url',
               },
               file_size: 'file_size',
               caption: 'caption',
@@ -152,8 +152,8 @@ describe('Media List component', () => {
               id: 1,
               name: 'Medium -1',
               url: {
-                proxy: "example proxy url",
-                raw:  "example raw url",
+                proxy: 'example proxy url',
+                raw: 'example raw url',
               },
               file_size: 'file_size',
               caption: 'caption',
@@ -163,8 +163,8 @@ describe('Media List component', () => {
               id: 2,
               name: 'Medium - 2',
               url: {
-                proxy: "example proxy url",
-                raw:  "example raw url",
+                proxy: 'example proxy url',
+                raw: 'example raw url',
               },
               file_size: 'file_size',
               caption: 'caption',
@@ -243,5 +243,4 @@ describe('Media List component', () => {
       expect(onSelect).toHaveBeenCalledWith(null);
     });
   });
-
 });

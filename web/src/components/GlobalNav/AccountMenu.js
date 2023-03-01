@@ -41,7 +41,7 @@ const AccountMenu = () => {
         // console.log(res);
         Object.assign(window.location, {
           href: res.logout_url,
-        })
+        });
         localStorage.removeItem('returnTo');
       })
       .catch(() => {
@@ -82,7 +82,7 @@ const AccountMenu = () => {
             <EditOutlined /> Profile
           </Link>
         </Menu.Item>
-        <Menu.Item key="logout" onClick={handleLogout} >
+        <Menu.Item key="logout" onClick={handleLogout}>
           <LogoutOutlined />
           <span className="logout">Logout</span>
         </Menu.Item>

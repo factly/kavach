@@ -175,82 +175,97 @@ describe('application reducer', () => {
   });
   it('should handle ADD_SPACE_IDS', () => {
     expect(
-      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
-        type: types.ADD_SPACE_IDS,
-        payload: {
-          appID: 1,
-          data: [1, 2, 3],
-        }
-      })
+      reducer(
+        { ...initialState, details: { 1: { id: 1, name: 'Application 1' } } },
+        {
+          type: types.ADD_SPACE_IDS,
+          payload: {
+            appID: 1,
+            data: [1, 2, 3],
+          },
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
-        1: { id: 1, name: 'Application 1', spaces: [1, 2, 3] }
-      }
-    })
+        1: { id: 1, name: 'Application 1', spaces: [1, 2, 3] },
+      },
+    });
   });
   it('should handle ADD_USER_IDS', () => {
     expect(
-      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
-        type: ADD_USER_IDS,
-        payload: {
-          id: 1,
-          data: [1, 2, 3],
-        }
-      })
+      reducer(
+        { ...initialState, details: { 1: { id: 1, name: 'Application 1' } } },
+        {
+          type: ADD_USER_IDS,
+          payload: {
+            id: 1,
+            data: [1, 2, 3],
+          },
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
-        1: { id: 1, name: 'Application 1', users: [1, 2, 3] }
-      }
-    })
+        1: { id: 1, name: 'Application 1', users: [1, 2, 3] },
+      },
+    });
   });
   it('should handle ADD_APPLICATION_TOKEN_IDS', () => {
     expect(
-      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
-        type: types.ADD_APPLICATION_TOKEN_IDS,
-        payload: {
-          id: 1,
-          data: [1, 2, 3],
-        }
-      })
+      reducer(
+        { ...initialState, details: { 1: { id: 1, name: 'Application 1' } } },
+        {
+          type: types.ADD_APPLICATION_TOKEN_IDS,
+          payload: {
+            id: 1,
+            data: [1, 2, 3],
+          },
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
-        1: { id: 1, name: 'Application 1', tokens: [1, 2, 3] }
-      }
-    })
+        1: { id: 1, name: 'Application 1', tokens: [1, 2, 3] },
+      },
+    });
   });
   it('should handle ADD_APPLICATION_ROLE_IDS', () => {
     expect(
-      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
-        type: types.ADD_APPLICATION_ROLE_IDS,
-        payload: {
-          id: 1,
-          data: [1, 2, 3],
-        }
-      })
+      reducer(
+        { ...initialState, details: { 1: { id: 1, name: 'Application 1' } } },
+        {
+          type: types.ADD_APPLICATION_ROLE_IDS,
+          payload: {
+            id: 1,
+            data: [1, 2, 3],
+          },
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
-        1: { id: 1, name: 'Application 1', roleIDs: [1, 2, 3] }
-      }
-    })
+        1: { id: 1, name: 'Application 1', roleIDs: [1, 2, 3] },
+      },
+    });
   });
   it('should handle ADD_APPLICATION_POLICY_IDS', () => {
     expect(
-      reducer({ ...initialState, details: { 1: { id: 1, name: 'Application 1' } } }, {
-        type: types.ADD_APPLICATION_POLICY_IDS,
-        payload: {
-          id: 1,
-          data: [1, 2, 3],
-        }
-      })
+      reducer(
+        { ...initialState, details: { 1: { id: 1, name: 'Application 1' } } },
+        {
+          type: types.ADD_APPLICATION_POLICY_IDS,
+          payload: {
+            id: 1,
+            data: [1, 2, 3],
+          },
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
-        1: { id: 1, name: 'Application 1', policyIDs: [1, 2, 3] }
-      }
-    })
+        1: { id: 1, name: 'Application 1', policyIDs: [1, 2, 3] },
+      },
+    });
   });
 });

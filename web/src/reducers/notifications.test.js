@@ -29,14 +29,14 @@ describe('notifications reducer', () => {
           type: 'error',
           title: 'Error',
           message: 'Test error message',
-          time
+          time,
         },
       }),
     ).toEqual({
       type: 'error',
       message: 'Error',
       description: 'Test error message',
-      time
+      time,
     });
     expect(
       reducer(initialState, {
@@ -52,7 +52,7 @@ describe('notifications reducer', () => {
       type: 'success',
       message: 'Success',
       description: 'Test success message',
-      time
+      time,
     });
   });
 });

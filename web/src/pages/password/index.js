@@ -247,14 +247,14 @@ function Password() {
             <Card title="Manage 2FA Authentication" style={{ width: cardStyle.width }}>
               {ui !== {}
                 ? ui.nodes
-                  .filter((node) => node.group === 'totp')
-                  .map((node) => {
-                    if (node.messages.length === 0) {
-                      return null;
-                    } else {
-                      return <Alert type="error" message={node.messages[0].text}></Alert>;
-                    }
-                  })
+                    .filter((node) => node.group === 'totp')
+                    .map((node) => {
+                      if (node.messages.length === 0) {
+                        return null;
+                      } else {
+                        return <Alert type="error" message={node.messages[0].text}></Alert>;
+                      }
+                    })
                 : null}
               {ui.nodes.filter((node) => node.attributes.node_type === 'img').length ? (
                 <div>

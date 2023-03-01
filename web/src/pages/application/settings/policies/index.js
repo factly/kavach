@@ -31,7 +31,7 @@ export default function ApplicationPolicies() {
         <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Policies in {application.name}</h2>
-      {loading && loadingApp ? (
+      {loading || loadingApp ? (
         <Skeleton />
       ) : (
         <Space direction="vertical">

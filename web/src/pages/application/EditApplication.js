@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ApplicationEditForm from './components/ApplicationForm';
 import { useDispatch, useSelector } from 'react-redux';

@@ -59,14 +59,13 @@ describe('users reducer', () => {
           2: { id: 2, name: 'user 2' },
         },
       }),
-    ).toEqual(
-      {
-        details: {
-          1: { id: 1, name: 'user 1' },
-          2: { id: 2, name: 'user 2' }
-        },
-        loading: true,
-      });
+    ).toEqual({
+      details: {
+        1: { id: 1, name: 'user 1' },
+        2: { id: 2, name: 'user 2' },
+      },
+      loading: true,
+    });
   });
   it('should handle ADD_USERS when already exists', () => {
     expect(
@@ -96,7 +95,7 @@ describe('users reducer', () => {
       loading: false,
     });
   });
-  console.log("last test in users reducer is skipped because it is not handeled in reducer")
+  console.log('last test in users reducer is skipped because it is not handeled in reducer');
   xit('should handle ADD_ORGANISATION_USERS ', () => {
     expect(
       reducer(initialState, {

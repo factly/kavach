@@ -87,8 +87,21 @@ describe('Application User List component', () => {
         id: 1,
         flag: true,
         users: [
-          { id: 1, email: 'user1@gmail.com', first_name: "user1", last_name: "factly", diaplay_name: "user1-factly" },
-          { id: 2, email: 'user2@gmailcom', first_name: "user1", last_name: "factly", diaplay_name: "user1-factly" }],
+          {
+            id: 1,
+            email: 'user1@gmail.com',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+          {
+            id: 2,
+            email: 'user2@gmailcom',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+        ],
         total: 2,
         role: 'owner',
       };
@@ -130,8 +143,21 @@ describe('Application User List component', () => {
         id: 1,
         flag: true,
         users: [
-          { id: 1, email: 'user1@gmail.com', first_name: "user1", last_name: "factly", diaplay_name: "user1-factly" },
-          { id: 2, email: 'user2@gmailcom', first_name: "user1", last_name: "factly", diaplay_name: "user1-factly" }],
+          {
+            id: 1,
+            email: 'user1@gmail.com',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+          {
+            id: 2,
+            email: 'user2@gmailcom',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+        ],
         total: 2,
         role: 'member',
       };
@@ -146,7 +172,6 @@ describe('Application User List component', () => {
 
       const button = tree.find(Button).at(0);
       expect(button.props().disabled).toBe(true);
-
     });
   });
   describe('component testing', () => {
@@ -162,8 +187,21 @@ describe('Application User List component', () => {
         id: 1,
         flag: true,
         users: [
-          { id: 1, email: 'user1@gmail.com', first_name: "user1", last_name: "factly", diaplay_name: "user1-factly" },
-          { id: 2, email: 'user2@gmailcom', first_name: "user1", last_name: "factly", diaplay_name: "user1-factly" }],
+          {
+            id: 1,
+            email: 'user1@gmail.com',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+          {
+            id: 2,
+            email: 'user2@gmailcom',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+        ],
         total: 2,
         role: 'owner',
       };

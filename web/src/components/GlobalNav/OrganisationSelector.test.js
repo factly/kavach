@@ -38,23 +38,23 @@ describe('OrganisationSelector component', () => {
   store = mockStore({
     profile: {
       details: {
-        organisations: [1, 2, 3] // replace with an array of organization IDs
-      }
+        organisations: [1, 2, 3], // replace with an array of organization IDs
+      },
     },
     organisations: {
       details: {
-        1: { id: 1, title: "Organization 1", featured_medium_id: 1 },
-        2: { id: 2, title: "Organization 2", featured_medium_id: 2 },
-        3: { id: 3, title: "Organization 3", featured_medium_id: null }
+        1: { id: 1, title: 'Organization 1', featured_medium_id: 1 },
+        2: { id: 2, title: 'Organization 2', featured_medium_id: 2 },
+        3: { id: 3, title: 'Organization 3', featured_medium_id: null },
       },
-      selected: 1 // replace with the ID of the selected organization
+      selected: 1, // replace with the ID of the selected organization
     },
     media: {
       details: {
-        1: { id: 1, url: { raw: "https://example.com/image1.jpg" } },
-        2: { id: 2, url: { raw: "https://example.com/image2.jpg" } }
-      }
-    }
+        1: { id: 1, url: { raw: 'https://example.com/image1.jpg' } },
+        2: { id: 2, url: { raw: 'https://example.com/image2.jpg' } },
+      },
+    },
   });
   store.dispatch = jest.fn(() => ({}));
   mockedDispatch = jest.fn(() => Promise.resolve({}));
@@ -90,23 +90,23 @@ describe('OrganisationSelector component', () => {
       store = mockStore({
         profile: {
           details: {
-            organisations: [1, 2, 3] // replace with an array of organization IDs
-          }
+            organisations: [1, 2, 3], // replace with an array of organization IDs
+          },
         },
         organisations: {
           details: {
-            1: { id: 1, title: "Organization 1", featured_medium_id: 1 },
-            2: { id: 2, title: "Organization 2", featured_medium_id: 2 },
-            3: { id: 3, title: "Organization 3", featured_medium_id: null }
+            1: { id: 1, title: 'Organization 1', featured_medium_id: 1 },
+            2: { id: 2, title: 'Organization 2', featured_medium_id: 2 },
+            3: { id: 3, title: 'Organization 3', featured_medium_id: null },
           },
-          selected: 1 // replace with the ID of the selected organization
+          selected: 1, // replace with the ID of the selected organization
         },
         media: {
           details: {
-            1: { id: 1, url: { raw: "https://example.com/image1.jpg" } },
-            2: { id: 2, url: { raw: "https://example.com/image2.jpg" } }
-          }
-        }
+            1: { id: 1, url: { raw: 'https://example.com/image1.jpg' } },
+            2: { id: 2, url: { raw: 'https://example.com/image2.jpg' } },
+          },
+        },
       });
       actions.setSelectedOrganisation.mockReset();
       const push = jest.fn();

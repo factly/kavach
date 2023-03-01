@@ -41,7 +41,12 @@ let state = {
   organisations: {
     ids: [1],
     details: {
-      1: { id: 1, name: 'organisation', applications: [{ id: 1, name: 'Application1' }], users: [1, 2, 3, 4, 5] },
+      1: {
+        id: 1,
+        name: 'organisation',
+        applications: [{ id: 1, name: 'Application1' }],
+        users: [1, 2, 3, 4, 5],
+      },
     },
     loading: false,
     selected: 1,
@@ -88,10 +93,10 @@ let state = {
   profile: {
     loading: false,
     roles: {
-      1: "owner"
-    }
+      1: 'owner',
+    },
   },
-}
+};
 
 describe('Application User component', () => {
   let store;
@@ -101,7 +106,7 @@ describe('Application User component', () => {
   mockedDispatch = jest.fn(() => Promise.resolve({}));
   useDispatch.mockReturnValue(mockedDispatch);
   describe('snapshot testing', () => {
-    it("render when loading user is true", () => {
+    it('render when loading user is true', () => {
       store = mockStore({
         ...state,
         users: {
@@ -117,9 +122,9 @@ describe('Application User component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("Skeleton").length).toBe(1);
+      expect(tree.find('Skeleton').length).toBe(1);
     });
-    it("render when loading role is true", () => {
+    it('render when loading role is true', () => {
       store = mockStore({
         ...state,
         profile: {
@@ -135,16 +140,16 @@ describe('Application User component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("Skeleton").length).toBe(1);
+      expect(tree.find('Skeleton').length).toBe(1);
     });
-    it("render when role is not owner", () => {
+    it('render when role is not owner', () => {
       store = mockStore({
         ...state,
         profile: {
           ...state.profile,
           roles: {
-            1: "member"
-          }
+            1: 'member',
+          },
         },
       });
       const tree = mount(
@@ -155,18 +160,18 @@ describe('Application User component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(0);
+      expect(tree.find('form').length).toBe(0);
       // UserList
-      expect(tree.find("UserList").length).toBe(1);
+      expect(tree.find('UserList').length).toBe(1);
     });
-    it("render when role is owner", () => {
+    it('render when role is owner', () => {
       store = mockStore({
         ...state,
         profile: {
           ...state.profile,
           roles: {
-            1: "owner"
-          }
+            1: 'owner',
+          },
         },
       });
       const tree = mount(
@@ -177,18 +182,18 @@ describe('Application User component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(1);
+      expect(tree.find('form').length).toBe(1);
       // UserList
-      expect(tree.find("UserList").length).toBe(1);
+      expect(tree.find('UserList').length).toBe(1);
     });
 
-    it("render when loading application and org. has no users", () => {
+    it('render when loading application and org. has no users', () => {
       store = mockStore({
         ...state,
         organisations: {
           ...state.organisations,
           details: {
-            1: { id: 1, name: 'organisation', applications: [{ id: 1, name: 'Application1' }]},
+            1: { id: 1, name: 'organisation', applications: [{ id: 1, name: 'Application1' }] },
           },
         },
         applications: {
@@ -228,7 +233,7 @@ describe('Application User component', () => {
         </Provider>,
       );
       act(() => {
-        console.log(tree.find(Select.Option).at(0).debug())
+        console.log(tree.find(Select.Option).at(0).debug());
         tree.find('Select').at(0).props().onChange(4);
         tree.find('form').at(0).simulate('submit');
       });
@@ -238,8 +243,8 @@ describe('Application User component', () => {
           application_id: 1,
           user_id: 4,
         });
-        done()
-      })
+        done();
+      });
     });
   });
 });

@@ -130,7 +130,7 @@ describe('Profiles index component', () => {
       wrapper.unmount();
     });
     it('should submit form with data', (done) => {
-      const date = Date.now()
+      const date = Date.now();
       act(() => {
         // console.log(wrapper.find('input').debug());
         wrapper
@@ -145,12 +145,14 @@ describe('Profiles index component', () => {
           .find('input')
           .at(3)
           .simulate('change', { target: { value: 'new Display Name' } });
-        wrapper.find(DatePicker)
+        wrapper
+          .find(DatePicker)
           .props()
           .onChange({
             target: { value: undefined },
           });
-        wrapper.find(DatePicker)
+        wrapper
+          .find(DatePicker)
           .props()
           .onChange({
             target: { value: moment(date) },
@@ -168,8 +170,7 @@ describe('Profiles index component', () => {
       });
 
       wrapper.update();
-      const expectedParams =
-      {
+      const expectedParams = {
         email: 'abc@gmail.com',
         first_name: 'firstname',
         last_name: 'lastname',
@@ -185,7 +186,7 @@ describe('Profiles index component', () => {
         description: 'Description',
         featured_medium_id: undefined,
         gender: 'male',
-      }
+      };
       const updateButtom = wrapper.find('Button').at(1);
       setTimeout(() => {
         expect(getUserProfile).toHaveBeenCalled();
@@ -197,7 +198,8 @@ describe('Profiles index component', () => {
     });
     it('should submit form with date as null', (done) => {
       act(() => {
-        wrapper.find(DatePicker)
+        wrapper
+          .find(DatePicker)
           .props()
           .onChange({
             target: { value: undefined },
@@ -209,12 +211,12 @@ describe('Profiles index component', () => {
       setTimeout(() => {
         expect(updateProfile).toHaveBeenCalledWith({
           email: 'abc@gmail.com',
-          first_name: "abc",
+          first_name: 'abc',
           gender: undefined,
-          last_name: "xyz",
-          slug: "abc",
+          last_name: 'xyz',
+          slug: 'abc',
           birth_date: null,
-          display_name: "abc",
+          display_name: 'abc',
           social_media_urls: {
             facebook: 'facebook/abc',
             twitter: 'twitter/abc',

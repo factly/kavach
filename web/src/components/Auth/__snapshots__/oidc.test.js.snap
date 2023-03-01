@@ -70,3 +70,58 @@ exports[`OIDC component snapshot testing should render the component 1`] = `
   </ButtonGroup>
 </OIDC>
 `;
+
+exports[`OIDC component snapshot testing should render the component when flow and loginmethod are not default 1`] = `
+<OIDC
+  config={
+    Object {
+      "action": "http://127.0.0.1:4455/.ory/kratos/public/self-service/methods/oidc/auth/3b21e9d8-1b0a-4e12-8eb0-d77fdeede28e",
+      "fields": Array [
+        Object {
+          "name": "csrf_token",
+          "required": true,
+          "type": "hidden",
+          "value": "D5sFfeYIa9TxEij3vANoLDa9OIFip2jLmsF0O6lc/m50YjviU1/75iZPRP2WL6R94MOIXA+9mjlHj1MbVcpX+w==",
+        },
+        Object {
+          "name": "provider",
+          "type": "submit",
+          "value": "github",
+        },
+        Object {
+          "name": "provider",
+          "type": "submit",
+          "value": "google",
+        },
+      ],
+      "method": "POST",
+    }
+  }
+  flow="registration"
+  loginMethod="oidc"
+>
+  <ButtonGroup
+    className="oidc"
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "4px",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <div
+      className="ant-btn-group oidc"
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "4px",
+          "justifyContent": "center",
+        }
+      }
+    />
+  </ButtonGroup>
+</OIDC>
+`;

@@ -21,7 +21,7 @@ function OrganisationSelector() {
     };
   });
 
-  React.useEffect(() => { }, []);
+  React.useEffect(() => {}, []);
   const handleOrganisationChange = (id) => {
     dispatch(setSelectedOrganisation(id));
     if (pathSnippets.includes('edit')) {
@@ -60,6 +60,5 @@ function OrganisationSelector() {
     </Select>
   ) : null;
 }
-
 
 export default OrganisationSelector;

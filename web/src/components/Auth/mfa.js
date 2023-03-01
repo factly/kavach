@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Alert, Card, Form, Input, Space } from 'antd';
 import createForm from '../../utils/form';
 
-
 export default function MFA({ ui }) {
   const withTOTP = (values) => {
     var totpForm = createForm(ui.action, ui.method);

@@ -73,7 +73,10 @@ describe('profile reducer', () => {
       reducer(
         {
           ...initialState,
-          invitations: [{ id: 1, email: 'qwerty@gmail.com', first_name: 'qwerty' }, { id: 2, email: 'asdfg@gmail.com', first_name: 'asdfg'}],
+          invitations: [
+            { id: 1, email: 'qwerty@gmail.com', first_name: 'qwerty' },
+            { id: 2, email: 'asdfg@gmail.com', first_name: 'asdfg' },
+          ],
         },
         {
           type: types.DELETE_INVITE,
@@ -84,7 +87,6 @@ describe('profile reducer', () => {
       ...initialState,
       invitations: [{ id: 2, email: 'asdfg@gmail.com', first_name: 'asdfg' }],
     });
-
   });
   it('should handle ADD_PROFILE_DETAILS', () => {
     // the reducer is not doing anything for this action just returning the state

@@ -37,7 +37,7 @@ export default function EditOrganisationPolicy() {
   );
   const onUpdate = (data) => {
     dispatch(updateOrganisationPolicy(policyID, { ...policy, ...data })).then(() =>
-    history.push(`/organisation/${orgID}/settings/policies`),
+      history.push(`/organisation/${orgID}/settings/policies`),
     );
   };
 
@@ -55,8 +55,8 @@ export default function EditOrganisationPolicy() {
     dispatch(getOrganisationPolicyByID(policyID));
   };
 
-  const onFinish =  (values) => {
-    onUpdate(values)
+  const onFinish = (values) => {
+    onUpdate(values);
 
     onReset();
   };

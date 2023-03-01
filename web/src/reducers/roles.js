@@ -1,20 +1,20 @@
 import {
-	ROLES_LOADING,
-	ADD_APPLICATION_ROLES,
-	ADD_ORGANISATION_ROLES,
-	ADD_SPACE_ROLES,
-	ADD_ORGANISATION_ROLE_BY_ID,
-	ADD_APPLICATION_ROLE_BY_ID,
-	ADD_SPACE_ROLE_BY_ID,
-	ADD_SPACE_ROLE_USERS,
-	ADD_APPLICATION_ROLE_USERS,
-	ADD_ORGANISATION_ROLE_USERS,
+  ROLES_LOADING,
+  ADD_APPLICATION_ROLES,
+  ADD_ORGANISATION_ROLES,
+  ADD_SPACE_ROLES,
+  ADD_ORGANISATION_ROLE_BY_ID,
+  ADD_APPLICATION_ROLE_BY_ID,
+  ADD_SPACE_ROLE_BY_ID,
+  ADD_SPACE_ROLE_USERS,
+  ADD_APPLICATION_ROLE_USERS,
+  ADD_ORGANISATION_ROLE_USERS,
 } from '../constants/roles';
 const initialState = {
-	organisation: {},
-	application: {},
-	space: {},
-	loading: true,
+  organisation: {},
+  application: {},
+  space: {},
+  loading: true,
 };
 export default function rolesReducer(state = initialState, action = {}) {
   switch (action.type) {

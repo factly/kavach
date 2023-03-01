@@ -132,11 +132,13 @@ describe('Sidebar component', () => {
           </Router>
         </Provider>,
       );
-      const invitationLinks = tree.find('Link').filterWhere((link) => link.props().to === '/profile/invite');
+      const invitationLinks = tree
+        .find('Link')
+        .filterWhere((link) => link.props().to === '/profile/invite');
       expect(invitationLinks.find('Avatar').length).toBe(0);
     });
     it('should render the component when loading is false', () => {
-      store = mockStore(() => (state))
+      store = mockStore(() => state);
       const tree = mount(
         <Provider store={store}>
           <Router>
@@ -144,7 +146,9 @@ describe('Sidebar component', () => {
           </Router>
         </Provider>,
       );
-      const invitationLinks = tree.find('Link').filterWhere((link) => link.props().to === '/profile/invite');
+      const invitationLinks = tree
+        .find('Link')
+        .filterWhere((link) => link.props().to === '/profile/invite');
       expect(invitationLinks.find('Avatar').length).toBe(1);
     });
   });

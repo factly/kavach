@@ -183,7 +183,8 @@ describe('profile actions', () => {
   // ? ################# PROFILE ###############################
   it('should create actions to add user profile details success', () => {
     const profile = {
-      id: 1, featured_medium_id: 1,
+      id: 1,
+      featured_medium_id: 1,
       medium: { id: 1 },
       name: 'Profile',
       organisations: [{ id: 1, name: 'Test' }],
@@ -191,7 +192,7 @@ describe('profile actions', () => {
     const module = require('../actions/organisations');
     module.addOrganisationsList = jest.fn(() => ({
       type: 'ADD_ORGANISATIONS',
-      payload: "mock payload"
+      payload: 'mock payload',
     }));
     axios.get.mockResolvedValue({ data: profile });
 
@@ -203,7 +204,7 @@ describe('profile actions', () => {
       },
       {
         type: 'ADD_ORGANISATIONS',
-        payload: "mock payload"
+        payload: 'mock payload',
       },
       {
         type: types.ADD_PROFILE,
@@ -212,12 +213,13 @@ describe('profile actions', () => {
       { type: types.SET_PROFILE_LOADING, payload: false },
     ];
 
-    store
-      .dispatch(actions.addProfileDetails())
-      .then(() =>{
-        expect(store.getActions()).toEqual(expectedActions);
-        expect(module.addOrganisationsList).toHaveBeenCalledWith([{ id: 1, name: 'Test' }],profile.id);
-      });
+    store.dispatch(actions.addProfileDetails()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(module.addOrganisationsList).toHaveBeenCalledWith(
+        [{ id: 1, name: 'Test' }],
+        profile.id,
+      );
+    });
     expect(axios.get).toHaveBeenCalledWith(types.PROFILE_API + '/details');
   });
   it('should create actions to add user profile details without medium success', () => {
@@ -229,7 +231,7 @@ describe('profile actions', () => {
     const module = require('../actions/organisations');
     module.addOrganisationsList = jest.fn(() => ({
       type: 'ADD_ORGANISATIONS',
-      payload: "mock payload"
+      payload: 'mock payload',
     }));
     axios.get.mockResolvedValue({ data: profile });
 
@@ -237,7 +239,7 @@ describe('profile actions', () => {
       { type: types.SET_PROFILE_LOADING, payload: true },
       {
         type: 'ADD_ORGANISATIONS',
-        payload: "mock payload"
+        payload: 'mock payload',
       },
       {
         type: types.ADD_PROFILE,
@@ -246,12 +248,13 @@ describe('profile actions', () => {
       { type: types.SET_PROFILE_LOADING, payload: false },
     ];
 
-    store
-      .dispatch(actions.addProfileDetails())
-      .then(() =>{
-        expect(store.getActions()).toEqual(expectedActions);
-        expect(module.addOrganisationsList).toHaveBeenCalledWith([{ id: 1, name: 'Test' }],profile.id);
-      });
+    store.dispatch(actions.addProfileDetails()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(module.addOrganisationsList).toHaveBeenCalledWith(
+        [{ id: 1, name: 'Test' }],
+        profile.id,
+      );
+    });
     expect(axios.get).toHaveBeenCalledWith(types.PROFILE_API + '/details');
   });
 

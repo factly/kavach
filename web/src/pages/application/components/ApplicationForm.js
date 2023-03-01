@@ -36,7 +36,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
     });
   };
 
-
   return (
     <div>
       <Link key="1" to={`/applications/type`}>

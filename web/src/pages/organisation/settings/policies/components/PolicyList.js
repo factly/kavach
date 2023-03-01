@@ -18,7 +18,6 @@ export default function PolicyList({ orgID, role }) {
     };
   });
 
-
   const fetchPolicy = () => {
     dispatch(getOrganisationPolicy());
   };

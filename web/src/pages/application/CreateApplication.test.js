@@ -74,8 +74,8 @@ describe('Application Create component', () => {
           <Provider store={store}>
             <Router>
               <CreateApplication />
-            </Router >
-          </Provider >,
+            </Router>
+          </Provider>,
         );
       });
       wrapper.find(ApplicationCreateForm).props().onCreate({ test: 'test' });

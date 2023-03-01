@@ -113,7 +113,7 @@ describe('organisations reducer', () => {
       selected: 1,
     });
   });
-  
+
   it('should handle ADD_ORGANISATION', () => {
     expect(
       reducer(initialState, {
@@ -121,7 +121,7 @@ describe('organisations reducer', () => {
         payload: {
           id: 1,
           data: { id: 1, name: 'organisation 1' },
-        }
+        },
       }),
     ).toEqual({
       ids: [1],
@@ -144,7 +144,7 @@ describe('organisations reducer', () => {
           payload: {
             id: 2,
             data: { id: 2, name: 'new organisation' },
-          }
+          },
         },
       ),
     ).toEqual({
@@ -174,7 +174,7 @@ describe('organisations reducer', () => {
           payload: {
             id: 2,
             data: { id: 2, name: 'updated organisation' },
-          }
+          },
         },
       ),
     ).toEqual({
@@ -255,17 +255,20 @@ describe('organisations reducer', () => {
   });
   it('should handle ADD_APPLICATION_IDS ', () => {
     expect(
-      reducer({
-        ...initialState,
-        details: {
-          1: { id: 1, name: 'existing organisation' },
-          2: { id: 2, name: 'new organisation' },
+      reducer(
+        {
+          ...initialState,
+          details: {
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
+          },
+          selected: 1,
         },
-        selected: 1,
-      }, {
-        type: types.ADD_APPLICATION_IDS,
-        payload: [1, 2],
-      }),
+        {
+          type: types.ADD_APPLICATION_IDS,
+          payload: [1, 2],
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
@@ -277,17 +280,20 @@ describe('organisations reducer', () => {
   });
   it('should handle ADD_ORGANISATION_ROLE ', () => {
     expect(
-      reducer({
-        ...initialState,
-        details: {
-          1: { id: 1, name: 'existing organisation' },
-          2: { id: 2, name: 'new organisation' },
+      reducer(
+        {
+          ...initialState,
+          details: {
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
+          },
+          selected: 1,
         },
-        selected: 1,
-      }, {
-        type: types.ADD_ORGANISATION_ROLE,
-        payload: [{ id: 1, name: 'role 1' }],
-      }),
+        {
+          type: types.ADD_ORGANISATION_ROLE,
+          payload: [{ id: 1, name: 'role 1' }],
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
@@ -299,17 +305,20 @@ describe('organisations reducer', () => {
   });
   it('should handle ADD_ORGANISATION_ROLE_IDS', () => {
     expect(
-      reducer({
-        ...initialState,
-        details: {
-          1: { id: 1, name: 'existing organisation' },
-          2: { id: 2, name: 'new organisation' },
+      reducer(
+        {
+          ...initialState,
+          details: {
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
+          },
+          selected: 1,
         },
-        selected: 1,
-      }, {
-        type: types.ADD_ORGANISATION_ROLE_IDS,
-        payload: [1, 2],
-      }),
+        {
+          type: types.ADD_ORGANISATION_ROLE_IDS,
+          payload: [1, 2],
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
@@ -321,17 +330,20 @@ describe('organisations reducer', () => {
   });
   it('should handle ADD_ORGANISATION_POLICY_IDS', () => {
     expect(
-      reducer({
-        ...initialState,
-        details: {
-          1: { id: 1, name: 'existing organisation' },
-          2: { id: 2, name: 'new organisation' },
+      reducer(
+        {
+          ...initialState,
+          details: {
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
+          },
+          selected: 1,
         },
-        selected: 1,
-      }, {
-        type: types.ADD_ORGANISATION_POLICY_IDS,
-        payload: [1, 2],
-      }),
+        {
+          type: types.ADD_ORGANISATION_POLICY_IDS,
+          payload: [1, 2],
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
@@ -343,17 +355,20 @@ describe('organisations reducer', () => {
   });
   it('should handle ADD_ORGANISATION_TOKEN_IDS', () => {
     expect(
-      reducer({
-        ...initialState,
-        details: {
-          1: { id: 1, name: 'existing organisation' },
-          2: { id: 2, name: 'new organisation' },
+      reducer(
+        {
+          ...initialState,
+          details: {
+            1: { id: 1, name: 'existing organisation' },
+            2: { id: 2, name: 'new organisation' },
+          },
+          selected: 1,
         },
-        selected: 1,
-      }, {
-        type: types.ADD_ORGANISATION_TOKEN_IDS,
-        payload: [1, 2],
-      }),
+        {
+          type: types.ADD_ORGANISATION_TOKEN_IDS,
+          payload: [1, 2],
+        },
+      ),
     ).toEqual({
       ...initialState,
       details: {
@@ -364,4 +379,3 @@ describe('organisations reducer', () => {
     });
   });
 });
-

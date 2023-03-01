@@ -47,6 +47,8 @@ describe('passwordValidation', () => {
     const input = 'passwo';
     const output = passwordValidation(input);
 
-    expect(output).toBe('Password should have atleast 8 characters 1 uppercase 1 number 1 special character');
+    expect(output).toBe(
+      'Password should have atleast 8 characters 1 uppercase 1 number 1 special character',
+    );
   });
 });

@@ -56,7 +56,7 @@ describe('Organisations index component', () => {
           roles: {
             1: 'member',
           },
-        }
+        },
       });
 
       let component;
@@ -86,7 +86,7 @@ describe('Organisations index component', () => {
           roles: {
             1: 'member',
           },
-        }
+        },
       });
 
       let component;
@@ -94,7 +94,7 @@ describe('Organisations index component', () => {
         component = mount(
           <Provider store={store}>
             <Router>
-            <OrganisationCreate />
+              <OrganisationCreate />
             </Router>
           </Provider>,
         );
@@ -119,7 +119,7 @@ describe('Organisations index component', () => {
           roles: {
             1: 'member',
           },
-        }
+        },
       });
 
       let component;

@@ -14,7 +14,6 @@ import ApplicationDetail from './ApplicationDetail';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
@@ -126,20 +125,14 @@ describe('Application Detail component', () => {
       expect(tree).toMatchSnapshot();
       expect(tree.find('Modal').props().visible).toBe(true);
       expect(tree.find(Table).props().dataSource).toHaveLength(1);
-      expect(tree.find(Table).props().dataSource).toEqual(
-        [{ id: '1', name: 'token 1' }],
-      );
+      expect(tree.find(Table).props().dataSource).toEqual([{ id: '1', name: 'token 1' }]);
       expect(tree.find(CreateTokenForm).props().appID).toBe(1);
     });
     it('should render the component with no data', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationDetail
-              visible={true}
-              setVisible={jest.fn()}
-              setTokenFlag={jest.fn()}
-            />
+            <ApplicationDetail visible={true} setVisible={jest.fn()} setTokenFlag={jest.fn()} />
           </Router>
         </Provider>,
       );

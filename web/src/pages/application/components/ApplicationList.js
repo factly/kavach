@@ -47,10 +47,7 @@ function ApplicationList({ applicationList, permission, loading }) {
           ></Avatar>
         }
         actions={[
-          <Link
-            to={`/applications/${application.id}/edit`}
-            className="ant-dropdown-link"
-          >
+          <Link to={`/applications/${application.id}/edit`} className="ant-dropdown-link">
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
           permission ? (
@@ -78,7 +75,6 @@ function ApplicationList({ applicationList, permission, loading }) {
                   })
                 }
               >
-
                 <Link to="" className="ant-dropdown-link">
                   <DeleteOutlined style={{ fontSize: iconSize }} />
                 </Link>
@@ -98,7 +94,7 @@ function ApplicationList({ applicationList, permission, loading }) {
               trigger="click"
               color="red"
             >
-              {console.log("okkk")}
+              {console.log('okkk')}
               <DeleteOutlined style={{ fontSize: iconSize }} />
             </Tooltip>
           ),

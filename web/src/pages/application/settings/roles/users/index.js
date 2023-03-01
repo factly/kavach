@@ -28,6 +28,7 @@ export default function ApplicationRoleUsers() {
     },
   );
 
+
   const fetchApplicationUsers = () => {
     dispatch(getApplicationUsers(appID));
   };

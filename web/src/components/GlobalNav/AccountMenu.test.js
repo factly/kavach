@@ -2,10 +2,7 @@ import React from 'react';
 import { Provider, useDispatch } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import {
-  LogoutOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import '../../matchMedia.mock';
 import { notification } from 'antd';
 import { shallow, mount } from 'enzyme';
@@ -82,7 +79,9 @@ describe('Account Menu component', () => {
           </Provider>,
         );
       });
-      expect(wrapper.find('SubMenu').get(4).props.title.props.children.props.children.props.src).toBe('rawUrl');
+      expect(
+        wrapper.find('SubMenu').get(4).props.title.props.children.props.children.props.src,
+      ).toBe('rawUrl');
     });
     it('should display User profile with default User Icon when IMG PROXY IS Enable', () => {
       store = mockStore(state);
@@ -94,7 +93,9 @@ describe('Account Menu component', () => {
           </Provider>,
         );
       });
-      expect(wrapper.find('SubMenu').get(4).props.title.props.children.props.children.props.src).toBe('imageUrl');
+      expect(
+        wrapper.find('SubMenu').get(4).props.title.props.children.props.children.props.src,
+      ).toBe('imageUrl');
     });
     it('should display User profile with default User Icon when no medium', () => {
       const state2 = { ...state };
@@ -142,10 +143,12 @@ describe('Account Menu component', () => {
       });
       const mockData = { logout_url: 'http://localhost/' };
 
-      const mockFetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(mockData),
-        status: 200,
-      }));
+      const mockFetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(mockData),
+          status: 200,
+        }),
+      );
 
       global.fetch = mockFetch;
 
@@ -158,11 +161,14 @@ describe('Account Menu component', () => {
         );
       });
       wrapper.find('SubMenu').get(4).props.children[2].props.onClick();
-      expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
-        credentials: 'include',
-      });
+      expect(mockFetch).toHaveBeenCalledWith(
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser',
+        {
+          credentials: 'include',
+        },
+      );
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(mockRemoveItem).toHaveBeenCalledWith('returnTo');
           expect(window.location.href).toEqual(mockData.logout_url);
@@ -179,10 +185,12 @@ describe('Account Menu component', () => {
       });
       const mockData = { logout_url: 'http://localhost/' };
 
-      const mockFetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(mockData),
-        status: 500,
-      }));
+      const mockFetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(mockData),
+          status: 500,
+        }),
+      );
 
       global.fetch = mockFetch;
 
@@ -195,11 +203,14 @@ describe('Account Menu component', () => {
         );
       });
       wrapper.find('SubMenu').get(4).props.children[2].props.onClick();
-      expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
-        credentials: 'include',
-      });
+      expect(mockFetch).toHaveBeenCalledWith(
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser',
+        {
+          credentials: 'include',
+        },
+      );
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(mockRemoveItem).not.toHaveBeenCalled();
           resolve();
@@ -214,16 +225,21 @@ describe('Account Menu component', () => {
       global.fetch = mockFetch;
       const mockFetchPromise = Promise.reject(new Error(500)); // A promise that rejects with an error object
       mockFetch.mockReturnValueOnce(mockFetchPromise);
-      const wrapper = mount(<Provider store={store}>
-        <AccountMenu />
-      </Provider>);
+      const wrapper = mount(
+        <Provider store={store}>
+          <AccountMenu />
+        </Provider>,
+      );
 
       wrapper.find('SubMenu').get(4).props.children[2].props.onClick();
-      expect(mockFetch).toHaveBeenCalledWith(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
-        credentials: 'include',
-      });
+      expect(mockFetch).toHaveBeenCalledWith(
+        window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser',
+        {
+          credentials: 'include',
+        },
+      );
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           expect(notification.error).toHaveBeenCalledWith({
             message: 'Error',
@@ -233,6 +249,5 @@ describe('Account Menu component', () => {
         }, 1000);
       });
     });
-
   });
 });

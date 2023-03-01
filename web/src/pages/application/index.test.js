@@ -72,7 +72,7 @@ let state = {
   profile: {
     loading: false,
     roles: {
-      1: "owner"
+      1: 'owner',
     },
   },
   media: {
@@ -80,7 +80,7 @@ let state = {
     details: {},
     loading: true,
   },
-}
+};
 
 describe('Application component', () => {
   let store;
@@ -136,7 +136,7 @@ describe('Application component', () => {
         profile: {
           ...state.profile,
           roles: {
-            1: "admin"
+            1: 'admin',
           },
         },
       });
@@ -157,7 +157,7 @@ describe('Application component', () => {
         profile: {
           ...state.profile,
           roles: {
-            1: "owner"
+            1: 'owner',
           },
         },
       });

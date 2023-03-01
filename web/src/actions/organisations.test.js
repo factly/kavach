@@ -50,77 +50,85 @@ describe('organisations actions', () => {
   });
   // !!!!!!!!!
   it('should create an action to add organisations list', () => {
-
     const data = [
       {
         id: 1,
         name: 'Organisation 1',
-        medium: [{ id: 1, name: 'Medium 1' }, { id: 2, name: 'Medium 2' }],
+        medium: [
+          { id: 1, name: 'Medium 1' },
+          { id: 2, name: 'Medium 2' },
+        ],
         applications: [
           { id: 1, name: 'Application 1' },
-          { id: 2, name: 'Application 2' }
+          { id: 2, name: 'Application 2' },
         ],
         organisation_users: [
           { user: { id: 1, name: 'User 1' }, role: { id: 1, name: 'Role 1' } },
-          { user: { id: 2, name: 'User 2' }, role: { id: 2, name: 'Role 2' } }
+          { user: { id: 2, name: 'User 2' }, role: { id: 2, name: 'Role 2' } },
         ],
         policies: [
-          { id: 1, name: 'Policy 1' }, { id: 2, name: 'Policy 2' }
-        ]
+          { id: 1, name: 'Policy 1' },
+          { id: 2, name: 'Policy 2' },
+        ],
       },
       {
         id: 2,
         name: 'Organisation 2',
-        medium: [{ id: 3, name: 'Medium 3' }, { id: 4, name: 'Medium 4' }
+        medium: [
+          { id: 3, name: 'Medium 3' },
+          { id: 4, name: 'Medium 4' },
         ],
-      }
+      },
     ];
 
-    const module1 = require('../actions/application')
+    const module1 = require('../actions/application');
     module1.addApplicationList = jest.fn(() => ({
       type: 'ADD_APPLICATIONS',
-      payload: "mock payload"
+      payload: 'mock payload',
     }));
 
-    const module2 = require('../actions/policy')
+    const module2 = require('../actions/policy');
     module2.addOrganisationPolicy = jest.fn(() => ({
       type: 'ADD_ORGANISATION_POLICY',
-      payload: 'mock payload'
+      payload: 'mock payload',
     }));
 
     const expectedActions = [
       {
         type: 'ADD_MEDIA',
-        payload: buildObjectOfItems(getValues(data, 'medium'))
+        payload: buildObjectOfItems(getValues(data, 'medium')),
       },
       { type: 'ADD_APPLICATIONS', payload: 'mock payload' },
-      { type: 'ADD_USERS', payload: { '1': { id: 1, name: 'User 1' }, '2': { id: 2, name: 'User 2' }, } },
+      {
+        type: 'ADD_USERS',
+        payload: { 1: { id: 1, name: 'User 1' }, 2: { id: 2, name: 'User 2' } },
+      },
       { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
       { type: 'ADD_USERS', payload: {} },
       {
         type: 'ADD_ORGANISATIONS',
         payload: {
           data: {
-            '1': {
+            1: {
               id: 1,
               name: 'Organisation 1',
               applications: [1, 2],
-              roles: { '1': { id: 1, name: 'Role 1' }, '2': { id: 2, name: 'Role 2' } },
+              roles: { 1: { id: 1, name: 'Role 1' }, 2: { id: 2, name: 'Role 2' } },
               role: { id: 1, name: 'Role 1' },
               users: [1, 2],
-              policyIDs: [1, 2]
+              policyIDs: [1, 2],
             },
-            '2': {
+            2: {
               id: 2,
               name: 'Organisation 2',
               roles: {},
               users: [],
-              applications: []
-            }
+              applications: [],
+            },
           },
-          ids: [1, 2]
-        }
-      }
+          ids: [1, 2],
+        },
+      },
     ];
 
     store.dispatch(actions.addOrganisationsList(data, 1));
@@ -343,53 +351,55 @@ describe('organisations actions', () => {
       { type: 'SET_ORGANISATIONS_LOADING', payload: true },
       { type: 'ADD_MEDIA', payload: {} },
       {
-        type: 'ADD_USERS', payload: {
-          '111': { id: 111, name: 'User 1' },
-          '222': { id: 222, name: 'User 2' }
-        }
+        type: 'ADD_USERS',
+        payload: {
+          111: { id: 111, name: 'User 1' },
+          222: { id: 222, name: 'User 2' },
+        },
       },
       {
         type: 'ADD_ORGANISATION_ROLES',
         payload: {
           id: 1,
           data: {
-            '789': { id: 789, name: 'Mock Role', users: [111, 222] }
-          }
-        }
+            789: { id: 789, name: 'Mock Role', users: [111, 222] },
+          },
+        },
       },
       { type: 'ADD_ORGANISATION_POLICY', payload: 'mock payload' },
       {
-        type: 'ADD_USERS', payload: {
-          '111': { id: 111, name: 'User 1' },
-          '222': { id: 222, name: 'User 2' }
-        }
+        type: 'ADD_USERS',
+        payload: {
+          111: { id: 111, name: 'User 1' },
+          222: { id: 222, name: 'User 2' },
+        },
       },
       {
-        type: 'ADD_ORGANISATION', payload: {
-          id: 123, data: {
+        type: 'ADD_ORGANISATION',
+        payload: {
+          id: 123,
+          data: {
             id: 123,
             name: 'Mock Organisation',
             featured_medium_id: 456,
             applications: [
               { id: 555, name: 'Application 1' },
-              { id: 666, name: 'Application 2' }
+              { id: 666, name: 'Application 2' },
             ],
             roleIDs: [789],
             policyIDs: [333, 444],
-            roles: { '111': 'Mock Role', '222': 'Mock Role' },
+            roles: { 111: 'Mock Role', 222: 'Mock Role' },
             role: 'Mock Role',
             users: [111, 222],
-          }
-        }
+          },
+        },
       },
-      { type: 'SET_ORGANISATIONS_LOADING', payload: false }
+      { type: 'SET_ORGANISATIONS_LOADING', payload: false },
     ];
 
-    store
-      .dispatch(actions.getOrganisation(1))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      });
+    store.dispatch(actions.getOrganisation(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
     expect(axios.get).toHaveBeenCalledWith(`${types.ORGANISATIONS_API}/1`);
   });
   it('should create actions to get organisation by id failure', () => {

@@ -156,7 +156,7 @@ describe('Application actions', () => {
     jest.mock('../actions/application', () => ({
       addApplicationList: jest.fn(() => ({
         type: 'ADD_APPLICATIONS',
-        payload: 'mock payload'
+        payload: 'mock payload',
       })),
     }));
     axios.get.mockResolvedValue({ data: applications });
@@ -175,14 +175,12 @@ describe('Application actions', () => {
         payload: false,
       },
     ];
-    store
-      .dispatch(actions.getApplications())
-      .then(() => {
-        expectedActions.forEach((action) => {
-          expect(store.getActions()).toContainEqual(action);
-        });
-        expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');
+    store.dispatch(actions.getApplications()).then(() => {
+      expectedActions.forEach((action) => {
+        expect(store.getActions()).toContainEqual(action);
       });
+      expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1' + '/applications');
+    });
   });
   it('should create actions to fetch applications failure', () => {
     const errorMessage = 'Unable to fetch';
@@ -285,10 +283,12 @@ describe('Application actions', () => {
         { id: 1, name: 'Admin', users: [1, 2, 3] },
         { id: 2, name: 'User', users: [4, 5, 6] },
       ],
-      medium: [{
-        id: 456,
-        name: 'medium'
-      }],
+      medium: [
+        {
+          id: 456,
+          name: 'medium',
+        },
+      ],
       policies: [
         { id: 1, name: 'Policy 1' },
         { id: 2, name: 'Policy 2' },
@@ -311,27 +311,28 @@ describe('Application actions', () => {
         { id: 2, name: 'Space 2' },
       ],
     };
-    const resultedApp = { ...app }
+    const resultedApp = { ...app };
     const resp = { data: app };
     axios.get.mockResolvedValue(resp);
     const expectedActions = [
       {
         type: types.SET_APPLICATIONS_LOADING,
         payload: true,
-      }, { type: 'ADD_MEDIA', payload: buildObjectOfItems(resultedApp.medium) },
+      },
+      { type: 'ADD_MEDIA', payload: buildObjectOfItems(resultedApp.medium) },
       {
         type: 'ADD_APPLICATION_ROLES',
-        payload: { id: 1, data: buildObjectOfItems(resultedApp.roles) }
+        payload: { id: 1, data: buildObjectOfItems(resultedApp.roles) },
       },
       {
         type: 'ADD_USERS',
-        payload: buildObjectOfItems(resultedApp.users)
+        payload: buildObjectOfItems(resultedApp.users),
       },
       { type: 'ADD_MEDIA', payload: {} },
       { type: 'ADD_USERS', payload: {} },
       {
         type: 'ADD_SPACES',
-        payload: buildObjectOfItems(resultedApp.spaces)
+        payload: buildObjectOfItems(resultedApp.spaces),
       },
       {
         type: 'ADD_APPLICATION',
@@ -344,18 +345,16 @@ describe('Application actions', () => {
           spaces: [1, 2],
           roleIDs: [1, 2],
           policyIDs: [1, 2],
-        }
+        },
       },
       {
         type: types.SET_APPLICATIONS_LOADING,
         payload: false,
       },
     ];
-    store
-      .dispatch(actions.getApplication(1))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      });
+    store.dispatch(actions.getApplication(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
     expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create action to getApplication failure', () => {
@@ -408,19 +407,17 @@ describe('Application actions', () => {
           policyIDs: [],
           users: [],
           tokens: [],
-          spaces: []
-        }
+          spaces: [],
+        },
       },
       {
         type: types.SET_APPLICATIONS_LOADING,
         payload: false,
       },
     ];
-    store
-      .dispatch(actions.getApplication(1))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions)
-      });
+    store.dispatch(actions.getApplication(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
     expect(axios.get).toHaveBeenCalledWith(types.APPLICATIONS_API + '/1/applications/' + 1);
   });
   it('should create actions to create application success', () => {
@@ -723,14 +720,12 @@ describe('Application actions', () => {
         type: 'GET_DEFAULT_APPLICATIONS',
         payload: applications,
       },
-      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: false }
+      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: false },
     ];
 
-    store
-      .dispatch(actions.getDefaultApplications())
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
+    store.dispatch(actions.getDefaultApplications()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('should create an action to fetch default applications failure', () => {
@@ -748,14 +743,12 @@ describe('Application actions', () => {
           message: errorMessage,
         },
       },
-      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: false }
+      { type: 'SET_DEFAULT_APPLICATION_LOADING', payload: false },
     ];
 
-    store
-      .dispatch(actions.getDefaultApplications())
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
+    store.dispatch(actions.getDefaultApplications()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('should create an action to delete default applications success', () => {
@@ -772,14 +765,12 @@ describe('Application actions', () => {
           message: 'Application removed succesfully',
         },
       },
-      { type: 'SET_APPLICATIONS_LOADING', payload: false }
+      { type: 'SET_APPLICATIONS_LOADING', payload: false },
     ];
 
-    store
-      .dispatch(actions.removeDefaultApplication(1))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
+    store.dispatch(actions.removeDefaultApplication(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
   it('should create an action to delete default applications failure', () => {
     const errorMessage = 'Unable to delete application';
@@ -796,55 +787,50 @@ describe('Application actions', () => {
           message: errorMessage,
         },
       },
-      { type: 'SET_APPLICATIONS_LOADING', payload: false }
+      { type: 'SET_APPLICATIONS_LOADING', payload: false },
     ];
 
-    store
-      .dispatch(actions.removeDefaultApplication(1))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
+    store.dispatch(actions.removeDefaultApplication(1)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
   it('should create action for addApplicationIds', () => {
-    const data = [1,2,3]
+    const data = [1, 2, 3];
     const expectedAction = {
       type: 'ADD_APPLICATION_IDS',
-      payload: data
-    }
+      payload: data,
+    };
 
-    expect(actions.addApplicationIds(data)).toEqual(expectedAction)
-  })
+    expect(actions.addApplicationIds(data)).toEqual(expectedAction);
+  });
   it('should create action for addApplication', () => {
-    const data = {id: 1}
+    const data = { id: 1 };
     const expectedAction = {
       type: 'ADD_APPLICATION',
-      payload: data
-    }
+      payload: data,
+    };
 
-    expect(actions.addApplication(data)).toEqual(expectedAction)
-  })
+    expect(actions.addApplication(data)).toEqual(expectedAction);
+  });
   it('should create action for addSpaceIDs', () => {
-    const data = [1,2,3]
+    const data = [1, 2, 3];
     const expectedAction = {
       type: 'ADD_SPACE_IDS',
       payload: {
         appID: 1,
-        data: data
-      }
-    }
+        data: data,
+      },
+    };
 
-    expect(actions.addSpaceIDs(1, data)).toEqual(expectedAction)
-  })
+    expect(actions.addSpaceIDs(1, data)).toEqual(expectedAction);
+  });
   it('should create action for addDefaultApplicationsList', () => {
-    const data = [1,2,3]
+    const data = [1, 2, 3];
     const expectedAction = {
       type: 'GET_DEFAULT_APPLICATIONS',
-      payload: data
-    }
+      payload: data,
+    };
 
-    expect(actions.addDefaultApplicationsList(data)).toEqual(expectedAction)
-  })
+    expect(actions.addDefaultApplicationsList(data)).toEqual(expectedAction);
+  });
 });
-
-
-

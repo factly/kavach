@@ -53,8 +53,8 @@ export default function CreateOrganisationPolicyForm() {
   };
 
   const onFinish = (values) => {
-      onCreate(values);
-      onReset();
+    onCreate(values);
+    onReset();
   };
 
   React.useEffect(() => {
@@ -91,12 +91,7 @@ export default function CreateOrganisationPolicyForm() {
             alignSelf: 'center',
           }}
         >
-          <Form
-            form={form}
-            layout="vertical"
-            name="create-organisation-policy"
-            onFinish={onFinish}
-          >
+          <Form form={form} layout="vertical" name="create-organisation-policy" onFinish={onFinish}>
             <Form.Item
               name="name"
               label="Name"

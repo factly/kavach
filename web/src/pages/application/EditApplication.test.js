@@ -95,8 +95,8 @@ let state = {
   },
   profile: {
     roles: {
-      1: "owner",
-      2: "member",
+      1: 'owner',
+      2: 'member',
     },
     loading: false,
   },
@@ -137,7 +137,7 @@ describe('Edit Application component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("Skeleton").length).toBe(1);
+      expect(tree.find('Skeleton').length).toBe(1);
     });
 
     it('should match skeleton while loadingRole', () => {
@@ -156,7 +156,7 @@ describe('Edit Application component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("Skeleton").length).toBe(1);
+      expect(tree.find('Skeleton').length).toBe(1);
     });
 
     it('should match skeleton when role is not owner', () => {
@@ -165,7 +165,7 @@ describe('Edit Application component', () => {
         profile: {
           ...state.profile,
           roles: {
-            1: "member",
+            1: 'member',
           },
         },
       });
@@ -177,11 +177,10 @@ describe('Edit Application component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("ErrorComponent").length).toBe(1);
-
+      expect(tree.find('ErrorComponent').length).toBe(1);
     });
 
-    it("should render when application is default application and selected org. is not 1", () => {
+    it('should render when application is default application and selected org. is not 1', () => {
       store = mockStore({
         ...state,
         organisations: {
@@ -206,9 +205,9 @@ describe('Edit Application component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("ErrorComponent").length).toBe(1);
+      expect(tree.find('ErrorComponent').length).toBe(1);
     });
-    it("should render when application is default application and selected org. is 1", () => {
+    it('should render when application is default application and selected org. is 1', () => {
       store = mockStore({
         ...state,
         applications: {
@@ -229,7 +228,7 @@ describe('Edit Application component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("ErrorComponent").length).toBe(0);
+      expect(tree.find('ErrorComponent').length).toBe(0);
     });
   });
   describe('component testing', () => {
@@ -278,7 +277,7 @@ describe('Edit Application component', () => {
           test: 'test',
           users: [
             {
-              email: "user@gmail.com",
+              email: 'user@gmail.com',
               id: 1,
             },
           ],

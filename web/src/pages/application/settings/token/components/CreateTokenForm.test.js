@@ -82,9 +82,9 @@ describe('Create Token form component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(1);
+      expect(tree.find('form').length).toBe(1);
     });
-    it("should render skeleton when loading app", () => {
+    it('should render skeleton when loading app', () => {
       store = mockStore({
         ...state,
         applications: {
@@ -100,10 +100,10 @@ describe('Create Token form component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(0);
-      expect(tree.find("Skeleton").length).toBe(1);
+      expect(tree.find('form').length).toBe(0);
+      expect(tree.find('Skeleton').length).toBe(1);
     });
-    it("should render skeleton when loading profile", () => {
+    it('should render skeleton when loading profile', () => {
       store = mockStore({
         ...state,
         profile: {
@@ -119,11 +119,11 @@ describe('Create Token form component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(0);
-      expect(tree.find("Skeleton").length).toBe(1);
+      expect(tree.find('form').length).toBe(0);
+      expect(tree.find('Skeleton').length).toBe(1);
     });
     // render ErrorComponent when role is not owner
-    it("should render error component when role is not owner", () => {
+    it('should render error component when role is not owner', () => {
       store = mockStore({
         ...state,
         profile: {
@@ -141,11 +141,10 @@ describe('Create Token form component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(0);
-      expect(tree.find("ErrorComponent").length).toBe(1);
+      expect(tree.find('form').length).toBe(0);
+      expect(tree.find('ErrorComponent').length).toBe(1);
     });
-    // when application is not found
-    it("should render error component when application is not found", () => {
+    it('should render error component when application is not found', () => {
       store = mockStore({
         ...state,
         applications: {
@@ -161,11 +160,11 @@ describe('Create Token form component', () => {
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
-      expect(tree.find("form").length).toBe(1);
+      expect(tree.find('form').length).toBe(1);
     });
   });
   describe('component testing', () => {
-    let wrapper
+    let wrapper;
 
     it('should not submit form with data', (done) => {
       store = mockStore(state);
@@ -203,14 +202,14 @@ describe('Create Token form component', () => {
         expect(addApplicationToken).toHaveBeenCalledWith(
           1,
           {
-            application_name: "Test Application",
+            application_name: 'Test Application',
             name: 'Token Name',
             description: 'New Description',
           },
           setState,
           setState,
         );
-        wrapper.find('Modal').props().onOk()
+        wrapper.find('Modal').props().onOk();
         expect(push).toHaveBeenCalledWith('/applications/1/settings/tokens');
         done();
       }, 0);

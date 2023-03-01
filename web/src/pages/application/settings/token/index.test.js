@@ -1,6 +1,3 @@
-{
-	"credentials": "include",
-},
 import '../../../../matchMedia.mock';
 import { Popconfirm, Button, Table } from 'antd';
 

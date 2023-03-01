@@ -32,7 +32,7 @@ describe('Header component', () => {
   let store;
   let mockedDispatch;
 
-  let state
+  let state;
 
   beforeEach(() => {
     state = {
@@ -46,16 +46,34 @@ describe('Header component', () => {
       organisations: {
         ids: [1],
         details: {
-          1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' }, applications: [1,2] },
+          1: {
+            id: 1,
+            title: 'title',
+            description: 'description',
+            permission: { role: 'member' },
+            applications: [1, 2],
+          },
         },
         loading: false,
         selected: 1,
       },
       applications: {
         details: {
-          1: { id: 1, name: 'app1', description: 'description', permission: { role: 'member' }, medium_id: 2 },
-          2: { id: 2, name: 'app2', description: 'description', permission: { role: 'member' }, medium_id: 1 },
-        }
+          1: {
+            id: 1,
+            name: 'app1',
+            description: 'description',
+            permission: { role: 'member' },
+            medium_id: 2,
+          },
+          2: {
+            id: 2,
+            name: 'app2',
+            description: 'description',
+            permission: { role: 'member' },
+            medium_id: 1,
+          },
+        },
       },
       profile: {
         details: {
@@ -155,16 +173,34 @@ describe('Header component', () => {
         organisations: {
           ids: [1],
           details: {
-            1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' }, applications: [1,2] },
+            1: {
+              id: 1,
+              title: 'title',
+              description: 'description',
+              permission: { role: 'member' },
+              applications: [1, 2],
+            },
           },
           loading: false,
           selected: 1,
         },
         applications: {
           details: {
-            1: { id: 1, name: 'app1', description: 'description', permission: { role: 'member' }, medium_id: 2 },
-            2: { id: 2, name: 'app2', description: 'description', permission: { role: 'member' }, medium_id: 1 },
-          }
+            1: {
+              id: 1,
+              name: 'app1',
+              description: 'description',
+              permission: { role: 'member' },
+              medium_id: 2,
+            },
+            2: {
+              id: 2,
+              name: 'app2',
+              description: 'description',
+              permission: { role: 'member' },
+              medium_id: 1,
+            },
+          },
         },
         profile: {
           details: {
@@ -182,7 +218,7 @@ describe('Header component', () => {
         media: {
           details: {
             1: { id: 1, url: { proxy: 'imageUrl', raw: 'rawurl' } },
-            2: { id: 2},
+            2: { id: 2 },
           },
         },
       };
@@ -216,16 +252,34 @@ describe('Header component', () => {
         organisations: {
           ids: [1],
           details: {
-            1: { id: 1, title: 'title', description: 'description', permission: { role: 'member' }, applications: [1,2] },
+            1: {
+              id: 1,
+              title: 'title',
+              description: 'description',
+              permission: { role: 'member' },
+              applications: [1, 2],
+            },
           },
           loading: false,
           selected: 1,
         },
         applications: {
           details: {
-            1: { id: 1, name: 'app1', description: 'description', permission: { role: 'member' }, medium_id: 2 },
-            2: { id: 2, name: 'app2', description: 'description', permission: { role: 'member' }, medium_id: 1 },
-          }
+            1: {
+              id: 1,
+              name: 'app1',
+              description: 'description',
+              permission: { role: 'member' },
+              medium_id: 2,
+            },
+            2: {
+              id: 2,
+              name: 'app2',
+              description: 'description',
+              permission: { role: 'member' },
+              medium_id: 1,
+            },
+          },
         },
         profile: {
           details: {

@@ -76,7 +76,7 @@ export default function EditApplicationRole() {
       <Link key="1" to={`/applications/${appID}/settings/roles`}>
         <Button type="primary">Back to Roles</Button>
       </Link>
-      {loading && loadingApp && loadingUserRole ? (
+      {loading || loadingApp || loadingUserRole ? (
         <Skeleton />
       ) : (
         <Card
@@ -103,7 +103,7 @@ export default function EditApplicationRole() {
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>

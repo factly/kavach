@@ -87,7 +87,7 @@ function Recovery() {
     var emailInput = document.createElement('input');
     emailInput.name = 'email';
     emailInput.value = values.email;
- 
+
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';
     csrfInput.value = ui.nodes.find((value) => {

@@ -52,7 +52,7 @@ describe('OIDC component', () => {
       const ui = {
         action: '/',
         method: 'POST',
-        nodes: [{ group: 'oidc', attributes: { value: 'github' } }]
+        nodes: [{ group: 'oidc', attributes: { value: 'github' } }],
       };
       render(<OIDC ui={ui} />);
       const githubButton = screen.getByText(/continue with github/i);
@@ -62,7 +62,7 @@ describe('OIDC component', () => {
       const ui = {
         action: '/',
         method: 'POST',
-        nodes: [{ group: 'oidc', attributes: { value: 'google' } }]
+        nodes: [{ group: 'oidc', attributes: { value: 'google' } }],
       };
       render(<OIDC ui={ui} />);
       const googleButton = screen.getByText(/continue with google/i);
@@ -72,7 +72,7 @@ describe('OIDC component', () => {
       const ui = {
         action: '/',
         method: 'POST',
-        nodes: [{ group: 'oidc', attributes: { value: 'github', name: "csrf_token" } },]
+        nodes: [{ group: 'oidc', attributes: { value: 'github', name: 'csrf_token' } }],
       };
       const submitSpy = jest.spyOn(window.HTMLFormElement.prototype, 'submit');
 
@@ -86,7 +86,7 @@ describe('OIDC component', () => {
       const ui = {
         action: '/',
         method: 'POST',
-        nodes: [{ group: 'oidc', attributes: { value: 'google', name: "csrf_token" } },]
+        nodes: [{ group: 'oidc', attributes: { value: 'google', name: 'csrf_token' } }],
       };
       const submitSpy = jest.spyOn(window.HTMLFormElement.prototype, 'submit');
 

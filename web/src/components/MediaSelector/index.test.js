@@ -65,7 +65,7 @@ describe('MediaSelector component', () => {
 
   describe('snapshot testing', () => {
     beforeEach(() => {
-      store = mockStore(() => { });
+      store = mockStore(() => {});
       store.dispatch = jest.fn();
       mockedDispatch = jest.fn();
       useDispatch.mockReturnValue(mockedDispatch);
@@ -102,7 +102,7 @@ describe('MediaSelector component', () => {
       });
       const selectButton = wrapper.find('Button').at(0);
       expect(selectButton.children().find('img').length).toBe(1);
-      expect(selectButton.children().find('img').props().src).toBe("placeholderImage.svg");
+      expect(selectButton.children().find('img').props().src).toBe('placeholderImage.svg');
 
       selectButton.simulate('click');
       expect(wrapper.find('Modal').props().visible).toBe(true);
@@ -177,7 +177,7 @@ describe('MediaSelector component', () => {
       });
       const selectButton = wrapper.find('Button').at(0);
       expect(selectButton.children().find('img').length).toBe(1);
-      expect(selectButton.children().find('img').props().src).toBe("placeholderImage.svg");
+      expect(selectButton.children().find('img').props().src).toBe('placeholderImage.svg');
       selectButton.simulate('click');
       wrapper
         .find(Radio.Group)

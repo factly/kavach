@@ -37,7 +37,7 @@ function Selector({ value, onChange }) {
       placeholder="select user"
       onChange={(values) => onChange(values)}
       filterOption={(input, option) => {
-        return option.props.children.toLowerCase().includes(input.toLowerCase())
+        return option.props.children.toLowerCase().includes(input.toLowerCase());
       }}
     >
       {details.map((item) => {
@@ -45,7 +45,7 @@ function Selector({ value, onChange }) {
           <Select.Option value={item.id} key={'users' + item.id}>
             {item['email']}
           </Select.Option>
-        )
+        );
       })}
     </Select>
   );

@@ -36,7 +36,6 @@ export const PermissionForm = ({ permission, index, remove }) => {
 };
 
 export default function DynamicPermissionField({ type }) {
-
   return (
     <Form.List name="permissions">
       {(permissions, { add, remove }) => {

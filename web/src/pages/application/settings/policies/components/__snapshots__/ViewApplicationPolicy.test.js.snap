@@ -1,0 +1,2932 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Application Policy View component snapshot testing should render when loading is true 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ViewApplicationPolicy>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "20px",
+            }
+          }
+        >
+          <Link
+            to="/applications/1/settings/policies"
+          >
+            <LinkAnchor
+              href="/applications/1/settings/policies"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications/1/settings/policies"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Back to Policies
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <h2>
+             Policy Details 
+          </h2>
+          <Skeleton>
+            <div
+              className="ant-skeleton"
+            >
+              <div
+                className="ant-skeleton-content"
+              >
+                <Title
+                  prefixCls="ant-skeleton-title"
+                  width="38%"
+                >
+                  <h3
+                    className="ant-skeleton-title"
+                    style={
+                      Object {
+                        "width": "38%",
+                      }
+                    }
+                  />
+                </Title>
+                <Paragraph
+                  prefixCls="ant-skeleton-paragraph"
+                  rows={3}
+                  width="61%"
+                >
+                  <ul
+                    className="ant-skeleton-paragraph"
+                  >
+                    <li
+                      key="0"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
+                      }
+                    />
+                    <li
+                      key="1"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
+                      }
+                    />
+                    <li
+                      key="2"
+                      style={
+                        Object {
+                          "width": "61%",
+                        }
+                      }
+                    />
+                  </ul>
+                </Paragraph>
+              </div>
+            </div>
+          </Skeleton>
+          <Divider>
+            <div
+              className="ant-divider ant-divider-horizontal"
+              role="separator"
+            />
+          </Divider>
+          <h3>
+             Permissions 
+          </h3>
+          <ForwardRef(InternalTable)
+            bordered={true}
+            columns={
+              Array [
+                Object {
+                  "dataIndex": "resource",
+                  "key": "resource",
+                  "title": "Resource",
+                },
+                Object {
+                  "dataIndex": "action",
+                  "key": "action",
+                  "render": [Function],
+                  "title": "Action",
+                },
+              ]
+            }
+            dataSource={
+              Array [
+                Object {
+                  "actions": Array [
+                    "read",
+                    "write",
+                  ],
+                  "resource": "test",
+                },
+              ]
+            }
+            pagination={true}
+            rowKey="id"
+          >
+            <div
+              className="ant-table-wrapper"
+            >
+              <Spin
+                spinning={false}
+              >
+                <Spin
+                  spinPrefixCls="ant-spin"
+                  spinning={false}
+                >
+                  <div
+                    className="ant-spin-nested-loading"
+                  >
+                    <div
+                      className="ant-spin-container"
+                      key="container"
+                    >
+                      <Table
+                        bordered={true}
+                        className="ant-table-bordered"
+                        columns={
+                          Array [
+                            Object {
+                              "dataIndex": "resource",
+                              "key": "resource",
+                              "title": "Resource",
+                            },
+                            Object {
+                              "dataIndex": "action",
+                              "key": "action",
+                              "render": [Function],
+                              "title": "Action",
+                            },
+                          ]
+                        }
+                        data={
+                          Array [
+                            Object {
+                              "actions": Array [
+                                "read",
+                                "write",
+                              ],
+                              "resource": "test",
+                            },
+                          ]
+                        }
+                        dataSource={
+                          Array [
+                            Object {
+                              "actions": Array [
+                                "read",
+                                "write",
+                              ],
+                              "resource": "test",
+                            },
+                          ]
+                        }
+                        emptyText={
+                          <Context.Consumer>
+                            [Function]
+                          </Context.Consumer>
+                        }
+                        expandable={
+                          Object {
+                            "__PARENT_RENDER_ICON__": undefined,
+                            "childrenColumnName": undefined,
+                            "expandIcon": [Function],
+                            "expandIconColumnIndex": undefined,
+                            "indentSize": 15,
+                          }
+                        }
+                        internalHooks="rc-table-internal-hook"
+                        internalRefs={
+                          Object {
+                            "body": Object {
+                              "current": <div
+                                class="ant-table-content"
+                              >
+                                <table
+                                  style="table-layout: auto;"
+                                >
+                                  <colgroup />
+                                  <thead
+                                    class="ant-table-thead"
+                                  >
+                                    <tr>
+                                      <th
+                                        class="ant-table-cell"
+                                      >
+                                        Resource
+                                      </th>
+                                      <th
+                                        class="ant-table-cell"
+                                      >
+                                        Action
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody
+                                    class="ant-table-tbody"
+                                  >
+                                    <tr
+                                      class="ant-table-row ant-table-row-level-0"
+                                    >
+                                      <td
+                                        class="ant-table-cell"
+                                      >
+                                        test
+                                      </td>
+                                      <td
+                                        class="ant-table-cell"
+                                      >
+                                        <span
+                                          class="ant-tag ant-tag-blue"
+                                        >
+                                          read
+                                        </span>
+                                        <span
+                                          class="ant-tag ant-tag-blue"
+                                        >
+                                          write
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>,
+                            },
+                          }
+                        }
+                        pagination={true}
+                        prefixCls="ant-table"
+                        rowClassName={[Function]}
+                        rowKey={[Function]}
+                        transformColumns={[Function]}
+                      >
+                        <div
+                          className="ant-table ant-table-bordered"
+                        >
+                          <Component
+                            pingLeft={false}
+                            pingRight={false}
+                            props={
+                              Object {
+                                "bordered": true,
+                                "className": "ant-table-bordered",
+                                "columns": Array [
+                                  Object {
+                                    "dataIndex": "resource",
+                                    "key": "resource",
+                                    "title": "Resource",
+                                  },
+                                  Object {
+                                    "dataIndex": "action",
+                                    "key": "action",
+                                    "render": [Function],
+                                    "title": "Action",
+                                  },
+                                ],
+                                "data": Array [
+                                  Object {
+                                    "actions": Array [
+                                      "read",
+                                      "write",
+                                    ],
+                                    "resource": "test",
+                                  },
+                                ],
+                                "dataSource": Array [
+                                  Object {
+                                    "actions": Array [
+                                      "read",
+                                      "write",
+                                    ],
+                                    "resource": "test",
+                                  },
+                                ],
+                                "direction": undefined,
+                                "emptyText": <Context.Consumer>
+                                  [Function]
+                                </Context.Consumer>,
+                                "expandable": Object {
+                                  "__PARENT_RENDER_ICON__": undefined,
+                                  "childrenColumnName": undefined,
+                                  "expandIcon": [Function],
+                                  "expandIconColumnIndex": undefined,
+                                  "indentSize": 15,
+                                },
+                                "internalHooks": "rc-table-internal-hook",
+                                "internalRefs": Object {
+                                  "body": Object {
+                                    "current": <div
+                                      class="ant-table-content"
+                                    >
+                                      <table
+                                        style="table-layout: auto;"
+                                      >
+                                        <colgroup />
+                                        <thead
+                                          class="ant-table-thead"
+                                        >
+                                          <tr>
+                                            <th
+                                              class="ant-table-cell"
+                                            >
+                                              Resource
+                                            </th>
+                                            <th
+                                              class="ant-table-cell"
+                                            >
+                                              Action
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody
+                                          class="ant-table-tbody"
+                                        >
+                                          <tr
+                                            class="ant-table-row ant-table-row-level-0"
+                                          >
+                                            <td
+                                              class="ant-table-cell"
+                                            >
+                                              test
+                                            </td>
+                                            <td
+                                              class="ant-table-cell"
+                                            >
+                                              <span
+                                                class="ant-tag ant-tag-blue"
+                                              >
+                                                read
+                                              </span>
+                                              <span
+                                                class="ant-tag ant-tag-blue"
+                                              >
+                                                write
+                                              </span>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>,
+                                  },
+                                },
+                                "mergedExpandedKeys": Set {},
+                                "pagination": true,
+                                "prefixCls": "ant-table",
+                                "rowClassName": [Function],
+                                "rowKey": [Function],
+                                "stickyOffsets": Object {
+                                  "left": Array [
+                                    0,
+                                    0,
+                                  ],
+                                  "right": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "transformColumns": [Function],
+                              }
+                            }
+                          >
+                            <div
+                              className="ant-table-container"
+                            >
+                              <div
+                                className="ant-table-content"
+                                onScroll={[Function]}
+                                style={Object {}}
+                              >
+                                <table
+                                  style={
+                                    Object {
+                                      "tableLayout": "auto",
+                                    }
+                                  }
+                                >
+                                  <ColGroup
+                                    colWidths={
+                                      Array [
+                                        undefined,
+                                        undefined,
+                                      ]
+                                    }
+                                    columns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "resource",
+                                          "fixed": undefined,
+                                          "key": "resource",
+                                          "title": "Resource",
+                                        },
+                                        Object {
+                                          "dataIndex": "action",
+                                          "fixed": undefined,
+                                          "key": "action",
+                                          "render": [Function],
+                                          "title": "Action",
+                                        },
+                                      ]
+                                    }
+                                  >
+                                    <colgroup />
+                                  </ColGroup>
+                                  <Header
+                                    colWidths={
+                                      Array [
+                                        undefined,
+                                        undefined,
+                                      ]
+                                    }
+                                    columCount={2}
+                                    columns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "resource",
+                                          "key": "resource",
+                                          "title": "Resource",
+                                        },
+                                        Object {
+                                          "dataIndex": "action",
+                                          "key": "action",
+                                          "render": [Function],
+                                          "title": "Action",
+                                        },
+                                      ]
+                                    }
+                                    flattenColumns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "resource",
+                                          "fixed": undefined,
+                                          "key": "resource",
+                                          "title": "Resource",
+                                        },
+                                        Object {
+                                          "dataIndex": "action",
+                                          "fixed": undefined,
+                                          "key": "action",
+                                          "render": [Function],
+                                          "title": "Action",
+                                        },
+                                      ]
+                                    }
+                                    stickyOffsets={
+                                      Object {
+                                        "left": Array [
+                                          0,
+                                          0,
+                                        ],
+                                        "right": Array [
+                                          0,
+                                          0,
+                                        ],
+                                      }
+                                    }
+                                  >
+                                    <thead
+                                      className="ant-table-thead"
+                                    >
+                                      <HeaderRow
+                                        cellComponent="th"
+                                        cells={
+                                          Array [
+                                            Object {
+                                              "children": "Resource",
+                                              "className": "",
+                                              "colEnd": 0,
+                                              "colSpan": 1,
+                                              "colStart": 0,
+                                              "column": Object {
+                                                "dataIndex": "resource",
+                                                "key": "resource",
+                                                "title": "Resource",
+                                              },
+                                              "key": "resource",
+                                              "rowSpan": 1,
+                                            },
+                                            Object {
+                                              "children": "Action",
+                                              "className": "",
+                                              "colEnd": 1,
+                                              "colSpan": 1,
+                                              "colStart": 1,
+                                              "column": Object {
+                                                "dataIndex": "action",
+                                                "key": "action",
+                                                "render": [Function],
+                                                "title": "Action",
+                                              },
+                                              "key": "action",
+                                              "rowSpan": 1,
+                                            },
+                                          ]
+                                        }
+                                        flattenColumns={
+                                          Array [
+                                            Object {
+                                              "dataIndex": "resource",
+                                              "fixed": undefined,
+                                              "key": "resource",
+                                              "title": "Resource",
+                                            },
+                                            Object {
+                                              "dataIndex": "action",
+                                              "fixed": undefined,
+                                              "key": "action",
+                                              "render": [Function],
+                                              "title": "Action",
+                                            },
+                                          ]
+                                        }
+                                        index={0}
+                                        key="0"
+                                        rowComponent="tr"
+                                        stickyOffsets={
+                                          Object {
+                                            "left": Array [
+                                              0,
+                                              0,
+                                            ],
+                                            "right": Array [
+                                              0,
+                                              0,
+                                            ],
+                                          }
+                                        }
+                                      >
+                                        <tr>
+                                          <WrappedCell
+                                            className=""
+                                            colEnd={0}
+                                            colSpan={1}
+                                            colStart={0}
+                                            column={
+                                              Object {
+                                                "dataIndex": "resource",
+                                                "key": "resource",
+                                                "title": "Resource",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            key="resource"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <Cell
+                                              className=""
+                                              colEnd={0}
+                                              colSpan={1}
+                                              colStart={0}
+                                              column={
+                                                Object {
+                                                  "dataIndex": "resource",
+                                                  "key": "resource",
+                                                  "title": "Resource",
+                                                }
+                                              }
+                                              component="th"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              rowSpan={1}
+                                              rowType="header"
+                                            >
+                                              <th
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                Resource
+                                              </th>
+                                            </Cell>
+                                          </WrappedCell>
+                                          <WrappedCell
+                                            className=""
+                                            colEnd={1}
+                                            colSpan={1}
+                                            colStart={1}
+                                            column={
+                                              Object {
+                                                "dataIndex": "action",
+                                                "key": "action",
+                                                "render": [Function],
+                                                "title": "Action",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            key="action"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <Cell
+                                              className=""
+                                              colEnd={1}
+                                              colSpan={1}
+                                              colStart={1}
+                                              column={
+                                                Object {
+                                                  "dataIndex": "action",
+                                                  "key": "action",
+                                                  "render": [Function],
+                                                  "title": "Action",
+                                                }
+                                              }
+                                              component="th"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              rowSpan={1}
+                                              rowType="header"
+                                            >
+                                              <th
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                Action
+                                              </th>
+                                            </Cell>
+                                          </WrappedCell>
+                                        </tr>
+                                      </HeaderRow>
+                                    </thead>
+                                  </Header>
+                                  <Body
+                                    childrenColumnName="children"
+                                    data={
+                                      Array [
+                                        Object {
+                                          "actions": Array [
+                                            "read",
+                                            "write",
+                                          ],
+                                          "resource": "test",
+                                        },
+                                      ]
+                                    }
+                                    emptyNode={null}
+                                    expandedKeys={Set {}}
+                                    getRowKey={[Function]}
+                                    measureColumnWidth={false}
+                                  >
+                                    <Provider
+                                      value={
+                                        Object {
+                                          "endRow": -1,
+                                          "onHover": [Function],
+                                          "startRow": -1,
+                                        }
+                                      }
+                                    >
+                                      <tbody
+                                        className="ant-table-tbody"
+                                      >
+                                        <BodyRow
+                                          cellComponent="td"
+                                          childrenColumnName="children"
+                                          expandedKeys={Set {}}
+                                          getRowKey={[Function]}
+                                          indent={0}
+                                          index={0}
+                                          record={
+                                            Object {
+                                              "actions": Array [
+                                                "read",
+                                                "write",
+                                              ],
+                                              "resource": "test",
+                                            }
+                                          }
+                                          renderIndex={0}
+                                          rowComponent="tr"
+                                        >
+                                          <tr
+                                            className="ant-table-row ant-table-row-level-0"
+                                            onClick={[Function]}
+                                            style={Object {}}
+                                          >
+                                            <WrappedCell
+                                              component="td"
+                                              dataIndex="resource"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              index={0}
+                                              key="resource"
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "actions": Array [
+                                                    "read",
+                                                    "write",
+                                                  ],
+                                                  "resource": "test",
+                                                }
+                                              }
+                                              renderIndex={0}
+                                            >
+                                              <Cell
+                                                component="td"
+                                                dataIndex="resource"
+                                                firstFixLeft={false}
+                                                firstFixRight={false}
+                                                hovering={false}
+                                                index={0}
+                                                lastFixLeft={false}
+                                                lastFixRight={false}
+                                                onHover={[Function]}
+                                                prefixCls="ant-table"
+                                                record={
+                                                  Object {
+                                                    "actions": Array [
+                                                      "read",
+                                                      "write",
+                                                    ],
+                                                    "resource": "test",
+                                                  }
+                                                }
+                                                renderIndex={0}
+                                              >
+                                                <td
+                                                  className="ant-table-cell"
+                                                  colSpan={null}
+                                                  onMouseEnter={[Function]}
+                                                  onMouseLeave={[Function]}
+                                                  rowSpan={null}
+                                                  style={Object {}}
+                                                >
+                                                  test
+                                                </td>
+                                              </Cell>
+                                            </WrappedCell>
+                                            <WrappedCell
+                                              component="td"
+                                              dataIndex="action"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              index={0}
+                                              key="action"
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "actions": Array [
+                                                    "read",
+                                                    "write",
+                                                  ],
+                                                  "resource": "test",
+                                                }
+                                              }
+                                              render={[Function]}
+                                              renderIndex={0}
+                                            >
+                                              <Cell
+                                                component="td"
+                                                dataIndex="action"
+                                                firstFixLeft={false}
+                                                firstFixRight={false}
+                                                hovering={false}
+                                                index={0}
+                                                lastFixLeft={false}
+                                                lastFixRight={false}
+                                                onHover={[Function]}
+                                                prefixCls="ant-table"
+                                                record={
+                                                  Object {
+                                                    "actions": Array [
+                                                      "read",
+                                                      "write",
+                                                    ],
+                                                    "resource": "test",
+                                                  }
+                                                }
+                                                render={[Function]}
+                                                renderIndex={0}
+                                              >
+                                                <td
+                                                  className="ant-table-cell"
+                                                  colSpan={null}
+                                                  onMouseEnter={[Function]}
+                                                  onMouseLeave={[Function]}
+                                                  rowSpan={null}
+                                                  style={Object {}}
+                                                >
+                                                  <Tag
+                                                    color="blue"
+                                                    key="read"
+                                                  >
+                                                    <span
+                                                      className="ant-tag ant-tag-blue"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": undefined,
+                                                        }
+                                                      }
+                                                    >
+                                                      read
+                                                    </span>
+                                                  </Tag>
+                                                  <Tag
+                                                    color="blue"
+                                                    key="write"
+                                                  >
+                                                    <span
+                                                      className="ant-tag ant-tag-blue"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": undefined,
+                                                        }
+                                                      }
+                                                    >
+                                                      write
+                                                    </span>
+                                                  </Tag>
+                                                </td>
+                                              </Cell>
+                                            </WrappedCell>
+                                          </tr>
+                                        </BodyRow>
+                                      </tbody>
+                                    </Provider>
+                                  </Body>
+                                </table>
+                              </div>
+                            </div>
+                          </Component>
+                        </div>
+                      </Table>
+                      <Pagination
+                        className="ant-table-pagination ant-table-pagination-right"
+                        current={1}
+                        onChange={[Function]}
+                        pageSize={10}
+                        total={1}
+                      >
+                        <LocaleReceiver
+                          componentName="Pagination"
+                          defaultLocale={
+                            Object {
+                              "items_per_page": "/ page",
+                              "jump_to": "Go to",
+                              "jump_to_confirm": "confirm",
+                              "next_3": "Next 3 Pages",
+                              "next_5": "Next 5 Pages",
+                              "next_page": "Next Page",
+                              "page": "Page",
+                              "page_size": "Page Size",
+                              "prev_3": "Previous 3 Pages",
+                              "prev_5": "Previous 5 Pages",
+                              "prev_page": "Previous Page",
+                            }
+                          }
+                        >
+                          <Pagination
+                            className="ant-table-pagination ant-table-pagination-right"
+                            current={1}
+                            defaultCurrent={1}
+                            defaultPageSize={10}
+                            hideOnSinglePage={false}
+                            itemRender={[Function]}
+                            jumpNextIcon={
+                              <a
+                                className="ant-pagination-item-link"
+                              >
+                                <div
+                                  className="ant-pagination-item-container"
+                                >
+                                  <ForwardRef(DoubleRightOutlined)
+                                    className="ant-pagination-item-link-icon"
+                                  />
+                                  <span
+                                    className="ant-pagination-item-ellipsis"
+                                  >
+                                    •••
+                                  </span>
+                                </div>
+                              </a>
+                            }
+                            jumpPrevIcon={
+                              <a
+                                className="ant-pagination-item-link"
+                              >
+                                <div
+                                  className="ant-pagination-item-container"
+                                >
+                                  <ForwardRef(DoubleLeftOutlined)
+                                    className="ant-pagination-item-link-icon"
+                                  />
+                                  <span
+                                    className="ant-pagination-item-ellipsis"
+                                  >
+                                    •••
+                                  </span>
+                                </div>
+                              </a>
+                            }
+                            locale={
+                              Object {
+                                "items_per_page": "/ page",
+                                "jump_to": "Go to",
+                                "jump_to_confirm": "confirm",
+                                "next_3": "Next 3 Pages",
+                                "next_5": "Next 5 Pages",
+                                "next_page": "Next Page",
+                                "page": "Page",
+                                "page_size": "Page Size",
+                                "prev_3": "Previous 3 Pages",
+                                "prev_5": "Previous 5 Pages",
+                                "prev_page": "Previous Page",
+                              }
+                            }
+                            nextIcon={
+                              <button
+                                className="ant-pagination-item-link"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <ForwardRef(RightOutlined) />
+                              </button>
+                            }
+                            onChange={[Function]}
+                            onShowSizeChange={[Function]}
+                            pageSize={10}
+                            prefixCls="ant-pagination"
+                            prevIcon={
+                              <button
+                                className="ant-pagination-item-link"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <ForwardRef(LeftOutlined) />
+                              </button>
+                            }
+                            selectComponentClass={[Function]}
+                            selectPrefixCls="ant-select"
+                            showLessItems={false}
+                            showPrevNextJumpers={true}
+                            showQuickJumper={false}
+                            showTitle={true}
+                            style={Object {}}
+                            total={1}
+                            totalBoundaryShowSizeChanger={50}
+                          >
+                            <ul
+                              className="ant-pagination ant-table-pagination ant-table-pagination-right"
+                              style={Object {}}
+                            >
+                              <li
+                                aria-disabled={true}
+                                className="ant-pagination-prev ant-pagination-disabled"
+                                onClick={[Function]}
+                                onKeyPress={[Function]}
+                                tabIndex={null}
+                                title="Previous Page"
+                              >
+                                <button
+                                  className="ant-pagination-item-link"
+                                  disabled={true}
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <ForwardRef(LeftOutlined)>
+                                    <AntdIcon
+                                      icon={
+                                        Object {
+                                          "icon": Object {
+                                            "attrs": Object {
+                                              "focusable": "false",
+                                              "viewBox": "64 64 896 896",
+                                            },
+                                            "children": Array [
+                                              Object {
+                                                "attrs": Object {
+                                                  "d": "M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z",
+                                                },
+                                                "tag": "path",
+                                              },
+                                            ],
+                                            "tag": "svg",
+                                          },
+                                          "name": "left",
+                                          "theme": "outlined",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        aria-label="left"
+                                        className="anticon anticon-left"
+                                        role="img"
+                                      >
+                                        <IconReact
+                                          icon={
+                                            Object {
+                                              "icon": Object {
+                                                "attrs": Object {
+                                                  "focusable": "false",
+                                                  "viewBox": "64 64 896 896",
+                                                },
+                                                "children": Array [
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                ],
+                                                "tag": "svg",
+                                              },
+                                              "name": "left",
+                                              "theme": "outlined",
+                                            }
+                                          }
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            data-icon="left"
+                                            fill="currentColor"
+                                            focusable="false"
+                                            height="1em"
+                                            key="svg-left"
+                                            viewBox="64 64 896 896"
+                                            width="1em"
+                                          >
+                                            <path
+                                              d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"
+                                              key="svg-left-svg-0"
+                                            />
+                                          </svg>
+                                        </IconReact>
+                                      </span>
+                                    </AntdIcon>
+                                  </ForwardRef(LeftOutlined)>
+                                </button>
+                              </li>
+                              <Pager
+                                active={true}
+                                itemRender={[Function]}
+                                key="1"
+                                locale={
+                                  Object {
+                                    "items_per_page": "/ page",
+                                    "jump_to": "Go to",
+                                    "jump_to_confirm": "confirm",
+                                    "next_3": "Next 3 Pages",
+                                    "next_5": "Next 5 Pages",
+                                    "next_page": "Next Page",
+                                    "page": "Page",
+                                    "page_size": "Page Size",
+                                    "prev_3": "Previous 3 Pages",
+                                    "prev_5": "Previous 5 Pages",
+                                    "prev_page": "Previous Page",
+                                  }
+                                }
+                                onClick={[Function]}
+                                onKeyPress={[Function]}
+                                page={1}
+                                rootPrefixCls="ant-pagination"
+                                showTitle={true}
+                              >
+                                <li
+                                  className="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+                                  onClick={[Function]}
+                                  onKeyPress={[Function]}
+                                  tabIndex="0"
+                                  title={1}
+                                >
+                                  <a
+                                    rel="nofollow"
+                                  >
+                                    1
+                                  </a>
+                                </li>
+                              </Pager>
+                              <li
+                                aria-disabled={true}
+                                className="ant-pagination-next ant-pagination-disabled"
+                                onClick={[Function]}
+                                onKeyPress={[Function]}
+                                tabIndex={null}
+                                title="Next Page"
+                              >
+                                <button
+                                  className="ant-pagination-item-link"
+                                  disabled={true}
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <ForwardRef(RightOutlined)>
+                                    <AntdIcon
+                                      icon={
+                                        Object {
+                                          "icon": Object {
+                                            "attrs": Object {
+                                              "focusable": "false",
+                                              "viewBox": "64 64 896 896",
+                                            },
+                                            "children": Array [
+                                              Object {
+                                                "attrs": Object {
+                                                  "d": "M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z",
+                                                },
+                                                "tag": "path",
+                                              },
+                                            ],
+                                            "tag": "svg",
+                                          },
+                                          "name": "right",
+                                          "theme": "outlined",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        aria-label="right"
+                                        className="anticon anticon-right"
+                                        role="img"
+                                      >
+                                        <IconReact
+                                          icon={
+                                            Object {
+                                              "icon": Object {
+                                                "attrs": Object {
+                                                  "focusable": "false",
+                                                  "viewBox": "64 64 896 896",
+                                                },
+                                                "children": Array [
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                ],
+                                                "tag": "svg",
+                                              },
+                                              "name": "right",
+                                              "theme": "outlined",
+                                            }
+                                          }
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            data-icon="right"
+                                            fill="currentColor"
+                                            focusable="false"
+                                            height="1em"
+                                            key="svg-right"
+                                            viewBox="64 64 896 896"
+                                            width="1em"
+                                          >
+                                            <path
+                                              d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"
+                                              key="svg-right-svg-0"
+                                            />
+                                          </svg>
+                                        </IconReact>
+                                      </span>
+                                    </AntdIcon>
+                                  </ForwardRef(RightOutlined)>
+                                </button>
+                              </li>
+                              <Options
+                                changeSize={null}
+                                current={1}
+                                goButton={false}
+                                locale={
+                                  Object {
+                                    "items_per_page": "/ page",
+                                    "jump_to": "Go to",
+                                    "jump_to_confirm": "confirm",
+                                    "next_3": "Next 3 Pages",
+                                    "next_5": "Next 5 Pages",
+                                    "next_page": "Next Page",
+                                    "page": "Page",
+                                    "page_size": "Page Size",
+                                    "prev_3": "Previous 3 Pages",
+                                    "prev_5": "Previous 5 Pages",
+                                    "prev_page": "Previous Page",
+                                  }
+                                }
+                                pageSize={10}
+                                pageSizeOptions={
+                                  Array [
+                                    "10",
+                                    "20",
+                                    "50",
+                                    "100",
+                                  ]
+                                }
+                                quickGo={null}
+                                rootPrefixCls="ant-pagination"
+                                selectComponentClass={[Function]}
+                                selectPrefixCls="ant-select"
+                              />
+                            </ul>
+                          </Pagination>
+                        </LocaleReceiver>
+                      </Pagination>
+                    </div>
+                  </div>
+                </Spin>
+              </Spin>
+            </div>
+          </ForwardRef(InternalTable)>
+        </div>
+      </ViewApplicationPolicy>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Application Policy View component snapshot testing should render when policy is present and roles are present 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ViewApplicationPolicy>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "20px",
+            }
+          }
+        >
+          <Link
+            to="/applications/1/settings/policies"
+          >
+            <LinkAnchor
+              href="/applications/1/settings/policies"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications/1/settings/policies"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Back to Policies
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <h2>
+             Policy Details 
+          </h2>
+          <Descriptions
+            bordered={true}
+          >
+            <div
+              className="ant-descriptions ant-descriptions-bordered"
+            >
+              <div
+                className="ant-descriptions-view"
+              >
+                <table>
+                  <tbody>
+                    <Row
+                      bordered={true}
+                      colon={true}
+                      index={0}
+                      key="0"
+                      prefixCls="ant-descriptions"
+                      row={
+                        Array [
+                          <DescriptionsItem
+                            label="Name"
+                            span={2}
+                          >
+                            Test Policy 1
+                          </DescriptionsItem>,
+                          <br />,
+                        ]
+                      }
+                      vertical={false}
+                    >
+                      <tr
+                        className="ant-descriptions-row"
+                        key="0"
+                      >
+                        <Cell
+                          bordered={true}
+                          colon={true}
+                          component="th"
+                          itemPrefixCls="ant-descriptions"
+                          key="label-0"
+                          label="Name"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <th
+                            className="ant-descriptions-item-label"
+                            colSpan={1}
+                            style={Object {}}
+                          >
+                            <span>
+                              Name
+                            </span>
+                          </th>
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          component="td"
+                          content="Test Policy 1"
+                          itemPrefixCls="ant-descriptions"
+                          key="content-0"
+                          span={3}
+                          style={Object {}}
+                        >
+                          <td
+                            className="ant-descriptions-item-content"
+                            colSpan={3}
+                            style={Object {}}
+                          >
+                            <span>
+                              Test Policy 1
+                            </span>
+                          </td>
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          colon={true}
+                          component="th"
+                          itemPrefixCls="ant-descriptions"
+                          key="label-1"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <th
+                            className=""
+                            colSpan={1}
+                            style={Object {}}
+                          />
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          component="td"
+                          itemPrefixCls="ant-descriptions"
+                          key="content-1"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <td
+                            className=""
+                            colSpan={1}
+                            style={Object {}}
+                          />
+                        </Cell>
+                      </tr>
+                    </Row>
+                    <Row
+                      bordered={true}
+                      colon={true}
+                      index={1}
+                      key="1"
+                      prefixCls="ant-descriptions"
+                      row={
+                        Array [
+                          <DescriptionsItem
+                            label="Description"
+                            span={2}
+                          >
+                            Test Policy 1 Description
+                          </DescriptionsItem>,
+                          <br />,
+                        ]
+                      }
+                      vertical={false}
+                    >
+                      <tr
+                        className="ant-descriptions-row"
+                        key="1"
+                      >
+                        <Cell
+                          bordered={true}
+                          colon={true}
+                          component="th"
+                          itemPrefixCls="ant-descriptions"
+                          key="label-0"
+                          label="Description"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <th
+                            className="ant-descriptions-item-label"
+                            colSpan={1}
+                            style={Object {}}
+                          >
+                            <span>
+                              Description
+                            </span>
+                          </th>
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          component="td"
+                          content="Test Policy 1 Description"
+                          itemPrefixCls="ant-descriptions"
+                          key="content-0"
+                          span={3}
+                          style={Object {}}
+                        >
+                          <td
+                            className="ant-descriptions-item-content"
+                            colSpan={3}
+                            style={Object {}}
+                          >
+                            <span>
+                              Test Policy 1 Description
+                            </span>
+                          </td>
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          colon={true}
+                          component="th"
+                          itemPrefixCls="ant-descriptions"
+                          key="label-1"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <th
+                            className=""
+                            colSpan={1}
+                            style={Object {}}
+                          />
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          component="td"
+                          itemPrefixCls="ant-descriptions"
+                          key="content-1"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <td
+                            className=""
+                            colSpan={1}
+                            style={Object {}}
+                          />
+                        </Cell>
+                      </tr>
+                    </Row>
+                    <Row
+                      bordered={true}
+                      colon={true}
+                      index={2}
+                      key="2"
+                      prefixCls="ant-descriptions"
+                      row={
+                        Array [
+                          <DescriptionsItem
+                            label="Roles"
+                            span={2}
+                          >
+                            <ForwardRef(InternalTag)
+                              color="blue"
+                            >
+                              Test Role 1
+                            </ForwardRef(InternalTag)>
+                            <ForwardRef(InternalTag)
+                              color="blue"
+                            >
+                              Test Role 2
+                            </ForwardRef(InternalTag)>
+                          </DescriptionsItem>,
+                        ]
+                      }
+                      vertical={false}
+                    >
+                      <tr
+                        className="ant-descriptions-row"
+                        key="2"
+                      >
+                        <Cell
+                          bordered={true}
+                          colon={true}
+                          component="th"
+                          itemPrefixCls="ant-descriptions"
+                          key="label-0"
+                          label="Roles"
+                          span={1}
+                          style={Object {}}
+                        >
+                          <th
+                            className="ant-descriptions-item-label"
+                            colSpan={1}
+                            style={Object {}}
+                          >
+                            <span>
+                              Roles
+                            </span>
+                          </th>
+                        </Cell>
+                        <Cell
+                          bordered={true}
+                          component="td"
+                          content={
+                            Array [
+                              <ForwardRef(InternalTag)
+                                color="blue"
+                              >
+                                Test Role 1
+                              </ForwardRef(InternalTag)>,
+                              <ForwardRef(InternalTag)
+                                color="blue"
+                              >
+                                Test Role 2
+                              </ForwardRef(InternalTag)>,
+                            ]
+                          }
+                          itemPrefixCls="ant-descriptions"
+                          key="content-0"
+                          span={3}
+                          style={Object {}}
+                        >
+                          <td
+                            className="ant-descriptions-item-content"
+                            colSpan={3}
+                            style={Object {}}
+                          >
+                            <span>
+                              <Tag
+                                color="blue"
+                                key="1"
+                              >
+                                <span
+                                  className="ant-tag ant-tag-blue"
+                                  style={
+                                    Object {
+                                      "backgroundColor": undefined,
+                                    }
+                                  }
+                                >
+                                  Test Role 1
+                                </span>
+                              </Tag>
+                              <Tag
+                                color="blue"
+                                key="2"
+                              >
+                                <span
+                                  className="ant-tag ant-tag-blue"
+                                  style={
+                                    Object {
+                                      "backgroundColor": undefined,
+                                    }
+                                  }
+                                >
+                                  Test Role 2
+                                </span>
+                              </Tag>
+                            </span>
+                          </td>
+                        </Cell>
+                      </tr>
+                    </Row>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </Descriptions>
+          <Divider>
+            <div
+              className="ant-divider ant-divider-horizontal"
+              role="separator"
+            />
+          </Divider>
+          <h3>
+             Permissions 
+          </h3>
+          <ForwardRef(InternalTable)
+            bordered={true}
+            columns={
+              Array [
+                Object {
+                  "dataIndex": "resource",
+                  "key": "resource",
+                  "title": "Resource",
+                },
+                Object {
+                  "dataIndex": "action",
+                  "key": "action",
+                  "render": [Function],
+                  "title": "Action",
+                },
+              ]
+            }
+            dataSource={
+              Array [
+                Object {
+                  "actions": Array [
+                    "read",
+                    "write",
+                  ],
+                  "resource": "test",
+                },
+              ]
+            }
+            pagination={true}
+            rowKey="id"
+          >
+            <div
+              className="ant-table-wrapper"
+            >
+              <Spin
+                spinning={false}
+              >
+                <Spin
+                  spinPrefixCls="ant-spin"
+                  spinning={false}
+                >
+                  <div
+                    className="ant-spin-nested-loading"
+                  >
+                    <div
+                      className="ant-spin-container"
+                      key="container"
+                    >
+                      <Table
+                        bordered={true}
+                        className="ant-table-bordered"
+                        columns={
+                          Array [
+                            Object {
+                              "dataIndex": "resource",
+                              "key": "resource",
+                              "title": "Resource",
+                            },
+                            Object {
+                              "dataIndex": "action",
+                              "key": "action",
+                              "render": [Function],
+                              "title": "Action",
+                            },
+                          ]
+                        }
+                        data={
+                          Array [
+                            Object {
+                              "actions": Array [
+                                "read",
+                                "write",
+                              ],
+                              "resource": "test",
+                            },
+                          ]
+                        }
+                        dataSource={
+                          Array [
+                            Object {
+                              "actions": Array [
+                                "read",
+                                "write",
+                              ],
+                              "resource": "test",
+                            },
+                          ]
+                        }
+                        emptyText={
+                          <Context.Consumer>
+                            [Function]
+                          </Context.Consumer>
+                        }
+                        expandable={
+                          Object {
+                            "__PARENT_RENDER_ICON__": undefined,
+                            "childrenColumnName": undefined,
+                            "expandIcon": [Function],
+                            "expandIconColumnIndex": undefined,
+                            "indentSize": 15,
+                          }
+                        }
+                        internalHooks="rc-table-internal-hook"
+                        internalRefs={
+                          Object {
+                            "body": Object {
+                              "current": <div
+                                class="ant-table-content"
+                              >
+                                <table
+                                  style="table-layout: auto;"
+                                >
+                                  <colgroup />
+                                  <thead
+                                    class="ant-table-thead"
+                                  >
+                                    <tr>
+                                      <th
+                                        class="ant-table-cell"
+                                      >
+                                        Resource
+                                      </th>
+                                      <th
+                                        class="ant-table-cell"
+                                      >
+                                        Action
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody
+                                    class="ant-table-tbody"
+                                  >
+                                    <tr
+                                      class="ant-table-row ant-table-row-level-0"
+                                    >
+                                      <td
+                                        class="ant-table-cell"
+                                      >
+                                        test
+                                      </td>
+                                      <td
+                                        class="ant-table-cell"
+                                      >
+                                        <span
+                                          class="ant-tag ant-tag-blue"
+                                        >
+                                          read
+                                        </span>
+                                        <span
+                                          class="ant-tag ant-tag-blue"
+                                        >
+                                          write
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>,
+                            },
+                          }
+                        }
+                        pagination={true}
+                        prefixCls="ant-table"
+                        rowClassName={[Function]}
+                        rowKey={[Function]}
+                        transformColumns={[Function]}
+                      >
+                        <div
+                          className="ant-table ant-table-bordered"
+                        >
+                          <Component
+                            pingLeft={false}
+                            pingRight={false}
+                            props={
+                              Object {
+                                "bordered": true,
+                                "className": "ant-table-bordered",
+                                "columns": Array [
+                                  Object {
+                                    "dataIndex": "resource",
+                                    "key": "resource",
+                                    "title": "Resource",
+                                  },
+                                  Object {
+                                    "dataIndex": "action",
+                                    "key": "action",
+                                    "render": [Function],
+                                    "title": "Action",
+                                  },
+                                ],
+                                "data": Array [
+                                  Object {
+                                    "actions": Array [
+                                      "read",
+                                      "write",
+                                    ],
+                                    "resource": "test",
+                                  },
+                                ],
+                                "dataSource": Array [
+                                  Object {
+                                    "actions": Array [
+                                      "read",
+                                      "write",
+                                    ],
+                                    "resource": "test",
+                                  },
+                                ],
+                                "direction": undefined,
+                                "emptyText": <Context.Consumer>
+                                  [Function]
+                                </Context.Consumer>,
+                                "expandable": Object {
+                                  "__PARENT_RENDER_ICON__": undefined,
+                                  "childrenColumnName": undefined,
+                                  "expandIcon": [Function],
+                                  "expandIconColumnIndex": undefined,
+                                  "indentSize": 15,
+                                },
+                                "internalHooks": "rc-table-internal-hook",
+                                "internalRefs": Object {
+                                  "body": Object {
+                                    "current": <div
+                                      class="ant-table-content"
+                                    >
+                                      <table
+                                        style="table-layout: auto;"
+                                      >
+                                        <colgroup />
+                                        <thead
+                                          class="ant-table-thead"
+                                        >
+                                          <tr>
+                                            <th
+                                              class="ant-table-cell"
+                                            >
+                                              Resource
+                                            </th>
+                                            <th
+                                              class="ant-table-cell"
+                                            >
+                                              Action
+                                            </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody
+                                          class="ant-table-tbody"
+                                        >
+                                          <tr
+                                            class="ant-table-row ant-table-row-level-0"
+                                          >
+                                            <td
+                                              class="ant-table-cell"
+                                            >
+                                              test
+                                            </td>
+                                            <td
+                                              class="ant-table-cell"
+                                            >
+                                              <span
+                                                class="ant-tag ant-tag-blue"
+                                              >
+                                                read
+                                              </span>
+                                              <span
+                                                class="ant-tag ant-tag-blue"
+                                              >
+                                                write
+                                              </span>
+                                            </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>,
+                                  },
+                                },
+                                "mergedExpandedKeys": Set {},
+                                "pagination": true,
+                                "prefixCls": "ant-table",
+                                "rowClassName": [Function],
+                                "rowKey": [Function],
+                                "stickyOffsets": Object {
+                                  "left": Array [
+                                    0,
+                                    0,
+                                  ],
+                                  "right": Array [
+                                    0,
+                                    0,
+                                  ],
+                                },
+                                "transformColumns": [Function],
+                              }
+                            }
+                          >
+                            <div
+                              className="ant-table-container"
+                            >
+                              <div
+                                className="ant-table-content"
+                                onScroll={[Function]}
+                                style={Object {}}
+                              >
+                                <table
+                                  style={
+                                    Object {
+                                      "tableLayout": "auto",
+                                    }
+                                  }
+                                >
+                                  <ColGroup
+                                    colWidths={
+                                      Array [
+                                        undefined,
+                                        undefined,
+                                      ]
+                                    }
+                                    columns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "resource",
+                                          "fixed": undefined,
+                                          "key": "resource",
+                                          "title": "Resource",
+                                        },
+                                        Object {
+                                          "dataIndex": "action",
+                                          "fixed": undefined,
+                                          "key": "action",
+                                          "render": [Function],
+                                          "title": "Action",
+                                        },
+                                      ]
+                                    }
+                                  >
+                                    <colgroup />
+                                  </ColGroup>
+                                  <Header
+                                    colWidths={
+                                      Array [
+                                        undefined,
+                                        undefined,
+                                      ]
+                                    }
+                                    columCount={2}
+                                    columns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "resource",
+                                          "key": "resource",
+                                          "title": "Resource",
+                                        },
+                                        Object {
+                                          "dataIndex": "action",
+                                          "key": "action",
+                                          "render": [Function],
+                                          "title": "Action",
+                                        },
+                                      ]
+                                    }
+                                    flattenColumns={
+                                      Array [
+                                        Object {
+                                          "dataIndex": "resource",
+                                          "fixed": undefined,
+                                          "key": "resource",
+                                          "title": "Resource",
+                                        },
+                                        Object {
+                                          "dataIndex": "action",
+                                          "fixed": undefined,
+                                          "key": "action",
+                                          "render": [Function],
+                                          "title": "Action",
+                                        },
+                                      ]
+                                    }
+                                    stickyOffsets={
+                                      Object {
+                                        "left": Array [
+                                          0,
+                                          0,
+                                        ],
+                                        "right": Array [
+                                          0,
+                                          0,
+                                        ],
+                                      }
+                                    }
+                                  >
+                                    <thead
+                                      className="ant-table-thead"
+                                    >
+                                      <HeaderRow
+                                        cellComponent="th"
+                                        cells={
+                                          Array [
+                                            Object {
+                                              "children": "Resource",
+                                              "className": "",
+                                              "colEnd": 0,
+                                              "colSpan": 1,
+                                              "colStart": 0,
+                                              "column": Object {
+                                                "dataIndex": "resource",
+                                                "key": "resource",
+                                                "title": "Resource",
+                                              },
+                                              "key": "resource",
+                                              "rowSpan": 1,
+                                            },
+                                            Object {
+                                              "children": "Action",
+                                              "className": "",
+                                              "colEnd": 1,
+                                              "colSpan": 1,
+                                              "colStart": 1,
+                                              "column": Object {
+                                                "dataIndex": "action",
+                                                "key": "action",
+                                                "render": [Function],
+                                                "title": "Action",
+                                              },
+                                              "key": "action",
+                                              "rowSpan": 1,
+                                            },
+                                          ]
+                                        }
+                                        flattenColumns={
+                                          Array [
+                                            Object {
+                                              "dataIndex": "resource",
+                                              "fixed": undefined,
+                                              "key": "resource",
+                                              "title": "Resource",
+                                            },
+                                            Object {
+                                              "dataIndex": "action",
+                                              "fixed": undefined,
+                                              "key": "action",
+                                              "render": [Function],
+                                              "title": "Action",
+                                            },
+                                          ]
+                                        }
+                                        index={0}
+                                        key="0"
+                                        rowComponent="tr"
+                                        stickyOffsets={
+                                          Object {
+                                            "left": Array [
+                                              0,
+                                              0,
+                                            ],
+                                            "right": Array [
+                                              0,
+                                              0,
+                                            ],
+                                          }
+                                        }
+                                      >
+                                        <tr>
+                                          <WrappedCell
+                                            className=""
+                                            colEnd={0}
+                                            colSpan={1}
+                                            colStart={0}
+                                            column={
+                                              Object {
+                                                "dataIndex": "resource",
+                                                "key": "resource",
+                                                "title": "Resource",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            key="resource"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <Cell
+                                              className=""
+                                              colEnd={0}
+                                              colSpan={1}
+                                              colStart={0}
+                                              column={
+                                                Object {
+                                                  "dataIndex": "resource",
+                                                  "key": "resource",
+                                                  "title": "Resource",
+                                                }
+                                              }
+                                              component="th"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              rowSpan={1}
+                                              rowType="header"
+                                            >
+                                              <th
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                Resource
+                                              </th>
+                                            </Cell>
+                                          </WrappedCell>
+                                          <WrappedCell
+                                            className=""
+                                            colEnd={1}
+                                            colSpan={1}
+                                            colStart={1}
+                                            column={
+                                              Object {
+                                                "dataIndex": "action",
+                                                "key": "action",
+                                                "render": [Function],
+                                                "title": "Action",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            key="action"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <Cell
+                                              className=""
+                                              colEnd={1}
+                                              colSpan={1}
+                                              colStart={1}
+                                              column={
+                                                Object {
+                                                  "dataIndex": "action",
+                                                  "key": "action",
+                                                  "render": [Function],
+                                                  "title": "Action",
+                                                }
+                                              }
+                                              component="th"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              rowSpan={1}
+                                              rowType="header"
+                                            >
+                                              <th
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                Action
+                                              </th>
+                                            </Cell>
+                                          </WrappedCell>
+                                        </tr>
+                                      </HeaderRow>
+                                    </thead>
+                                  </Header>
+                                  <Body
+                                    childrenColumnName="children"
+                                    data={
+                                      Array [
+                                        Object {
+                                          "actions": Array [
+                                            "read",
+                                            "write",
+                                          ],
+                                          "resource": "test",
+                                        },
+                                      ]
+                                    }
+                                    emptyNode={null}
+                                    expandedKeys={Set {}}
+                                    getRowKey={[Function]}
+                                    measureColumnWidth={false}
+                                  >
+                                    <Provider
+                                      value={
+                                        Object {
+                                          "endRow": -1,
+                                          "onHover": [Function],
+                                          "startRow": -1,
+                                        }
+                                      }
+                                    >
+                                      <tbody
+                                        className="ant-table-tbody"
+                                      >
+                                        <BodyRow
+                                          cellComponent="td"
+                                          childrenColumnName="children"
+                                          expandedKeys={Set {}}
+                                          getRowKey={[Function]}
+                                          indent={0}
+                                          index={0}
+                                          record={
+                                            Object {
+                                              "actions": Array [
+                                                "read",
+                                                "write",
+                                              ],
+                                              "resource": "test",
+                                            }
+                                          }
+                                          renderIndex={0}
+                                          rowComponent="tr"
+                                        >
+                                          <tr
+                                            className="ant-table-row ant-table-row-level-0"
+                                            onClick={[Function]}
+                                            style={Object {}}
+                                          >
+                                            <WrappedCell
+                                              component="td"
+                                              dataIndex="resource"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              index={0}
+                                              key="resource"
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "actions": Array [
+                                                    "read",
+                                                    "write",
+                                                  ],
+                                                  "resource": "test",
+                                                }
+                                              }
+                                              renderIndex={0}
+                                            >
+                                              <Cell
+                                                component="td"
+                                                dataIndex="resource"
+                                                firstFixLeft={false}
+                                                firstFixRight={false}
+                                                hovering={false}
+                                                index={0}
+                                                lastFixLeft={false}
+                                                lastFixRight={false}
+                                                onHover={[Function]}
+                                                prefixCls="ant-table"
+                                                record={
+                                                  Object {
+                                                    "actions": Array [
+                                                      "read",
+                                                      "write",
+                                                    ],
+                                                    "resource": "test",
+                                                  }
+                                                }
+                                                renderIndex={0}
+                                              >
+                                                <td
+                                                  className="ant-table-cell"
+                                                  colSpan={null}
+                                                  onMouseEnter={[Function]}
+                                                  onMouseLeave={[Function]}
+                                                  rowSpan={null}
+                                                  style={Object {}}
+                                                >
+                                                  test
+                                                </td>
+                                              </Cell>
+                                            </WrappedCell>
+                                            <WrappedCell
+                                              component="td"
+                                              dataIndex="action"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              index={0}
+                                              key="action"
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "actions": Array [
+                                                    "read",
+                                                    "write",
+                                                  ],
+                                                  "resource": "test",
+                                                }
+                                              }
+                                              render={[Function]}
+                                              renderIndex={0}
+                                            >
+                                              <Cell
+                                                component="td"
+                                                dataIndex="action"
+                                                firstFixLeft={false}
+                                                firstFixRight={false}
+                                                hovering={false}
+                                                index={0}
+                                                lastFixLeft={false}
+                                                lastFixRight={false}
+                                                onHover={[Function]}
+                                                prefixCls="ant-table"
+                                                record={
+                                                  Object {
+                                                    "actions": Array [
+                                                      "read",
+                                                      "write",
+                                                    ],
+                                                    "resource": "test",
+                                                  }
+                                                }
+                                                render={[Function]}
+                                                renderIndex={0}
+                                              >
+                                                <td
+                                                  className="ant-table-cell"
+                                                  colSpan={null}
+                                                  onMouseEnter={[Function]}
+                                                  onMouseLeave={[Function]}
+                                                  rowSpan={null}
+                                                  style={Object {}}
+                                                >
+                                                  <Tag
+                                                    color="blue"
+                                                    key="read"
+                                                  >
+                                                    <span
+                                                      className="ant-tag ant-tag-blue"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": undefined,
+                                                        }
+                                                      }
+                                                    >
+                                                      read
+                                                    </span>
+                                                  </Tag>
+                                                  <Tag
+                                                    color="blue"
+                                                    key="write"
+                                                  >
+                                                    <span
+                                                      className="ant-tag ant-tag-blue"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": undefined,
+                                                        }
+                                                      }
+                                                    >
+                                                      write
+                                                    </span>
+                                                  </Tag>
+                                                </td>
+                                              </Cell>
+                                            </WrappedCell>
+                                          </tr>
+                                        </BodyRow>
+                                      </tbody>
+                                    </Provider>
+                                  </Body>
+                                </table>
+                              </div>
+                            </div>
+                          </Component>
+                        </div>
+                      </Table>
+                      <Pagination
+                        className="ant-table-pagination ant-table-pagination-right"
+                        current={1}
+                        onChange={[Function]}
+                        pageSize={10}
+                        total={1}
+                      >
+                        <LocaleReceiver
+                          componentName="Pagination"
+                          defaultLocale={
+                            Object {
+                              "items_per_page": "/ page",
+                              "jump_to": "Go to",
+                              "jump_to_confirm": "confirm",
+                              "next_3": "Next 3 Pages",
+                              "next_5": "Next 5 Pages",
+                              "next_page": "Next Page",
+                              "page": "Page",
+                              "page_size": "Page Size",
+                              "prev_3": "Previous 3 Pages",
+                              "prev_5": "Previous 5 Pages",
+                              "prev_page": "Previous Page",
+                            }
+                          }
+                        >
+                          <Pagination
+                            className="ant-table-pagination ant-table-pagination-right"
+                            current={1}
+                            defaultCurrent={1}
+                            defaultPageSize={10}
+                            hideOnSinglePage={false}
+                            itemRender={[Function]}
+                            jumpNextIcon={
+                              <a
+                                className="ant-pagination-item-link"
+                              >
+                                <div
+                                  className="ant-pagination-item-container"
+                                >
+                                  <ForwardRef(DoubleRightOutlined)
+                                    className="ant-pagination-item-link-icon"
+                                  />
+                                  <span
+                                    className="ant-pagination-item-ellipsis"
+                                  >
+                                    •••
+                                  </span>
+                                </div>
+                              </a>
+                            }
+                            jumpPrevIcon={
+                              <a
+                                className="ant-pagination-item-link"
+                              >
+                                <div
+                                  className="ant-pagination-item-container"
+                                >
+                                  <ForwardRef(DoubleLeftOutlined)
+                                    className="ant-pagination-item-link-icon"
+                                  />
+                                  <span
+                                    className="ant-pagination-item-ellipsis"
+                                  >
+                                    •••
+                                  </span>
+                                </div>
+                              </a>
+                            }
+                            locale={
+                              Object {
+                                "items_per_page": "/ page",
+                                "jump_to": "Go to",
+                                "jump_to_confirm": "confirm",
+                                "next_3": "Next 3 Pages",
+                                "next_5": "Next 5 Pages",
+                                "next_page": "Next Page",
+                                "page": "Page",
+                                "page_size": "Page Size",
+                                "prev_3": "Previous 3 Pages",
+                                "prev_5": "Previous 5 Pages",
+                                "prev_page": "Previous Page",
+                              }
+                            }
+                            nextIcon={
+                              <button
+                                className="ant-pagination-item-link"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <ForwardRef(RightOutlined) />
+                              </button>
+                            }
+                            onChange={[Function]}
+                            onShowSizeChange={[Function]}
+                            pageSize={10}
+                            prefixCls="ant-pagination"
+                            prevIcon={
+                              <button
+                                className="ant-pagination-item-link"
+                                tabIndex={-1}
+                                type="button"
+                              >
+                                <ForwardRef(LeftOutlined) />
+                              </button>
+                            }
+                            selectComponentClass={[Function]}
+                            selectPrefixCls="ant-select"
+                            showLessItems={false}
+                            showPrevNextJumpers={true}
+                            showQuickJumper={false}
+                            showTitle={true}
+                            style={Object {}}
+                            total={1}
+                            totalBoundaryShowSizeChanger={50}
+                          >
+                            <ul
+                              className="ant-pagination ant-table-pagination ant-table-pagination-right"
+                              style={Object {}}
+                            >
+                              <li
+                                aria-disabled={true}
+                                className="ant-pagination-prev ant-pagination-disabled"
+                                onClick={[Function]}
+                                onKeyPress={[Function]}
+                                tabIndex={null}
+                                title="Previous Page"
+                              >
+                                <button
+                                  className="ant-pagination-item-link"
+                                  disabled={true}
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <ForwardRef(LeftOutlined)>
+                                    <AntdIcon
+                                      icon={
+                                        Object {
+                                          "icon": Object {
+                                            "attrs": Object {
+                                              "focusable": "false",
+                                              "viewBox": "64 64 896 896",
+                                            },
+                                            "children": Array [
+                                              Object {
+                                                "attrs": Object {
+                                                  "d": "M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z",
+                                                },
+                                                "tag": "path",
+                                              },
+                                            ],
+                                            "tag": "svg",
+                                          },
+                                          "name": "left",
+                                          "theme": "outlined",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        aria-label="left"
+                                        className="anticon anticon-left"
+                                        role="img"
+                                      >
+                                        <IconReact
+                                          icon={
+                                            Object {
+                                              "icon": Object {
+                                                "attrs": Object {
+                                                  "focusable": "false",
+                                                  "viewBox": "64 64 896 896",
+                                                },
+                                                "children": Array [
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                ],
+                                                "tag": "svg",
+                                              },
+                                              "name": "left",
+                                              "theme": "outlined",
+                                            }
+                                          }
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            data-icon="left"
+                                            fill="currentColor"
+                                            focusable="false"
+                                            height="1em"
+                                            key="svg-left"
+                                            viewBox="64 64 896 896"
+                                            width="1em"
+                                          >
+                                            <path
+                                              d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 000 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"
+                                              key="svg-left-svg-0"
+                                            />
+                                          </svg>
+                                        </IconReact>
+                                      </span>
+                                    </AntdIcon>
+                                  </ForwardRef(LeftOutlined)>
+                                </button>
+                              </li>
+                              <Pager
+                                active={true}
+                                itemRender={[Function]}
+                                key="1"
+                                locale={
+                                  Object {
+                                    "items_per_page": "/ page",
+                                    "jump_to": "Go to",
+                                    "jump_to_confirm": "confirm",
+                                    "next_3": "Next 3 Pages",
+                                    "next_5": "Next 5 Pages",
+                                    "next_page": "Next Page",
+                                    "page": "Page",
+                                    "page_size": "Page Size",
+                                    "prev_3": "Previous 3 Pages",
+                                    "prev_5": "Previous 5 Pages",
+                                    "prev_page": "Previous Page",
+                                  }
+                                }
+                                onClick={[Function]}
+                                onKeyPress={[Function]}
+                                page={1}
+                                rootPrefixCls="ant-pagination"
+                                showTitle={true}
+                              >
+                                <li
+                                  className="ant-pagination-item ant-pagination-item-1 ant-pagination-item-active"
+                                  onClick={[Function]}
+                                  onKeyPress={[Function]}
+                                  tabIndex="0"
+                                  title={1}
+                                >
+                                  <a
+                                    rel="nofollow"
+                                  >
+                                    1
+                                  </a>
+                                </li>
+                              </Pager>
+                              <li
+                                aria-disabled={true}
+                                className="ant-pagination-next ant-pagination-disabled"
+                                onClick={[Function]}
+                                onKeyPress={[Function]}
+                                tabIndex={null}
+                                title="Next Page"
+                              >
+                                <button
+                                  className="ant-pagination-item-link"
+                                  disabled={true}
+                                  tabIndex={-1}
+                                  type="button"
+                                >
+                                  <ForwardRef(RightOutlined)>
+                                    <AntdIcon
+                                      icon={
+                                        Object {
+                                          "icon": Object {
+                                            "attrs": Object {
+                                              "focusable": "false",
+                                              "viewBox": "64 64 896 896",
+                                            },
+                                            "children": Array [
+                                              Object {
+                                                "attrs": Object {
+                                                  "d": "M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z",
+                                                },
+                                                "tag": "path",
+                                              },
+                                            ],
+                                            "tag": "svg",
+                                          },
+                                          "name": "right",
+                                          "theme": "outlined",
+                                        }
+                                      }
+                                    >
+                                      <span
+                                        aria-label="right"
+                                        className="anticon anticon-right"
+                                        role="img"
+                                      >
+                                        <IconReact
+                                          icon={
+                                            Object {
+                                              "icon": Object {
+                                                "attrs": Object {
+                                                  "focusable": "false",
+                                                  "viewBox": "64 64 896 896",
+                                                },
+                                                "children": Array [
+                                                  Object {
+                                                    "attrs": Object {
+                                                      "d": "M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z",
+                                                    },
+                                                    "tag": "path",
+                                                  },
+                                                ],
+                                                "tag": "svg",
+                                              },
+                                              "name": "right",
+                                              "theme": "outlined",
+                                            }
+                                          }
+                                        >
+                                          <svg
+                                            aria-hidden="true"
+                                            data-icon="right"
+                                            fill="currentColor"
+                                            focusable="false"
+                                            height="1em"
+                                            key="svg-right"
+                                            viewBox="64 64 896 896"
+                                            width="1em"
+                                          >
+                                            <path
+                                              d="M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"
+                                              key="svg-right-svg-0"
+                                            />
+                                          </svg>
+                                        </IconReact>
+                                      </span>
+                                    </AntdIcon>
+                                  </ForwardRef(RightOutlined)>
+                                </button>
+                              </li>
+                              <Options
+                                changeSize={null}
+                                current={1}
+                                goButton={false}
+                                locale={
+                                  Object {
+                                    "items_per_page": "/ page",
+                                    "jump_to": "Go to",
+                                    "jump_to_confirm": "confirm",
+                                    "next_3": "Next 3 Pages",
+                                    "next_5": "Next 5 Pages",
+                                    "next_page": "Next Page",
+                                    "page": "Page",
+                                    "page_size": "Page Size",
+                                    "prev_3": "Previous 3 Pages",
+                                    "prev_5": "Previous 5 Pages",
+                                    "prev_page": "Previous Page",
+                                  }
+                                }
+                                pageSize={10}
+                                pageSizeOptions={
+                                  Array [
+                                    "10",
+                                    "20",
+                                    "50",
+                                    "100",
+                                  ]
+                                }
+                                quickGo={null}
+                                rootPrefixCls="ant-pagination"
+                                selectComponentClass={[Function]}
+                                selectPrefixCls="ant-select"
+                              />
+                            </ul>
+                          </Pagination>
+                        </LocaleReceiver>
+                      </Pagination>
+                    </div>
+                  </div>
+                </Spin>
+              </Spin>
+            </div>
+          </ForwardRef(InternalTable)>
+        </div>
+      </ViewApplicationPolicy>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;

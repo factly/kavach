@@ -4,7 +4,7 @@ import { act } from '@testing-library/react';
 import { mount, shallow } from 'enzyme';
 import '../../matchMedia.mock';
 import Password from './index';
-import {Form, Input, Button} from 'antd';
+import { Form, Input, Button } from 'antd';
 global.fetch = jest.fn();
 
 import resolvedResp from './resolvedResp';
@@ -82,10 +82,10 @@ describe('password component', () => {
         expect(fetch.mock.calls).toEqual([
           [
             window.REACT_APP_KRATOS_PUBLIC_URL +
-            '/self-service/settings/flows?id=' +
-            '8060d57f-5c69-402f-9ecd-073e283f632a',
+              '/self-service/settings/flows?id=' +
+              '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
-              "credentials": "include",
+              credentials: 'include',
             },
           ],
         ]);
@@ -114,10 +114,10 @@ describe('password component', () => {
         expect(fetch.mock.calls).toEqual([
           [
             window.REACT_APP_KRATOS_PUBLIC_URL +
-            '/self-service/settings/flows?id=' +
-            '8060d57f-5c69-402f-9ecd-073e283f632a',
+              '/self-service/settings/flows?id=' +
+              '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
-              "credentials": "include",
+              credentials: 'include',
             },
           ],
         ]);
@@ -143,16 +143,17 @@ describe('password component', () => {
         expect(fetch.mock.calls).toEqual([
           [
             window.REACT_APP_KRATOS_PUBLIC_URL +
-            '/self-service/settings/flows?id=' +
-            '8060d57f-5c69-402f-9ecd-073e283f632a',
+              '/self-service/settings/flows?id=' +
+              '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
-              "credentials": "include",
+              credentials: 'include',
             },
           ],
-          [window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + undefined,
-          {
-            "credentials": "include",
-          },
+          [
+            window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/settings/flows?id=' + undefined,
+            {
+              credentials: 'include',
+            },
           ],
         ]);
         expect(window.location.href).toBe(
@@ -170,8 +171,7 @@ describe('password component', () => {
       fetch = jest.fn(() =>
         Promise.resolve({
           status: 200,
-          json: () =>
-            Promise.resolve(resolvedResp)
+          json: () => Promise.resolve(resolvedResp),
         }),
       );
       await act(async () => {
@@ -181,9 +181,9 @@ describe('password component', () => {
         wrapper.update();
 
         wrapper
-        .find(Form.Item)
+          .find(Form.Item)
           .at(0)
-          .find("input")
+          .find('input')
           .props()
           .onChange({ target: { value: 'neW@123password#456' } });
         wrapper
@@ -201,10 +201,10 @@ describe('password component', () => {
         expect(fetch.mock.calls).toEqual([
           [
             window.REACT_APP_KRATOS_PUBLIC_URL +
-            '/self-service/settings/flows?id=' +
-            '8060d57f-5c69-402f-9ecd-073e283f632a',
+              '/self-service/settings/flows?id=' +
+              '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
-              "credentials": "include",
+              credentials: 'include',
             },
           ],
         ]);
@@ -220,15 +220,14 @@ describe('password component', () => {
       fetch = jest.fn(() =>
         Promise.resolve({
           status: 200,
-          json: () =>
-            Promise.resolve(resolvedResp),
+          json: () => Promise.resolve(resolvedResp),
         }),
       );
       await act(async () => {
         wrapper = mount(<Password />);
       });
       await act(async () => {
-        wrapper.update()
+        wrapper.update();
         // console.log(wrapper.debug())
         wrapper
           .find(Form.Item)
@@ -241,7 +240,8 @@ describe('password component', () => {
           .at(1)
           .find("input[type='password']")
           .props()
-          .onChange({ target: { value: 'new@123password#456' } });``
+          .onChange({ target: { value: 'new@123password#456' } });
+        ``;
 
         const updateButton = wrapper.find('Button').at(0);
         updateButton.simulate('submit');
@@ -251,10 +251,10 @@ describe('password component', () => {
         expect(fetch.mock.calls).toEqual([
           [
             window.REACT_APP_KRATOS_PUBLIC_URL +
-            '/self-service/settings/flows?id=' +
-            '8060d57f-5c69-402f-9ecd-073e283f632a',
+              '/self-service/settings/flows?id=' +
+              '8060d57f-5c69-402f-9ecd-073e283f632a',
             {
-              "credentials": "include",
+              credentials: 'include',
             },
           ],
         ]);

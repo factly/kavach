@@ -1,43 +1,46 @@
 import { SET_COLLAPSE } from './../constants/sidebar';
 import sidebarReducer from './sidebar';
 const initialState = {
-	collapsed: false,
+  collapsed: false,
 };
 
 describe('sidebar reducer', () => {
-	it('should return the initial state', () => {
-		expect(sidebarReducer(undefined, {})).toEqual(initialState);
-	});
-	it('should handle case when no state and action is passed is passed', () => {
-		expect(sidebarReducer()).toEqual(initialState)
-	});
-	it('should handle default case', () => {
-		expect(
-			sidebarReducer(initialState, {
-				type: 'DEFAULT',
-			})
-		).toEqual(initialState);
-	});
+  it('should return the initial state', () => {
+    expect(sidebarReducer(undefined, {})).toEqual(initialState);
+  });
+  it('should handle case when no state and action is passed is passed', () => {
+    expect(sidebarReducer()).toEqual(initialState);
+  });
+  it('should handle default case', () => {
+    expect(
+      sidebarReducer(initialState, {
+        type: 'DEFAULT',
+      }),
+    ).toEqual(initialState);
+  });
 
-	it('should handle SET_COLLAPSE', () => {
-		expect(
-			sidebarReducer(initialState, {
-				type: SET_COLLAPSE,
-				payload: true,
-			})
-		).toEqual({
-			collapsed: true,
-		});
+  it('should handle SET_COLLAPSE', () => {
+    expect(
+      sidebarReducer(initialState, {
+        type: SET_COLLAPSE,
+        payload: true,
+      }),
+    ).toEqual({
+      collapsed: true,
+    });
 
-		expect(
-			sidebarReducer({
-				collapsed: true,
-			}, {
-				type: SET_COLLAPSE,
-				payload: false,
-			})
-		).toEqual({
-			collapsed: false,
-		});
-	});
-})
+    expect(
+      sidebarReducer(
+        {
+          collapsed: true,
+        },
+        {
+          type: SET_COLLAPSE,
+          payload: false,
+        },
+      ),
+    ).toEqual({
+      collapsed: false,
+    });
+  });
+});

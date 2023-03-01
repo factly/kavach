@@ -65,10 +65,7 @@ describe('Application create form component', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationForm
-              data={data}
-              onCreate={onCreate}
-            />
+            <ApplicationForm data={data} onCreate={onCreate} />
           </Router>
         </Provider>,
       );
