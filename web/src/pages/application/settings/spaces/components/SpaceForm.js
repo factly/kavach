@@ -33,7 +33,7 @@ export default function CreateSpace() {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[appID] ? state.applications.details[appID] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
@@ -54,7 +54,7 @@ export default function CreateSpace() {
       <Link key="1" to={`/applications/${appID}/settings/spaces`}>
         <Button type="primary">Back to Spaces</Button>
       </Link>
-      {loadingApp || loadingApp || loadingRole ? <Skeleton /> : null}
+      {loadingApp || loadingRole ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
           status="403"
