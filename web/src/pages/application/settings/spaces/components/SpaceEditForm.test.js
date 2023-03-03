@@ -8,6 +8,7 @@ import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import '../../../../../matchMedia.mock'
 import SpaceEditForm from './SpaceEditForm';
+
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -39,12 +40,6 @@ jest.mock('../../../../../actions/application', () => ({
 	getApplication: jest.fn(),
 }));
 
-// space: state.spaces.details[spaceID],
-// loading: state.spaces.loading,
-// application: state.applications.details[appID],
-// loadingApp: state.applications.loading,
-// role: state.profile.roles[state.organisations.selected],
-// loadingRole: state.profile.loading,
 let state = {
 	spaces: {
 		details: {

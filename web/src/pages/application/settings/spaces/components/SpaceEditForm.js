@@ -18,6 +18,7 @@ export default function EditSpaceForm() {
       slug: maker(string),
     });
   };
+  console.log(useParams())
 
   React.useEffect(() => {
     dispatch(getApplication(appID));
