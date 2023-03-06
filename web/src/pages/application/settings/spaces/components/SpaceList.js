@@ -17,7 +17,6 @@ function SpaceList({ appID, role }) {
     };
   });
 
-
   const fetchSpaces = () => {
     dispatch(getSpaces(appID));
   };

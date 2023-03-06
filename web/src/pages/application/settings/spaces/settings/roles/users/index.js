@@ -65,7 +65,7 @@ export default function SpaceRoleUsers() {
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`}>
         <Button type="primary">Back to Roles</Button>
       </Link>
-      {loading && loadingUserRole ? (
+      {loading || loadingUserRole ? (
         <Skeleton />
       ) : (
         <Space direction="vertical">

@@ -40,6 +40,7 @@ export default function UserList({ users, appID, spaceID, roleID }) {
     },
   ];
 
+
   const deleteUser = (id) => {
     dispatch(deleteSpaceRoleUserByID(appID, spaceID, roleID, id)).then(() =>
       dispatch(getSpaceRoleUsers(appID, spaceID, roleID)),

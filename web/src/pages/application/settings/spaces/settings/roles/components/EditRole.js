@@ -74,7 +74,7 @@ export default function EditSpaceRole() {
       <Link key="1" to={`/applications/${appID}/settings/spaces/${spaceID}/settings/roles`}>
         <Button type="primary">Back to Roles</Button>
       </Link>
-      {loading && loadingSpace && loadingUserRole ? (
+      {loading || loadingSpace || loadingUserRole ? (
         <Skeleton />
       ) : (
         <Card

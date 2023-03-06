@@ -5,8 +5,7 @@ import configureMockStore from 'redux-mock-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-import '../../../../matchMedia.mock'
+import '../../../../matchMedia.mock';
 import Spaces from './index';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -43,7 +42,9 @@ let state = {
   applications: {
     details: {
       1: {
-        id: 1, name: 'Test App', description: 'Test App Description'
+        id: 1,
+        name: 'Test App',
+        description: 'Test App Description',
       },
     },
     loading: false,
@@ -73,7 +74,7 @@ describe('Spaces Component', () => {
       </Provider>,
     );
     expect(wrapper.find('Skeleton').length).toBe(1);
-  })
+  });
   it('should render component when application loading is true', () => {
     state.profile.loading = false;
     state.applications.loading = true;
@@ -86,7 +87,7 @@ describe('Spaces Component', () => {
       </Provider>,
     );
     expect(wrapper.find('Skeleton').length).toBe(1);
-  })
+  });
 
   it('should render component when role is not owner', () => {
     state.profile.loading = false;
@@ -101,7 +102,7 @@ describe('Spaces Component', () => {
       </Provider>,
     );
     expect(wrapper.find('Link').length).toBe(1);
-  })
+  });
   it('should render component when role is owner', () => {
     state.profile.roles[1] = 'owner';
     const store = mockStore(state);
@@ -113,5 +114,5 @@ describe('Spaces Component', () => {
       </Provider>,
     );
     expect(wrapper.find('Link').length).toBe(2);
-  })
-})
+  });
+});

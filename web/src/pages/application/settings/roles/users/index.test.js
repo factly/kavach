@@ -49,35 +49,35 @@ const state = {
     application: {
       1: {
         1: {
-          users: [1, 2] // replace with the desired user IDs for testing
-        }
-      }
-    }
+          users: [1, 2], // replace with the desired user IDs for testing
+        },
+      },
+    },
   },
   applications: {
     details: {
       1: {
-        users: [1, 2, 3, 4] // replace with the desired user IDs for testing
-      }
-    }
+        users: [1, 2, 3, 4], // replace with the desired user IDs for testing
+      },
+    },
   },
   users: {
     details: {
       1: { id: 1, name: 'User 1' },
       2: { id: 2, name: 'User 2' },
       3: { id: 3, name: 'User 3' },
-      4: { id: 4, name: 'User 4' }
-    }
+      4: { id: 4, name: 'User 4' },
+    },
   },
   profile: {
     roles: {
-      1: 'owner' // replace with the desired role for testing
+      1: 'owner', // replace with the desired role for testing
     },
-    loading: false
+    loading: false,
   },
   organisations: {
     selected: 1,
-  }
+  },
 };
 
 describe('Application Role Users component', () => {
@@ -273,7 +273,10 @@ describe('Application Role Users component', () => {
         );
       });
       act(() => {
-        component.find('Select').props().onChange({ target: { value: 3 } });
+        component
+          .find('Select')
+          .props()
+          .onChange({ target: { value: 3 } });
 
         component.find('form').simulate('submit');
       });
@@ -282,8 +285,7 @@ describe('Application Role Users component', () => {
         expect(addApplicationRoleUserByID).toHaveBeenCalledWith(1, 1, 3);
         expect(getApplicationRoleUsers).toHaveBeenCalledWith(1, 1);
         done();
-      })
+      });
     });
-
   });
 });
