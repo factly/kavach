@@ -28,8 +28,6 @@ jest.mock('react-router-dom', () => ({
   }),
 }));
 
-import { getSpaceByID } from '../../../../../actions/space';
-
 jest.mock('../../../../../actions/space', () => ({
   getSpaceByID: jest.fn(),
 }));
