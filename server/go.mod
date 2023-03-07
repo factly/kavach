@@ -12,9 +12,8 @@ require (
 	github.com/sendgrid/sendgrid-go v3.10.4+incompatible
 	github.com/spf13/cobra v1.1.3
 	github.com/spf13/viper v1.8.1
-	github.com/swaggo/http-swagger v1.0.0
-	github.com/swaggo/swag v1.7.0
-	golang.org/x/crypto v0.0.0-20220214200702-86341886e292
+	github.com/swaggo/http-swagger v1.2.6
+	github.com/swaggo/swag v1.7.9
 	gopkg.in/h2non/gock.v1 v1.0.15
 	gorm.io/driver/postgres v1.3.8
 	gorm.io/driver/sqlite v1.1.4
@@ -85,7 +84,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
-	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14 // indirect
+	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.37.1-0.20220607072126-8a320890c08d // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20180127040702-4e3ac2762d5f // indirect
@@ -95,6 +94,7 @@ require (
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
+	golang.org/x/crypto v0.0.0-20220214200702-86341886e292 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9 // indirect
 	golang.org/x/text v0.3.7 // indirect
