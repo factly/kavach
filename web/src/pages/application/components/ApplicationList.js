@@ -94,7 +94,6 @@ function ApplicationList({ applicationList, permission, loading }) {
               trigger="click"
               color="red"
             >
-              {console.log('okkk')}
               <DeleteOutlined style={{ fontSize: iconSize }} />
             </Tooltip>
           ),

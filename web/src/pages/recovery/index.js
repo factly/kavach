@@ -24,6 +24,7 @@ function Recovery() {
       const object = getApplicationSettings(localStorage.getItem('returnTo'));
       setApplicationSettings(object);
     }
+    // console.log(object);
     window.addEventListener('storage', checkApplicationSettings);
     return () => {
       window.removeEventListener('storage', checkApplicationSettings);
@@ -78,8 +79,10 @@ function Recovery() {
       .finally(() => setLoading(false));
   }, []);
 
+  // console.log(ui);
   const withEmail = (values) => {
     var recoverPasswordForm = document.createElement('form');
+
     recoverPasswordForm.action = ui.action;
     recoverPasswordForm.method = ui.method;
     recoverPasswordForm.style.display = 'none';
@@ -106,7 +109,7 @@ function Recovery() {
     recoverPasswordForm.appendChild(csrfInput);
     recoverPasswordForm.appendChild(methodInput);
     document.body.appendChild(recoverPasswordForm);
-    recoverPasswordForm.submit();
+    // recoverPasswordForm.submit();
   };
 
   return (
@@ -142,7 +145,7 @@ function Recovery() {
                 justifyContent: 'center',
               }}
             >
-              {applicationSettings?.applicationLogoURL ? (
+              {applicationSettings.applicationLogoURL ? (
                 <img
                   alt="logo"
                   className="logo"

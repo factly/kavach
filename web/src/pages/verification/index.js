@@ -82,7 +82,7 @@ function Verification() {
           }, 500);
         }
       })
-      .catch(() => {
+      .catch(() => {m
         window.location.href =
           window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/verification/browser';
       })
@@ -124,11 +124,12 @@ function Verification() {
 
   // withCode is a handler for verifying the verification code
   const withCode = (values) => {
+    // console.log(values);
     var verifyAccountUsingCodeForm = document.createElement('form');
     verifyAccountUsingCodeForm.action = ui.action;
     verifyAccountUsingCodeForm.method = ui.method;
     verifyAccountUsingCodeForm.style.display = 'none';
-
+    verifyAccountUsingCodeForm.classList.add('verify-account-using-code-form');
     var codeInput = document.createElement('input');
     codeInput.name = 'code';
     codeInput.value = values?.code?.trim();
@@ -163,6 +164,7 @@ function Verification() {
     }
 
     // this if block validates whether the ui node has email or not. if the email is not there it triggers a error notification that verification code cannot be resent
+    console.log(email);
     if (email === '' || email === undefined) {
       notification['error']({
         message: 'Unable to resend code. Please reload the page or try again.',
