@@ -89,7 +89,7 @@ function SpaceRoleList({ appID, spaceID, role }) {
                 onConfirm={() => onDelete(record.id)}
                 disabled={role !== 'owner'}
               >
-                <Button type="danger" icon={<DeleteOutlined />} disabled={role !== 'owner'}>
+                <Button danger icon={<DeleteOutlined />} disabled={role !== 'owner'}>
                   Delete
                 </Button>
               </Popconfirm>

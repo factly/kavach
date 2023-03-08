@@ -112,7 +112,7 @@ const CreateOrganisationToken = () => {
           </Form>
           <Modal
             title="Generated Token"
-            visible={showModal}
+            open={showModal}
             width={650}
             closable={false}
             okText="Goto Tokens"

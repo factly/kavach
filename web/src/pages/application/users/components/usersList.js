@@ -40,7 +40,7 @@ function UserList({ id, flag, users, total, role }) {
               }}
             >
               <Link to="" className="ant-dropdown-link">
-                <Button type="danger" disabled={role !== 'owner'}>
+                <Button danger disabled={role !== 'owner'}>
                   <DeleteOutlined />
                 </Button>
               </Link>

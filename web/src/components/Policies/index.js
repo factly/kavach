@@ -27,7 +27,7 @@ export default function DynamicPermissionField({ type }) {
         </Col>
         <Col span={colSpan - 3} style>
           <Button
-            type="danger"
+            danger
             onClick={() => remove(permission?.name)}
             icon={<MinusCircleOutlined />}
             hidden={index === 0}

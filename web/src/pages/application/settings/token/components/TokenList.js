@@ -51,7 +51,7 @@ export default function TokenList({ appID, role }) {
         return (
           <span>
             <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record?.id)}>
-              <Button type="danger" disabled={role !== 'owner'} icon={<DeleteOutlined />}>
+              <Button danger disabled={role !== 'owner'} icon={<DeleteOutlined />}>
                 Revoke
               </Button>
             </Popconfirm>

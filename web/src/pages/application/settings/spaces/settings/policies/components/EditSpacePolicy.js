@@ -29,7 +29,7 @@ export default function EditSpacePolicy() {
         loadingRole: state.profile.loading,
         space: state.spaces.details[spaceID],
         loadingSpace: state.spaces.loading,
-        roles: roleIDs.map((id) => state.roles.space[spaceID][id]),
+        roles: roleIDs?.map((id) => state.roles.space[spaceID][id]),
         loadingRoles: state.roles.loading,
       };
     },
