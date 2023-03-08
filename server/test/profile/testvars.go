@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/factly/kavach-server/util/test"
 )
 
 var User map[string]interface{} = map[string]interface{}{
@@ -12,7 +13,7 @@ var User map[string]interface{} = map[string]interface{}{
 	"kid":                "testkid",
 	"first_name":         "TEst Fname",
 	"last_name":          "Test LName",
-	"birth_date":         "Test BD",
+	"birth_date":         test.AnyTime{},
 	"gender":             "testgender",
 	"featured_medium_id": 1,
 }

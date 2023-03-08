@@ -1,6 +1,7 @@
 package user
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -88,7 +89,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 	app := &model.Application{}
 	app.ID = uint(appID)
 
-	tx := model.DB.Begin()
+	var userContext model.ContextKey = "application_user"
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
 
 	// Check if application exist
 	err = tx.Model(&model.Application{}).Preload("Users").First(&app).Error
@@ -152,7 +154,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
 		return
 	}
-	
+
 	err = keto.CreateRelationTupleWithSubjectID(tuple)
 	if err != nil {
 		tx.Rollback()
