@@ -46,7 +46,6 @@ function Password() {
   }, []);
 
   const getImageByText = (value) => {
-    console.log(value);
     switch (value) {
       case 'google':
         return <img src={require('../../assets/google_logo.png')} alt="google" width="35%" />;

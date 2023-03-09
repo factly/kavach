@@ -152,8 +152,7 @@ describe('Recovery', () => {
 		expect(image.prop('src')).toEqual('https://images.factly.in/login/applications/logos/dega.png?rs:fill/h:35');
 	});
 
-	it('should call notification error when message id is not 1060002', async () => {
-
+	it('should call notification error when message id is not 1060002', async (done) => {
 		global.fetch.mockClear();
 		global.fetch = jest.fn().mockImplementation(() => {
 			return Promise.resolve({
@@ -180,14 +179,17 @@ describe('Recovery', () => {
 				<Recovery />
 			</Router>
 		);
-		expect(global.fetch).toHaveBeenCalledWith(
-			`${window.REACT_APP_KRATOS_PUBLIC_URL}/self-service/recovery/flows?id=8060d57f-5c69-402f-9ecd-073e283f632a`,
-			{ credentials: 'include' }
-		);
-		expect(notification.error).toHaveBeenCalledWith({
-			message: 'Error',
-			description: 'unable to send the recovery email',
-		});
+		setTimeout(() => {
+			expect(global.fetch).toHaveBeenCalledWith(
+				`${window.REACT_APP_KRATOS_PUBLIC_URL}/self-service/recovery/flows?id=8060d57f-5c69-402f-9ecd-073e283f632a`,
+				{ credentials: 'include' }
+			);
+			expect(notification.error).toHaveBeenCalledWith({
+				message: 'Error',
+				description: 'unable to send the recovery email',
+			});
+			done();
+		}, 0);
 	});
 
 	it('should call notification error when fetch fails', async () => {
@@ -226,6 +228,76 @@ describe('Recovery', () => {
 			message: 'Error',
 			description: 'unable to send the recovery email',
 		});
+	});
+
+	it('should call notification error when fetch succeeds but response status is not 200', async () => {
+		global.fetch.mockClear();
+		global.fetch = jest.fn().mockImplementation(() => {
+			return Promise.resolve({
+				status: 400,
+				json: () => Promise.resolve({
+					ui: {
+						action: 'https://example.com/recover-password',
+						method: 'post',
+						nodes: [
+							{ attributes: { name: 'csrf_token', value: '1234567890' } },
+							{ attributes: { name: 'other_input', value: 'foo' } },
+						],
+						messages: [
+							{
+								id: 1060002,
+								text: 'Please enter your email address.',
+							},
+						],
+					}
+				}),
+			});
+		});
+		component = mount(
+			<Router>
+				<Recovery />
+			</Router>
+		);
+		expect(global.fetch).toHaveBeenCalledWith(
+			`${window.REACT_APP_KRATOS_PUBLIC_URL}/self-service/recovery/flows?id=8060d57f-5c69-402f-9ecd-073e283f632a`,
+			{ credentials: 'include' }
+		);
+		expect(notification.error).toHaveBeenCalledWith({
+			message: 'Error',
+			description: 'unable to send the recovery email',
+		});
+	});
+
+	it('should call notification error when fetch succeeds but response status is 200 but flow is not valid', async () => {
+		window.location.search = '';
+		global.fetch.mockClear();
+		global.fetch = jest.fn().mockImplementation(() => {
+			return Promise.resolve({
+				status: 200,
+				json: () => Promise.resolve({
+					ui: {
+						action: 'https://example.com/recover-password',
+						method: 'post',
+						nodes: [
+							{ attributes: { name: 'csrf_token', value: '1234567890' } },
+							{ attributes: { name: 'other_input', value: 'foo' } },
+						],
+						messages: [
+							{
+								id: 1060002,
+								text: 'Please enter your email address.',
+							},
+						],
+					}
+				}),
+			});
+		});
+		component = mount(
+			<Router>
+				<Recovery />
+			</Router>
+		);
+		expect(window.location.href).toEqual(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/recovery/browser');
 	});
 });
 
