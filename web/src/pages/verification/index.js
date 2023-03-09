@@ -82,7 +82,7 @@ function Verification() {
           }, 500);
         }
       })
-      .catch(() => {m
+      .catch(() => {
         window.location.href =
           window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/verification/browser';
       })

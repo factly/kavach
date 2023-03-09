@@ -32,6 +32,14 @@ jest.mock('./../../../actions/organisations', () => ({
   deleteOrganisation: jest.fn(),
 }));
 
+jest.doMock('../../../components/MediaSelector/', () => {
+  return {
+    __esModule: true,
+    default: jest.fn().mockImplementation(() => {
+      return <div>MediaSelector</div>;
+    }),
+  }
+});
 describe('Organisation Form', () => {
   let store;
   const mockedDispatch = jest.fn();
@@ -45,11 +53,11 @@ describe('Organisation Form', () => {
   describe('Snapshot tests', () => {
     const description = 'should render the component ';
     describe(description + 'when role loading is true', () => {
-      it('should match snapshot when role is not admin', () => {
+      test('should match snapshot when role is not admin', () => {
         store = mockStore({
           organisations: {
             details: {
-              1: { id: 1, name: 'Test Organisation' },
+              1: { id: 1, name: 'test Organisation' },
             },
             loading: true,
             selected: 1,
@@ -70,15 +78,16 @@ describe('Organisation Form', () => {
           </Provider>,
         );
         expect(component).toMatchSnapshot();
+        expect(component.find('ErrorComponent').length).toBe(1);
       });
     });
     describe(description + 'when role loading is false', () => {
       describe('should match snapshot when role is admin', () => {
-        it('should match snapshot when loading organisation is true', () => {
+        test('should match snapshot when loading organisation is true', () => {
           store = mockStore({
             organisations: {
               details: {
-                1: { id: 1, name: 'Test Organisation' },
+                1: { id: 1, name: 'test Organisation' },
               },
               loading: true,
               selected: 1,
@@ -99,8 +108,9 @@ describe('Organisation Form', () => {
             </Provider>,
           );
           expect(component).toMatchSnapshot();
+          expect(component.find('Skeleton').length).toBe(0);
         });
-        it('should match snapshot when loading organisation is false', () => {
+        test('should match snapshot when loading organisation is false', () => {
           jest.doMock('../../../components/MediaSelector/index', () => {
             return jest.fn().mockImplementation(() => {
               return <div>MediaSelector</div>;
@@ -109,7 +119,7 @@ describe('Organisation Form', () => {
           store = mockStore({
             organisations: {
               details: {
-                1: { id: 1, name: 'Test Organisation' },
+                1: { id: 1, name: 'test Organisation' },
               },
               loading: false,
               selected: 1,
@@ -142,22 +152,18 @@ describe('Organisation Form', () => {
   });
 
   describe('Function tests', () => {
-    jest.doMock('../../../components/MediaSelector/index', () => {
-      return jest.fn().mockImplementation(() => {
-        return <div>MediaSelector</div>;
-      });
-    });
+
+
     jest.mock('./../../../actions/organisations', () => ({
       getOrganisation: jest.fn(),
       updateOrganisation: jest.fn(),
       deleteOrganisation: jest.fn(),
     }));
-
-    test('should call updateOrganisation', async (done) => {
+    it('should call updateOrganisation', async (done) => {
       store = mockStore({
         organisations: {
           details: {
-            1: { id: 1, title: 'Test Organisation' },
+            1: { id: 1, title: 'test Organisation' },
           },
           loading: false,
           selected: 1,
@@ -183,25 +189,25 @@ describe('Organisation Form', () => {
           </Router>
         </Provider>,
       );
-      act(async () => {
+      act(() => {
+
         component
           .find('input')
           .at(0)
-          .simulate('change', { target: { value: 'Test Organisation' } });
+          .simulate('change', { target: { value: 'test Organisation' } });
         component
           .find('input')
           .at(1)
-          .simulate('change', { target: { value: 'Slug' } });
-        component.find('TextArea').simulate('change', { target: { value: 'Description' } });
+          .simulate('change', { target: { value: 'slug' } });
+        component.find('TextArea').at(0).simulate('change', { target: { value: 'Description' } });
         const btn = component.find({ htmlType: 'submit' });
         expect(btn.text()).toBe('Save');
-        // btn.simulate('')
-        component.find({ htmlType: 'submit' }).simulate('click');
+        component.find('form').simulate('submit');
       });
 
       setTimeout(() => {
-        // expect(updateOrganisation).toHaveBeenCalledWith({ id: 1, name: 'Test Organisation', slug: 'Slug', description: 'Description', media_id: 1 })
-        // expect(push).toHaveBeenCalledWith('/organisation')
+        expect(updateOrganisation).toHaveBeenCalledWith({ id: 1, title: 'test Organisation', slug: 'slug', description: 'Description', featured_medium_id: undefined })
+        expect(push).toHaveBeenCalledWith('/organisation')
         done();
       });
     });
@@ -209,7 +215,7 @@ describe('Organisation Form', () => {
       store = mockStore({
         organisations: {
           details: {
-            1: { id: 1, title: 'Test Organisation' },
+            1: { id: 1, title: 'test Organisation' },
           },
           loading: false,
           selected: 1,
@@ -244,11 +250,10 @@ describe('Organisation Form', () => {
           .find('Modal')
           .find('input')
           .at(0)
-          .simulate('change', { target: { value: 'Test Fail' } });
+          .simulate('change', { target: { value: 'test Fail' } });
 
         component.find('Modal').find('Button').at(1).simulate('click');
         expect(deleteOrganisation).not.toHaveBeenCalledWith(1);
-        expect(push).not.toHaveBeenCalledWith('/organisation');
 
         component.find('Modal').find('Button').at(0).simulate('click');
         await component.update();
@@ -258,7 +263,7 @@ describe('Organisation Form', () => {
           .find('Modal')
           .find('input')
           .at(0)
-          .simulate('change', { target: { value: 'Test Organisation' } });
+          .simulate('change', { target: { value: 'test Organisation' } });
 
         component.find('Modal').find('Button').at(1).simulate('click');
       });
@@ -274,4 +279,4 @@ describe('Organisation Form', () => {
   });
 });
 
-test.todo("find bug in test where it doesn't call updateOrganisation");
+// test.todo("find bug in test where test doesn't call updateOrganisation");

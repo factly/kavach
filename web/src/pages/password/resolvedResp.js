@@ -11,6 +11,33 @@ export default {
     nodes: [
       {
         type: 'input',
+        group: 'oidc',
+        attributes: {
+          name: 'google',
+          type: 'email',
+          value: 'google',
+        },
+      },
+      {
+        type: 'input',
+        group: 'oidc',
+        attributes: {
+          name: 'github',
+          type: 'email',
+          value: 'github',
+        },
+      },
+      {
+        type: 'input',
+        group: 'oidc',
+        attributes: {
+          name: 'default',
+          type: 'email',
+          value: 'default',
+        },
+      },
+      {
+        type: 'input',
         group: 'default',
         attributes: {
           name: 'csrf_token',
@@ -125,7 +152,10 @@ export default {
           disabled: false,
           node_type: 'input',
         },
-        messages: [],
+        messages: [{
+          id: 1070004,
+          text: 'Password must be at least 8 characters long.',
+        }],
         meta: {
           label: {
             id: 1070001,
@@ -187,7 +217,10 @@ export default {
           id: 'totp_secret_key',
           node_type: 'text',
         },
-        messages: [],
+        messages: [{
+          id: 1050007,
+          messages: ["This is your authenticator app secret. Use it if you can not scan the QR code."],
+        }],
         meta: {
           label: {
             id: 1050017,
