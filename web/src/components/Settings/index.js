@@ -1,12 +1,7 @@
 import React from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
-import {
-  UserOutlined,
-  EuroCircleOutlined,
-  UsergroupAddOutlined,
-  FileProtectOutlined,
-  ApartmentOutlined,
-} from '@ant-design/icons';
+import { ApartmentOutlined } from '@ant-design/icons';
+import SettingsIcon from './img.svg';
 import { Link } from 'react-router-dom';
 
 export const SettingsCard = ({ icon, title, description }) => {
@@ -44,7 +39,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
         <Col span={12}>
           <Link to={`${baseLink}/users`}>
             <SettingsCard
-              icon={<UserOutlined style={{ color: '#4E89FF' }} />}
+              icon={<img src={SettingsIcon} alt="icon" />}
               title="Users"
               description="User settings"
             />
@@ -53,7 +48,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
         <Col span={12}>
           <Link to={`${baseLink}/roles`}>
             <SettingsCard
-              icon={<UsergroupAddOutlined style={{ color: '#4E89FF' }} />}
+              icon={<img src={SettingsIcon} alt="icon" />}
               title="Roles"
               description="Role settings"
             />
@@ -62,7 +57,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
         <Col span={12}>
           <Link to={`${baseLink}/policies`}>
             <SettingsCard
-              icon={<FileProtectOutlined style={{ color: '#4E89FF' }} />}
+              icon={<img src={SettingsIcon} alt="icon" />}
               title="Policies"
               description="Policy settings"
             />
@@ -72,7 +67,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
           <Col span={12}>
             <Link to={`${baseLink}/tokens`}>
               <SettingsCard
-                icon={<EuroCircleOutlined style={{ color: '#4E89FF' }} />}
+                icon={<img src={SettingsIcon} alt="icon" />}
                 title="Tokens"
                 description="Token settings"
               />

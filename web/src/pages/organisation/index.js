@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Skeleton, Descriptions, Space, Divider, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrganisations } from './../../actions/organisations';
 import OrganisationSettings from './settings';
 import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import '../../styles/organisation.css';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
 
 function OrganisationDetails() {
   const dispatch = useDispatch();
-  const descriptionSpan = 3;
+  const descriptionSpan = 10;
   const { organisation, loading, selected, orgCount, role } = useSelector((state) => {
     return {
       organisation: state.organisations.details[state.organisations.selected],
@@ -20,7 +21,7 @@ function OrganisationDetails() {
     };
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getOrganisations());
     //eslint-disable-next-line
   }, []);
@@ -39,7 +40,7 @@ function OrganisationDetails() {
       ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
           <Descriptions
-            title={<h2> Manage organisation </h2>}
+            title={<h2 className="organisation-main-title">Manage organisation</h2>}
             bordered={true}
             extra={
               <Link to={`/organisation/edit`}>
@@ -62,7 +63,11 @@ function OrganisationDetails() {
               {organisation?.applications?.length}
             </Descriptions.Item>
           </Descriptions>
-          <Divider> Organisation Settings</Divider>
+
+          <Descriptions
+            className="organisation-margin-top"
+            title={<h2 className="organisation-main-title">Organisation Settings</h2>}
+          ></Descriptions>
           <OrganisationSettings orgID={selected} />
         </Space>
       )}
