@@ -14,10 +14,10 @@ export const ApplicationType = () => {
         flexDirection: 'column',
       }}
     >
-      <Link key="1" to={`/applications`}>
+      {/* <Link key="1" to={`/applications`}>
         <Button type="primary"> Back to Settings </Button>
-      </Link>
-      <h2>Choose Application Type</h2>
+      </Link> */}
+      <h2 className="application-main-title">Choose Application Type</h2>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Link to={`/applications/create?is_default=true`}>
