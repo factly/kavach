@@ -1,12 +1,7 @@
 import React from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
-import {
-  UserOutlined,
-  EuroCircleOutlined,
-  UsergroupAddOutlined,
-  FileProtectOutlined,
-  ApartmentOutlined,
-} from '@ant-design/icons';
+import { ApartmentOutlined } from '@ant-design/icons';
+import SettingsIcon from './img.svg';
 import { Link } from 'react-router-dom';
 
 export const SettingsCard = ({ icon, title, description }) => {
@@ -44,8 +39,8 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
         <Col span={12}>
           <Link to={`${baseLink}/users`}>
             <SettingsCard
-              icon={<UserOutlined style={{ color: '#4E89FF' }} />}
-              title="Users"
+              icon={<img src={SettingsIcon} alt="icon" />}
+              title={<div className="organisation-setting-heading">Users</div>}
               description="User settings"
             />
           </Link>
@@ -53,8 +48,8 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
         <Col span={12}>
           <Link to={`${baseLink}/roles`}>
             <SettingsCard
-              icon={<UsergroupAddOutlined style={{ color: '#4E89FF' }} />}
-              title="Roles"
+              icon={<img src={SettingsIcon} alt="icon" />}
+              title={<div className="organisation-setting-heading">Roles</div>}
               description="Role settings"
             />
           </Link>
@@ -62,8 +57,8 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
         <Col span={12}>
           <Link to={`${baseLink}/policies`}>
             <SettingsCard
-              icon={<FileProtectOutlined style={{ color: '#4E89FF' }} />}
-              title="Policies"
+              icon={<img src={SettingsIcon} alt="icon" />}
+              title={<div className="organisation-setting-heading">Policies</div>}
               description="Policy settings"
             />
           </Link>
@@ -72,8 +67,8 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
           <Col span={12}>
             <Link to={`${baseLink}/tokens`}>
               <SettingsCard
-                icon={<EuroCircleOutlined style={{ color: '#4E89FF' }} />}
-                title="Tokens"
+                icon={<img src={SettingsIcon} alt="icon" />}
+                title={<div className="organisation-setting-heading">Tokens</div>}
                 description="Token settings"
               />
             </Link>
@@ -84,7 +79,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
             <Link to={`${baseLink}/spaces`}>
               <SettingsCard
                 icon={<ApartmentOutlined style={{ color: '#4E89FF' }} />}
-                title="Spaces"
+                title={<div className="organisation-setting-heading">Spaces</div>}
                 description="Space Settings"
               />
             </Link>
