@@ -40,7 +40,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
           <Link to={`${baseLink}/users`}>
             <SettingsCard
               icon={<img src={SettingsIcon} alt="icon" />}
-              title="Users"
+              title={<div className="organisation-setting-heading">Users</div>}
               description="User settings"
             />
           </Link>
@@ -49,7 +49,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
           <Link to={`${baseLink}/roles`}>
             <SettingsCard
               icon={<img src={SettingsIcon} alt="icon" />}
-              title="Roles"
+              title={<div className="organisation-setting-heading">Roles</div>}
               description="Role settings"
             />
           </Link>
@@ -58,7 +58,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
           <Link to={`${baseLink}/policies`}>
             <SettingsCard
               icon={<img src={SettingsIcon} alt="icon" />}
-              title="Policies"
+              title={<div className="organisation-setting-heading">Policies</div>}
               description="Policy settings"
             />
           </Link>
@@ -68,7 +68,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
             <Link to={`${baseLink}/tokens`}>
               <SettingsCard
                 icon={<img src={SettingsIcon} alt="icon" />}
-                title="Tokens"
+                title={<div className="organisation-setting-heading">Tokens</div>}
                 description="Token settings"
               />
             </Link>
@@ -79,7 +79,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
             <Link to={`${baseLink}/spaces`}>
               <SettingsCard
                 icon={<ApartmentOutlined style={{ color: '#4E89FF' }} />}
-                title="Spaces"
+                title={<div className="organisation-setting-heading">Spaces</div>}
                 description="Space Settings"
               />
             </Link>

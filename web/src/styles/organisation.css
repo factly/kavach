@@ -2,9 +2,24 @@
   font-size: 18px;
   line-height: 22px;
   font-weight: 600;
+  margin-bottom: 0;
+}
+
+.organisation-table-label {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.88);
 }
 
 .organisation-margin-top {
-  margin-top: 40px;
+  margin-top: 34px;
 }
 
+.organisation-setting-heading {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.88);
+  margin-bottom: -2px;
+}

@@ -50,16 +50,28 @@ function OrganisationDetails() {
               </Link>
             }
           >
-            <Descriptions.Item label="Name" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="organisation-table-label">Name</div>}
+              span={descriptionSpan}
+            >
               {organisation?.title}
             </Descriptions.Item>
-            <Descriptions.Item label="Description" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="organisation-table-label">Description</div>}
+              span={descriptionSpan}
+            >
               {organisation?.description}
             </Descriptions.Item>
-            <Descriptions.Item label="Permissions" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="organisation-table-label">Permissions</div>}
+              span={descriptionSpan}
+            >
               {role}
             </Descriptions.Item>
-            <Descriptions.Item label="Number of applications" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="organisation-table-label">Number of applications</div>}
+              span={descriptionSpan}
+            >
               {organisation?.applications?.length}
             </Descriptions.Item>
           </Descriptions>
