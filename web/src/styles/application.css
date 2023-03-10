@@ -1,0 +1,14 @@
+.application-main-title {
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.application-type-heading {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.88);
+  margin-bottom: -2px;
+}
