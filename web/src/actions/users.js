@@ -33,20 +33,19 @@ export const getUsers = () => {
 };
 
 export const addUser = (data) => {
-  console.log(data);
-  // return (dispatch, getState) => {
-  //   dispatch(loadingUsers());
-  //   return axios
-  //     .post(USERS_API + '/' + getState().organisations.selected + '/users', data)
-  //     .then((res) => {
-  //       dispatch(resetUsers());
-  //       dispatch(stopUsersLoading());
-  //       dispatch(addSuccessNotification('Users added'));
-  //     })
-  //     .catch((error) => {
-  //       dispatch(addErrorNotification(error.message));
-  //     });
-  // };
+  return (dispatch, getState) => {
+    dispatch(loadingUsers());
+    return axios
+      .post(USERS_API + '/' + getState().organisations.selected + '/users', data)
+      .then((res) => {
+        dispatch(resetUsers());
+        dispatch(stopUsersLoading());
+        dispatch(addSuccessNotification('Users added'));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
+      });
+  };
 };
 
 export const deleteUser = (id) => {
