@@ -92,7 +92,7 @@ function SpaceList({ appID, role }) {
               disabled={role !== 'owner'}
             >
               <Button
-                type="danger"
+                danger
                 icon={<DeleteOutlined />}
                 disabled={role !== 'owner'}
                 style={{ minWidth: '30%' }}

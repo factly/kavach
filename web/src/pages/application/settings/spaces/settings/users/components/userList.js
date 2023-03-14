@@ -45,7 +45,7 @@ export default function UserList({ spaceID, role }) {
           <span>
             <Popconfirm title="Sure to Delete?" onConfirm={() => onDelete(record.id)}>
               <Link to="" className="ant-dropdown-link">
-                <Button type="danger" disabled={role !== 'owner'} icon={<DeleteOutlined />}>
+                <Button danger disabled={role !== 'owner'} icon={<DeleteOutlined />}>
                   Delete
                 </Button>
               </Link>

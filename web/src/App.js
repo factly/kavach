@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
 import { useSelector } from 'react-redux';
-import 'antd/dist/antd.css';
+import 'antd/dist/reset.css';
 import BasicLayout from './layout/basic';
 import Auth from './components/Auth';
 import posthog from 'posthog-js';
@@ -12,6 +13,7 @@ import Verification from './pages/verification';
 import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
+import antdConfig from './antdConfig';
 
 function App() {
   const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION === 'true' || false;
@@ -59,18 +61,68 @@ function App() {
   }, [applications, loadingApp]);
 
   return (
-    <div className="App">
-      <Router basename={process.env.PUBLIC_URL}>
-        <Switch>
-          <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
-          {!disableRegistration ? (
+    <ConfigProvider
+    //  theme={antdConfig}
+    >
+      <div className="App">
+        <Router basename={process.env.PUBLIC_URL}>
+          <Switch>
+            <Route path="/auth/login" component={(props) => <Auth {...props} flow={'login'} />} />
+            {!disableRegistration ? (
+              <Route
+                path="/auth/registration"
+                component={(props) => <Auth {...props} flow={'registration'} />}
+              />
+            ) : (
+              <Route
+                path="/auth/registration"
+                component={() => (
+                  <ErrorComponent
+                    status="404"
+                    title="Sorry, the page you visited does not exist."
+                    link="/auth/login"
+                    message="Goto login!"
+                  />
+                )}
+              />
+            )}
+            <Route path="/auth/recovery" component={() => <Recovery />} />
+            <Route path="/auth/verification" component={() => <Verification />} />
+            <Route path="/verification" component={() => <VerificationAfterRegistration />} />
+            <Route path="/error" component={() => <KratosError />} />
+            <BasicLayout>
+              <Switch>
+                {routes.map((route) => {
+                  return (
+                    <Route
+                      key={route.path}
+                      exact
+                      path={route.path}
+                      component={
+                        orgCount !== 0
+                          ? route.Component
+                          : route.path === '/password' ||
+                            route.path === '/profile' ||
+                            route.path === '/organisation' ||
+                            route.path === '/profile/invite' ||
+                            route.path === '/organisation/create'
+                          ? route.Component
+                          : () =>
+                              ErrorComponent({
+                                status: '500',
+                                title: 'To access this page please create an organisation',
+                                link: '/organisation',
+                                message: 'Create Organisation',
+                              })
+                      }
+                    />
+                  );
+                })}
+              </Switch>
+            </BasicLayout>
             <Route
-              path="/auth/registration"
-              component={(props) => <Auth {...props} flow={'registration'} />}
-            />
-          ) : (
-            <Route
-              path="/auth/registration"
+              path="*"
+              exact={true}
               component={() => (
                 <ErrorComponent
                   status="404"
@@ -80,56 +132,10 @@ function App() {
                 />
               )}
             />
-          )}
-          <Route path="/auth/recovery" component={() => <Recovery />} />
-          <Route path="/auth/verification" component={() => <Verification />} />
-          <Route path="/verification" component={() => <VerificationAfterRegistration />} />
-          <Route path="/error" component={() => <KratosError />} />
-          <BasicLayout>
-            <Switch>
-              {routes.map((route) => {
-                return (
-                  <Route
-                    key={route.path}
-                    exact
-                    path={route.path}
-                    component={
-                      orgCount !== 0
-                        ? route.Component
-                        : route.path === '/password' ||
-                          route.path === '/profile' ||
-                          route.path === '/organisation' ||
-                          route.path === '/profile/invite' ||
-                          route.path === '/organisation/create'
-                        ? route.Component
-                        : () =>
-                            ErrorComponent({
-                              status: '500',
-                              title: 'To access this page please create an organisation',
-                              link: '/organisation',
-                              message: 'Create Organisation',
-                            })
-                    }
-                  />
-                );
-              })}
-            </Switch>
-          </BasicLayout>
-          <Route
-            path="*"
-            exact={true}
-            component={() => (
-              <ErrorComponent
-                status="404"
-                title="Sorry, the page you visited does not exist."
-                link="/auth/login"
-                message="Goto login!"
-              />
-            )}
-          />
-        </Switch>
-      </Router>
-    </div>
+          </Switch>
+        </Router>
+      </div>
+    </ConfigProvider>
   );
 }
 

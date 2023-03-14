@@ -75,7 +75,7 @@ function OrganisationUsers() {
           <Button
             key={record.id}
             icon={<DeleteOutlined />}
-            type="danger"
+            danger
             disabled={!loadingRole ? (role === 'owner' ? false : true) : true}
           >
             Delete

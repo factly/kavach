@@ -37,7 +37,7 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
               }
             >
               <Link to="" className="ant-dropdown-link">
-                <Button type="danger">Revoke</Button>
+                <Button danger>Revoke</Button>
               </Link>
             </Popconfirm>
           </span>
@@ -61,7 +61,7 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
       </Button>
 
       <Modal
-        visible={visible}
+        open={visible}
         title="Create New API Token"
         onOk={() => setVisible(false)}
         onCancel={() => setVisible(false)}
@@ -69,7 +69,7 @@ const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => 
       >
         <CreateTokenForm
           appID={data && data.id ? data.id : null}
-          setVisible={setVisible}
+          setopen={setVisible}
           setTokenFlag={setTokenFlag}
         />
       </Modal>

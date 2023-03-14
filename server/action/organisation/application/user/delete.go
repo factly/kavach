@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
@@ -104,7 +103,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	objects, err := keto.ListObjectsBySubjectID(namespace, "", fmt.Sprintf("%d", uID))
+	objects, err := keto.ListSubjectsByObjectID(namespace, "", fmt.Sprintf("org:%d:app:%d", orgID, appID))
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
@@ -112,15 +111,9 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var count int
-	for _, object := range objects {
-		objectID := fmt.Sprintf(":app:%d", appID)
-		if strings.Contains(object, objectID) {
-			count += 1
-		}
-	}
+	count := len(objects)
 
-	if count == 1 {
+	if count > 1 {
 		newUsers := make([]model.User, 0)
 		flag := false
 
@@ -138,13 +131,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 			return
 		}
-		// Check if the user to delete is not last user of application
-		if len(newUsers) < 1 {
-			tx.Rollback()
-			loggerx.Error(errors.New("cannot delete last user of application"))
-			errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
-			return
-		}
 
 		if err = tx.Model(&result).Association("Users").Replace(&newUsers); err != nil {
 			tx.Rollback()
@@ -152,7 +138,13 @@ func delete(w http.ResponseWriter, r *http.Request) {
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
+	} else {
+		tx.Rollback()
+		loggerx.Error(errors.New("cannot delete last user of application"))
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("cannot delete last user of application", http.StatusUnprocessableEntity)))
+		return
 	}
+
 	err = user.DeleteUserFromApplicationRoles(uint(orgID), uint(appID), uint(uID))
 	if err != nil {
 		loggerx.Error(err)

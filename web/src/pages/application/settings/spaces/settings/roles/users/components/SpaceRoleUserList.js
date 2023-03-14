@@ -30,7 +30,7 @@ export default function UserList({ users, appID, spaceID, roleID }) {
                 deleteUser(record.id);
               }}
             >
-              <Button type="danger">
+              <Button danger>
                 <DeleteOutlined />
               </Button>
             </Popconfirm>

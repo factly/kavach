@@ -1,8 +1,7 @@
 import React from 'react';
 import { Row, Col, Button } from 'antd';
-import { UserOutlined, CloudDownloadOutlined } from '@ant-design/icons';
+import ApplicationIcon from './img.svg';
 import { Link } from 'react-router-dom';
-
 import { SettingsCard } from '../../../components/Settings';
 
 export const ApplicationType = () => {
@@ -14,16 +13,13 @@ export const ApplicationType = () => {
         flexDirection: 'column',
       }}
     >
-      <Link key="1" to={`/applications`}>
-        <Button type="primary"> Back to Settings </Button>
-      </Link>
-      <h2>Choose Application Type</h2>
+      <h2 className="application-main-title">Choose Application Type</h2>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Link to={`/applications/create?is_default=true`}>
             <SettingsCard
-              icon={<CloudDownloadOutlined style={{ color: '#4E89FF' }} />}
-              title="Default Applications"
+              icon={<img src={ApplicationIcon} alt="icon" />}
+              title={<div className="application-type-heading">Default Applications</div>}
               description="In this section you can add and delete applications to your organisation which are managed by the admin."
             />
           </Link>
@@ -31,8 +27,8 @@ export const ApplicationType = () => {
         <Col span={12}>
           <Link to={`/applications/create`}>
             <SettingsCard
-              icon={<UserOutlined style={{ color: '#4E89FF' }} />}
-              title="Custom Applications"
+              icon={<img src={ApplicationIcon} alt="icon" />}
+              title={<div className="application-type-heading">Custom Applications</div>}
               description="In this section you can extend applications in the currently selected organisation which will be managed by you."
             />
           </Link>

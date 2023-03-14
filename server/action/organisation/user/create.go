@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 
@@ -53,7 +54,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
-
+	// get return_to from query params
+	return_to := r.URL.Query().Get("return_to")
+	// return error if return_to is empty
+	if return_to == "" {
+		loggerx.Error(errors.New("return_to is empty"))
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
 	var currentUID int
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
@@ -117,10 +125,10 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		var invitationCount int64
 		err = tx.Model(&model.Invitation{}).
-				Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
-				Count(&invitationCount).Error
-			
-		if err!=nil {
+			Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
+			Count(&invitationCount).Error
+
+		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
 			return
@@ -193,18 +201,22 @@ func create(w http.ResponseWriter, r *http.Request) {
 				// return
 			}
 		} else {
-			domainName := viper.GetString("domain_name")
+			//domainName := viper.GetString("domain_name")
 			receiver := email.MailReceiver{
 				InviteeName:      user.FirstName + " " + user.LastName,
 				InviteeEmail:     user.Email,
 				Role:             user.Role,
 				OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
 			}
-			if count == 0 {
-				receiver.ActionURL = domainName + "/auth/registration"
-			} else {
-				receiver.ActionURL = domainName + "/web/profile/invite"
+			// if count == 0 {
+			return_to, err := decodeURLIfNeeded(return_to)
+			if err != nil {
+				loggerx.Error(errors.New("decode error"))
 			}
+			receiver.ActionURL = return_to
+			// } else {
+			// 	receiver.ActionURL = return_to
+			// }
 			err = email.SendmailwithSendGrid(receiver)
 			if err != nil {
 				// tx.Rollback()
@@ -216,4 +228,24 @@ func create(w http.ResponseWriter, r *http.Request) {
 		tx.Commit()
 	}
 	renderx.JSON(w, http.StatusOK, nil)
+}
+
+func decodeURLIfNeeded(urlString string) (string, error) {
+	u, err := url.Parse(urlString)
+	if err != nil {
+		return "", err
+	}
+
+	// Check if the URL is encoded
+	if u.RawQuery != "" || u.Fragment != "" {
+		// Decode the URL
+		decodedURL, err := url.QueryUnescape(urlString)
+		if err != nil {
+			return "", err
+		}
+		return decodedURL, nil
+	}
+
+	// The URL is not encoded, return the original URL string
+	return urlString, nil
 }

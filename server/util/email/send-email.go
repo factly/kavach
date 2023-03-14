@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"io/ioutil"
+	"net/http"
 
 	"github.com/factly/x/loggerx"
 	"github.com/sendgrid/sendgrid-go"
@@ -25,8 +27,21 @@ func SendmailwithSendGrid(data MailReceiver) error {
 	to := mail.NewEmail(data.InviteeName, data.InviteeEmail)
 	var body *template.Template
 	var err error
-	body, err = template.ParseFiles("/app/util/email/template.html")
+	resp, err := http.Get("https://storage.googleapis.com/kavach.factly.in/templates/invite.html")
 	if err != nil {
+		loggerx.Error(err)
+		return err
+	}
+	defer resp.Body.Close()
+
+	bodyContent, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		loggerx.Error(err)
+		return err
+	}
+	body, err = template.New("invite").Parse(string(bodyContent))
+	if err != nil {
+		loggerx.Error(err)
 		return err
 	}
 	buf := new(bytes.Buffer)
