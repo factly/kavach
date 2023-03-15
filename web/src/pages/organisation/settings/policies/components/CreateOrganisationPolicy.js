@@ -59,16 +59,7 @@ export default function CreateOrganisationPolicyForm() {
   }, [dispatch, orgID]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
-        <Button type="primary">Back to Policies</Button>
-      </Link>
+    <div>
       {loadingOrg || loadingRole || loadingRoles ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -80,9 +71,15 @@ export default function CreateOrganisationPolicyForm() {
         />
       ) : (
         <Card
-          title={`Create Organisation Policy - ${organisation?.title}`}
+          className="organisation-policy"
+          title={
+            <h2 className="organisation-main-title">
+              Create Organisation Policy - {organisation?.title}
+            </h2>
+          }
           style={{
             width: '50%',
+            border: 'none',
             alignSelf: 'center',
           }}
         >
