@@ -3,7 +3,6 @@ import { Form, Input, Space, Button } from 'antd';
 import MediaSelector from '../../../components/MediaSelector';
 import { checker, maker } from '../../../utils/sluger';
 import { AddDefaultApplication } from './AddDefaultApplication';
-import { Link } from 'react-router-dom';
 
 const { TextArea } = Input;
 
@@ -39,9 +38,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
 
   return (
     <div>
-      <Link key="1" to={`/applications/type`}>
-        <Button type="primary"> Back to manage applications</Button>
-      </Link>
       {isDefault !== 'true' ? (
         <Form
           {...layout}
