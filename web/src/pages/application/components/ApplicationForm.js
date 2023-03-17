@@ -6,18 +6,10 @@ import { AddDefaultApplication } from './AddDefaultApplication';
 
 const { TextArea } = Input;
 
-const layout = {
-  labelCol: {
-    span: 7,
-  },
-  wrapperCol: {
-    span: 12,
-  },
-};
 const tailLayout = {
   wrapperCol: {
-    offset: 10,
-    span: 14,
+    offset: 0,
+    span: 3,
   },
 };
 
@@ -40,13 +32,16 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
     <div>
       {isDefault !== 'true' ? (
         <Form
-          {...layout}
+          layout="vertical"
           form={form}
           initialValues={{ ...data }}
           name="create-application"
           onFinish={(values) => {
             onCreate(values);
             onReset();
+          }}
+          style={{
+            maxWidth: '600px',
           }}
         >
           <Form.Item
@@ -101,9 +96,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
             <Space>
               <Button type="primary" htmlType="submit">
                 Submit
-              </Button>
-              <Button htmlType="button" onClick={onReset}>
-                Reset
               </Button>
             </Space>
           </Form.Item>
