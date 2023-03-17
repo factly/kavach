@@ -62,6 +62,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+	disableInvite := r.URL.Query().Get("disable_invite")
+
 	var currentUID int
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
@@ -217,13 +219,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 			// } else {
 			// 	receiver.ActionURL = return_to
 			// }
-			err = email.SendmailwithSendGrid(receiver)
-			if err != nil {
-				// tx.Rollback()
-				loggerx.Error(err)
-				// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-				// return
+			if disableInvite != "true" {
+				err = email.SendmailwithSendGrid(receiver)
+				if err != nil {
+					// tx.Rollback()
+					loggerx.Error(err)
+					// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					// return
+				}
 			}
+
 		}
 		tx.Commit()
 	}
