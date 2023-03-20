@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import SettingsList from '../../../components/Settings';
-import { Skeleton, Descriptions, Divider, Space } from 'antd';
+import { Skeleton, Descriptions, Space } from 'antd';
 import { getApplication } from '../../../actions/application';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -29,7 +29,10 @@ export default function ApplicationSettings() {
         <Skeleton />
       ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
-          <Descriptions title={<h2> Application Settings </h2>} bordered={true}>
+          <Descriptions
+            title={<h2 className="application-title-main">Application Settings</h2>}
+            bordered={true}
+          >
             <Descriptions.Item label="Name" span={descriptionSpan}>
               {application.name}
             </Descriptions.Item>
@@ -45,7 +48,11 @@ export default function ApplicationSettings() {
               {application?.tokens?.length ? application?.tokens?.length : 0}
             </Descriptions.Item>
           </Descriptions>
-          <Divider> Application Settings</Divider>
+          
+          <Descriptions
+            className="application-margin-top"
+            title={<h2 className="application-title-main">Application Settings</h2>}
+          ></Descriptions>
           <SettingsList type="application" appID={id} role={role} />
         </Space>
       )}

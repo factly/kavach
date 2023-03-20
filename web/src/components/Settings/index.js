@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Avatar, Row, Col } from 'antd';
-import { ApartmentOutlined } from '@ant-design/icons';
 import SettingsIcon from './img.svg';
 import { Link } from 'react-router-dom';
 
@@ -78,7 +77,7 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
           <Col span={12}>
             <Link to={`${baseLink}/spaces`}>
               <SettingsCard
-                icon={<ApartmentOutlined style={{ color: '#4E89FF' }} />}
+                icon={<img src={SettingsIcon} alt="icon" />}
                 title={<div className="organisation-setting-heading">Spaces</div>}
                 description="Space Settings"
               />
