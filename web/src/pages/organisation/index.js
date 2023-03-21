@@ -40,7 +40,7 @@ function OrganisationDetails() {
       ) : (
         <Space direction="vertical" style={{ width: '100%' }}>
           <Descriptions
-            title={<h2 className="organisation-main-title">Manage organisation</h2>}
+            title={<h2 className="organisation-title-main">Manage organisation</h2>}
             bordered={true}
             extra={
               <Link to={`/organisation/edit`}>
@@ -78,7 +78,7 @@ function OrganisationDetails() {
 
           <Descriptions
             className="organisation-margin-top"
-            title={<h2 className="organisation-main-title">Organisation Settings</h2>}
+            title={<h2 className="organisation-title-main">Organisation Settings</h2>}
           ></Descriptions>
           <OrganisationSettings orgID={selected} />
         </Space>

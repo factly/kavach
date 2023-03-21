@@ -73,7 +73,7 @@ export default function CreateOrganisationPolicyForm() {
         <Card
           className="organisation-policy"
           title={
-            <h2 className="organisation-main-title">
+            <h2 className="organisation-title-main">
               Create Organisation Policy - {organisation?.title}
             </h2>
           }
