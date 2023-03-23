@@ -1,19 +1,19 @@
 import React from 'react';
-import { Card, Form, Input, Button, DatePicker, Radio } from 'antd';
+import { Form, Input, Button, DatePicker, Radio, Skeleton } from 'antd';
 import dayjs from 'dayjs';
 import MediaSelector from '../../components/MediaSelector';
 import { maker, checker } from '../../utils/sluger';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile, updateProfile } from '../../actions/profile';
+import '../../styles/profile.css';
 
-const layout = {
-  labelCol: {
-    span: 7,
-  },
+const tailLayout = {
   wrapperCol: {
-    span: 16,
+    offset: 0,
+    span: 3,
   },
 };
+
 function Profile() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -41,11 +41,24 @@ function Profile() {
     });
   };
 
+  if (loading) {
+    return (
+      <div className="content">
+        <Skeleton />
+      </div>
+    );
+  }
+
   return (
     <div className="content">
-      <Card title="Update Profile" loading={loading}>
+      <div className="profile-descriptions-header">
+        <div className="profile-descriptions-title">
+          <h2 className="profile-title-main">Update Profile</h2>
+        </div>
+      </div>
+      <div>
         <Form
-          {...layout}
+          layout="vertical"
           form={form}
           name="update_profile"
           onFinish={update}
@@ -55,6 +68,9 @@ function Profile() {
           }}
           onValuesChange={() => {
             setValueChange(true);
+          }}
+          style={{
+            maxWidth: '600px',
           }}
         >
           <Form.Item label="Email" name="email">
@@ -122,20 +138,13 @@ function Profile() {
           <Form.Item label="Description" name="description">
             <Input.TextArea placeholder="Description" autoSize={{ minRows: 2, maxRows: 6 }} />
           </Form.Item>
-          <Form.Item noStyle>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                disabled={!valueChange}
-                form="update_profile"
-                type="primary"
-                htmlType="submit"
-              >
-                Update
-              </Button>
-            </div>
+          <Form.Item {...tailLayout}>
+            <Button disabled={!valueChange} form="update_profile" type="primary" htmlType="submit">
+              Update
+            </Button>
           </Form.Item>
         </Form>
-      </Card>
+      </div>
     </div>
   );
 }
