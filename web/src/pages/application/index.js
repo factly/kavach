@@ -47,7 +47,7 @@ function Application() {
             <div className="application-descriptions-title">
               <h2 className="application-title-main">Applications</h2>
             </div>
-            <div className="applications-descriptions-extra">
+            <div>
               <Link key="1" to="/applications/type">
                 <Button type="primary">Manage Application</Button>
               </Link>

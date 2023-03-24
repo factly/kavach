@@ -16,7 +16,6 @@
   line-height: 1.5;
 }
 
-
 .organisation-title-main {
   font-size: 18px;
   line-height: 22px;
@@ -41,23 +40,6 @@
   line-height: 22px;
   color: rgba(0, 0, 0, 0.88);
   margin-bottom: -2px;
-}
-
-.organisation-policies-title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  flex: auto;
-  color: rgba(0, 0, 0, 0.88);
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.organisation-policies-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
 }
 
 .organisation-policy .ant-card-head{

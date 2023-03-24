@@ -27,15 +27,17 @@ export default function OrganisationPolicies() {
     <Space direction="vertical">
       {loading && loadingOrg ? (
         <>
-          <div className="organisation-policies-title">
-            <h2 className="organisation-title-main">Policies in {organisation?.title}</h2>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Policies in {organisation?.title}</h2>
+            </div>
           </div>
           <Skeleton />
         </>
       ) : (
         <Space direction="vertical">
-          <div className="organisation-policies-header">
-            <div className="organisation-policies-title">
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
               <h2 className="organisation-title-main">Policies in {organisation?.title}</h2>
             </div>
             {role === 'owner' && (
