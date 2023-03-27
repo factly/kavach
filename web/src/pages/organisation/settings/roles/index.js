@@ -22,27 +22,29 @@ function OrganisationRoles() {
 
   return (
     <Space direction="vertical">
-      <Link key="1" to={`/organisation`}>
-        <Button type="primary"> Back to Settings </Button>
-      </Link>
       {loading && loadingOrg ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical">
-          {role === 'owner' ? (
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Link
-                key="2"
-                to={{
-                  pathname: `/organisation/${orgID}/settings/roles/create`,
-                }}
-              >
-                <Button type="primary"> Create New Role </Button>
-              </Link>
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Roles</h2>
             </div>
-          ) : null}
+            {role === 'owner' ? (
+              <div style={{ display: 'flex', justifyContent: 'end' }}>
+                <Link
+                  key="2"
+                  to={{
+                    pathname: `/organisation/${orgID}/settings/roles/create`,
+                  }}
+                >
+                  <Button type="primary">Create New Role</Button>
+                </Link>
+              </div>
+            ) : null}
+          </div>
           <OrganisationRoleList orgID={orgID} role={role} />
-        </Space>
+        </>
       )}
     </Space>
   );
