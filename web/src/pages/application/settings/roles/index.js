@@ -3,6 +3,7 @@ import { Skeleton, Space, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import ApplicationRoleList from './components/RoleList';
+import { PlusOutlined } from '@ant-design/icons';
 import { getApplication } from '../../../../actions/application';
 import { getApplicationRoles } from '../../../../actions/roles';
 
@@ -41,7 +42,9 @@ function ApplicationRoles() {
                     pathname: `/applications/${id}/settings/roles/create`,
                   }}
                 >
-                  <Button type="primary">Create New Role</Button>
+                  <Button icon={<PlusOutlined />} type="primary">
+                    Create New Role
+                  </Button>
                 </Link>
               </div>
             ) : null}

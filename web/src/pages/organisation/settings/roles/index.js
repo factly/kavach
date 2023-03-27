@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getOrganisation } from '../../../../actions/organisations';
 import OrganisationRoleList from './components/RoleList';
+import { PlusOutlined } from '@ant-design/icons';
 
 function OrganisationRoles() {
   const { orgID } = useParams();
@@ -31,14 +32,16 @@ function OrganisationRoles() {
               <h2 className="organisation-title-main">Roles</h2>
             </div>
             {role === 'owner' ? (
-              <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <div>
                 <Link
                   key="2"
                   to={{
                     pathname: `/organisation/${orgID}/settings/roles/create`,
                   }}
                 >
-                  <Button type="primary">Create New Role</Button>
+                  <Button icon={<PlusOutlined />} type="primary">
+                    Create New Role
+                  </Button>
                 </Link>
               </div>
             ) : null}
