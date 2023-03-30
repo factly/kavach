@@ -69,7 +69,6 @@ export default function TokenList({ appID, role }) {
         dataSource={tokens}
         rowKey={'id'}
         loading={loading}
-        style={{ width: '78vw' }}
       />
     </div>
   );

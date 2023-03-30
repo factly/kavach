@@ -1,5 +1,6 @@
 import React from 'react';
 import { Skeleton, Space, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import TokenList from './components/OrganisationTokenList';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -16,7 +17,7 @@ export default function OrganisationTokens() {
   });
 
   return (
-    <Space direction="vertical">
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading || loadingOrg ? (
         <Skeleton />
       ) : (
@@ -33,7 +34,9 @@ export default function OrganisationTokens() {
                     pathname: `/organisation/${orgID}/settings/tokens/create`,
                   }}
                 >
-                  <Button type="primary">Create new Tokens</Button>
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    Create new Tokens
+                  </Button>
                 </Link>
               </div>
             ) : null}

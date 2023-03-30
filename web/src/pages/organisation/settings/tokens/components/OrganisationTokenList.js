@@ -72,7 +72,6 @@ export default function TokenList({ orgID, role }) {
         dataSource={tokens}
         rowKey={'id'}
         loading={loading}
-        style={{ width: '78vw' }}
       />
     </div>
   );
