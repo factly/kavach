@@ -27,7 +27,7 @@ function OrganisationDetails() {
   }, []);
 
   return (
-    <div>
+    <>
       {loading ? (
         <Skeleton />
       ) : orgCount === 0 ? (
@@ -38,8 +38,9 @@ function OrganisationDetails() {
           message="Create Organisation"
         />
       ) : (
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space direction="vertical">
           <Descriptions
+            className="organisation-index"
             title={<h2 className="organisation-title-main">Manage organisation</h2>}
             bordered={true}
             extra={
@@ -77,13 +78,13 @@ function OrganisationDetails() {
           </Descriptions>
 
           <Descriptions
-            className="organisation-margin-top"
+            style={{ marginTop: '34px' }}
             title={<h2 className="organisation-title-main">Organisation Settings</h2>}
           ></Descriptions>
           <OrganisationSettings orgID={selected} />
         </Space>
       )}
-    </div>
+    </>
   );
 }
 

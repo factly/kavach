@@ -23,15 +23,21 @@
   margin-bottom: 0;
 }
 
+/* organisation manage */
+.organisation-index .ant-descriptions-row {
+  display: flex;
+}
+
+.organisation-index .ant-descriptions-item-label {
+  flex-basis: 30%;
+  min-width: 125px;
+}
+
 .organisation-table-label {
   font-size: 14px;
   line-height: 22px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.88);
-}
-
-.organisation-margin-top {
-  margin-top: 34px;
 }
 
 .organisation-setting-heading {
@@ -42,12 +48,12 @@
   margin-bottom: -2px;
 }
 
-.organisation-policy .ant-card-head{
+.organisation-policy .ant-card-head {
   min-height: 32px;
   border-bottom: none;
   padding: 0;
 }
 
-.organisation-policy .ant-card-body{
+.organisation-policy .ant-card-body {
   padding: 24px 0;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import SettingsList from '../../../components/Settings';
-import { Skeleton, Descriptions, Space } from 'antd';
+import { Button, Skeleton, Descriptions, Space } from 'antd';
 import { getApplication } from '../../../actions/application';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -28,29 +28,42 @@ export default function ApplicationSettings() {
       {loading || loadingApp ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space direction="vertical">
           <Descriptions
+            className="application-index"
             title={<h2 className="application-title-main">Application Settings</h2>}
             bordered={true}
           >
-            <Descriptions.Item label="Name" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="application-table-label">Name</div>}
+              span={descriptionSpan}
+            >
               {application.name}
             </Descriptions.Item>
-            <Descriptions.Item label="Description" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="application-table-label">Description</div>}
+              span={descriptionSpan}
+            >
               {application.description}
             </Descriptions.Item>
-            <Descriptions.Item label="Application URL" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="application-table-label">Application URL</div>}
+              span={descriptionSpan}
+            >
               <a href={`${application?.url}`} target="_blank" rel="noopener noreferrer">
                 {application?.url}
               </a>
             </Descriptions.Item>
-            <Descriptions.Item label="Number of Tokens" span={descriptionSpan}>
+            <Descriptions.Item
+              label={<div className="application-table-label">Number of Tokens</div>}
+              span={descriptionSpan}
+            >
               {application?.tokens?.length ? application?.tokens?.length : 0}
             </Descriptions.Item>
           </Descriptions>
-          
+
           <Descriptions
-            className="application-margin-top"
+            style={{ marginTop: '34px' }}
             title={<h2 className="application-title-main">Application Settings</h2>}
           ></Descriptions>
           <SettingsList type="application" appID={id} role={role} />
