@@ -110,7 +110,7 @@ function Profile() {
             <Input placeholder="slug" />
           </Form.Item>
           <Form.Item label="Birthdate" name="birth_date">
-            <DatePicker />
+            <DatePicker style={{ width: '100%' }} />
           </Form.Item>
           <Form.Item label="Gender" name="gender">
             <Radio.Group>
@@ -122,7 +122,6 @@ function Profile() {
           <Form.Item name="featured_medium_id" label="Display Image">
             <MediaSelector profile={true} />
           </Form.Item>
-
           <Form.Item label="Facebook Url" name={['social_media_urls', 'facebook']}>
             <Input placeholder="Facebook url" />
           </Form.Item>
