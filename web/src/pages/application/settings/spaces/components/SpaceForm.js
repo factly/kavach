@@ -8,6 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getApplication } from '../../../../../actions/application';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 export default function CreateSpace() {
   const [form] = Form.useForm();
   const { appID } = useParams();
@@ -44,16 +51,7 @@ export default function CreateSpace() {
   }, [dispatch, appID]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${appID}/settings/spaces`}>
-        <Button type="primary">Back to Spaces</Button>
-      </Link>
+    <div>
       {loadingApp || loadingApp || loadingRole ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -63,18 +61,20 @@ export default function CreateSpace() {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Space in - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Create Space in - {application?.name}</h2>
+            </div>
+          </div>
           <Form
             name="space_create"
             layout="vertical"
             form={form}
             onFinish={(values) => onSubmit(values)}
+            style={{
+              maxWidth: '600px',
+            }}
           >
             <Form.Item
               name="application_name"
@@ -122,13 +122,13 @@ export default function CreateSpace() {
             >
               <Input.TextArea placeholder="enter meta_fields for your space" />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block>
                 Submit
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
     </div>
   );
