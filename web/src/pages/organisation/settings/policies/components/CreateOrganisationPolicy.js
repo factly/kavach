@@ -6,8 +6,15 @@ import { maker, checker } from '../../../../../utils/sluger';
 import { getOrganisationRoles } from '../../../../../actions/roles';
 import { getOrganisation } from '../../../../../actions/organisations';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { createOrganisationPolicy } from '../../../../../actions/policy';
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
 
 export default function CreateOrganisationPolicyForm() {
   const dispatch = useDispatch();
@@ -70,19 +77,13 @@ export default function CreateOrganisationPolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card
-          className="organisation-policy"
-          title={
-            <h2 className="organisation-title-main">
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
               Create Organisation Policy - {organisation?.title}
-            </h2>
-          }
-          style={{
-            width: '50%',
-            border: 'none',
-            alignSelf: 'center',
-          }}
-        >
+              <h2 className="organisation-title-main"></h2>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -90,6 +91,9 @@ export default function CreateOrganisationPolicyForm() {
             onFinish={(values) => {
               onCreate(values);
               onReset();
+            }}
+            style={{
+              maxWidth: '600px',
             }}
           >
             <Form.Item
@@ -135,7 +139,7 @@ export default function CreateOrganisationPolicyForm() {
             <DynamicPermissionField type="create" />
             <Form.Item
               name="roles"
-              labels="Roles"
+              label="Select Roles"
               rules={[
                 {
                   required: true,
@@ -156,13 +160,13 @@ export default function CreateOrganisationPolicyForm() {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="create-organisation-policy">
                 Create Policy
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
     </div>
   );
