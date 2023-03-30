@@ -99,7 +99,6 @@ export default function PolicyList({ appID, role }) {
         dataSource={policies}
         rowKey={'id'}
         loading={loading}
-        style={{ width: '78vw' }}
       />
     </div>
   );
