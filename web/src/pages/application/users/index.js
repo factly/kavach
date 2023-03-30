@@ -1,7 +1,8 @@
 import React from 'react';
 import UsersList from './components/usersList';
 import { Space, Form, Button, Select, Skeleton } from 'antd';
-import { Link, useParams } from 'react-router-dom';
+import { PlusOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addApplicationUser } from '../../../actions/applicationUsers';
 import { getUsers } from '../../../actions/users';
@@ -83,7 +84,7 @@ function ApplicationUser() {
                   </Select>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" icon={<PlusOutlined />} htmlType="submit">
                     Invite Users
                   </Button>
                 </Form.Item>
