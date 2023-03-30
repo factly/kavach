@@ -25,7 +25,7 @@ function ApplicationRoles() {
   });
 
   return (
-    <Space direction="vertical">
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading && loadingApp ? (
         <Skeleton />
       ) : (

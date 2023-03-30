@@ -104,7 +104,6 @@ function OrganisationRoleList({ orgID, role }) {
         dataSource={roles}
         rowKey={'id'}
         loading={loading}
-        style={{ width: '78vw' }}
       />
     </div>
   );

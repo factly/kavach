@@ -106,7 +106,6 @@ function ApplicationRoleList({ appID, role }) {
         dataSource={roles}
         rowKey={'id'}
         loading={loading}
-        style={{ width: '78vw' }}
       />
     </div>
   );
