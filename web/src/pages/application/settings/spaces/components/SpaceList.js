@@ -113,7 +113,6 @@ function SpaceList({ appID, role }) {
       dataSource={spaces}
       columns={columns}
       loading={loading}
-      style={{ width: '78vw' }}
     />
   );
 }
