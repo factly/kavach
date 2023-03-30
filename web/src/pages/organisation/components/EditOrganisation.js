@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Space, Divider, Modal, message, Card, Select } from 'antd';
+import { Button, Form, Input, Space, Divider, Modal, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -11,6 +11,13 @@ import { maker, checker } from '../../../utils/sluger';
 import MediaSelector from '../../../components/MediaSelector';
 import { DeleteOutlined } from '@ant-design/icons';
 import ErrorComponent from '../../../components/ErrorsAndImage/ErrorComponent';
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
 
 function OrganisationEdit() {
   const dispatch = useDispatch();
@@ -75,7 +82,12 @@ function OrganisationEdit() {
   return (
     <Space direction="vertical">
       {!loading ? (
-        <Card title="Organisation Update">
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Edit Organisation</h2>
+            </div>
+          </div>
           <Form
             form={form}
             name="organisation_edit"
@@ -115,7 +127,7 @@ function OrganisationEdit() {
             <Form.Item label="Logo" name="featured_medium_id">
               <MediaSelector />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button form="organisation_edit" type="primary" htmlType="submit" block>
                 Save
               </Button>
@@ -137,7 +149,7 @@ function OrganisationEdit() {
               </Form.Item>
             </Form>
           </Modal>
-        </Card>
+        </>
       ) : null}
     </Space>
   );

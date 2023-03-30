@@ -35,59 +35,57 @@ function OrganisationCreate() {
       {!loading ? (
         window.REACT_APP_ENABLE_MULTITENANCY === 'true' || organisationCount < 1 ? (
           <Space direction="vertical" style={{ width: '100%' }}>
-            <div className="application-descriptions-header">
-              <div className="application-descriptions-title">
-                <h2 className="application-title-main">Create new Organisation</h2>
+            <div className="organisation-descriptions-header">
+              <div className="organisation-descriptions-title">
+                <h2 className="organisation-title-main">Create new Organisation</h2>
               </div>
             </div>
-            <div>
-              <Form
-                form={form}
-                name="organisation_create"
-                layout="vertical"
-                onFinish={(values) =>
-                  dispatch(addOrganisation(values))
-                    .then(dispatch(getOrganisations()))
-                    .then(history.push('/organisation'))
-                }
-                style={{
-                  maxWidth: '600px',
-                }}
+            <Form
+              form={form}
+              name="organisation_create"
+              layout="vertical"
+              onFinish={(values) =>
+                dispatch(addOrganisation(values))
+                  .then(dispatch(getOrganisations()))
+                  .then(history.push('/organisation'))
+              }
+              style={{
+                maxWidth: '600px',
+              }}
+            >
+              <Form.Item name="title" label="Title" required={true}>
+                <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
+              </Form.Item>
+              <Form.Item
+                name="slug"
+                label="Slug"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input the slug!',
+                  },
+                  {
+                    pattern: checker,
+                    message: 'Please enter valid slug!',
+                  },
+                ]}
               >
-                <Form.Item name="title" label="Title" required={true}>
-                  <Input placeholder="Title" onChange={(e) => onTitleChange(e.target.value)} />
-                </Form.Item>
-                <Form.Item
-                  name="slug"
-                  label="Slug"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input the slug!',
-                    },
-                    {
-                      pattern: checker,
-                      message: 'Please enter valid slug!',
-                    },
-                  ]}
-                >
-                  <Input placeholder="Slug"></Input>
-                </Form.Item>
-                <Form.Item name="description" label="Description">
-                  <Input.TextArea placeholder="Description" />
-                </Form.Item>
-                <Form.Item label="Upload Image" name="featured_medium_id">
-                  <MediaSelector />
-                </Form.Item>
-                <Form.Item {...tailLayout}>
-                  <Space>
-                    <Button form="organisation_create" type="primary" htmlType="submit" block>
-                      Save
-                    </Button>
-                  </Space>
-                </Form.Item>
-              </Form>
-            </div>
+                <Input placeholder="Slug"></Input>
+              </Form.Item>
+              <Form.Item name="description" label="Description">
+                <Input.TextArea placeholder="Description" />
+              </Form.Item>
+              <Form.Item label="Upload Image" name="featured_medium_id">
+                <MediaSelector />
+              </Form.Item>
+              <Form.Item {...tailLayout}>
+                <Space>
+                  <Button form="organisation_create" type="primary" htmlType="submit" block>
+                    Save
+                  </Button>
+                </Space>
+              </Form.Item>
+            </Form>
           </Space>
         ) : (
           <ErrorComponent

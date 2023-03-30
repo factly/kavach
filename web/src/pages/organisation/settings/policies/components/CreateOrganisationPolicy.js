@@ -80,8 +80,9 @@ export default function CreateOrganisationPolicyForm() {
         <>
           <div className="organisation-descriptions-header">
             <div className="organisation-descriptions-title">
-              Create Organisation Policy - {organisation?.title}
-              <h2 className="organisation-title-main"></h2>
+              <h2 className="organisation-title-main">
+                Create Organisation Policy - {organisation?.title}
+              </h2>
             </div>
           </div>
           <Form
