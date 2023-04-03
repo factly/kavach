@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Skeleton, Descriptions, Space, Divider, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrganisations } from './../../actions/organisations';
@@ -20,6 +20,21 @@ function OrganisationDetails() {
       role: state.profile.roles[state.organisations.selected],
     };
   });
+
+  const [isMobile, setIsMobile] = useState(null);
+
+  const handleResize = () => {
+    process.browser && window.innerWidth <= 500 ? setIsMobile(true) : setIsMobile(false);
+  };
+
+  useEffect(() => {
+    process.browser && window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      process.browser && window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     dispatch(getOrganisations());
@@ -46,7 +61,7 @@ function OrganisationDetails() {
             extra={
               <Link to={`/organisation/edit`}>
                 <Button icon={<EditOutlined />} type="primary">
-                  Edit Organisation
+                  {isMobile ? 'Edit' : 'Edit Organisation'}
                 </Button>
               </Link>
             }
