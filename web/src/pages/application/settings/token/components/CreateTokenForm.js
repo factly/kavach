@@ -9,7 +9,8 @@ import ClipBoardCopy from '../../../../../utils/clipboardClick';
 
 const tailLayout = {
   wrapperCol: {
-    offset: 8,
+    offset: 0,
+    span: 5,
   },
 };
 
@@ -47,16 +48,7 @@ const CreateApplicationTokenForm = () => {
   }, [dispatch, id]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${id}/settings/tokens`}>
-        <Button type="primary"> Back to Tokens</Button>
-      </Link>
+    <>
       {loadingApp || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -67,13 +59,14 @@ const CreateApplicationTokenForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Application Token - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">
+                Create Application Token - {application?.name}
+              </h2>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -81,6 +74,9 @@ const CreateApplicationTokenForm = () => {
             onFinish={(values) => {
               onCreate(values);
               onReset();
+            }}
+            style={{
+              maxWidth: '600px',
             }}
           >
             <Form.Item
@@ -137,9 +133,9 @@ const CreateApplicationTokenForm = () => {
           >
             <ClipBoardCopy text={showModal === true ? token : ''} />
           </Modal>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 };
 
