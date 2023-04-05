@@ -66,6 +66,11 @@ export default function CreateSpace() {
             <div className="application-descriptions-title">
               <h2 className="application-title-main">Create Space in - {application?.name}</h2>
             </div>
+            <div>
+              <Link key="1" to={`/applications/${appID}/settings/spaces`}>
+                <Button type="primary">Back to Spaces</Button>
+              </Link>
+            </div>
           </div>
           <Form
             name="space_create"
