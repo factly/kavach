@@ -59,6 +59,11 @@ const CreateOrganisationToken = () => {
                 Create Organisation Token - {organisation?.title}
               </h2>
             </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/tokens`}>
+                <Button type="primary">Back to Tokens</Button>
+              </Link>
+            </div>
           </div>
           <Form
             form={form}

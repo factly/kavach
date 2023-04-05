@@ -66,6 +66,11 @@ const CreateApplicationTokenForm = () => {
                 Create Application Token - {application?.name}
               </h2>
             </div>
+            <div>
+              <Link key="1" to={`/applications/${id}/settings/tokens`}>
+                <Button type="primary"> Back to Tokens</Button>
+              </Link>
+            </div>
           </div>
           <Form
             form={form}
