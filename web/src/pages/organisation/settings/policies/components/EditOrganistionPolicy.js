@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Input, Select, Skeleton } from 'antd';
 import { getOrganisationPolicyByID, updateOrganisationPolicy } from '../../../../../actions/policy';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
@@ -87,6 +87,11 @@ export default function EditOrganisationPolicy() {
               <h2 className="organisation-title-main">
                 Edit Organisation Policy - {organisation?.title}
               </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+                <Button type="primary">Back to Policies</Button>
+              </Link>
             </div>
           </div>
           <Form
