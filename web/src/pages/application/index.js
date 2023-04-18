@@ -33,19 +33,29 @@ function Application() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'end' }}>
-        {loadingRole ? (
+      {loadingRole ? (
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
           <Skeleton />
-        ) : role === 'owner' ? (
-          loadingApps ? (
+        </div>
+      ) : role === 'owner' ? (
+        loadingApps ? (
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
             <Skeleton />
-          ) : (
-            <Link key="1" to="/applications/type">
-              <Button type="primary">Manage Application</Button>
-            </Link>
-          )
-        ) : null}
-      </div>
+          </div>
+        ) : (
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Applications</h2>
+            </div>
+            <div>
+              <Link key="1" to="/applications/type">
+                <Button type="primary">Manage Application</Button>
+              </Link>
+            </div>
+          </div>
+        )
+      ) : null}
+
       {loadingApps ? (
         <Skeleton />
       ) : applicationData.length ? (

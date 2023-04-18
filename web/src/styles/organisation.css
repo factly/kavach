@@ -1,8 +1,36 @@
-.organisation-main-title {
+.organisation-descriptions-header {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin-bottom: 20px;
+}
+
+.organisation-descriptions-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: auto;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.organisation-title-main {
   font-size: 18px;
   line-height: 22px;
   font-weight: 600;
   margin-bottom: 0;
+}
+
+/* organisation manage */
+.organisation-index .ant-descriptions-row {
+  display: flex;
+}
+
+.organisation-index .ant-descriptions-item-label {
+  flex-basis: 30%;
+  min-width: 195px;
 }
 
 .organisation-table-label {
@@ -10,10 +38,6 @@
   line-height: 22px;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.88);
-}
-
-.organisation-margin-top {
-  margin-top: 34px;
 }
 
 .organisation-setting-heading {

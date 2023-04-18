@@ -3,22 +3,13 @@ import { Form, Input, Space, Button } from 'antd';
 import MediaSelector from '../../../components/MediaSelector';
 import { checker, maker } from '../../../utils/sluger';
 import { AddDefaultApplication } from './AddDefaultApplication';
-import { Link } from 'react-router-dom';
 
 const { TextArea } = Input;
 
-const layout = {
-  labelCol: {
-    span: 7,
-  },
-  wrapperCol: {
-    span: 12,
-  },
-};
 const tailLayout = {
   wrapperCol: {
-    offset: 10,
-    span: 14,
+    offset: 0,
+    span: 3,
   },
 };
 
@@ -39,18 +30,18 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
 
   return (
     <div>
-      <Link key="1" to={`/applications/type`}>
-        <Button type="primary"> Back to manage applications</Button>
-      </Link>
       {isDefault !== 'true' ? (
         <Form
-          {...layout}
+          layout="vertical"
           form={form}
           initialValues={{ ...data }}
           name="create-application"
           onFinish={(values) => {
             onCreate(values);
             onReset();
+          }}
+          style={{
+            maxWidth: '600px',
           }}
         >
           <Form.Item
@@ -105,9 +96,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
             <Space>
               <Button type="primary" htmlType="submit">
                 Submit
-              </Button>
-              <Button htmlType="button" onClick={onReset}>
-                Reset
               </Button>
             </Space>
           </Form.Item>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Button, Select, Input, Row, Col } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined } from '@ant-design/icons';
 
 export default function DynamicPermissionField({ type }) {
   const PermissionForm = ({ permission, index, remove }) => {
@@ -25,7 +25,7 @@ export default function DynamicPermissionField({ type }) {
             <Select mode="tags" placeholder="select action" />
           </Form.Item>
         </Col>
-        <Col span={colSpan - 3} style>
+        <Col span={colSpan - 3}>
           <Button
             danger
             onClick={() => remove(permission?.name)}
@@ -52,8 +52,8 @@ export default function DynamicPermissionField({ type }) {
               />
             ))}
             <Form.Item>
-              <Button type="dashed" onClick={() => add()} style={{ width: '60%' }}>
-                <PlusOutlined /> Add Resource
+              <Button onClick={() => add()} style={{ width: '60%' }}>
+                Add Resource
               </Button>
             </Form.Item>
           </div>

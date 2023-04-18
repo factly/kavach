@@ -1,5 +1,6 @@
 import React from 'react';
 import { Skeleton, Space, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import TokenList from './components/TokenList';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -16,29 +17,32 @@ export default function ApplicationTokens() {
   });
 
   return (
-    <Space direction="vertical">
-      <Link key="1" to={`/applications/${id}/settings`}>
-        <Button type="primary"> Back to Settings </Button>
-      </Link>
-      <h2>Tokens in {application.name}</h2>
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading || loadingApp ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical">
-          {role === 'owner' ? (
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Link
-                key="1"
-                to={{
-                  pathname: `/applications/${id}/settings/tokens/create`,
-                }}
-              >
-                <Button type="primary"> Generate new tokens </Button>
-              </Link>
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Tokens in {application.name}</h2>
             </div>
-          ) : null}
+            {role === 'owner' ? (
+              <div>
+                <Link
+                  key="1"
+                  to={{
+                    pathname: `/applications/${id}/settings/tokens/create`,
+                  }}
+                >
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    Create new Tokens
+                  </Button>
+                </Link>
+              </div>
+            ) : null}
+          </div>
           <TokenList appID={id} application={application} role={role} />
-        </Space>
+        </>
       )}
     </Space>
   );
