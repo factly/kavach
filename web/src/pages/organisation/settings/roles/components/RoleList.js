@@ -98,13 +98,7 @@ function OrganisationRoleList({ orgID, role }) {
 
   return (
     <div>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={roles}
-        rowKey={'id'}
-        loading={loading}
-      />
+      <Table bordered columns={columns} dataSource={roles} rowKey={'id'} loading={loading} />
     </div>
   );
 }

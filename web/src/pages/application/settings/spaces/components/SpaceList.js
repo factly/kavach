@@ -106,15 +106,7 @@ function SpaceList({ appID, role }) {
     },
   ];
 
-  return (
-    <Table
-      rowKey={'id'}
-      bordered
-      dataSource={spaces}
-      columns={columns}
-      loading={loading}
-    />
-  );
+  return <Table rowKey={'id'} bordered dataSource={spaces} columns={columns} loading={loading} />;
 }
 
 export default SpaceList;

@@ -66,13 +66,7 @@ export default function TokenList({ orgID, role }) {
 
   return (
     <div>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={tokens}
-        rowKey={'id'}
-        loading={loading}
-      />
+      <Table bordered columns={columns} dataSource={tokens} rowKey={'id'} loading={loading} />
     </div>
   );
 }

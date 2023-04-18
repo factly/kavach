@@ -90,7 +90,7 @@ function FormList() {
               <Button onClick={() => add()}>Add More</Button>
               <Button
                 type="primary"
-                style={{ fontWeight: fontWeight, marginLeft: 'auto'}}
+                style={{ fontWeight: fontWeight, marginLeft: 'auto' }}
                 htmlType="submit"
               >
                 Send Invite

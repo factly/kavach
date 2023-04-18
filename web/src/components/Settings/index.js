@@ -41,63 +41,63 @@ export default function SettingsList({ type, orgID, appID, spaceID, role }) {
   useEffect(() => {
     process.browser && window.addEventListener('resize', handleResize);
     handleResize();
-    
+
     return () => {
       process.browser && window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   return (
-      <Row gutter={[16, 16]}>
+    <Row gutter={[16, 16]}>
+      <Col span={colSpan}>
+        <Link to={`${baseLink}/users`}>
+          <SettingsCard
+            icon={<img src={SettingsIcon} alt="icon" />}
+            title={<div className="organisation-setting-heading">Users</div>}
+            description="User settings"
+          />
+        </Link>
+      </Col>
+      <Col span={colSpan}>
+        <Link to={`${baseLink}/roles`}>
+          <SettingsCard
+            icon={<img src={SettingsIcon} alt="icon" />}
+            title={<div className="organisation-setting-heading">Roles</div>}
+            description="Role settings"
+          />
+        </Link>
+      </Col>
+      <Col span={colSpan}>
+        <Link to={`${baseLink}/policies`}>
+          <SettingsCard
+            icon={<img src={SettingsIcon} alt="icon" />}
+            title={<div className="organisation-setting-heading">Policies</div>}
+            description="Policy settings"
+          />
+        </Link>
+      </Col>
+      {role === 'owner' ? (
         <Col span={colSpan}>
-          <Link to={`${baseLink}/users`}>
+          <Link to={`${baseLink}/tokens`}>
             <SettingsCard
               icon={<img src={SettingsIcon} alt="icon" />}
-              title={<div className="organisation-setting-heading">Users</div>}
-              description="User settings"
+              title={<div className="organisation-setting-heading">Tokens</div>}
+              description="Token settings"
             />
           </Link>
         </Col>
+      ) : null}
+      {type === 'application' ? (
         <Col span={colSpan}>
-          <Link to={`${baseLink}/roles`}>
+          <Link to={`${baseLink}/spaces`}>
             <SettingsCard
               icon={<img src={SettingsIcon} alt="icon" />}
-              title={<div className="organisation-setting-heading">Roles</div>}
-              description="Role settings"
+              title={<div className="organisation-setting-heading">Spaces</div>}
+              description="Space Settings"
             />
           </Link>
         </Col>
-        <Col span={colSpan}>
-          <Link to={`${baseLink}/policies`}>
-            <SettingsCard
-              icon={<img src={SettingsIcon} alt="icon" />}
-              title={<div className="organisation-setting-heading">Policies</div>}
-              description="Policy settings"
-            />
-          </Link>
-        </Col>
-        {role === 'owner' ? (
-          <Col span={colSpan}>
-            <Link to={`${baseLink}/tokens`}>
-              <SettingsCard
-                icon={<img src={SettingsIcon} alt="icon" />}
-                title={<div className="organisation-setting-heading">Tokens</div>}
-                description="Token settings"
-              />
-            </Link>
-          </Col>
-        ) : null}
-        {type === 'application' ? (
-          <Col span={colSpan}>
-            <Link to={`${baseLink}/spaces`}>
-              <SettingsCard
-                icon={<img src={SettingsIcon} alt="icon" />}
-                title={<div className="organisation-setting-heading">Spaces</div>}
-                description="Space Settings"
-              />
-            </Link>
-          </Col>
-        ) : null}
-      </Row>
+      ) : null}
+    </Row>
   );
 }

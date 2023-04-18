@@ -63,13 +63,7 @@ export default function TokenList({ appID, role }) {
 
   return (
     <div>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={tokens}
-        rowKey={'id'}
-        loading={loading}
-      />
+      <Table bordered columns={columns} dataSource={tokens} rowKey={'id'} loading={loading} />
     </div>
   );
 }
