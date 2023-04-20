@@ -6,6 +6,7 @@ import (
 	"github.com/factly/kavach-server/util/keto"
 	"github.com/factly/x/healthx"
 
+	"github.com/factly/kavach-server/action/admin"
 	"github.com/factly/kavach-server/action/medium"
 	"github.com/factly/kavach-server/action/organisation"
 	"github.com/factly/kavach-server/action/organisation/application/space/token"
@@ -46,6 +47,7 @@ func RegisterRoutes() http.Handler {
 	r.Mount("/util", util.Router())
 	r.Post("/spaces/{space_id}/validateToken", token.Validate)
 	r.Mount("/sessions", sessions.Router())
+	r.Mount("/admin", admin.AdminRouter())
 	sqlDB, _ := model.DB.DB()
 
 	healthx.RegisterRoutes(r, healthx.ReadyCheckers{
