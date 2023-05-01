@@ -53,12 +53,12 @@ func SetupVars() {
 	if !viper.IsSet("domain_name") {
 		log.Fatal("please provide domain_name in config")
 	}
-	
+
 	if !viper.IsSet("dynamic_email_enabled") {
-                log.Fatal("please provide dynamic_email_enabled key in config")
-        } 
-       
-        if viper.GetBool("dynamic_email_enabled") {
+		log.Fatal("please provide dynamic_email_enabled key in config")
+	}
+
+	if viper.GetBool("dynamic_email_enabled") {
 		if !viper.IsSet("dynamic_from_email") {
 			log.Fatal("please provide dynamic_from_email in config")
 		}
@@ -114,6 +114,14 @@ func SetupVars() {
 
 	if !viper.IsSet("keto_read_api_url") {
 		log.Fatal("please provide keto_read_api_url in config")
+	}
+
+	if !viper.IsSet("sendgrid_from_email") {
+		log.Fatal("please provide sendgrid_from_email in config")
+	}
+
+	if !viper.IsSet("sendgrid_from_name") {
+		log.Fatal("please provide sendgrid_from_name in config")
 	}
 
 }
