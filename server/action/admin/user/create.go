@@ -25,7 +25,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	displayName := ""
+	displayName := user.DisplayName
 	if user.DisplayName == "" {
 		displayName = user.FirstName
 		if user.LastName != "" {
