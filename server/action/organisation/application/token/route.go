@@ -9,7 +9,9 @@ type createAppToken struct {
 	Name        string `json:"name,omitempty" validate:"required"`
 	Description string `json:"description,omitempty"`
 }
+
 const namespace string = "applications"
+
 type applicationToken struct {
 	model.Base
 	Name          string             `gorm:"column:name" json:"name"`
@@ -25,6 +27,7 @@ func Router() chi.Router {
 	r.Post("/", create)
 	r.Get("/", list)
 	r.Delete("/{token_id}", delete)
+	r.Post("/validate", validate)
 
 	return r
 }

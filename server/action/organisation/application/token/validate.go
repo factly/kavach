@@ -29,14 +29,19 @@ type ValidationBody struct {
 // @Param application_slug path string true "Application Slug"
 // @Param ValidationBody body ValidationBody true "Validation Body"
 // @Success 200 {object} model.Application
-// @Router /applications/{application_slug}/validateToken [post]
-func Validate(w http.ResponseWriter, r *http.Request) {
-	appSlug := chi.URLParam(r, "application_slug")
-	if appSlug == "" {
-		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid slug", http.StatusBadRequest)))
+// @Router /applications/{application_id}/tokens/validate [post]
+func validate(w http.ResponseWriter, r *http.Request) {
+	applicaion_id := chi.URLParam(r, "application_id")
+	// if applicaion_id == "" {
+	// 	errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
+	// 	return
+	// }
+	id, err := strconv.ParseUint(applicaion_id, 10, 64)
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
 		return
 	}
-
+	//parse applicaion_id
 	orgID, err := strconv.Atoi(r.Header.Get("X-Organisation"))
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
@@ -64,7 +69,7 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		Token: tokenBody.Token,
 	}).First(&appToken).Error
 
-	if err != nil || appToken.Application.Slug != appSlug || appToken.Application.OrganisationID != uint(orgID) {
+	if err != nil || appToken.ApplicationID != uint(id) || appToken.Application.OrganisationID != uint(orgID) {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
