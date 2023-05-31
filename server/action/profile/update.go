@@ -85,8 +85,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"meta":               req.Meta,
 	}
 
-	timeLayout := "2006-01-02"
 	if req.BirthDate != "" {
+		timeLayout := "2006-01-02"
 		birth_date, err := time.Parse(timeLayout, req.BirthDate)
 		if err != nil {
 			tx.Rollback()
@@ -95,8 +95,6 @@ func update(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		updateUser["birth_date"] = birth_date
-	} else {
-		updateUser["birth_date"] = nil
 	}
 
 	if req.FeaturedMediumID == 0 {
