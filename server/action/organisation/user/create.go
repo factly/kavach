@@ -119,24 +119,68 @@ func create(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
+		// case 1: Invitation already exists and is pending
+		// 					- Update ExpiredAt
+		// case 2: Invitation already exists and is rejected
+		// 					- Update ExpiredAt
+		// 					- Update Status to Pending
+		// case 3: Invitation does not exist
+		// 					- Create Invitation
+		// case 4: Invitation already exists and is accepted
+		// 					- Return error
+
 		invitation := &model.Invitation{
 			Base: model.Base{
 				CreatedByID: uint(currentUID),
 			},
 			InviteeID:      invitee.ID,
-			Status:         false,
+			Status:         model.Pending,
 			Role:           user.Role,
 			OrganisationID: uint(orgID),
-			ExpiredAt:      time.Now().AddDate(0, 0, 7),
 		}
 
-		err = tx.Save(invitation).Error
+		err = tx.Model(&model.Invitation{}).Where("invitee_id = ? AND organisation_id = ? AND expired_at > ? AND created_by_id = ? AND role = ?", invitee.ID, orgID, time.Now(), currentUID, user.Role).First(&invitation).Error
 
 		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-			return
+			if err == gorm.ErrRecordNotFound {
+				// create new invitation
+				invitation.Status = model.Pending
+				invitation.ExpiredAt = time.Now().AddDate(0, 0, 7)
+				createErr := tx.Model(&model.Invitation{}).Create(invitation).Error
+				if createErr != nil {
+					loggerx.Error(createErr)
+					errorx.Render(w, errorx.Parser(errorx.DBError()))
+					return
+				}
+			} else {
+				loggerx.Error(err)
+				errorx.Render(w, errorx.Parser(errorx.DBError()))
+				return
+			}
+		} else {
+			// check for all the cases
+			if invitation.Status == model.Accepted {
+				loggerx.Error(errors.New("invitation already accepted"))
+				errorx.Render(w, errorx.Parser(errorx.GetMessage("invitation already accepted", http.StatusBadRequest)))
+				return
+			} else if invitation.Status == model.Rejected {
+				invitation.Status = model.Pending
+				updateErr := updateInvitation(tx, invitation)
+				if updateErr != nil {
+					tx.Rollback()
+					loggerx.Error(updateErr)
+					errorx.Render(w, errorx.Parser(errorx.DBError()))
+					return
+				}
+			} else if invitation.Status == model.Pending {
+				updateErr := updateInvitation(tx, invitation)
+				if updateErr != nil {
+					tx.Rollback()
+					loggerx.Error(updateErr)
+					errorx.Render(w, errorx.Parser(errorx.DBError()))
+					return
+				}
+			}
 		}
 
 		var organisationMap []map[string]interface{}
@@ -218,6 +262,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 				// return
 			}
 		}
+		in := &model.Invitation{}
+		_ = tx.Model(&model.Invitation{}).Where("status = ?", model.Pending).First(&in).Error
 		tx.Commit()
 	}
 	renderx.JSON(w, http.StatusOK, nil)
@@ -241,4 +287,15 @@ func decodeURLIfNeeded(urlString string) (string, error) {
 
 	// The URL is not encoded, return the original URL string
 	return urlString, nil
+}
+
+func updateInvitation(tx *gorm.DB, invitation *model.Invitation) error {
+	invitation.ExpiredAt = time.Now().AddDate(0, 0, 7)
+	filter := &model.Invitation{
+		Base: model.Base{
+			ID: invitation.ID,
+		},
+	}
+	updateErr := tx.Model(&model.Invitation{}).Where(filter).Save(invitation).Error
+	return updateErr
 }

@@ -36,7 +36,13 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	tx.Where(&invites).Delete(&invites)
+	err = tx.Where(&invites).Update("status", model.Rejected).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }
