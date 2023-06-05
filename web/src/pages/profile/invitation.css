@@ -1,0 +1,12 @@
+.invitationButton{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    gap:5px
+}
+.ant-btn-default.ant-btn-background-ghost{
+    color:#00AC1E ;
+    border-color: #00AC1E;
+}
