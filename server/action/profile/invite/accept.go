@@ -43,6 +43,7 @@ func accept(w http.ResponseWriter, r *http.Request) {
 
 	userID, err := strconv.Atoi(r.Header.Get("X-User"))
 	if err != nil {
+		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
 		return
 	}
@@ -86,6 +87,7 @@ func accept(w http.ResponseWriter, r *http.Request) {
 		tx.Rollback()
 		loggerx.Error(errors.New("user already exist in organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
 	}
 
 	// creating a relation tuple for users which are owner in keto api
