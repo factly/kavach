@@ -101,8 +101,15 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"name":        space.Name,
 		"slug":        space.Slug,
 		"description": space.Description,
-		"meta_fields":    space.MetaFields,
+		"meta_fields": space.MetaFields,
 	}
+
+	if space.MediumID == nil {
+		updateMap["medium_id"] = nil
+	} else {
+		updateMap["medium_id"] = *space.MediumID
+	}
+
 	updatedSpace := new(model.Space)
 	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Updates(updateMap).First(updatedSpace).Error
 	if err != nil {

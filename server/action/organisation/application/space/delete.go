@@ -97,6 +97,10 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
+	// delete the medium associated with the space
+	if space.MediumID != nil {
+		err = tx.Model(&model.Medium{}).Where("id = ?", *space.MediumID).Delete(&model.Medium{}).Error
+	}
 
 	err = tx.Model(&model.Space{}).Where("id = ?", space.ID).Delete(space).Error
 	if err != nil {

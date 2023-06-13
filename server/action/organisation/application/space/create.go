@@ -124,6 +124,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 			ID: uint(uID),
 		},
 	})
+
 	err = tx.Model(&model.Space{}).Create(&space).Error
 	if err != nil {
 		tx.Rollback()
