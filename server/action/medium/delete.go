@@ -87,6 +87,13 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = model.DB.Model(&model.Space{}).Where(&model.Space{MediumID: &result.ID}).Update("medium_id", nil).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
 	model.DB.Delete(&result)
 	renderx.JSON(w, http.StatusOK, nil)
 }
