@@ -87,11 +87,10 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	model.DB.Model(&model.Space{}).Where(&model.Space{MediumID: &uintID}).Count(&totAssociated)
-
-	if totAssociated != 0 {
-		loggerx.Error(errors.New("medium is associated with space"))
-		errorx.Render(w, errorx.Parser(errorx.CannotDelete("media", "space")))
+	err = model.DB.Model(&model.Space{}).Where(&model.Space{MediumID: &result.ID}).Update("medium_id", nil).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
