@@ -24,7 +24,7 @@ function Header() {
   return (
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <div style={{ display: 'flex', height: '32px', gap: '14px' }}>
+        <div >
           {window.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
             <>
               <Link style={{ display: 'flex' }} to="/organisation/create">
