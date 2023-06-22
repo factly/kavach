@@ -32,6 +32,15 @@ type invite struct {
 	Email     string `json:"email" validate:"required"`
 	Role      string `json:"role" validate:"required"`
 }
+type FailedInvite struct {
+	Email   string `json:"email"`
+	Message string `json:"message"`
+}
+
+type Response struct {
+	FailedInvites []FailedInvite `json:"failed_invites"`
+	Invitations   []invite       `json:"invitations"`
+}
 
 // create - Create organisation user
 // @Summary Create organisation user
@@ -62,6 +71,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
+	disableInvite := r.URL.Query().Get("disable_invite")
+
 	var currentUID int
 	currentUID, err = strconv.Atoi(r.Header.Get("X-User"))
 
@@ -95,6 +106,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	inviteeCounts := make(map[string]int64)
 
 	for _, user := range req.Users {
 		tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, currentUID)).Begin()
@@ -133,8 +145,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 			loggerx.Error(err)
 			return
 		}
-
 		if invitationCount > 0 {
+			inviteeCounts[invitee.Email]++
 			loggerx.Error(err)
 			continue
 		}
@@ -217,17 +229,43 @@ func create(w http.ResponseWriter, r *http.Request) {
 			// } else {
 			// 	receiver.ActionURL = return_to
 			// }
-			err = email.SendmailwithSendGrid(receiver)
-			if err != nil {
-				// tx.Rollback()
-				loggerx.Error(err)
-				// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-				// return
+			if disableInvite != "true" {
+				err = email.SendmailwithSendGrid(receiver)
+				if err != nil {
+					// tx.Rollback()
+					loggerx.Error(err)
+					// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					// return
+				}
 			}
+
 		}
 		tx.Commit()
 	}
-	renderx.JSON(w, http.StatusOK, nil)
+	var failedInvites []FailedInvite
+	var invitations []invite
+	for _, user := range req.Users {
+		if count, exists := inviteeCounts[user.Email]; exists && count >= 1 {
+			failedInvites = append(failedInvites, FailedInvite{
+				Email:   user.Email,
+				Message: "invite already exists",
+			})
+		} else {
+			invitations = append(invitations, user)
+		}
+	}
+	var resp Response
+	if len(failedInvites) > 0 {
+		resp.FailedInvites = failedInvites
+	} else {
+		resp.FailedInvites = []FailedInvite{}
+	}
+	if len(invitations) > 0 {
+		resp.Invitations = invitations
+	} else {
+		resp.Invitations = []invite{}
+	}
+	renderx.JSON(w, http.StatusOK, resp)
 }
 
 func decodeURLIfNeeded(urlString string) (string, error) {
