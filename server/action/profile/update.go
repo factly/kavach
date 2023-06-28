@@ -19,7 +19,7 @@ type user struct {
 	LastName         string         `json:"last_name"`
 	DisplayName      string         `json:"display_name" validate:"required"`
 	Slug             string         `json:"slug" validate:"required"`
-	BirthDate        time.Time      `json:"birth_date"`
+	BirthDate        string         `json:"birth_date"`
 	Gender           string         `json:"gender"`
 	FeaturedMediumID uint           `json:"featured_medium_id"`
 	Description      string         `json:"description"`
@@ -85,18 +85,16 @@ func update(w http.ResponseWriter, r *http.Request) {
 		"meta":               req.Meta,
 	}
 
-	if !req.BirthDate.IsZero() {
-		birthDate := req.BirthDate.Format("2006-01-02") // format birth_date to YYYY-MM-DD
-
+	if req.BirthDate != "" {
+		timeLayout := "2006-01-02"
+		birth_date, err := time.Parse(timeLayout, req.BirthDate)
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DecodeError()))
+			errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid birth_date", http.StatusUnprocessableEntity)))
 			return
 		}
-		updateUser["birth_date"] = birthDate
-	} else {
-		updateUser["birth_date"] = nil
+		updateUser["birth_date"] = birth_date
 	}
 
 	if req.FeaturedMediumID == 0 {
