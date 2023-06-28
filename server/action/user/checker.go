@@ -61,9 +61,12 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	email := traits["email"]
+	
+
 	user := model.User{
 		// make email lowercase to avoid case sensitivity
-		Email:       strings.ToLower(identity["email"].(string)),
+		Email:       strings.ToLower(fmt.Sprint(email)),
 		KID:         identity["id"].(string),
 		FirstName:   firstName,
 		LastName:    lastName,
