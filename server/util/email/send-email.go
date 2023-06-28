@@ -22,7 +22,7 @@ type MailReceiver struct {
 }
 
 func SendmailwithSendGrid(data MailReceiver) error {
-	from := mail.NewEmail("Kavach Develop", "kavach-develop@factly.in")
+	from := mail.NewEmail(viper.GetString("sendgrid_from_name"), viper.GetString("sendgrid_from_email"))
 	subject := fmt.Sprintf("Inviting to %s", data.OrganisationName)
 	to := mail.NewEmail(data.InviteeName, data.InviteeEmail)
 	var body *template.Template

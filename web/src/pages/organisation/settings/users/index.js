@@ -1,4 +1,5 @@
 import React from 'react';
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, Popconfirm, Table, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -74,11 +75,10 @@ function OrganisationUsers() {
         >
           <Button
             key={record.id}
-            icon={<DeleteOutlined />}
             danger
             disabled={!loadingRole ? (role === 'owner' ? false : true) : true}
           >
-            Delete
+            <DeleteOutlined />
           </Button>
         </Popconfirm>
       ),
@@ -87,29 +87,27 @@ function OrganisationUsers() {
   ];
 
   return (
-    <Space direction="vertical">
-      {role === 'owner' ? (
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <Link key="1" to={`/organisation`} style={{ alignSelf: 'flex-start' }}>
-            <Button type="primary"> Back to Settings </Button>
-          </Link>
-          <Link
-            key="2"
-            to={`/organisation/${orgID}/settings/users/new`}
-            style={{ alignSelf: 'flex-end' }}
-          >
-            <Button type="primary">Invite Users</Button>
-          </Link>
+    <Space direction="vertical" style={{ width: '100%' }}>
+      <div className="organisation-descriptions-header">
+        <div className="organisation-descriptions-title">
+          <h2 className="organisation-title-main">Edit Organisation</h2>
         </div>
-      ) : null}
+        {role === 'owner' ? (
+          <div>
+            <Link
+              key="2"
+              to={`/organisation/${orgID}/settings/users/new`}
+              style={{ alignSelf: 'flex-end' }}
+            >
+              <Button type="primary" icon={<PlusOutlined />}>
+                Invite Users
+              </Button>
+            </Link>
+          </div>
+        ) : null}
+      </div>
       <Table
         bordered
-        style={{ width: '78vw' }}
         rowKey={'id'}
         loading={loading}
         pagination={false}

@@ -36,7 +36,13 @@ export const addUser = (data) => {
   return (dispatch, getState) => {
     dispatch(loadingUsers());
     return axios
-      .post(USERS_API + '/' + getState().organisations.selected + `/users/?return_to=${window.REACT_APP_PUBLIC_URL}/profile/invite`, data)
+      .post(
+        USERS_API +
+          '/' +
+          getState().organisations.selected +
+          `/users/?return_to=${window.REACT_APP_PUBLIC_URL}/profile/invite`,
+        data,
+      )
       .then((res) => {
         dispatch(resetUsers());
         dispatch(stopUsersLoading());

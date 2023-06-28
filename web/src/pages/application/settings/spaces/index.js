@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Skeleton, Space } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApplication } from '../../../../actions/application';
@@ -22,29 +23,32 @@ export default function Spaces() {
   }, [appID, dispatch]);
 
   return (
-    <Space direction="vertical">
-      <Link key="1" to={`/applications/${appID}/settings`}>
-        <Button type="primary"> Back to Settings </Button>
-      </Link>
-      <h2>Spaces in {application.name}</h2>
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading || loadingApp ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical">
-          {role !== 'owner' ? null : (
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Link
-                key="1"
-                to={{
-                  pathname: `/applications/${appID}/settings/spaces/create`,
-                }}
-              >
-                <Button type="primary"> Create New Space </Button>
-              </Link>
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Spaces in {application.name}</h2>
             </div>
-          )}
+            {role !== 'owner' ? null : (
+              <div>
+                <Link
+                  key="1"
+                  to={{
+                    pathname: `/applications/${appID}/settings/spaces/create`,
+                  }}
+                >
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    Create New Space
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
           <SpaceList appID={appID} role={role} />
-        </Space>
+        </>
       )}
     </Space>
   );

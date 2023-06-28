@@ -7,6 +7,13 @@ import { checker, maker } from '../../../../../utils/sluger';
 import { getOrganisation } from '../../../../../actions/organisations';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 export default function EditOrganisationRole() {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -64,26 +71,23 @@ export default function EditOrganisationRole() {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
-        <Button type="primary">Back to Roles</Button>
-      </Link>
+    <>
       {loading || loadingOrg || loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card
-          title={`Edit Organisation Role - ${organisation?.title}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">
+                Edit Organisation Role - {organisation?.title}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
+                <Button type="primary">Back to Roles</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -97,6 +101,7 @@ export default function EditOrganisationRole() {
               slug: role.slug,
               description: role.description,
             }}
+            style={{ maxWidth: '600px' }}
           >
             <Form.Item
               name="name"
@@ -129,14 +134,14 @@ export default function EditOrganisationRole() {
             <Form.Item name="description" label="Description">
               <TextArea rows={4} />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="update-organisation-role">
                 Update Role
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 }

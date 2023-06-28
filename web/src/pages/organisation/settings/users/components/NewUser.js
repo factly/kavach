@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Select, Button, Row, Col, Skeleton } from 'antd';
+import { Space, Form, Input, Select, Button, Row, Col, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../../../../../actions/users';
 import { Link, useHistory, useParams } from 'react-router-dom';
@@ -9,8 +9,8 @@ import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorCompon
 const fontWeight = 'bold';
 const layout = {
   iconCol: 2,
-  roleCol: 3,
-  otherCol: 6,
+  roleCol: 5,
+  otherCol: 5,
 };
 
 //FormHeader is used to create the header of the form
@@ -66,7 +66,7 @@ function FormList() {
                   </Col>
                   <Col span={layout.roleCol}>
                     <Form.Item name={[index, 'role']}>
-                      <Select placeholder="Role" style={{ width: 100 }}>
+                      <Select placeholder="Role">
                         <Select.Option value="owner">Owner</Select.Option>
                         <Select.Option value="member">Member</Select.Option>
                       </Select>
@@ -87,19 +87,13 @@ function FormList() {
               </div>
             ))}
             <Row style={{ display: 'flex', fontWeight: fontWeight }}>
-              <Button
-                onClick={() => {
-                  return add();
-                }}
-              >
-                Add another...
-              </Button>
+              <Button onClick={() => add()}>Add More</Button>
               <Button
                 type="primary"
-                style={{ fontWeight: fontWeight, marginLeft: 'auto', marginRight: 115 }}
+                style={{ fontWeight: fontWeight, marginLeft: 'auto' }}
                 htmlType="submit"
               >
-                Send Invites
+                Send Invite
               </Button>
             </Row>
           </div>
@@ -128,26 +122,21 @@ function NewUser() {
     };
   });
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-      className="content"
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/users`}>
-        <Button type="primary">Back to Users List</Button>
-      </Link>
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading ? (
         <Skeleton />
       ) : role === 'owner' ? (
-        <Card title="Invite Users">
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Invite Users</h2>
+            </div>
+          </div>
           <FormHeader />
           <Form form={form} onFinish={addNewUsers} initialValues={{ users: [''] }}>
             <FormList />
           </Form>
-        </Card>
+        </>
       ) : (
         <ErrorComponent
           status="403"
@@ -156,7 +145,7 @@ function NewUser() {
           message="Back Home"
         />
       )}
-    </div>
+    </Space>
   );
 }
 

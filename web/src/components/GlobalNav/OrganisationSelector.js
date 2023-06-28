@@ -34,7 +34,7 @@ function OrganisationSelector() {
   return organisations.length > 0 ? (
     <Select
       value={selectedOrg}
-      style={{ width: '200px' }}
+      style={{ background: '#F1F1F1', border: 'none' }}
       onChange={handleOrganisationChange}
       bordered={false}
     >
@@ -52,7 +52,7 @@ function OrganisationSelector() {
               />
             ) : (
               <Avatar size="small">{getInitial(organisation.title)}</Avatar>
-            )}{' '}
+            )}
             {organisation.title}
           </Select.Option>
         );

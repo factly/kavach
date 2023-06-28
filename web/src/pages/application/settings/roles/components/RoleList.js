@@ -100,14 +100,7 @@ function ApplicationRoleList({ appID, role }) {
   }, [dispatch, appID]);
   return (
     <div>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={roles}
-        rowKey={'id'}
-        loading={loading}
-        style={{ width: '78vw' }}
-      />
+      <Table bordered columns={columns} dataSource={roles} rowKey={'id'} loading={loading} />
     </div>
   );
 }

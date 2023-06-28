@@ -93,14 +93,7 @@ export default function PolicyList({ appID, role }) {
 
   return (
     <div>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={policies}
-        rowKey={'id'}
-        loading={loading}
-        style={{ width: '78vw' }}
-      />
+      <Table bordered columns={columns} dataSource={policies} rowKey={'id'} loading={loading} />
     </div>
   );
 }

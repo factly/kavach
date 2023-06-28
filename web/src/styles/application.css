@@ -1,8 +1,43 @@
-.application-main-title {
+.application-descriptions-header {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  margin-bottom: 20px;
+}
+
+.application-descriptions-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: auto;
+  color: rgba(0, 0, 0, 0.88);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.application-title-main {
   font-size: 18px;
   line-height: 22px;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 0;
+}
+
+/* application manage */
+.application-index .ant-descriptions-row {
+  display: flex;
+}
+
+.application-index .ant-descriptions-item-label {
+  flex-basis: 30%;
+  min-width: 195px;
+}
+
+.application-table-label {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.88);
 }
 
 .application-type-heading {

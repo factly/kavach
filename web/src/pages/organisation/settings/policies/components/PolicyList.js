@@ -100,14 +100,5 @@ export default function PolicyList({ orgID, role }) {
     //eslint-disable-next-line
   }, [dispatch, orgID]);
 
-  return (
-    <Table
-      bordered
-      columns={columns}
-      dataSource={policies}
-      rowKey={'id'}
-      loading={loading}
-      style={{ width: '78vw' }}
-    />
-  );
+  return <Table bordered columns={columns} dataSource={policies} rowKey={'id'} loading={loading} />;
 }

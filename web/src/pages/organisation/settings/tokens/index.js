@@ -1,5 +1,6 @@
 import React from 'react';
 import { Skeleton, Space, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import TokenList from './components/OrganisationTokenList';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
@@ -16,32 +17,33 @@ export default function OrganisationTokens() {
   });
 
   return (
-    <div>
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading || loadingOrg ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical">
-          <Link key="1" to={`/organisation`}>
-            <Button type="primary"> Back to Settings </Button>
-          </Link>
-          <h2>Tokens in {organisation?.title}</h2>
-          <Space direction="vertical">
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Tokens in {organisation?.title}</h2>
+            </div>
             {role === 'owner' ? (
-              <div style={{ display: 'flex', justifyContent: 'end' }}>
+              <div>
                 <Link
                   key="1"
                   to={{
                     pathname: `/organisation/${orgID}/settings/tokens/create`,
                   }}
                 >
-                  <Button type="primary"> Generate new tokens </Button>
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    Create new Tokens
+                  </Button>
                 </Link>
               </div>
             ) : null}
-            <TokenList orgID={orgID} role={role} />
-          </Space>
-        </Space>
+          </div>
+          <TokenList orgID={orgID} role={role} />
+        </>
       )}
-    </div>
+    </Space>
   );
 }

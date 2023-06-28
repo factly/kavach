@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Skeleton, Descriptions, Space, Divider, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrganisations } from './../../actions/organisations';
@@ -21,13 +21,28 @@ function OrganisationDetails() {
     };
   });
 
+  const [isMobile, setIsMobile] = useState(null);
+
+  const handleResize = () => {
+    process.browser && window.innerWidth <= 500 ? setIsMobile(true) : setIsMobile(false);
+  };
+
+  useEffect(() => {
+    process.browser && window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      process.browser && window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     dispatch(getOrganisations());
     //eslint-disable-next-line
   }, []);
 
   return (
-    <div>
+    <>
       {loading ? (
         <Skeleton />
       ) : orgCount === 0 ? (
@@ -38,14 +53,15 @@ function OrganisationDetails() {
           message="Create Organisation"
         />
       ) : (
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space direction="vertical">
           <Descriptions
-            title={<h2 className="organisation-main-title">Manage organisation</h2>}
+            className="organisation-index"
+            title={<h2 className="organisation-title-main">Manage organisation</h2>}
             bordered={true}
             extra={
               <Link to={`/organisation/edit`}>
                 <Button icon={<EditOutlined />} type="primary">
-                  Edit Organisation
+                  {isMobile ? 'Edit' : 'Edit Organisation'}
                 </Button>
               </Link>
             }
@@ -77,13 +93,13 @@ function OrganisationDetails() {
           </Descriptions>
 
           <Descriptions
-            className="organisation-margin-top"
-            title={<h2 className="organisation-main-title">Organisation Settings</h2>}
+            style={{ marginTop: '34px' }}
+            title={<h2 className="organisation-title-main">Organisation Settings</h2>}
           ></Descriptions>
           <OrganisationSettings orgID={selected} />
         </Space>
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Skeleton, Space, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getApplication } from '../../../../actions/application';
@@ -26,24 +27,27 @@ export default function ApplicationPolicies() {
   });
 
   return (
-    <Space direction="vertical">
-      <Link key="1" to={`/applications/${id}/settings`}>
-        <Button type="primary"> Back to Settings </Button>
-      </Link>
-      <h2>Policies in {application.name}</h2>
-      {loading || loadingApp ? (
+    <Space direction="vertical" style={{ width: '100%' }}>
+      {loading && loadingApp ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical">
-          {role === 'owner' ? (
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Link key="1" to={`/applications/${id}/settings/policies/create`}>
-                <Button type="primary"> Create New Policies </Button>
-              </Link>
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Policies in {application.name}</h2>
             </div>
-          ) : null}
+            {role === 'owner' ? (
+              <div>
+                <Link key="1" to={`/applications/${id}/settings/policies/create`}>
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    Create New Policies
+                  </Button>
+                </Link>
+              </div>
+            ) : null}
+          </div>
           <PolicyList appID={id} role={role} />
-        </Space>
+        </>
       )}
     </Space>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Skeleton, Space, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { getOrganisation } from '../../../../actions/organisations';
@@ -24,30 +25,27 @@ export default function OrganisationPolicies() {
   });
   console.log(role);
   return (
-    <Space direction="vertical">
-      <Link key="1" to={`/organisation`}>
-        <Button type="primary"> Back to Settings </Button>
-      </Link>
-      <h2
-        style={{
-          marginTop: 20,
-        }}
-      >
-        Policies in {organisation?.title}
-      </h2>
+    <Space direction="vertical" style={{ width: '100%' }}>
       {loading && loadingOrg ? (
         <Skeleton />
       ) : (
-        <Space direction="vertical">
-          {role === 'owner' ? (
-            <div style={{ display: 'flex', justifyContent: 'end' }}>
-              <Link key="1" to={`/organisation/${orgID}/settings/policies/create`}>
-                <Button type="primary"> Create New Policies </Button>
-              </Link>
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">Policies in {organisation?.title}</h2>
             </div>
-          ) : null}
+            {role === 'owner' && (
+              <div>
+                <Link key="1" to={`/organisation/${orgID}/settings/policies/create`}>
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    Create New Policies
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
           <PolicyList orgID={orgID} role={role} key={`policyList-${orgID}`} />
-        </Space>
+        </>
       )}
     </Space>
   );

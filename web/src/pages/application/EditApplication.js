@@ -47,16 +47,23 @@ function EditApplication() {
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       {!application.is_default ? (
-        <div>
-          <h2> Edit Application </h2>
-
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Edit Application</h2>
+            </div>
+          </div>
           <ApplicationEditForm data={application} onCreate={onUpdate} />
-        </div>
+        </>
       ) : orgID === 1 ? (
-        <div>
-          <h2> Edit Application </h2>
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Edit Application</h2>
+            </div>
+          </div>
           <ApplicationEditForm data={application} onCreate={onUpdate} />
-        </div>
+        </>
       ) : (
         <>
           <ErrorComponent

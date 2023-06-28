@@ -3,7 +3,7 @@ import { Popconfirm, Button, Table, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteOrganisationRole, getOrganisationRoles } from '../../../../../actions/roles';
 import { Link } from 'react-router-dom';
-import { UserOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EyeOutlined , DeleteOutlined } from '@ant-design/icons';
 
 function OrganisationRoleList({ orgID, role }) {
   const dispatch = useDispatch();
@@ -65,13 +65,12 @@ function OrganisationRoleList({ orgID, role }) {
                     pathname: `/organisation/${orgID}/settings/roles/${record.id}/users`,
                   }}
                 >
-                  <Button icon={<UserOutlined />} primary="true">
+                  <Button icon={<EyeOutlined />} primary="true">
                     View Users
                   </Button>
                 </Link>
                 <Popconfirm title="Sure to Revoke?" onConfirm={() => onDelete(record.id)}>
                   <Button danger icon={<DeleteOutlined />}>
-                    Delete
                   </Button>
                 </Popconfirm>
               </Space>
@@ -97,14 +96,7 @@ function OrganisationRoleList({ orgID, role }) {
 
   return (
     <div>
-      <Table
-        bordered
-        columns={columns}
-        dataSource={roles}
-        rowKey={'id'}
-        loading={loading}
-        style={{ width: '78vw' }}
-      />
+      <Table bordered columns={columns} dataSource={roles} rowKey={'id'} loading={loading} />
     </div>
   );
 }

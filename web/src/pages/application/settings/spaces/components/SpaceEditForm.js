@@ -8,6 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { getApplication } from '../../../../../actions/application';
 
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 export default function EditSpaceForm() {
   const [form] = Form.useForm();
   const { appID, spaceID } = useParams();
@@ -45,16 +52,7 @@ export default function EditSpaceForm() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${appID}/settings/spaces`}>
-        <Button type="primary">Back to Spaces</Button>
-      </Link>
+    <>
       {loading || loadingApp || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -65,13 +63,17 @@ export default function EditSpaceForm() {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Edit Space in - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">Edit Space in - {application?.name}</h2>
+            </div>
+            <div>
+              <Link key="1" to={`/applications/${appID}/settings/spaces`}>
+                <Button type="primary">Back to Spaces</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             name="space_create"
             layout="vertical"
@@ -81,6 +83,9 @@ export default function EditSpaceForm() {
               meta_fields: space?.meta_fields ? JSON.stringify(space.meta_fields) : '',
             }}
             onFinish={(values) => handleSubmit(values)}
+            style={{
+              maxWidth: '600px',
+            }}
           >
             <Form.Item
               name="application_name"
@@ -110,14 +115,14 @@ export default function EditSpaceForm() {
             <Form.Item name="meta_fields" label="Meta">
               <Input.TextArea placeholder="enter meta_fields for your space" />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block>
                 Submit
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 }

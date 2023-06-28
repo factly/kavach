@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'antd';
+import { Row, Col } from 'antd';
 import ApplicationIcon from './img.svg';
 import { Link } from 'react-router-dom';
 import { SettingsCard } from '../../../components/Settings';
@@ -13,7 +13,11 @@ export const ApplicationType = () => {
         flexDirection: 'column',
       }}
     >
-      <h2 className="application-main-title">Choose Application Type</h2>
+      <div className="application-descriptions-header">
+        <div className="application-descriptions-title">
+          <h2 className="application-title-main">Choose Application Type</h2>
+        </div>
+      </div>
       <Row gutter={[16, 16]}>
         <Col span={12}>
           <Link to={`/applications/create?is_default=true`}>

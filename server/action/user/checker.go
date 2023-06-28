@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -60,8 +61,12 @@ func checker(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	email := traits["email"]
+	
+
 	user := model.User{
-		Email:       traits["email"].(string),
+		// make email lowercase to avoid case sensitivity
+		Email:       strings.ToLower(fmt.Sprint(email)),
 		KID:         identity["id"].(string),
 		FirstName:   firstName,
 		LastName:    lastName,

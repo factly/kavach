@@ -3,7 +3,12 @@ import { Table, Skeleton, Button, Space } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { acceptInvitation, deleteInvitation, getInvitation } from '../../actions/profile';
 import ErrorComponent from '../../components/ErrorsAndImage/ErrorComponent';
+import './invitation.css'
+import {RxCrossCircled} from 'react-icons/rx'
+import {AiOutlineCheckCircle} from 'react-icons/ai'
+
 function InvitationComponent() {
+
   const dispatch = useDispatch();
   const { invitations, loading } = useSelector((state) => {
     return {
@@ -66,12 +71,15 @@ function InvitationComponent() {
         return (
           <Space>
             <Button
-              style={{ backgroundColor: '#6cc644', color: 'white', borderColor: '#6cc644' }}
+              className="invitationButton"
+              ghost
               onClick={() => onAccept(record)}
             >
+              <AiOutlineCheckCircle/>
               Accept
             </Button>
-            <Button type="primary" onClick={() => onDecline(record.id)} danger>
+            <Button className='invitationButton' onClick={() => onDecline(record.id)} danger>
+              <RxCrossCircled/>
               Decline
             </Button>
           </Space>

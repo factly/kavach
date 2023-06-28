@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Form, Input, Button, Select, Skeleton } from 'antd';
+import { Form, Input, Button, Select, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import { maker, checker } from '../../../../../utils/sluger';
@@ -8,6 +8,13 @@ import { getOrganisation } from '../../../../../actions/organisations';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { createOrganisationPolicy } from '../../../../../actions/policy';
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
 
 export default function CreateOrganisationPolicyForm() {
   const dispatch = useDispatch();
@@ -64,16 +71,7 @@ export default function CreateOrganisationPolicyForm() {
   }, [dispatch, orgID]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
-        <Button type="primary">Back to Policies</Button>
-      </Link>
+    <div>
       {loadingOrg || loadingRole || loadingRoles ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -84,14 +82,31 @@ export default function CreateOrganisationPolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Organisation Policy - ${organisation?.title}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
-          <Form form={form} layout="vertical" name="create-organisation-policy" onFinish={onFinish}>
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">
+                Create Organisation Policy - {organisation?.title}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+                <Button type="primary">Back to Policies</Button>
+              </Link>
+            </div>
+          </div>
+          <Form
+            form={form}
+            layout="vertical"
+            name="create-organisation-policy"
+            onFinish={(values) => {
+              onCreate(values);
+              onReset();
+            }}
+            style={{
+              maxWidth: '600px',
+            }}
+          >
             <Form.Item
               name="name"
               label="Name"
@@ -135,7 +150,7 @@ export default function CreateOrganisationPolicyForm() {
             <DynamicPermissionField type="create" />
             <Form.Item
               name="roles"
-              labels="Roles"
+              label="Select Roles"
               rules={[
                 {
                   required: true,
@@ -156,13 +171,13 @@ export default function CreateOrganisationPolicyForm() {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="create-organisation-policy">
                 Create Policy
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
     </div>
   );

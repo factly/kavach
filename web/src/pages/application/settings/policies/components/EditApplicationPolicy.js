@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Form, Input, Select, Skeleton } from 'antd';
+import { Button, Form, Input, Select, Skeleton } from 'antd';
 import { getApplicationPolicyByID, updateApplicationPolicy } from '../../../../../actions/policy';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,13 @@ import DynamicPermissionField from '../../../../../components/Policies';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getIds } from '../../../../../utils/objects';
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
 
 export default function EditApplicationPolicy() {
   const [form] = Form.useForm();
@@ -73,32 +80,30 @@ export default function EditApplicationPolicy() {
   // console.log(loading , loadingRole , loadingApp);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${appID}/settings/policies`}>
-        <Button type="primary">Back to Policies</Button>
-      </Link>
+    <>
       {loading || loadingRole || loadingApp ? (
         <Skeleton />
       ) : (
-        <Card
-          title={`Edit Application Policy - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">
+                Edit Application Policy - {application?.name}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/applications/${appID}/settings/policies`}>
+                <Button type="primary">Back to Policies</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             name="update-application-policy"
             layout="vertical"
             onFinish={(values) => onUpdate(values)}
             form={form}
             initialValues={{ ...policy, roles: getIds(policy?.roles) }}
+            style={{ maxWidth: '600px' }}
           >
             <Form.Item
               name="application_name"
@@ -171,14 +176,14 @@ export default function EditApplicationPolicy() {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="update-application-policy">
                 Update Policy
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 }
