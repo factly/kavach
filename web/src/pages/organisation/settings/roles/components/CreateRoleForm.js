@@ -7,6 +7,13 @@ import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorCompon
 import { getOrganisation } from '../../../../../actions/organisations';
 import { checker, maker } from '../../../../../utils/sluger';
 
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 const CreateOrganisationRoleForm = () => {
   const dispatch = useDispatch();
   const { orgID } = useParams();
@@ -44,15 +51,7 @@ const CreateOrganisationRoleForm = () => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
-        <Button type="primary">Back to Roles</Button>
-      </Link>
+    <>
       {loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -63,13 +62,19 @@ const CreateOrganisationRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Organisation Role - ${organisation?.title}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">
+                Create Organisation Role - {organisation?.title}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/roles`}>
+                <Button type="primary">Back to Roles</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -78,6 +83,7 @@ const CreateOrganisationRoleForm = () => {
               onCreate(values);
               onReset();
             }}
+            style={{ maxWidth: '600px' }}
           >
             {/* <Form.Item name="organisation_name" label="Application Name" initialValue={organisation.name}>
 										<Input disabled={true} />
@@ -122,15 +128,15 @@ const CreateOrganisationRoleForm = () => {
             >
               <TextArea rows={4} />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="create-organisation-role">
                 Create Role
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, Form, Input, Select, Skeleton } from 'antd';
+import { Button, Form, Input, Select, Skeleton } from 'antd';
 import { getOrganisationPolicyByID, updateOrganisationPolicy } from '../../../../../actions/policy';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,13 @@ import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorCompon
 import { getOrganisation } from '../../../../../actions/organisations';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getIds } from '../../../../../utils/objects';
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
 
 export default function EditOrganisationPolicy() {
   const [form] = Form.useForm();
@@ -63,16 +70,7 @@ export default function EditOrganisationPolicy() {
   }, []);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
-        <Button type="primary">Back to Policies</Button>
-      </Link>
+    <div>
       {loading || loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -83,19 +81,28 @@ export default function EditOrganisationPolicy() {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Edit Organisation Policy - ${organisation?.title}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">
+                Edit Organisation Policy - {organisation?.title}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+                <Button type="primary">Back to Policies</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             name="update-organisation-policy"
             layout="vertical"
             onFinish={(values) => onUpdate(values).then(() => onReset())}
             form={form}
             initialValues={{ ...policy, roles: getIds(policy?.roles) }}
+            style={{
+              maxWidth: '600px',
+            }}
           >
             <Form.Item
               name="name"
@@ -161,13 +168,13 @@ export default function EditOrganisationPolicy() {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="update-organisation-policy">
                 Update Policy
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
     </div>
   );

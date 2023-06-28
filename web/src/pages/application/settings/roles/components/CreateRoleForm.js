@@ -7,6 +7,13 @@ import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorCompon
 import { getApplication } from '../../../../../actions/application';
 import { checker, maker } from '../../../../../utils/sluger';
 
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 const CreateApplicationRoleForm = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -43,16 +50,7 @@ const CreateApplicationRoleForm = () => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${id}/settings/roles`}>
-        <Button type="primary">Back to Roles</Button>
-      </Link>
+    <>
       {loadingApp || loadingRole ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -62,13 +60,19 @@ const CreateApplicationRoleForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Application Role - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">
+                Create Application Role - {application?.name}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/applications/${id}/settings/roles`}>
+                <Button type="primary">Back to Roles</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -76,6 +80,9 @@ const CreateApplicationRoleForm = () => {
             onFinish={(values) => {
               onCreate(values);
               onReset();
+            }}
+            style={{
+              maxWidth: '600px',
             }}
           >
             <Form.Item
@@ -85,7 +92,6 @@ const CreateApplicationRoleForm = () => {
             >
               <Input disabled={true} />
             </Form.Item>
-            {/* <h3> Application : {application?.name}</h3> */}
             <Form.Item
               name="name"
               label="Name"
@@ -126,15 +132,15 @@ const CreateApplicationRoleForm = () => {
             >
               <TextArea rows={4} />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="create-application-role">
                 Create Role
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 };
 
