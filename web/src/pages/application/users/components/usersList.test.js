@@ -81,28 +81,97 @@ describe('Application User List component', () => {
       mockedDispatch = jest.fn();
       useDispatch.mockReturnValue(mockedDispatch);
     });
-    it('should render the component', () => {
+    it('should render the component with all props', () => {
       store = mockStore(state);
+      const props = {
+        id: 1,
+        flag: true,
+        users: [
+          {
+            id: 1,
+            email: 'user1@gmail.com',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+          {
+            id: 2,
+            email: 'user2@gmailcom',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+        ],
+        total: 2,
+        role: 'owner',
+      };
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationUserList />
+            <ApplicationUserList {...props} />
           </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
+
+      const button = tree.find(Button).at(0);
+      expect(button.props().disabled).toBe(false);
     });
-    it('should match component when loading', () => {
-      state.applicationUsers.loading = true;
+    it('should render the component with no users', () => {
       store = mockStore(state);
+      const props = {
+        id: 1,
+        flag: true,
+        users: [],
+        total: 0,
+        role: 'owner',
+      };
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationUserList id={1} />
+            <ApplicationUserList {...props} />
           </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
+
+      expect(tree.find('Empty').length).toBe(1);
+    });
+    it('should render the component with role as member', () => {
+      store = mockStore(state);
+      const props = {
+        id: 1,
+        flag: true,
+        users: [
+          {
+            id: 1,
+            email: 'user1@gmail.com',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+          {
+            id: 2,
+            email: 'user2@gmailcom',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+        ],
+        total: 2,
+        role: 'member',
+      };
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationUserList {...props} />
+          </Router>
+        </Provider>,
+      );
+      expect(tree).toMatchSnapshot();
+
+      const button = tree.find(Button).at(0);
+      expect(button.props().disabled).toBe(true);
     });
   });
   describe('component testing', () => {
@@ -111,29 +180,52 @@ describe('Application User List component', () => {
       mockedDispatch = jest.fn(() => new Promise((resolve) => resolve(true)));
       useDispatch.mockReturnValue(mockedDispatch);
     });
-    it('should delete applicationUser', () => {
+    it('should delete applicationUser', (done) => {
       store = mockStore(state);
       let wrapper;
+      const props = {
+        id: 1,
+        flag: true,
+        users: [
+          {
+            id: 1,
+            email: 'user1@gmail.com',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+          {
+            id: 2,
+            email: 'user2@gmailcom',
+            first_name: 'user1',
+            last_name: 'factly',
+            diaplay_name: 'user1-factly',
+          },
+        ],
+        total: 2,
+        role: 'owner',
+      };
       act(() => {
         wrapper = mount(
           <Provider store={store}>
             <Router>
-              <ApplicationUserList id={1} />
+              <ApplicationUserList {...props} />
             </Router>
           </Provider>,
         );
       });
       const button = wrapper.find(Button).at(0);
-      expect(button.text()).toEqual('Delete');
-
       button.simulate('click');
       const popconfirm = wrapper.find(Popconfirm);
       popconfirm
         .findWhere((item) => item.type() === 'button' && item.text() === 'OK')
         .simulate('click');
-      expect(deleteApplication).toHaveBeenCalled();
-      expect(deleteApplication).toHaveBeenCalledWith(1, 1);
-      expect(getApplicationUsers).toHaveBeenCalledWith(1);
+      setTimeout(() => {
+        expect(deleteApplication).toHaveBeenCalled();
+        expect(deleteApplication).toHaveBeenCalledWith(1, 1);
+        expect(getApplicationUsers).toHaveBeenCalledWith(1);
+        done();
+      });
     });
   });
 });

@@ -1,0 +1,1485 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Space Settings component should render component when the role is loading 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <SpaceSettings>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "20px",
+            }
+          }
+        >
+          <Link
+            key="1"
+            to="/applications/1/settings/spaces"
+          >
+            <LinkAnchor
+              href="/applications/1/settings/spaces"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications/1/settings/spaces"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Back to Spaces
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <Skeleton>
+            <div
+              className="ant-skeleton"
+            >
+              <div
+                className="ant-skeleton-content"
+              >
+                <Title
+                  prefixCls="ant-skeleton-title"
+                  width="38%"
+                >
+                  <h3
+                    className="ant-skeleton-title"
+                    style={
+                      Object {
+                        "width": "38%",
+                      }
+                    }
+                  />
+                </Title>
+                <Paragraph
+                  prefixCls="ant-skeleton-paragraph"
+                  rows={3}
+                  width="61%"
+                >
+                  <ul
+                    className="ant-skeleton-paragraph"
+                  >
+                    <li
+                      key="0"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
+                      }
+                    />
+                    <li
+                      key="1"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
+                      }
+                    />
+                    <li
+                      key="2"
+                      style={
+                        Object {
+                          "width": "61%",
+                        }
+                      }
+                    />
+                  </ul>
+                </Paragraph>
+              </div>
+            </div>
+          </Skeleton>
+        </div>
+      </SpaceSettings>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Space Settings component should render component when the space is loading 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <SpaceSettings>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "20px",
+            }
+          }
+        >
+          <Link
+            key="1"
+            to="/applications/1/settings/spaces"
+          >
+            <LinkAnchor
+              href="/applications/1/settings/spaces"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications/1/settings/spaces"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Back to Spaces
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <Skeleton>
+            <div
+              className="ant-skeleton"
+            >
+              <div
+                className="ant-skeleton-content"
+              >
+                <Title
+                  prefixCls="ant-skeleton-title"
+                  width="38%"
+                >
+                  <h3
+                    className="ant-skeleton-title"
+                    style={
+                      Object {
+                        "width": "38%",
+                      }
+                    }
+                  />
+                </Title>
+                <Paragraph
+                  prefixCls="ant-skeleton-paragraph"
+                  rows={3}
+                  width="61%"
+                >
+                  <ul
+                    className="ant-skeleton-paragraph"
+                  >
+                    <li
+                      key="0"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
+                      }
+                    />
+                    <li
+                      key="1"
+                      style={
+                        Object {
+                          "width": undefined,
+                        }
+                      }
+                    />
+                    <li
+                      key="2"
+                      style={
+                        Object {
+                          "width": "61%",
+                        }
+                      }
+                    />
+                  </ul>
+                </Paragraph>
+              </div>
+            </div>
+          </Skeleton>
+        </div>
+      </SpaceSettings>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Space Settings component should render component when the space is not loading and role is not loading 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <SpaceSettings>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "20px",
+            }
+          }
+        >
+          <Link
+            key="1"
+            to="/applications/1/settings/spaces"
+          >
+            <LinkAnchor
+              href="/applications/1/settings/spaces"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications/1/settings/spaces"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                        Back to Spaces
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <Space
+            direction="vertical"
+            style={
+              Object {
+                "width": "100%",
+              }
+            }
+          >
+            <div
+              className="ant-space ant-space-vertical"
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+            >
+              <Item
+                className="ant-space-item"
+                direction="vertical"
+                index={0}
+                key="ant-space-item-0"
+                marginDirection="marginRight"
+                wrap={false}
+              >
+                <div
+                  className="ant-space-item"
+                  style={
+                    Object {
+                      "marginBottom": 8,
+                    }
+                  }
+                >
+                  <Descriptions
+                    bordered={true}
+                    title={
+                      <h2>
+                         Manage Space 
+                      </h2>
+                    }
+                  >
+                    <div
+                      className="ant-descriptions ant-descriptions-bordered"
+                    >
+                      <div
+                        className="ant-descriptions-header"
+                      >
+                        <div
+                          className="ant-descriptions-title"
+                        >
+                          <h2>
+                             Manage Space 
+                          </h2>
+                        </div>
+                      </div>
+                      <div
+                        className="ant-descriptions-view"
+                      >
+                        <table>
+                          <tbody>
+                            <Row
+                              bordered={true}
+                              colon={true}
+                              index={0}
+                              key="0"
+                              prefixCls="ant-descriptions"
+                              row={
+                                Array [
+                                  <DescriptionsItem
+                                    label="Name"
+                                    span={3}
+                                  >
+                                    Test Space
+                                  </DescriptionsItem>,
+                                ]
+                              }
+                              vertical={false}
+                            >
+                              <tr
+                                className="ant-descriptions-row"
+                                key="0"
+                              >
+                                <Cell
+                                  bordered={true}
+                                  colon={true}
+                                  component="th"
+                                  itemPrefixCls="ant-descriptions"
+                                  key="label-0"
+                                  label="Name"
+                                  span={1}
+                                  style={Object {}}
+                                >
+                                  <th
+                                    className="ant-descriptions-item-label"
+                                    colSpan={1}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      Name
+                                    </span>
+                                  </th>
+                                </Cell>
+                                <Cell
+                                  bordered={true}
+                                  component="td"
+                                  content="Test Space"
+                                  itemPrefixCls="ant-descriptions"
+                                  key="content-0"
+                                  span={5}
+                                  style={Object {}}
+                                >
+                                  <td
+                                    className="ant-descriptions-item-content"
+                                    colSpan={5}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      Test Space
+                                    </span>
+                                  </td>
+                                </Cell>
+                              </tr>
+                            </Row>
+                            <Row
+                              bordered={true}
+                              colon={true}
+                              index={1}
+                              key="1"
+                              prefixCls="ant-descriptions"
+                              row={
+                                Array [
+                                  <DescriptionsItem
+                                    label="Description"
+                                    span={3}
+                                  >
+                                    Test Space Description
+                                  </DescriptionsItem>,
+                                ]
+                              }
+                              vertical={false}
+                            >
+                              <tr
+                                className="ant-descriptions-row"
+                                key="1"
+                              >
+                                <Cell
+                                  bordered={true}
+                                  colon={true}
+                                  component="th"
+                                  itemPrefixCls="ant-descriptions"
+                                  key="label-0"
+                                  label="Description"
+                                  span={1}
+                                  style={Object {}}
+                                >
+                                  <th
+                                    className="ant-descriptions-item-label"
+                                    colSpan={1}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      Description
+                                    </span>
+                                  </th>
+                                </Cell>
+                                <Cell
+                                  bordered={true}
+                                  component="td"
+                                  content="Test Space Description"
+                                  itemPrefixCls="ant-descriptions"
+                                  key="content-0"
+                                  span={5}
+                                  style={Object {}}
+                                >
+                                  <td
+                                    className="ant-descriptions-item-content"
+                                    colSpan={5}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      Test Space Description
+                                    </span>
+                                  </td>
+                                </Cell>
+                              </tr>
+                            </Row>
+                            <Row
+                              bordered={true}
+                              colon={true}
+                              index={2}
+                              key="2"
+                              prefixCls="ant-descriptions"
+                              row={
+                                Array [
+                                  <DescriptionsItem
+                                    label="Number of users"
+                                    span={3}
+                                  >
+                                    0
+                                  </DescriptionsItem>,
+                                ]
+                              }
+                              vertical={false}
+                            >
+                              <tr
+                                className="ant-descriptions-row"
+                                key="2"
+                              >
+                                <Cell
+                                  bordered={true}
+                                  colon={true}
+                                  component="th"
+                                  itemPrefixCls="ant-descriptions"
+                                  key="label-0"
+                                  label="Number of users"
+                                  span={1}
+                                  style={Object {}}
+                                >
+                                  <th
+                                    className="ant-descriptions-item-label"
+                                    colSpan={1}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      Number of users
+                                    </span>
+                                  </th>
+                                </Cell>
+                                <Cell
+                                  bordered={true}
+                                  component="td"
+                                  content={0}
+                                  itemPrefixCls="ant-descriptions"
+                                  key="content-0"
+                                  span={5}
+                                  style={Object {}}
+                                >
+                                  <td
+                                    className="ant-descriptions-item-content"
+                                    colSpan={5}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      0
+                                    </span>
+                                  </td>
+                                </Cell>
+                              </tr>
+                            </Row>
+                            <Row
+                              bordered={true}
+                              colon={true}
+                              index={3}
+                              key="3"
+                              prefixCls="ant-descriptions"
+                              row={
+                                Array [
+                                  <DescriptionsItem
+                                    label="Number of Tokens"
+                                    span={3}
+                                  >
+                                    0
+                                  </DescriptionsItem>,
+                                ]
+                              }
+                              vertical={false}
+                            >
+                              <tr
+                                className="ant-descriptions-row"
+                                key="3"
+                              >
+                                <Cell
+                                  bordered={true}
+                                  colon={true}
+                                  component="th"
+                                  itemPrefixCls="ant-descriptions"
+                                  key="label-0"
+                                  label="Number of Tokens"
+                                  span={1}
+                                  style={Object {}}
+                                >
+                                  <th
+                                    className="ant-descriptions-item-label"
+                                    colSpan={1}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      Number of Tokens
+                                    </span>
+                                  </th>
+                                </Cell>
+                                <Cell
+                                  bordered={true}
+                                  component="td"
+                                  content={0}
+                                  itemPrefixCls="ant-descriptions"
+                                  key="content-0"
+                                  span={5}
+                                  style={Object {}}
+                                >
+                                  <td
+                                    className="ant-descriptions-item-content"
+                                    colSpan={5}
+                                    style={Object {}}
+                                  >
+                                    <span>
+                                      0
+                                    </span>
+                                  </td>
+                                </Cell>
+                              </tr>
+                            </Row>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </Descriptions>
+                </div>
+              </Item>
+              <Item
+                className="ant-space-item"
+                direction="vertical"
+                index={1}
+                key="ant-space-item-1"
+                marginDirection="marginRight"
+                wrap={false}
+              >
+                <div
+                  className="ant-space-item"
+                  style={
+                    Object {
+                      "marginBottom": 8,
+                    }
+                  }
+                >
+                  <Divider>
+                    <div
+                      className="ant-divider ant-divider-horizontal ant-divider-with-text ant-divider-with-text-center"
+                      role="separator"
+                    >
+                      <span
+                        className="ant-divider-inner-text"
+                        style={Object {}}
+                      >
+                         Space Settings
+                      </span>
+                    </div>
+                  </Divider>
+                </div>
+              </Item>
+              <Item
+                className="ant-space-item"
+                direction="vertical"
+                index={2}
+                key="ant-space-item-2"
+                marginDirection="marginRight"
+                wrap={false}
+              >
+                <div
+                  className="ant-space-item"
+                  style={Object {}}
+                >
+                  <SettingsList
+                    appID={1}
+                    role="admin"
+                    spaceID={1}
+                    type="space"
+                  >
+                    <div>
+                      <Row
+                        gutter={
+                          Array [
+                            16,
+                            16,
+                          ]
+                        }
+                      >
+                        <div
+                          className="ant-row"
+                          style={
+                            Object {
+                              "marginBottom": -8,
+                              "marginLeft": -8,
+                              "marginRight": -8,
+                              "marginTop": -8,
+                            }
+                          }
+                        >
+                          <Col
+                            span={12}
+                          >
+                            <div
+                              className="ant-col ant-col-12"
+                              style={
+                                Object {
+                                  "paddingBottom": 8,
+                                  "paddingLeft": 8,
+                                  "paddingRight": 8,
+                                  "paddingTop": 8,
+                                }
+                              }
+                            >
+                              <Link
+                                to="/applications/1/settings/spaces/1/settings/users"
+                              >
+                                <LinkAnchor
+                                  href="/applications/1/settings/spaces/1/settings/users"
+                                  navigate={[Function]}
+                                >
+                                  <a
+                                    href="/applications/1/settings/spaces/1/settings/users"
+                                    onClick={[Function]}
+                                  >
+                                    <SettingsCard
+                                      description="User settings"
+                                      icon={
+                                        <ForwardRef(UserOutlined)
+                                          style={
+                                            Object {
+                                              "color": "#4E89FF",
+                                            }
+                                          }
+                                        />
+                                      }
+                                      title="Users"
+                                    >
+                                      <ForwardRef
+                                        hoverable={true}
+                                      >
+                                        <div
+                                          className="ant-card ant-card-bordered ant-card-hoverable"
+                                        >
+                                          <div
+                                            className="ant-card-body"
+                                            style={Object {}}
+                                          >
+                                            <Meta
+                                              avatar={
+                                                <ForwardRef(InternalAvatar)
+                                                  icon={
+                                                    <ForwardRef(UserOutlined)
+                                                      style={
+                                                        Object {
+                                                          "color": "#4E89FF",
+                                                        }
+                                                      }
+                                                    />
+                                                  }
+                                                  style={
+                                                    Object {
+                                                      "backgroundColor": "transparent",
+                                                      "color": "#ffb41f",
+                                                    }
+                                                  }
+                                                />
+                                              }
+                                              description="User settings"
+                                              title="Users"
+                                            >
+                                              <div
+                                                className="ant-card-meta"
+                                              >
+                                                <div
+                                                  className="ant-card-meta-avatar"
+                                                >
+                                                  <Avatar
+                                                    icon={
+                                                      <ForwardRef(UserOutlined)
+                                                        style={
+                                                          Object {
+                                                            "color": "#4E89FF",
+                                                          }
+                                                        }
+                                                      />
+                                                    }
+                                                    style={
+                                                      Object {
+                                                        "backgroundColor": "transparent",
+                                                        "color": "#ffb41f",
+                                                      }
+                                                    }
+                                                  >
+                                                    <span
+                                                      className="ant-avatar ant-avatar-circle ant-avatar-icon"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": "transparent",
+                                                          "color": "#ffb41f",
+                                                        }
+                                                      }
+                                                    >
+                                                      <ForwardRef(UserOutlined)
+                                                        style={
+                                                          Object {
+                                                            "color": "#4E89FF",
+                                                          }
+                                                        }
+                                                      >
+                                                        <AntdIcon
+                                                          icon={
+                                                            Object {
+                                                              "icon": Object {
+                                                                "attrs": Object {
+                                                                  "focusable": "false",
+                                                                  "viewBox": "64 64 896 896",
+                                                                },
+                                                                "children": Array [
+                                                                  Object {
+                                                                    "attrs": Object {
+                                                                      "d": "M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z",
+                                                                    },
+                                                                    "tag": "path",
+                                                                  },
+                                                                ],
+                                                                "tag": "svg",
+                                                              },
+                                                              "name": "user",
+                                                              "theme": "outlined",
+                                                            }
+                                                          }
+                                                          style={
+                                                            Object {
+                                                              "color": "#4E89FF",
+                                                            }
+                                                          }
+                                                        >
+                                                          <span
+                                                            aria-label="user"
+                                                            className="anticon anticon-user"
+                                                            role="img"
+                                                            style={
+                                                              Object {
+                                                                "color": "#4E89FF",
+                                                              }
+                                                            }
+                                                          >
+                                                            <IconReact
+                                                              icon={
+                                                                Object {
+                                                                  "icon": Object {
+                                                                    "attrs": Object {
+                                                                      "focusable": "false",
+                                                                      "viewBox": "64 64 896 896",
+                                                                    },
+                                                                    "children": Array [
+                                                                      Object {
+                                                                        "attrs": Object {
+                                                                          "d": "M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z",
+                                                                        },
+                                                                        "tag": "path",
+                                                                      },
+                                                                    ],
+                                                                    "tag": "svg",
+                                                                  },
+                                                                  "name": "user",
+                                                                  "theme": "outlined",
+                                                                }
+                                                              }
+                                                            >
+                                                              <svg
+                                                                aria-hidden="true"
+                                                                data-icon="user"
+                                                                fill="currentColor"
+                                                                focusable="false"
+                                                                height="1em"
+                                                                key="svg-user"
+                                                                viewBox="64 64 896 896"
+                                                                width="1em"
+                                                              >
+                                                                <path
+                                                                  d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"
+                                                                  key="svg-user-svg-0"
+                                                                />
+                                                              </svg>
+                                                            </IconReact>
+                                                          </span>
+                                                        </AntdIcon>
+                                                      </ForwardRef(UserOutlined)>
+                                                    </span>
+                                                  </Avatar>
+                                                </div>
+                                                <div
+                                                  className="ant-card-meta-detail"
+                                                >
+                                                  <div
+                                                    className="ant-card-meta-title"
+                                                  >
+                                                    Users
+                                                  </div>
+                                                  <div
+                                                    className="ant-card-meta-description"
+                                                  >
+                                                    User settings
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </Meta>
+                                          </div>
+                                        </div>
+                                      </ForwardRef>
+                                    </SettingsCard>
+                                  </a>
+                                </LinkAnchor>
+                              </Link>
+                            </div>
+                          </Col>
+                          <Col
+                            span={12}
+                          >
+                            <div
+                              className="ant-col ant-col-12"
+                              style={
+                                Object {
+                                  "paddingBottom": 8,
+                                  "paddingLeft": 8,
+                                  "paddingRight": 8,
+                                  "paddingTop": 8,
+                                }
+                              }
+                            >
+                              <Link
+                                to="/applications/1/settings/spaces/1/settings/roles"
+                              >
+                                <LinkAnchor
+                                  href="/applications/1/settings/spaces/1/settings/roles"
+                                  navigate={[Function]}
+                                >
+                                  <a
+                                    href="/applications/1/settings/spaces/1/settings/roles"
+                                    onClick={[Function]}
+                                  >
+                                    <SettingsCard
+                                      description="Role settings"
+                                      icon={
+                                        <ForwardRef(UsergroupAddOutlined)
+                                          style={
+                                            Object {
+                                              "color": "#4E89FF",
+                                            }
+                                          }
+                                        />
+                                      }
+                                      title="Roles"
+                                    >
+                                      <ForwardRef
+                                        hoverable={true}
+                                      >
+                                        <div
+                                          className="ant-card ant-card-bordered ant-card-hoverable"
+                                        >
+                                          <div
+                                            className="ant-card-body"
+                                            style={Object {}}
+                                          >
+                                            <Meta
+                                              avatar={
+                                                <ForwardRef(InternalAvatar)
+                                                  icon={
+                                                    <ForwardRef(UsergroupAddOutlined)
+                                                      style={
+                                                        Object {
+                                                          "color": "#4E89FF",
+                                                        }
+                                                      }
+                                                    />
+                                                  }
+                                                  style={
+                                                    Object {
+                                                      "backgroundColor": "transparent",
+                                                      "color": "#ffb41f",
+                                                    }
+                                                  }
+                                                />
+                                              }
+                                              description="Role settings"
+                                              title="Roles"
+                                            >
+                                              <div
+                                                className="ant-card-meta"
+                                              >
+                                                <div
+                                                  className="ant-card-meta-avatar"
+                                                >
+                                                  <Avatar
+                                                    icon={
+                                                      <ForwardRef(UsergroupAddOutlined)
+                                                        style={
+                                                          Object {
+                                                            "color": "#4E89FF",
+                                                          }
+                                                        }
+                                                      />
+                                                    }
+                                                    style={
+                                                      Object {
+                                                        "backgroundColor": "transparent",
+                                                        "color": "#ffb41f",
+                                                      }
+                                                    }
+                                                  >
+                                                    <span
+                                                      className="ant-avatar ant-avatar-circle ant-avatar-icon"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": "transparent",
+                                                          "color": "#ffb41f",
+                                                        }
+                                                      }
+                                                    >
+                                                      <ForwardRef(UsergroupAddOutlined)
+                                                        style={
+                                                          Object {
+                                                            "color": "#4E89FF",
+                                                          }
+                                                        }
+                                                      >
+                                                        <AntdIcon
+                                                          icon={
+                                                            Object {
+                                                              "icon": Object {
+                                                                "attrs": Object {
+                                                                  "focusable": "false",
+                                                                  "viewBox": "64 64 896 896",
+                                                                },
+                                                                "children": Array [
+                                                                  Object {
+                                                                    "attrs": Object {
+                                                                      "d": "M892 772h-80v-80c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v80h-80c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h80v80c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-80h80c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zM373.5 498.4c-.9-8.7-1.4-17.5-1.4-26.4 0-15.9 1.5-31.4 4.3-46.5.7-3.6-1.2-7.3-4.5-8.8-13.6-6.1-26.1-14.5-36.9-25.1a127.54 127.54 0 01-38.7-95.4c.9-32.1 13.8-62.6 36.3-85.6 24.7-25.3 57.9-39.1 93.2-38.7 31.9.3 62.7 12.6 86 34.4 7.9 7.4 14.7 15.6 20.4 24.4 2 3.1 5.9 4.4 9.3 3.2 17.6-6.1 36.2-10.4 55.3-12.4 5.6-.6 8.8-6.6 6.3-11.6-32.5-64.3-98.9-108.7-175.7-109.9-110.8-1.7-203.2 89.2-203.2 200 0 62.8 28.9 118.8 74.2 155.5-31.8 14.7-61.1 35-86.5 60.4-54.8 54.7-85.8 126.9-87.8 204a8 8 0 008 8.2h56.1c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5 29.4-29.4 65.4-49.8 104.7-59.7 3.8-1.1 6.4-4.8 5.9-8.8zM824 472c0-109.4-87.9-198.3-196.9-200C516.3 270.3 424 361.2 424 472c0 62.8 29 118.8 74.2 155.5a300.95 300.95 0 00-86.4 60.4C357 742.6 326 814.8 324 891.8a8 8 0 008 8.2h56c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5C505.8 695.7 563 672 624 672c110.4 0 200-89.5 200-200zm-109.5 90.5C690.3 586.7 658.2 600 624 600s-66.3-13.3-90.5-37.5a127.26 127.26 0 01-37.5-91.8c.3-32.8 13.4-64.5 36.3-88 24-24.6 56.1-38.3 90.4-38.7 33.9-.3 66.8 12.9 91 36.6 24.8 24.3 38.4 56.8 38.4 91.4-.1 34.2-13.4 66.3-37.6 90.5z",
+                                                                    },
+                                                                    "tag": "path",
+                                                                  },
+                                                                ],
+                                                                "tag": "svg",
+                                                              },
+                                                              "name": "usergroup-add",
+                                                              "theme": "outlined",
+                                                            }
+                                                          }
+                                                          style={
+                                                            Object {
+                                                              "color": "#4E89FF",
+                                                            }
+                                                          }
+                                                        >
+                                                          <span
+                                                            aria-label="usergroup-add"
+                                                            className="anticon anticon-usergroup-add"
+                                                            role="img"
+                                                            style={
+                                                              Object {
+                                                                "color": "#4E89FF",
+                                                              }
+                                                            }
+                                                          >
+                                                            <IconReact
+                                                              icon={
+                                                                Object {
+                                                                  "icon": Object {
+                                                                    "attrs": Object {
+                                                                      "focusable": "false",
+                                                                      "viewBox": "64 64 896 896",
+                                                                    },
+                                                                    "children": Array [
+                                                                      Object {
+                                                                        "attrs": Object {
+                                                                          "d": "M892 772h-80v-80c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v80h-80c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h80v80c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-80h80c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zM373.5 498.4c-.9-8.7-1.4-17.5-1.4-26.4 0-15.9 1.5-31.4 4.3-46.5.7-3.6-1.2-7.3-4.5-8.8-13.6-6.1-26.1-14.5-36.9-25.1a127.54 127.54 0 01-38.7-95.4c.9-32.1 13.8-62.6 36.3-85.6 24.7-25.3 57.9-39.1 93.2-38.7 31.9.3 62.7 12.6 86 34.4 7.9 7.4 14.7 15.6 20.4 24.4 2 3.1 5.9 4.4 9.3 3.2 17.6-6.1 36.2-10.4 55.3-12.4 5.6-.6 8.8-6.6 6.3-11.6-32.5-64.3-98.9-108.7-175.7-109.9-110.8-1.7-203.2 89.2-203.2 200 0 62.8 28.9 118.8 74.2 155.5-31.8 14.7-61.1 35-86.5 60.4-54.8 54.7-85.8 126.9-87.8 204a8 8 0 008 8.2h56.1c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5 29.4-29.4 65.4-49.8 104.7-59.7 3.8-1.1 6.4-4.8 5.9-8.8zM824 472c0-109.4-87.9-198.3-196.9-200C516.3 270.3 424 361.2 424 472c0 62.8 29 118.8 74.2 155.5a300.95 300.95 0 00-86.4 60.4C357 742.6 326 814.8 324 891.8a8 8 0 008 8.2h56c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5C505.8 695.7 563 672 624 672c110.4 0 200-89.5 200-200zm-109.5 90.5C690.3 586.7 658.2 600 624 600s-66.3-13.3-90.5-37.5a127.26 127.26 0 01-37.5-91.8c.3-32.8 13.4-64.5 36.3-88 24-24.6 56.1-38.3 90.4-38.7 33.9-.3 66.8 12.9 91 36.6 24.8 24.3 38.4 56.8 38.4 91.4-.1 34.2-13.4 66.3-37.6 90.5z",
+                                                                        },
+                                                                        "tag": "path",
+                                                                      },
+                                                                    ],
+                                                                    "tag": "svg",
+                                                                  },
+                                                                  "name": "usergroup-add",
+                                                                  "theme": "outlined",
+                                                                }
+                                                              }
+                                                            >
+                                                              <svg
+                                                                aria-hidden="true"
+                                                                data-icon="usergroup-add"
+                                                                fill="currentColor"
+                                                                focusable="false"
+                                                                height="1em"
+                                                                key="svg-usergroup-add"
+                                                                viewBox="64 64 896 896"
+                                                                width="1em"
+                                                              >
+                                                                <path
+                                                                  d="M892 772h-80v-80c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v80h-80c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h80v80c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8v-80h80c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zM373.5 498.4c-.9-8.7-1.4-17.5-1.4-26.4 0-15.9 1.5-31.4 4.3-46.5.7-3.6-1.2-7.3-4.5-8.8-13.6-6.1-26.1-14.5-36.9-25.1a127.54 127.54 0 01-38.7-95.4c.9-32.1 13.8-62.6 36.3-85.6 24.7-25.3 57.9-39.1 93.2-38.7 31.9.3 62.7 12.6 86 34.4 7.9 7.4 14.7 15.6 20.4 24.4 2 3.1 5.9 4.4 9.3 3.2 17.6-6.1 36.2-10.4 55.3-12.4 5.6-.6 8.8-6.6 6.3-11.6-32.5-64.3-98.9-108.7-175.7-109.9-110.8-1.7-203.2 89.2-203.2 200 0 62.8 28.9 118.8 74.2 155.5-31.8 14.7-61.1 35-86.5 60.4-54.8 54.7-85.8 126.9-87.8 204a8 8 0 008 8.2h56.1c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5 29.4-29.4 65.4-49.8 104.7-59.7 3.8-1.1 6.4-4.8 5.9-8.8zM824 472c0-109.4-87.9-198.3-196.9-200C516.3 270.3 424 361.2 424 472c0 62.8 29 118.8 74.2 155.5a300.95 300.95 0 00-86.4 60.4C357 742.6 326 814.8 324 891.8a8 8 0 008 8.2h56c4.3 0 7.9-3.4 8-7.7 1.9-58 25.4-112.3 66.7-153.5C505.8 695.7 563 672 624 672c110.4 0 200-89.5 200-200zm-109.5 90.5C690.3 586.7 658.2 600 624 600s-66.3-13.3-90.5-37.5a127.26 127.26 0 01-37.5-91.8c.3-32.8 13.4-64.5 36.3-88 24-24.6 56.1-38.3 90.4-38.7 33.9-.3 66.8 12.9 91 36.6 24.8 24.3 38.4 56.8 38.4 91.4-.1 34.2-13.4 66.3-37.6 90.5z"
+                                                                  key="svg-usergroup-add-svg-0"
+                                                                />
+                                                              </svg>
+                                                            </IconReact>
+                                                          </span>
+                                                        </AntdIcon>
+                                                      </ForwardRef(UsergroupAddOutlined)>
+                                                    </span>
+                                                  </Avatar>
+                                                </div>
+                                                <div
+                                                  className="ant-card-meta-detail"
+                                                >
+                                                  <div
+                                                    className="ant-card-meta-title"
+                                                  >
+                                                    Roles
+                                                  </div>
+                                                  <div
+                                                    className="ant-card-meta-description"
+                                                  >
+                                                    Role settings
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </Meta>
+                                          </div>
+                                        </div>
+                                      </ForwardRef>
+                                    </SettingsCard>
+                                  </a>
+                                </LinkAnchor>
+                              </Link>
+                            </div>
+                          </Col>
+                          <Col
+                            span={12}
+                          >
+                            <div
+                              className="ant-col ant-col-12"
+                              style={
+                                Object {
+                                  "paddingBottom": 8,
+                                  "paddingLeft": 8,
+                                  "paddingRight": 8,
+                                  "paddingTop": 8,
+                                }
+                              }
+                            >
+                              <Link
+                                to="/applications/1/settings/spaces/1/settings/policies"
+                              >
+                                <LinkAnchor
+                                  href="/applications/1/settings/spaces/1/settings/policies"
+                                  navigate={[Function]}
+                                >
+                                  <a
+                                    href="/applications/1/settings/spaces/1/settings/policies"
+                                    onClick={[Function]}
+                                  >
+                                    <SettingsCard
+                                      description="Policy settings"
+                                      icon={
+                                        <ForwardRef(FileProtectOutlined)
+                                          style={
+                                            Object {
+                                              "color": "#4E89FF",
+                                            }
+                                          }
+                                        />
+                                      }
+                                      title="Policies"
+                                    >
+                                      <ForwardRef
+                                        hoverable={true}
+                                      >
+                                        <div
+                                          className="ant-card ant-card-bordered ant-card-hoverable"
+                                        >
+                                          <div
+                                            className="ant-card-body"
+                                            style={Object {}}
+                                          >
+                                            <Meta
+                                              avatar={
+                                                <ForwardRef(InternalAvatar)
+                                                  icon={
+                                                    <ForwardRef(FileProtectOutlined)
+                                                      style={
+                                                        Object {
+                                                          "color": "#4E89FF",
+                                                        }
+                                                      }
+                                                    />
+                                                  }
+                                                  style={
+                                                    Object {
+                                                      "backgroundColor": "transparent",
+                                                      "color": "#ffb41f",
+                                                    }
+                                                  }
+                                                />
+                                              }
+                                              description="Policy settings"
+                                              title="Policies"
+                                            >
+                                              <div
+                                                className="ant-card-meta"
+                                              >
+                                                <div
+                                                  className="ant-card-meta-avatar"
+                                                >
+                                                  <Avatar
+                                                    icon={
+                                                      <ForwardRef(FileProtectOutlined)
+                                                        style={
+                                                          Object {
+                                                            "color": "#4E89FF",
+                                                          }
+                                                        }
+                                                      />
+                                                    }
+                                                    style={
+                                                      Object {
+                                                        "backgroundColor": "transparent",
+                                                        "color": "#ffb41f",
+                                                      }
+                                                    }
+                                                  >
+                                                    <span
+                                                      className="ant-avatar ant-avatar-circle ant-avatar-icon"
+                                                      style={
+                                                        Object {
+                                                          "backgroundColor": "transparent",
+                                                          "color": "#ffb41f",
+                                                        }
+                                                      }
+                                                    >
+                                                      <ForwardRef(FileProtectOutlined)
+                                                        style={
+                                                          Object {
+                                                            "color": "#4E89FF",
+                                                          }
+                                                        }
+                                                      >
+                                                        <AntdIcon
+                                                          icon={
+                                                            Object {
+                                                              "icon": Object {
+                                                                "attrs": Object {
+                                                                  "focusable": "false",
+                                                                  "viewBox": "64 64 896 896",
+                                                                },
+                                                                "children": Array [
+                                                                  Object {
+                                                                    "attrs": Object {
+                                                                      "d": "M644.7 669.2a7.92 7.92 0 00-6.5-3.3H594c-6.5 0-10.3 7.4-6.5 12.7l73.8 102.1c3.2 4.4 9.7 4.4 12.9 0l114.2-158c3.8-5.3 0-12.7-6.5-12.7h-44.3c-2.6 0-5 1.2-6.5 3.3l-63.5 87.8-22.9-31.9zM688 306v-48c0-4.4-3.6-8-8-8H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8zm-392 88c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm184 458H208V148h560v296c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h312c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm402.6-320.8l-192-66.7c-.9-.3-1.7-.4-2.6-.4s-1.8.1-2.6.4l-192 66.7a7.96 7.96 0 00-5.4 7.5v251.1c0 2.5 1.1 4.8 3.1 6.3l192 150.2c1.4 1.1 3.2 1.7 4.9 1.7s3.5-.6 4.9-1.7l192-150.2c1.9-1.5 3.1-3.8 3.1-6.3V538.7c0-3.4-2.2-6.4-5.4-7.5zM826 763.7L688 871.6 550 763.7V577l138-48 138 48v186.7z",
+                                                                    },
+                                                                    "tag": "path",
+                                                                  },
+                                                                ],
+                                                                "tag": "svg",
+                                                              },
+                                                              "name": "file-protect",
+                                                              "theme": "outlined",
+                                                            }
+                                                          }
+                                                          style={
+                                                            Object {
+                                                              "color": "#4E89FF",
+                                                            }
+                                                          }
+                                                        >
+                                                          <span
+                                                            aria-label="file-protect"
+                                                            className="anticon anticon-file-protect"
+                                                            role="img"
+                                                            style={
+                                                              Object {
+                                                                "color": "#4E89FF",
+                                                              }
+                                                            }
+                                                          >
+                                                            <IconReact
+                                                              icon={
+                                                                Object {
+                                                                  "icon": Object {
+                                                                    "attrs": Object {
+                                                                      "focusable": "false",
+                                                                      "viewBox": "64 64 896 896",
+                                                                    },
+                                                                    "children": Array [
+                                                                      Object {
+                                                                        "attrs": Object {
+                                                                          "d": "M644.7 669.2a7.92 7.92 0 00-6.5-3.3H594c-6.5 0-10.3 7.4-6.5 12.7l73.8 102.1c3.2 4.4 9.7 4.4 12.9 0l114.2-158c3.8-5.3 0-12.7-6.5-12.7h-44.3c-2.6 0-5 1.2-6.5 3.3l-63.5 87.8-22.9-31.9zM688 306v-48c0-4.4-3.6-8-8-8H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8zm-392 88c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm184 458H208V148h560v296c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h312c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm402.6-320.8l-192-66.7c-.9-.3-1.7-.4-2.6-.4s-1.8.1-2.6.4l-192 66.7a7.96 7.96 0 00-5.4 7.5v251.1c0 2.5 1.1 4.8 3.1 6.3l192 150.2c1.4 1.1 3.2 1.7 4.9 1.7s3.5-.6 4.9-1.7l192-150.2c1.9-1.5 3.1-3.8 3.1-6.3V538.7c0-3.4-2.2-6.4-5.4-7.5zM826 763.7L688 871.6 550 763.7V577l138-48 138 48v186.7z",
+                                                                        },
+                                                                        "tag": "path",
+                                                                      },
+                                                                    ],
+                                                                    "tag": "svg",
+                                                                  },
+                                                                  "name": "file-protect",
+                                                                  "theme": "outlined",
+                                                                }
+                                                              }
+                                                            >
+                                                              <svg
+                                                                aria-hidden="true"
+                                                                data-icon="file-protect"
+                                                                fill="currentColor"
+                                                                focusable="false"
+                                                                height="1em"
+                                                                key="svg-file-protect"
+                                                                viewBox="64 64 896 896"
+                                                                width="1em"
+                                                              >
+                                                                <path
+                                                                  d="M644.7 669.2a7.92 7.92 0 00-6.5-3.3H594c-6.5 0-10.3 7.4-6.5 12.7l73.8 102.1c3.2 4.4 9.7 4.4 12.9 0l114.2-158c3.8-5.3 0-12.7-6.5-12.7h-44.3c-2.6 0-5 1.2-6.5 3.3l-63.5 87.8-22.9-31.9zM688 306v-48c0-4.4-3.6-8-8-8H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8zm-392 88c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm184 458H208V148h560v296c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h312c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm402.6-320.8l-192-66.7c-.9-.3-1.7-.4-2.6-.4s-1.8.1-2.6.4l-192 66.7a7.96 7.96 0 00-5.4 7.5v251.1c0 2.5 1.1 4.8 3.1 6.3l192 150.2c1.4 1.1 3.2 1.7 4.9 1.7s3.5-.6 4.9-1.7l192-150.2c1.9-1.5 3.1-3.8 3.1-6.3V538.7c0-3.4-2.2-6.4-5.4-7.5zM826 763.7L688 871.6 550 763.7V577l138-48 138 48v186.7z"
+                                                                  key="svg-file-protect-svg-0"
+                                                                />
+                                                              </svg>
+                                                            </IconReact>
+                                                          </span>
+                                                        </AntdIcon>
+                                                      </ForwardRef(FileProtectOutlined)>
+                                                    </span>
+                                                  </Avatar>
+                                                </div>
+                                                <div
+                                                  className="ant-card-meta-detail"
+                                                >
+                                                  <div
+                                                    className="ant-card-meta-title"
+                                                  >
+                                                    Policies
+                                                  </div>
+                                                  <div
+                                                    className="ant-card-meta-description"
+                                                  >
+                                                    Policy settings
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </Meta>
+                                          </div>
+                                        </div>
+                                      </ForwardRef>
+                                    </SettingsCard>
+                                  </a>
+                                </LinkAnchor>
+                              </Link>
+                            </div>
+                          </Col>
+                        </div>
+                      </Row>
+                    </div>
+                  </SettingsList>
+                </div>
+              </Item>
+            </div>
+          </Space>
+        </div>
+      </SpaceSettings>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;

@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsCard should render and match snapshot with props passed 1`] = `
+<ForwardRef
+  hoverable={true}
+>
+  <Meta
+    avatar={
+      <ForwardRef(InternalAvatar)
+        icon={
+          <ForwardRef(UserOutlined)
+            style={
+              Object {
+                "color": "#4E89FF",
+              }
+            }
+          />
+        }
+        style={
+          Object {
+            "backgroundColor": "transparent",
+            "color": "#ffb41f",
+          }
+        }
+      />
+    }
+    description="User settings"
+    title="Users"
+  />
+</ForwardRef>
+`;
+
+exports[`SettingsList should render and match snapshot with props passed 1`] = `
+<Router
+  history={
+    Object {
+      "action": "POP",
+      "block": [Function],
+      "createHref": [Function],
+      "go": [Function],
+      "goBack": [Function],
+      "goForward": [Function],
+      "length": 1,
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "pathname": "/",
+        "search": "",
+        "state": undefined,
+      },
+      "push": [Function],
+      "replace": [Function],
+    }
+  }
+>
+  <SettingsList
+    appID="1"
+    orgID="1"
+    role="admin"
+    spaceID="1"
+    type="organisation"
+  />
+</Router>
+`;

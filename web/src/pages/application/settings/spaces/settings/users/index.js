@@ -29,6 +29,7 @@ export default function SpaceUser() {
       : [];
 
   const onSubmit = (values) => {
+    console.log(values);
     dispatch(addSpaceUser(appID, spaceID, values)).then(() => dispatch(getSpaces(appID)));
     form.resetFields();
   };

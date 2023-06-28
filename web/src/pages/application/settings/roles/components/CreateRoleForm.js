@@ -33,7 +33,7 @@ const CreateApplicationRoleForm = () => {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
@@ -78,6 +78,7 @@ const CreateApplicationRoleForm = () => {
             layout="vertical"
             name="create-application-role"
             onFinish={(values) => {
+              console.log(values);
               onCreate(values);
               onReset();
             }}
@@ -88,7 +89,7 @@ const CreateApplicationRoleForm = () => {
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>

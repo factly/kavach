@@ -38,6 +38,7 @@ export default function EditSpacePolicy() {
   const onUpdate = (data) => {
     dispatch(updateSpacePolicy(policyID, appID, spaceID, { ...policy, ...data })).then(() =>
       history.push(`/applications/${appID}/settings/spaces/${spaceID}/settings/policies`),
+      onReset(),
     );
   };
 
@@ -55,6 +56,7 @@ export default function EditSpacePolicy() {
     dispatch(getSpacePolicyByID(appID, spaceID, policyID));
     // eslint-disable-next-line
   }, []);
+
 
   if (role === 'member') {
     return (
@@ -91,7 +93,7 @@ export default function EditSpacePolicy() {
           <Form
             name="update-space-policy"
             layout="vertical"
-            onFinish={(values) => onUpdate(values).then(() => onReset())}
+            onFinish={(values) => onUpdate(values)}
             form={form}
             initialValues={{ ...policy, roles: getIds(policy.roles) }}
           >

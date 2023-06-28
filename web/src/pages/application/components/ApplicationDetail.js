@@ -4,7 +4,7 @@ import { deleteApplicationToken } from '../../../actions/token';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
-import CreateTokenForm from '../token/CreateTokenForm';
+import CreateTokenForm from '../settings/token/components/CreateTokenForm';
 
 const ApplicationDetail = ({ data = {}, visible, setVisible, setTokenFlag }) => {
   const dispatch = useDispatch();

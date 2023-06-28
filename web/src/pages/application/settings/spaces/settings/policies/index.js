@@ -19,7 +19,7 @@ export default function SpacePolicies() {
   const { space, loadingSpace, role, loading } = useSelector((state) => {
     return {
       space: state.spaces.details[spaceID],
-      loadingApp: state.applications.loading,
+      loadingSpace: state.spaces.loading,
       role: state.profile.roles[state.organisations.selected],
       loading: state.profile.loading,
     };
@@ -31,7 +31,7 @@ export default function SpacePolicies() {
         <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Policies in {space?.name}</h2>
-      {loading && loadingSpace ? (
+      {loading || loadingSpace ? (
         <Skeleton />
       ) : (
         <Space direction="vertical">

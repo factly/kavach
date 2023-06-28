@@ -34,7 +34,7 @@ export default function SpaceRoles() {
         <Button type="primary"> Back to Settings </Button>
       </Link>
       <h2>Roles in {space?.name}</h2>
-      {loading && loadingSpace ? (
+      {loading || loadingSpace ? (
         <Skeleton />
       ) : (
         <Space direction="vertical">

@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading tests should render and match snapshot 1`] = `
+<Loading>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+        "margin": "auto",
+      }
+    }
+  >
+    <Spin
+      indicator={
+        <ForwardRef(LoadingOutlined)
+          spin={true}
+          style={
+            Object {
+              "fontSize": 64,
+            }
+          }
+        />
+      }
+    >
+      <Spin
+        indicator={
+          <ForwardRef(LoadingOutlined)
+            spin={true}
+            style={
+              Object {
+                "fontSize": 64,
+              }
+            }
+          />
+        }
+        spinPrefixCls="ant-spin"
+      >
+        <div
+          aria-busy={true}
+          aria-live="polite"
+          className="ant-spin ant-spin-spinning"
+        >
+          <ForwardRef(LoadingOutlined)
+            className="ant-spin-dot"
+            spin={true}
+            style={
+              Object {
+                "fontSize": 64,
+              }
+            }
+          >
+            <AntdIcon
+              className="ant-spin-dot"
+              icon={
+                Object {
+                  "icon": Object {
+                    "attrs": Object {
+                      "focusable": "false",
+                      "viewBox": "0 0 1024 1024",
+                    },
+                    "children": Array [
+                      Object {
+                        "attrs": Object {
+                          "d": "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z",
+                        },
+                        "tag": "path",
+                      },
+                    ],
+                    "tag": "svg",
+                  },
+                  "name": "loading",
+                  "theme": "outlined",
+                }
+              }
+              spin={true}
+              style={
+                Object {
+                  "fontSize": 64,
+                }
+              }
+            >
+              <span
+                aria-label="loading"
+                className="anticon anticon-loading anticon-spin ant-spin-dot"
+                role="img"
+                style={
+                  Object {
+                    "fontSize": 64,
+                  }
+                }
+              >
+                <IconReact
+                  icon={
+                    Object {
+                      "icon": Object {
+                        "attrs": Object {
+                          "focusable": "false",
+                          "viewBox": "0 0 1024 1024",
+                        },
+                        "children": Array [
+                          Object {
+                            "attrs": Object {
+                              "d": "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z",
+                            },
+                            "tag": "path",
+                          },
+                        ],
+                        "tag": "svg",
+                      },
+                      "name": "loading",
+                      "theme": "outlined",
+                    }
+                  }
+                >
+                  <svg
+                    aria-hidden="true"
+                    data-icon="loading"
+                    fill="currentColor"
+                    focusable="false"
+                    height="1em"
+                    key="svg-loading"
+                    viewBox="0 0 1024 1024"
+                    width="1em"
+                  >
+                    <path
+                      d="M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
+                      key="svg-loading-svg-0"
+                    />
+                  </svg>
+                </IconReact>
+              </span>
+            </AntdIcon>
+          </ForwardRef(LoadingOutlined)>
+        </div>
+      </Spin>
+    </Spin>
+  </div>
+</Loading>
+`;

@@ -1,6 +1,7 @@
 import * as actions from '../actions/notifications';
 import * as types from '../constants/notifications';
 
+Date.now = jest.fn(() => 123);
 describe('notification actions', () => {
   it('should create an action to add error notification', () => {
     const errorMessage = 'Test Error Message';
@@ -9,6 +10,7 @@ describe('notification actions', () => {
       payload: {
         type: 'error',
         title: 'Error',
+        time: Date.now(),
         message: errorMessage,
       },
     };
@@ -21,6 +23,7 @@ describe('notification actions', () => {
       payload: {
         type: 'success',
         title: 'Success',
+        time: Date.now(),
         message: successMessage,
       },
     };

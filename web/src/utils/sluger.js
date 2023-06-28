@@ -13,7 +13,7 @@ export function maker(string) {
 export const checker = new RegExp('^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
 export const getFileName = (value) => {
-  const fileExt = value.split('.').pop();
+  const fileExt = value.split('.').pop().trim();
   const fileName = maker(value.split('.').slice(0, -1).join('.'));
   return `${fileName}.${fileExt}`;
 };

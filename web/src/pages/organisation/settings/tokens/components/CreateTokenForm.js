@@ -33,7 +33,7 @@ const CreateOrganisationToken = () => {
   const { organisation, loadingOrg, role, loadingRole } = useSelector((state) => {
     return {
       organisation: state.organisations.details[orgID] ? state.organisations.details[orgID] : null,
-      loadingApps: state.organisations.loading,
+      loadingOrg: state.organisations.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };

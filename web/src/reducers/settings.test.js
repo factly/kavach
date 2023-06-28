@@ -2,8 +2,8 @@ import reducer from './settings';
 import * as types from '../constants/settings';
 
 const initialState = {
-  navTheme: 'dark',
-  primaryColor: '#1890ff',
+  navTheme: 'light',
+  primaryColor: '#242b47',
   layout: 'sidemenu',
   contentWidth: 'Fluid',
   fixedHeader: false,
@@ -24,11 +24,14 @@ describe('settings reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
+  it('should handle case when no state and action is passed is passed', () => {
+    expect(reducer()).toEqual(initialState);
+  });
   it('should return the state for default case', () => {
     expect(
       reducer({
-        navTheme: 'dark',
-        primaryColor: '#1890ff',
+        navTheme: 'light',
+        primaryColor: '#242b47',
         layout: 'sidemenu',
         contentWidth: 'Fluid',
         fixedHeader: false,
@@ -45,8 +48,8 @@ describe('settings reducer', () => {
         },
       }),
     ).toEqual({
-      navTheme: 'dark',
-      primaryColor: '#1890ff',
+      navTheme: 'light',
+      primaryColor: '#242b47',
       layout: 'sidemenu',
       contentWidth: 'Fluid',
       fixedHeader: false,
@@ -67,8 +70,8 @@ describe('settings reducer', () => {
     expect(
       reducer(
         {
-          navTheme: 'dark',
-          primaryColor: '#1890ff',
+          navTheme: 'light',
+          primaryColor: '#242b47',
           layout: 'sidemenu',
           contentWidth: 'Fluid',
           fixedHeader: false,
@@ -89,8 +92,8 @@ describe('settings reducer', () => {
         },
       ),
     ).toEqual({
-      navTheme: 'dark',
-      primaryColor: '#1890ff',
+      navTheme: 'light',
+      primaryColor: '#242b47',
       layout: 'sidemenu',
       contentWidth: 'Fluid',
       fixedHeader: false,
@@ -111,8 +114,8 @@ describe('settings reducer', () => {
     expect(
       reducer(
         {
-          navTheme: 'dark',
-          primaryColor: '#1890ff',
+          navTheme: 'light',
+          primaryColor: '#242b47',
           layout: 'sidemenu',
           contentWidth: 'Fluid',
           fixedHeader: false,
@@ -133,8 +136,8 @@ describe('settings reducer', () => {
         },
       ),
     ).toEqual({
-      navTheme: 'dark',
-      primaryColor: '#1890ff',
+      navTheme: 'light',
+      primaryColor: '#242b47',
       layout: 'sidemenu',
       contentWidth: 'Fluid',
       fixedHeader: false,

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorComponent should render the component 1`] = `
+<Result
+  extra={
+    <ForwardRef
+      to="/home"
+    >
+      <ForwardRef(InternalButton)
+        type="primary"
+      >
+        Go Home
+      </ForwardRef(InternalButton)>
+    </ForwardRef>
+  }
+  status="warning"
+  title="Warning"
+/>
+`;
+
+exports[`ErrorComponent should render the component when status undefined 1`] = `
+<Result
+  extra={
+    <ForwardRef
+      to="/home"
+    >
+      <ForwardRef(InternalButton)
+        type="primary"
+      >
+        Go Home
+      </ForwardRef(InternalButton)>
+    </ForwardRef>
+  }
+  status="warning"
+  title="Warning"
+/>
+`;

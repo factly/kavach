@@ -20,7 +20,7 @@ export default function EditOrganisationRole() {
   const { orgID, roleID } = useParams();
   const { TextArea } = Input;
   const onReset = () => {
-    form.restFields();
+    form.resetFields();
   };
   const history = useHistory();
   const onTitleChange = (string) => {
@@ -41,13 +41,12 @@ export default function EditOrganisationRole() {
         role: state.roles.organisation[state.organisations?.selected]?.[roleID],
         loading: state.roles.loading,
         organisation: state.organisations.details[state.organisations.selected],
-        loadingApp: state.organisations.loading,
+        loadingOrg: state.organisations.loading,
         userRole: state.profile.roles[state.organisations.selected],
         loadingUserRole: state.profile.loading,
       };
     },
   );
-
   const fetchRole = () => {
     dispatch(getOrganisationRoleByID(roleID));
   };

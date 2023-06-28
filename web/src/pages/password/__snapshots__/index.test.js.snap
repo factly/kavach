@@ -1,86 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`password component snapshot component should render the component 1`] = `
-<div
+<Space
   className="content"
->
-  <Card
-    style={
-      Object {
-        "width": 400,
-      }
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+      "justifyContent": "space-around",
     }
-    title="Update Password"
-  >
-    <ForwardRef(InternalForm)
-      name="update_password"
-      onFinish={[Function]}
-    >
-      <FormItem
-        name="password"
-        rules={
-          Array [
-            Object {
-              "message": "Please input your Password!",
-              "required": true,
-            },
-          ]
-        }
-      >
-        <Password
-          action="click"
-          iconRender={[Function]}
-          placeholder="Password"
-          prefix={
-            <ForwardRef(LockOutlined)
-              className="site-form-item-icon"
-            />
-          }
-          type="password"
-          visibilityToggle={true}
-        />
-      </FormItem>
-      <FormItem
-        dependencies={
-          Array [
-            "password",
-          ]
-        }
-        name="confirmPassword"
-        rules={
-          Array [
-            Object {
-              "message": "Please re-enter your Password!",
-              "required": true,
-            },
-            [Function],
-          ]
-        }
-      >
-        <Password
-          action="click"
-          iconRender={[Function]}
-          placeholder="Confirm Password"
-          prefix={
-            <ForwardRef(LockOutlined)
-              className="site-form-item-icon"
-            />
-          }
-          type="password"
-          visibilityToggle={true}
-        />
-      </FormItem>
-      <FormItem>
-        <Button
-          block={true}
-          form="update_password"
-          htmlType="submit"
-          type="primary"
-        >
-          Update
-        </Button>
-      </FormItem>
-    </ForwardRef(InternalForm)>
-  </Card>
-</div>
+  }
+>
+  <Skeleton />
+</Space>
 `;

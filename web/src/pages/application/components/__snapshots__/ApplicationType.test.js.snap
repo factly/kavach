@@ -1,0 +1,584 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationType component should render the component 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ApplicationType>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "12px",
+            }
+          }
+        >
+          <Link
+            key="1"
+            to="/applications"
+          >
+            <LinkAnchor
+              href="/applications"
+              navigate={[Function]}
+            >
+              <a
+                href="/applications"
+                onClick={[Function]}
+              >
+                <Button
+                  type="primary"
+                >
+                  <Wave
+                    disabled={false}
+                  >
+                    <button
+                      className="ant-btn ant-btn-primary"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <LoadingIcon
+                        existIcon={false}
+                        loading={false}
+                        prefixCls="ant-btn"
+                      >
+                        <CSSMotion
+                          motionName="ant-btn-loading-icon-motion"
+                          onAppearActive={[Function]}
+                          onAppearStart={[Function]}
+                          onEnterActive={[Function]}
+                          onEnterStart={[Function]}
+                          onLeaveActive={[Function]}
+                          onLeaveStart={[Function]}
+                          removeOnLeave={true}
+                          visible={false}
+                        >
+                          <DomWrapper />
+                        </CSSMotion>
+                      </LoadingIcon>
+                      <span
+                        key=".0"
+                      >
+                         Back to Settings 
+                      </span>
+                    </button>
+                  </Wave>
+                </Button>
+              </a>
+            </LinkAnchor>
+          </Link>
+          <h2>
+            Choose Application Type
+          </h2>
+          <Row
+            gutter={
+              Array [
+                16,
+                16,
+              ]
+            }
+          >
+            <div
+              className="ant-row"
+              style={
+                Object {
+                  "marginBottom": -8,
+                  "marginLeft": -8,
+                  "marginRight": -8,
+                  "marginTop": -8,
+                }
+              }
+            >
+              <Col
+                span={12}
+              >
+                <div
+                  className="ant-col ant-col-12"
+                  style={
+                    Object {
+                      "paddingBottom": 8,
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                      "paddingTop": 8,
+                    }
+                  }
+                >
+                  <Link
+                    to="/applications/create?is_default=true"
+                  >
+                    <LinkAnchor
+                      href="/applications/create?is_default=true"
+                      navigate={[Function]}
+                    >
+                      <a
+                        href="/applications/create?is_default=true"
+                        onClick={[Function]}
+                      >
+                        <SettingsCard
+                          description="In this section you can add and delete applications to your organisation which are managed by the admin."
+                          icon={
+                            <ForwardRef(CloudDownloadOutlined)
+                              style={
+                                Object {
+                                  "color": "#4E89FF",
+                                }
+                              }
+                            />
+                          }
+                          title="Default Applications"
+                        >
+                          <ForwardRef
+                            hoverable={true}
+                          >
+                            <div
+                              className="ant-card ant-card-bordered ant-card-hoverable"
+                            >
+                              <div
+                                className="ant-card-body"
+                                style={Object {}}
+                              >
+                                <Meta
+                                  avatar={
+                                    <ForwardRef(InternalAvatar)
+                                      icon={
+                                        <ForwardRef(CloudDownloadOutlined)
+                                          style={
+                                            Object {
+                                              "color": "#4E89FF",
+                                            }
+                                          }
+                                        />
+                                      }
+                                      style={
+                                        Object {
+                                          "backgroundColor": "transparent",
+                                          "color": "#ffb41f",
+                                        }
+                                      }
+                                    />
+                                  }
+                                  description="In this section you can add and delete applications to your organisation which are managed by the admin."
+                                  title="Default Applications"
+                                >
+                                  <div
+                                    className="ant-card-meta"
+                                  >
+                                    <div
+                                      className="ant-card-meta-avatar"
+                                    >
+                                      <Avatar
+                                        icon={
+                                          <ForwardRef(CloudDownloadOutlined)
+                                            style={
+                                              Object {
+                                                "color": "#4E89FF",
+                                              }
+                                            }
+                                          />
+                                        }
+                                        style={
+                                          Object {
+                                            "backgroundColor": "transparent",
+                                            "color": "#ffb41f",
+                                          }
+                                        }
+                                      >
+                                        <span
+                                          className="ant-avatar ant-avatar-circle ant-avatar-icon"
+                                          style={
+                                            Object {
+                                              "backgroundColor": "transparent",
+                                              "color": "#ffb41f",
+                                            }
+                                          }
+                                        >
+                                          <ForwardRef(CloudDownloadOutlined)
+                                            style={
+                                              Object {
+                                                "color": "#4E89FF",
+                                              }
+                                            }
+                                          >
+                                            <AntdIcon
+                                              icon={
+                                                Object {
+                                                  "icon": Object {
+                                                    "attrs": Object {
+                                                      "focusable": "false",
+                                                      "viewBox": "64 64 896 896",
+                                                    },
+                                                    "children": Array [
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M624 706.3h-74.1V464c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v242.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.7a8 8 0 0012.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M811.4 366.7C765.6 245.9 648.9 160 512.2 160S258.8 245.8 213 366.6C127.3 389.1 64 467.2 64 560c0 110.5 89.5 200 199.9 200H304c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8h-40.1c-33.7 0-65.4-13.4-89-37.7-23.5-24.2-36-56.8-34.9-90.6.9-26.4 9.9-51.2 26.2-72.1 16.7-21.3 40.1-36.8 66.1-43.7l37.9-9.9 13.9-36.6c8.6-22.8 20.6-44.1 35.7-63.4a245.6 245.6 0 0152.4-49.9c41.1-28.9 89.5-44.2 140-44.2s98.9 15.3 140 44.2c19.9 14 37.5 30.8 52.4 49.9 15.1 19.3 27.1 40.7 35.7 63.4l13.8 36.5 37.8 10C846.1 454.5 884 503.8 884 560c0 33.1-12.9 64.3-36.3 87.7a123.07 123.07 0 01-87.6 36.3H720c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h40.1C870.5 760 960 670.5 960 560c0-92.7-63.1-170.7-148.6-193.3z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                    ],
+                                                    "tag": "svg",
+                                                  },
+                                                  "name": "cloud-download",
+                                                  "theme": "outlined",
+                                                }
+                                              }
+                                              style={
+                                                Object {
+                                                  "color": "#4E89FF",
+                                                }
+                                              }
+                                            >
+                                              <span
+                                                aria-label="cloud-download"
+                                                className="anticon anticon-cloud-download"
+                                                role="img"
+                                                style={
+                                                  Object {
+                                                    "color": "#4E89FF",
+                                                  }
+                                                }
+                                              >
+                                                <IconReact
+                                                  icon={
+                                                    Object {
+                                                      "icon": Object {
+                                                        "attrs": Object {
+                                                          "focusable": "false",
+                                                          "viewBox": "64 64 896 896",
+                                                        },
+                                                        "children": Array [
+                                                          Object {
+                                                            "attrs": Object {
+                                                              "d": "M624 706.3h-74.1V464c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v242.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.7a8 8 0 0012.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9z",
+                                                            },
+                                                            "tag": "path",
+                                                          },
+                                                          Object {
+                                                            "attrs": Object {
+                                                              "d": "M811.4 366.7C765.6 245.9 648.9 160 512.2 160S258.8 245.8 213 366.6C127.3 389.1 64 467.2 64 560c0 110.5 89.5 200 199.9 200H304c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8h-40.1c-33.7 0-65.4-13.4-89-37.7-23.5-24.2-36-56.8-34.9-90.6.9-26.4 9.9-51.2 26.2-72.1 16.7-21.3 40.1-36.8 66.1-43.7l37.9-9.9 13.9-36.6c8.6-22.8 20.6-44.1 35.7-63.4a245.6 245.6 0 0152.4-49.9c41.1-28.9 89.5-44.2 140-44.2s98.9 15.3 140 44.2c19.9 14 37.5 30.8 52.4 49.9 15.1 19.3 27.1 40.7 35.7 63.4l13.8 36.5 37.8 10C846.1 454.5 884 503.8 884 560c0 33.1-12.9 64.3-36.3 87.7a123.07 123.07 0 01-87.6 36.3H720c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h40.1C870.5 760 960 670.5 960 560c0-92.7-63.1-170.7-148.6-193.3z",
+                                                            },
+                                                            "tag": "path",
+                                                          },
+                                                        ],
+                                                        "tag": "svg",
+                                                      },
+                                                      "name": "cloud-download",
+                                                      "theme": "outlined",
+                                                    }
+                                                  }
+                                                >
+                                                  <svg
+                                                    aria-hidden="true"
+                                                    data-icon="cloud-download"
+                                                    fill="currentColor"
+                                                    focusable="false"
+                                                    height="1em"
+                                                    key="svg-cloud-download"
+                                                    viewBox="64 64 896 896"
+                                                    width="1em"
+                                                  >
+                                                    <path
+                                                      d="M624 706.3h-74.1V464c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v242.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.7a8 8 0 0012.6 0l112-141.7c4.1-5.2.4-12.9-6.3-12.9z"
+                                                      key="svg-cloud-download-svg-0"
+                                                    />
+                                                    <path
+                                                      d="M811.4 366.7C765.6 245.9 648.9 160 512.2 160S258.8 245.8 213 366.6C127.3 389.1 64 467.2 64 560c0 110.5 89.5 200 199.9 200H304c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8h-40.1c-33.7 0-65.4-13.4-89-37.7-23.5-24.2-36-56.8-34.9-90.6.9-26.4 9.9-51.2 26.2-72.1 16.7-21.3 40.1-36.8 66.1-43.7l37.9-9.9 13.9-36.6c8.6-22.8 20.6-44.1 35.7-63.4a245.6 245.6 0 0152.4-49.9c41.1-28.9 89.5-44.2 140-44.2s98.9 15.3 140 44.2c19.9 14 37.5 30.8 52.4 49.9 15.1 19.3 27.1 40.7 35.7 63.4l13.8 36.5 37.8 10C846.1 454.5 884 503.8 884 560c0 33.1-12.9 64.3-36.3 87.7a123.07 123.07 0 01-87.6 36.3H720c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h40.1C870.5 760 960 670.5 960 560c0-92.7-63.1-170.7-148.6-193.3z"
+                                                      key="svg-cloud-download-svg-1"
+                                                    />
+                                                  </svg>
+                                                </IconReact>
+                                              </span>
+                                            </AntdIcon>
+                                          </ForwardRef(CloudDownloadOutlined)>
+                                        </span>
+                                      </Avatar>
+                                    </div>
+                                    <div
+                                      className="ant-card-meta-detail"
+                                    >
+                                      <div
+                                        className="ant-card-meta-title"
+                                      >
+                                        Default Applications
+                                      </div>
+                                      <div
+                                        className="ant-card-meta-description"
+                                      >
+                                        In this section you can add and delete applications to your organisation which are managed by the admin.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Meta>
+                              </div>
+                            </div>
+                          </ForwardRef>
+                        </SettingsCard>
+                      </a>
+                    </LinkAnchor>
+                  </Link>
+                </div>
+              </Col>
+              <Col
+                span={12}
+              >
+                <div
+                  className="ant-col ant-col-12"
+                  style={
+                    Object {
+                      "paddingBottom": 8,
+                      "paddingLeft": 8,
+                      "paddingRight": 8,
+                      "paddingTop": 8,
+                    }
+                  }
+                >
+                  <Link
+                    to="/applications/create"
+                  >
+                    <LinkAnchor
+                      href="/applications/create"
+                      navigate={[Function]}
+                    >
+                      <a
+                        href="/applications/create"
+                        onClick={[Function]}
+                      >
+                        <SettingsCard
+                          description="In this section you can extend applications in the currently selected organisation which will be managed by you."
+                          icon={
+                            <ForwardRef(UserOutlined)
+                              style={
+                                Object {
+                                  "color": "#4E89FF",
+                                }
+                              }
+                            />
+                          }
+                          title="Custom Applications"
+                        >
+                          <ForwardRef
+                            hoverable={true}
+                          >
+                            <div
+                              className="ant-card ant-card-bordered ant-card-hoverable"
+                            >
+                              <div
+                                className="ant-card-body"
+                                style={Object {}}
+                              >
+                                <Meta
+                                  avatar={
+                                    <ForwardRef(InternalAvatar)
+                                      icon={
+                                        <ForwardRef(UserOutlined)
+                                          style={
+                                            Object {
+                                              "color": "#4E89FF",
+                                            }
+                                          }
+                                        />
+                                      }
+                                      style={
+                                        Object {
+                                          "backgroundColor": "transparent",
+                                          "color": "#ffb41f",
+                                        }
+                                      }
+                                    />
+                                  }
+                                  description="In this section you can extend applications in the currently selected organisation which will be managed by you."
+                                  title="Custom Applications"
+                                >
+                                  <div
+                                    className="ant-card-meta"
+                                  >
+                                    <div
+                                      className="ant-card-meta-avatar"
+                                    >
+                                      <Avatar
+                                        icon={
+                                          <ForwardRef(UserOutlined)
+                                            style={
+                                              Object {
+                                                "color": "#4E89FF",
+                                              }
+                                            }
+                                          />
+                                        }
+                                        style={
+                                          Object {
+                                            "backgroundColor": "transparent",
+                                            "color": "#ffb41f",
+                                          }
+                                        }
+                                      >
+                                        <span
+                                          className="ant-avatar ant-avatar-circle ant-avatar-icon"
+                                          style={
+                                            Object {
+                                              "backgroundColor": "transparent",
+                                              "color": "#ffb41f",
+                                            }
+                                          }
+                                        >
+                                          <ForwardRef(UserOutlined)
+                                            style={
+                                              Object {
+                                                "color": "#4E89FF",
+                                              }
+                                            }
+                                          >
+                                            <AntdIcon
+                                              icon={
+                                                Object {
+                                                  "icon": Object {
+                                                    "attrs": Object {
+                                                      "focusable": "false",
+                                                      "viewBox": "64 64 896 896",
+                                                    },
+                                                    "children": Array [
+                                                      Object {
+                                                        "attrs": Object {
+                                                          "d": "M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z",
+                                                        },
+                                                        "tag": "path",
+                                                      },
+                                                    ],
+                                                    "tag": "svg",
+                                                  },
+                                                  "name": "user",
+                                                  "theme": "outlined",
+                                                }
+                                              }
+                                              style={
+                                                Object {
+                                                  "color": "#4E89FF",
+                                                }
+                                              }
+                                            >
+                                              <span
+                                                aria-label="user"
+                                                className="anticon anticon-user"
+                                                role="img"
+                                                style={
+                                                  Object {
+                                                    "color": "#4E89FF",
+                                                  }
+                                                }
+                                              >
+                                                <IconReact
+                                                  icon={
+                                                    Object {
+                                                      "icon": Object {
+                                                        "attrs": Object {
+                                                          "focusable": "false",
+                                                          "viewBox": "64 64 896 896",
+                                                        },
+                                                        "children": Array [
+                                                          Object {
+                                                            "attrs": Object {
+                                                              "d": "M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z",
+                                                            },
+                                                            "tag": "path",
+                                                          },
+                                                        ],
+                                                        "tag": "svg",
+                                                      },
+                                                      "name": "user",
+                                                      "theme": "outlined",
+                                                    }
+                                                  }
+                                                >
+                                                  <svg
+                                                    aria-hidden="true"
+                                                    data-icon="user"
+                                                    fill="currentColor"
+                                                    focusable="false"
+                                                    height="1em"
+                                                    key="svg-user"
+                                                    viewBox="64 64 896 896"
+                                                    width="1em"
+                                                  >
+                                                    <path
+                                                      d="M858.5 763.6a374 374 0 00-80.6-119.5 375.63 375.63 0 00-119.5-80.6c-.4-.2-.8-.3-1.2-.5C719.5 518 760 444.7 760 362c0-137-111-248-248-248S264 225 264 362c0 82.7 40.5 156 102.8 201.1-.4.2-.8.3-1.2.5-44.8 18.9-85 46-119.5 80.6a375.63 375.63 0 00-80.6 119.5A371.7 371.7 0 00136 901.8a8 8 0 008 8.2h60c4.4 0 7.9-3.5 8-7.8 2-77.2 33-149.5 87.8-204.3 56.7-56.7 132-87.9 212.2-87.9s155.5 31.2 212.2 87.9C779 752.7 810 825 812 902.2c.1 4.4 3.6 7.8 8 7.8h60a8 8 0 008-8.2c-1-47.8-10.9-94.3-29.5-138.2zM512 534c-45.9 0-89.1-17.9-121.6-50.4S340 407.9 340 362c0-45.9 17.9-89.1 50.4-121.6S466.1 190 512 190s89.1 17.9 121.6 50.4S684 316.1 684 362c0 45.9-17.9 89.1-50.4 121.6S557.9 534 512 534z"
+                                                      key="svg-user-svg-0"
+                                                    />
+                                                  </svg>
+                                                </IconReact>
+                                              </span>
+                                            </AntdIcon>
+                                          </ForwardRef(UserOutlined)>
+                                        </span>
+                                      </Avatar>
+                                    </div>
+                                    <div
+                                      className="ant-card-meta-detail"
+                                    >
+                                      <div
+                                        className="ant-card-meta-title"
+                                      >
+                                        Custom Applications
+                                      </div>
+                                      <div
+                                        className="ant-card-meta-description"
+                                      >
+                                        In this section you can extend applications in the currently selected organisation which will be managed by you.
+                                      </div>
+                                    </div>
+                                  </div>
+                                </Meta>
+                              </div>
+                            </div>
+                          </ForwardRef>
+                        </SettingsCard>
+                      </a>
+                    </LinkAnchor>
+                  </Link>
+                </div>
+              </Col>
+            </div>
+          </Row>
+        </div>
+      </ApplicationType>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;

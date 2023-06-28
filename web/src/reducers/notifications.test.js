@@ -4,9 +4,10 @@ import * as types from '../constants/notifications';
 const initialState = {
   type: null,
   message: null,
+  time: null,
   description: null,
 };
-
+const time = new Date();
 describe('notifications reducer', () => {
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
@@ -28,12 +29,14 @@ describe('notifications reducer', () => {
           type: 'error',
           title: 'Error',
           message: 'Test error message',
+          time,
         },
       }),
     ).toEqual({
       type: 'error',
       message: 'Error',
       description: 'Test error message',
+      time,
     });
     expect(
       reducer(initialState, {
@@ -42,12 +45,14 @@ describe('notifications reducer', () => {
           type: 'success',
           title: 'Success',
           message: 'Test success message',
+          time,
         },
       }),
     ).toEqual({
       type: 'success',
       message: 'Success',
       description: 'Test success message',
+      time,
     });
   });
 });

@@ -16,6 +16,7 @@ import { addMediaList } from './media';
 import { addSpaceIDs } from './application';
 import { addSpaceRoles } from './roles';
 import { addSpacePolicy } from './policy';
+import { ADD_NOTIFICATION } from '../constants/notifications';
 
 export const createSpace = (data, id) => {
   return (dispatch, getState) => {
@@ -153,7 +154,15 @@ export const getSpaceByID = (appID, spaceID) => {
 };
 
 export const addSpaces = (data) => (dispatch) => {
-  const media = getValues(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon']);
+  const media = [];
+  ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon'].forEach((key) => {
+    data.forEach((space) => {
+      if (space[key]) {
+        media.push(space[key]);
+      }
+    });
+  });
+  // !const media = getValues(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon']);
   dispatch(addMediaList(media));
   deleteKeys(data, ['logo', 'logo_mobile', 'fav_icon', 'mobile_icon', 'application']);
   const users = getValues(data, ['users']);

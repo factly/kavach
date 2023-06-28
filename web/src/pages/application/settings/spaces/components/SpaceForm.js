@@ -40,7 +40,7 @@ export default function CreateSpace() {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[appID] ? state.applications.details[appID] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };

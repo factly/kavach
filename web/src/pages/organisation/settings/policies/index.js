@@ -23,7 +23,7 @@ export default function OrganisationPolicies() {
       loading: state.profile.loading,
     };
   });
-
+  console.log(role);
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
       {loading && loadingOrg ? (

@@ -103,10 +103,10 @@ describe('media reducer', () => {
     expect(
       reducer(initialState, {
         type: types.ADD_MEDIA,
-        payload: [
-          { id: 1, medium: 'Medium 1' },
-          { id: 2, medium: 'Medium 2' },
-        ],
+        payload: {
+          1: { id: 1, medium: 'Medium 1' },
+          2: { id: 2, medium: 'Medium 2' },
+        },
       }),
     ).toEqual({
       req: [],

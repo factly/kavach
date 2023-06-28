@@ -1,0 +1,559 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MFA renders the authentication form 1`] = `
+<MFA
+  ui={
+    Object {
+      "action": "/mfa-authentication",
+      "messages": Array [
+        Object {
+          "text": "Mock success message",
+          "type": "success",
+        },
+      ],
+      "method": "POST",
+      "nodes": Array [
+        Object {
+          "attributes": Object {
+            "name": "csrf_token",
+            "value": "mock-csrf-token",
+          },
+          "group": "csrf_token",
+        },
+      ],
+    }
+  }
+>
+  <ForwardRef
+    style={
+      Object {
+        "width": 400,
+      }
+    }
+    title="Two Factor Authenticator"
+  >
+    <div
+      className="ant-card ant-card-bordered"
+      style={
+        Object {
+          "width": 400,
+        }
+      }
+    >
+      <div
+        className="ant-card-head"
+        style={Object {}}
+      >
+        <div
+          className="ant-card-head-wrapper"
+        >
+          <div
+            className="ant-card-head-title"
+          >
+            Two Factor Authenticator
+          </div>
+        </div>
+      </div>
+      <div
+        className="ant-card-body"
+        style={Object {}}
+      >
+        <Space
+          direction="vertical"
+        >
+          <div
+            className="ant-space ant-space-vertical"
+            style={Object {}}
+          >
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={0}
+              key="ant-space-item-0"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <Alert
+                  message="Mock success message"
+                  type="success"
+                >
+                  <CSSMotion
+                    motionAppear={false}
+                    motionEnter={false}
+                    motionName="ant-alert-motion"
+                    onLeaveStart={[Function]}
+                    visible={true}
+                  >
+                    <DomWrapper>
+                      <div
+                        className="ant-alert ant-alert-success ant-alert-no-icon"
+                        data-show={true}
+                        role="alert"
+                        style={Object {}}
+                      >
+                        <div
+                          className="ant-alert-content"
+                        >
+                          <div
+                            className="ant-alert-message"
+                          >
+                            Mock success message
+                          </div>
+                        </div>
+                        <CloseIcon
+                          closeIcon={<ForwardRef(CloseOutlined) />}
+                          handleClose={[Function]}
+                          isClosable={false}
+                          prefixCls="ant-alert"
+                        />
+                      </div>
+                    </DomWrapper>
+                  </CSSMotion>
+                </Alert>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={1}
+              key="ant-space-item-1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={Object {}}
+              >
+                <ForwardRef(InternalForm)
+                  name="mfa_authentication"
+                  onFinish={[Function]}
+                >
+                  <DisabledContextProvider
+                    disabled={false}
+                  >
+                    <SizeContextProvider>
+                      <ForwardRef(Form)
+                        className="ant-form ant-form-horizontal"
+                        form={
+                          Object {
+                            "__INTERNAL__": Object {
+                              "itemRef": [Function],
+                              "name": "mfa_authentication",
+                            },
+                            "_init": true,
+                            "getFieldError": [Function],
+                            "getFieldInstance": [Function],
+                            "getFieldValue": [Function],
+                            "getFieldWarning": [Function],
+                            "getFieldsError": [Function],
+                            "getFieldsValue": [Function],
+                            "getInternalHooks": [Function],
+                            "isFieldTouched": [Function],
+                            "isFieldValidating": [Function],
+                            "isFieldsTouched": [Function],
+                            "isFieldsValidating": [Function],
+                            "resetFields": [Function],
+                            "scrollToField": [Function],
+                            "setFieldValue": [Function],
+                            "setFields": [Function],
+                            "setFieldsValue": [Function],
+                            "submit": [Function],
+                            "validateFields": [Function],
+                          }
+                        }
+                        id="mfa_authentication"
+                        name="mfa_authentication"
+                        onFinish={[Function]}
+                        onFinishFailed={[Function]}
+                      >
+                        <form
+                          className="ant-form ant-form-horizontal"
+                          id="mfa_authentication"
+                          onReset={[Function]}
+                          onSubmit={[Function]}
+                        >
+                          <InternalFormItem
+                            name="totp_code"
+                          >
+                            <WrapperField
+                              messageVariables={
+                                Object {
+                                  "label": "totp_code",
+                                }
+                              }
+                              name="totp_code"
+                              onMetaChange={[Function]}
+                              trigger="onChange"
+                              validateTrigger="onChange"
+                            >
+                              <Field
+                                fieldContext={
+                                  Object {
+                                    "__INTERNAL__": Object {
+                                      "itemRef": [Function],
+                                      "name": "mfa_authentication",
+                                    },
+                                    "_init": true,
+                                    "getFieldError": [Function],
+                                    "getFieldInstance": [Function],
+                                    "getFieldValue": [Function],
+                                    "getFieldWarning": [Function],
+                                    "getFieldsError": [Function],
+                                    "getFieldsValue": [Function],
+                                    "getInternalHooks": [Function],
+                                    "isFieldTouched": [Function],
+                                    "isFieldValidating": [Function],
+                                    "isFieldsTouched": [Function],
+                                    "isFieldsValidating": [Function],
+                                    "resetFields": [Function],
+                                    "scrollToField": [Function],
+                                    "setFieldValue": [Function],
+                                    "setFields": [Function],
+                                    "setFieldsValue": [Function],
+                                    "submit": [Function],
+                                    "validateFields": [Function],
+                                    "validateTrigger": "onChange",
+                                  }
+                                }
+                                key="_totp_code"
+                                messageVariables={
+                                  Object {
+                                    "label": "totp_code",
+                                  }
+                                }
+                                name={
+                                  Array [
+                                    "totp_code",
+                                  ]
+                                }
+                                onMetaChange={[Function]}
+                                trigger="onChange"
+                                validateTrigger="onChange"
+                                valuePropName="value"
+                              >
+                                <ItemHolder
+                                  errors={Array []}
+                                  fieldId="mfa_authentication_totp_code"
+                                  isRequired={false}
+                                  key="row"
+                                  meta={
+                                    Object {
+                                      "errors": Array [],
+                                      "name": Array [],
+                                      "touched": false,
+                                      "validating": false,
+                                      "warnings": Array [],
+                                    }
+                                  }
+                                  name="totp_code"
+                                  onSubItemMetaChange={[Function]}
+                                  prefixCls="ant-form"
+                                  warnings={Array []}
+                                >
+                                  <div
+                                    className="ant-form-item"
+                                  >
+                                    <Row
+                                      className="ant-form-item-row"
+                                    >
+                                      <div
+                                        className="ant-row ant-form-item-row"
+                                        style={Object {}}
+                                      >
+                                        <FormItemLabel
+                                          errors={Array []}
+                                          fieldId="mfa_authentication_totp_code"
+                                          htmlFor="mfa_authentication_totp_code"
+                                          isRequired={false}
+                                          meta={
+                                            Object {
+                                              "errors": Array [],
+                                              "name": Array [],
+                                              "touched": false,
+                                              "validating": false,
+                                              "warnings": Array [],
+                                            }
+                                          }
+                                          name="totp_code"
+                                          onSubItemMetaChange={[Function]}
+                                          prefixCls="ant-form"
+                                          required={false}
+                                          requiredMark={true}
+                                          warnings={Array []}
+                                        />
+                                        <FormItemInput
+                                          errors={Array []}
+                                          fieldId="mfa_authentication_totp_code"
+                                          isRequired={false}
+                                          marginBottom={null}
+                                          meta={
+                                            Object {
+                                              "errors": Array [],
+                                              "name": Array [],
+                                              "touched": false,
+                                              "validating": false,
+                                              "warnings": Array [],
+                                            }
+                                          }
+                                          name={Array []}
+                                          onErrorVisibleChanged={[Function]}
+                                          onSubItemMetaChange={[Function]}
+                                          prefixCls="ant-form"
+                                          status=""
+                                          touched={false}
+                                          validating={false}
+                                          warnings={Array []}
+                                        >
+                                          <Col
+                                            className="ant-form-item-control"
+                                          >
+                                            <div
+                                              className="ant-col ant-form-item-control"
+                                              style={Object {}}
+                                            >
+                                              <div
+                                                className="ant-form-item-control-input"
+                                              >
+                                                <div
+                                                  className="ant-form-item-control-input-content"
+                                                >
+                                                  <Component
+                                                    childProps={
+                                                      Array [
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                      ]
+                                                    }
+                                                    update={
+                                                      <ForwardRef
+                                                        placeholder="Authentication Code"
+                                                        type="text"
+                                                      />
+                                                    }
+                                                  >
+                                                    <ForwardRef
+                                                      id="mfa_authentication_totp_code"
+                                                      onChange={[Function]}
+                                                      placeholder="Authentication Code"
+                                                      type="text"
+                                                    >
+                                                      <ForwardRef
+                                                        affixWrapperClassName=""
+                                                        className=""
+                                                        groupClassName=""
+                                                        id="mfa_authentication_totp_code"
+                                                        inputClassName=""
+                                                        onBlur={[Function]}
+                                                        onChange={[Function]}
+                                                        onFocus={[Function]}
+                                                        placeholder="Authentication Code"
+                                                        prefixCls="ant-input"
+                                                        type="text"
+                                                        wrapperClassName=""
+                                                      >
+                                                        <BaseInput
+                                                          affixWrapperClassName=""
+                                                          className=""
+                                                          focused={false}
+                                                          groupClassName=""
+                                                          handleReset={[Function]}
+                                                          id="mfa_authentication_totp_code"
+                                                          inputElement={
+                                                            <input
+                                                              className="ant-input"
+                                                              id="mfa_authentication_totp_code"
+                                                              onBlur={[Function]}
+                                                              onChange={[Function]}
+                                                              onFocus={[Function]}
+                                                              onKeyDown={[Function]}
+                                                              placeholder="Authentication Code"
+                                                              type="text"
+                                                            />
+                                                          }
+                                                          placeholder="Authentication Code"
+                                                          prefixCls="ant-input"
+                                                          suffix={null}
+                                                          triggerFocus={[Function]}
+                                                          value=""
+                                                          wrapperClassName=""
+                                                        >
+                                                          <input
+                                                            className="ant-input"
+                                                            id="mfa_authentication_totp_code"
+                                                            onBlur={[Function]}
+                                                            onChange={[Function]}
+                                                            onFocus={[Function]}
+                                                            onKeyDown={[Function]}
+                                                            placeholder="Authentication Code"
+                                                            type="text"
+                                                            value=""
+                                                          />
+                                                        </BaseInput>
+                                                      </ForwardRef>
+                                                    </ForwardRef>
+                                                  </Component>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </Col>
+                                        </FormItemInput>
+                                      </div>
+                                    </Row>
+                                  </div>
+                                </ItemHolder>
+                              </Field>
+                            </WrapperField>
+                          </InternalFormItem>
+                          <InternalFormItem>
+                            <ItemHolder
+                              errors={Array []}
+                              key="row"
+                              meta={
+                                Object {
+                                  "errors": Array [],
+                                  "name": Array [],
+                                  "touched": false,
+                                  "validating": false,
+                                  "warnings": Array [],
+                                }
+                              }
+                              onSubItemMetaChange={[Function]}
+                              prefixCls="ant-form"
+                              warnings={Array []}
+                            >
+                              <div
+                                className="ant-form-item"
+                              >
+                                <Row
+                                  className="ant-form-item-row"
+                                >
+                                  <div
+                                    className="ant-row ant-form-item-row"
+                                    style={Object {}}
+                                  >
+                                    <FormItemLabel
+                                      errors={Array []}
+                                      meta={
+                                        Object {
+                                          "errors": Array [],
+                                          "name": Array [],
+                                          "touched": false,
+                                          "validating": false,
+                                          "warnings": Array [],
+                                        }
+                                      }
+                                      onSubItemMetaChange={[Function]}
+                                      prefixCls="ant-form"
+                                      requiredMark={true}
+                                      warnings={Array []}
+                                    />
+                                    <FormItemInput
+                                      errors={Array []}
+                                      marginBottom={null}
+                                      meta={
+                                        Object {
+                                          "errors": Array [],
+                                          "name": Array [],
+                                          "touched": false,
+                                          "validating": false,
+                                          "warnings": Array [],
+                                        }
+                                      }
+                                      name={Array []}
+                                      onErrorVisibleChanged={[Function]}
+                                      onSubItemMetaChange={[Function]}
+                                      prefixCls="ant-form"
+                                      status=""
+                                      touched={false}
+                                      validating={false}
+                                      warnings={Array []}
+                                    >
+                                      <Col
+                                        className="ant-form-item-control"
+                                      >
+                                        <div
+                                          className="ant-col ant-form-item-control"
+                                          style={Object {}}
+                                        >
+                                          <div
+                                            className="ant-form-item-control-input"
+                                          >
+                                            <div
+                                              className="ant-form-item-control-input-content"
+                                            >
+                                              <Button
+                                                block={true}
+                                                htmlType="submit"
+                                                placeholder="submit"
+                                                type="primary"
+                                              >
+                                                <Wave
+                                                  disabled={false}
+                                                >
+                                                  <button
+                                                    className="ant-btn ant-btn-primary ant-btn-block"
+                                                    disabled={false}
+                                                    onClick={[Function]}
+                                                    placeholder="submit"
+                                                    type="submit"
+                                                  >
+                                                    <LoadingIcon
+                                                      existIcon={false}
+                                                      loading={false}
+                                                      prefixCls="ant-btn"
+                                                    >
+                                                      <CSSMotion
+                                                        motionName="ant-btn-loading-icon-motion"
+                                                        onAppearActive={[Function]}
+                                                        onAppearStart={[Function]}
+                                                        onEnterActive={[Function]}
+                                                        onEnterStart={[Function]}
+                                                        onLeaveActive={[Function]}
+                                                        onLeaveStart={[Function]}
+                                                        removeOnLeave={true}
+                                                        visible={false}
+                                                      >
+                                                        <DomWrapper />
+                                                      </CSSMotion>
+                                                    </LoadingIcon>
+                                                    <span
+                                                      key=".0"
+                                                    >
+                                                      submit
+                                                    </span>
+                                                  </button>
+                                                </Wave>
+                                              </Button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </Col>
+                                    </FormItemInput>
+                                  </div>
+                                </Row>
+                              </div>
+                            </ItemHolder>
+                          </InternalFormItem>
+                        </form>
+                      </ForwardRef(Form)>
+                    </SizeContextProvider>
+                  </DisabledContextProvider>
+                </ForwardRef(InternalForm)>
+              </div>
+            </Item>
+          </div>
+        </Space>
+      </div>
+    </div>
+  </ForwardRef>
+</MFA>
+`;

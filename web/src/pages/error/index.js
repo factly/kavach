@@ -14,13 +14,12 @@ function KratosError() {
         var temp = each.split('=');
         obj[temp[0]] = temp[1];
       });
-
     fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/errors?error=' + obj['id'])
       .then((res) => {
         if (res.status === 200) {
           return res.json();
         } else {
-          throw new Error(res.status);
+          console.error('Something went wrong Error code: ' + res.status);
         }
       })
       .then((res) => {
@@ -30,7 +29,7 @@ function KratosError() {
         setTitle(res.error.message);
       })
       .catch((err) => {
-        console.log(err.message);
+        console.error(err.message);
       });
   }, []);
 

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrandingComponent should render the component 1`] = `
+<div
+  style={
+    Object {
+      "background": "#3A54AA",
+      "display": "flex",
+      "justifyContent": "center",
+      "width": "50%",
+    }
+  }
+/>
+`;

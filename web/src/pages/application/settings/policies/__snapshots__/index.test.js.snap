@@ -1,0 +1,910 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Index page component should match snapshot when loading Profile is true 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ApplicationPolicies>
+        <Space
+          direction="vertical"
+        >
+          <div
+            className="ant-space ant-space-vertical"
+            style={Object {}}
+          >
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={0}
+              key="1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <Link
+                  key="1"
+                  to="/applications/1/settings"
+                >
+                  <LinkAnchor
+                    href="/applications/1/settings"
+                    navigate={[Function]}
+                  >
+                    <a
+                      href="/applications/1/settings"
+                      onClick={[Function]}
+                    >
+                      <Button
+                        type="primary"
+                      >
+                        <Wave
+                          disabled={false}
+                        >
+                          <button
+                            className="ant-btn ant-btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <LoadingIcon
+                              existIcon={false}
+                              loading={false}
+                              prefixCls="ant-btn"
+                            >
+                              <CSSMotion
+                                motionName="ant-btn-loading-icon-motion"
+                                onAppearActive={[Function]}
+                                onAppearStart={[Function]}
+                                onEnterActive={[Function]}
+                                onEnterStart={[Function]}
+                                onLeaveActive={[Function]}
+                                onLeaveStart={[Function]}
+                                removeOnLeave={true}
+                                visible={false}
+                              >
+                                <DomWrapper />
+                              </CSSMotion>
+                            </LoadingIcon>
+                            <span
+                              key=".0"
+                            >
+                               Back to Settings 
+                            </span>
+                          </button>
+                        </Wave>
+                      </Button>
+                    </a>
+                  </LinkAnchor>
+                </Link>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={1}
+              key="ant-space-item-1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <h2>
+                  Policies in 
+                  Test Application
+                </h2>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={2}
+              key="ant-space-item-2"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={Object {}}
+              >
+                <Skeleton>
+                  <div
+                    className="ant-skeleton"
+                  >
+                    <div
+                      className="ant-skeleton-content"
+                    >
+                      <Title
+                        prefixCls="ant-skeleton-title"
+                        width="38%"
+                      >
+                        <h3
+                          className="ant-skeleton-title"
+                          style={
+                            Object {
+                              "width": "38%",
+                            }
+                          }
+                        />
+                      </Title>
+                      <Paragraph
+                        prefixCls="ant-skeleton-paragraph"
+                        rows={3}
+                        width="61%"
+                      >
+                        <ul
+                          className="ant-skeleton-paragraph"
+                        >
+                          <li
+                            key="0"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          />
+                          <li
+                            key="1"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          />
+                          <li
+                            key="2"
+                            style={
+                              Object {
+                                "width": "61%",
+                              }
+                            }
+                          />
+                        </ul>
+                      </Paragraph>
+                    </div>
+                  </div>
+                </Skeleton>
+              </div>
+            </Item>
+          </div>
+        </Space>
+      </ApplicationPolicies>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Index page component should match snapshot when loadingApp is true 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ApplicationPolicies>
+        <Space
+          direction="vertical"
+        >
+          <div
+            className="ant-space ant-space-vertical"
+            style={Object {}}
+          >
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={0}
+              key="1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <Link
+                  key="1"
+                  to="/applications/1/settings"
+                >
+                  <LinkAnchor
+                    href="/applications/1/settings"
+                    navigate={[Function]}
+                  >
+                    <a
+                      href="/applications/1/settings"
+                      onClick={[Function]}
+                    >
+                      <Button
+                        type="primary"
+                      >
+                        <Wave
+                          disabled={false}
+                        >
+                          <button
+                            className="ant-btn ant-btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <LoadingIcon
+                              existIcon={false}
+                              loading={false}
+                              prefixCls="ant-btn"
+                            >
+                              <CSSMotion
+                                motionName="ant-btn-loading-icon-motion"
+                                onAppearActive={[Function]}
+                                onAppearStart={[Function]}
+                                onEnterActive={[Function]}
+                                onEnterStart={[Function]}
+                                onLeaveActive={[Function]}
+                                onLeaveStart={[Function]}
+                                removeOnLeave={true}
+                                visible={false}
+                              >
+                                <DomWrapper />
+                              </CSSMotion>
+                            </LoadingIcon>
+                            <span
+                              key=".0"
+                            >
+                               Back to Settings 
+                            </span>
+                          </button>
+                        </Wave>
+                      </Button>
+                    </a>
+                  </LinkAnchor>
+                </Link>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={1}
+              key="ant-space-item-1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <h2>
+                  Policies in 
+                  Test Application
+                </h2>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={2}
+              key="ant-space-item-2"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={Object {}}
+              >
+                <Skeleton>
+                  <div
+                    className="ant-skeleton"
+                  >
+                    <div
+                      className="ant-skeleton-content"
+                    >
+                      <Title
+                        prefixCls="ant-skeleton-title"
+                        width="38%"
+                      >
+                        <h3
+                          className="ant-skeleton-title"
+                          style={
+                            Object {
+                              "width": "38%",
+                            }
+                          }
+                        />
+                      </Title>
+                      <Paragraph
+                        prefixCls="ant-skeleton-paragraph"
+                        rows={3}
+                        width="61%"
+                      >
+                        <ul
+                          className="ant-skeleton-paragraph"
+                        >
+                          <li
+                            key="0"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          />
+                          <li
+                            key="1"
+                            style={
+                              Object {
+                                "width": undefined,
+                              }
+                            }
+                          />
+                          <li
+                            key="2"
+                            style={
+                              Object {
+                                "width": "61%",
+                              }
+                            }
+                          />
+                        </ul>
+                      </Paragraph>
+                    </div>
+                  </div>
+                </Skeleton>
+              </div>
+            </Item>
+          </div>
+        </Space>
+      </ApplicationPolicies>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Index page component should match snapshot when role is not owner 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ApplicationPolicies>
+        <Space
+          direction="vertical"
+        >
+          <div
+            className="ant-space ant-space-vertical"
+            style={Object {}}
+          >
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={0}
+              key="1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <Link
+                  key="1"
+                  to="/applications/1/settings"
+                >
+                  <LinkAnchor
+                    href="/applications/1/settings"
+                    navigate={[Function]}
+                  >
+                    <a
+                      href="/applications/1/settings"
+                      onClick={[Function]}
+                    >
+                      <Button
+                        type="primary"
+                      >
+                        <Wave
+                          disabled={false}
+                        >
+                          <button
+                            className="ant-btn ant-btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <LoadingIcon
+                              existIcon={false}
+                              loading={false}
+                              prefixCls="ant-btn"
+                            >
+                              <CSSMotion
+                                motionName="ant-btn-loading-icon-motion"
+                                onAppearActive={[Function]}
+                                onAppearStart={[Function]}
+                                onEnterActive={[Function]}
+                                onEnterStart={[Function]}
+                                onLeaveActive={[Function]}
+                                onLeaveStart={[Function]}
+                                removeOnLeave={true}
+                                visible={false}
+                              >
+                                <DomWrapper />
+                              </CSSMotion>
+                            </LoadingIcon>
+                            <span
+                              key=".0"
+                            >
+                               Back to Settings 
+                            </span>
+                          </button>
+                        </Wave>
+                      </Button>
+                    </a>
+                  </LinkAnchor>
+                </Link>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={1}
+              key="ant-space-item-1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <h2>
+                  Policies in 
+                  Test Application
+                </h2>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={2}
+              key="ant-space-item-2"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={Object {}}
+              >
+                <Space
+                  direction="vertical"
+                >
+                  <div
+                    className="ant-space ant-space-vertical"
+                    style={Object {}}
+                  >
+                    <Item
+                      className="ant-space-item"
+                      direction="vertical"
+                      index={0}
+                      key="ant-space-item-0"
+                      marginDirection="marginRight"
+                      wrap={false}
+                    />
+                    <Item
+                      className="ant-space-item"
+                      direction="vertical"
+                      index={1}
+                      key="ant-space-item-1"
+                      marginDirection="marginRight"
+                      wrap={false}
+                    >
+                      <div
+                        className="ant-space-item"
+                        style={Object {}}
+                      >
+                        <mockConstructor
+                          appID={1}
+                          role="user"
+                        >
+                          <div
+                            appID={1}
+                            id="PolicyList"
+                            role="user"
+                          />
+                        </mockConstructor>
+                      </div>
+                    </Item>
+                  </div>
+                </Space>
+              </div>
+            </Item>
+          </div>
+        </Space>
+      </ApplicationPolicies>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Index page component should match snapshot when role is owner 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <ApplicationPolicies>
+        <Space
+          direction="vertical"
+        >
+          <div
+            className="ant-space ant-space-vertical"
+            style={Object {}}
+          >
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={0}
+              key="1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <Link
+                  key="1"
+                  to="/applications/1/settings"
+                >
+                  <LinkAnchor
+                    href="/applications/1/settings"
+                    navigate={[Function]}
+                  >
+                    <a
+                      href="/applications/1/settings"
+                      onClick={[Function]}
+                    >
+                      <Button
+                        type="primary"
+                      >
+                        <Wave
+                          disabled={false}
+                        >
+                          <button
+                            className="ant-btn ant-btn-primary"
+                            disabled={false}
+                            onClick={[Function]}
+                            type="button"
+                          >
+                            <LoadingIcon
+                              existIcon={false}
+                              loading={false}
+                              prefixCls="ant-btn"
+                            >
+                              <CSSMotion
+                                motionName="ant-btn-loading-icon-motion"
+                                onAppearActive={[Function]}
+                                onAppearStart={[Function]}
+                                onEnterActive={[Function]}
+                                onEnterStart={[Function]}
+                                onLeaveActive={[Function]}
+                                onLeaveStart={[Function]}
+                                removeOnLeave={true}
+                                visible={false}
+                              >
+                                <DomWrapper />
+                              </CSSMotion>
+                            </LoadingIcon>
+                            <span
+                              key=".0"
+                            >
+                               Back to Settings 
+                            </span>
+                          </button>
+                        </Wave>
+                      </Button>
+                    </a>
+                  </LinkAnchor>
+                </Link>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={1}
+              key="ant-space-item-1"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={
+                  Object {
+                    "marginBottom": 8,
+                  }
+                }
+              >
+                <h2>
+                  Policies in 
+                  Test Application
+                </h2>
+              </div>
+            </Item>
+            <Item
+              className="ant-space-item"
+              direction="vertical"
+              index={2}
+              key="ant-space-item-2"
+              marginDirection="marginRight"
+              wrap={false}
+            >
+              <div
+                className="ant-space-item"
+                style={Object {}}
+              >
+                <Space
+                  direction="vertical"
+                >
+                  <div
+                    className="ant-space ant-space-vertical"
+                    style={Object {}}
+                  >
+                    <Item
+                      className="ant-space-item"
+                      direction="vertical"
+                      index={0}
+                      key="ant-space-item-0"
+                      marginDirection="marginRight"
+                      wrap={false}
+                    >
+                      <div
+                        className="ant-space-item"
+                        style={
+                          Object {
+                            "marginBottom": 8,
+                          }
+                        }
+                      >
+                        <div
+                          style={
+                            Object {
+                              "display": "flex",
+                              "justifyContent": "end",
+                            }
+                          }
+                        >
+                          <Link
+                            key="1"
+                            to="/applications/1/settings/policies/create"
+                          >
+                            <LinkAnchor
+                              href="/applications/1/settings/policies/create"
+                              navigate={[Function]}
+                            >
+                              <a
+                                href="/applications/1/settings/policies/create"
+                                onClick={[Function]}
+                              >
+                                <Button
+                                  type="primary"
+                                >
+                                  <Wave
+                                    disabled={false}
+                                  >
+                                    <button
+                                      className="ant-btn ant-btn-primary"
+                                      disabled={false}
+                                      onClick={[Function]}
+                                      type="button"
+                                    >
+                                      <LoadingIcon
+                                        existIcon={false}
+                                        loading={false}
+                                        prefixCls="ant-btn"
+                                      >
+                                        <CSSMotion
+                                          motionName="ant-btn-loading-icon-motion"
+                                          onAppearActive={[Function]}
+                                          onAppearStart={[Function]}
+                                          onEnterActive={[Function]}
+                                          onEnterStart={[Function]}
+                                          onLeaveActive={[Function]}
+                                          onLeaveStart={[Function]}
+                                          removeOnLeave={true}
+                                          visible={false}
+                                        >
+                                          <DomWrapper />
+                                        </CSSMotion>
+                                      </LoadingIcon>
+                                      <span
+                                        key=".0"
+                                      >
+                                         Create New Policies 
+                                      </span>
+                                    </button>
+                                  </Wave>
+                                </Button>
+                              </a>
+                            </LinkAnchor>
+                          </Link>
+                        </div>
+                      </div>
+                    </Item>
+                    <Item
+                      className="ant-space-item"
+                      direction="vertical"
+                      index={1}
+                      key="ant-space-item-1"
+                      marginDirection="marginRight"
+                      wrap={false}
+                    >
+                      <div
+                        className="ant-space-item"
+                        style={Object {}}
+                      >
+                        <mockConstructor
+                          appID={1}
+                          role="owner"
+                        >
+                          <div
+                            appID={1}
+                            id="PolicyList"
+                            role="owner"
+                          />
+                        </mockConstructor>
+                      </div>
+                    </Item>
+                  </div>
+                </Space>
+              </div>
+            </Item>
+          </div>
+        </Space>
+      </ApplicationPolicies>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;

@@ -210,12 +210,16 @@ export const getApplicationPolicy = (appID) => {
       .then((res) => {
         deleteKeys(res.data, ['application']);
         res.data.forEach((policy) => {
-          dispatch(addApplicationRoleByID(appID));
+          // !this must be added by mistake addApplicationRoleByID function is expects 3 arguments passed only 1
+          // dispatch(addApplicationRoleByID(appID));
           policy.roles = getIds(policy.roles);
         });
         dispatch(addApplicationPolicy(appID, buildObjectOfItems(res.data)));
         const policyIDs = getIds(res.data);
         dispatch(addApplicationPolicyIDs(appID, policyIDs));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopLoadingPolicy());
@@ -224,6 +228,7 @@ export const getApplicationPolicy = (appID) => {
 };
 
 export const createApplicationPolicy = (appID, data) => {
+  console.log('callled');
   return (dispatch, getState) => {
     dispatch(startLoadingPolicy());
     return axios
@@ -326,6 +331,9 @@ export const getSpacePolicy = (appID, spaceID) => {
         dispatch(addSpacePolicy(spaceID, buildObjectOfItems(res.data)));
         const policyIDs = getIds(res.data);
         dispatch(addSpacePolicyIDs(spaceID, policyIDs));
+      })
+      .catch((error) => {
+        dispatch(addErrorNotification(error.message));
       })
       .finally(() => {
         dispatch(stopLoadingPolicy());

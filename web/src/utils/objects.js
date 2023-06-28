@@ -15,7 +15,7 @@ export const getValues = (objectsList = [], key = '') => {
   }
 
   return objectsList
-    .map((obj) => obj[key])
+    .map((obj) => obj?.[key])
     .flat()
     .filter((item) => item);
 };
@@ -29,7 +29,7 @@ export const deleteKeys = (objectsList = [], keys = []) => {
   }
 
   return objectsList.map((obj) => {
-    keys.forEach((key) => delete obj[key]);
+    keys.forEach((key) => delete obj?.[key]);
     return obj;
   });
 };
@@ -42,7 +42,9 @@ export const buildObjectOfItems = (objectsList = []) => {
   const objectOfItems = {};
 
   for (let obj of objectsList) {
-    objectOfItems[obj.id] = obj;
+    if (obj.id) {
+      objectOfItems[obj.id] = obj;
+    }
   }
   return objectOfItems;
 };

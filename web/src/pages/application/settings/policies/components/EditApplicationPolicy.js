@@ -42,8 +42,9 @@ export default function EditApplicationPolicy() {
   );
 
   const onUpdate = (data) => {
-    dispatch(updateApplicationPolicy(appID, policyID, { ...policy, ...data })).then(() =>
-      history.push(`/applications/${appID}/settings/policies`),
+    dispatch(updateApplicationPolicy(appID, policyID, { ...policy, ...data })).then(
+      () => history.push(`/applications/${appID}/settings/policies`),
+      onReset(),
     );
   };
 
@@ -76,6 +77,7 @@ export default function EditApplicationPolicy() {
       />
     );
   }
+  // console.log(loading , loadingRole , loadingApp);
 
   return (
     <>
@@ -98,7 +100,7 @@ export default function EditApplicationPolicy() {
           <Form
             name="update-application-policy"
             layout="vertical"
-            onFinish={(values) => onUpdate(values).then(() => onReset())}
+            onFinish={(values) => onUpdate(values)}
             form={form}
             initialValues={{ ...policy, roles: getIds(policy?.roles) }}
             style={{ maxWidth: '600px' }}
@@ -168,8 +170,8 @@ export default function EditApplicationPolicy() {
                 optionLabelProp="label"
               >
                 {roles?.map((role) => (
-                  <Select.Option value={role.id} key={role.id} label={role.name}>
-                    {role.name}
+                  <Select.Option value={role?.id} key={role?.id} label={role?.name}>
+                    {role?.name}
                   </Select.Option>
                 ))}
               </Select>

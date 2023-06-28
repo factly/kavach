@@ -111,7 +111,7 @@ export default function EditApplicationRole() {
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>

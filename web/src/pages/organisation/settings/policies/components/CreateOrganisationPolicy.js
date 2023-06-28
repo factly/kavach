@@ -59,6 +59,11 @@ export default function CreateOrganisationPolicyForm() {
     );
   };
 
+  const onFinish = (values) => {
+    onCreate(values);
+    onReset();
+  };
+
   React.useEffect(() => {
     dispatch(getOrganisation(orgID));
     fetchRoles();

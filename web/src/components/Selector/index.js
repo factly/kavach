@@ -26,7 +26,7 @@ function Selector({ value, onChange }) {
   const fetchEntities = () => {
     dispatch(getAllUsers());
   };
-
+  // console.log(details)
   return (
     <Select
       bordered
@@ -36,15 +36,17 @@ function Selector({ value, onChange }) {
       defaultValue={value}
       placeholder="select user"
       onChange={(values) => onChange(values)}
-      filterOption={(input, option) =>
-        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-      }
+      filterOption={(input, option) => {
+        return option.props.children.toLowerCase().includes(input.toLowerCase());
+      }}
     >
-      {details.map((item) => (
-        <Select.Option value={item.id} key={'users' + item.id}>
-          {item['email']}
-        </Select.Option>
-      ))}
+      {details.map((item) => {
+        return (
+          <Select.Option value={item.id} key={'users' + item.id}>
+            {item['email']}
+          </Select.Option>
+        );
+      })}
     </Select>
   );
 }
