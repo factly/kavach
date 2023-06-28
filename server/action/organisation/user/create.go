@@ -20,6 +20,7 @@ import (
 	"github.com/factly/x/validationx"
 	"github.com/go-chi/chi"
 	"github.com/spf13/viper"
+	"gorm.io/gorm"
 )
 
 type invites struct {
@@ -109,7 +110,13 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}).First(&invitee).Error
 
 		if err != nil {
-			tx.Create(&invitee)
+			if err == gorm.ErrRecordNotFound {
+				tx.Create(&invitee)
+			} else {
+				loggerx.Error(errors.New("error creating invitee"))
+				errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+				return
+			}
 		}
 
 		invitation := &model.Invitation{
@@ -123,22 +130,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 			ExpiredAt:      time.Now().AddDate(0, 0, 7),
 		}
 
-		var invitationCount int64
-		err = tx.Model(&model.Invitation{}).
-			Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
-			Count(&invitationCount).Error
+		err = tx.Save(invitation).Error
 
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			return
-		}
-
-		if invitationCount > 0 {
-			loggerx.Error(err)
-			continue
-		}
-		err := tx.Model(&model.Invitation{}).Create(&invitation).Error
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
