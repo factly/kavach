@@ -33,28 +33,21 @@ function ApplicationList({ applicationList, permission, loading }) {
           justifyContent: 'space-between',
         }}
         cover={
-          loading ? (
-            <Card loading={true}></Card>
-          ) : (
-            <Avatar
-              shape="square"
-              size={200}
-              style={{ width: '100%', objectFit: 'cover' }}
-              src={
-                application?.medium && application.medium_id
-                  ? window.REACT_APP_ENABLE_IMGPROXY
-                    ? application?.medium?.url?.proxy
-                    : application.medium?.url?.raw
-                  : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
-              }
-            ></Avatar>
-          )
+          <Avatar
+            shape="square"
+            size={200}
+            style={{ width: '100%', objectFit: 'cover' }}
+            src={
+              application?.medium && application.medium_id
+                ? window.REACT_APP_ENABLE_IMGPROXY
+                  ? application?.medium?.url?.proxy
+                  : application.medium?.url?.raw
+                : 'https://cdn5.vectorstock.com/i/thumb-large/99/49/bold-mid-century-abstract-drawing-vector-28919949.jpg'
+            }
+          ></Avatar>
         }
         actions={[
-          <Link
-            to={loading ? '' : `/applications/${application.id}/edit`}
-            className="ant-dropdown-link"
-          >
+          <Link to={`/applications/${application.id}/edit`} className="ant-dropdown-link">
             <EditOutlined key="edit" style={{ fontSize: iconSize }} />
           </Link>,
           permission ? (
@@ -112,9 +105,12 @@ function ApplicationList({ applicationList, permission, loading }) {
           </Link>,
         ]}
       >
+        {/* this is modified as if the loading is true
+          component will not be rendered
+         */}
         <Card.Meta
-          title={loading ? '' : application.name}
-          description={loading ? '' : application.description || <div> </div>}
+          title={application.name}
+          description={application.description || <div> </div>}
           style={{ textAlign: 'center' }}
         />
       </Card>

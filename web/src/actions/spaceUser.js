@@ -47,7 +47,6 @@ export const deleteSpaceUser = (appID, spaceID, userID) => {
       });
   };
 };
-
 export const addSpaceUsersByID = (spaceID, data) => {
   return {
     type: ADD_SPACE_USERS,
@@ -57,7 +56,6 @@ export const addSpaceUsersByID = (spaceID, data) => {
     },
   };
 };
-
 export const getSpaceUsers = (appID, spaceID) => {
   return (dispatch, getState) => {
     dispatch(loadingSpaces());

@@ -130,9 +130,9 @@ function Password() {
     providerInput.name = action; //two actions - 1)link 2)unlink
     providerInput.value = provider;
 
-    oidcForm.appendChild(providerInput);
     oidcForm.appendChild(csrfInput);
     oidcForm.appendChild(methodInput);
+    oidcForm.appendChild(providerInput);
 
     document.body.appendChild(oidcForm);
 
@@ -140,6 +140,7 @@ function Password() {
   };
 
   const updateTOTP = (values) => {
+    // console.log(values);
     var totpForm = createForm(ui.action, ui.method);
     var csrfInput = document.createElement('input');
     csrfInput.name = 'csrf_token';

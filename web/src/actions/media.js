@@ -98,7 +98,7 @@ export const deleteMedium = (id) => {
 
 export const addMedia = (media) => {
   return (dispatch) => {
-    dispatch(addMediaList([media]));
+    dispatch(addMediaList(media));
   };
 };
 

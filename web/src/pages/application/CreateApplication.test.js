@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { BrowserRouter as Router } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
@@ -25,13 +26,15 @@ jest.mock('react-router-dom', () => ({
 }));
 
 jest.mock('../../actions/application', () => ({
-  addApplication: jest.fn(),
+  createApplication: jest.fn(),
 }));
 
 describe('Application Create component', () => {
   let store;
-  let mockedDispatch;
-
+  const mockedDispatch = jest.fn();
+  mockedDispatch.mockReturnValue(Promise.resolve());
+  useDispatch.mockReturnValue(mockedDispatch);
+  store = mockStore({});
   store = mockStore({
     application: {
       req: [],
@@ -45,13 +48,14 @@ describe('Application Create component', () => {
     },
   });
   store.dispatch = jest.fn(() => ({}));
-  mockedDispatch = jest.fn(() => Promise.resolve({}));
-  useDispatch.mockReturnValue(mockedDispatch);
+
   describe('snapshot testing', () => {
     it('should render the component', () => {
       const tree = mount(
         <Provider store={store}>
-          <CreateApplication />
+          <Router>
+            <CreateApplication />
+          </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
@@ -63,19 +67,20 @@ describe('Application Create component', () => {
       wrapper.unmount();
     });
     it('should call addApplication', (done) => {
-      actions.addApplication.mockReset();
       const push = jest.fn();
       useHistory.mockReturnValueOnce({ push });
       act(() => {
         wrapper = mount(
           <Provider store={store}>
-            <CreateApplication />
+            <Router>
+              <CreateApplication />
+            </Router>
           </Provider>,
         );
       });
       wrapper.find(ApplicationCreateForm).props().onCreate({ test: 'test' });
       setTimeout(() => {
-        expect(actions.addApplication).toHaveBeenCalledWith({ test: 'test' });
+        expect(actions.createApplication).toHaveBeenCalledWith({ test: 'test' });
         expect(push).toHaveBeenCalledWith('/applications');
         done();
       }, 0);

@@ -9,7 +9,8 @@ import ClipBoardCopy from '../../../../../utils/clipboardClick';
 
 const tailLayout = {
   wrapperCol: {
-    offset: 8,
+    offset: 0,
+    span: 5,
   },
 };
 
@@ -36,7 +37,7 @@ const CreateApplicationTokenForm = () => {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[id] ? state.applications.details[id] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
@@ -45,18 +46,8 @@ const CreateApplicationTokenForm = () => {
   React.useEffect(() => {
     dispatch(getApplication(id));
   }, [dispatch, id]);
-
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${id}/settings/tokens`}>
-        <Button type="primary"> Back to Tokens</Button>
-      </Link>
+    <>
       {loadingApp || loadingRole ? (
         <Skeleton />
       ) : role !== 'owner' ? (
@@ -67,13 +58,19 @@ const CreateApplicationTokenForm = () => {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Application Token - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">
+                Create Application Token - {application?.name}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/applications/${id}/settings/tokens`}>
+                <Button type="primary"> Back to Tokens</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -82,11 +79,14 @@ const CreateApplicationTokenForm = () => {
               onCreate(values);
               onReset();
             }}
+            style={{
+              maxWidth: '600px',
+            }}
           >
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>
@@ -137,9 +137,9 @@ const CreateApplicationTokenForm = () => {
           >
             <ClipBoardCopy text={showModal === true ? token : ''} />
           </Modal>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,0 +1,1775 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Invitation component snapshot testing should render when invitations are not empty 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <InvitationComponent>
+        <ForwardRef(InternalTable)
+          bordered={true}
+          columns={
+            Array [
+              Object {
+                "dataIndex": "organisation",
+                "key": "organisation",
+                "title": "Organisation",
+              },
+              Object {
+                "dataIndex": "invited_by",
+                "key": "invited_by",
+                "title": "Invited by",
+              },
+              Object {
+                "dataIndex": "role",
+                "key": "role",
+                "title": "Role",
+              },
+              Object {
+                "dataIndex": "action",
+                "key": "action",
+                "render": [Function],
+                "title": "Action",
+                "width": "25%",
+              },
+            ]
+          }
+          dataSource={
+            Array [
+              Object {
+                "id": 1,
+                "invited_by": "test@factly.com",
+                "inviterID": 1,
+                "orgID": 1,
+                "organisation": "test Org",
+                "role": Object {
+                  "id": 1,
+                  "title": "test Role",
+                },
+              },
+            ]
+          }
+          he={true}
+          pagination={false}
+        >
+          <div
+            className="ant-table-wrapper"
+          >
+            <Spin
+              spinning={false}
+            >
+              <Spin
+                spinPrefixCls="ant-spin"
+                spinning={false}
+              >
+                <div
+                  className="ant-spin-nested-loading"
+                >
+                  <div
+                    className="ant-spin-container"
+                    key="container"
+                  >
+                    <Table
+                      bordered={true}
+                      className="ant-table-bordered"
+                      columns={
+                        Array [
+                          Object {
+                            "dataIndex": "organisation",
+                            "key": "organisation",
+                            "title": "Organisation",
+                          },
+                          Object {
+                            "dataIndex": "invited_by",
+                            "key": "invited_by",
+                            "title": "Invited by",
+                          },
+                          Object {
+                            "dataIndex": "role",
+                            "key": "role",
+                            "title": "Role",
+                          },
+                          Object {
+                            "dataIndex": "action",
+                            "key": "action",
+                            "render": [Function],
+                            "title": "Action",
+                            "width": "25%",
+                          },
+                        ]
+                      }
+                      data={
+                        Array [
+                          Object {
+                            "id": 1,
+                            "invited_by": "test@factly.com",
+                            "inviterID": 1,
+                            "orgID": 1,
+                            "organisation": "test Org",
+                            "role": Object {
+                              "id": 1,
+                              "title": "test Role",
+                            },
+                          },
+                        ]
+                      }
+                      dataSource={
+                        Array [
+                          Object {
+                            "id": 1,
+                            "invited_by": "test@factly.com",
+                            "inviterID": 1,
+                            "orgID": 1,
+                            "organisation": "test Org",
+                            "role": Object {
+                              "id": 1,
+                              "title": "test Role",
+                            },
+                          },
+                        ]
+                      }
+                      emptyText={
+                        <Context.Consumer>
+                          [Function]
+                        </Context.Consumer>
+                      }
+                      expandable={
+                        Object {
+                          "__PARENT_RENDER_ICON__": undefined,
+                          "childrenColumnName": undefined,
+                          "expandIcon": [Function],
+                          "expandIconColumnIndex": undefined,
+                          "indentSize": 15,
+                        }
+                      }
+                      he={true}
+                      internalHooks="rc-table-internal-hook"
+                      internalRefs={
+                        Object {
+                          "body": Object {
+                            "current": <div
+                              class="ant-table-content"
+                            >
+                              <table
+                                style="table-layout: auto;"
+                              >
+                                <colgroup>
+                                  <col />
+                                  <col />
+                                  <col />
+                                  <col
+                                    style="width: 25%;"
+                                  />
+                                </colgroup>
+                                <thead
+                                  class="ant-table-thead"
+                                >
+                                  <tr>
+                                    <th
+                                      class="ant-table-cell"
+                                    >
+                                      Organisation
+                                    </th>
+                                    <th
+                                      class="ant-table-cell"
+                                    >
+                                      Invited by
+                                    </th>
+                                    <th
+                                      class="ant-table-cell"
+                                    >
+                                      Role
+                                    </th>
+                                    <th
+                                      class="ant-table-cell"
+                                    >
+                                      Action
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody
+                                  class="ant-table-tbody"
+                                >
+                                  <tr
+                                    class="ant-table-row ant-table-row-level-0"
+                                  >
+                                    <td
+                                      class="ant-table-cell"
+                                    >
+                                      test Org
+                                    </td>
+                                    <td
+                                      class="ant-table-cell"
+                                    >
+                                      test@factly.com
+                                    </td>
+                                    <td
+                                      class="ant-table-cell"
+                                    />
+                                    <td
+                                      class="ant-table-cell"
+                                    >
+                                      <div
+                                        class="ant-space ant-space-horizontal ant-space-align-center"
+                                      >
+                                        <div
+                                          class="ant-space-item"
+                                          style="margin-right: 8px;"
+                                        >
+                                          <button
+                                            class="ant-btn ant-btn-default"
+                                            style="background-color: rgb(108, 198, 68); color: white; border-color: #6cc644;"
+                                            type="button"
+                                          >
+                                            <span>
+                                              Accept
+                                            </span>
+                                          </button>
+                                        </div>
+                                        <div
+                                          class="ant-space-item"
+                                        >
+                                          <button
+                                            class="ant-btn ant-btn-primary ant-btn-dangerous"
+                                            type="button"
+                                          >
+                                            <span>
+                                              Decline
+                                            </span>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>,
+                          },
+                        }
+                      }
+                      pagination={false}
+                      prefixCls="ant-table"
+                      rowClassName={[Function]}
+                      rowKey={[Function]}
+                      transformColumns={[Function]}
+                    >
+                      <div
+                        className="ant-table ant-table-bordered"
+                      >
+                        <Component
+                          pingLeft={false}
+                          pingRight={false}
+                          props={
+                            Object {
+                              "bordered": true,
+                              "className": "ant-table-bordered",
+                              "columns": Array [
+                                Object {
+                                  "dataIndex": "organisation",
+                                  "key": "organisation",
+                                  "title": "Organisation",
+                                },
+                                Object {
+                                  "dataIndex": "invited_by",
+                                  "key": "invited_by",
+                                  "title": "Invited by",
+                                },
+                                Object {
+                                  "dataIndex": "role",
+                                  "key": "role",
+                                  "title": "Role",
+                                },
+                                Object {
+                                  "dataIndex": "action",
+                                  "key": "action",
+                                  "render": [Function],
+                                  "title": "Action",
+                                  "width": "25%",
+                                },
+                              ],
+                              "data": Array [
+                                Object {
+                                  "id": 1,
+                                  "invited_by": "test@factly.com",
+                                  "inviterID": 1,
+                                  "orgID": 1,
+                                  "organisation": "test Org",
+                                  "role": Object {
+                                    "id": 1,
+                                    "title": "test Role",
+                                  },
+                                },
+                              ],
+                              "dataSource": Array [
+                                Object {
+                                  "id": 1,
+                                  "invited_by": "test@factly.com",
+                                  "inviterID": 1,
+                                  "orgID": 1,
+                                  "organisation": "test Org",
+                                  "role": Object {
+                                    "id": 1,
+                                    "title": "test Role",
+                                  },
+                                },
+                              ],
+                              "direction": undefined,
+                              "emptyText": <Context.Consumer>
+                                [Function]
+                              </Context.Consumer>,
+                              "expandable": Object {
+                                "__PARENT_RENDER_ICON__": undefined,
+                                "childrenColumnName": undefined,
+                                "expandIcon": [Function],
+                                "expandIconColumnIndex": undefined,
+                                "indentSize": 15,
+                              },
+                              "he": true,
+                              "internalHooks": "rc-table-internal-hook",
+                              "internalRefs": Object {
+                                "body": Object {
+                                  "current": <div
+                                    class="ant-table-content"
+                                  >
+                                    <table
+                                      style="table-layout: auto;"
+                                    >
+                                      <colgroup>
+                                        <col />
+                                        <col />
+                                        <col />
+                                        <col
+                                          style="width: 25%;"
+                                        />
+                                      </colgroup>
+                                      <thead
+                                        class="ant-table-thead"
+                                      >
+                                        <tr>
+                                          <th
+                                            class="ant-table-cell"
+                                          >
+                                            Organisation
+                                          </th>
+                                          <th
+                                            class="ant-table-cell"
+                                          >
+                                            Invited by
+                                          </th>
+                                          <th
+                                            class="ant-table-cell"
+                                          >
+                                            Role
+                                          </th>
+                                          <th
+                                            class="ant-table-cell"
+                                          >
+                                            Action
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody
+                                        class="ant-table-tbody"
+                                      >
+                                        <tr
+                                          class="ant-table-row ant-table-row-level-0"
+                                        >
+                                          <td
+                                            class="ant-table-cell"
+                                          >
+                                            test Org
+                                          </td>
+                                          <td
+                                            class="ant-table-cell"
+                                          >
+                                            test@factly.com
+                                          </td>
+                                          <td
+                                            class="ant-table-cell"
+                                          />
+                                          <td
+                                            class="ant-table-cell"
+                                          >
+                                            <div
+                                              class="ant-space ant-space-horizontal ant-space-align-center"
+                                            >
+                                              <div
+                                                class="ant-space-item"
+                                                style="margin-right: 8px;"
+                                              >
+                                                <button
+                                                  class="ant-btn ant-btn-default"
+                                                  style="background-color: rgb(108, 198, 68); color: white; border-color: #6cc644;"
+                                                  type="button"
+                                                >
+                                                  <span>
+                                                    Accept
+                                                  </span>
+                                                </button>
+                                              </div>
+                                              <div
+                                                class="ant-space-item"
+                                              >
+                                                <button
+                                                  class="ant-btn ant-btn-primary ant-btn-dangerous"
+                                                  type="button"
+                                                >
+                                                  <span>
+                                                    Decline
+                                                  </span>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>,
+                                },
+                              },
+                              "mergedExpandedKeys": Set {},
+                              "pagination": false,
+                              "prefixCls": "ant-table",
+                              "rowClassName": [Function],
+                              "rowKey": [Function],
+                              "stickyOffsets": Object {
+                                "left": Array [
+                                  0,
+                                  0,
+                                  0,
+                                  0,
+                                ],
+                                "right": Array [
+                                  0,
+                                  0,
+                                  0,
+                                  0,
+                                ],
+                              },
+                              "transformColumns": [Function],
+                            }
+                          }
+                        >
+                          <div
+                            className="ant-table-container"
+                          >
+                            <div
+                              className="ant-table-content"
+                              onScroll={[Function]}
+                              style={Object {}}
+                            >
+                              <table
+                                style={
+                                  Object {
+                                    "tableLayout": "auto",
+                                  }
+                                }
+                              >
+                                <ColGroup
+                                  colWidths={
+                                    Array [
+                                      undefined,
+                                      undefined,
+                                      undefined,
+                                      "25%",
+                                    ]
+                                  }
+                                  columns={
+                                    Array [
+                                      Object {
+                                        "dataIndex": "organisation",
+                                        "fixed": undefined,
+                                        "key": "organisation",
+                                        "title": "Organisation",
+                                      },
+                                      Object {
+                                        "dataIndex": "invited_by",
+                                        "fixed": undefined,
+                                        "key": "invited_by",
+                                        "title": "Invited by",
+                                      },
+                                      Object {
+                                        "dataIndex": "role",
+                                        "fixed": undefined,
+                                        "key": "role",
+                                        "title": "Role",
+                                      },
+                                      Object {
+                                        "dataIndex": "action",
+                                        "fixed": undefined,
+                                        "key": "action",
+                                        "render": [Function],
+                                        "title": "Action",
+                                        "width": "25%",
+                                      },
+                                    ]
+                                  }
+                                >
+                                  <colgroup>
+                                    <col
+                                      key="0"
+                                      style={
+                                        Object {
+                                          "width": undefined,
+                                        }
+                                      }
+                                    />
+                                    <col
+                                      key="1"
+                                      style={
+                                        Object {
+                                          "width": undefined,
+                                        }
+                                      }
+                                    />
+                                    <col
+                                      key="2"
+                                      style={
+                                        Object {
+                                          "width": undefined,
+                                        }
+                                      }
+                                    />
+                                    <col
+                                      key="3"
+                                      style={
+                                        Object {
+                                          "width": "25%",
+                                        }
+                                      }
+                                    />
+                                  </colgroup>
+                                </ColGroup>
+                                <Header
+                                  colWidths={
+                                    Array [
+                                      undefined,
+                                      undefined,
+                                      undefined,
+                                      undefined,
+                                    ]
+                                  }
+                                  columCount={4}
+                                  columns={
+                                    Array [
+                                      Object {
+                                        "dataIndex": "organisation",
+                                        "key": "organisation",
+                                        "title": "Organisation",
+                                      },
+                                      Object {
+                                        "dataIndex": "invited_by",
+                                        "key": "invited_by",
+                                        "title": "Invited by",
+                                      },
+                                      Object {
+                                        "dataIndex": "role",
+                                        "key": "role",
+                                        "title": "Role",
+                                      },
+                                      Object {
+                                        "dataIndex": "action",
+                                        "key": "action",
+                                        "render": [Function],
+                                        "title": "Action",
+                                        "width": "25%",
+                                      },
+                                    ]
+                                  }
+                                  flattenColumns={
+                                    Array [
+                                      Object {
+                                        "dataIndex": "organisation",
+                                        "fixed": undefined,
+                                        "key": "organisation",
+                                        "title": "Organisation",
+                                      },
+                                      Object {
+                                        "dataIndex": "invited_by",
+                                        "fixed": undefined,
+                                        "key": "invited_by",
+                                        "title": "Invited by",
+                                      },
+                                      Object {
+                                        "dataIndex": "role",
+                                        "fixed": undefined,
+                                        "key": "role",
+                                        "title": "Role",
+                                      },
+                                      Object {
+                                        "dataIndex": "action",
+                                        "fixed": undefined,
+                                        "key": "action",
+                                        "render": [Function],
+                                        "title": "Action",
+                                        "width": "25%",
+                                      },
+                                    ]
+                                  }
+                                  stickyOffsets={
+                                    Object {
+                                      "left": Array [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                      ],
+                                      "right": Array [
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                      ],
+                                    }
+                                  }
+                                >
+                                  <thead
+                                    className="ant-table-thead"
+                                  >
+                                    <HeaderRow
+                                      cellComponent="th"
+                                      cells={
+                                        Array [
+                                          Object {
+                                            "children": "Organisation",
+                                            "className": "",
+                                            "colEnd": 0,
+                                            "colSpan": 1,
+                                            "colStart": 0,
+                                            "column": Object {
+                                              "dataIndex": "organisation",
+                                              "key": "organisation",
+                                              "title": "Organisation",
+                                            },
+                                            "key": "organisation",
+                                            "rowSpan": 1,
+                                          },
+                                          Object {
+                                            "children": "Invited by",
+                                            "className": "",
+                                            "colEnd": 1,
+                                            "colSpan": 1,
+                                            "colStart": 1,
+                                            "column": Object {
+                                              "dataIndex": "invited_by",
+                                              "key": "invited_by",
+                                              "title": "Invited by",
+                                            },
+                                            "key": "invited_by",
+                                            "rowSpan": 1,
+                                          },
+                                          Object {
+                                            "children": "Role",
+                                            "className": "",
+                                            "colEnd": 2,
+                                            "colSpan": 1,
+                                            "colStart": 2,
+                                            "column": Object {
+                                              "dataIndex": "role",
+                                              "key": "role",
+                                              "title": "Role",
+                                            },
+                                            "key": "role",
+                                            "rowSpan": 1,
+                                          },
+                                          Object {
+                                            "children": "Action",
+                                            "className": "",
+                                            "colEnd": 3,
+                                            "colSpan": 1,
+                                            "colStart": 3,
+                                            "column": Object {
+                                              "dataIndex": "action",
+                                              "key": "action",
+                                              "render": [Function],
+                                              "title": "Action",
+                                              "width": "25%",
+                                            },
+                                            "key": "action",
+                                            "rowSpan": 1,
+                                          },
+                                        ]
+                                      }
+                                      flattenColumns={
+                                        Array [
+                                          Object {
+                                            "dataIndex": "organisation",
+                                            "fixed": undefined,
+                                            "key": "organisation",
+                                            "title": "Organisation",
+                                          },
+                                          Object {
+                                            "dataIndex": "invited_by",
+                                            "fixed": undefined,
+                                            "key": "invited_by",
+                                            "title": "Invited by",
+                                          },
+                                          Object {
+                                            "dataIndex": "role",
+                                            "fixed": undefined,
+                                            "key": "role",
+                                            "title": "Role",
+                                          },
+                                          Object {
+                                            "dataIndex": "action",
+                                            "fixed": undefined,
+                                            "key": "action",
+                                            "render": [Function],
+                                            "title": "Action",
+                                            "width": "25%",
+                                          },
+                                        ]
+                                      }
+                                      index={0}
+                                      key="0"
+                                      rowComponent="tr"
+                                      stickyOffsets={
+                                        Object {
+                                          "left": Array [
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                          ],
+                                          "right": Array [
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                          ],
+                                        }
+                                      }
+                                    >
+                                      <tr>
+                                        <WrappedCell
+                                          className=""
+                                          colEnd={0}
+                                          colSpan={1}
+                                          colStart={0}
+                                          column={
+                                            Object {
+                                              "dataIndex": "organisation",
+                                              "key": "organisation",
+                                              "title": "Organisation",
+                                            }
+                                          }
+                                          component="th"
+                                          firstFixLeft={false}
+                                          firstFixRight={false}
+                                          key="organisation"
+                                          lastFixLeft={false}
+                                          lastFixRight={false}
+                                          prefixCls="ant-table"
+                                          rowSpan={1}
+                                          rowType="header"
+                                        >
+                                          <Cell
+                                            className=""
+                                            colEnd={0}
+                                            colSpan={1}
+                                            colStart={0}
+                                            column={
+                                              Object {
+                                                "dataIndex": "organisation",
+                                                "key": "organisation",
+                                                "title": "Organisation",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            hovering={false}
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <th
+                                              className="ant-table-cell"
+                                              colSpan={null}
+                                              onMouseEnter={[Function]}
+                                              onMouseLeave={[Function]}
+                                              rowSpan={null}
+                                              style={Object {}}
+                                            >
+                                              Organisation
+                                            </th>
+                                          </Cell>
+                                        </WrappedCell>
+                                        <WrappedCell
+                                          className=""
+                                          colEnd={1}
+                                          colSpan={1}
+                                          colStart={1}
+                                          column={
+                                            Object {
+                                              "dataIndex": "invited_by",
+                                              "key": "invited_by",
+                                              "title": "Invited by",
+                                            }
+                                          }
+                                          component="th"
+                                          firstFixLeft={false}
+                                          firstFixRight={false}
+                                          key="invited_by"
+                                          lastFixLeft={false}
+                                          lastFixRight={false}
+                                          prefixCls="ant-table"
+                                          rowSpan={1}
+                                          rowType="header"
+                                        >
+                                          <Cell
+                                            className=""
+                                            colEnd={1}
+                                            colSpan={1}
+                                            colStart={1}
+                                            column={
+                                              Object {
+                                                "dataIndex": "invited_by",
+                                                "key": "invited_by",
+                                                "title": "Invited by",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            hovering={false}
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <th
+                                              className="ant-table-cell"
+                                              colSpan={null}
+                                              onMouseEnter={[Function]}
+                                              onMouseLeave={[Function]}
+                                              rowSpan={null}
+                                              style={Object {}}
+                                            >
+                                              Invited by
+                                            </th>
+                                          </Cell>
+                                        </WrappedCell>
+                                        <WrappedCell
+                                          className=""
+                                          colEnd={2}
+                                          colSpan={1}
+                                          colStart={2}
+                                          column={
+                                            Object {
+                                              "dataIndex": "role",
+                                              "key": "role",
+                                              "title": "Role",
+                                            }
+                                          }
+                                          component="th"
+                                          firstFixLeft={false}
+                                          firstFixRight={false}
+                                          key="role"
+                                          lastFixLeft={false}
+                                          lastFixRight={false}
+                                          prefixCls="ant-table"
+                                          rowSpan={1}
+                                          rowType="header"
+                                        >
+                                          <Cell
+                                            className=""
+                                            colEnd={2}
+                                            colSpan={1}
+                                            colStart={2}
+                                            column={
+                                              Object {
+                                                "dataIndex": "role",
+                                                "key": "role",
+                                                "title": "Role",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            hovering={false}
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <th
+                                              className="ant-table-cell"
+                                              colSpan={null}
+                                              onMouseEnter={[Function]}
+                                              onMouseLeave={[Function]}
+                                              rowSpan={null}
+                                              style={Object {}}
+                                            >
+                                              Role
+                                            </th>
+                                          </Cell>
+                                        </WrappedCell>
+                                        <WrappedCell
+                                          className=""
+                                          colEnd={3}
+                                          colSpan={1}
+                                          colStart={3}
+                                          column={
+                                            Object {
+                                              "dataIndex": "action",
+                                              "key": "action",
+                                              "render": [Function],
+                                              "title": "Action",
+                                              "width": "25%",
+                                            }
+                                          }
+                                          component="th"
+                                          firstFixLeft={false}
+                                          firstFixRight={false}
+                                          key="action"
+                                          lastFixLeft={false}
+                                          lastFixRight={false}
+                                          prefixCls="ant-table"
+                                          rowSpan={1}
+                                          rowType="header"
+                                        >
+                                          <Cell
+                                            className=""
+                                            colEnd={3}
+                                            colSpan={1}
+                                            colStart={3}
+                                            column={
+                                              Object {
+                                                "dataIndex": "action",
+                                                "key": "action",
+                                                "render": [Function],
+                                                "title": "Action",
+                                                "width": "25%",
+                                              }
+                                            }
+                                            component="th"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            hovering={false}
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            rowSpan={1}
+                                            rowType="header"
+                                          >
+                                            <th
+                                              className="ant-table-cell"
+                                              colSpan={null}
+                                              onMouseEnter={[Function]}
+                                              onMouseLeave={[Function]}
+                                              rowSpan={null}
+                                              style={Object {}}
+                                            >
+                                              Action
+                                            </th>
+                                          </Cell>
+                                        </WrappedCell>
+                                      </tr>
+                                    </HeaderRow>
+                                  </thead>
+                                </Header>
+                                <Body
+                                  childrenColumnName="children"
+                                  data={
+                                    Array [
+                                      Object {
+                                        "id": 1,
+                                        "invited_by": "test@factly.com",
+                                        "inviterID": 1,
+                                        "orgID": 1,
+                                        "organisation": "test Org",
+                                        "role": Object {
+                                          "id": 1,
+                                          "title": "test Role",
+                                        },
+                                      },
+                                    ]
+                                  }
+                                  emptyNode={null}
+                                  expandedKeys={Set {}}
+                                  getRowKey={[Function]}
+                                  measureColumnWidth={false}
+                                >
+                                  <Provider
+                                    value={
+                                      Object {
+                                        "endRow": -1,
+                                        "onHover": [Function],
+                                        "startRow": -1,
+                                      }
+                                    }
+                                  >
+                                    <tbody
+                                      className="ant-table-tbody"
+                                    >
+                                      <BodyRow
+                                        cellComponent="td"
+                                        childrenColumnName="children"
+                                        expandedKeys={Set {}}
+                                        getRowKey={[Function]}
+                                        indent={0}
+                                        index={0}
+                                        record={
+                                          Object {
+                                            "id": 1,
+                                            "invited_by": "test@factly.com",
+                                            "inviterID": 1,
+                                            "orgID": 1,
+                                            "organisation": "test Org",
+                                            "role": Object {
+                                              "id": 1,
+                                              "title": "test Role",
+                                            },
+                                          }
+                                        }
+                                        renderIndex={0}
+                                        rowComponent="tr"
+                                      >
+                                        <tr
+                                          className="ant-table-row ant-table-row-level-0"
+                                          onClick={[Function]}
+                                          style={Object {}}
+                                        >
+                                          <WrappedCell
+                                            component="td"
+                                            dataIndex="organisation"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            index={0}
+                                            key="organisation"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            record={
+                                              Object {
+                                                "id": 1,
+                                                "invited_by": "test@factly.com",
+                                                "inviterID": 1,
+                                                "orgID": 1,
+                                                "organisation": "test Org",
+                                                "role": Object {
+                                                  "id": 1,
+                                                  "title": "test Role",
+                                                },
+                                              }
+                                            }
+                                            renderIndex={0}
+                                          >
+                                            <Cell
+                                              component="td"
+                                              dataIndex="organisation"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              index={0}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              onHover={[Function]}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "id": 1,
+                                                  "invited_by": "test@factly.com",
+                                                  "inviterID": 1,
+                                                  "orgID": 1,
+                                                  "organisation": "test Org",
+                                                  "role": Object {
+                                                    "id": 1,
+                                                    "title": "test Role",
+                                                  },
+                                                }
+                                              }
+                                              renderIndex={0}
+                                            >
+                                              <td
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                test Org
+                                              </td>
+                                            </Cell>
+                                          </WrappedCell>
+                                          <WrappedCell
+                                            component="td"
+                                            dataIndex="invited_by"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            index={0}
+                                            key="invited_by"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            record={
+                                              Object {
+                                                "id": 1,
+                                                "invited_by": "test@factly.com",
+                                                "inviterID": 1,
+                                                "orgID": 1,
+                                                "organisation": "test Org",
+                                                "role": Object {
+                                                  "id": 1,
+                                                  "title": "test Role",
+                                                },
+                                              }
+                                            }
+                                            renderIndex={0}
+                                          >
+                                            <Cell
+                                              component="td"
+                                              dataIndex="invited_by"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              index={0}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              onHover={[Function]}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "id": 1,
+                                                  "invited_by": "test@factly.com",
+                                                  "inviterID": 1,
+                                                  "orgID": 1,
+                                                  "organisation": "test Org",
+                                                  "role": Object {
+                                                    "id": 1,
+                                                    "title": "test Role",
+                                                  },
+                                                }
+                                              }
+                                              renderIndex={0}
+                                            >
+                                              <td
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                test@factly.com
+                                              </td>
+                                            </Cell>
+                                          </WrappedCell>
+                                          <WrappedCell
+                                            component="td"
+                                            dataIndex="role"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            index={0}
+                                            key="role"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            record={
+                                              Object {
+                                                "id": 1,
+                                                "invited_by": "test@factly.com",
+                                                "inviterID": 1,
+                                                "orgID": 1,
+                                                "organisation": "test Org",
+                                                "role": Object {
+                                                  "id": 1,
+                                                  "title": "test Role",
+                                                },
+                                              }
+                                            }
+                                            renderIndex={0}
+                                          >
+                                            <Cell
+                                              component="td"
+                                              dataIndex="role"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              index={0}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              onHover={[Function]}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "id": 1,
+                                                  "invited_by": "test@factly.com",
+                                                  "inviterID": 1,
+                                                  "orgID": 1,
+                                                  "organisation": "test Org",
+                                                  "role": Object {
+                                                    "id": 1,
+                                                    "title": "test Role",
+                                                  },
+                                                }
+                                              }
+                                              renderIndex={0}
+                                            >
+                                              <td
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              />
+                                            </Cell>
+                                          </WrappedCell>
+                                          <WrappedCell
+                                            component="td"
+                                            dataIndex="action"
+                                            firstFixLeft={false}
+                                            firstFixRight={false}
+                                            index={0}
+                                            key="action"
+                                            lastFixLeft={false}
+                                            lastFixRight={false}
+                                            prefixCls="ant-table"
+                                            record={
+                                              Object {
+                                                "id": 1,
+                                                "invited_by": "test@factly.com",
+                                                "inviterID": 1,
+                                                "orgID": 1,
+                                                "organisation": "test Org",
+                                                "role": Object {
+                                                  "id": 1,
+                                                  "title": "test Role",
+                                                },
+                                              }
+                                            }
+                                            render={[Function]}
+                                            renderIndex={0}
+                                          >
+                                            <Cell
+                                              component="td"
+                                              dataIndex="action"
+                                              firstFixLeft={false}
+                                              firstFixRight={false}
+                                              hovering={false}
+                                              index={0}
+                                              lastFixLeft={false}
+                                              lastFixRight={false}
+                                              onHover={[Function]}
+                                              prefixCls="ant-table"
+                                              record={
+                                                Object {
+                                                  "id": 1,
+                                                  "invited_by": "test@factly.com",
+                                                  "inviterID": 1,
+                                                  "orgID": 1,
+                                                  "organisation": "test Org",
+                                                  "role": Object {
+                                                    "id": 1,
+                                                    "title": "test Role",
+                                                  },
+                                                }
+                                              }
+                                              render={[Function]}
+                                              renderIndex={0}
+                                            >
+                                              <td
+                                                className="ant-table-cell"
+                                                colSpan={null}
+                                                onMouseEnter={[Function]}
+                                                onMouseLeave={[Function]}
+                                                rowSpan={null}
+                                                style={Object {}}
+                                              >
+                                                <Space>
+                                                  <div
+                                                    className="ant-space ant-space-horizontal ant-space-align-center"
+                                                    style={Object {}}
+                                                  >
+                                                    <Item
+                                                      className="ant-space-item"
+                                                      direction="horizontal"
+                                                      index={0}
+                                                      key="ant-space-item-0"
+                                                      marginDirection="marginRight"
+                                                      wrap={false}
+                                                    >
+                                                      <div
+                                                        className="ant-space-item"
+                                                        style={
+                                                          Object {
+                                                            "marginRight": 8,
+                                                          }
+                                                        }
+                                                      >
+                                                        <Button
+                                                          onClick={[Function]}
+                                                          style={
+                                                            Object {
+                                                              "backgroundColor": "#6cc644",
+                                                              "borderColor": "#6cc644",
+                                                              "color": "white",
+                                                            }
+                                                          }
+                                                        >
+                                                          <Wave
+                                                            disabled={false}
+                                                          >
+                                                            <button
+                                                              className="ant-btn ant-btn-default"
+                                                              disabled={false}
+                                                              onClick={[Function]}
+                                                              style={
+                                                                Object {
+                                                                  "backgroundColor": "#6cc644",
+                                                                  "borderColor": "#6cc644",
+                                                                  "color": "white",
+                                                                }
+                                                              }
+                                                              type="button"
+                                                            >
+                                                              <LoadingIcon
+                                                                existIcon={false}
+                                                                loading={false}
+                                                                prefixCls="ant-btn"
+                                                              >
+                                                                <CSSMotion
+                                                                  motionName="ant-btn-loading-icon-motion"
+                                                                  onAppearActive={[Function]}
+                                                                  onAppearStart={[Function]}
+                                                                  onEnterActive={[Function]}
+                                                                  onEnterStart={[Function]}
+                                                                  onLeaveActive={[Function]}
+                                                                  onLeaveStart={[Function]}
+                                                                  removeOnLeave={true}
+                                                                  visible={false}
+                                                                >
+                                                                  <DomWrapper />
+                                                                </CSSMotion>
+                                                              </LoadingIcon>
+                                                              <span
+                                                                key=".0"
+                                                              >
+                                                                Accept
+                                                              </span>
+                                                            </button>
+                                                          </Wave>
+                                                        </Button>
+                                                      </div>
+                                                    </Item>
+                                                    <Item
+                                                      className="ant-space-item"
+                                                      direction="horizontal"
+                                                      index={1}
+                                                      key="ant-space-item-1"
+                                                      marginDirection="marginRight"
+                                                      wrap={false}
+                                                    >
+                                                      <div
+                                                        className="ant-space-item"
+                                                        style={Object {}}
+                                                      >
+                                                        <Button
+                                                          danger={true}
+                                                          onClick={[Function]}
+                                                          type="primary"
+                                                        >
+                                                          <Wave
+                                                            disabled={false}
+                                                          >
+                                                            <button
+                                                              className="ant-btn ant-btn-primary ant-btn-dangerous"
+                                                              disabled={false}
+                                                              onClick={[Function]}
+                                                              type="button"
+                                                            >
+                                                              <LoadingIcon
+                                                                existIcon={false}
+                                                                loading={false}
+                                                                prefixCls="ant-btn"
+                                                              >
+                                                                <CSSMotion
+                                                                  motionName="ant-btn-loading-icon-motion"
+                                                                  onAppearActive={[Function]}
+                                                                  onAppearStart={[Function]}
+                                                                  onEnterActive={[Function]}
+                                                                  onEnterStart={[Function]}
+                                                                  onLeaveActive={[Function]}
+                                                                  onLeaveStart={[Function]}
+                                                                  removeOnLeave={true}
+                                                                  visible={false}
+                                                                >
+                                                                  <DomWrapper />
+                                                                </CSSMotion>
+                                                              </LoadingIcon>
+                                                              <span
+                                                                key=".0"
+                                                              >
+                                                                Decline
+                                                              </span>
+                                                            </button>
+                                                          </Wave>
+                                                        </Button>
+                                                      </div>
+                                                    </Item>
+                                                  </div>
+                                                </Space>
+                                              </td>
+                                            </Cell>
+                                          </WrappedCell>
+                                        </tr>
+                                      </BodyRow>
+                                    </tbody>
+                                  </Provider>
+                                </Body>
+                              </table>
+                            </div>
+                          </div>
+                        </Component>
+                      </div>
+                    </Table>
+                  </div>
+                </div>
+              </Spin>
+            </Spin>
+          </div>
+        </ForwardRef(InternalTable)>
+      </InvitationComponent>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Invitation component snapshot testing should render when loading is false invitation list is empty 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <InvitationComponent>
+        <ErrorComponent
+          link="/organisation"
+          message="Go Home"
+          title="You have 0 invitations"
+        >
+          <Result
+            extra={
+              <ForwardRef
+                to="/organisation"
+              >
+                <ForwardRef(InternalButton)
+                  type="primary"
+                >
+                  Go Home
+                </ForwardRef(InternalButton)>
+              </ForwardRef>
+            }
+            status="warning"
+            title="You have 0 invitations"
+          >
+            <div
+              className="ant-result ant-result-warning"
+            >
+              <Icon
+                prefixCls="ant-result"
+                status="warning"
+              >
+                <div
+                  className="ant-result-icon"
+                >
+                  <ForwardRef(WarningFilled)>
+                    <AntdIcon
+                      icon={
+                        Object {
+                          "icon": Object {
+                            "attrs": Object {
+                              "focusable": "false",
+                              "viewBox": "64 64 896 896",
+                            },
+                            "children": Array [
+                              Object {
+                                "attrs": Object {
+                                  "d": "M955.7 856l-416-720c-6.2-10.7-16.9-16-27.7-16s-21.6 5.3-27.7 16l-416 720C56 877.4 71.4 904 96 904h832c24.6 0 40-26.6 27.7-48zM480 416c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v184c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V416zm32 352a48.01 48.01 0 010-96 48.01 48.01 0 010 96z",
+                                },
+                                "tag": "path",
+                              },
+                            ],
+                            "tag": "svg",
+                          },
+                          "name": "warning",
+                          "theme": "filled",
+                        }
+                      }
+                    >
+                      <span
+                        aria-label="warning"
+                        className="anticon anticon-warning"
+                        role="img"
+                      >
+                        <IconReact
+                          icon={
+                            Object {
+                              "icon": Object {
+                                "attrs": Object {
+                                  "focusable": "false",
+                                  "viewBox": "64 64 896 896",
+                                },
+                                "children": Array [
+                                  Object {
+                                    "attrs": Object {
+                                      "d": "M955.7 856l-416-720c-6.2-10.7-16.9-16-27.7-16s-21.6 5.3-27.7 16l-416 720C56 877.4 71.4 904 96 904h832c24.6 0 40-26.6 27.7-48zM480 416c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v184c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V416zm32 352a48.01 48.01 0 010-96 48.01 48.01 0 010 96z",
+                                    },
+                                    "tag": "path",
+                                  },
+                                ],
+                                "tag": "svg",
+                              },
+                              "name": "warning",
+                              "theme": "filled",
+                            }
+                          }
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="warning"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            key="svg-warning"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M955.7 856l-416-720c-6.2-10.7-16.9-16-27.7-16s-21.6 5.3-27.7 16l-416 720C56 877.4 71.4 904 96 904h832c24.6 0 40-26.6 27.7-48zM480 416c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v184c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V416zm32 352a48.01 48.01 0 010-96 48.01 48.01 0 010 96z"
+                              key="svg-warning-svg-0"
+                            />
+                          </svg>
+                        </IconReact>
+                      </span>
+                    </AntdIcon>
+                  </ForwardRef(WarningFilled)>
+                </div>
+              </Icon>
+              <div
+                className="ant-result-title"
+              >
+                You have 0 invitations
+              </div>
+              <Extra
+                extra={
+                  <ForwardRef
+                    to="/organisation"
+                  >
+                    <ForwardRef(InternalButton)
+                      type="primary"
+                    >
+                      Go Home
+                    </ForwardRef(InternalButton)>
+                  </ForwardRef>
+                }
+                prefixCls="ant-result"
+              >
+                <div
+                  className="ant-result-extra"
+                >
+                  <Link
+                    to="/organisation"
+                  >
+                    <LinkAnchor
+                      href="/organisation"
+                      navigate={[Function]}
+                    >
+                      <a
+                        href="/organisation"
+                        onClick={[Function]}
+                      >
+                        <Button
+                          type="primary"
+                        >
+                          <Wave
+                            disabled={false}
+                          >
+                            <button
+                              className="ant-btn ant-btn-primary"
+                              disabled={false}
+                              onClick={[Function]}
+                              type="button"
+                            >
+                              <LoadingIcon
+                                existIcon={false}
+                                loading={false}
+                                prefixCls="ant-btn"
+                              >
+                                <CSSMotion
+                                  motionName="ant-btn-loading-icon-motion"
+                                  onAppearActive={[Function]}
+                                  onAppearStart={[Function]}
+                                  onEnterActive={[Function]}
+                                  onEnterStart={[Function]}
+                                  onLeaveActive={[Function]}
+                                  onLeaveStart={[Function]}
+                                  removeOnLeave={true}
+                                  visible={false}
+                                >
+                                  <DomWrapper />
+                                </CSSMotion>
+                              </LoadingIcon>
+                              <span
+                                key=".0"
+                              >
+                                Go Home
+                              </span>
+                            </button>
+                          </Wave>
+                        </Button>
+                      </a>
+                    </LinkAnchor>
+                  </Link>
+                </div>
+              </Extra>
+            </div>
+          </Result>
+        </ErrorComponent>
+      </InvitationComponent>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
+
+exports[`Invitation component snapshot testing should render when loading is true 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <InvitationComponent>
+    <Skeleton>
+      <div
+        className="ant-skeleton"
+      >
+        <div
+          className="ant-skeleton-content"
+        >
+          <Title
+            prefixCls="ant-skeleton-title"
+            width="38%"
+          >
+            <h3
+              className="ant-skeleton-title"
+              style={
+                Object {
+                  "width": "38%",
+                }
+              }
+            />
+          </Title>
+          <Paragraph
+            prefixCls="ant-skeleton-paragraph"
+            rows={3}
+            width="61%"
+          >
+            <ul
+              className="ant-skeleton-paragraph"
+            >
+              <li
+                key="0"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+              />
+              <li
+                key="1"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+              />
+              <li
+                key="2"
+                style={
+                  Object {
+                    "width": "61%",
+                  }
+                }
+              />
+            </ul>
+          </Paragraph>
+        </div>
+      </div>
+    </Skeleton>
+  </InvitationComponent>
+</Provider>
+`;

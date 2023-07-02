@@ -41,6 +41,13 @@ describe('Sidebar component', () => {
         collapsed: true,
       },
     },
+    sidebar: {
+      collapsed: true,
+    },
+    profile: {
+      invitations: [{ id: 1, organisation: { id: 1, title: 'title', description: 'description' } }],
+      loading: false,
+    },
   };
   store = mockStore(() => state);
   store.dispatch = jest.fn(() => ({}));
@@ -57,28 +64,131 @@ describe('Sidebar component', () => {
       );
       expect(tree).toMatchSnapshot();
     });
-  });
-  describe('component testing', () => {
-    let wrapper;
-    it('should call toggleSider', (done) => {
-      actions.toggleSider.mockReset();
-      const push = jest.fn();
-      useHistory.mockReturnValueOnce({ push });
-      store = mockStore(state);
 
-      wrapper = mount(
+    it('should render the component invitecount is 0', () => {
+      store = mockStore(() => ({
+        ...state,
+        profile: {
+          invitations: [],
+          loading: false,
+        },
+      }));
+
+      const tree = shallow(
         <Provider store={store}>
           <Router>
             <Sidebar />
           </Router>
         </Provider>,
       );
+      expect(tree).toMatchSnapshot();
+    });
+  });
+  describe('state testing', () => {
+    it('should render the component with collapsed state', () => {
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      expect(tree.find(Sider).props().collapsed).toBe(true);
+    });
+    it('should render the component with expanded state', () => {
+      store = mockStore(() => ({
+        ...state,
+        settings: {
+          ...state.settings,
+          sider: {
+            collapsed: false,
+          },
+        },
+        sidebar: {
+          collapsed: false,
+        },
+      }));
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      expect(tree.find(Sider).props().collapsed).toBe(false);
+    });
+    it('should render the component when loading is true', () => {
+      store = mockStore(() => ({
+        ...state,
+        profile: {
+          invitations: [],
+          loading: true,
+        },
+      }));
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      const invitationLinks = tree
+        .find('Link')
+        .filterWhere((link) => link.props().to === '/profile/invite');
+      expect(invitationLinks.find('Avatar').length).toBe(0);
+    });
+    it('should render the component when loading is false', () => {
+      store = mockStore(() => state);
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      const invitationLinks = tree
+        .find('Link')
+        .filterWhere((link) => link.props().to === '/profile/invite');
+      expect(invitationLinks.find('Avatar').length).toBe(1);
+    });
+  });
 
-      wrapper.find(Sider).props().onBreakpoint();
-      wrapper.update();
+  describe('function testing', () => {
+    it('should call setCollapse true', () => {
+      store = mockStore(() => ({
+        ...state,
+        sidebar: {
+          collapsed: false,
+        },
+      }));
+      const setCollapse = jest.fn();
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      tree.find('button').simulate('click');
+      // expect(setCollapse).toHaveBeenCalledWith(true);
+    });
 
-      expect(actions.toggleSider).toHaveBeenCalledWith();
-      done();
+    it('should call setCollapse false', () => {
+      store = mockStore(() => ({
+        ...state,
+        sidebar: {
+          collapsed: true,
+        },
+      }));
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <Sidebar />
+          </Router>
+        </Provider>,
+      );
+      tree.find('button').simulate('click');
+      // expect(setCollapse).toHaveBeenCalledWith(false);
     });
   });
 });

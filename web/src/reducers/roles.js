@@ -10,14 +10,12 @@ import {
   ADD_APPLICATION_ROLE_USERS,
   ADD_ORGANISATION_ROLE_USERS,
 } from '../constants/roles';
-
 const initialState = {
   organisation: {},
   application: {},
   space: {},
   loading: true,
 };
-
 export default function rolesReducer(state = initialState, action = {}) {
   switch (action.type) {
     case ROLES_LOADING:
@@ -89,8 +87,8 @@ export default function rolesReducer(state = initialState, action = {}) {
           ...state.organisation,
           [action.payload.orgID]: {
             ...state.organisation[action.payload.orgID],
-            [action.payload.roleID]: {
-              ...state.organisation[action.payload.orgID][action.payload.roleID],
+            [action.payload?.roleID]: {
+              ...state.organisation[action.payload.orgID]?.[action.payload?.roleID],
               users: action.payload.data,
             },
           },
@@ -104,7 +102,7 @@ export default function rolesReducer(state = initialState, action = {}) {
           [action.payload.appID]: {
             ...state.application[action.payload.appID],
             [action.payload?.roleID]: {
-              ...state.application[action.payload.appID][action.payload?.roleID],
+              ...state.application[action.payload.appID]?.[action.payload?.roleID],
               users: action.payload.data,
             },
           },

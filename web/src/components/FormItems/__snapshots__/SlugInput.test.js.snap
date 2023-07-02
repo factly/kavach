@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slug Input Component should render and match snapshot 1`] = `
+<div
+  class="ant-form-item"
+>
+  <div
+    class="ant-row ant-form-item-row"
+  >
+    <div
+      class="ant-col ant-form-item-label"
+    >
+      <label
+        class="ant-form-item-required"
+        for="slug"
+        title="Slug"
+      >
+        Slug
+      </label>
+    </div>
+    <div
+      class="ant-col ant-form-item-control"
+    >
+      <div
+        class="ant-form-item-control-input"
+      >
+        <div
+          class="ant-form-item-control-input-content"
+        >
+          <input
+            aria-required="true"
+            class="ant-input"
+            id="slug"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Slug Input Component should render when onChange is not passed 1`] = `
+<div
+  class="ant-form-item"
+>
+  <div
+    class="ant-row ant-form-item-row"
+  >
+    <div
+      class="ant-col ant-form-item-label"
+    >
+      <label
+        class="ant-form-item-required"
+        for="slug"
+        title="test"
+      >
+        test
+      </label>
+    </div>
+    <div
+      class="ant-col ant-form-item-control"
+    >
+      <div
+        class="ant-form-item-control-input"
+      >
+        <div
+          class="ant-form-item-control-input-content"
+        >
+          <input
+            aria-required="true"
+            class="ant-input"
+            id="slug"
+            placeholder="test"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Slug Input Component should render with props and match snapshot 1`] = `
+<div
+  class="ant-form-item"
+>
+  <div
+    class="ant-row ant-form-item-row"
+  >
+    <div
+      class="ant-col ant-form-item-label"
+    >
+      <label
+        class="ant-form-item-required"
+        for="slug"
+        title="test"
+      >
+        test
+      </label>
+    </div>
+    <div
+      class="ant-col ant-form-item-control"
+    >
+      <div
+        class="ant-form-item-control-input"
+      >
+        <div
+          class="ant-form-item-control-input-content"
+        >
+          <input
+            aria-required="true"
+            class="ant-input"
+            id="slug"
+            placeholder="test"
+            type="text"
+            value=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

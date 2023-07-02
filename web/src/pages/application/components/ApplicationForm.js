@@ -17,7 +17,6 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
   const [form] = Form.useForm();
   const urlParams = new URLSearchParams(window.location.search);
   const isDefault = urlParams.get('is_default');
-
   const onReset = () => {
     form.resetFields();
   };

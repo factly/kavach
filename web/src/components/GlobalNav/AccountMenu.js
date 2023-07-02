@@ -26,6 +26,7 @@ const AccountMenu = () => {
   }, [dispatch]);
 
   const handleLogout = () => {
+    // console.log('logout');
     fetch(window.REACT_APP_KRATOS_PUBLIC_URL + '/self-service/logout/browser', {
       credentials: 'include',
     })
@@ -37,7 +38,10 @@ const AccountMenu = () => {
         }
       })
       .then((res) => {
-        window.location.href = res.logout_url;
+        // console.log(res);
+        Object.assign(window.location, {
+          href: res.logout_url,
+        });
         localStorage.removeItem('returnTo');
       })
       .catch(() => {
@@ -80,7 +84,7 @@ const AccountMenu = () => {
         </Menu.Item>
         <Menu.Item key="logout" onClick={handleLogout}>
           <LogoutOutlined />
-          Logout
+          <span className="logout">Logout</span>
         </Menu.Item>
       </Menu.SubMenu>
     </Menu>

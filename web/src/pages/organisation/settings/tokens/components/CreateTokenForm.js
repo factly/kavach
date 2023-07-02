@@ -9,7 +9,8 @@ import ClipBoardCopy from '../../../../../utils/clipboardClick';
 
 const tailLayout = {
   wrapperCol: {
-    offset: 8,
+    offset: 0,
+    span: 5,
   },
 };
 
@@ -32,7 +33,7 @@ const CreateOrganisationToken = () => {
   const { organisation, loadingOrg, role, loadingRole } = useSelector((state) => {
     return {
       organisation: state.organisations.details[orgID] ? state.organisations.details[orgID] : null,
-      loadingApps: state.organisations.loading,
+      loadingOrg: state.organisations.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
@@ -47,25 +48,23 @@ const CreateOrganisationToken = () => {
   }, [dispatch, orgID]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Link key="1" to={`/organisation/${orgID}/settings/tokens`}>
-        <Button type="primary">Back to Tokens</Button>
-      </Link>
+    <>
       {loadingOrg || loadingRole ? (
         <Skeleton />
       ) : role === 'owner' ? (
-        <Card
-          title={`Create Organisation Token - ${organisation?.title}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="organisation-descriptions-header">
+            <div className="organisation-descriptions-title">
+              <h2 className="organisation-title-main">
+                Create Organisation Token - {organisation?.title}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/tokens`}>
+                <Button type="primary">Back to Tokens</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -74,10 +73,10 @@ const CreateOrganisationToken = () => {
               onCreate(values);
               onReset();
             }}
+            style={{
+              maxWidth: '600px',
+            }}
           >
-            {/* <Form.Item name="organisation_name" label="Organisation Name" initialValue={organisation.name}>
-								<Input disabled={true} />
-							</Form.Item> */}
             <Form.Item
               name="name"
               label="Name"
@@ -125,7 +124,7 @@ const CreateOrganisationToken = () => {
           >
             <ClipBoardCopy text={showModal === true ? token : ''} />
           </Modal>
-        </Card>
+        </>
       ) : (
         <ErrorComponent
           status="403"
@@ -134,7 +133,7 @@ const CreateOrganisationToken = () => {
           message="Back Home"
         />
       )}
-    </div>
+    </>
   );
 };
 

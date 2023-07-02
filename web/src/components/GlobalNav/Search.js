@@ -15,7 +15,8 @@ const Search = () => {
   };
 
   const onSelect = (data) => {
-    console.log('onSelect', data);
+    // console.log('onSelect', data);
+    // do something
   };
 
   return (

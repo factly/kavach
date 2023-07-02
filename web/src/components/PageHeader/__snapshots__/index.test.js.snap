@@ -88,107 +88,62 @@ exports[`Page Header component snapshot testing should render component with rou
                   "breadcrumbName": "Home",
                   "path": "/",
                 },
-                Object {
-                  "breadcrumbName": "Users",
-                  "path": "/users",
-                },
               ],
             }
           }
           ghost={false}
-          title="Users"
         >
           <ResizeObserver
             onResize={[Function]}
           >
-            <div
-              className="ant-page-header has-breadcrumb"
+            <SingleObserver
+              key="rc-observer-key-0"
+              onResize={[Function]}
             >
-              <Breadcrumb
-                itemRender={[Function]}
-                routes={
-                  Array [
-                    Object {
-                      "breadcrumbName": "Home",
-                      "path": "/",
-                    },
-                    Object {
-                      "breadcrumbName": "Users",
-                      "path": "/users",
-                    },
-                  ]
-                }
-              >
+              <DomWrapper>
                 <div
-                  className="ant-breadcrumb"
+                  className="ant-page-header has-breadcrumb"
                 >
-                  <BreadcrumbItem
-                    key="Home"
-                    separator="/"
+                  <Breadcrumb
+                    itemRender={[Function]}
+                    routes={
+                      Array [
+                        Object {
+                          "breadcrumbName": "Home",
+                          "path": "/",
+                        },
+                      ]
+                    }
                   >
-                    <span>
-                      <span
-                        className="ant-breadcrumb-link"
-                      >
-                        <Link
-                          to="/"
+                    <nav
+                      className="ant-breadcrumb"
+                    >
+                      <ol>
+                        <BreadcrumbItem
+                          key="Home"
+                          separator="/"
                         >
-                          <LinkAnchor
-                            href="/"
-                            navigate={[Function]}
-                          >
-                            <a
-                              href="/"
-                              onClick={[Function]}
+                          <li>
+                            <span
+                              className="ant-breadcrumb-link"
                             >
-                              Home
-                            </a>
-                          </LinkAnchor>
-                        </Link>
-                      </span>
-                      <span
-                        className="ant-breadcrumb-separator"
-                      >
-                        /
-                      </span>
-                    </span>
-                  </BreadcrumbItem>
-                  <BreadcrumbItem
-                    key="users"
-                    separator="/"
-                  >
-                    <span>
-                      <span
-                        className="ant-breadcrumb-link"
-                      >
-                        <span>
-                          Users
-                        </span>
-                      </span>
-                      <span
-                        className="ant-breadcrumb-separator"
-                      >
-                        /
-                      </span>
-                    </span>
-                  </BreadcrumbItem>
+                              <span>
+                                Home
+                              </span>
+                            </span>
+                            <span
+                              className="ant-breadcrumb-separator"
+                            >
+                              /
+                            </span>
+                          </li>
+                        </BreadcrumbItem>
+                      </ol>
+                    </nav>
+                  </Breadcrumb>
                 </div>
-              </Breadcrumb>
-              <div
-                className="ant-page-header-heading"
-              >
-                <div
-                  className="ant-page-header-heading-left"
-                >
-                  <span
-                    className="ant-page-header-heading-title"
-                    title="Users"
-                  >
-                    Users
-                  </span>
-                </div>
-              </div>
-            </div>
+              </DomWrapper>
+            </SingleObserver>
           </ResizeObserver>
         </PageHeader>
       </PageHeader>

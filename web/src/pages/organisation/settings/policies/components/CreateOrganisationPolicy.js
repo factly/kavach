@@ -1,12 +1,12 @@
 import React from 'react';
-import { Card, Form, Input, Button, Select, Skeleton } from 'antd';
+import { Form, Input, Button, Select, Skeleton } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import DynamicPermissionField from '../../../../../components/Policies';
 import { maker, checker } from '../../../../../utils/sluger';
 import { getOrganisationRoles } from '../../../../../actions/roles';
 import { getOrganisation } from '../../../../../actions/organisations';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { createOrganisationPolicy } from '../../../../../actions/policy';
 
 const tailLayout = {
@@ -59,6 +59,11 @@ export default function CreateOrganisationPolicyForm() {
     );
   };
 
+  const onFinish = (values) => {
+    onCreate(values);
+    onReset();
+  };
+
   React.useEffect(() => {
     dispatch(getOrganisation(orgID));
     fetchRoles();
@@ -83,6 +88,11 @@ export default function CreateOrganisationPolicyForm() {
               <h2 className="organisation-title-main">
                 Create Organisation Policy - {organisation?.title}
               </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/organisation/${orgID}/settings/policies`}>
+                <Button type="primary">Back to Policies</Button>
+              </Link>
             </div>
           </div>
           <Form

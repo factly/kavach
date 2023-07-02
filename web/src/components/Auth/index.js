@@ -8,10 +8,11 @@ import OIDC from './oidc';
 import createForm from '../../utils/form';
 import MFA from './mfa';
 import passwordValidation from '../../utils/password-validation';
-import posthog from 'posthog-js';
 import getApplicationSettings from '../../utils/getApplicationSettings';
 import BrandingComponent from '../Branding';
 import Loading from '../Loading';
+import { dispatchPosthogEvent } from '../../utils/posthog';
+import { capitalizeFirstLetter } from '../../utils/strings';
 
 function Auth(props) {
   const [ui, setUI] = React.useState({});
@@ -136,7 +137,7 @@ function Auth(props) {
   };
 
   const withPassword = (values) => {
-    posthog.capture('Login Event', { email: values?.email });
+    dispatchPosthogEvent(capitalizeFirstLetter(props.flow), { email: values?.email })
     var authForm = createForm(ui.action, ui.method);
 
     var identifierInput = document.createElement('input');

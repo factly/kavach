@@ -13,7 +13,6 @@ export default function TokenList({ orgID, role }) {
       loading: state.tokens.loading,
     };
   });
-
   const fetchTokens = () => {
     dispatch(getOrganisationTokens());
     //eslint-disable-next-line

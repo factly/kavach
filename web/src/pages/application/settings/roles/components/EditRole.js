@@ -1,11 +1,19 @@
 import React from 'react';
-import { Button, Card, Form, Input, Skeleton } from 'antd';
+import { Button, Form, Input, Skeleton } from 'antd';
 import { updateApplicationRole, getApplicationRoleByID } from '../../../../../actions/roles';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { checker, maker } from '../../../../../utils/sluger';
 import { getApplication } from '../../../../../actions/application';
 import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorComponent';
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 
 export default function EditApplicationRole() {
   const [form] = Form.useForm();
@@ -66,26 +74,23 @@ export default function EditApplicationRole() {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${appID}/settings/roles`}>
-        <Button type="primary">Back to Roles</Button>
-      </Link>
+    <>
       {loading && loadingApp && loadingUserRole ? (
         <Skeleton />
       ) : (
-        <Card
-          title={`Edit Application Role - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">
+                Edit Application Role - {application?.name}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/applications/${appID}/settings/roles`}>
+                <Button type="primary">Back to Roles</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -99,11 +104,14 @@ export default function EditApplicationRole() {
               slug: role.slug,
               description: role.description,
             }}
+            style={{
+              maxWidth: '600px',
+            }}
           >
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>
@@ -139,14 +147,14 @@ export default function EditApplicationRole() {
             <Form.Item name="description" label="Description">
               <TextArea rows={4} />
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="update-application-role">
                 Update Role
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 }

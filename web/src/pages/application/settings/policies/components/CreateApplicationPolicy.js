@@ -9,6 +9,13 @@ import ErrorComponent from '../../../../../components/ErrorsAndImage/ErrorCompon
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { createApplicationPolicy } from '../../../../../actions/policy';
 
+const tailLayout = {
+  wrapperCol: {
+    offset: 0,
+    span: 5,
+  },
+};
+
 export default function CreateApplicationPolicyForm() {
   const dispatch = useDispatch();
   const { appID } = useParams();
@@ -18,12 +25,11 @@ export default function CreateApplicationPolicyForm() {
   const { application, loadingApp, role, loadingRole } = useSelector((state) => {
     return {
       application: state.applications.details[appID] ? state.applications.details[appID] : null,
-      loadingApps: state.applications.loading,
+      loadingApp: state.applications.loading,
       role: state.profile.roles[state.organisations.selected],
       loadingRole: state.profile.loading,
     };
   });
-
   const { roles, loadingRoles } = useSelector((state) => {
     var roleIDs = state.applications.details[appID]?.roleIDs || [];
     return {
@@ -59,16 +65,7 @@ export default function CreateApplicationPolicyForm() {
   }, [dispatch, appID]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <Link key="1" to={`/applications/${appID}/settings/policies`}>
-        <Button type="primary">Back to Policies</Button>
-      </Link>
+    <>
       {loadingApp || loadingRole || loadingRoles ? <Skeleton /> : null}
       {role !== 'owner' ? (
         <ErrorComponent
@@ -78,13 +75,19 @@ export default function CreateApplicationPolicyForm() {
           message="Back Home"
         />
       ) : (
-        <Card
-          title={`Create Application Policy - ${application?.name}`}
-          style={{
-            width: '50%',
-            alignSelf: 'center',
-          }}
-        >
+        <>
+          <div className="application-descriptions-header">
+            <div className="application-descriptions-title">
+              <h2 className="application-title-main">
+                Create Application Policy - {application?.name}
+              </h2>
+            </div>
+            <div>
+              <Link key="1" to={`/applications/${appID}/settings/policies`}>
+                <Button type="primary">Back to Policies</Button>
+              </Link>
+            </div>
+          </div>
           <Form
             form={form}
             layout="vertical"
@@ -93,11 +96,12 @@ export default function CreateApplicationPolicyForm() {
               onCreate(values);
               onReset();
             }}
+            style={{ maxWidth: '600px' }}
           >
             <Form.Item
               name="application_name"
               label="Application Name"
-              initialValue={application.name}
+              initialValue={application?.name}
             >
               <Input disabled={true} />
             </Form.Item>
@@ -165,14 +169,14 @@ export default function CreateApplicationPolicyForm() {
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item>
+            <Form.Item {...tailLayout}>
               <Button type="primary" htmlType="submit" block form="create-application-policy">
                 Create Policy
               </Button>
             </Form.Item>
           </Form>
-        </Card>
+        </>
       )}
-    </div>
+    </>
   );
 }

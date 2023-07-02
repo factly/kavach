@@ -7,10 +7,10 @@ import { mount } from 'enzyme';
 import { act } from '@testing-library/react';
 import { Button, Popconfirm, Table } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
-
+import CreateTokenForm from '../settings/token/components/CreateTokenForm';
+import { deleteApplicationToken } from '../../../actions/token';
 import '../../../matchMedia.mock';
 import ApplicationDetail from './ApplicationDetail';
-import { deleteToken } from '../../../actions/token';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -24,8 +24,12 @@ jest.mock('react-router-dom', () => ({
   useHistory: jest.fn(),
 }));
 jest.mock('../../../actions/token', () => ({
-  deleteToken: jest.fn(),
+  deleteApplicationToken: jest.fn(),
 }));
+
+jest.mock('../settings/token/components/CreateTokenForm', () => {
+  return jest.fn((props) => <div id="mockedCreateTokenForm" {...props} />);
+});
 
 describe('Application Detail component', () => {
   let store;
@@ -73,7 +77,7 @@ describe('Application Detail component', () => {
   mockedDispatch = jest.fn(() => Promise.resolve({}));
   useDispatch.mockReturnValue(mockedDispatch);
   describe('snapshot testing', () => {
-    it('should render the component', () => {
+    it('should render the component when modal not visible', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
@@ -87,26 +91,60 @@ describe('Application Detail component', () => {
                 url: 'url1',
                 tokens: [{ id: '1', name: 'token 1' }],
               }}
+              visible={false}
+              setVisible={jest.fn()}
+              setTokenFlag={jest.fn()}
             />
           </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
+      expect(tree.find('Modal').props().visible).toBe(false);
+    });
+    it('should render the component when modal visible', () => {
+      const tree = mount(
+        <Provider store={store}>
+          <Router>
+            <ApplicationDetail
+              data={{
+                id: 1,
+                created_at: '2020-09-09T06:49:36.566567Z',
+                updated_at: '2020-09-09T06:49:36.566567Z',
+                name: 'Application1',
+                description: 'description',
+                url: 'url1',
+                tokens: [{ id: '1', name: 'token 1' }],
+              }}
+              visible={true}
+              setVisible={jest.fn()}
+              setTokenFlag={jest.fn()}
+            />
+          </Router>
+        </Provider>,
+      );
+      expect(tree).toMatchSnapshot();
+      expect(tree.find('Modal').props().visible).toBe(true);
+      expect(tree.find(Table).props().dataSource).toHaveLength(1);
+      expect(tree.find(Table).props().dataSource).toEqual([{ id: '1', name: 'token 1' }]);
+      expect(tree.find(CreateTokenForm).props().appID).toBe(1);
     });
     it('should render the component with no data', () => {
       const tree = mount(
         <Provider store={store}>
           <Router>
-            <ApplicationDetail />
+            <ApplicationDetail visible={true} setVisible={jest.fn()} setTokenFlag={jest.fn()} />
           </Router>
         </Provider>,
       );
       expect(tree).toMatchSnapshot();
+      expect(tree.find(Table).props().dataSource).toHaveLength(0);
+      expect(tree.find(CreateTokenForm).props().appID).toBe(null);
     });
   });
   describe('component testing', () => {
     let wrapper;
-    it('should create new token', () => {
+    it('should call setVisible', () => {
+      const mockFn = jest.fn();
       act(() => {
         wrapper = mount(
           <Provider store={store}>
@@ -122,7 +160,8 @@ describe('Application Detail component', () => {
                   tokens: [{ id: 1, name: 'token 1' }],
                 }}
                 visible={false}
-                setVisible={jest.fn()}
+                setTokenFlag={mockFn}
+                setVisible={mockFn}
               />
             </Router>
           </Provider>,
@@ -131,8 +170,8 @@ describe('Application Detail component', () => {
       const button = wrapper.find(Button).at(1);
       expect(button.text()).toEqual('New api key');
       button.simulate('click');
-      wrapper.update();
-      expect(wrapper.find('Modal').props().visible).toBe(false);
+      expect(mockFn).toHaveBeenCalled();
+      expect(mockFn).toHaveBeenCalledWith(true);
     });
     it('should handle close in modal', () => {
       act(() => {
@@ -151,6 +190,7 @@ describe('Application Detail component', () => {
                 }}
                 visible={true}
                 setVisible={jest.fn()}
+                setTokenFlag={jest.fn()}
               />
             </Router>
           </Provider>,
@@ -198,8 +238,8 @@ describe('Application Detail component', () => {
           .findWhere((item) => item.type() === 'button' && item.text() === 'OK')
           .simulate('click');
       });
-      expect(deleteToken).toHaveBeenCalled();
-      expect(deleteToken).toHaveBeenCalledWith(1, 1);
+      expect(deleteApplicationToken).toHaveBeenCalled();
+      expect(deleteApplicationToken).toHaveBeenCalledWith(1, 1);
     });
   });
 });

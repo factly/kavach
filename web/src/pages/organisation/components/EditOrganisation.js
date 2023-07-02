@@ -39,7 +39,6 @@ function OrganisationEdit() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
   const onConfirmDeleteOrganisation = () => {
     dispatch(deleteOrganisation(organisation.id)).then(() => {
       history.push('/organisation');
@@ -58,6 +57,8 @@ function OrganisationEdit() {
   });
 
   const onTitleChange = (string) => {
+    // console.log(string);
+    // console.log(form.getFieldsValue());
     form.setFieldsValue({
       slug: maker(string),
     });
@@ -92,11 +93,11 @@ function OrganisationEdit() {
             form={form}
             name="organisation_edit"
             layout="vertical"
-            onFinish={(values) =>
-              dispatch(updateOrganisation({ ...organisation, ...values })).then(() =>
+            onFinish={(values) => {
+              return dispatch(updateOrganisation({ ...organisation, ...values })).then(() =>
                 history.push('/organisation'),
-              )
-            }
+              );
+            }}
             initialValues={organisation}
             style={{
               width: '400px',

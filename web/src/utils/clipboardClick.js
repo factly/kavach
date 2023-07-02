@@ -15,7 +15,6 @@ function ClipBoardCopy({ text }) {
   }
 
   const handleCopyClick = () => {
-    // Asynchronously call copyTextToClipboard
     copyTextToClipboard(text)
       .then(() => {
         // If successful, update the isCopied state value

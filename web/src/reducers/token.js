@@ -20,7 +20,6 @@ export default function tokensReducer(state = initialState, action = {}) {
         ...state,
         details: { ...state.details, ...action.payload },
       };
-
     case SET_TOKENS_LOADING:
       return {
         ...state,
