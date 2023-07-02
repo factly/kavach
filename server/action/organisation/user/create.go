@@ -117,7 +117,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 				CreatedByID: uint(currentUID),
 			},
 			InviteeID:      invitee.ID,
-			Status:         false,
+			Status:         model.Pending,
 			Role:           user.Role,
 			OrganisationID: uint(orgID),
 			ExpiredAt:      time.Now().AddDate(0, 0, 7),
@@ -125,7 +125,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 		var invitationCount int64
 		err = tx.Model(&model.Invitation{}).
-			Where("invitee_id=? AND organisation_id=? AND status=? AND role=? AND expired_at<?", invitee.ID, uint(orgID), invitation.Status, invitation.Role, time.Now().AddDate(0, 0, 7)).
+			Where("invitee_id=? AND organisation_id=? AND role=? AND expired_at<? AND status IN (?)", invitee.ID, uint(orgID), invitation.Role, time.Now().AddDate(0, 0, 7), []model.Status{model.Pending, model.Accepted}).
 			Count(&invitationCount).Error
 
 		if err != nil {
