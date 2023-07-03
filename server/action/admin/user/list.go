@@ -10,26 +10,35 @@ import (
 	"github.com/factly/x/renderx"
 )
 
+type response struct {
+	Nodes []model.User `json:"node"`
+	Total int64        `json:"total"`
+}
+
 func list(w http.ResponseWriter, r *http.Request) {
 
 	userIDs := r.URL.Query()["id"]
+	res := &response{}
 
-	offset, limit := paginationx.Parse(r.URL.Query())
+	if len(userIDs) == 0 {
+		offset, limit := paginationx.Parse(r.URL.Query())
+		err := model.DB.Model(&model.User{}).Count(&res.Total).Offset(offset).Limit(limit).Preload("Organisations").Find(&res.Nodes).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+	} else {
+		err := model.DB.Model(&model.User{}).Where(userIDs).Preload("Organisations").Find(&res.Nodes).Error
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+		res.Total = int64(len(res.Nodes))
 
-	if len(userIDs) > 0 {
-		offset = 0
-		limit = len(userIDs)
 	}
 
-	result := make([]model.User, 0)
-
-	err := model.DB.Model(&model.User{}).Preload("Organisations").Where(userIDs).Offset(offset).Limit(limit).Find(&result).Error
-	if err != nil {
-
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-
-	renderx.JSON(w, http.StatusOK, result)
+	renderx.JSON(w, http.StatusOK, res)
+	return
 }
