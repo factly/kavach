@@ -1,7 +1,6 @@
 package organisation
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -25,7 +24,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 	// else return organisations with given ids
 	res := &response{}
 	if len(orgIDsStr) == 0 {
-		err := model.DB.Model(&model.Organisation{}).Count(&res.Total).Find(&res.Nodes).Error
+		offset, limit := paginationx.Parse(r.URL.Query())
+		err := model.DB.Model(&model.Organisation{}).Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
@@ -44,9 +44,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 			}
 			orgIDs = append(orgIDs, id)
 		}
-		offset, limit := paginationx.Parse(r.URL.Query())
-		res.Total = int64(len(orgIDs))
-		err := model.DB.Model(&model.Organisation{}).Where("id IN (?)", orgIDs).Offset(offset).Limit(limit).Find(&res.Nodes).Error
+		err := model.DB.Model(&model.Organisation{}).Where("id IN (?)", orgIDs).Find(&res.Nodes).Error
+		res.Total = int64(len(res.Nodes))
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
@@ -54,7 +53,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	log.Println("go to renderx.JSON")
 	renderx.JSON(w, http.StatusOK, res)
 	return
 }
