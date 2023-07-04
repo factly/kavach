@@ -19,7 +19,7 @@ func AdminRouter() chi.Router {
 	r.With(CheckMasterKey).Route("/", func(r chi.Router) {
 		r.Mount("/users", user.Router())
 		r.Mount("/organisations", organisation.Router())
-		r.Post("/applications/add_user", application.AddUser)
+		r.Post("/applications/user", application.AddUser)
 	})
 
 	return r
