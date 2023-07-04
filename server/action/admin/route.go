@@ -1,11 +1,12 @@
 package admin
 
 import (
-	"log"
+	"errors"
 	"net/http"
 
 	"github.com/factly/kavach-server/action/admin/organisation"
 	"github.com/factly/kavach-server/action/admin/user"
+	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
 	"github.com/spf13/viper"
 )
@@ -26,10 +27,14 @@ func AdminRouter() chi.Router {
 func CheckMasterKey(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		requestMasterKey := r.Header.Get("X-KAVACH-MASTER-KEY")
+		masterKey := viper.GetString("master_key")
 
-		log.Println(requestMasterKey)
-		log.Println(viper.GetString("master_key"))
-		if requestMasterKey != viper.GetString("master_key") {
+		if requestMasterKey != masterKey {
+			if masterKey == "" {
+				loggerx.Error(errors.New("master key is not set"))
+			} else {
+				loggerx.Error(errors.New("invalid master key"))
+			}
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
