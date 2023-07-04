@@ -6,6 +6,7 @@ import (
 
 	application "github.com/factly/kavach-server/action/admin/appication"
 	"github.com/factly/kavach-server/action/admin/organisation"
+	"github.com/factly/kavach-server/action/admin/organisation/application"
 	"github.com/factly/kavach-server/action/admin/user"
 	"github.com/factly/x/loggerx"
 	"github.com/go-chi/chi"
@@ -19,7 +20,7 @@ func AdminRouter() chi.Router {
 	r.With(CheckMasterKey).Route("/", func(r chi.Router) {
 		r.Mount("/users", user.Router())
 		r.Mount("/organisations", organisation.Router())
-		r.Post("/application/add_user", application.AddUser)
+		r.Post("/applications/user", application.AddUser)
 	})
 
 	return r
