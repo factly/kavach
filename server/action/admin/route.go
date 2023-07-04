@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	application "github.com/factly/kavach-server/action/admin/appication"
 	"github.com/factly/kavach-server/action/admin/organisation"
 	"github.com/factly/kavach-server/action/admin/user"
 	"github.com/factly/x/loggerx"
@@ -18,6 +19,7 @@ func AdminRouter() chi.Router {
 	r.With(CheckMasterKey).Route("/", func(r chi.Router) {
 		r.Mount("/users", user.Router())
 		r.Mount("/organisations", organisation.Router())
+		r.Post("/application/add_user", application.AddUser)
 	})
 
 	return r
