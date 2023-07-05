@@ -1,7 +1,6 @@
 package application
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -29,7 +28,6 @@ func ListOrgs(w http.ResponseWriter, r *http.Request) {
 	app := &model.Application{}
 	app.ID = uint(appID)
 	err = model.DB.Model(&model.Application{}).Preload("Organisations").Find(app).Error
-	log.Println("==============>", app.Name)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
