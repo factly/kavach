@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/factly/kavach-server/action/admin/appication"
+	"github.com/factly/kavach-server/action/admin/application"
 	"github.com/factly/kavach-server/action/admin/organisation"
 	"github.com/factly/kavach-server/action/admin/user"
 	"github.com/factly/x/loggerx"
