@@ -17,7 +17,7 @@ type response struct {
 }
 
 func ListOrgs(w http.ResponseWriter, r *http.Request) {
-	aId := chi.URLParam(r, "app_id")
+	aId := chi.URLParam(r, "application_id")
 	appID, err := strconv.Atoi(aId)
 
 	if err != nil {

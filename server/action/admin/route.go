@@ -20,7 +20,7 @@ func AdminRouter() chi.Router {
 		r.Mount("/users", user.Router())
 		r.Mount("/organisations", organisation.Router())
 		r.Post("/applications/user", application.AddUser)
-		r.Get("/applications/{app_id}", application.ListOrgs)
+		r.Get("/applications/{application_id}", application.ListOrgs)
 	})
 
 	return r
