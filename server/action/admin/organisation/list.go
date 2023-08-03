@@ -40,5 +40,4 @@ func list(w http.ResponseWriter, r *http.Request) {
 	}
 
 	renderx.JSON(w, http.StatusOK, res)
-	return
 }
