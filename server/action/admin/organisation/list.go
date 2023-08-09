@@ -19,12 +19,17 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	orgIDs := r.URL.Query()["id"]
 	searchQuery := r.URL.Query().Get("q")
+	sort := r.URL.Query().Get("sort")
+
+	if sort != "asc" {
+		sort = "desc"
+	}
 	// if orgIDs is empty, then return all organisations
 	// else return organisations with given ids
 	res := &response{}
 	if len(orgIDs) == 0 {
 		offset, limit := paginationx.Parse(r.URL.Query())
-		err := model.DB.Model(&model.Organisation{}).Where("title ILIKE ?", "%"+searchQuery+"%").Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
+		err := model.DB.Model(&model.Organisation{}).Where("title ILIKE ?", "%"+searchQuery+"%").Order("created_at " + sort).Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))

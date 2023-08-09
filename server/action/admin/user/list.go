@@ -19,12 +19,17 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 	userIDs := r.URL.Query()["id"]
 	searchQuery := r.URL.Query().Get("q")
+	sort := r.URL.Query().Get("sort")
 	res := &response{}
+
+	if sort != "asc" {
+		sort = "desc"
+	}
 
 	if len(userIDs) == 0 {
 		qs := "%" + searchQuery + "%"
 		offset, limit := paginationx.Parse(r.URL.Query())
-		err := model.DB.Model(&model.User{}).Where("display_name ILIKE ? OR email ILIKE ?", qs, qs).Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
+		err := model.DB.Model(&model.User{}).Where("display_name ILIKE ? OR email ILIKE ?", qs, qs).Order("created_at " + sort).Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
