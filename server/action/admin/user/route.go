@@ -16,6 +16,7 @@ type user struct {
 func Router() chi.Router {
 	r := chi.NewRouter()
 
+	r.Post("/checker", checker)
 	r.Post("/", create)
 	r.Get("/", list)
 
