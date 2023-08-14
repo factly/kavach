@@ -15,11 +15,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_MULTIPLE_DATABASES=kratos,keto,kavach
-    healthcheck: 
+    healthcheck:
       interval: 10s
       retries: 10
-      test: "pg_isready -U \"$$POSTGRES_USER\" -d \"kavach\""
-      timeout: 2s      
+      test: 'pg_isready -U "$$POSTGRES_USER" -d "kavach"'
+      timeout: 2s
     networks:
       - kavach
 
@@ -98,7 +98,7 @@ services:
   ###########################################################################
   mailslurper:
     image: oryd/mailslurper:latest-smtps
-    ports:  
+    ports:
       - "4436:4436"
       - "4437:4437"
     networks:
@@ -111,7 +111,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    image: oryd/kratos:v0.11.1
+    image: oryd/kratos:v1.0.0
     environment:
       - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
     volumes:
@@ -126,7 +126,7 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v0.11.1
+    image: oryd/kratos:v1.0.0
     ports:
       - "4433:4433" # public
       - "4434:4434" # admin
@@ -149,9 +149,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    volumes:                    
+    volumes:
       - type: bind
-        source: ./keto          
+        source: ./keto
         target: /etc/config/keto
     # command: namespace migrate legacy -c "/etc/config/keto/keto.yml" --yes
     command: migrate up -c "/etc/config/keto/keto.yml" --yes
@@ -165,7 +165,7 @@ services:
     image: oryd/keto:v0.9.0-alpha.0
     ports:
       - "4466:4466" # read
-      - "4467:4467" # write 
+      - "4467:4467" # write
       - "4468:4468" # metric
     environment:
       - LOG_LEVEL=debug
@@ -173,7 +173,7 @@ services:
       - type: bind
         source: ./keto
         target: /etc/config/keto
-    command: serve -c "/etc/config/keto/keto.yml" 
+    command: serve -c "/etc/config/keto/keto.yml"
     networks:
       - kavach
 
@@ -226,7 +226,7 @@ services:
     #   - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
     volumes:
       - ./server:/app
-      - ./config/config.env:/app/config.env    
+      - ./config/config.env:/app/config.env
     networks:
       - kavach
 
@@ -276,6 +276,6 @@ services:
     restart: unless-stopped
     networks:
       - kavach
-  
+
 networks:
   kavach:
