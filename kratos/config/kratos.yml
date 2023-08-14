@@ -1,4 +1,4 @@
-version: v0.11.1
+version: v1.0.0
 
 dsn: postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
 
@@ -74,12 +74,12 @@ selfservice:
         password:
           hooks:
             - hook: require_verified_address
-            
+
     verification:
       use: code
       enabled: true
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/verification
-
+      notify_unknown_recipients: true
 
     registration:
       after:
@@ -87,11 +87,10 @@ selfservice:
       lifespan: 10m
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/registration
 
-
     recovery:
       enabled: true
       ui_url: http://127.0.0.1:4455/.factly/kavach/web/auth/recovery
-
+      notify_unknown_recipients: true
 
 log:
   level: debug
@@ -115,6 +114,3 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
-
-
-
