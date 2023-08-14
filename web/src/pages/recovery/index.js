@@ -109,7 +109,7 @@ function Recovery() {
     recoverPasswordForm.appendChild(csrfInput);
     recoverPasswordForm.appendChild(methodInput);
     document.body.appendChild(recoverPasswordForm);
-    // recoverPasswordForm.submit();
+    recoverPasswordForm.submit();
   };
 
   return (
