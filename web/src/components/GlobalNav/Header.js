@@ -24,10 +24,10 @@ function Header() {
   return (
     <Layout.Header className="layout-header">
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <div >
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           {window.REACT_APP_ENABLE_MULTITENANCY === 'true' ? (
             <>
-              <Link style={{ display: 'flex' }} to="/organisation/create">
+              <Link style={{ display: 'flex', marginRight: '5px' }} to="/organisation/create">
                 <Button icon={<PlusOutlined />} style={{ background: '#F1F1F1', border: 'none' }}>
                   New Organisation
                 </Button>
