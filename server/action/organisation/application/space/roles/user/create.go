@@ -154,8 +154,8 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	users := make([]model.User, 0)
-	users = append(spaceRole.Users, user)
+
+	users := append(spaceRole.Users, user)
 	spaceRole.Users = users
 	if err = tx.Model(&spaceRole).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()

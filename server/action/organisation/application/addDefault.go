@@ -99,8 +99,8 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	newOrganisations := make([]model.Organisation, 0)
-	newOrganisations = append(app.Organisations, *org)
+
+	newOrganisations := append(app.Organisations, *org)
 	err = tx.Model(&app).Association("Organisations").Replace(&newOrganisations)
 	if err != nil {
 		tx.Rollback()

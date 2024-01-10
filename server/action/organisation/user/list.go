@@ -56,7 +56,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	userIDs := []string{}
+
+	var userIDs []string
 
 	if role == "owner" || role == "member" {
 		userIDs, err = keto.ListSubjectsByObjectID(namespace, role, fmt.Sprintf("org:%d", orgID))

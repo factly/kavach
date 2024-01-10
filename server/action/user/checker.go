@@ -26,11 +26,6 @@ type matchContext struct {
 	URL                 *url.URL `json:"url"`
 }
 
-type templateContent struct {
-	From             map[string]interface{} `json:"from"`
-	Personalizations []interface{}          `json:"personalizations"`
-	TemplateID       string                 `json:"template_id"`
-}
 
 // create organisation
 func checker(w http.ResponseWriter, r *http.Request) {

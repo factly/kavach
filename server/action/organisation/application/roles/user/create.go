@@ -145,8 +145,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	users := make([]model.User, 0)
-	users = append(appRole.Users, user)
+	users := append(appRole.Users, user)
 	appRole.Users = users
 	if err = model.DB.Model(&appRole).Association("Users").Replace(&users); err != nil {
 		tx.Rollback()

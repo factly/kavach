@@ -94,8 +94,11 @@ func update(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
-	result := model.Organisation{}
-	result = *organisation
+	var result model.Organisation
+	if organisation != nil {
+		result = *organisation
+	}
+
 	result.OrganisationUsers = []model.OrganisationUser{*permission}
 
 	tx.Commit()
