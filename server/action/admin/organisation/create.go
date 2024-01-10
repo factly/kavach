@@ -118,9 +118,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result := model.Organisation{}
+	var result model.Organisation
 
-	result = *organisation
+	if organisation != nil {
+		result = *organisation
+	}
 
 	result.OrganisationUsers = []model.OrganisationUser{permission}
 
