@@ -255,27 +255,5 @@ services:
     networks:
       - kavach
 
-  kavach-studio:
-    build:
-      context: ./studio
-      dockerfile: Dockerfile
-    environment:
-      - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/studio
-      - REACT_APP_PUBLIC_PATH_PRODUCTION=kavach.factly.org
-      - REACT_APP_PUBLIC_PATH_DEVELOPMENT=/.factly/kavach/studio/
-      - REACT_APP_KAVACH_TITLE=Kavach
-      - REACT_APP_COMPANION_URL=http://127.0.0.1:3020
-      - REACT_APP_API_URL=http://127.0.0.1:4455/.factly/kavach/server
-      - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public
-
-    volumes:
-      - type: bind
-        source: ./studio
-        target: /app
-      - /app/node_modules
-    restart: unless-stopped
-    networks:
-      - kavach
-
 networks:
   kavach:

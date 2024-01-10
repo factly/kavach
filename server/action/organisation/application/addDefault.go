@@ -111,12 +111,13 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 	// Add current user in application_users
 	newUsers := app.Users
 	newUser := model.User{}
-	err = model.DB.Model(&model.User{}).Where(&model.User{
+	err = tx.Model(&model.User{}).Where(&model.User{
 		Base: model.Base{
 			ID: uint(uID),
 		},
 	}).Find(&newUser).Error
 	if err != nil {
+		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
