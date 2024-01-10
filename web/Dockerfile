@@ -5,8 +5,8 @@ FROM node:16.14-alpine
 WORKDIR /app
 
 # install app dependencies
-COPY package.json ./
-# COPY package-lock.json ./
+COPY package* .
+
 RUN npm install --legacy-peer-deps
 
 # add app
