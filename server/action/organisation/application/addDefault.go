@@ -1,6 +1,7 @@
 package application
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"net/http"
@@ -65,7 +66,8 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.Begin()
+	var userContext model.ContextKey = "application_user"
+	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
 	app := model.Application{}
 	err = tx.Model(&model.Application{}).Where(&model.Application{
 		Base: model.Base{
