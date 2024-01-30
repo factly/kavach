@@ -23,7 +23,9 @@ import (
 )
 
 type invites struct {
-	Users []invite `json:"users"`
+	// flag to send email or not, default is true
+	SendEmail bool     `json:"send_email"`
+	Users     []invite `json:"users"`
 }
 
 type invite struct {
@@ -80,13 +82,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// FindOrCreate invitee
-	req := invites{}
+	req := invites{SendEmail: true}
 	err = json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
+	sendEmail := req.SendEmail
 	for _, user := range req.Users {
 		validationError := validationx.Check(user)
 		if validationError != nil {
@@ -193,12 +196,14 @@ func create(w http.ResponseWriter, r *http.Request) {
 				OrganisationName: fmt.Sprintf("%v", organisationMap[0]["title"]),
 				ActionURL:        response.RecoveryURL,
 			}
-			err = email.SendmailwithSendGrid(receiver)
-			if err != nil {
-				// tx.Rollback()
-				loggerx.Error(err)
-				// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-				// return
+			if sendEmail {
+				err = email.SendmailwithSendGrid(receiver)
+				if err != nil {
+					// tx.Rollback()
+					loggerx.Error(err)
+					// errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+					// return
+				}
 			}
 		} else {
 			//domainName := viper.GetString("domain_name")
