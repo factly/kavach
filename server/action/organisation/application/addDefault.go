@@ -67,7 +67,13 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var userContext model.ContextKey = "application_user"
-	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+	var organisationUserKey model.ContextKey = "organisation_user"
+
+	// set context value for user and organisation
+	ctx := context.WithValue(r.Context(), userContext, uID)
+	ctx = context.WithValue(ctx, organisationUserKey, uID)
+
+	tx := model.DB.WithContext(ctx).Begin()
 	app := model.Application{}
 	err = tx.Model(&model.Application{}).Where(&model.Application{
 		Base: model.Base{

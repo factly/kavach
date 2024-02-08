@@ -8,6 +8,7 @@
     "node_modules"
   ],
   "dependencies": {
+    "@ant-design/pro-layout": "^7.2.6",
     "@codemirror/lang-html": "^0.19.4",
     "@codemirror/lang-json": "^0.19.2",
     "@codemirror/theme-one-dark": "^0.19.1",
@@ -21,10 +22,9 @@
     "@uppy/image-editor": "^0.1.8",
     "@uppy/react": "^1.10.10",
     "@uppy/url": "^1.5.13",
-    "@ant-design/pro-layout": "^7.2.6",
     "antd": "^5.0.4",
-    "dayjs": "^1.11.6",
     "axios": "^0.21.4",
+    "dayjs": "^1.11.6",
     "deep-equal": "^2.0.5",
     "js-cookie": "^2.2.1",
     "posthog-js": "^1.57.2",
@@ -34,7 +34,7 @@
     "react-lottie": "^1.2.3",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.3.0",
-    "react-scripts": "3.4.0",
+    "react-scripts": "^3.4.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0"
