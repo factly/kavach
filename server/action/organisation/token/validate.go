@@ -32,12 +32,12 @@ type validationBody struct {
 // @Success 200 {object} model.organisation
 // @Router /organisations/{application_id}/tokens/validate [post]
 func validate(w http.ResponseWriter, r *http.Request) {
-	applicaion_id := chi.URLParam(r, "organisation_id")
-	// if applicaion_id == "" {
-	// 	errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
-	// 	return
-	// }
-	id, err := strconv.ParseUint(applicaion_id, 10, 64)
+	organisation_id := chi.URLParam(r, "organisation_id")
+	if organisation_id == "" {
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
+		return
+	}
+	id, err := strconv.ParseUint(organisation_id, 10, 64)
 	if err != nil {
 		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
 		return
