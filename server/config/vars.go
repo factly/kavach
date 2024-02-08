@@ -71,9 +71,9 @@ func SetupVars() {
 			log.Fatal("please provide dynamic_mande_template id in config")
 		}
 
-		// if !viper.IsSet("dynamic_sendgrid_api_key") {
-		// 	log.Fatal("please provide dynamic_sendgrid_api key in config")
-		// }
+		if !viper.IsSet("dynamic_sendgrid_api_key") {
+			log.Fatal("please provide dynamic_sendgrid_api key in config")
+		}
 	}
 
 	if !viper.IsSet("kratos_admin_url") {
@@ -116,13 +116,13 @@ func SetupVars() {
 		log.Fatal("please provide keto_read_api_url in config")
 	}
 
-	// if !viper.IsSet("sendgrid_from_email") {
-	// 	log.Fatal("please provide sendgrid_from_email in config")
-	// }
-	//
-	// if !viper.IsSet("sendgrid_from_name") {
-	// 	log.Fatal("please provide sendgrid_from_name in config")
-	// }
+	if !viper.IsSet("sendgrid_from_email") {
+		log.Fatal("please provide sendgrid_from_email in config")
+	}
+
+	if !viper.IsSet("sendgrid_from_name") {
+		log.Fatal("please provide sendgrid_from_name in config")
+	}
 
 }
 
