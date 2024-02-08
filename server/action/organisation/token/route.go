@@ -18,6 +18,7 @@ func Router() chi.Router {
 	r.Get("/", list)
 	r.Post("/", create)
 	r.Delete("/{token_id}", delete)
+	r.Post("/validate", validate)
 
 	return r
 }
