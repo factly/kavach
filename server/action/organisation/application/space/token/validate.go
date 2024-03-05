@@ -4,29 +4,18 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
-	"github.com/go-chi/chi"
 )
 
-
-
 func Validate(w http.ResponseWriter, r *http.Request) {
-	sID := chi.URLParam(r, "space_id")
-	spaceID, err := strconv.Atoi(sID)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
 
 	tokenBody := model.ValidationBody{}
-	err = json.NewDecoder(r.Body).Decode(&tokenBody)
+	err := json.NewDecoder(r.Body).Decode(&tokenBody)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
@@ -47,11 +36,6 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
-		return
-	}
-
-	if spaceToken.SpaceID != uint(spaceID) {
-		renderx.JSON(w, http.StatusUnauthorized, map[string]interface{}{"valid": false})
 		return
 	}
 
