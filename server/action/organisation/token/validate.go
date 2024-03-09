@@ -4,14 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"strconv"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/factly/x/validationx"
-	"github.com/go-chi/chi"
 	"gorm.io/gorm"
 )
 
@@ -32,20 +30,10 @@ type validationBody struct {
 // @Success 200 {object} model.organisation
 // @Router /organisations/{application_id}/tokens/validate [post]
 func validate(w http.ResponseWriter, r *http.Request) {
-	organisation_id := chi.URLParam(r, "organisation_id")
-	if organisation_id == "" {
-		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
-		return
-	}
-	id, err := strconv.ParseUint(organisation_id, 10, 64)
-	if err != nil {
-		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid id", http.StatusBadRequest)))
-		return
-	}
 	//parse applicaion_id
 
 	tokenBody := validationBody{}
-	err = json.NewDecoder(r.Body).Decode(&tokenBody)
+	err := json.NewDecoder(r.Body).Decode(&tokenBody)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
@@ -60,9 +48,9 @@ func validate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	orgToken := model.OrganisationToken{}
-	// Fetch all tokens for a organisation
+	// to need to specify the organisation id as token itself is unique
 	err = model.DB.Model(&model.OrganisationToken{}).Preload("Organisation").Where(&model.OrganisationToken{
-		Token: tokenBody.Token, OrganisationID: uint(id),
+		Token: tokenBody.Token,
 	}).First(&orgToken).Error
 
 	if err != nil {
