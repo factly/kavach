@@ -29,14 +29,14 @@ func list(w http.ResponseWriter, r *http.Request) {
 	if len(userIDs) == 0 {
 		qs := "%" + searchQuery + "%"
 		offset, limit := paginationx.Parse(r.URL.Query())
-		err := model.DB.Model(&model.User{}).Where("display_name ILIKE ? OR email ILIKE ?", qs, qs).Order("created_at " + sort).Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
+		err := model.DB.Model(&model.User{}).Preload("Organisations").Where("display_name ILIKE ? OR email ILIKE ?", qs, qs).Order("created_at " + sort).Count(&res.Total).Offset(offset).Limit(limit).Find(&res.Nodes).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
 	} else {
-		err := model.DB.Model(&model.User{}).Where(userIDs).Find(&res.Nodes).Error
+		err := model.DB.Model(&model.User{}).Preload("Organisations").Where(userIDs).Find(&res.Nodes).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
