@@ -32,7 +32,7 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 	spaceToken := model.SpaceToken{}
 	err = model.DB.Model(&model.SpaceToken{}).Where(&model.SpaceToken{
 		Token: tokenBody.Token,
-	}).Find(&spaceToken).Error
+	}).First(&spaceToken).Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
