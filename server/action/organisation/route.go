@@ -11,19 +11,22 @@ import (
 )
 
 type orgWithRole struct {
-	Organisation model.Organisation `json:"organisation"`
-	Permission   model.OrganisationUser `json:"permission"`
+	Organisation    model.Organisation     `json:"organisation"`
+	Permission      model.OrganisationUser `json:"permission"`
 	AllApplications []model.Application    `json:"applications,omitempty"`
 }
 
 var userContext model.ContextKey = "organisation_user"
+
 const namespace string = "organisations"
+
 // Router organisation
 func Router() chi.Router {
 	r := chi.NewRouter()
 
 	r.Get("/my", list)
 	r.Post("/", create)
+	r.Post("/token/validate", validate_token)
 	// r.Get("/", all)
 	r.Route("/{organisation_id}", func(r chi.Router) {
 		r.Get("/", details)

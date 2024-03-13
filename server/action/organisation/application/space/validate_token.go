@@ -1,8 +1,9 @@
-package token
+package space
 
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/factly/kavach-server/model"
@@ -12,7 +13,7 @@ import (
 	"github.com/factly/x/validationx"
 )
 
-func Validate(w http.ResponseWriter, r *http.Request) {
+func validate_token(w http.ResponseWriter, r *http.Request) {
 
 	tokenBody := model.ValidationBody{}
 	err := json.NewDecoder(r.Body).Decode(&tokenBody)
@@ -28,14 +29,16 @@ func Validate(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, validationError)
 		return
 	}
+	fmt.Println(tokenBody.Token)
 
 	spaceToken := model.SpaceToken{}
 	err = model.DB.Model(&model.SpaceToken{}).Where(&model.SpaceToken{
 		Token: tokenBody.Token,
 	}).First(&spaceToken).Error
+
 	if err != nil {
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("invalid space token", 403)))
 		return
 	}
 
