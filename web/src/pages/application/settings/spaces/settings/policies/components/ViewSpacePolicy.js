@@ -34,15 +34,15 @@ export default function ViewSpacePolicy() {
       policy: {
         ...state.policy.space?.[spaceID]?.[policyID],
         roles:
-          state.policy.space[spaceID][policyID]?.roles?.map((rId) => ({
+          state.policy.space[spaceID]?.[policyID]?.roles?.map((rId) => ({
             ...state.roles.space[spaceID]?.[rId],
           })) || [],
-        permissions: state.policy.space[spaceID][policyID]?.permissions || [],
+        permissions: state.policy.space[spaceID]?.[policyID]?.permissions || [],
       },
       loading: state.policy.loading,
     };
   });
- 
+
 
   const fetchPolicy = () => {
     getSpacePolicyByID(appID, spaceID, policyID);

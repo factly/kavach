@@ -15,8 +15,8 @@ export default function ApplicationRoleUsers() {
     (state) => {
       var remUserIDs = [];
       var roleUserIDs = [];
-      roleUserIDs = state.roles.application[appID][roleID].users || [];
-      const appUserIDs = state.applications.details[appID].users || [];
+      roleUserIDs = state.roles.application?.[appID]?.[roleID].users || [];
+      const appUserIDs = state.applications.details[appID]?.users || [];
       remUserIDs = appUserIDs.filter((uID) => roleUserIDs.every((rUID) => !(rUID === uID)));
       return {
         roleUsers: roleUserIDs.map((id) => state.users.details[id]),

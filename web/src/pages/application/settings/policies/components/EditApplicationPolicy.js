@@ -27,7 +27,7 @@ export default function EditApplicationPolicy() {
         policy: {
           ...state.policy?.application?.[appID]?.[policyID],
           roles: state.policy.application?.[appID]?.[policyID]?.roles?.map(
-            (rID) => state.roles.application[appID][rID],
+            (rID) => state.roles.application?.[appID]?.[rID],
           ),
         },
         loading: state.policy.loading,
@@ -35,7 +35,7 @@ export default function EditApplicationPolicy() {
         loadingRole: state.profile.loading,
         application: state.applications.details[appID],
         loadingApp: state.applications.loading,
-        roles: roleIDs.map((id) => state.roles.application[appID][id]),
+        roles: roleIDs.map((id) => state.roles.application?.[appID]?.[id]),
         loadingRoles: state.roles.loading,
       };
     },

@@ -33,7 +33,7 @@ export default function CreateApplicationPolicyForm() {
   const { roles, loadingRoles } = useSelector((state) => {
     var roleIDs = state.applications.details[appID]?.roleIDs || [];
     return {
-      roles: roleIDs.map((id) => state.roles.application[appID][id]),
+      roles: roleIDs.map((id) => state.roles.application?.[appID]?.[id]),
       loadingRoles: state.roles.loading,
     };
   });
