@@ -13,11 +13,11 @@ export default function SpaceUser() {
 
   const { appUsers, loadingApps, spaceUsers, loadingSpace, role } = useSelector((state) => {
     return {
-      appUsers: state.applications.details[appID]?.users.map((id) => state.users.details[id]) || [],
-      loadingApps: state.applications.loading,
-      spaceUsers: state.spaces.details[spaceID]?.users.map((id) => state.users.details[id]) || [],
-      loadingSpace: state.spaces.loading,
-      role: state.profile.roles[state.organisations.selected],
+      appUsers: state?.applications?.details[appID]?.users.map((id) => state.users.details[id]) || [],
+      loadingApps: state?.applications?.loading,
+      spaceUsers: state?.spaces?.details[spaceID]?.users.map((id) => state.users.details[id]) || [],
+      loadingSpace: state?.spaces?.loading,
+      role: state?.profile?.roles[state.organisations.selected],
     };
   });
 

@@ -14,7 +14,7 @@ export default function SpaceRoleUsers() {
     (state) => {
       var remUserIDs = [];
       var roleUserIDs = [];
-      roleUserIDs = state.roles.space[spaceID][roleID]?.users || [];
+      roleUserIDs = state?.roles?.space?.[spaceID]?.[roleID]?.users || [];
       const spaceUserIDs = state.spaces.details[spaceID]?.users || [];
       if (spaceUserIDs?.length) {
         remUserIDs = spaceUserIDs.filter((uID) => roleUserIDs.every((rUID) => !(rUID === uID)));

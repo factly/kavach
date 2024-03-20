@@ -31,7 +31,7 @@ export default function EditSpaceRole() {
 
   const { role, loading, space, loadingSpace, userRole, loadingUserRole } = useSelector((state) => {
     return {
-      role: state.roles.space[spaceID][roleID],
+      role: state.roles.space?.[spaceID]?.[roleID],
       loading: state.roles.loading,
       space: state.spaces.details[spaceID],
       loadingSpace: state.spaces.loading,

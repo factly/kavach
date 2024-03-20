@@ -32,7 +32,7 @@ export default function ViewApplicationPolicy() {
   const { policy, loading } = useSelector((state) => {
     return {
       policy: {
-        ...state.policy.application[appID][policyID],
+        ...state.policy?.application?.[appID]?.[policyID],
         roles:
           state.policy.application[appID]?.[policyID]?.roles?.map((rId) => ({
             ...state.roles.application[appID]?.[rId],

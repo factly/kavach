@@ -34,9 +34,9 @@ export default function ViewOrganisationPolicy() {
   const { policy, loading } = useSelector((state) => {
     return {
       policy: {
-        ...state.policy.organisation[orgID][policyID],
+        ...state.policy?.organisation?.[orgID]?.[policyID],
         roles:
-          state.policy.organisation[orgID][policyID]?.roles.map((rId) => ({
+          state.policy?.organisation?.[orgID]?.[policyID]?.roles.map((rId) => ({
             ...state.roles.organisation[orgID]?.[rId],
           })) || [],
       },

@@ -18,8 +18,8 @@ export default function OrganisationRoleUsers() {
     (state) => {
       var remUserIDs = [];
       var roleUserIDs = [];
-      roleUserIDs = state.roles.organisation[orgID][roleID].users || [];
-      const orgUserIDs = state.organisations.details[orgID].users || [];
+      roleUserIDs = state.roles.organisation?.[orgID]?.[roleID].users || [];
+      const orgUserIDs = state.organisations.details?.[orgID]?.users || [];
       remUserIDs = orgUserIDs.filter((uID) => roleUserIDs.every((rUID) => !(rUID === uID)));
       return {
         roleUsers: roleUserIDs.map((id) => state.users.details[id]),
