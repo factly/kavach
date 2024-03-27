@@ -1,0 +1,275 @@
+version: "3.7"
+
+services:
+  ###########################################################################
+  #######                  DB SERVICES                                #######
+  ###########################################################################
+  postgres:
+    image: postgres:14.2-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../pg-init-scripts:/docker-entrypoint-initdb.d
+      - ./volumes/kavach/postgresql:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=kratos,keto,kavach
+    healthcheck:
+      interval: 10s
+      retries: 10
+      test: 'pg_isready -U "$$POSTGRES_USER" -d "kavach"'
+      timeout: 2s
+    networks:
+      - kavach
+
+  #########################################################################
+  #####                         IMGPROXY                            #######
+  #########################################################################
+  imgproxy:
+    image: darthsim/imgproxy:v2.15.0
+    ports:
+      - 8080:8080
+    environment:
+      - IMGPROXY_BASE_URL=http://minio:9000/
+      - IMGPROXY_TTL=31536000
+    networks:
+      - kavach
+
+  nginx:
+    image: nginx:1.19.0-alpine
+    ports:
+      - 7001:80
+    volumes:
+      - ../nginx:/etc/nginx/conf.d
+    restart: unless-stopped
+    depends_on:
+      - imgproxy
+    networks:
+      - kavach
+
+  ###########################################################################
+  #######             UPLOAD SERVICES                                 #######
+  ###########################################################################
+  companion:
+    image: transloadit/companion:sha-e80a7f7
+    ports:
+      - "3020:3020"
+    env_file:
+      - ../config/companion/.env
+
+  ###########################################################################
+  #######                        MINIO                                #######
+  ###########################################################################
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./volumes/kavach/minio/data:/export
+      - ./volumes/kavach/minio/config:/root/.minio
+    environment:
+      - MINIO_ACCESS_KEY=miniokey
+      - MINIO_SECRET_KEY=miniosecret
+    networks:
+      - kavach
+    command: server /export --console-address ":9001"
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    volumes:
+      - ../wait-for-it.sh:/usr/local/bin/wait-for-it.sh
+    networks:
+      - kavach
+    entrypoint: >
+      /bin/sh -c "
+      apk add --no-cache bash;
+      wait-for-it.sh minio:9000 -- echo 'Minio is up. Creating the bucket!!';
+      /usr/bin/mc config host add myminio http://minio:9000 miniokey miniosecret;
+      /usr/bin/mc mb myminio/kavach;
+      /usr/bin/mc policy set download myminio/kavach;
+      exit 0;
+      "
+  ###########################################################################
+  #######             SMTP SERVICES                                 #######
+  ###########################################################################
+  mailslurper:
+    image: oryd/mailslurper:latest-smtps
+    ports:
+      - "4436:4436"
+      - "4437:4437"
+    networks:
+      - kavach
+
+  ###########################################################################
+  #######             KRATOS, KETO AND OATHKEEPER                     #######
+  ###########################################################################
+  kratos-migrate:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    image: oryd/kratos:v1.0.0
+    environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+    volumes:
+      - type: bind
+        source: ../kratos/config
+        target: /etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+    networks:
+      - kavach
+
+  kratos:
+    depends_on:
+      - kratos-migrate
+    image: oryd/kratos:v1.0.0
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    environment:
+      - DSN=postgres://postgres:postgres@postgres:5432/kratos?sslmode=disable
+      - LOG_LEVEL=trace
+    volumes:
+      - type: bind
+        source: ../kratos/config
+        target: /etc/config/kratos
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+    restart: unless-stopped
+    networks:
+      - kavach
+
+  keto-migrate:
+    image: oryd/keto:v0.9.0-alpha.0
+    environment:
+      - LOG_LEVEL=debug
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - type: bind
+        source: ../keto
+        target: /etc/config/keto
+    # command: namespace migrate legacy -c "/etc/config/keto/keto.yml" --yes
+    command: migrate up -c "/etc/config/keto/keto.yml" --yes
+    restart: on-failure
+    networks:
+      - kavach
+
+  keto:
+    depends_on:
+      - keto-migrate
+    image: oryd/keto:v0.9.0-alpha.0
+    ports:
+      - "4466:4466" # read
+      - "4467:4467" # write
+      - "4468:4468" # metric
+    environment:
+      - LOG_LEVEL=debug
+    volumes:
+      - type: bind
+        source: ../keto
+        target: /etc/config/keto
+    command: serve -c "/etc/config/keto/keto.yml"
+    networks:
+      - kavach
+
+  oathkeeper:
+    image: oryd/oathkeeper:latest-alpine
+    depends_on:
+      - kratos
+    ports:
+      - "4455:4455"
+      - "4456:4456"
+    environment:
+      - LOG_LEVEL=debug
+    volumes:
+      - type: bind
+        source: ./ory-services/oathkeeper
+        target: /etc/config/oathkeeper
+    command: serve proxy -c "/etc/config/oathkeeper/.oathkeeper.yml"
+    restart: on-failure
+    networks:
+      - kavach
+  ###########################################################################
+  #######                       KAVACH                                #######
+  ###########################################################################
+  kavach-server:
+    depends_on:
+      - postgres
+      - keto
+      - kratos
+      - kavach-migrate
+    ports:
+      - 5001:8000
+    image: factly/kavach-server
+    environment:
+      - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
+      - KAVACH_DATABASE_HOST=postgres 
+      - KAVACH_DATABASE_USER=postgres
+      - KAVACH_DATABASE_PASSWORD=postgres
+      - KAVACH_DATABASE_NAME=kavach 
+      - KAVACH_DATABASE_PORT=5432 
+      - KAVACH_DATABASE_SSL_MODE=disable
+      - KAVACH_KETO_URL=http://keto:4466
+      - KAVACH_KRATOS_ADMIN_URL=http://kratos:4434
+      - KAVACH_MODE=development
+      - KAVACH_IMAGEPROXY_URL=http://127.0.0.1:7001
+    restart: unless-stopped
+    networks:
+      - kavach
+  
+  kavach-migrate:
+    depends_on:
+      - postgres
+      - keto
+      - kratos
+    image: factly/kavach-server
+    environment:
+      - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
+      - KAVACH_DATABASE_HOST=postgres 
+      - KAVACH_DATABASE_USER=postgres
+      - KAVACH_DATABASE_PASSWORD=postgres
+      - KAVACH_DATABASE_NAME=kavach 
+      - KAVACH_DATABASE_PORT=5432 
+      - KAVACH_DATABASE_SSL_MODE=disable
+      - KAVACH_KETO_URL=http://keto:4466
+      - KAVACH_KRATOS_ADMIN_URL=http://kratos:4434
+      - KAVACH_MODE=development
+      - KAVACH_IMAGEPROXY_URL=http://127.0.0.1:7001
+    entrypoint: /app/kavach-server migrate
+    networks:
+      - kavach
+
+  kavach-web:
+    image: factly/kavach-web:dev
+    environment:
+      - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web
+      - REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio
+      - REACT_APP_BINDU_PUBLIC_URL=http://127.0.0.1:4455/.factly/bindu/studio
+    restart: unless-stopped
+    networks:
+      - kavach
+
+  quickstart-web:
+    build:
+      context: ./quickstart-web
+      dockerfile: Dockerfile
+    environment:
+      - NEXT_PUBLIC_URL=http://127.0.0.1:4455/.factly/quickstart/web
+      - NEXT_PUBLIC_KAVACH_LOGIN_URL=http://127.0.0.1:4455/.factly/kavach/web/auth/login
+    volumes:
+      - type: bind
+        source: ./quickstart-web
+        target: /app
+      - /app/node_modules
+    restart: unless-stopped
+    stdin_open: true
+    networks:
+      - kavach
+
+networks:
+  kavach:

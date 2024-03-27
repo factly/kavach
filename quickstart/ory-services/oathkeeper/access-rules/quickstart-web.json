@@ -1,0 +1,28 @@
+[
+  {
+    "id": "quickstart:web:anonymous",
+    "upstream": {
+      "preserve_host": true,
+      "url": "http://qucikstart-web:3000"
+    },
+    "match": {
+      "url": "http://127.0.0.1:4455/.factly/quickstart/web/<(_next(/.*))(|/)>",
+      "methods": [
+        "GET"
+      ]
+    },
+    "authenticators": [
+      {
+        "handler": "anonymous"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "noop"
+      }
+    ]
+  }
+]
