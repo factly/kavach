@@ -15,7 +15,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//create - Create token for an organisation using organisation_id
+// create - Create token for an organisation using organisation_id
 // @Summary Create token for an organisation using organisation_id
 // @Description Create token for an organisation using organisation_id
 // @Tags OrganisationTokens
