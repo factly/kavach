@@ -55,7 +55,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	result := &model.OrganisationToken{}
 	result.ID = uint(tokID)
-	
+
 	//check if organisation token exists
 	err = model.DB.Model(&model.OrganisationToken{}).Where(&model.OrganisationToken{
 		Base: model.Base{

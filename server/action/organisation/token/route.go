@@ -13,12 +13,17 @@ type organisationToken struct {
 	Organisation   *model.Organisation `gorm:"foreignKey:organisation_id" json:"organisation"`
 }
 
+type validationBody struct {
+	Token string `json:"token" validate:"required"`
+}
+
 func Router() chi.Router {
 	r := chi.NewRouter()
 	r.Get("/", list)
 	r.Post("/", create)
 	r.Delete("/{token_id}", delete)
 	r.Post("/validate", validate)
+	r.Post("/info", tokenInfo)
 
 	return r
 }

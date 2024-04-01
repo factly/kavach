@@ -14,9 +14,6 @@ import (
 )
 
 // validationBody request body
-type validationBody struct {
-	Token string `json:"token" validate:"required"`
-}
 
 // Validate - validate organisation token
 // @Summary Show a organisation token
