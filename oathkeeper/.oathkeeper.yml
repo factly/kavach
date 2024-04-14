@@ -50,6 +50,8 @@ access_rules:
     - file:///etc/config/oathkeeper/access-rules/kavach-studio.json
     - file:///etc/config/oathkeeper/access-rules/kavach-server.json
     - file:///etc/config/oathkeeper/access-rules/kratos.json
+    - file:///etc/config/oathkeeper/access-rules/quickstart-web.json
+
 
 authenticators:
   anonymous:
