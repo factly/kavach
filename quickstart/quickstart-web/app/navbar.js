@@ -17,9 +17,9 @@ const Navbar = () => {
 
         
         <div className="flex-shrink-0">
-          <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          <Link href="http://127.0.0.1:4455/.ory/kratos/public/self-service/login/browser?return_to=http://localhost:3000" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
             Login
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
