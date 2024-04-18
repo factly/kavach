@@ -205,19 +205,40 @@ services:
       - kavach-migrate
     ports:
       - 5001:8000
-    image: factly/kavach-server
+    image: factly/kavach-server:0.34.2
     environment:
       - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
-      - KAVACH_DATABASE_HOST=postgres 
+      - KAVACH_DATABASE_HOST=postgres
       - KAVACH_DATABASE_USER=postgres
       - KAVACH_DATABASE_PASSWORD=postgres
-      - KAVACH_DATABASE_NAME=kavach 
-      - KAVACH_DATABASE_PORT=5432 
+      - KAVACH_DATABASE_NAME=kavach
+      - KAVACH_DATABASE_PORT=5432
       - KAVACH_DATABASE_SSL_MODE=disable
-      - KAVACH_KETO_URL=http://keto:4466
+      - KAVACH_KETO_READ_API_URL=http://keto:4466
+      - KAVACH_KETO_WRITE_API_URL=http://keto:4467
       - KAVACH_KRATOS_ADMIN_URL=http://kratos:4434
+      - KAVACH_KRATOS_PUBLIC_URL=http://kratos:4433
       - KAVACH_MODE=development
+      - KAVACH_USE_SQLITE=false
+      - KAVACH_SQLITE_DB_PATH=kavach.db
       - KAVACH_IMAGEPROXY_URL=http://127.0.0.1:7001
+      - KAVACH_DOMAIN_NAME=http://127.0.0.1:4455/.factly/kavach/web
+      - KAVACH_DYNAMIC_FROM_EMAIL='kavach'
+      - KAVACH_MANDE_HOST=http://mande.factly.in
+      - KAVACH_DYNAMIC_MANDE_TEMPLATE_ID=1
+      - KAVACH_DYNAMIC_SENDGRID_API_KEY=SENDGRID_API_KEY
+      - KAVACH_ENABLE_MULTITENANCY=true
+      - KAVACH_DISABLE_REGISTRATION=false
+      - KAVACH_APPLICATION_NAME=Kavach
+      - KAVACH_DEFAULT_USER_EMAIL=mande@admin.in
+      - KAVACH_DEFAULT_USER_PASSWORD=Data123@#
+      - KAVACH_DEFAULT_ORGANISATION_NAME=Mande
+      - KAVACH_ENABLE_IMGPROXY=false
+      - KAVACH_DYNAMIC_EMAIL_ENABLED=true
+      - KAVACH_BUCKET_NAME=login.factly.in
+      - KAVACH_MASTER_KEY=master_key
+      - KAVACH_SENDGRID_FROM_EMAIL=KAVACH_SENDGRID_FROM_EMAIL
+      - KAVACH_SENDGRID_FROM_NAME=sendgrid_from_name
     restart: unless-stopped
     networks:
       - kavach
@@ -227,25 +248,46 @@ services:
       - postgres
       - keto
       - kratos
-    image: factly/kavach-server
+    image: factly/kavach-server:0.34.2
     environment:
       - WAIT_HOSTS=postgres:5432, kratos:4434 , keto:4466
-      - KAVACH_DATABASE_HOST=postgres 
+      - KAVACH_DATABASE_HOST=postgres
       - KAVACH_DATABASE_USER=postgres
       - KAVACH_DATABASE_PASSWORD=postgres
-      - KAVACH_DATABASE_NAME=kavach 
-      - KAVACH_DATABASE_PORT=5432 
+      - KAVACH_DATABASE_NAME=kavach
+      - KAVACH_DATABASE_PORT=5432
       - KAVACH_DATABASE_SSL_MODE=disable
-      - KAVACH_KETO_URL=http://keto:4466
+      - KAVACH_KETO_READ_API_URL=http://keto:4466
+      - KAVACH_KETO_WRITE_API_URL=http://keto:4467
       - KAVACH_KRATOS_ADMIN_URL=http://kratos:4434
+      - KAVACH_KRATOS_PUBLIC_URL=http://kratos:4433
       - KAVACH_MODE=development
+      - KAVACH_USE_SQLITE=false
+      - KAVACH_SQLITE_DB_PATH=kavach.db
       - KAVACH_IMAGEPROXY_URL=http://127.0.0.1:7001
+      - KAVACH_DOMAIN_NAME=http://127.0.0.1:4455/.factly/kavach/web
+      - KAVACH_DYNAMIC_FROM_EMAIL='kavach'
+      - KAVACH_MANDE_HOST=http://mande.factly.in
+      - KAVACH_DYNAMIC_MANDE_TEMPLATE_ID=1
+      - KAVACH_DYNAMIC_SENDGRID_API_KEY=SENDGRID_API_KEY
+      - KAVACH_ENABLE_MULTITENANCY=true
+      - KAVACH_DISABLE_REGISTRATION=false
+      - KAVACH_APPLICATION_NAME=Kavach
+      - KAVACH_DEFAULT_USER_EMAIL=mande@admin.in
+      - KAVACH_DEFAULT_USER_PASSWORD=Data123@#
+      - KAVACH_DEFAULT_ORGANISATION_NAME=Mande
+      - KAVACH_ENABLE_IMGPROXY=false
+      - KAVACH_DYNAMIC_EMAIL_ENABLED=true
+      - KAVACH_BUCKET_NAME=login.factly.in
+      - KAVACH_MASTER_KEY=master_key
+      - KAVACH_SENDGRID_FROM_EMAIL=KAVACH_SENDGRID_FROM_EMAIL
+      - KAVACH_SENDGRID_FROM_NAME=sendgrid_from_name
     entrypoint: /app/kavach-server migrate
     networks:
       - kavach
 
   kavach-web:
-    image: factly/kavach-web:dev
+    image: factly/kavach-web:0.34.2-dev
     environment:
       - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web
       - REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio
