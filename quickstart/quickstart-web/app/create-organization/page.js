@@ -13,16 +13,30 @@ const OrganizationForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     
-    console.log('Form submitted:', formData);
-    
-    setFormData({
-      title: '',
-      slug: '',
-      description: ''
-    });
+    try {
+      const response = await fetch('http://main-app-api.com/create-organization', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Organization created successfully:', data);
+        // Display success message to the user
+      } else {
+        console.error('Failed to create organization:', response.statusText);
+        // Display error message to the user
+      }
+    } catch (error) {
+      console.error('Error creating organization:', error);
+      // Display error message to the user
+    }
   };
 
   return (
