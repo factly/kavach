@@ -3,10 +3,11 @@
     "id": "quickstart:web:anonymous",
     "upstream": {
       "preserve_host": true,
-      "url": "http://qucikstart-web:3000"
+      "url": "http://quickstart-web:3000",
+      "strip_path": "/.factly/quickstart/web"
     },
     "match": {
-      "url": "http://127.0.0.1:4455/.factly/quickstart/web/<(_next(/.*))(|/)>",
+      "url": "http://127.0.0.1:4455/.factly/quickstart/web/<unprotected|_next(/.*)>",
       "methods": [
         "GET"
       ]
@@ -22,6 +23,43 @@
     "mutators": [
       {
         "handler": "noop"
+      }
+    ]
+  },
+  {
+    "id": "quickstart:web:protected",
+    "upstream": {
+      "preserve_host": true,
+      "url": "http://quickstart-web:3000",
+      "strip_path": "/.factly/quickstart/web"
+      
+    },
+    "match": {
+      "url": "http://127.0.0.1:4455/.factly/quickstart/web/blog",
+      "methods": [
+        "GET"
+      ]
+    },
+    "authenticators": [
+      {
+        "handler": "cookie_session"
+      }
+    ],
+    "authorizer": {
+      "handler": "allow"
+    },
+    "mutators": [
+      {
+        "handler": "noop"
+      }
+    ],
+    "errors": [
+      {
+        "handler": "redirect",
+        "config": {
+          "to": "http://127.0.0.1:4455/.factly/kavach/web/auth/login",
+          "return_to_query_param": "return_to"
+        }
       }
     ]
   }

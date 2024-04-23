@@ -292,6 +292,10 @@ services:
       - PUBLIC_URL=http://127.0.0.1:4455/.factly/kavach/web
       - REACT_APP_DEGA_PUBLIC_URL=http://127.0.0.1:4455/.factly/dega/studio
       - REACT_APP_BINDU_PUBLIC_URL=http://127.0.0.1:4455/.factly/bindu/studio
+    volumes:
+      - type: bind
+        source: ./data/kavach/web/config.js
+        target: /app/public/config.js
     restart: unless-stopped
     networks:
       - kavach
@@ -303,6 +307,7 @@ services:
     environment:
       - NEXT_PUBLIC_URL=http://127.0.0.1:4455/.factly/quickstart/web
       - NEXT_PUBLIC_KAVACH_LOGIN_URL=http://127.0.0.1:4455/.factly/kavach/web/auth/login
+      - NEXT_PUBLIC_BASE_PATH = /.factly/quickstart/web
     volumes:
       - type: bind
         source: ./quickstart-web
