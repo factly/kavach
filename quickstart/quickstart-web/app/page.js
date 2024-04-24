@@ -15,7 +15,7 @@ export default function Home() {
     <div className="text-center">
             <h1 className="text-5xl my-8 font-bold mb-4 text-red-400">Kavach</h1>
             <p className="text-lg my-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vehicula nunc nec libero molestie, et cursus tortor vehicula.</p>
-            <Link href='/blog'>
+            <Link href='http://127.0.0.1:4455/.factly/quickstart/blog'>
             <button className="bg-green-500 hover:bg-green-700 text-white font-bold my-8 py-2 w-1/3 rounded">Visit Us</button> </Link>
         </div>
     </section>

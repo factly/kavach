@@ -13,9 +13,30 @@ const OrganizationForm = ({ onSubmit }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onSubmit(formData);
+    
+    try {
+      const response = await fetch('', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Organization created successfully:', data);
+        
+      } else {
+        console.error('Failed to create organization:', response.statusText);
+        
+      }
+    } catch (error) {
+      console.error('Error creating organization:', error);
+      
+    }
   };
 
   return (
