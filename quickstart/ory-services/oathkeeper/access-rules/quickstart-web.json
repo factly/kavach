@@ -3,11 +3,10 @@
     "id": "quickstart:web:anonymous",
     "upstream": {
       "preserve_host": true,
-      "url": "http://quickstart-web:3000",
-      "strip_path": "/.factly/quickstart/web"
+      "url": "http://quickstart-web:3000"
     },
     "match": {
-      "url": "http://127.0.0.1:4455/.factly/quickstart/web/<unprotected|_next(/.*)>",
+      "url": "http://127.0.0.1:4455/.factly/quickstart/web/<home|_next(/.*)>",
       "methods": [
         "GET"
       ]
@@ -30,12 +29,10 @@
     "id": "quickstart:web:protected",
     "upstream": {
       "preserve_host": true,
-      "url": "http://quickstart-web:3000",
-      "strip_path": "/.factly/quickstart/web"
-      
+      "url": "http://quickstart-web:3000"
     },
     "match": {
-      "url": "http://127.0.0.1:4455/.factly/quickstart/web/blog",
+      "url": "http://127.0.0.1:4455/.factly/quickstart/web/<blog>",
       "methods": [
         "GET"
       ]

@@ -18,6 +18,7 @@ selfservice:
     - http://127.0.0.1:4455/.factly/kavach/web/
     - http://127.0.0.1:4455/.factly/data-portal/admin/
     - http://127.0.0.1:4455/.factly/bindu/studio/
+    - http://127.0.0.1:4455/.factly/quickstart/web/
 
   methods:
     password:
