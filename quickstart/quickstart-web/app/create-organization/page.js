@@ -17,7 +17,7 @@ const OrganizationForm = () => {
     event.preventDefault();
     
     try {
-      const response = await fetch('http://main-app-api.com/create-organization', {
+      const response = await fetch('http://127.0.0.1:4455/.factly/kavach/server/organisations', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -28,14 +28,19 @@ const OrganizationForm = () => {
       if (response.ok) {
         const data = await response.json();
         console.log('Organization created successfully:', data);
-        // Display success message to the user
+        setFormData({
+          title: '',
+          slug: '',
+          description: ''
+        });
+        
       } else {
         console.error('Failed to create organization:', response.statusText);
-        // Display error message to the user
+        
       }
     } catch (error) {
       console.error('Error creating organization:', error);
-      // Display error message to the user
+     
     }
   };
 
@@ -82,7 +87,7 @@ const OrganizationForm = () => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              required
+              
             />
           </div>
           <div className="flex justify-between">
