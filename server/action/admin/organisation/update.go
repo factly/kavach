@@ -14,7 +14,7 @@ import (
 )
 
 func update(w http.ResponseWriter, r *http.Request) {
-	req := organisation{}
+	req := Organisation{}
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		loggerx.Error(err)
