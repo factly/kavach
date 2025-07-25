@@ -3,6 +3,7 @@ package user
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -69,6 +70,18 @@ func create(w http.ResponseWriter, r *http.Request) {
 	response, err := client.Do(req)
 	if err != nil {
 		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		return
+	}
+
+	if response.StatusCode != http.StatusCreated {
+		if response.StatusCode == http.StatusConflict {
+			msg := "user email already exists"
+			loggerx.Error(errors.New(msg))
+			errorx.Render(w, errorx.Parser(errorx.GetMessage(msg, http.StatusConflict)))
+			return
+		}
+		loggerx.Error(errors.New("kratos returned status " + fmt.Sprint(response.StatusCode)))
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
