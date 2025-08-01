@@ -61,7 +61,8 @@ func list(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			tx.Where("created_at BETWEEN ? AND ?", fromTime, toTime)
+			// Apply date range filter
+			tx = tx.Where("created_at BETWEEN ? AND ?", fromTime, toTime)
 
 			err = tx.Find(&res.Nodes).Error
 			if err != nil {
