@@ -109,7 +109,6 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// 5. Commit the database transaction first
 	err = tx.Commit().Error
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
