@@ -122,8 +122,9 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		err = userUtil.DeleteUserFromOrganisationRoles(orgID, uint(uID))
 		if err != nil {
 			loggerx.Error(err)
-			// Log the error but continue with other operations
-			// We could implement a retry mechanism or queue for failed operations
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
 		}
 	}
 
@@ -131,7 +132,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	err = deleteUserRelations(uint(uID))
 	if err != nil {
 		loggerx.Error(err)
-		// Log the error but continue with other operations
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
 	}
 
 	// Delete user's identity from Kratos if needed
@@ -139,7 +141,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		err = deleteKratosIdentity(kid)
 		if err != nil {
 			loggerx.Error(err)
-			// Log the error but continue
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
 		}
 	}
 
