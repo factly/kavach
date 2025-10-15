@@ -39,17 +39,20 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	// Start a transaction
 	tx := model.DB.Begin()
 
-	// 1. Delete all user's relation tuples from Keto
-	err = deleteUserRelations(uint(uID))
+	// 1. First get the user details and store information needed for external systems
+	userToUpdate := &model.User{}
+	err = tx.Model(&model.User{}).Where("id = ?", uID).First(userToUpdate).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	// 2. Remove user from all organizations and roles
-	// First get all organizations the user is part of
+	// Store the KID for later use with Kratos
+	kid := userToUpdate.KID
+
+	// 2. Get all organizations the user is part of
 	var orgUsers []model.OrganisationUser
 	err = tx.Model(&model.OrganisationUser{}).Where("user_id = ?", uID).Find(&orgUsers).Error
 	if err != nil {
@@ -59,16 +62,12 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Remove user from each organization
-	for _, orgUser := range orgUsers {
-		err = userUtil.DeleteUserFromOrganisationRoles(orgUser.OrganisationID, uint(uID))
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-			return
-		}
+	// Store organization IDs for later Keto operations
+	orgIDs := make([]uint, len(orgUsers))
+	for i, orgUser := range orgUsers {
+		orgIDs[i] = orgUser.OrganisationID
 
+		// Remove user from organization in database
 		err = tx.Delete(&orgUser).Error
 		if err != nil {
 			tx.Rollback()
@@ -78,32 +77,18 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// 3. Soft delete user record and anonymize their data
-	userToUpdate := &model.User{}
-	
-	// First get the user details before updating
-	err = tx.Model(&model.User{}).Where("id = ?", uID).First(userToUpdate).Error
-	if err != nil {
-		tx.Rollback()
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
-		return
-	}
-
-	// Store the KID for later use
-	kid := userToUpdate.KID
-	
-	// Anonymize user data
+	// 3. Anonymize user data
 	anonymizedEmail := "deleted-" + userToUpdate.Email
-	
+
 	// Update user with anonymized data
 	updates := map[string]interface{}{
 		"display_name": "Deleted User",
 		"first_name":   "Deleted User",
+		"last_name":    "Deleted User",
 		"email":        anonymizedEmail,
 		"is_active":    false,
 	}
-	
+
 	err = tx.Model(&model.User{}).Where("id = ?", uID).Updates(updates).Error
 	if err != nil {
 		tx.Rollback()
@@ -111,8 +96,8 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	
-	// Soft delete the user
+
+	// 4. Soft delete the user
 	err = tx.Delete(&model.User{}, uID).Error
 	if err != nil {
 		tx.Rollback()
@@ -121,24 +106,49 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 4. Delete user's identity from Kratos
-	if kid != "" {
-		err = deleteKratosIdentity(kid)
+	// 5. Commit the database transaction first
+	err = tx.Commit().Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	// 6. Now handle external system operations after successful DB commit
+	// If these fail, the database is still in a consistent state
+
+	// Remove user from organization roles in Keto
+	for _, orgID := range orgIDs {
+		err = userUtil.DeleteUserFromOrganisationRoles(orgID, uint(uID))
 		if err != nil {
-			tx.Rollback()
 			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
-			return
+			// Log the error but continue with other operations
+			// We could implement a retry mechanism or queue for failed operations
 		}
 	}
 
-	// Commit the transaction
-	tx.Commit()
+	// Delete all user's relation tuples from Keto
+	err = deleteUserRelations(uint(uID))
+	if err != nil {
+		loggerx.Error(err)
+		// Log the error but continue with other operations
+	}
+
+	// Delete user's identity from Kratos if needed
+	if kid != "" {
+		err = deleteKratosIdentity(kid)
+		if err != nil {
+			loggerx.Error(err)
+			// Log the error but continue
+		}
+	}
 
 	renderx.JSON(w, http.StatusOK, nil)
 }
 
-// deleteUserRelations deletes all relation tuples for a user as part of the soft deletion process
+// deleteUserRelations deletes all relation tuples for a user
+// Called after database transaction is committed to prevent orphaned database records
 func deleteUserRelations(userID uint) error {
 	// Delete all relation tuples where the user is the subject
 	tuple := &model.KetoRelationTupleWithSubjectID{
@@ -149,7 +159,8 @@ func deleteUserRelations(userID uint) error {
 	return keto.DeleteRelationTupleWithSubjectID(tuple)
 }
 
-// deleteKratosIdentity deletes a user's identity from Kratos as part of the soft deletion process
+// deleteKratosIdentity deletes a user's identity from Kratos
+// Called after database transaction is committed to prevent identity loss if transaction fails
 func deleteKratosIdentity(kid string) error {
 	// Build the Kratos admin API URL
 	kratosURL, err := url.Parse(viper.GetString("kratos_admin_url"))
