@@ -19,6 +19,7 @@ func Router() chi.Router {
 	r.Post("/checker", checker)
 	r.Post("/", create)
 	r.Get("/", list)
+	r.Delete("/{user_id}", delete)
 
 	return r
 }
