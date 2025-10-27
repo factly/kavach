@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/x/errorx"
@@ -48,6 +49,17 @@ func create(w http.ResponseWriter, r *http.Request) {
 				"config": map[string]interface{}{
 					"password": user.Password,
 				},
+			},
+		},
+		"verifiable_addresses": []map[string]interface{}{
+			{
+				"created_at":  time.Now(),
+				"status":      "completed",
+				"updated_at":  time.Now(),
+				"value":       user.Email,
+				"verified":    true,
+				"verified_at": time.Now(),
+				"via":         "email",
 			},
 		},
 	}
