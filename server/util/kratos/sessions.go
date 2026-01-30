@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/factly/x/loggerx"
@@ -61,48 +63,74 @@ func GetActiveSessionByKratosID(kratosID string) ([]interface{}, error) {
 
 // RevokeSessionByID revokes a particular session by session ID
 func RevokeSessionByID(sessionID, orySessionCookie string) error {
-	req, err := http.NewRequest(http.MethodDelete, fmt.Sprint(viper.GetString("kratos_public_url")+"/sessions/"+sessionID), nil)
+	reqURL := fmt.Sprint(viper.GetString("kratos_public_url") + "/sessions/" + sessionID)
+	log.Println("[RevokeSessionByID] Request URL:", reqURL)
+
+	req, err := http.NewRequest(http.MethodDelete, reqURL, nil)
 	if err != nil {
+		log.Println("[RevokeSessionByID] Error creating request:", err)
 		loggerx.Error(err)
 		return err
 	}
 
 	req.Header.Add("Cookie", fmt.Sprint("ory_kratos_session=", orySessionCookie))
+	log.Println("[RevokeSessionByID] Request headers:", req.Header)
 
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
+		log.Println("[RevokeSessionByID] Error executing request:", err)
 		loggerx.Error(err)
 		return err
 	}
 	defer response.Body.Close()
+
+	log.Println("[RevokeSessionByID] Response status code:", response.StatusCode)
+	log.Println("[RevokeSessionByID] Response headers:", response.Header)
+
 	if response.StatusCode != 204 {
+		body, _ := io.ReadAll(response.Body)
+		log.Println("[RevokeSessionByID] Response body:", string(body))
 		loggerx.Error(ErrRevokingSession)
 		return ErrRevokingSession
 	}
 
+	log.Println("[RevokeSessionByID] Session revoked successfully")
 	return nil
 }
 
 // RevokeAllSessions revokes all the sessions except the session whose cookie is used to send delete request to kratos admin
 func RevokeAllSessions(orySessionCookie string) error {
 	reqURL := viper.GetString("kratos_public_url") + "/sessions"
+	log.Println("[RevokeAllSessions] Request URL:", reqURL)
+
 	req, err := http.NewRequest(http.MethodDelete, reqURL, nil)
 	if err != nil {
+		log.Println("[RevokeAllSessions] Error creating request:", err)
 		loggerx.Error(err)
 		return err
 	}
 
 	req.Header.Add("Cookie", fmt.Sprint("ory_kratos_session=", orySessionCookie))
+	log.Println("[RevokeAllSessions] Request headers:", req.Header)
+
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
+		log.Println("[RevokeAllSessions] Error executing request:", err)
 		loggerx.Error(err)
 		return err
 	}
 	defer response.Body.Close()
+
+	log.Println("[RevokeAllSessions] Response status code:", response.StatusCode)
+	log.Println("[RevokeAllSessions] Response headers:", response.Header)
+
 	if response.StatusCode != 200 {
+		body, _ := io.ReadAll(response.Body)
+		log.Println("[RevokeAllSessions] Response body:", string(body))
 		loggerx.Error(ErrRevokingSession)
 		return ErrRevokingSession
 	}
 
+	log.Println("[RevokeAllSessions] All sessions revoked successfully")
 	return nil
 }
