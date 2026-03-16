@@ -38,7 +38,7 @@ func listInvitations(w http.ResponseWriter, r *http.Request) {
 	var invitationContext model.ContextKey = "invitation_user"
 	tx := model.DB.WithContext(context.WithValue(r.Context(), invitationContext, userID)).Begin()
 	invitationList := make([]model.Invitation, 0)
-	err = tx.Model(model.Invitation{}).Where("invitee_id=? AND status=? and expired_at>?", uint(userID), false, time.Now()).Find(&invitationList).Error
+	err = tx.Model(model.Invitation{}).Where("invitee_id=? AND status=? and expired_at>?", uint(userID), model.Pending, time.Now()).Find(&invitationList).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)

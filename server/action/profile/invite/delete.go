@@ -36,7 +36,11 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		},
 	}
 
-	tx.Where(&invites).Delete(&invites)
+	// invitationed is being deleted
+	// instead of deleting, updating the status to rejected
+	// tx.Where(&invites).Delete(&invites)
+	tx.Where(&invites).Update("Status", model.Rejected)
 	tx.Commit()
+
 	renderx.JSON(w, http.StatusOK, nil)
 }

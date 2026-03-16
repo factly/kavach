@@ -62,7 +62,7 @@ func accept(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
-	err = tx.Model(&model.Invitation{}).Where(&filter).Update("status", true).Error
+	err = tx.Model(&model.Invitation{}).Where(&filter).Update("status", model.Accepted).Error
 	if err != nil {
 		loggerx.Error(err)
 		tx.Rollback()
