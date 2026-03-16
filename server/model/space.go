@@ -15,6 +15,8 @@ type Space struct {
 	Organisation   *Organisation  `gorm:"foreignKey:organisation_id" json:"organisation"`
 	ApplicationID  uint           `gorm:"column:application_id" json:"application_id"`
 	Application    *Application   `gorm:"foreignKey:application_id" json:"application"`
+	MediumID       *uint          `gorm:"column:medium_id" json:"medium_id,omitempty"`
+	Medium         *Medium        `gorm:"foreignKey:medium_id" json:"medium,omitempty"`
 	Users          []User         `gorm:"many2many:space_users;" json:"users"`
 	Roles          []SpaceRole    `gorm:"many2many:space_roles;" json:"roles"`
 	Tokens         []SpaceToken   `json:"tokens"`

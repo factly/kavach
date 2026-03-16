@@ -25,6 +25,7 @@ type Medium struct {
 	URL         postgres.Jsonb `gorm:"column:url" json:"url" swaggertype:"primitive,string"`
 	Dimensions  string         `gorm:"column:dimensions" json:"dimensions"`
 	UserID      uint           `gorm:"column:user_id" json:"user_id"`
+	Space       *Space         `gorm:"foreignKey:MediumID" json:"space"`
 }
 
 // TableName medium table name

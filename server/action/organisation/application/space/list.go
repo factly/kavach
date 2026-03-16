@@ -100,6 +100,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 				ID: uint(spaceID),
 			},
 		}).Preload("Users").Preload("Organisation").Preload("Application").Preload("Tokens").
+			Preload("Medium").
 			Find(&space).Error
 		if err != nil {
 			loggerx.Error(err)
