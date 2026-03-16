@@ -16,7 +16,7 @@ import (
 	"github.com/factly/x/validationx"
 )
 
-type organisation struct {
+type Organisation struct {
 	Title            string `json:"title" validate:"required"`
 	Slug             string `json:"slug"`
 	Description      string `json:"description"`
@@ -44,7 +44,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	org := &organisation{}
+	org := &Organisation{}
 
 	err = json.NewDecoder(r.Body).Decode(&org)
 	if err != nil {

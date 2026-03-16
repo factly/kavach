@@ -23,6 +23,7 @@ func AdminRouter() chi.Router {
 		r.Mount("/analytics", analytics.Router())
 		r.Post("/applications/user", application.AddUser)
 		r.Get("/applications/{application_id}", application.ListOrgs)
+		r.Post("/afterRegistration", afterRegistration)
 	})
 
 	return r
