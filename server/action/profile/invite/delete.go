@@ -29,14 +29,23 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx := model.DB.Begin()
-	invites := model.Invitation{
-		Base: model.Base{
-			ID: uint(invID),
-		},
+	userID, err := strconv.Atoi(r.Header.Get("X-User"))
+	if err != nil {
+		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
+		return
 	}
 
-	tx.Where(&invites).Delete(&invites)
-	tx.Commit()
+	// Only the invitee may decline their own invitation.
+	result := model.DB.Where("id = ? AND invitee_id = ?", invID, userID).Delete(&model.Invitation{})
+	if result.Error != nil {
+		loggerx.Error(result.Error)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if result.RowsAffected == 0 {
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+		return
+	}
+
 	renderx.JSON(w, http.StatusOK, nil)
 }
