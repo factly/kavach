@@ -1,11 +1,11 @@
 package invite
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/factly/kavach-server/model"
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
@@ -13,13 +13,9 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
-
-type acceptInvite struct {
-	OrgID     int32  `json:"organisation_id"`
-	InviterID int64  `json:"inviter_id"`
-	Role      string `json:"role"`
-}
 
 // accept - Accept organisation invite
 // @Summary Accept organisation invite
@@ -29,7 +25,6 @@ type acceptInvite struct {
 // @Produce json
 // @Param X-User header string true "User ID"
 // @Param invite_id path string true "Invitation ID"
-// @Param Invite body acceptInvite true "Accept Invite Object"
 // @Failure 400 {array} string
 // @Router /profile/invite/{invite_id} [put]
 func accept(w http.ResponseWriter, r *http.Request) {
@@ -47,53 +42,70 @@ func accept(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var response acceptInvite
-	err = json.NewDecoder(r.Body).Decode(&response)
-	if err != nil {
-		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.InvalidID()))
-		return
-	}
-
-	filter := model.Invitation{
-		Base: model.Base{
-			ID: uint(invID),
-		},
-	}
-
 	tx := model.DB.Begin()
-	err = tx.Model(&model.Invitation{}).Where(&filter).Update("status", true).Error
+
+	// Organisation and role come from the caller's own pending invitation, never from the request body.
+	invitation := model.Invitation{}
+	err = tx.Clauses(clause.Locking{Strength: "UPDATE"}).
+		Where("id = ? AND invitee_id = ? AND status = ? AND expired_at > ?", invID, userID, false, time.Now()).
+		First(&invitation).Error
 	if err != nil {
-		loggerx.Error(err)
 		tx.Rollback()
+		loggerx.Error(err)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
+			return
+		}
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
-	}
-	orgUser := &model.OrganisationUser{
-		UserID:         uint(userID),
-		OrganisationID: uint(response.OrgID),
-		Role:           response.Role,
 	}
 
 	// Check if invitee already exist in organisation
 	var totPermissions int64
-	permission := &model.OrganisationUser{}
-	permission.OrganisationID = uint(response.OrgID)
-	permission.UserID = uint(userID)
-
-	tx.Model(&model.OrganisationUser{}).Where(permission).Count(&totPermissions)
+	err = tx.Model(&model.OrganisationUser{}).
+		Where("organisation_id = ? AND user_id = ?", invitation.OrganisationID, userID).
+		Count(&totPermissions).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
 	if totPermissions != 0 {
 		tx.Rollback()
 		loggerx.Error(errors.New("user already exist in organisation"))
 		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+		return
 	}
 
-	// creating a relation tuple for users which are owner in keto api
+	err = tx.Model(&invitation).Update("status", true).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	// adding user to organisation
+	orgUser := &model.OrganisationUser{
+		UserID:         uint(userID),
+		OrganisationID: invitation.OrganisationID,
+		Role:           invitation.Role,
+	}
+	err = tx.Model(&model.OrganisationUser{}).Create(orgUser).Error
+	if err != nil {
+		tx.Rollback()
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	// Keto is written last so a failed DB write never leaves a permission behind.
 	tuple := &model.KetoRelationTupleWithSubjectID{
 		KetoSubjectSet: model.KetoSubjectSet{
 			Namespace: "organisations",
-			Object:    fmt.Sprintf("org:%d", response.OrgID),
-			Relation:  response.Role,
+			Object:    fmt.Sprintf("org:%d", invitation.OrganisationID),
+			Relation:  invitation.Role,
 		},
 		SubjectID: fmt.Sprintf("%d", userID),
 	}
@@ -106,15 +118,15 @@ func accept(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// adding user to organisation
-	err = tx.Model(&model.OrganisationUser{}).Create(orgUser).Error
+	err = tx.Commit().Error
 	if err != nil {
 		loggerx.Error(err)
-		tx.Rollback()
+		if delErr := keto.DeleteRelationTupleWithSubjectID(tuple); delErr != nil {
+			loggerx.Error(delErr)
+		}
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
 
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, nil)
 }
