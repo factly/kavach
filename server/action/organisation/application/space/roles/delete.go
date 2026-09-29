@@ -99,6 +99,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	// getting the space role name using roleID
 	roleMap := make(map[string]interface{})

@@ -105,6 +105,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// inserting the application policy in the kavachDB
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	var count int64
 	err = tx.Model(&model.ApplicationPolicy{}).Where(&model.ApplicationPolicy{

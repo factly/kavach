@@ -66,6 +66,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, userID)).Begin()
+	defer tx.Rollback()
 
 	organisation := &model.Organisation{
 		Title:            org.Title,

@@ -66,6 +66,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	// getting the organisation role
 	orgRole := new(model.OrganisationRole)
 	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{

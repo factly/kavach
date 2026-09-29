@@ -48,5 +48,14 @@ func SetupDB() {
 		log.Fatal(err)
 	}
 
+	sqlDB, err := DB.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Bound the pool so a leak or burst cannot exhaust the shared Postgres cluster
+	sqlDB.SetMaxOpenConns(viper.GetInt("database_max_open_conns"))
+	sqlDB.SetMaxIdleConns(viper.GetInt("database_max_idle_conns"))
+	sqlDB.SetConnMaxLifetime(viper.GetDuration("database_conn_max_lifetime"))
+
 	loggerx.Info("connected to database ...")
 }

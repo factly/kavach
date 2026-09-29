@@ -118,6 +118,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	// getting the space role
 	spaceRole := new(model.SpaceRole)
 	err = tx.Model(&model.SpaceRole{}).Where(&model.SpaceRole{

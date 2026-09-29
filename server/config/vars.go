@@ -20,6 +20,10 @@ func SetupVars() {
 		loggerx.Info("config file not found...")
 	}
 
+	viper.SetDefault("database_max_open_conns", 20)
+	viper.SetDefault("database_max_idle_conns", 10)
+	viper.SetDefault("database_conn_max_lifetime", "30m")
+
 	if Sqlite() {
 		if !viper.IsSet("sqlite_db_path") {
 			log.Fatal("please provide sqlite_db_path config param")

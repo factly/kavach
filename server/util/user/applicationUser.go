@@ -123,6 +123,7 @@ func DeleteUserFromApplications(orgID, userID uint) error {
 
 func DeleteUserFromApplication(appID, userID uint) error {
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	app := model.Application{}
 	err := tx.Model(&model.Application{}).Where(&model.Application{
 		Base: model.Base{

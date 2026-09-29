@@ -75,6 +75,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	// Check if record exist or not
 	var count int64
 	err = tx.Model(&model.Space{}).Where(&model.Space{

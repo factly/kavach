@@ -89,6 +89,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	space := &model.Space{}
 	space.ID = uint(sID)
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	//check if record exists or not
 	err = tx.Model(&model.Space{}).First(&space).Error
 	if err != nil {

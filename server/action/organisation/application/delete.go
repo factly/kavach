@@ -89,6 +89,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	// delete application users
 	err = tx.Model(&result).Association("Users").Delete(result.Users)

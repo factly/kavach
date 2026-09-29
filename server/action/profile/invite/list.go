@@ -1,7 +1,6 @@
 package invite
 
 import (
-	"context"
 	"net/http"
 	"strconv"
 	"time"
@@ -35,47 +34,56 @@ func listInvitations(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var invitationContext model.ContextKey = "invitation_user"
-	tx := model.DB.WithContext(context.WithValue(r.Context(), invitationContext, userID)).Begin()
+	db := model.DB.WithContext(r.Context())
 	invitationList := make([]model.Invitation, 0)
-	err = tx.Model(model.Invitation{}).Where("invitee_id=? AND status=? and expired_at>?", uint(userID), false, time.Now()).Find(&invitationList).Error
+	err = db.Model(model.Invitation{}).Where("invitee_id=? AND status=? and expired_at>?", uint(userID), false, time.Now()).Find(&invitationList).Error
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	responseData := make([]invitationData, 0)
+
+	responseData := make([]invitationData, 0, len(invitationList))
+	if len(invitationList) == 0 {
+		renderx.JSON(w, http.StatusOK, responseData)
+		return
+	}
+
+	orgIDs := make([]uint, 0, len(invitationList))
+	inviterIDs := make([]uint, 0, len(invitationList))
 	for _, each := range invitationList {
-		var eachInvitation invitationData
-		eachInvitation.Invitation = each
-		tx := model.DB.WithContext(context.WithValue(r.Context(), invitationContext, userID)).Begin()
-		err = tx.Where(&model.Organisation{
-			Base: model.Base{
-				ID: each.OrganisationID,
-			},
-		}).Find(&eachInvitation.Organisation).Error
+		orgIDs = append(orgIDs, each.OrganisationID)
+		inviterIDs = append(inviterIDs, each.CreatedByID)
+	}
 
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-			return
-		}
+	organisations := make([]model.Organisation, 0)
+	if err = db.Where("id IN ?", orgIDs).Find(&organisations).Error; err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	organisationByID := make(map[uint]model.Organisation, len(organisations))
+	for _, org := range organisations {
+		organisationByID[org.ID] = org
+	}
 
-		err = tx.Where(&model.User{
-			Base: model.Base{
-				ID: each.CreatedByID,
-			},
-		}).Find(&eachInvitation.User).Error
+	inviters := make([]model.User, 0)
+	if err = db.Where("id IN ?", inviterIDs).Find(&inviters).Error; err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	inviterByID := make(map[uint]model.User, len(inviters))
+	for _, inviter := range inviters {
+		inviterByID[inviter.ID] = inviter
+	}
 
-		if err != nil {
-			tx.Rollback()
-			loggerx.Error(err)
-			errorx.Render(w, errorx.Parser(errorx.DBError()))
-			return
-		}
-		responseData = append(responseData, eachInvitation)
+	for _, each := range invitationList {
+		responseData = append(responseData, invitationData{
+			Invitation:   each,
+			Organisation: organisationByID[each.OrganisationID],
+			User:         inviterByID[each.CreatedByID],
+		})
 	}
 	renderx.JSON(w, http.StatusOK, responseData)
 }

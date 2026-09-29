@@ -17,6 +17,7 @@ func CreateSuperUser() error {
 	email := viper.GetString("super_user_email")
 	var user User
 	tx := DB.Begin()
+	defer tx.Rollback()
 	result := tx.Model(User{}).First(&user)
 	if result.RowsAffected > 0 {
 		loggerx.Info("super user already exists")

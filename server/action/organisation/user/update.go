@@ -53,6 +53,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	uID, err = strconv.Atoi(userID)
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	var orgUser model.OrganisationUser
 
 	err = tx.Where("user_id = ? AND organisation_id = ?", uID, response.OrgID).First(&orgUser).Error

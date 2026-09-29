@@ -36,6 +36,7 @@ func AddUser(w http.ResponseWriter, r *http.Request) {
 
 	var userContext model.ContextKey = "application_user"
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, req.UserID)).Begin()
+	defer tx.Rollback()
 	// Check if application exist
 	err = tx.Model(&model.Application{}).Preload("Users").First(&app).Error
 	if err != nil {

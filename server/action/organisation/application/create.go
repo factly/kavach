@@ -110,6 +110,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+	defer tx.Rollback()
 
 	err = tx.Preload("Users").Create(&result).Error
 

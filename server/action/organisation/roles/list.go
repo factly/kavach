@@ -43,8 +43,6 @@ func list(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// initiating a transaction
-	tx := model.DB.Begin()
 	// VERIFY WHETHER THE USER IS PART OF ORGANISATION OR NOT
 	isAuthorised, err := user.IsUserAuthorised(
 		"organisations",
@@ -65,15 +63,13 @@ func list(w http.ResponseWriter, r *http.Request) {
 	// list organisation role
 	roles := make([]model.OrganisationRole, 0)
 
-	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
+	err = model.DB.WithContext(r.Context()).Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		OrganisationID: uint(orgID),
 	}).Preload("Organisation").Preload("Users").Find(&roles).Error
 	if err != nil {
-		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
-	tx.Commit()
 	renderx.JSON(w, http.StatusOK, roles)
 }

@@ -74,6 +74,7 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 	ctx = context.WithValue(ctx, organisationUserKey, uID)
 
 	tx := model.DB.WithContext(ctx).Begin()
+	defer tx.Rollback()
 	app := model.Application{}
 	err = tx.Model(&model.Application{}).Where(&model.Application{
 		Base: model.Base{

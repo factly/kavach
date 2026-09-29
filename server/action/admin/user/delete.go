@@ -38,6 +38,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	// Start a transaction
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	// 1. First get the user details and store information needed for external systems
 	userToUpdate := &model.User{}

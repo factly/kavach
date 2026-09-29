@@ -109,6 +109,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 
 	// getting the application role
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	appRole := new(model.ApplicationRole)
 	err = tx.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{
 		Base: model.Base{

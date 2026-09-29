@@ -76,6 +76,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	policy.Roles = roles
 	// inserting the organisation policy on the kavachDB
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	err = tx.Model(&model.OrganisationPolicy{}).Create(&policy).Error
 	if err != nil {
 		tx.Rollback()

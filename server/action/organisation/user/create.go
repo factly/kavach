@@ -22,6 +22,9 @@ import (
 	"github.com/spf13/viper"
 )
 
+// maxInvitesPerRequest bounds how many invitations a single request can create
+const maxInvitesPerRequest = 50
+
 type invites struct {
 	// flag to send email or not, default is true
 	SendEmail bool     `json:"send_email"`
@@ -89,6 +92,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
+	if len(req.Users) > maxInvitesPerRequest {
+		loggerx.Error(fmt.Errorf("cannot invite more than %d users per request", maxInvitesPerRequest))
+		errorx.Render(w, errorx.Parser(errorx.GetMessage(fmt.Sprintf("cannot invite more than %d users per request", maxInvitesPerRequest), http.StatusUnprocessableEntity)))
+		return
+	}
 	sendEmail := req.SendEmail
 	for _, user := range req.Users {
 		validationError := validationx.Check(user)
@@ -134,11 +142,13 @@ func create(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			tx.Rollback()
 			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return
 		}
 
 		if invitationCount > 0 {
-			loggerx.Error(err)
+			tx.Rollback()
+			loggerx.Error(errors.New("user already has a pending invitation"))
 			continue
 		}
 		err := tx.Model(&model.Invitation{}).Create(&invitation).Error
