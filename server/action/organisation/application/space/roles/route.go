@@ -2,10 +2,13 @@ package roles
 
 import (
 	"github.com/factly/kavach-server/action/organisation/application/space/roles/user"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 )
 
 const namespace string = "spaces"
+
 // Organisation Role Router
 func Router() chi.Router {
 	r := chi.NewRouter()
@@ -13,6 +16,7 @@ func Router() chi.Router {
 	r.Get("/", list)
 	r.Post("/", create)
 	r.Route("/{role_id}", func(r chi.Router) {
+		r.Use(tenant.RequireChild(&model.SpaceRole{}, "role_id", "space_id"))
 		r.Get("/", details)
 		r.Delete("/", delete)
 		r.Put("/", update)

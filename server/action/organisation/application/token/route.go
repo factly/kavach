@@ -2,6 +2,7 @@ package token
 
 import (
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 )
 
@@ -26,7 +27,7 @@ func Router() chi.Router {
 
 	r.Post("/", create)
 	r.Get("/", list)
-	r.Delete("/{token_id}", delete)
+	r.With(tenant.RequireChild(&model.ApplicationToken{}, "token_id", "organisation_id", "application_id")).Delete("/{token_id}", delete)
 	r.Post("/validate", validate)
 
 	return r

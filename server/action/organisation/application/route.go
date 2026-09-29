@@ -7,6 +7,7 @@ import (
 	"github.com/factly/kavach-server/action/organisation/application/token"
 	"github.com/factly/kavach-server/action/organisation/application/user"
 	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 )
 
@@ -34,16 +35,21 @@ func Router() chi.Router {
 	r.Post("/token/validate", validate_token)
 	r.Get("/{application_slug}/access", access)
 	r.Route("/{application_id}", func(r chi.Router) {
-		r.Get("/", details)
-		r.Put("/", update)
+		// addDefault attaches an application that is not yet in the organisation,
+		// so it checks is_default itself; every other route needs it attached.
 		r.Post("/default", addDefault)
-		r.Delete("/default", deleteDefault)
-		r.Delete("/", delete)
-		r.Mount("/tokens", token.Router())
-		r.Mount("/users", user.Router())
-		r.Mount("/spaces", space.Router())
-		r.Mount("/roles", roles.Router())
-		r.Mount("/policy", policy.Router())
+		r.Group(func(r chi.Router) {
+			r.Use(tenant.RequireApplication)
+			r.Get("/", details)
+			r.Put("/", update)
+			r.Delete("/default", deleteDefault)
+			r.Delete("/", delete)
+			r.Mount("/tokens", token.Router())
+			r.Mount("/users", user.Router())
+			r.Mount("/spaces", space.Router())
+			r.Mount("/roles", roles.Router())
+			r.Mount("/policy", policy.Router())
+		})
 	})
 
 	return r

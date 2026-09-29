@@ -1,6 +1,8 @@
 package policy
 
 import (
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 	"github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -17,7 +19,9 @@ type permission struct {
 	Resource string   `json:"resource"`
 	Actions  []string `json:"actions"`
 }
+
 const namespace string = "organisations"
+
 // Organisation Role Router
 func Router() chi.Router {
 	r := chi.NewRouter()
@@ -26,6 +30,7 @@ func Router() chi.Router {
 	r.Post("/", create)
 	r.Post("/allowed", allowed)
 	r.Route("/{policy_id}", func(r chi.Router) {
+		r.Use(tenant.RequireChild(&model.OrganisationPolicy{}, "policy_id", "organisation_id"))
 		r.Get("/", details)
 		r.Delete("/", delete)
 		r.Put("/", update) // needed discussion on whether there should be update role or not
