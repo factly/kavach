@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getApplications, deleteApplication } from '../../../actions/application';
 import { getOrganisations } from '../../../actions/organisations';
 import { Link } from 'react-router-dom';
+import { safeAppUrl } from '../../../utils/url';
 
 function ApplicationList({ applicationList, permission, loading }) {
   const dispatch = useDispatch();
@@ -97,7 +98,7 @@ function ApplicationList({ applicationList, permission, loading }) {
               <DeleteOutlined style={{ fontSize: iconSize }} />
             </Tooltip>
           ),
-          <a href={application.url} target="_blank" rel="noopener noreferrer">
+          <a href={safeAppUrl(application.url)} target="_blank" rel="noopener noreferrer">
             <ExportOutlined style={{ fontSize: iconSize }} />
           </a>,
           <Link to={`/applications/${application.id}/settings`} className="ant-dropdown-link">
