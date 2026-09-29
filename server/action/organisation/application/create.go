@@ -70,6 +70,11 @@ func create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !validAppURL(app.URL) {
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("url must be an absolute https URL", http.StatusUnprocessableEntity)))
+		return
+	}
+
 	mediumID := &app.MediumID
 	if app.MediumID == 0 {
 		mediumID = nil

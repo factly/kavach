@@ -4,6 +4,7 @@ import SettingsList from '../../../components/Settings';
 import { Button, Skeleton, Descriptions, Space } from 'antd';
 import { getApplication } from '../../../actions/application';
 import { useDispatch, useSelector } from 'react-redux';
+import { safeAppUrl } from '../../../utils/url';
 
 export default function ApplicationSettings() {
   const { id } = useParams();
@@ -50,7 +51,7 @@ export default function ApplicationSettings() {
               label={<div className="application-table-label">Application URL</div>}
               span={descriptionSpan}
             >
-              <a href={`${application?.url}`} target="_blank" rel="noopener noreferrer">
+              <a href={safeAppUrl(application?.url)} target="_blank" rel="noopener noreferrer">
                 {application?.url}
               </a>
             </Descriptions.Item>
