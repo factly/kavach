@@ -8,6 +8,8 @@ RUN npm ci --silent
 
 # copy source files to image and build
 COPY . .
+# keep the webpack runtime out of index.html so the CSP needs no inline script
+ENV INLINE_RUNTIME_CHUNK=false
 RUN npm run build
 
 # production environment
