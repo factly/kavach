@@ -22,11 +22,11 @@ func CheckKetoRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubje
 	if err != nil {
 		return false, err
 	}
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return false, err
 	}
+	defer response.Body.Close()
 
 	responseBody := make(map[string]interface{})
 	if !(response.StatusCode == 200 || response.StatusCode == 403 || response.StatusCode == 404) {
@@ -53,11 +53,11 @@ func CheckKetoRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubj
 		return false, err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return false, err
 	}
+	defer response.Body.Close()
 	responseBody := make(map[string]interface{})
 	err = json.NewDecoder(response.Body).Decode(&responseBody)
 	if err != nil {

@@ -43,11 +43,11 @@ func Expand(tuple *model.KetoSubjectSet) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
+	defer response.Body.Close()
 
 	responseBody := make(map[string]interface{})
 	err = json.NewDecoder(response.Body).Decode(&responseBody)
