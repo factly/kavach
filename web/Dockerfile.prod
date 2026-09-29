@@ -10,6 +10,8 @@ RUN npm ci --silent --legacy-peer-deps
 COPY . .
 # keep the webpack runtime out of index.html so the CSP needs no inline script
 ENV INLINE_RUNTIME_CHUNK=false
+# source maps must not be served from the public web root
+ENV GENERATE_SOURCEMAP=false
 # webpack 4 (react-scripts 3) hashes with md4, which OpenSSL 3 only has in the legacy provider
 ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
