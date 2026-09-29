@@ -11,6 +11,7 @@ import (
 	"github.com/factly/kavach-server/util"
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/kavach-server/util/user"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -106,6 +107,16 @@ func create(w http.ResponseWriter, r *http.Request) {
 	policy.Description = reqBody.Description
 	policy.SpaceID = uint(spaceID)
 	policy.Permissions = reqBody.Permissions
+	// roles attached to the policy must belong to the same space
+	if valid, verr := tenant.AllBelong(&model.SpaceRole{}, reqBody.Roles, map[string]interface{}{"space_id": spaceID}); verr != nil {
+		loggerx.Error(verr)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	} else if !valid {
+		loggerx.Warning("roles do not belong to the space")
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("roles do not belong to the space", http.StatusUnprocessableEntity)))
+		return
+	}
 	roles := make([]model.SpaceRole, 0)
 	for _, each := range reqBody.Roles {
 		roles = append(roles, model.SpaceRole{Base: model.Base{ID: each}})

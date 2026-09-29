@@ -1,11 +1,14 @@
 package policy
 
 import (
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 	"github.com/jinzhu/gorm/dialects/postgres"
 )
 
 const namespace string = "applications"
+
 type policyReq struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
@@ -27,6 +30,7 @@ func Router() chi.Router {
 	r.Post("/", create)
 	r.Post("/allowed", allowed)
 	r.Route("/{policy_id}", func(r chi.Router) {
+		r.Use(tenant.RequireChild(&model.ApplicationPolicy{}, "policy_id", "organisation_id", "application_id"))
 		r.Get("/", details)
 		r.Delete("/", delete)
 		r.Put("/", update)

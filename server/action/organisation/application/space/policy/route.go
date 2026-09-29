@@ -1,6 +1,8 @@
 package policy
 
 import (
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 	"github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -14,6 +16,7 @@ type policyReq struct {
 }
 
 const namespace string = "spaces"
+
 type permission struct {
 	Resource string   `json:"resource"`
 	Actions  []string `json:"actions"`
@@ -27,6 +30,7 @@ func Router() chi.Router {
 	r.Post("/", create)
 	r.Post("/allowed", allowed)
 	r.Route("/{policy_id}", func(r chi.Router) {
+		r.Use(tenant.RequireChild(&model.SpacePolicy{}, "policy_id", "space_id"))
 		r.Get("/", details)
 		r.Delete("/", delete)
 		r.Put("/", update)

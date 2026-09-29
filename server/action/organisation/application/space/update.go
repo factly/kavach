@@ -52,13 +52,14 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	space := &model.Space{}
-	space.ID = uint(sID)
 	err = json.NewDecoder(r.Body).Decode(space)
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DecodeError()))
 		return
 	}
+	// the space to update is the one in the URL, never an id from the body
+	space.ID = uint(sID)
 	space.UpdatedByID = uint(uID)
 	validationError := validationx.Check(space)
 	if validationError != nil {

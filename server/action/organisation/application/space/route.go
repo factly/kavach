@@ -5,6 +5,8 @@ import (
 	"github.com/factly/kavach-server/action/organisation/application/space/roles"
 	"github.com/factly/kavach-server/action/organisation/application/space/token"
 	"github.com/factly/kavach-server/action/organisation/application/space/user"
+	"github.com/factly/kavach-server/model"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/go-chi/chi"
 )
 
@@ -19,6 +21,7 @@ func Router() chi.Router {
 	r.Get("/", list)
 	r.Post("/token/validate", validate_token)
 	r.Route("/{space_id}", func(r chi.Router) {
+		r.Use(tenant.RequireChild(&model.Space{}, "space_id", "organisation_id", "application_id"))
 		r.Mount("/users", user.Router())
 		r.Delete("/", delete)
 		r.Put("/", update)

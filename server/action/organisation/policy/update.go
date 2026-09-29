@@ -10,6 +10,7 @@ import (
 	"github.com/factly/kavach-server/model"
 	"github.com/factly/kavach-server/util"
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
+	"github.com/factly/kavach-server/util/tenant"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
@@ -95,6 +96,16 @@ func update(w http.ResponseWriter, r *http.Request) {
 		tx.Rollback()
 		loggerx.Error(errors.New("slug already exists"))
 		errorx.Render(w, errorx.Parser(errorx.SameNameExist()))
+		return
+	}
+	// roles attached to the policy must belong to the same organisation
+	if valid, verr := tenant.AllBelong(&model.OrganisationRole{}, reqBody.Roles, map[string]interface{}{"organisation_id": orgID}); verr != nil {
+		loggerx.Error(verr)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	} else if !valid {
+		loggerx.Warning("roles do not belong to the organisation")
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("roles do not belong to the organisation", http.StatusUnprocessableEntity)))
 		return
 	}
 	roles := make([]model.OrganisationRole, 0)

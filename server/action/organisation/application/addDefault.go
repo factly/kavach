@@ -76,15 +76,13 @@ func addDefault(w http.ResponseWriter, r *http.Request) {
 	tx := model.DB.WithContext(ctx).Begin()
 	defer tx.Rollback()
 	app := model.Application{}
-	err = tx.Model(&model.Application{}).Where(&model.Application{
-		Base: model.Base{
-			ID: uint(appID),
-		},
-	}).Preload("Organisations").Preload("Users").First(&app).Error
+	// only default applications may be attached to an organisation
+	err = tx.Model(&model.Application{}).Where("id = ? AND is_default = ?", appID, true).
+		Preload("Organisations").Preload("Users").First(&app).Error
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
-		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
 		return
 	}
 	for _, org := range app.Organisations {

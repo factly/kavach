@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/factly/kavach-server/model"
+	apputil "github.com/factly/kavach-server/util/application"
 	"github.com/factly/kavach-server/util/user"
 	"github.com/factly/x/errorx"
 	"github.com/factly/x/loggerx"
@@ -56,6 +57,20 @@ func access(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+
+	// the application must be owned by or attached to the organisation, so a
+	// stale keto tuple for an application outside it grants nothing
+	inOrg, err := apputil.BelongsToOrg(app.ID, uint(orgID))
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
+		return
+	}
+	if !inOrg {
+		loggerx.Warning("application does not belong to the organisation")
+		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}
 
