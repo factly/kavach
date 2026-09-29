@@ -76,6 +76,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	policy := new(model.ApplicationPolicy)
 	err = tx.Where(&model.ApplicationPolicy{
 		Base: model.Base{

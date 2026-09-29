@@ -75,6 +75,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	result.ID = uint(appID)
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	// Check if record exist
 	err = tx.Preload("Users").First(&result).Error
 	if err != nil {

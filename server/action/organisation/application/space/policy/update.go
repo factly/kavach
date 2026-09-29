@@ -105,6 +105,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.SpaceID = uint(spaceID)
 	policy.Permissions = reqBody.Permissions
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	var count int64
 	err = tx.Model(&model.SpacePolicy{}).Not("id = ?", policyID).Where(&model.SpacePolicy{
 		SpaceID: uint(spaceID),

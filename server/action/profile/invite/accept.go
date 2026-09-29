@@ -43,6 +43,7 @@ func accept(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	// Organisation and role come from the caller's own pending invitation, never from the request body.
 	invitation := model.Invitation{}

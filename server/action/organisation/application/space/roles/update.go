@@ -16,7 +16,7 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//create - Update role for an space using space_id
+// create - Update role for an space using space_id
 // @Summary Update role for an space using space_id
 // @Description Update role for an space using space_id
 // @Tags SpaceRoles
@@ -72,10 +72,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// check whether user is part of space or not
-	tx := model.DB.Begin()
 	flag := space.CheckAuthorisation(uint(spaceID), uint(userID))
 	if !flag {
-		tx.Rollback()
 		errorx.Render(w, errorx.Parser(errorx.Unauthorized()))
 		return
 	}

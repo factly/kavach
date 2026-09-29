@@ -95,6 +95,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	// getting the application role name using roleID
 	roleMap := make(map[string]interface{})
 	err = tx.Model(&model.ApplicationRole{}).Where(&model.ApplicationRole{

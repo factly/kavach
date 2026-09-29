@@ -41,6 +41,7 @@ func DeleteUserFromSpaces(orgID, appID, userID uint) error {
 
 func DeleteUserFromSpace(spaceID, userID uint) error {
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	space := model.Space{}
 	err := tx.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{

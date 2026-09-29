@@ -69,6 +69,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	tx.Where(&orgUsers).Delete(&orgUsers)
 

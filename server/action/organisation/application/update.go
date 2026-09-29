@@ -92,6 +92,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, uID)).Begin()
+	defer tx.Rollback()
 
 	mediumID := &app.MediumID
 	result.MediumID = &app.MediumID

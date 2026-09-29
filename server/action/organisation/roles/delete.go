@@ -65,6 +65,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	//initiating a transaction
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	// getting the organisation role name using roleID
 	roleMap := make(map[string]interface{})
 	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{

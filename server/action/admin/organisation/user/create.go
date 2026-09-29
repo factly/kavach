@@ -84,6 +84,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 		}).First(&invitee).Error
 
 		if err != nil {
+			tx.Rollback()
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.DBError()))
 			return

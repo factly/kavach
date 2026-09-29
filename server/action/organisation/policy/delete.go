@@ -72,6 +72,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 	//------------- deleting from the kavachDB -------------
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	err = model.DB.Delete(&model.OrganisationPolicy{}, policyID).Error
 	if err != nil {
 		tx.Rollback()

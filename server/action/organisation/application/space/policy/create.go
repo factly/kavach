@@ -114,6 +114,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	policy.Roles = roles
 	// inserting space role to the kavachDB
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	var count int64
 	err = tx.Model(&model.SpacePolicy{}).Where(&model.SpacePolicy{
 		SpaceID: uint(spaceID),

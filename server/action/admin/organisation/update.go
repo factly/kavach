@@ -50,6 +50,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.WithContext(context.WithValue(r.Context(), userContext, hostID)).Begin()
+	defer tx.Rollback()
 
 	mediumID := &req.FeaturedMediumID
 	organisation.FeaturedMediumID = &req.FeaturedMediumID

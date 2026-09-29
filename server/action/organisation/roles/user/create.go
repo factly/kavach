@@ -83,6 +83,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 	// getting the organisation role
 	orgRole := new(model.OrganisationRole)
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	err = tx.Model(&model.OrganisationRole{}).Where(&model.OrganisationRole{
 		Base: model.Base{
 			ID: uint(roleID),

@@ -79,6 +79,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 	policy.OrganisationID = uint(orgID)
 	policy.Permissions = reqBody.Permissions
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	var count int64
 	err = tx.Model(&model.OrganisationPolicy{}).Not("id = ?", policyID).Where(&model.OrganisationPolicy{
 		OrganisationID: uint(orgID),

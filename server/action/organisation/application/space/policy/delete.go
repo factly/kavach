@@ -99,6 +99,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 
 	policy := new(model.SpacePolicy)
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	err = tx.Where(&model.SpacePolicy{
 		Base: model.Base{
 			ID: uint(policyID),

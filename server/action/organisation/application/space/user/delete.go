@@ -82,6 +82,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 	space := &model.Space{}
 	err = model.DB.Model(&model.Space{}).Where(&model.Space{
 		Base: model.Base{

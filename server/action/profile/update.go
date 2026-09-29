@@ -64,6 +64,7 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	tx := model.DB.Begin()
+	defer tx.Rollback()
 
 	var userSlug string
 
