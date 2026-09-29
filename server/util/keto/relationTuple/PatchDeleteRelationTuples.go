@@ -33,75 +33,33 @@ type KetoPatchObjList struct {
 	PatchTuples []KetoPatchObj
 }
 
-func DeleteRelationTuplesOfSubjectIDInNamespace(namespace, subjectID string, objectPrefix string) error {
-	//BUILDING THE URL TO SEND THE GET REQUEST TO /relation-tuples ENDPOINT TO KETO API
-
-	baseURL, err := url.Parse(viper.GetString("keto_read_api_url"))
-	if err != nil {
-		return err
+// DeleteRelationTuplesOfSubjectIDInNamespace deletes every tuple of subjectID in namespace whose object lies inside objectScope
+// (e.g. "org:5" or "org:5:app:2"). An empty objectScope deletes all of the subject's tuples in the namespace.
+func DeleteRelationTuplesOfSubjectIDInNamespace(namespace, subjectID string, objectScope string) error {
+	if subjectID == "" {
+		return errors.New("subjectID is a required field")
 	}
-	// adding the path for the URL
-	baseURL.Path += "relation-tuples"
-
-	// adding the query parameters for the request
 	params := url.Values{}
 	if namespace != "" {
 		params.Add("namespace", namespace)
 	}
-	if subjectID == "" {
-		return errors.New("subjectID is a required field")
-	} else {
-		params.Add("subject_id", subjectID)
-	}
+	params.Add("subject_id", subjectID)
 
-	baseURL.RawQuery = params.Encode()
-
-	// sending the get request to /relation-tuples
-	req, err := http.NewRequest(http.MethodGet, baseURL.String(), nil)
+	tuples, err := listRelationTuples(params)
 	if err != nil {
 		return err
 	}
-
-	client := &http.Client{}
-	response, err := client.Do(req)
+	if objectScope != "" {
+		tuples = filter(tuples, objectScope, inObjectScope)
+	}
+	if len(tuples) == 0 {
+		return nil
+	}
+	tuplePatchObj, err := makeKetoTuplePatchObj(&RelationTuplesWithSubjectID{Tuples: tuples}, "delete")
 	if err != nil {
 		return err
 	}
-	tuples := RelationTuplesWithSubjectID{}
-	err = json.NewDecoder(response.Body).Decode(&tuples)
-
-	if err != nil {
-		return err
-	}
-	if response.StatusCode != 200 {
-		return errors.New("error in expanding the relation tuple")
-	}
-	if objectPrefix == "" {
-		tuplePatchObj, err := makeKetoTuplePatchObj(&tuples, "delete")
-		if err != nil {
-			return err
-		}
-		err = makeKetoPatchRequest(tuplePatchObj)
-		if err != nil {
-			return err
-		}
-	} else {
-		filteredTuples := filter(tuples.Tuples, objectPrefix, hasSubtring)
-		tuples := RelationTuplesWithSubjectID{
-			Tuples: filteredTuples,
-		}
-		tuplePatchObj, err := makeKetoTuplePatchObj(&tuples, "delete")
-		if err != nil {
-			return err
-		}
-		err = makeKetoPatchRequest(tuplePatchObj)
-		if err != nil {
-			return err
-		}
-
-	}
-	return nil
-
+	return makeKetoPatchRequest(tuplePatchObj)
 }
 
 func makeKetoTuplePatchObj(RelationTuples *RelationTuplesWithSubjectID, action string) (*[]KetoPatchObj, error) {
@@ -135,19 +93,14 @@ func makeKetoPatchRequest(patchList *[]KetoPatchObj) error {
 		return err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 
-	if response.StatusCode == 400 || response.StatusCode == 404 || response.StatusCode == 500 {
-		responseBody := make(map[string]interface{})
-		err = json.NewDecoder(response.Body).Decode(&responseBody)
-		if err != nil {
-			return err
-		}
-		loggerx.Error(errors.New(responseBody["message"].(string)))
+	if response.StatusCode < 200 || response.StatusCode >= 300 {
+		loggerx.Error(errors.New("keto returned status " + response.Status + " for relation tuple patch"))
 		return errors.New("error in deleting the relation tuple")
 	}
 	return nil
@@ -163,6 +116,17 @@ func filter(tuples []TupleWithSubjectID, prefix string, test func(string, string
 	return
 }
 
-func hasSubtring(Object string, Substring string) bool {
-	return strings.Contains(Object, Substring)
+// objectTypePrefixes are the object kinds that embed an org/app/space path, e.g. "roles:org:5:3".
+var objectTypePrefixes = []string{"", "roles:", "resource:"}
+
+// inObjectScope reports whether object is scope itself or nested under it, matching whole ":"-separated
+// segments so that "org:5" does not match "org:50" and "org:5:app:2" does not match "org:5:app:23".
+func inObjectScope(object string, scope string) bool {
+	for _, typePrefix := range objectTypePrefixes {
+		prefixed := typePrefix + scope
+		if object == prefixed || strings.HasPrefix(object, prefixed+":") {
+			return true
+		}
+	}
+	return false
 }

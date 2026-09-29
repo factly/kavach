@@ -44,11 +44,11 @@ func DeleteRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubjectI
 		return err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 
 	if !(response.StatusCode == 201 || response.StatusCode == 204) {
 		responseBody := make(map[string]interface{})
@@ -100,11 +100,11 @@ func DeleteRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubject
 		return err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 
 	if !(response.StatusCode == 201 || response.StatusCode == 204) {
 		responseBody := make(map[string]interface{})

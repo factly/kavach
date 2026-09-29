@@ -24,11 +24,11 @@ func CreateRelationTupleWithSubjectID(tuple *model.KetoRelationTupleWithSubjectI
 		return err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 	if response.StatusCode != 201 {
 		responseBody := make(map[string]interface{})
 		err = json.NewDecoder(response.Body).Decode(&responseBody)
@@ -57,11 +57,11 @@ func CreateRelationTupleWithSubjectSet(tuple *model.KetoRelationTupleWithSubject
 		return err
 	}
 
-	client := &http.Client{}
-	response, err := client.Do(req)
+	response, err := httpClient.Do(req)
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 	if response.StatusCode != 201 {
 		responseBody := make(map[string]interface{})
 		err = json.NewDecoder(response.Body).Decode(&responseBody)

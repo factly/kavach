@@ -158,14 +158,14 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
-	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, userID, fmt.Sprintf("org:%d:app:%d", orgID, appID))
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace(namespace, fmt.Sprint(uID), fmt.Sprintf("org:%d:app:%d", orgID, appID))
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.InternalServerError()))
 		return
 	}
-	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace("spaces", userID, fmt.Sprintf("org:%d:app:%d", orgID, appID))
+	err = keto.DeleteRelationTuplesOfSubjectIDInNamespace("spaces", fmt.Sprint(uID), fmt.Sprintf("org:%d:app:%d", orgID, appID))
 	if err != nil {
 		tx.Rollback()
 		loggerx.Error(err)
