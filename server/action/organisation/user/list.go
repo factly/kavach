@@ -88,7 +88,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 
 		tx := model.DB.Begin()
 		var userModel model.User
-		err = tx.Model(&model.User{}).Where(&model.User{
+		err = tx.Model(&model.User{}).Scopes(model.MemberFields).Where(&model.User{
 			Base: model.Base{
 				ID: uint(uID),
 			},

@@ -81,7 +81,7 @@ func profileDetail(w http.ResponseWriter, r *http.Request) {
 	me.ID = uint(userID)
 
 	err = model.DB.Model(&model.User{}).
-		Preload("Medium").Preload("Organisations").Preload("Organisations.Medium").Preload("Organisations.OrganisationUsers").Preload("Organisations.OrganisationUsers.User").Preload("Organisations.Applications").Preload("Organisations.Applications.Users").Preload("Organisations.Applications.Spaces").Preload("Organisations.Applications.Spaces.Users").Preload("Organisations.Applications.Spaces.Logo").Preload("Organisations.Applications.Spaces.FavIcon").Preload("Organisations.Applications.Spaces.MobileIcon").Preload("Organisations.Applications.Spaces.LogoMobile").
+		Preload("Medium").Preload("Organisations").Preload("Organisations.Medium").Preload("Organisations.OrganisationUsers").Preload("Organisations.OrganisationUsers.User", model.MemberFields).Preload("Organisations.Applications").Preload("Organisations.Applications.Spaces").Preload("Organisations.Applications.Spaces.Users", model.MemberFields).Preload("Organisations.Applications.Spaces.Logo").Preload("Organisations.Applications.Spaces.FavIcon").Preload("Organisations.Applications.Spaces.MobileIcon").Preload("Organisations.Applications.Spaces.LogoMobile").
 		First(&me).Error
 
 	if err != nil {
