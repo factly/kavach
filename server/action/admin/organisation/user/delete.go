@@ -14,6 +14,7 @@ import (
 	"github.com/factly/x/loggerx"
 	"github.com/factly/x/renderx"
 	"github.com/go-chi/chi"
+	"gorm.io/gorm/clause"
 )
 
 // delete - Delete organisation user by id (admin)
@@ -46,10 +47,13 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	tx := model.DB.Begin()
+	defer tx.Rollback()
+
 	result := &model.OrganisationUser{}
 
 	// Check if record exist
-	err = model.DB.Where(&model.OrganisationUser{
+	err = tx.Clauses(clause.Locking{Strength: "UPDATE"}).Where(&model.OrganisationUser{
 		OrganisationID: uint(orgID),
 		UserID:         uint(uID),
 	}).First(&result).Error
@@ -61,17 +65,28 @@ func delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Check if the user to delete is not last owner of organisation
-	var totalOwners int64
-	model.DB.Model(&model.OrganisationUser{}).Where(&model.OrganisationUser{
-		Role:           "owner",
-		OrganisationID: uint(orgID),
-	}).Count(&totalOwners)
+	if result.Role == "owner" {
+		owners, err := countOwnersForUpdate(tx, uint(orgID))
+		if err != nil {
+			loggerx.Error(err)
+			errorx.Render(w, errorx.Parser(errorx.DBError()))
+			return
+		}
+		if owners < 2 {
+			loggerx.Error(errors.New("cannot delete last owner of organisation"))
+			errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+			return
+		}
+	}
 
-	if result.Role == "owner" && totalOwners < 2 {
-		loggerx.Error(errors.New("cannot delete last user of organisation"))
-		errorx.Render(w, errorx.Parser(errorx.CannotSaveChanges()))
+	/* DELETE */
+	err = tx.Delete(&model.OrganisationUser{}, result.ID).Error
+	if err != nil {
+		loggerx.Error(err)
+		errorx.Render(w, errorx.Parser(errorx.DBError()))
 		return
 	}
+
 	err = user.DeleteUserFromOrganisationRoles(uint(orgID), result.UserID)
 	if err != nil {
 		loggerx.Error(err)
@@ -103,11 +118,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	deletePermission := &model.OrganisationUser{}
-	deletePermission.ID = result.ID
-
-	/* DELETE */
-	err = model.DB.Delete(&deletePermission).Error
+	err = tx.Commit().Error
 	if err != nil {
 		loggerx.Error(err)
 		errorx.Render(w, errorx.Parser(errorx.DBError()))
