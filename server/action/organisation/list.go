@@ -63,7 +63,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 			Base: model.Base{
 				ID: uint(orgID),
 			},
-		}).Preload("Medium").Preload("OrganisationUsers").Preload("OrganisationUsers.User").Preload("Roles").Preload("Roles.Users").Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
+		}).Preload("Medium").Preload("OrganisationUsers").Preload("OrganisationUsers.User", model.MemberFields).Preload("Roles").Preload("Roles.Users", model.MemberFields).Preload("Policies").Preload("Policies.Roles").First(&org.Organisation).Error
 		if err != nil {
 			loggerx.Error(err)
 			errorx.Render(w, errorx.Parser(errorx.RecordNotFound()))
@@ -100,7 +100,7 @@ func list(w http.ResponseWriter, r *http.Request) {
 				Base: model.Base{
 					ID: appID,
 				},
-			}).Preload("Medium").Preload("Roles").Preload("Roles.Users").Preload("Policy").Preload("Policy.Roles").First(&app).Error
+			}).Preload("Medium").Preload("Roles").Preload("Roles.Users", model.MemberFields).Preload("Policy").Preload("Policy.Roles").First(&app).Error
 			if err != nil {
 				loggerx.Error(err)
 				errorx.Render(w, errorx.Parser(errorx.DBError()))

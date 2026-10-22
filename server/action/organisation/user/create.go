@@ -34,7 +34,7 @@ type invites struct {
 type invite struct {
 	FirstName string `gorm:"column:first_name" json:"first_name" validate:"required"`
 	LastName  string `gorm:"column:last_name" json:"last_name"`
-	Email     string `json:"email" validate:"required"`
+	Email     string `json:"email" validate:"required,email"`
 	Role      string `json:"role" validate:"required"`
 }
 

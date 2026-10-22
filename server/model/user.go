@@ -28,6 +28,14 @@ type User struct {
 	Organisations    []Organisation `gorm:"many2many:organisation_users;" json:"organisations"`
 }
 
+// MemberFields limits a user query to the columns other members of an
+// organisation may see. Use it on every query or preload whose users are
+// rendered to someone other than the user themselves, so that kid,
+// birth_date, gender, social_media_urls, description and meta are never loaded.
+func MemberFields(db *gorm.DB) *gorm.DB {
+	return db.Select("id", "created_at", "updated_at", "email", "first_name", "last_name", "slug", "display_name", "featured_medium_id", "is_active")
+}
+
 // BeforeUpdate - validation for medium
 func (user *User) BeforeUpdate(tx *gorm.DB) (e error) {
 	if user.FeaturedMediumID != nil && *user.FeaturedMediumID > 0 {
