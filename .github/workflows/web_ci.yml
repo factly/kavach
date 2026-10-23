@@ -31,6 +31,8 @@ jobs:
           node-version: '16.x'
       - run: npm ci
         working-directory: ${{env.working-directory}}
+      - run: npm audit --omit=dev --audit-level=high
+        working-directory: ${{env.working-directory}}
       - run: npm run format:check
         working-directory: ${{env.working-directory}}
       - run: npm run test:coverage

@@ -3,6 +3,7 @@ import { Form, Input, Space, Button } from 'antd';
 import MediaSelector from '../../../components/MediaSelector';
 import { checker, maker } from '../../../utils/sluger';
 import { AddDefaultApplication } from './AddDefaultApplication';
+import { safeAppUrl } from '../../../utils/url';
 
 const { TextArea } = Input;
 
@@ -86,6 +87,12 @@ const ApplicationForm = ({ onCreate, data = {} }) => {
               {
                 required: true,
                 message: 'Please enter the URL!',
+              },
+              {
+                validator: (_, value) =>
+                  !value || safeAppUrl(value)
+                    ? Promise.resolve()
+                    : Promise.reject(new Error('Please enter a valid https:// URL!')),
               },
             ]}
           >
