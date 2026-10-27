@@ -78,8 +78,10 @@ func delete(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// 3. Anonymize user data
-	anonymizedEmail := "deleted-" + userToUpdate.Email
+	// 3. Anonymize user data. The placeholder email is keyed on the row ID so it
+	// cannot collide with another deleted user (the email index is unique and
+	// includes soft-deleted rows); the original address is kept for the record.
+	anonymizedEmail := fmt.Sprintf("deleted-%d-%s", uID, userToUpdate.Email)
 
 	// Update user with anonymized data
 	updates := map[string]interface{}{
