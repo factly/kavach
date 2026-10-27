@@ -9,6 +9,7 @@ import (
 	"github.com/factly/kavach-server/model"
 	keto "github.com/factly/kavach-server/util/keto/relationTuple"
 	"github.com/factly/x/loggerx"
+	"gorm.io/gorm"
 )
 
 var applicationNameSpace string = "applications"
@@ -157,7 +158,10 @@ func DeleteUserFromApplication(appID, userID uint) error {
 		return errors.New("user who created app cannot be deleted")
 	}
 
-	err = tx.Model(&app).Association("Users").Replace(&userAfterDeleting)
+	// Replace re-saves the owning application, which would fire Application.BeforeSave.
+	// That hook validates medium ownership against a user ID in the request context,
+	// which this path never has (and the medium is not being changed), so skip hooks.
+	err = tx.Session(&gorm.Session{SkipHooks: true}).Model(&app).Association("Users").Replace(&userAfterDeleting)
 	if err != nil {
 		tx.Rollback()
 		return err
