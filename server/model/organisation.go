@@ -49,7 +49,10 @@ func (org *Organisation) BeforeSave(tx *gorm.DB) (e error) {
 		medium.ID = *org.FeaturedMediumID
 
 		ctx := tx.Statement.Context
-		userID := ctx.Value(organisationUserKey).(int)
+		userID, ok := ctx.Value(organisationUserKey).(int)
+		if !ok {
+			return errors.New("unable to get the userID in context")
+		}
 
 		err := tx.Model(&medium).Where(&Medium{
 			UserID: uint(userID),
