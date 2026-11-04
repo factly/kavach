@@ -6,6 +6,7 @@ import SettingsIcon from '../Settings/img.svg';
 import AccountMenu from './AccountMenu';
 import OrganisationSelector from './OrganisationSelector';
 import { Link } from 'react-router-dom';
+import { safeAppUrl } from '../../utils/url';
 
 function Header() {
   const { apps, organisationCount } = useSelector((state) => {
@@ -60,7 +61,7 @@ function Header() {
                     renderItem={(item) => (
                       <List.Item>
                         <a
-                          href={item.url}
+                          href={safeAppUrl(item.url)}
                           style={{ textDecoration: 'none', color: 'inherit' }}
                           target="_blank"
                           rel="noopener noreferrer"

@@ -75,6 +75,11 @@ func update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !validAppURL(app.URL) {
+		errorx.Render(w, errorx.Parser(errorx.GetMessage("url must be an absolute https URL", http.StatusUnprocessableEntity)))
+		return
+	}
+
 	result := model.Application{}
 	result.ID = uint(appID)
 	// Check if record exist or not

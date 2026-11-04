@@ -14,6 +14,7 @@ import ErrorComponent from './components/ErrorsAndImage/ErrorComponent';
 import VerificationAfterRegistration from './pages/verification/after-regisration';
 import KratosError from './pages/error';
 import antdConfig from './antdConfig';
+import { safeAppUrl } from './utils/url';
 
 function App() {
   const disableRegistration = window.REACT_APP_DISABLE_REGISTRATION === 'true' || false;
@@ -36,27 +37,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'development') {
-      if (
-        window.location.pathname === '/' &&
-        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === 'true' &&
-        !loadingApp
-      ) {
-        if (applications?.length === 1) {
-          window.location.href = applications[0].url;
-        }
-      }
-    } else {
-      if (
-        (window.location.pathname.replace('/.factly/kavach/web', '') === '/' ||
-          window.location.pathname.replace('/.factly/kavach/web', '') === '') &&
-        window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === 'true' &&
-        !loadingApp
-      ) {
-        if (applications?.length === 1) {
-          window.location.href = applications[0].url;
-        }
-      }
+    const path =
+      process.env.NODE_ENV === 'development'
+        ? window.location.pathname.replace('/.factly/kavach/web', '')
+        : window.location.pathname;
+    if (
+      (path === '/' || path === '') &&
+      window.REACT_APP_REDIRECT_SINGLE_APPLICATION_USERS === 'true' &&
+      !loadingApp &&
+      applications?.length === 1 &&
+      // only auto-redirect to Factly's default applications, never to a URL
+      // an organisation owner configured
+      applications[0]?.is_default
+    ) {
+      const url = safeAppUrl(applications[0].url);
+      if (url) window.location.href = url;
     }
   }, [applications, loadingApp]);
 
